@@ -1,0 +1,106 @@
+import { apiClient, type ApiResponse, type QueryParams } from '@shared/api';
+import type { UsageRecordBackendPageResponse, UsageRecordBackendResponse } from '@shared/api/contracts';
+import type { UsagePageSize } from '@shared/types/table';
+
+import type {
+  QueryAdminUsageRecordsRequest,
+  QueryMyUsageRecordsRequest,
+  QueryUsageRecordsRequest,
+  UsageRecordPageResponse,
+  UsageRecordResponse,
+} from '../model/types';
+
+type BackendUsageQueryParams = QueryParams & {
+  apiCredentialId?: string;
+  requestedModel?: string;
+  requestProtocol?: string;
+  startInclusive?: string;
+  endExclusive?: string;
+  userAccountId?: string;
+  providerChannelId?: string;
+  page: number;
+  size: UsagePageSize;
+};
+
+function toBackendParams(params: QueryUsageRecordsRequest): BackendUsageQueryParams {
+  return {
+    apiCredentialId: params.apiCredentialId,
+    requestedModel: params.model,
+    requestProtocol: params.protocolType,
+    startInclusive: params.startTime,
+    endExclusive: params.endTime,
+    userAccountId: 'userId' in params ? params.userId : undefined,
+    providerChannelId: 'providerChannelId' in params ? params.providerChannelId : undefined,
+    page: params.page,
+    size: params.pageSize,
+  };
+}
+
+function toStringValue(value: string | number | undefined): string | undefined {
+  return value === undefined || value === null ? undefined : String(value);
+}
+
+function buildDiagnostic(record: UsageRecordBackendResponse): string | undefined {
+  if (record.diagnostic) {
+    return record.diagnostic;
+  }
+  const parts = [record.errorType, record.errorMessage].filter(Boolean);
+  return parts.length > 0 ? parts.join(': ') : undefined;
+}
+
+function toFrontendRecord(record: UsageRecordBackendResponse): UsageRecordResponse {
+  return {
+    id: String(record.id),
+    apiCredentialId: toStringValue(record.apiCredentialId),
+    userId: toStringValue(record.userAccountId),
+    model: record.requestedModel ?? '-',
+    protocolType: record.requestProtocol ?? '-',
+    tokens: record.totalTokens ?? 0,
+    inputTokens: record.inputTokens,
+    outputTokens: record.outputTokens,
+    cacheCreationInputTokens: record.cacheCreationInputTokens,
+    cacheReadInputTokens: record.cacheReadInputTokens,
+    usageKnown: record.usageKnown,
+    status: record.status,
+    providerChannelId: toStringValue(record.providerChannelId),
+    diagnostic: buildDiagnostic(record),
+    createdAt: record.createdAt ?? record.startedAt ?? '-',
+  };
+}
+
+function toFrontendPage(response: UsageRecordBackendPageResponse): UsageRecordPageResponse {
+  return {
+    records: response.records.map(toFrontendRecord),
+    page: response.page,
+    pageSize: response.size,
+    total: response.totalElements,
+    totalTokens: response.filteredTotalTokens,
+    summary: {
+      totalTokens: response.filteredTotalTokens,
+      recordCount: response.totalElements,
+    },
+  };
+}
+
+async function queryUsageRecords(
+  path: string,
+  params: QueryUsageRecordsRequest
+): Promise<ApiResponse<UsageRecordPageResponse>> {
+  const response = await apiClient.get<UsageRecordBackendPageResponse>(path, toBackendParams(params));
+  return {
+    ...response,
+    data: toFrontendPage(response.data),
+  };
+}
+
+export async function queryMyUsageRecords(
+  params: QueryMyUsageRecordsRequest
+): Promise<ApiResponse<UsageRecordPageResponse>> {
+  return queryUsageRecords('/api/usage-records', params);
+}
+
+export async function queryAdminUsageRecords(
+  params: QueryAdminUsageRecordsRequest
+): Promise<ApiResponse<UsageRecordPageResponse>> {
+  return queryUsageRecords('/api/admin/usage-records', params);
+}

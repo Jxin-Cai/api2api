@@ -1,0 +1,175 @@
+/**
+ * 全局样式（暖灰主题）
+ * 颜色统一走 tokens.css 的 CSS 变量。
+ */
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+/* 数字等宽 */
+.mono-number {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* 通用页面容器 */
+.app-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: var(--app-content-max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 页头 */
+.app-page__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.app-page__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.app-page__subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* 卡片表面 */
+.surface-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 渐入工具类（无 JS 兜底） */
+@keyframes a2a-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: a2a-fade-up var(--transition-normal) both;
+}
+
+/* Ant Design 全局暖灰化 */
+.ant-card {
+  border-color: var(--border-color) !important;
+  background: var(--bg-surface) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.ant-card-head {
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-table-wrapper .ant-table {
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+}
+
+.ant-table-thead > tr > th {
+  font-weight: 700 !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: var(--primary-soft) !important;
+}
+
+.ant-drawer-content,
+.ant-modal-content {
+  background: var(--bg-elevated) !important;
+}
+
+.ant-drawer-header,
+.ant-modal-header,
+.ant-modal-footer {
+  border-color: var(--border-color) !important;
+  background: transparent !important;
+}
+
+.ant-form-item-label > label {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker {
+  border-color: var(--border-color) !important;
+  background: var(--bg-elevated) !important;
+}
+
+.ant-input:hover,
+.ant-input-affix-wrapper:hover,
+.ant-select-selector:hover,
+.ant-picker:hover {
+  border-color: var(--border-hover) !important;
+}
+
+.ant-tag {
+  border-radius: var(--radius-full);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}

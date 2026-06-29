@@ -1,0 +1,89 @@
+import type { UsageRecordResponse } from '@shared/api/contracts';
+import type { UsagePageSize } from '@shared/types/table';
+
+export interface TokenAmountResponse {
+  tokens: number;
+  millions: number;
+}
+
+export interface DashboardTrendPointResponse {
+  date?: string;
+  bucket?: string;
+  bucketStart?: string;
+  bucketEnd?: string;
+  protocol?: string;
+  protocolType?: string;
+  providerChannelId?: string | number;
+  providerChannel?: string;
+  providerChannelName?: string;
+  model?: string;
+  tokens?: number;
+  totalTokens?: number;
+  value?: number;
+}
+
+export interface DashboardRankItemResponse {
+  id?: string | number;
+  userId?: string | number;
+  userAccountId?: string | number;
+  rank?: number;
+  username?: string;
+  displayName?: string;
+  model?: string;
+  label?: string;
+  tokens?: number;
+  totalTokens?: number;
+  value?: number;
+}
+
+export interface DashboardProtocolRequestRateResponse {
+  protocol: string;
+  requestCount: number;
+  requestsPerMinute: number;
+}
+
+export interface FrontDashboardRecentCallBackendResponse {
+  id: string | number;
+  requestedModel?: string;
+  requestProtocol?: string;
+  status?: string;
+  totalTokens?: number;
+  startedAt?: string | number;
+  endedAt?: string | number;
+}
+
+export interface GetFrontDashboardRequest {
+  zoneId?: string;
+  recentCallsPage?: number;
+  recentCallsSize?: UsagePageSize;
+}
+
+export interface GetAdminDashboardRequest {
+  zoneId?: string;
+  recentRateMinutes?: number;
+  trendDays?: number;
+}
+
+export interface FrontDashboardBackendResponse {
+  todayTokens?: TokenAmountResponse;
+  monthTokens?: TokenAmountResponse;
+  apiKeyCount?: number;
+  recentCalls?: FrontDashboardRecentCallBackendResponse[];
+}
+
+export interface FrontDashboardResponse {
+  todayTokens?: TokenAmountResponse;
+  monthTokens?: TokenAmountResponse;
+  apiKeyCount?: number;
+  recentCalls?: UsageRecordResponse[];
+}
+
+export interface AdminDashboardResponse {
+  protocolRequestRates?: DashboardProtocolRequestRateResponse[];
+  todayTokens?: TokenAmountResponse;
+  monthTokens?: TokenAmountResponse;
+  dailyTopUsers?: DashboardRankItemResponse[];
+  monthlyTopUsers?: DashboardRankItemResponse[];
+  protocolTokenTrends?: DashboardTrendPointResponse[];
+  channelTokenTrends?: DashboardTrendPointResponse[];
+}

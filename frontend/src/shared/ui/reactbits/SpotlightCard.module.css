@@ -1,0 +1,44 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--spot-opacity, 0);
+  background: radial-gradient(
+    240px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--spot-color),
+    transparent 60%
+  );
+  transition: opacity var(--transition-normal);
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover {
+    transform: none;
+  }
+  .card::before {
+    display: none;
+  }
+}

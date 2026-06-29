@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: api2api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/api2api}
+    username: ${SPRING_DATASOURCE_USERNAME:api2api}
+    password: ${SPRING_DATASOURCE_PASSWORD:api2api}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+api2api:
+  provider-http:
+    connect-timeout: 2s
+    models-read-timeout: 10s
+    models-max-retries: 1
+    upstream-read-timeout: 120s
+    streaming-first-byte-timeout: 30s
+  provider-secrets:
+    keys: {}

@@ -1,0 +1,59 @@
+.gradientText {
+  background: var(--gradient-brand);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  font-weight: 700;
+}
+
+.gradientAnimate {
+  animation: a2a-gradient-flow 6s linear infinite;
+}
+
+@keyframes a2a-gradient-flow {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.shinyText {
+  display: inline-block;
+  color: var(--text-secondary);
+  background: linear-gradient(
+    120deg,
+    currentColor 40%,
+    var(--text-primary) 50%,
+    currentColor 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: a2a-shine linear infinite;
+}
+
+.shinyDisabled {
+  animation: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--text-secondary);
+}
+
+@keyframes a2a-shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradientAnimate,
+  .shinyText {
+    animation: none;
+  }
+}
