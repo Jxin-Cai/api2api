@@ -1,0 +1,146 @@
+/**
+ * 设计令牌（极简暖灰）
+ * 风格对齐 CLIProxyAPI Management Center：taupe 主色 + 纸感背景 + 陶土色强调。
+ * 浅色为默认，[data-theme='dark'] 切换暖灰深色。
+ */
+
+:root {
+  /* 背景层级（纸感） */
+  --bg-page: #faf9f5;
+  --bg-surface: #f0eee8;
+  --bg-elevated: #fffdf9;
+  --bg-subtle: #f6f4ee;
+  --bg-hover: #e9e6df;
+
+  /* 文字 */
+  --text-primary: #2d2a26;
+  --text-secondary: #6d6760;
+  --text-tertiary: #a29c95;
+  --text-quaternary: #c0bab3;
+
+  /* 边框 */
+  --border-color: #e3e1db;
+  --border-strong: #d5d2cb;
+  --border-hover: #cecac4;
+
+  /* 主色（行动色 taupe） */
+  --primary-color: #8b8680;
+  --primary-hover: #7f7a74;
+  --primary-active: #726d67;
+  --primary-contrast: #ffffff;
+  --primary-soft: rgba(139, 134, 128, 0.12);
+  --primary-soft-strong: rgba(139, 134, 128, 0.22);
+
+  /* 语义色 */
+  --success-color: #10b981;
+  --warning-color: #d97706;
+  --error-color: #c65746;
+  --info-color: #8b8680;
+
+  --success-soft: rgba(16, 185, 129, 0.12);
+  --warning-soft: rgba(217, 119, 6, 0.12);
+  --error-soft: rgba(198, 87, 70, 0.12);
+
+  /* 徽标 */
+  --success-badge-bg: #d1fae5;
+  --success-badge-text: #065f46;
+  --failure-badge-bg: rgba(198, 87, 70, 0.14);
+  --failure-badge-text: #8a3a30;
+
+  /* 圆角 */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 12px 26px -6px rgb(0 0 0 / 0.14);
+
+  /* 玻璃拟态 */
+  --glass-blur: 12px;
+  --glass-bg: color-mix(in srgb, var(--bg-elevated) 78%, transparent);
+  --glass-border: color-mix(in srgb, var(--border-color) 60%, transparent);
+
+  /* 渐变（品牌 / Aurora） */
+  --gradient-brand: linear-gradient(120deg, #8b8680 0%, #b0a89e 45%, #c65746 100%);
+  --aurora-1: #8b8680;
+  --aurora-2: #c8bfb2;
+  --aurora-3: #c65746;
+  --aurora-4: #d8d3ca;
+
+  /* 过渡 */
+  --transition-fast: 150ms ease;
+  --transition-normal: 240ms ease;
+
+  /* 布局 */
+  --app-sidebar-width: 240px;
+  --app-sidebar-collapsed: 80px;
+  --app-header-height: 64px;
+  --app-content-max-width: 1440px;
+
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg-page: #151412;
+  --bg-surface: #1d1b18;
+  --bg-elevated: #2a2723;
+  --bg-subtle: #191714;
+  --bg-hover: #2e2a26;
+
+  --text-primary: #f6f4f1;
+  --text-secondary: #c9c3bb;
+  --text-tertiary: #9c958d;
+  --text-quaternary: #6f6962;
+
+  --border-color: #3a3530;
+  --border-strong: #4a453f;
+  --border-hover: #5a544d;
+
+  --primary-color: #8b8680;
+  --primary-hover: #9a948e;
+  --primary-active: #a6a099;
+  --primary-contrast: #ffffff;
+  --primary-soft: rgba(139, 134, 128, 0.2);
+  --primary-soft-strong: rgba(139, 134, 128, 0.32);
+
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #c65746;
+  --info-color: #8b8680;
+
+  --success-soft: rgba(16, 185, 129, 0.18);
+  --warning-soft: rgba(245, 158, 11, 0.18);
+  --error-soft: rgba(198, 87, 70, 0.2);
+
+  --success-badge-bg: rgba(6, 78, 59, 0.32);
+  --success-badge-text: #6ee7b7;
+  --failure-badge-bg: rgba(198, 87, 70, 0.24);
+  --failure-badge-text: #f1b0a6;
+
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.32);
+  --shadow-md: 0 6px 16px -4px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 14px 30px -6px rgb(0 0 0 / 0.46);
+
+  --glass-bg: color-mix(in srgb, var(--bg-elevated) 72%, transparent);
+  --glass-border: color-mix(in srgb, var(--border-color) 55%, transparent);
+
+  --gradient-brand: linear-gradient(120deg, #b0a89e 0%, #d8d3ca 45%, #e08a7c 100%);
+  --aurora-1: #6f6a64;
+  --aurora-2: #4a443d;
+  --aurora-3: #c65746;
+  --aurora-4: #2a2723;
+
+  color-scheme: dark;
+}
+
+/* 减少动态偏好：关闭玻璃模糊与大幅动画背景 */
+@media (prefers-reduced-motion: reduce), (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg: var(--bg-elevated);
+    --glass-border: var(--border-color);
+  }
+}

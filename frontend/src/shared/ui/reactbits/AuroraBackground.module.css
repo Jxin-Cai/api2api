@@ -1,0 +1,75 @@
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.7;
+  will-change: transform;
+}
+
+.blob1 {
+  width: 50%;
+  height: 60%;
+  top: -10%;
+  left: -8%;
+  background: radial-gradient(circle, var(--aurora-1), transparent 70%);
+  animation: a2a-drift-1 18s ease-in-out infinite alternate;
+}
+
+.blob2 {
+  width: 46%;
+  height: 52%;
+  bottom: -12%;
+  right: -6%;
+  background: radial-gradient(circle, var(--aurora-3), transparent 70%);
+  opacity: 0.5;
+  animation: a2a-drift-2 22s ease-in-out infinite alternate;
+}
+
+.blob3 {
+  width: 42%;
+  height: 48%;
+  top: 30%;
+  left: 35%;
+  background: radial-gradient(circle, var(--aurora-2), transparent 70%);
+  opacity: 0.55;
+  animation: a2a-drift-3 26s ease-in-out infinite alternate;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--border-strong) 0.5px, transparent 0.5px);
+  background-size: 18px 18px;
+  opacity: 0.08;
+}
+
+@keyframes a2a-drift-1 {
+  to {
+    transform: translate(14%, 18%) scale(1.15);
+  }
+}
+
+@keyframes a2a-drift-2 {
+  to {
+    transform: translate(-16%, -12%) scale(1.2);
+  }
+}
+
+@keyframes a2a-drift-3 {
+  to {
+    transform: translate(-12%, 14%) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+  }
+}

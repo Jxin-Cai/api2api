@@ -1,0 +1,53 @@
+.top-rank-list {
+  padding: 16px;
+  min-height: 308px;
+}
+
+.top-rank-list__head {
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.top-rank-list__item {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding-inline: 0 !important;
+  border-block-end-color: var(--border-color) !important;
+}
+
+.top-rank-list__item--clickable {
+  cursor: pointer;
+}
+
+.top-rank-list__item--clickable:hover .top-rank-list__label {
+  color: var(--primary-color) !important;
+}
+
+.top-rank-list__rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--primary-soft);
+  color: var(--primary-active);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.top-rank-list__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-rank-list__value {
+  color: var(--text-secondary) !important;
+  font-weight: 600;
+}
