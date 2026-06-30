@@ -1,5 +1,5 @@
 import { Collapse, Empty, Space, Tag, Typography } from 'antd';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { buildMappingView, getMappingTypeMeta, type MappingViewGroup, type MappingViewRow } from '../model/mappingView';
 import type { ProtocolConversionMappingResponse } from '../model/types';
 import { FieldPathText } from './FieldPathText';
@@ -16,6 +16,9 @@ export function FieldMappingHierarchy({ mapping }: FieldMappingHierarchyProps) {
   const defaultActiveKeys = useMemo(() => view.groups
     .filter((group, index) => index < 2 || group.lossyCount > 0)
     .map((group) => group.key), [view.groups]);
+  const [activeKeys, setActiveKeys] = useState<string[]>(defaultActiveKeys);
+
+  useEffect(() => setActiveKeys(defaultActiveKeys), [defaultActiveKeys]);
 
   if (view.totalCount === 0) {
     return <Empty description="暂无字段映射" />;
@@ -33,8 +36,14 @@ export function FieldMappingHierarchy({ mapping }: FieldMappingHierarchyProps) {
           <Tag>{view.groups.length} 个分组</Tag>
         </div>
       </div>
+      <div className="protocol-mapping-hierarchy__actions">
+        <Typography.Link onClick={() => setActiveKeys(view.groups.map((group) => group.key))}>展开全部</Typography.Link>
+        <Typography.Text type="secondary">/</Typography.Text>
+        <Typography.Link onClick={() => setActiveKeys([])}>收起全部</Typography.Link>
+      </div>
       <Collapse
-        defaultActiveKey={defaultActiveKeys}
+        activeKey={activeKeys}
+        onChange={(keys) => setActiveKeys(Array.isArray(keys) ? keys.map(String) : [String(keys)])}
         items={view.groups.map((group) => ({
           key: group.key,
           label: <GroupLabel group={group} />,

@@ -12,6 +12,7 @@ import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinitionId;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.infr.repository.protocol.po.ProtocolConversionDefinitionPO;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -88,16 +89,100 @@ public class ProtocolConversionDefinitionPersistenceConverter {
     }
 
     private MappingDocument toMapping(MappingDirection direction, String text) {
-        String summary = text == null || text.isBlank() ? "Mapping metadata is not configured." : text.trim();
-        if (summary.length() > 1000) {
-            summary = summary.substring(0, 1000);
-        }
+        String summary = normalizeSummary(text);
         return MappingDocument.of(
                 direction,
                 direction == MappingDirection.REQUEST ? "Request mapping" : "Response mapping",
                 summary,
-                List.of(FieldMapping.of("payload", "payload", "MVP passthrough or documented mapping", MappingLossiness.NONE))
+                toFieldMappings(summary)
         );
+    }
+
+    private List<FieldMapping> toFieldMappings(String summary) {
+        String[] clauses = summary.split("[,;\\n]+");
+        List<FieldMapping> mappings = new ArrayList<>();
+        for (String clause : clauses) {
+            addFieldMappings(clause, mappings);
+        }
+        return mappings.isEmpty()
+                ? List.of(FieldMapping.of("payload", "payload", "MVP passthrough or documented mapping", MappingLossiness.NONE))
+                : mappings;
+    }
+
+    private void addFieldMappings(String clause, List<FieldMapping> mappings) {
+        String trimmed = clause == null ? "" : clause.trim();
+        if (trimmed.isBlank()) {
+            return;
+        }
+        String[] sides = trimmed.split("\\s*->\\s*", 2);
+        if (sides.length != 2) {
+            mappings.add(FieldMapping.of("payload", "payload", trimmed, MappingLossiness.NONE));
+            return;
+        }
+        List<String> sources = splitFieldList(sides[0]);
+        List<String> targets = splitFieldList(sides[1]);
+        int max = Math.max(sources.size(), targets.size());
+        for (int index = 0; index < max; index++) {
+            String source = fieldAt(sources, index);
+            String target = fieldAt(targets, index);
+            mappings.add(FieldMapping.of(source, target, describeRule(source, target), MappingLossiness.NONE));
+        }
+    }
+
+    private List<String> splitFieldList(String text) {
+        String[] fields = text.split("/");
+        List<String> result = new ArrayList<>();
+        for (String field : fields) {
+            String normalized = normalizeFieldPath(field);
+            if (!normalized.isBlank()) {
+                result.add(normalized);
+            }
+        }
+        return result.isEmpty() ? List.of("payload") : result;
+    }
+
+    private String fieldAt(List<String> fields, int index) {
+        if (fields.size() == 1) {
+            return fields.get(0);
+        }
+        if (index < fields.size()) {
+            return fields.get(index);
+        }
+        return fields.get(fields.size() - 1);
+    }
+
+    private String normalizeFieldPath(String field) {
+        return normalizeKnownFieldName(field.trim().toLowerCase())
+                .replaceAll("[^a-z0-9_\\[\\].*]+", "_")
+                .replaceAll("_+", "_")
+                .replaceAll("^_|_$", "");
+    }
+
+    private String normalizeKnownFieldName(String field) {
+        return switch (field) {
+            case "claude messages" -> "messages";
+            case "claude messages content" -> "content";
+            case "openai responses input" -> "input";
+            case "openai responses output" -> "output";
+            case "openai chat messages" -> "messages";
+            case "openai chat choices" -> "choices";
+            default -> field;
+        };
+    }
+
+    private String describeRule(String source, String target) {
+        if (source.equals(target)) {
+            return "Direct passthrough";
+        }
+        return "Map " + source + " to " + target;
+    }
+
+    private String normalizeSummary(String text) {
+        String summary = text == null || text.isBlank() ? "Mapping metadata is not configured." : text.trim();
+        if (summary.length() > 1000) {
+            summary = summary.substring(0, 1000);
+        }
+        return summary;
     }
 
     private String toMappingText(MappingDocument mapping) {
