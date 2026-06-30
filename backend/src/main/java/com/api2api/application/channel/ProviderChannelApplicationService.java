@@ -1,14 +1,18 @@
 package com.api2api.application.channel;
 
 import com.api2api.application.BusinessException;
+import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
+import com.api2api.application.channel.command.ChannelModelUpsertItemCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.FetchProviderChannelModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
 import com.api2api.application.channel.command.UpsertChannelModelCommand;
 import com.api2api.domain.channel.model.ChannelModelSupport;
+import com.api2api.domain.channel.model.ChannelModelSupportId;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
@@ -19,6 +23,7 @@ import com.api2api.domain.user.repository.UserAccountRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -122,6 +127,19 @@ public class ProviderChannelApplicationService {
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ChannelModelSupport> previewProviderModels(FetchProviderChannelModelPreviewCommand command) {
+        assertAdmin(command.getOperatorUserId());
+        ProviderChannel channel = loadChannel(command.getProviderChannelId());
+        return providerModelFetchPort.fetchModels(
+                channel.id(),
+                channel.host(),
+                channel.keyRef(),
+                channel.supportedProtocols(),
+                command.getDefaultPriority()
+        );
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ProviderChannel loadChannelForModelFetch(FetchProviderModelsCommand command) {
         assertAdmin(command.getOperatorUserId());
         return loadChannel(command.getProviderChannelId());
@@ -140,6 +158,23 @@ public class ProviderChannelApplicationService {
             throw new BusinessException("PROVIDER_MODELS_EMPTY");
         }
         channel.replaceModels(fetchedModels, now());
+        providerChannelRepository.save(channel);
+        return channel;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public ProviderChannel upsertChannelModels(BatchUpsertChannelModelsCommand command) {
+        assertAdmin(command.getOperatorUserId());
+        ProviderChannel channel = loadChannel(command.getProviderChannelId());
+        Instant now = now();
+        List<ChannelModelSupport> modelSupports = command.getModels().stream()
+                .map(item -> toModelSupport(item, channel, now))
+                .toList();
+        if (command.isReplaceExisting()) {
+            channel.replaceModels(modelSupports, now);
+        } else {
+            modelSupports.forEach(modelSupport -> channel.addOrUpdateModel(modelSupport, now));
+        }
         providerChannelRepository.save(channel);
         return channel;
     }
@@ -175,6 +210,25 @@ public class ProviderChannelApplicationService {
         return channel;
     }
 
+    private ChannelModelSupport toModelSupport(ChannelModelUpsertItemCommand item, ProviderChannel channel, Instant now) {
+        ChannelModelSupport existing = item.getChannelModelSupportId() == null
+                ? channel.findModelSupport(item.getRequestedModel(), item.getUpstreamProtocol()).orElse(null)
+                : channel.supportedModels().stream()
+                .filter(modelSupport -> modelSupport.id().equals(item.getChannelModelSupportId()))
+                .findFirst()
+                .orElse(null);
+        return ChannelModelSupport.create(
+                existing == null ? (item.getChannelModelSupportId() == null ? nextChannelModelSupportId() : item.getChannelModelSupportId()) : existing.id(),
+                item.getRequestedModel(),
+                item.getUpstreamModel(),
+                item.getUpstreamProtocol(),
+                item.getPriority(),
+                item.isPreferred(),
+                item.getSource(),
+                now
+        );
+    }
+
     private void assertAdmin(UserAccountId operatorUserId) {
         UserAccount operator = userAccountRepository.findById(operatorUserId)
                 .orElseThrow(() -> new BusinessException("OPERATOR_NOT_FOUND"));
@@ -184,6 +238,12 @@ public class ProviderChannelApplicationService {
     private ProviderChannel loadChannel(ProviderChannelId providerChannelId) {
         return providerChannelRepository.findById(providerChannelId)
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
+    }
+
+    private ChannelModelSupportId nextChannelModelSupportId() {
+        long timestampPart = System.currentTimeMillis() * 1_000L;
+        long randomPart = ThreadLocalRandom.current().nextLong(1_000L);
+        return ChannelModelSupportId.of(timestampPart + randomPart);
     }
 
     private Instant now() {

@@ -15,6 +15,7 @@ import com.api2api.domain.user.model.UserAccountStatus;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,18 @@ public class UserAccountApplicationService {
         currentUser.changeDisplayName(command.getDisplayName(), now());
         userAccountRepository.save(currentUser);
         return currentUser;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<UserAccount> listUsers(UserAccountId operatorUserId) {
+        loadAdminOperator(operatorUserId);
+        return userAccountRepository.findAll();
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public UserAccount getUser(UserAccountId operatorUserId, UserAccountId targetUserId) {
+        loadAdminOperator(operatorUserId);
+        return loadTargetUser(targetUserId);
     }
 
     @Transactional(rollbackFor = Exception.class)

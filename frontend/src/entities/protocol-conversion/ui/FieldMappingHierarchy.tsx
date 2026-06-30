@@ -91,10 +91,22 @@ function MappingRow({ row }: { row: MappingViewRow }) {
       <div className="protocol-mapping-row__rule" aria-label={`字段 ${row.sourceField} 映射到 ${row.targetField}，规则：${row.ruleDescription}`}>
         <span className={`protocol-mapping-row__line ${row.typeMeta.lineClassName}`} aria-hidden="true" />
         <div className="protocol-mapping-row__tags">
+          {row.category ? <Tag>{row.category}</Tag> : null}
           <MappingTypeTag type={row.type} />
+          {row.mappingType ? <Tag color="blue">{row.mappingType}</Tag> : null}
           <Tag color={row.lossinessMeta.color}>{row.lossinessMeta.label}</Tag>
+          {row.required !== undefined ? <Tag color={row.required ? 'warning' : 'default'}>{row.required ? '必填' : '可选'}</Tag> : null}
+          {row.supported !== undefined ? <Tag color={row.supported ? 'success' : 'error'}>{row.supported ? '支持' : '不支持'}</Tag> : null}
         </div>
         <Typography.Text className="protocol-mapping-row__description">{row.ruleDescription}</Typography.Text>
+        {row.sourceType || row.targetType || row.defaultValue || row.condition || row.notes ? (
+          <Typography.Text type="secondary" className="protocol-mapping-row__description">
+            {[row.sourceType || row.targetType ? `类型：${row.sourceType ?? '-'} → ${row.targetType ?? '-'}` : null,
+              row.defaultValue ? `默认：${row.defaultValue}` : null,
+              row.condition ? `条件：${row.condition}` : null,
+              row.notes].filter(Boolean).join('；')}
+          </Typography.Text>
+        ) : null}
       </div>
       <div className="protocol-mapping-row__endpoint">
         <span className="protocol-mapping-row__label">Target</span>

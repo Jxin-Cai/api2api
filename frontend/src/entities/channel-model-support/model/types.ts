@@ -7,6 +7,10 @@ export interface AdminFetchProviderModelsRequest {
   defaultPriority: number;
 }
 
+export interface AdminFetchProviderChannelModelPreviewRequest {
+  defaultPriority: number;
+}
+
 export interface AdminFetchProviderModelPreviewRequest {
   host: string;
   keyRef: string;
@@ -21,6 +25,15 @@ export interface AdminUpsertChannelModelRequest {
   priority: number;
   preferred?: boolean;
   source: ModelSource;
+}
+
+export interface AdminBatchUpsertChannelModelItemRequest extends AdminUpsertChannelModelRequest {
+  id?: number;
+}
+
+export interface AdminBatchUpsertChannelModelsRequest {
+  replaceExisting?: boolean;
+  models: AdminBatchUpsertChannelModelItemRequest[];
 }
 
 export interface AdminRemoveChannelModelRequest {

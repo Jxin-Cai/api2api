@@ -2,6 +2,8 @@ import { apiClient } from '@shared/api';
 import type { ApiResponse, QueryParams } from '@shared/api';
 import type { ProviderChannelResponse, ProviderModelPreviewResponse } from '@shared/api/contracts';
 import type {
+  AdminBatchUpsertChannelModelsRequest,
+  AdminFetchProviderChannelModelPreviewRequest,
   AdminFetchProviderModelPreviewRequest,
   AdminFetchProviderModelsRequest,
   AdminRemoveChannelModelRequest,
@@ -23,6 +25,20 @@ export function fetchProviderModelPreview(
   params: AdminFetchProviderModelPreviewRequest
 ): Promise<ApiResponse<ProviderModelPreviewResponse>> {
   return apiClient.post('/api/admin/provider-channels/model-fetch-preview', params);
+}
+
+export function fetchProviderChannelModelPreview(
+  providerChannelId: number,
+  params: AdminFetchProviderChannelModelPreviewRequest
+): Promise<ApiResponse<ProviderModelPreviewResponse>> {
+  return apiClient.post(`/api/admin/provider-channels/${encodeId(providerChannelId)}/model-fetch-preview`, params);
+}
+
+export function batchUpsertChannelModels(
+  providerChannelId: number,
+  params: AdminBatchUpsertChannelModelsRequest
+): Promise<ApiResponse<ProviderChannelResponse>> {
+  return apiClient.put(`/api/admin/provider-channels/${encodeId(providerChannelId)}/models`, params);
 }
 
 export function upsertChannelModel(

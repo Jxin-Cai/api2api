@@ -14,12 +14,14 @@ import com.api2api.ohs.http.admin.converter.AdminUserHttpConverter;
 import com.api2api.ohs.http.admin.dto.AdminChangeUserDisplayNameRequest;
 import com.api2api.ohs.http.admin.dto.AdminChangeUserRoleRequest;
 import com.api2api.ohs.http.admin.dto.AdminCreateUserRequest;
+import com.api2api.ohs.http.admin.dto.UserAccountListResponse;
 import com.api2api.ohs.http.admin.dto.UserAccountResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +49,24 @@ public class AdminUserController {
 
     @NonNull
     private final IdentifierFactory identifierFactory;
+
+    @GetMapping
+    public ApiResponse<UserAccountListResponse> listUsers(HttpServletRequest request) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        return ApiResponse.success(adminUserHttpConverter.toListResponse(
+                userAccountApplicationService.listUsers(operatorUserId)
+        ));
+    }
+
+    @GetMapping("/{user-id}")
+    public ApiResponse<UserAccountResponse> getUser(
+            @PathVariable("user-id") Long userId,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        UserAccount userAccount = userAccountApplicationService.getUser(operatorUserId, UserAccountId.of(userId));
+        return ApiResponse.success(adminUserHttpConverter.toUserAccountResponse(userAccount));
+    }
 
     @PostMapping
     public ApiResponse<UserAccountResponse> createUser(

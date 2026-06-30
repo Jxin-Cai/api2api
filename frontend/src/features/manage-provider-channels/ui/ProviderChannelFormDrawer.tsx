@@ -1,8 +1,9 @@
 import { useEffect, useState, type Key } from 'react';
-import { Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, message } from 'antd';
+import { Alert, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { fetchProviderModelPreview, upsertChannelModel, type ChannelModelSupportResponse } from '@entities/channel-model-support';
+import { batchUpsertChannelModels, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse } from '@entities/provider-channel';
+import type { ApiErrorShape } from '@shared/api';
 import { PROTOCOL_OPTIONS } from '@shared/lib/protocols';
 import type { AdminFormMode } from '@shared/types/admin';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
@@ -22,6 +23,17 @@ interface ProviderChannelFormDrawerProps {
 }
 
 const DEFAULT_FORM: ProviderChannelFormState = { name: '', host: '', keyRef: '', routePriority: 0, supportedProtocols: [] };
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (typeof error === 'object' && error !== null && 'message' in error) {
+    return (error as ApiErrorShape).message || fallback;
+  }
+  return fallback;
+}
+
+function isHttpHost(host: string): boolean {
+  return /^https?:\/\//i.test(host.trim());
+}
 
 export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose, onSaved }: ProviderChannelFormDrawerProps) {
   const { createMutation, updateMutation } = useProviderChannelMutations();
@@ -56,17 +68,23 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       message.warning('请先填写渠道 Host、渠道 Key 和支持协议');
       return;
     }
+    if (!isHttpHost(values.host)) {
+      message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
+      return;
+    }
     setPreviewLoading(true);
     try {
       const response = await fetchProviderModelPreview({
-        host: values.host,
-        keyRef: values.keyRef,
+        host: values.host.trim(),
+        keyRef: values.keyRef.trim(),
         supportedProtocols: values.supportedProtocols,
         defaultPriority: 10,
       });
       setPreviewModels(response.data.models);
       setSelectedModelIds(response.data.models.map((model) => model.id));
-      message.success(`已拉取 ${response.data.models.length} 个模型`);
+      message.success(`验证成功，已获取 ${response.data.models.length} 个模型候选`);
+    } catch (error) {
+      message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key 和模型列表权限')}`);
     } finally {
       setPreviewLoading(false);
     }
@@ -74,64 +92,91 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
 
   async function saveSelectedModels(providerChannelId: number): Promise<ProviderChannelResponse | null> {
     const selectedModels = previewModels.filter((model) => selectedModelIds.includes(model.id));
-    let latestChannel: ProviderChannelResponse | null = null;
-    for (const model of selectedModels) {
-      const response = await upsertChannelModel(providerChannelId, model.id, {
+    if (selectedModels.length === 0) {
+      return null;
+    }
+    const response = await batchUpsertChannelModels(providerChannelId, {
+      replaceExisting: false,
+      models: selectedModels.map((model) => ({
         requestedModel: model.requestedModel,
         upstreamModel: model.upstreamModel,
         upstreamProtocol: model.upstreamProtocol,
         priority: model.priority,
         preferred: Boolean(model.preferred),
         source: model.source,
-      });
-      latestChannel = response.data;
-    }
-    return latestChannel;
+      })),
+    });
+    return response.data;
   }
 
   async function handleSave(): Promise<void> {
-    const values = await form.validateFields();
-    const body = {
-      name: values.name.trim(),
-      host: values.host.trim(),
-      keyRef: values.keyRef?.trim(),
-      routePriority: values.routePriority ?? 0,
-      supportedProtocols: values.supportedProtocols,
-    };
-    if (mode === 'edit' && !body.keyRef) {
-      delete (body as Partial<typeof body>).keyRef;
+    try {
+      const values = await form.validateFields();
+      if (!isHttpHost(values.host)) {
+        message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
+        return;
+      }
+      const body = {
+        name: values.name.trim(),
+        host: values.host.trim(),
+        keyRef: values.keyRef?.trim(),
+        routePriority: values.routePriority ?? 0,
+        supportedProtocols: values.supportedProtocols,
+      };
+      if (mode === 'edit' && !body.keyRef) {
+        delete (body as Partial<typeof body>).keyRef;
+      }
+      const response = mode === 'create'
+        ? await createMutation.mutateAsync(body as ProviderChannelFormState)
+        : await updateMutation.mutateAsync({ id: channel?.id ?? 0, body });
+      let latestChannel: ProviderChannelResponse | null = null;
+      try {
+        latestChannel = await saveSelectedModels(response.data.id);
+      } catch (error) {
+        message.error(`渠道已保存，但部分模型保存失败：${getErrorMessage(error, '请进入模型列表重试')}`);
+      }
+      onSaved(latestChannel ?? response.data);
+      onClose();
+    } catch (error) {
+      if (typeof error === 'object' && error !== null && 'errorFields' in error) {
+        return;
+      }
+      message.error(`保存渠道失败：${getErrorMessage(error, '请检查表单内容后重试')}`);
     }
-    const response = mode === 'create'
-      ? await createMutation.mutateAsync(body as ProviderChannelFormState)
-      : await updateMutation.mutateAsync({ id: channel?.id ?? 0, body });
-    const latestChannel = await saveSelectedModels(response.data.id);
-    onSaved(latestChannel ?? response.data);
-    onClose();
+  }
+
+  function updatePreviewModel(modelId: number, patch: Partial<ChannelModelSupportResponse>): void {
+    setPreviewModels((current) => current.map((item) => (item.id === modelId ? { ...item, ...patch } : item)));
   }
 
   const columns: ColumnsType<ChannelModelSupportResponse> = [{
-    title: '模型',
+    title: '模型候选',
     dataIndex: 'requestedModel',
     render: (_value, model) => (
       <Space wrap>
-        <span>{model.requestedModel}</span>
-        <span style={{ color: '#8c8c8c' }}>→ {model.upstreamModel}</span>
+        <Typography.Text strong>{model.requestedModel}</Typography.Text>
+        <Typography.Text type="secondary">→ {model.upstreamModel}</Typography.Text>
         <span>{model.upstreamProtocol}</span>
       </Space>
     ),
   }, {
     title: '优先模型',
     dataIndex: 'preferred',
-    width: 120,
+    width: 130,
     render: (_value, model) => (
       <Switch
         checked={Boolean(model.preferred)}
-        checkedChildren="是"
-        unCheckedChildren="否"
-        onChange={(checked) => setPreviewModels((current) => current.map((item) => (
-          item.id === model.id ? { ...item, preferred: checked } : item
-        )))}
+        checkedChildren="★ 优先"
+        unCheckedChildren="普通"
+        onChange={(checked) => updatePreviewModel(model.id, { preferred: checked })}
       />
+    ),
+  }, {
+    title: '模型排序值',
+    dataIndex: 'priority',
+    width: 140,
+    render: (_value, model) => (
+      <InputNumber min={1} value={model.priority} onChange={(value) => updatePreviewModel(model.id, { priority: value ?? 1 })} />
     ),
   }];
 
@@ -156,7 +201,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
           name="keyRef"
           label="渠道 Key"
           rules={mode === 'create' ? [{ required: true, message: '请输入渠道 Key' }] : []}
-          extra={mode === 'edit' ? `留空则保持当前 Key 不变，当前：${channel?.keyMasked ?? channel?.keyRef ?? '已配置'}` : '真实 API Key 将由后端保存，接口响应会脱敏'}
+          extra={mode === 'edit' ? `留空则保存时保持当前 Key 不变；如需预览拉取模型，请重新输入真实 Key。当前：${channel?.keyMasked ?? channel?.keyRef ?? '已配置'}` : '真实 API Key 将由后端保存，接口响应会脱敏'}
         >
           <Input.Password placeholder={mode === 'edit' ? '留空不修改' : '请输入供应商 API Key'} autoComplete="new-password" />
         </Form.Item>
@@ -177,7 +222,8 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
 
       <Divider orientation="left">模型列表</Divider>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>拉取模型列表</Button>
+        <Alert type="info" showIcon message="验证并获取模型列表会真实请求上游模型列表接口，用于试探 Host/Key 是否具备模型列表权限；结果仅作为候选，保存前不会改变配置。" />
+        <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
         {previewModels.length > 0 ? (
           <Table
             rowKey="id"

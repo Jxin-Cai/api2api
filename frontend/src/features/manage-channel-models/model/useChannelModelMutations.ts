@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchProviderModels, removeChannelModel, upsertChannelModel } from '@entities/channel-model-support';
-import type { AdminFetchProviderModelsRequest, AdminRemoveChannelModelRequest, AdminUpsertChannelModelRequest } from '@entities/channel-model-support';
+import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModels, removeChannelModel, upsertChannelModel } from '@entities/channel-model-support';
+import type { AdminBatchUpsertChannelModelsRequest, AdminFetchProviderChannelModelPreviewRequest, AdminFetchProviderModelsRequest, AdminRemoveChannelModelRequest, AdminUpsertChannelModelRequest } from '@entities/channel-model-support';
 import { providerChannelQueryKeys } from '@entities/provider-channel';
 
 export function useChannelModelMutations() {
@@ -13,6 +13,13 @@ export function useChannelModelMutations() {
     mutationFn: (params: { channelId: number; body: AdminFetchProviderModelsRequest }) => fetchProviderModels(params.channelId, params.body),
     onSuccess: invalidate,
   });
+  const previewMutation = useMutation({
+    mutationFn: (params: { channelId: number; body: AdminFetchProviderChannelModelPreviewRequest }) => fetchProviderChannelModelPreview(params.channelId, params.body),
+  });
+  const batchUpsertMutation = useMutation({
+    mutationFn: (params: { channelId: number; body: AdminBatchUpsertChannelModelsRequest }) => batchUpsertChannelModels(params.channelId, params.body),
+    onSuccess: invalidate,
+  });
   const upsertMutation = useMutation({
     mutationFn: (params: { channelId: number; modelId: number; body: AdminUpsertChannelModelRequest }) => upsertChannelModel(params.channelId, params.modelId, params.body),
     onSuccess: invalidate,
@@ -22,5 +29,5 @@ export function useChannelModelMutations() {
     onSuccess: invalidate,
   });
 
-  return { fetchMutation, upsertMutation, removeMutation };
+  return { fetchMutation, previewMutation, batchUpsertMutation, upsertMutation, removeMutation };
 }

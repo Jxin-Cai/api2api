@@ -10,6 +10,10 @@ export interface UserAccountResponse {
   updatedAt?: string | number;
 }
 
+export interface UserAccountListResponse {
+  users: UserAccountResponse[];
+}
+
 export interface LoginResponse extends UserAccountResponse {
   currentUserId?: AdminId;
 }

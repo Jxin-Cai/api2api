@@ -4,6 +4,7 @@ import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.model.Username;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserAccountRepository {
@@ -38,4 +39,11 @@ public interface UserAccountRepository {
      * @return optional complete user account aggregate
      */
     Optional<UserAccount> findByUsername(Username username);
+
+    /**
+     * Loads all non-deleted user account aggregates for admin backoffice management.
+     *
+     * @return all active records, including disabled accounts, excluding deleted accounts
+     */
+    List<UserAccount> findAll();
 }

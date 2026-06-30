@@ -38,6 +38,7 @@ const MENU_ICONS: Record<string, ReactNode> = {
   'app-api-keys': <KeyOutlined />,
   'app-usage': <BarChartOutlined />,
   'admin-dashboard': <DashboardOutlined />,
+  'admin-usage': <BarChartOutlined />,
   'admin-users': <TeamOutlined />,
   'admin-channels': <ApiOutlined />,
   'admin-conversions': <SwapOutlined />,

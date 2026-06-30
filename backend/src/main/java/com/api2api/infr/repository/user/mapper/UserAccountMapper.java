@@ -1,6 +1,7 @@
 package com.api2api.infr.repository.user.mapper;
 
 import com.api2api.infr.repository.user.po.UserAccountPO;
+import java.util.List;
 
 /**
  * Mapper contract for user_accounts persistence.
@@ -15,4 +16,6 @@ public interface UserAccountMapper {
     UserAccountPO selectById(Long id);
 
     UserAccountPO selectByUsername(String username);
+
+    List<UserAccountPO> selectAll();
 }

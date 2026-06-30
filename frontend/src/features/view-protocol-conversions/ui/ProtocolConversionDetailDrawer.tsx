@@ -86,7 +86,7 @@ export function ProtocolConversionDetailDrawer({ open, definitionId = null, conv
           <Alert
             type="info"
             showIcon
-            message="层级与类型由字段路径、规则说明和损耗标记推断，用于辅助理解；最终转换逻辑以后端转换定义为准。"
+            message="优先展示后端结构化参数映射；缺失结构化元数据时由字段路径、规则说明和损耗标记推断。当前为只读说明，最终转换逻辑以后端转换实现为准。"
           />
 
           <ProtocolMappingPanel conversion={current} activeTab={activeTab} onTabChange={setActiveTab} />

@@ -32,6 +32,17 @@ export interface ProtocolConversionFieldMappingResponse {
   targetField: string;
   ruleDescription: string;
   lossiness: string;
+  category?: string;
+  mappingType?: string;
+  sourcePath?: string;
+  targetPath?: string;
+  sourceType?: string;
+  targetType?: string;
+  required?: boolean;
+  supported?: boolean;
+  defaultValue?: string;
+  condition?: string;
+  notes?: string;
 }
 
 export interface ProtocolConversionMappingResponse {

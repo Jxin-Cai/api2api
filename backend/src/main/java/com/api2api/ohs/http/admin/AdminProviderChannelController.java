@@ -3,6 +3,8 @@ package com.api2api.ohs.http.admin;
 import com.api2api.application.channel.ProviderChannelApplicationService;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
+import com.api2api.application.channel.command.FetchProviderChannelModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
@@ -16,7 +18,9 @@ import com.api2api.ohs.http.ApiResponse;
 import com.api2api.ohs.http.CurrentUserContextResolver;
 import com.api2api.ohs.http.IdentifierFactory;
 import com.api2api.ohs.http.admin.converter.ProviderChannelHttpConverter;
+import com.api2api.ohs.http.admin.dto.AdminBatchUpsertChannelModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminCreateProviderChannelRequest;
+import com.api2api.ohs.http.admin.dto.AdminFetchProviderChannelModelPreviewRequest;
 import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelPreviewRequest;
 import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpdateProviderChannelRequest;
@@ -127,6 +131,23 @@ public class AdminProviderChannelController {
         ));
     }
 
+    @PostMapping("/{provider-channel-id}/model-fetch-preview")
+    public ApiResponse<ProviderModelPreviewResponse> previewSavedProviderModels(
+            @PathVariable("provider-channel-id") Long providerChannelId,
+            @Valid @RequestBody AdminFetchProviderChannelModelPreviewRequest fetchRequest,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        FetchProviderChannelModelPreviewCommand command = providerChannelHttpConverter.toFetchChannelModelPreviewCommand(
+                fetchRequest,
+                operatorUserId,
+                ProviderChannelId.of(providerChannelId)
+        );
+        return ApiResponse.success(providerChannelHttpConverter.toPreviewResponse(
+                providerChannelApplicationService.previewProviderModels(command)
+        ));
+    }
+
     @PatchMapping("/{provider-channel-id}/disable")
     public ApiResponse<ProviderChannelResponse> disableChannel(
             @PathVariable("provider-channel-id") Long providerChannelId,
@@ -172,6 +193,22 @@ public class AdminProviderChannelController {
                 ChannelModelSupportId.of(channelModelSupportId)
         );
         ProviderChannel channel = providerChannelApplicationService.upsertChannelModel(command);
+        return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
+    }
+
+    @PutMapping("/{provider-channel-id}/models")
+    public ApiResponse<ProviderChannelResponse> upsertChannelModels(
+            @PathVariable("provider-channel-id") Long providerChannelId,
+            @Valid @RequestBody AdminBatchUpsertChannelModelsRequest upsertRequest,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        BatchUpsertChannelModelsCommand command = providerChannelHttpConverter.toBatchUpsertModelsCommand(
+                upsertRequest,
+                operatorUserId,
+                ProviderChannelId.of(providerChannelId)
+        );
+        ProviderChannel channel = providerChannelApplicationService.upsertChannelModels(command);
         return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
     }
 
