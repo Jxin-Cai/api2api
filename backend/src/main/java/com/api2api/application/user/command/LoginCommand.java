@@ -1,6 +1,7 @@
 package com.api2api.application.user.command;
 
 import com.api2api.domain.user.model.Username;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,4 +15,7 @@ public final class LoginCommand {
 
     @NotNull
     private final Username username;
+
+    @NotBlank
+    private final String password;
 }

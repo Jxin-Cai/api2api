@@ -15,12 +15,12 @@ interface UserCreateModalProps {
 
 export function UserCreateModal({ open, onClose, onCreated }: UserCreateModalProps) {
   const { createMutation } = useUserAccountMutations();
-  const [form, setForm] = useState<UserCreateFormState>({ username: '', displayName: '', role: 'USER' });
+  const [form, setForm] = useState<UserCreateFormState>({ username: '', displayName: '', password: '', role: 'USER' });
   const [created, setCreated] = useState<UserAccountResponse | null>(null);
 
   useEffect(() => {
     if (open) {
-      setForm({ username: '', displayName: '', role: 'USER' });
+      setForm({ username: '', displayName: '', password: '', role: 'USER' });
       setCreated(null);
     }
   }, [open]);
@@ -30,11 +30,11 @@ export function UserCreateModal({ open, onClose, onCreated }: UserCreateModalPro
   }
 
   async function handleSubmit(): Promise<void> {
-    if (!form.username.trim() || !form.displayName.trim()) {
-      message.warning('请填写用户名和显示名');
+    if (!form.username.trim() || !form.displayName.trim() || !form.password) {
+      message.warning('请填写用户名、显示名和密码');
       return;
     }
-    const response = await createMutation.mutateAsync(form);
+    const response = await createMutation.mutateAsync({ ...form, username: form.username.trim(), displayName: form.displayName.trim() });
     setCreated(response.data);
     onCreated(response.data);
   }
@@ -44,6 +44,7 @@ export function UserCreateModal({ open, onClose, onCreated }: UserCreateModalPro
       <Space direction="vertical" style={{ width: '100%' }}>
         <Input placeholder="username" value={form.username} onChange={(event) => updateForm('username', event.target.value)} />
         <Input placeholder="displayName" value={form.displayName} onChange={(event) => updateForm('displayName', event.target.value)} />
+        <Input.Password placeholder="password" value={form.password} onChange={(event) => updateForm('password', event.target.value)} />
         <Select value={form.role} onChange={(value) => updateForm('role', value)} options={[{ label: 'USER', value: 'USER' }, { label: 'ADMIN', value: 'ADMIN' }]} />
         <Button type="primary" loading={createMutation.isPending} onClick={handleSubmit}>创建</Button>
         {created ? <UserAccountRow user={created} /> : null}

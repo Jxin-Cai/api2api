@@ -8,6 +8,7 @@ import com.api2api.infr.repository.user.converter.UserAccountPersistenceConverte
 import com.api2api.infr.repository.user.mapper.UserAccountMapper;
 import com.api2api.infr.repository.user.po.UserAccountPO;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,13 @@ public class UserAccountRepositoryImpl implements UserAccountRepository {
 
     @NonNull
     private final UserAccountPersistenceConverter converter;
+
+    @Override
+    public UserAccountId nextIdentity() {
+        long timestampPart = System.currentTimeMillis() * 1_000L;
+        long randomPart = ThreadLocalRandom.current().nextLong(1_000L);
+        return UserAccountId.of(timestampPart + randomPart);
+    }
 
     @Override
     public void save(UserAccount userAccount) {

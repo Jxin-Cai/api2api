@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * Request body for MVP login by username.
+ * Request body for logging in to the back-office.
  */
 @Data
 public class LoginRequest {
@@ -15,4 +15,8 @@ public class LoginRequest {
     @Size(min = 3, max = 64)
     @Pattern(regexp = "^[A-Za-z0-9_.-]+$", message = "may contain only letters, numbers, underscores, hyphens and dots")
     private String username;
+
+    @NotBlank
+    @Size(max = 128)
+    private String password;
 }

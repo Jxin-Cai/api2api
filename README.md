@@ -27,7 +27,12 @@ mvn spring-boot:run
 - `SPRING_DATASOURCE_USERNAME=api2api`
 - `SPRING_DATASOURCE_PASSWORD=api2api`
 
-可参考 `backend/.env.example`。
+后端启动时还会读取管理员账号初始化配置：
+
+- `ADMIN_USERNAME=admin`
+- `ADMIN_PASSWORD=change-me`
+
+`ADMIN_PASSWORD` 不能为空。可参考 `backend/.env.example`。
 
 ### 前端
 
@@ -45,27 +50,26 @@ npm run dev
 docker compose up --build
 ```
 
-如果本机网络无法直接访问 Docker Hub（例如拉取 `node:22-alpine`、`maven:3.9.9-eclipse-temurin-17` 时出现 `failed to fetch anonymous token` / `connection reset by peer` / `Bad Gateway`），可以复制根目录 `.env.example` 为 `.env`，或通过环境变量切换到可访问的镜像仓库或镜像代理：
+根目录 `.env.example` 仅用于 Docker Compose 的项目运行配置（数据库名、数据库账号密码、管理员账号密码、前端入口端口等），可复制为 `.env` 调整部署参数。部署前请务必修改 `ADMIN_PASSWORD`，后端启动时会将 `.env` 中的 `ADMIN_USERNAME` / `ADMIN_PASSWORD` 同步为管理员账号凭据，数据库只保存密码 hash。
 
-```bash
-NODE_IMAGE=<镜像代理>/library/node:22-alpine \
-NGINX_IMAGE=<镜像代理>/library/nginx:1.27-alpine \
-POSTGRES_IMAGE=<镜像代理>/library/postgres:16-alpine \
-MAVEN_IMAGE=<镜像代理>/library/maven:3.9.9-eclipse-temurin-17 \
-JRE_IMAGE=<镜像代理>/library/eclipse-temurin:17-jre \
-docker compose up --build
-```
+Docker 镜像版本由 `docker-compose.yml`、`backend/Dockerfile` 与 `frontend/Dockerfile` 维护；如果需要切换镜像源、镜像代理或基础镜像版本，请修改这些 Docker 相关文件，不要放入 `.env`。
 
-该命令会启动 PostgreSQL、后端 API 服务和前端 Nginx 服务：
+该命令会启动 PostgreSQL、后端 API 服务和前端 Nginx 服务。默认只有前端 Nginx 对宿主机暴露端口：
 
-- 前端管理台：`http://localhost:3000`
-- 后端 API：`http://localhost:8080`
-- PostgreSQL：`localhost:5432`
+- 前端管理台：`http://localhost:8989`
+- 管理接口：`http://localhost:8989/api/*`
+- 网关协议接口：`http://localhost:8989/v1/*`
+
+后端 `8080` 与 PostgreSQL `5432` 不再直接暴露到宿主机，仅在 Docker 网络内访问。三个服务默认加入 Docker 网络 `shared-backend-network`。
 
 前端容器会将以下路径代理到后端：
 
 - 管理接口：`/api/*`
 - 网关协议接口：`/v1/*`
+
+## 登录
+
+管理台登录需要用户名和密码。Docker Compose 部署时使用根目录 `.env` 中的 `ADMIN_USERNAME` / `ADMIN_PASSWORD` 初始化或更新管理员账号；本地后端开发时使用后端环境变量中的同名配置。
 
 ## 主要能力
 

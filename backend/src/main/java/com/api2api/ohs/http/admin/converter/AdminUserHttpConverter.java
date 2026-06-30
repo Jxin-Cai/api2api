@@ -27,6 +27,7 @@ public interface AdminUserHttpConverter {
     @Mapping(target = "username", source = "request.username")
     @Mapping(target = "displayName", source = "request.displayName")
     @Mapping(target = "role", source = "request.role")
+    @Mapping(target = "password", source = "request.password")
     CreateUserCommand toCreateUserCommand(
             AdminCreateUserRequest request,
             UserAccountId operatorUserId,

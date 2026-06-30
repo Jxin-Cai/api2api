@@ -1,4 +1,4 @@
-import { LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { App, Button, Form, Input, Typography } from 'antd';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -23,13 +23,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
   async function handleFinish(values: LoginFormValues): Promise<void> {
     try {
-      const response = await mutation.mutateAsync({ username: values.username.trim() });
+      const response = await mutation.mutateAsync({ username: values.username.trim(), password: values.password });
       onSuccess?.(response);
       navigate(getLandingPath(response.role, searchParams.get('redirect')), { replace: true });
     } catch (error) {
       notification.error({
         message: '登录失败',
-        description: error instanceof Error ? error.message : '请检查用户名后重试',
+        description: error instanceof Error ? error.message : '请检查用户名和密码后重试',
       });
     }
   }
@@ -41,7 +41,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           登录 <GradientText>意门</GradientText> 控制台
         </Typography.Title>
         <Typography.Paragraph type="secondary" className="login-form__desc">
-          输入用户名进入意门管理控制台。当前 MVP 环境无需密码。
+          使用管理员账号和密码进入意门管理控制台。
         </Typography.Paragraph>
       </div>
       <Form.Item
@@ -54,6 +54,16 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         ]}
       >
         <Input prefix={<UserOutlined />} placeholder="admin / user" autoComplete="username" size="large" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label="密码"
+        rules={[
+          { required: true, message: '请输入密码' },
+          { max: 128, message: '密码长度不能超过 128 位' },
+        ]}
+      >
+        <Input.Password prefix={<LockOutlined />} placeholder="请输入密码" autoComplete="current-password" size="large" />
       </Form.Item>
       <Form.Item className="login-form__submit">
         <Button type="primary" htmlType="submit" block size="large" loading={mutation.isPending} icon={<LoginOutlined />}>

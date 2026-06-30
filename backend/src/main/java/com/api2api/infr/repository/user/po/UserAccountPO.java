@@ -20,6 +20,7 @@ public class UserAccountPO {
     private String displayName;
     private String role;
     private String status;
+    private String passwordHash;
     private Instant createdTime;
     private Instant updatedTime;
     private boolean deleted;

@@ -10,6 +10,9 @@ spring:
     locations: classpath:db/migration
 
 api2api:
+  bootstrap-admin:
+    username: ${ADMIN_USERNAME:admin}
+    password: ${ADMIN_PASSWORD:}
   provider-http:
     connect-timeout: 2s
     models-read-timeout: 10s

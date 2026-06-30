@@ -23,6 +23,7 @@ export interface UpdateCurrentUserProfileRequest {
 export interface AdminCreateUserRequest {
   username: string;
   displayName: string;
+  password: string;
   role: AdminRole;
 }
 

@@ -8,8 +8,10 @@ import com.api2api.application.user.command.CreateUserCommand;
 import com.api2api.application.user.command.LoginCommand;
 import com.api2api.application.user.command.UpdateCurrentUserProfileCommand;
 import com.api2api.domain.user.model.AccessScope;
+import com.api2api.domain.user.model.PasswordHash;
 import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
+import com.api2api.domain.user.model.UserAccountStatus;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.time.Clock;
 import java.time.Instant;
@@ -26,13 +28,21 @@ public class UserAccountApplicationService {
     private final UserAccountRepository userAccountRepository;
 
     @NonNull
+    private final PasswordHasher passwordHasher;
+
+    @NonNull
     private final Clock clock;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public UserAccount login(LoginCommand command) {
         UserAccount userAccount = userAccountRepository.findByUsername(command.getUsername())
-                .orElseThrow(() -> new BusinessException("USER_NOT_FOUND"));
-        userAccount.assertActive();
+                .orElseThrow(this::invalidCredentials);
+        if (userAccount.getStatus() != UserAccountStatus.ACTIVE) {
+            throw invalidCredentials();
+        }
+        if (!userAccount.hasPasswordHash() || !passwordHasher.matches(command.getPassword(), userAccount.getPasswordHash())) {
+            throw invalidCredentials();
+        }
         return userAccount;
     }
 
@@ -62,11 +72,13 @@ public class UserAccountApplicationService {
                     throw new BusinessException("USERNAME_ALREADY_EXISTS");
                 });
 
+        PasswordHash passwordHash = passwordHasher.hash(command.getPassword());
         UserAccount userAccount = UserAccount.create(
                 command.getUserAccountId(),
                 command.getUsername(),
                 command.getDisplayName(),
                 command.getRole(),
+                passwordHash,
                 now()
         );
         userAccountRepository.save(userAccount);
@@ -119,6 +131,10 @@ public class UserAccountApplicationService {
     private UserAccount loadTargetUser(UserAccountId targetUserId) {
         return userAccountRepository.findById(targetUserId)
                 .orElseThrow(() -> new BusinessException("USER_NOT_FOUND"));
+    }
+
+    private BusinessException invalidCredentials() {
+        return new BusinessException("INVALID_CREDENTIALS");
     }
 
     private Instant now() {

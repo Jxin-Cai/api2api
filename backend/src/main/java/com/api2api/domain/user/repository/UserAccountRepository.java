@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface UserAccountRepository {
 
+    UserAccountId nextIdentity();
+
     /**
      * Saves a complete user account aggregate.
      * Implementations should create or update by id, preserve aggregate invariants, and guarantee username uniqueness.

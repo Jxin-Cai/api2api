@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class JdbcUserAccountMapper implements UserAccountMapper {
 
-    private static final String COLUMNS = "id, username, display_name, role, status, created_at, updated_at, deleted";
+    private static final String COLUMNS = "id, username, display_name, role, status, password_hash, created_at, updated_at, deleted";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -29,6 +29,7 @@ public class JdbcUserAccountMapper implements UserAccountMapper {
             .displayName(rs.getString("display_name"))
             .role(rs.getString("role"))
             .status(rs.getString("status"))
+            .passwordHash(rs.getString("password_hash"))
             .createdTime(instant(rs, "created_at"))
             .updatedTime(instant(rs, "updated_at"))
             .deleted(rs.getBoolean("deleted"))
@@ -37,8 +38,8 @@ public class JdbcUserAccountMapper implements UserAccountMapper {
     @Override
     public int insert(UserAccountPO userAccount) {
         return jdbcTemplate.update("""
-                INSERT INTO user_accounts (id, username, display_name, role, status, created_at, updated_at, deleted)
-                VALUES (:id, :username, :displayName, :role, :status, :createdTime, :updatedTime, :deleted)
+                INSERT INTO user_accounts (id, username, display_name, role, status, password_hash, created_at, updated_at, deleted)
+                VALUES (:id, :username, :displayName, :role, :status, :passwordHash, :createdTime, :updatedTime, :deleted)
                 """, params(userAccount));
     }
 
@@ -50,6 +51,7 @@ public class JdbcUserAccountMapper implements UserAccountMapper {
                     display_name = :displayName,
                     role = :role,
                     status = :status,
+                    password_hash = :passwordHash,
                     updated_at = :updatedTime,
                     deleted = :deleted
                 WHERE id = :id
@@ -77,6 +79,7 @@ public class JdbcUserAccountMapper implements UserAccountMapper {
                 .addValue("displayName", po.getDisplayName())
                 .addValue("role", po.getRole())
                 .addValue("status", po.getStatus())
+                .addValue("passwordHash", po.getPasswordHash())
                 .addValue("createdTime", Timestamp.from(po.getCreatedTime()))
                 .addValue("updatedTime", Timestamp.from(po.getUpdatedTime()))
                 .addValue("deleted", po.isDeleted());
