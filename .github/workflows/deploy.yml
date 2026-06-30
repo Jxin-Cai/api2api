@@ -173,15 +173,31 @@ jobs:
             -o UserKnownHostsFile=~/.ssh/known_hosts
           )
 
+          scp_args=(
+            -i ~/.ssh/deploy_key
+            -P "$DEPLOY_PORT"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o UserKnownHostsFile=~/.ssh/known_hosts
+          )
+
           ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
-            bash -c 'set -Eeuo pipefail
+            bash -se -- "$DEPLOY_PATH" <<'REMOTE'
+          set -Eeuo pipefail
           deploy_path="$1"
-          umask 077
           mkdir -p "$deploy_path"
-          cat > "$deploy_path/.env.next"
+          REMOTE
+
+          scp "${scp_args[@]}" "$RUNNER_TEMP/api2api.env" "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/.env.next"
+
+          ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
+            bash -se -- "$DEPLOY_PATH" <<'REMOTE'
+          set -Eeuo pipefail
+          deploy_path="$1"
           chmod 600 "$deploy_path/.env.next"
-          mv "$deploy_path/.env.next" "$deploy_path/.env"' \
-            _ "$DEPLOY_PATH" < "$RUNNER_TEMP/api2api.env"
+          mv "$deploy_path/.env.next" "$deploy_path/.env"
+          REMOTE
 
       - name: Deploy on server
         shell: bash
