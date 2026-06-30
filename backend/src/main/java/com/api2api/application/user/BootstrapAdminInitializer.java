@@ -1,7 +1,6 @@
 package com.api2api.application.user;
 
 import com.api2api.domain.user.model.DisplayName;
-import com.api2api.domain.user.model.PasswordHash;
 import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserRole;
 import com.api2api.domain.user.model.Username;
@@ -37,20 +36,34 @@ public class BootstrapAdminInitializer implements ApplicationRunner {
     @Transactional(rollbackFor = Exception.class)
     public void run(ApplicationArguments args) {
         Username username = Username.of(requireUsername());
-        PasswordHash passwordHash = passwordHasher.hash(requirePassword());
         Instant now = Instant.now(clock);
 
-        UserAccount admin = userAccountRepository.findByUsername(username)
-                .orElseGet(() -> UserAccount.create(
-                        userAccountRepository.nextIdentity(),
-                        username,
-                        DEFAULT_ADMIN_DISPLAY_NAME,
-                        UserRole.ADMIN,
-                        passwordHash,
-                        now
-                ));
+        userAccountRepository.findByUsername(username)
+                .ifPresentOrElse(
+                        admin -> prepareExistingAdmin(admin, now),
+                        () -> createBootstrapAdmin(username, now)
+                );
+    }
+
+    private void prepareExistingAdmin(UserAccount admin, Instant now) {
+        if (admin.hasPasswordHash()) {
+            return;
+        }
+
         admin.ensureAdminActive(now);
-        admin.changePasswordHash(passwordHash, now);
+        admin.changePasswordHash(passwordHasher.hash(requirePassword()), now);
+        userAccountRepository.save(admin);
+    }
+
+    private void createBootstrapAdmin(Username username, Instant now) {
+        UserAccount admin = UserAccount.create(
+                userAccountRepository.nextIdentity(),
+                username,
+                DEFAULT_ADMIN_DISPLAY_NAME,
+                UserRole.ADMIN,
+                passwordHasher.hash(requirePassword()),
+                now
+        );
         userAccountRepository.save(admin);
     }
 
