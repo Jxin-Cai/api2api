@@ -29,6 +29,15 @@ export interface MappingViewRow {
   targetField: string;
   ruleDescription: string;
   lossiness: string;
+  category?: string;
+  mappingType?: string;
+  sourceType?: string;
+  targetType?: string;
+  required?: boolean;
+  supported?: boolean;
+  defaultValue?: string;
+  condition?: string;
+  notes?: string;
   sourceSegments: FieldPathSegment[];
   targetSegments: FieldPathSegment[];
   type: MappingViewType;
@@ -163,6 +172,10 @@ export function getLossinessMeta(lossiness: string): LossinessMeta {
 }
 
 export function inferMappingViewType(mapping: ProtocolConversionFieldMappingResponse): MappingViewType {
+  const explicitType = normalizeMappingType(mapping.mappingType);
+  if (explicitType) {
+    return explicitType;
+  }
   const source = mapping.sourceField.trim();
   const target = mapping.targetField.trim();
   const rule = mapping.ruleDescription.toLowerCase();
@@ -201,14 +214,25 @@ export function buildMappingView(mapping: ProtocolConversionMappingResponse): Ma
 
   mapping.fieldMappings.forEach((fieldMapping, index) => {
     const type = inferMappingViewType(fieldMapping);
-    const sourceSegments = parseFieldPath(fieldMapping.sourceField);
-    const targetSegments = parseFieldPath(fieldMapping.targetField);
+    const sourceField = fieldMapping.sourcePath || fieldMapping.sourceField;
+    const targetField = fieldMapping.targetPath || fieldMapping.targetField;
+    const sourceSegments = parseFieldPath(sourceField);
+    const targetSegments = parseFieldPath(targetField);
     const row: MappingViewRow = {
-      id: `${index}-${fieldMapping.sourceField}-${fieldMapping.targetField}`,
-      sourceField: fieldMapping.sourceField,
-      targetField: fieldMapping.targetField,
+      id: `${index}-${sourceField}-${targetField}`,
+      sourceField,
+      targetField,
       ruleDescription: fieldMapping.ruleDescription,
       lossiness: fieldMapping.lossiness,
+      category: fieldMapping.category,
+      mappingType: fieldMapping.mappingType,
+      sourceType: fieldMapping.sourceType,
+      targetType: fieldMapping.targetType,
+      required: fieldMapping.required,
+      supported: fieldMapping.supported,
+      defaultValue: fieldMapping.defaultValue,
+      condition: fieldMapping.condition,
+      notes: fieldMapping.notes,
       sourceSegments,
       targetSegments,
       type,
@@ -243,6 +267,10 @@ export function buildMappingView(mapping: ProtocolConversionMappingResponse): Ma
 }
 
 function inferSemanticGroup(row: MappingViewRow): SemanticGroupMeta {
+  const explicit = groupFromCategory(row.category);
+  if (explicit) {
+    return explicit;
+  }
   const combined = `${row.sourceField} ${row.targetField} ${row.ruleDescription}`.toLowerCase();
   const matched = SEMANTIC_GROUPS.find((group) => includesAny(combined, group.keywords));
   if (matched) {
@@ -260,6 +288,55 @@ function inferSemanticGroup(row: MappingViewRow): SemanticGroupMeta {
   }
 
   return { key: 'other', title: '其他字段', description: '未能归入常见协议类型的字段。', keywords: [] };
+}
+
+function normalizeMappingType(mappingType?: string): MappingViewType | null {
+  switch (mappingType?.toUpperCase()) {
+    case 'DIRECT':
+      return 'direct';
+    case 'RENAME':
+      return 'rename';
+    case 'RESHAPE':
+      return 'reshape';
+    case 'DEFAULT':
+      return 'default';
+    case 'TRANSFORM':
+      return 'transform';
+    case 'DROP':
+    case 'UNSUPPORTED':
+    case 'LOSSY':
+      return 'lossy';
+    default:
+      return null;
+  }
+}
+
+function groupFromCategory(category?: string): SemanticGroupMeta | null {
+  switch (category?.toUpperCase()) {
+    case 'TOOL':
+    case 'TOOLS':
+      return SEMANTIC_GROUPS[0];
+    case 'REASONING':
+      return SEMANTIC_GROUPS[1];
+    case 'USAGE':
+    case 'CACHE':
+      return SEMANTIC_GROUPS[2];
+    case 'STREAMING':
+    case 'STREAM':
+      return SEMANTIC_GROUPS[3];
+    case 'MODEL':
+    case 'SAMPLING':
+      return SEMANTIC_GROUPS[4];
+    case 'MESSAGE':
+    case 'CONTENT':
+      return SEMANTIC_GROUPS[5];
+    case 'METADATA':
+      return { key: 'metadata', title: '元数据', description: 'Metadata 与请求上下文相关字段。', keywords: [] };
+    case 'OTHER':
+      return { key: 'other', title: '其他字段', description: '未能归入常见协议类型的字段。', keywords: [] };
+    default:
+      return null;
+  }
 }
 
 function sortGroups(left: MappingViewGroup, right: MappingViewGroup): number {

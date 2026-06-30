@@ -1,7 +1,10 @@
 package com.api2api.ohs.http.admin.converter;
 
+import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
+import com.api2api.application.channel.command.ChannelModelUpsertItemCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.FetchProviderChannelModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
@@ -20,7 +23,10 @@ import com.api2api.domain.channel.model.ProviderKeyRef;
 import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.admin.dto.AdminBatchUpsertChannelModelItemRequest;
+import com.api2api.ohs.http.admin.dto.AdminBatchUpsertChannelModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminCreateProviderChannelRequest;
+import com.api2api.ohs.http.admin.dto.AdminFetchProviderChannelModelPreviewRequest;
 import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelPreviewRequest;
 import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpdateProviderChannelRequest;
@@ -29,6 +35,7 @@ import com.api2api.ohs.http.admin.dto.ChannelModelSupportResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelListResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelResponse;
 import com.api2api.ohs.http.admin.dto.ProviderModelPreviewResponse;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -109,6 +116,18 @@ public interface ProviderChannelHttpConverter {
                 .build();
     }
 
+    default FetchProviderChannelModelPreviewCommand toFetchChannelModelPreviewCommand(
+            AdminFetchProviderChannelModelPreviewRequest request,
+            UserAccountId operatorUserId,
+            ProviderChannelId providerChannelId
+    ) {
+        return FetchProviderChannelModelPreviewCommand.builder()
+                .operatorUserId(operatorUserId)
+                .providerChannelId(providerChannelId)
+                .defaultPriority(RoutePriority.of(request.getDefaultPriority()))
+                .build();
+    }
+
     default UpsertChannelModelCommand toUpsertModelCommand(
             AdminUpsertChannelModelRequest request,
             UserAccountId operatorUserId,
@@ -119,6 +138,31 @@ public interface ProviderChannelHttpConverter {
                 .operatorUserId(operatorUserId)
                 .providerChannelId(providerChannelId)
                 .channelModelSupportId(channelModelSupportId)
+                .requestedModel(ModelName.of(request.getRequestedModel()))
+                .upstreamModel(ModelName.of(request.getUpstreamModel()))
+                .upstreamProtocol(toProtocolType(request.getUpstreamProtocol()))
+                .priority(RoutePriority.of(request.getPriority()))
+                .preferred(Boolean.TRUE.equals(request.getPreferred()))
+                .source(ModelSupportSource.valueOf(request.getSource()))
+                .build();
+    }
+
+    default BatchUpsertChannelModelsCommand toBatchUpsertModelsCommand(
+            AdminBatchUpsertChannelModelsRequest request,
+            UserAccountId operatorUserId,
+            ProviderChannelId providerChannelId
+    ) {
+        return BatchUpsertChannelModelsCommand.builder()
+                .operatorUserId(operatorUserId)
+                .providerChannelId(providerChannelId)
+                .replaceExisting(Boolean.TRUE.equals(request.getReplaceExisting()))
+                .models(request.getModels().stream().map(this::toBatchUpsertItemCommand).toList())
+                .build();
+    }
+
+    default ChannelModelUpsertItemCommand toBatchUpsertItemCommand(AdminBatchUpsertChannelModelItemRequest request) {
+        return ChannelModelUpsertItemCommand.builder()
+                .channelModelSupportId(request.getId() == null || request.getId() <= 0 ? null : ChannelModelSupportId.of(request.getId()))
                 .requestedModel(ModelName.of(request.getRequestedModel()))
                 .upstreamModel(ModelName.of(request.getUpstreamModel()))
                 .upstreamProtocol(toProtocolType(request.getUpstreamProtocol()))
@@ -189,6 +233,9 @@ public interface ProviderChannelHttpConverter {
     }
 
     default Set<ProtocolType> toProtocolTypes(Set<String> protocols) {
+        if (protocols == null || protocols.isEmpty()) {
+            throw new IllegalArgumentException("supportedProtocols must not be empty");
+        }
         return protocols.stream().map(this::toProtocolType).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
@@ -212,6 +259,18 @@ public interface ProviderChannelHttpConverter {
     }
 
     default ProtocolType toProtocolType(String protocol) {
-        return ProtocolType.valueOf(protocol.trim().toUpperCase().replace('-', '_'));
+        if (!hasText(protocol)) {
+            throw new IllegalArgumentException("Protocol must not be blank. Supported protocols: " + supportedProtocolNames());
+        }
+        String normalized = protocol.trim().toUpperCase().replace('-', '_');
+        try {
+            return ProtocolType.valueOf(normalized);
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException("Unsupported protocol '" + protocol + "'. Supported protocols: " + supportedProtocolNames(), exception);
+        }
+    }
+
+    default String supportedProtocolNames() {
+        return Arrays.stream(ProtocolType.values()).map(ProtocolType::name).collect(Collectors.joining(", "));
     }
 }

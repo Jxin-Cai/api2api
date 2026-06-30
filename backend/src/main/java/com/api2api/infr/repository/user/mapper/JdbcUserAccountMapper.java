@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +71,13 @@ public class JdbcUserAccountMapper implements UserAccountMapper {
         return DataAccessUtils.singleResult(jdbcTemplate.query(
                 "SELECT " + COLUMNS + " FROM user_accounts WHERE username = :username AND deleted = FALSE",
                 Map.of("username", username), rowMapper));
+    }
+
+    @Override
+    public List<UserAccountPO> selectAll() {
+        return jdbcTemplate.query(
+                "SELECT " + COLUMNS + " FROM user_accounts WHERE deleted = FALSE ORDER BY created_at DESC",
+                rowMapper);
     }
 
     private MapSqlParameterSource params(UserAccountPO po) {

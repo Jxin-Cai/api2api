@@ -7,9 +7,10 @@ import com.api2api.domain.user.repository.UserAccountRepository;
 import com.api2api.infr.repository.user.converter.UserAccountPersistenceConverter;
 import com.api2api.infr.repository.user.mapper.UserAccountMapper;
 import com.api2api.infr.repository.user.po.UserAccountPO;
+import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -58,5 +59,13 @@ public class UserAccountRepositoryImpl implements UserAccountRepository {
         return Optional.ofNullable(mapper.selectByUsername(username.getValue()))
                 .filter(po -> !po.isDeleted())
                 .map(converter::toDomain);
+    }
+
+    @Override
+    public List<UserAccount> findAll() {
+        return mapper.selectAll().stream()
+                .filter(po -> !po.isDeleted())
+                .map(converter::toDomain)
+                .toList();
     }
 }

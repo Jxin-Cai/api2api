@@ -26,9 +26,11 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
 
   function handleChannelChanged(channel: ProviderChannelResponse): void {
     setLocalChannels((current) => {
-      const next = current.length > 0 ? current : source;
-      return next.map((item) => (item.id === channel.id ? channel : item));
+      const next = current.length > 0 ? current : channels;
+      const exists = next.some((item) => item.id === channel.id);
+      return exists ? next.map((item) => (item.id === channel.id ? channel : item)) : [channel, ...next];
     });
+    void refetch();
   }
 
   const columns: ColumnsType<ProviderChannelResponse> = [{

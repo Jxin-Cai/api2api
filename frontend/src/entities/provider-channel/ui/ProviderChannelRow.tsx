@@ -14,6 +14,9 @@ interface ProviderChannelRowProps {
 }
 
 export function ProviderChannelRow({ channel, actions, expanded = false }: ProviderChannelRowProps) {
+  const preferredModels = channel.supportedModels.filter((model) => model.preferred);
+  const preferredSummary = preferredModels.slice(0, 3).map((model) => model.requestedModel).join('、');
+
   return (
     <Space wrap style={{ width: '100%', justifyContent: 'space-between' }}>
       <Space direction="vertical" size={2}>
@@ -27,7 +30,12 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
           </Typography.Text>
         </Tooltip>
         <Typography.Text type="secondary">Key: {channel.keyMasked ?? channel.keyRef}</Typography.Text>
-        <Typography.Text type="secondary">渠道优先级：{channel.routePriority ?? 0}</Typography.Text>
+        <Typography.Text type="secondary">渠道优先级：{channel.routePriority ?? 0}（数字越大越优先）</Typography.Text>
+        {preferredModels.length > 0 ? (
+          <Tooltip title={preferredSummary}>
+            <Typography.Text type="secondary">★ 优先模型：{preferredModels.length}</Typography.Text>
+          </Tooltip>
+        ) : null}
       </Space>
       <Space wrap>
         {channel.supportedProtocols.map((protocol) => (

@@ -6,6 +6,7 @@ import type {
   AdminCreateUserRequest,
   CurrentUserResponse,
   UpdateCurrentUserProfileRequest,
+  UserAccountListResponse,
   UserAccountResponse,
 } from '../model/types';
 
@@ -21,6 +22,14 @@ export function updateCurrentUserProfile(
   params: UpdateCurrentUserProfileRequest
 ): Promise<ApiResponse<CurrentUserResponse>> {
   return apiClient.patch('/api/auth/current-user/profile', params);
+}
+
+export function listUsers(): Promise<ApiResponse<UserAccountListResponse>> {
+  return apiClient.get('/api/admin/users');
+}
+
+export function getUser(userId: string | number): Promise<ApiResponse<UserAccountResponse>> {
+  return apiClient.get(`/api/admin/users/${encodePathParam(userId)}`);
 }
 
 export function createUser(params: AdminCreateUserRequest): Promise<ApiResponse<UserAccountResponse>> {

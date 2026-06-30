@@ -12,7 +12,9 @@ import com.api2api.infr.lib.mapping.MapStructConfig;
 import com.api2api.ohs.http.admin.dto.AdminChangeUserDisplayNameRequest;
 import com.api2api.ohs.http.admin.dto.AdminChangeUserRoleRequest;
 import com.api2api.ohs.http.admin.dto.AdminCreateUserRequest;
+import com.api2api.ohs.http.admin.dto.UserAccountListResponse;
 import com.api2api.ohs.http.admin.dto.UserAccountResponse;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -58,6 +60,12 @@ public interface AdminUserHttpConverter {
     @Mapping(target = "username", source = "username.value")
     @Mapping(target = "displayName", source = "displayName.value")
     UserAccountResponse toUserAccountResponse(UserAccount userAccount);
+
+    default UserAccountListResponse toListResponse(List<UserAccount> userAccounts) {
+        return UserAccountListResponse.builder()
+                .users(userAccounts.stream().map(this::toUserAccountResponse).toList())
+                .build();
+    }
 
     default Username toUsername(String username) {
         return Username.of(username);

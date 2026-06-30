@@ -253,7 +253,8 @@ public class ProviderChannel {
 
     private Optional<Integer> findSameCombinationIndex(ChannelModelSupport modelSupport, List<ChannelModelSupport> modelSupports) {
         for (int index = 0; index < modelSupports.size(); index++) {
-            if (modelSupports.get(index).hasSameCombinationAs(modelSupport)) {
+            ChannelModelSupport existing = modelSupports.get(index);
+            if (existing.id().equals(modelSupport.id()) || existing.hasSameCombinationAs(modelSupport)) {
                 return Optional.of(index);
             }
         }

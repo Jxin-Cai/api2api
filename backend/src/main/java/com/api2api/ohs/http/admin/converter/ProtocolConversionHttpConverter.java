@@ -92,6 +92,17 @@ public interface ProtocolConversionHttpConverter {
     @Mapping(target = "targetField", expression = "java(fieldMapping.targetField())")
     @Mapping(target = "ruleDescription", expression = "java(fieldMapping.ruleDescription())")
     @Mapping(target = "lossiness", expression = "java(fieldMapping.lossiness().name())")
+    @Mapping(target = "category", expression = "java(fieldMapping.category())")
+    @Mapping(target = "mappingType", expression = "java(fieldMapping.mappingType())")
+    @Mapping(target = "sourcePath", expression = "java(fieldMapping.sourcePath())")
+    @Mapping(target = "targetPath", expression = "java(fieldMapping.targetPath())")
+    @Mapping(target = "sourceType", expression = "java(fieldMapping.sourceType())")
+    @Mapping(target = "targetType", expression = "java(fieldMapping.targetType())")
+    @Mapping(target = "required", expression = "java(fieldMapping.required())")
+    @Mapping(target = "supported", expression = "java(fieldMapping.supported())")
+    @Mapping(target = "defaultValue", expression = "java(fieldMapping.defaultValue())")
+    @Mapping(target = "condition", expression = "java(fieldMapping.condition())")
+    @Mapping(target = "notes", expression = "java(fieldMapping.notes())")
     ProtocolConversionFieldMappingResponse toFieldMappingResponse(FieldMapping fieldMapping);
 
     default List<ProtocolConversionFieldMappingResponse> toFieldMappingResponses(List<FieldMapping> fieldMappings) {

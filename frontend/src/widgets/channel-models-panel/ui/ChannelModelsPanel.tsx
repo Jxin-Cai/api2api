@@ -17,10 +17,10 @@ export function ChannelModelsPanel({ channel, onChannelChanged }: ChannelModelsP
       <Space direction="vertical" style={{ width: '100%' }}>
         <Space style={{ justifyContent: 'space-between', width: '100%' }}>
           <Typography.Text type="secondary">当前 {channel.supportedModels.length} 个模型支持项</Typography.Text>
-          <Button onClick={() => setFetchOpen(true)}>拉取模型</Button>
+          <Button onClick={() => setFetchOpen(true)}>验证并获取模型列表</Button>
         </Space>
         <ChannelModelEditorTable channelId={channel.id} models={channel.supportedModels} onChanged={onChannelChanged} />
-        <ChannelModelFetchModal open={fetchOpen} channelId={channel.id} channelName={channel.name} onClose={() => setFetchOpen(false)} onFetched={onChannelChanged} />
+        <ChannelModelFetchModal open={fetchOpen} channelId={channel.id} channelName={channel.name} models={channel.supportedModels} onClose={() => setFetchOpen(false)} onFetched={onChannelChanged} />
       </Space>
     </Card>
   );
