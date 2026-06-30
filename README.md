@@ -60,12 +60,96 @@ Docker 镜像版本由 `docker-compose.yml`、`backend/Dockerfile` 与 `frontend
 - 管理接口：`http://localhost:8989/api/*`
 - 网关协议接口：`http://localhost:8989/v1/*`
 
-后端 `8080` 与 PostgreSQL `5432` 不再直接暴露到宿主机，仅在 Docker 网络内访问。三个服务默认加入 Docker 网络 `shared-backend-network`。
+后端 `8080` 与 PostgreSQL `5432` 不再直接暴露到宿主机，仅在 Docker 网络内访问。三个服务默认加入 Docker 网络 `shared-backend-network`。后端容器会读取根目录 `.env`，因此渠道密钥引用（例如 `OPENAI_API_KEY`）也可以通过 `.env` 注入；管理台中配置的供应商密钥 `keyRef` 必须与环境变量名一致。
 
 前端容器会将以下路径代理到后端：
 
 - 管理接口：`/api/*`
 - 网关协议接口：`/v1/*`
+
+## 生产部署（GitHub Actions）
+
+仓库提供 GitHub Actions workflow：`.github/workflows/deploy.yml`。它会在代码 push 到 `master`（包括 PR 合并后产生的 push）时自动部署，也支持在 Actions 页面通过 `workflow_dispatch` 手动触发。
+
+部署流程：
+
+1. GitHub Actions 使用专用 SSH 私钥登录生产服务器。
+2. 按 GitHub Repository Variables / Secrets 渲染生产 `.env`。
+3. 将 `.env` 写入服务器部署目录。
+4. 在服务器拉取 `master` 最新代码。
+5. 执行 `docker compose --env-file .env -p api2api up -d --build --remove-orphans`。
+
+### GitHub Actions Variables
+
+在 `Settings → Secrets and variables → Actions → Variables` 配置普通参数：
+
+| Name | 示例值 | 说明 |
+| --- | --- | --- |
+| `DEPLOY_HOST` | `187.124.157.143` | 生产服务器 IP |
+| `DEPLOY_USER` | `root` | SSH 用户 |
+| `DEPLOY_PORT` | `22` | SSH 端口 |
+| `DEPLOY_PATH` | `/opt/api2api` | 服务器部署目录 |
+| `DEPLOY_BRANCH` | `master` | 部署分支 |
+| `POSTGRES_DB` | `api2api` | PostgreSQL 数据库名 |
+| `POSTGRES_USER` | `api2api` | PostgreSQL 用户名 |
+| `ADMIN_USERNAME` | `admin` | 管理员用户名 |
+| `FRONTEND_PORT` | `8989` | 对外暴露的前端端口 |
+| `COMPOSE_PROJECT_NAME` | `api2api` | Compose 项目名，固定 volume/network 名称 |
+| `SSH_KNOWN_HOSTS` | `187.124.157.143 ssh-ed25519 ...` | 已确认的服务器 SSH host key |
+
+`SSH_KNOWN_HOSTS` 应在可信环境中获取并确认后再保存，例如：
+
+```bash
+ssh-keyscan -p 22 187.124.157.143
+```
+
+### GitHub Actions Secrets
+
+在 `Settings → Secrets and variables → Actions → Secrets` 配置敏感参数：
+
+| Name | 说明 |
+| --- | --- |
+| `DEPLOY_SSH_PRIVATE_KEY` | GitHub Actions 登录服务器用的专用私钥 |
+| `POSTGRES_PASSWORD` | PostgreSQL 生产密码 |
+| `ADMIN_PASSWORD` | 管理员生产密码，不能为 `change-me` |
+| `PROVIDER_SECRET_ENV` | 可选，多行 dotenv 格式的供应商密钥变量 |
+
+`PROVIDER_SECRET_ENV` 示例：
+
+```dotenv
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=...
+```
+
+管理台中渠道配置的供应商密钥 `keyRef` 要与变量名完全一致，例如 `OPENAI_API_KEY`。不要把真实 `.env`、私钥或供应商密钥提交到仓库。
+
+### 服务器首次准备
+
+在 `root@187.124.157.143` 上准备：
+
+1. 安装 `git`、Docker Engine 和 Docker Compose plugin。
+2. 确认 GitHub Actions 部署公钥已加入 `/root/.ssh/authorized_keys`。
+3. 确认 `/opt/api2api` 不存在、为空目录，或已 clone 当前仓库并能 `git fetch origin master`。
+4. 如果仓库是私有仓库，确保服务器可以拉取仓库，例如为仓库配置 GitHub Deploy Key。
+5. 放行 `FRONTEND_PORT` 对应端口，默认 `8989`。
+
+### 验证部署
+
+手动触发 workflow 后，在服务器检查：
+
+```bash
+cd /opt/api2api
+docker compose --env-file .env -p api2api ps
+docker compose --env-file .env -p api2api logs --tail=100 backend
+```
+
+浏览器访问：
+
+```text
+http://187.124.157.143:8989/
+```
+
+使用 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 登录管理台。
 
 ## 登录
 

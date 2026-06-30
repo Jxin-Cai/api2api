@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-api2api}
       POSTGRES_USER: ${POSTGRES_USER:-api2api}
@@ -18,9 +19,12 @@ services:
   backend:
     build:
       context: ./backend
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-api2api}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-api2api}
@@ -33,6 +37,7 @@ services:
   frontend:
     build:
       context: ./frontend
+    restart: unless-stopped
     depends_on:
       - backend
     ports:
@@ -45,4 +50,5 @@ volumes:
 
 networks:
   shared-backend:
+    external: true
     name: shared-backend-network
