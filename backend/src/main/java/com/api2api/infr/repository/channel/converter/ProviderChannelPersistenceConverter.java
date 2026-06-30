@@ -34,6 +34,7 @@ public interface ProviderChannelPersistenceConverter {
     @Mapping(target = "name", expression = "java(providerChannel.name().value())")
     @Mapping(target = "host", expression = "java(providerChannel.host().value())")
     @Mapping(target = "keyRef", expression = "java(providerChannel.keyRef().value())")
+    @Mapping(target = "routePriority", expression = "java(providerChannel.routePriority())")
     @Mapping(target = "supportedProtocols", expression = "java(toProtocolText(providerChannel.supportedProtocols()))")
     @Mapping(target = "status", expression = "java(providerChannel.status().name())")
     @Mapping(target = "createdTime", expression = "java(providerChannel.createdAt())")
@@ -48,6 +49,7 @@ public interface ProviderChannelPersistenceConverter {
                 ProviderChannelName.of(po.getName()),
                 ProviderHost.of(po.getHost()),
                 ProviderKeyRef.of(po.getKeyRef()),
+                po.getRoutePriority(),
                 toProtocols(po.getSupportedProtocols()),
                 po.getSupportedModels().stream().map(this::toModelDomain).toList(),
                 ProviderChannelStatus.valueOf(po.getStatus()),
@@ -68,6 +70,7 @@ public interface ProviderChannelPersistenceConverter {
     @Mapping(target = "upstreamModel", expression = "java(model.upstreamModel().value())")
     @Mapping(target = "upstreamProtocol", expression = "java(model.upstreamProtocol().name())")
     @Mapping(target = "priority", expression = "java(model.priority().value())")
+    @Mapping(target = "preferred", expression = "java(model.preferred())")
     @Mapping(target = "source", expression = "java(model.source().name())")
     @Mapping(target = "status", expression = "java(model.status().name())")
     @Mapping(target = "createdTime", expression = "java(model.createdAt())")
@@ -81,6 +84,7 @@ public interface ProviderChannelPersistenceConverter {
                 ModelName.of(po.getUpstreamModel()),
                 ProtocolType.valueOf(po.getUpstreamProtocol()),
                 RoutePriority.of(po.getPriority()),
+                po.isPreferred(),
                 ChannelModelStatus.valueOf(po.getStatus()),
                 ModelSupportSource.valueOf(po.getSource()),
                 po.getCreatedTime(),

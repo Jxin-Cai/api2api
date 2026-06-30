@@ -6,6 +6,7 @@ export interface ChannelModelSupportResponse {
   upstreamModel: string;
   upstreamProtocol: string;
   priority: number;
+  preferred?: boolean;
   status: EnabledStatus | string;
   source: ModelSource;
   createdAt?: number;
@@ -17,6 +18,9 @@ export interface ProviderChannelResponse {
   name: string;
   host: string;
   keyRef: string;
+  keyMasked?: string;
+  hasKey?: boolean;
+  routePriority?: number;
   supportedProtocols: string[];
   supportedModels: ChannelModelSupportResponse[];
   status: EnabledStatus | string;
@@ -26,4 +30,8 @@ export interface ProviderChannelResponse {
 
 export interface ProviderChannelListResponse {
   channels: ProviderChannelResponse[];
+}
+
+export interface ProviderModelPreviewResponse {
+  models: ChannelModelSupportResponse[];
 }

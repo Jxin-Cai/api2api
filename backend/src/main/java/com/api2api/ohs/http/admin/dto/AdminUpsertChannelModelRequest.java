@@ -30,6 +30,8 @@ public class AdminUpsertChannelModelRequest {
     @Min(value = 1, message = "Priority must be greater than or equal to 1")
     private Integer priority;
 
+    private Boolean preferred;
+
     @NotBlank(message = "Source must not be blank")
     private String source;
 }

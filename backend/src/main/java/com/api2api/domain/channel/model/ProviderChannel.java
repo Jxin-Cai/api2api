@@ -19,6 +19,7 @@ public class ProviderChannel {
     private ProviderChannelName name;
     private ProviderHost host;
     private ProviderKeyRef keyRef;
+    private int routePriority;
     private Set<ProtocolType> supportedProtocols;
     private List<ChannelModelSupport> supportedModels;
     private ProviderChannelStatus status;
@@ -30,6 +31,7 @@ public class ProviderChannel {
             ProviderChannelName name,
             ProviderHost host,
             ProviderKeyRef keyRef,
+            int routePriority,
             Set<ProtocolType> supportedProtocols,
             List<ChannelModelSupport> supportedModels,
             ProviderChannelStatus status,
@@ -40,6 +42,7 @@ public class ProviderChannel {
         this.name = Objects.requireNonNull(name, "Provider channel name must not be null");
         this.host = Objects.requireNonNull(host, "Provider host must not be null");
         this.keyRef = Objects.requireNonNull(keyRef, "Provider key reference must not be null");
+        this.routePriority = routePriority;
         this.supportedProtocols = normalizeProtocols(supportedProtocols);
         this.supportedModels = normalizeModels(supportedModels);
         this.status = Objects.requireNonNull(status, "Provider channel status must not be null");
@@ -52,6 +55,7 @@ public class ProviderChannel {
             ProviderChannelName name,
             ProviderHost host,
             ProviderKeyRef keyRef,
+            int routePriority,
             Set<ProtocolType> supportedProtocols,
             Instant now
     ) {
@@ -61,6 +65,7 @@ public class ProviderChannel {
                 name,
                 host,
                 keyRef,
+                routePriority,
                 supportedProtocols,
                 List.of(),
                 ProviderChannelStatus.ENABLED,
@@ -74,6 +79,7 @@ public class ProviderChannel {
             ProviderChannelName name,
             ProviderHost host,
             ProviderKeyRef keyRef,
+            int routePriority,
             Set<ProtocolType> supportedProtocols,
             List<ChannelModelSupport> supportedModels,
             ProviderChannelStatus status,
@@ -85,6 +91,7 @@ public class ProviderChannel {
                 name,
                 host,
                 keyRef,
+                routePriority,
                 supportedProtocols,
                 supportedModels,
                 status,
@@ -112,6 +119,15 @@ public class ProviderChannel {
         }
         this.host = host;
         this.keyRef = keyRef;
+        this.updatedAt = now;
+    }
+
+    public void changeRoutePriority(int routePriority, Instant now) {
+        Objects.requireNonNull(now, "Current time must not be null");
+        if (this.routePriority == routePriority) {
+            return;
+        }
+        this.routePriority = routePriority;
         this.updatedAt = now;
     }
 
@@ -300,6 +316,10 @@ public class ProviderChannel {
 
     public ProviderKeyRef keyRef() {
         return keyRef;
+    }
+
+    public int routePriority() {
+        return routePriority;
     }
 
     public Set<ProtocolType> supportedProtocols() {

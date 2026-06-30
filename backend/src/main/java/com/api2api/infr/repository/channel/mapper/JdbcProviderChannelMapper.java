@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class JdbcProviderChannelMapper implements ProviderChannelMapper {
 
-    private static final String CHANNEL_COLUMNS = "id, name, host, key_ref, supported_protocols, status, created_at, updated_at, deleted";
-    private static final String MODEL_COLUMNS = "id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, source, status, created_at, updated_at";
+    private static final String CHANNEL_COLUMNS = "id, name, host, key_ref, route_priority, supported_protocols, status, created_at, updated_at, deleted";
+    private static final String MODEL_COLUMNS = "id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, created_at, updated_at";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -32,6 +32,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
             .name(rs.getString("name"))
             .host(rs.getString("host"))
             .keyRef(rs.getString("key_ref"))
+            .routePriority(rs.getInt("route_priority"))
             .supportedProtocols(rs.getString("supported_protocols"))
             .status(rs.getString("status"))
             .createdTime(instant(rs, "created_at"))
@@ -46,6 +47,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
             .upstreamModel(rs.getString("upstream_model"))
             .upstreamProtocol(rs.getString("upstream_protocol"))
             .priority(rs.getInt("priority"))
+            .preferred(rs.getBoolean("preferred"))
             .source(rs.getString("source"))
             .status(rs.getString("status"))
             .createdTime(instant(rs, "created_at"))
@@ -56,8 +58,8 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
     @Transactional
     public int insert(ProviderChannelPO providerChannel) {
         int affected = jdbcTemplate.update("""
-                INSERT INTO provider_channels (id, name, host, key_ref, supported_protocols, status, created_at, updated_at, deleted)
-                VALUES (:id, :name, :host, :keyRef, :supportedProtocols, :status, :createdTime, :updatedTime, :deleted)
+                INSERT INTO provider_channels (id, name, host, key_ref, route_priority, supported_protocols, status, created_at, updated_at, deleted)
+                VALUES (:id, :name, :host, :keyRef, :routePriority, :supportedProtocols, :status, :createdTime, :updatedTime, :deleted)
                 """, params(providerChannel));
         replaceModelSupports(providerChannel);
         return affected;
@@ -71,6 +73,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 SET name = :name,
                     host = :host,
                     key_ref = :keyRef,
+                    route_priority = :routePriority,
                     supported_protocols = :supportedProtocols,
                     status = :status,
                     updated_at = :updatedTime,
@@ -127,8 +130,8 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 Map.of("providerChannelId", providerChannel.getId()));
         for (ChannelModelSupportPO model : providerChannel.getSupportedModels()) {
             jdbcTemplate.update("""
-                    INSERT INTO channel_model_supports (id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, source, status, created_at, updated_at)
-                    VALUES (:id, :providerChannelId, :requestedModel, :upstreamModel, :upstreamProtocol, :priority, :source, :status, :createdTime, :updatedTime)
+                    INSERT INTO channel_model_supports (id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, created_at, updated_at)
+                    VALUES (:id, :providerChannelId, :requestedModel, :upstreamModel, :upstreamProtocol, :priority, :preferred, :source, :status, :createdTime, :updatedTime)
                     """, modelParams(model));
         }
     }
@@ -139,6 +142,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 .addValue("name", po.getName())
                 .addValue("host", po.getHost())
                 .addValue("keyRef", po.getKeyRef())
+                .addValue("routePriority", po.getRoutePriority())
                 .addValue("supportedProtocols", po.getSupportedProtocols())
                 .addValue("status", po.getStatus())
                 .addValue("createdTime", timestamp(po.getCreatedTime()))
@@ -154,6 +158,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 .addValue("upstreamModel", po.getUpstreamModel())
                 .addValue("upstreamProtocol", po.getUpstreamProtocol())
                 .addValue("priority", po.getPriority())
+                .addValue("preferred", po.isPreferred())
                 .addValue("source", po.getSource())
                 .addValue("status", po.getStatus())
                 .addValue("createdTime", timestamp(po.getCreatedTime()))

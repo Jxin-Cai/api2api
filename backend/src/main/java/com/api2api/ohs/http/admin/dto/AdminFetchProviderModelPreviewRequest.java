@@ -1,25 +1,23 @@
 package com.api2api.ohs.http.admin.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 /**
- * Request for creating a provider channel.
+ * Request for previewing provider models from upstream without persisting them.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminCreateProviderChannelRequest {
-
-    @NotBlank(message = "Channel name must not be blank")
-    private String name;
+public class AdminFetchProviderModelPreviewRequest {
 
     @NotBlank(message = "Provider host must not be blank")
     private String host;
@@ -27,8 +25,10 @@ public class AdminCreateProviderChannelRequest {
     @NotBlank(message = "Provider key must not be blank")
     private String keyRef;
 
-    private Integer routePriority;
-
     @NotEmpty(message = "Supported protocols must not be empty")
     private Set<String> supportedProtocols;
+
+    @NotNull(message = "Default priority must not be null")
+    @Min(value = 1, message = "Default priority must be greater than or equal to 1")
+    private Integer defaultPriority;
 }

@@ -13,6 +13,7 @@ public class ChannelModelSupport {
     private ModelName upstreamModel;
     private final ProtocolType upstreamProtocol;
     private RoutePriority priority;
+    private boolean preferred;
     private ChannelModelStatus status;
     private final ModelSupportSource source;
     private final Instant createdAt;
@@ -24,6 +25,7 @@ public class ChannelModelSupport {
             ModelName upstreamModel,
             ProtocolType upstreamProtocol,
             RoutePriority priority,
+            boolean preferred,
             ChannelModelStatus status,
             ModelSupportSource source,
             Instant createdAt,
@@ -34,6 +36,7 @@ public class ChannelModelSupport {
         this.upstreamModel = Objects.requireNonNull(upstreamModel, "Upstream model must not be null");
         this.upstreamProtocol = Objects.requireNonNull(upstreamProtocol, "Upstream protocol must not be null");
         this.priority = Objects.requireNonNull(priority, "Route priority must not be null");
+        this.preferred = preferred;
         this.status = Objects.requireNonNull(status, "Channel model status must not be null");
         this.source = Objects.requireNonNull(source, "Model support source must not be null");
         this.createdAt = Objects.requireNonNull(createdAt, "Created time must not be null");
@@ -46,6 +49,7 @@ public class ChannelModelSupport {
             ModelName upstreamModel,
             ProtocolType upstreamProtocol,
             RoutePriority priority,
+            boolean preferred,
             ModelSupportSource source,
             Instant now
     ) {
@@ -56,6 +60,7 @@ public class ChannelModelSupport {
                 upstreamModel,
                 upstreamProtocol,
                 priority,
+                preferred,
                 ChannelModelStatus.ENABLED,
                 source,
                 now,
@@ -69,6 +74,7 @@ public class ChannelModelSupport {
             ModelName upstreamModel,
             ProtocolType upstreamProtocol,
             RoutePriority priority,
+            boolean preferred,
             ChannelModelStatus status,
             ModelSupportSource source,
             Instant createdAt,
@@ -80,6 +86,7 @@ public class ChannelModelSupport {
                 upstreamModel,
                 upstreamProtocol,
                 priority,
+                preferred,
                 status,
                 source,
                 createdAt,
@@ -94,6 +101,15 @@ public class ChannelModelSupport {
             return;
         }
         this.priority = priority;
+        this.updatedAt = now;
+    }
+
+    public void changePreferred(boolean preferred, Instant now) {
+        Objects.requireNonNull(now, "Current time must not be null");
+        if (this.preferred == preferred) {
+            return;
+        }
+        this.preferred = preferred;
         this.updatedAt = now;
     }
 
@@ -174,6 +190,10 @@ public class ChannelModelSupport {
 
     public RoutePriority priority() {
         return priority;
+    }
+
+    public boolean preferred() {
+        return preferred;
     }
 
     public ChannelModelStatus status() {

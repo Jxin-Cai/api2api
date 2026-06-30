@@ -22,11 +22,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Routing policy domain service contract.
  */
 public interface RoutingPolicyService {
+
+    ConcurrentHashMap<String, AtomicInteger> LOAD_BALANCE_COUNTERS = new ConcurrentHashMap<>();
 
     default RoutePlan buildRoutePlan(
             RoutingRequest request,
@@ -47,10 +51,8 @@ public interface RoutingPolicyService {
             appendCandidatesForChannel(request, conversionDefinitions, candidates, channel);
         }
 
-        List<RouteCandidate> sortedCandidates = candidates.stream()
-                .sorted(candidateOrdering())
-                .toList();
-        return RoutePlan.of(request, sortedCandidates, now);
+        List<RouteCandidate> selectedCandidates = prioritizeCandidates(request, candidates);
+        return RoutePlan.of(request, selectedCandidates, now);
     }
 
     default FailoverDecision decideNext(
@@ -97,6 +99,8 @@ public interface RoutingPolicyService {
                             request.requestProtocol(),
                             upstreamProtocol,
                             modelSupport.priority(),
+                            channel.routePriority(),
+                            modelSupport.preferred(),
                             route,
                             ModelMappingResult.of(modelSupport.requestedModel(), modelSupport.upstreamModel())
                     ))
@@ -122,9 +126,62 @@ public interface RoutingPolicyService {
                 .map(definition -> ConversionRoute.of(definition, sourceProtocol, targetProtocol));
     }
 
+    private static List<RouteCandidate> prioritizeCandidates(RoutingRequest request, List<RouteCandidate> candidates) {
+        if (candidates.isEmpty()) {
+            return List.of();
+        }
+        List<RouteCandidate> effectiveCandidates = candidates.stream().anyMatch(RouteCandidate::preferred)
+                ? candidates.stream().filter(RouteCandidate::preferred).toList()
+                : candidates;
+        int maxPriority = effectiveCandidates.stream()
+                .mapToInt(RouteCandidate::routePriority)
+                .max()
+                .orElse(0);
+        List<RouteCandidate> topCandidates = effectiveCandidates.stream()
+                .filter(candidate -> candidate.routePriority() == maxPriority)
+                .sorted(candidateOrdering())
+                .toList();
+        List<RouteCandidate> remainingCandidates = effectiveCandidates.stream()
+                .filter(candidate -> candidate.routePriority() != maxPriority)
+                .sorted(candidateOrdering())
+                .toList();
+        List<RouteCandidate> fallbackCandidates = candidates.stream()
+                .filter(candidate -> !effectiveCandidates.contains(candidate))
+                .sorted(candidateOrdering())
+                .toList();
+        List<RouteCandidate> orderedCandidates = new ArrayList<>();
+        orderedCandidates.addAll(rotateForLoadBalance(request, maxPriority, topCandidates));
+        orderedCandidates.addAll(remainingCandidates);
+        orderedCandidates.addAll(fallbackCandidates);
+        return orderedCandidates;
+    }
+
+    private static List<RouteCandidate> rotateForLoadBalance(
+            RoutingRequest request,
+            int routePriority,
+            List<RouteCandidate> candidates
+    ) {
+        if (candidates.size() <= 1) {
+            return candidates;
+        }
+        String key = request.requestProtocol().name() + ':'
+                + request.requestedModel().value() + ':'
+                + candidates.get(0).preferred() + ':'
+                + routePriority;
+        int startIndex = Math.floorMod(LOAD_BALANCE_COUNTERS
+                .computeIfAbsent(key, ignored -> new AtomicInteger())
+                .getAndIncrement(), candidates.size());
+        List<RouteCandidate> rotated = new ArrayList<>(candidates.size());
+        rotated.addAll(candidates.subList(startIndex, candidates.size()));
+        rotated.addAll(candidates.subList(0, startIndex));
+        return rotated;
+    }
+
     private static Comparator<RouteCandidate> candidateOrdering() {
         return Comparator
-                .comparing(RouteCandidate::priority)
+                .comparing(RouteCandidate::preferred).reversed()
+                .thenComparing(Comparator.comparingInt(RouteCandidate::routePriority).reversed())
+                .thenComparing(RouteCandidate::priority)
                 .thenComparing(candidate -> candidate.providerChannelId().value());
     }
 

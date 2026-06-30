@@ -1,9 +1,16 @@
-import type { ChannelModelSupportResponse } from '@shared/api/contracts';
+import type { ChannelModelSupportResponse, ProviderModelPreviewResponse } from '@shared/api/contracts';
 import type { ModelSource } from '@shared/types/admin';
 
-export type { ChannelModelSupportResponse };
+export type { ChannelModelSupportResponse, ProviderModelPreviewResponse };
 
 export interface AdminFetchProviderModelsRequest {
+  defaultPriority: number;
+}
+
+export interface AdminFetchProviderModelPreviewRequest {
+  host: string;
+  keyRef: string;
+  supportedProtocols: string[];
   defaultPriority: number;
 }
 
@@ -12,6 +19,7 @@ export interface AdminUpsertChannelModelRequest {
   upstreamModel: string;
   upstreamProtocol: string;
   priority: number;
+  preferred?: boolean;
   source: ModelSource;
 }
 

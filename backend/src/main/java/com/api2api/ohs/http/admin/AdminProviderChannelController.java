@@ -3,6 +3,7 @@ package com.api2api.ohs.http.admin;
 import com.api2api.application.channel.ProviderChannelApplicationService;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
@@ -16,11 +17,13 @@ import com.api2api.ohs.http.CurrentUserContextResolver;
 import com.api2api.ohs.http.IdentifierFactory;
 import com.api2api.ohs.http.admin.converter.ProviderChannelHttpConverter;
 import com.api2api.ohs.http.admin.dto.AdminCreateProviderChannelRequest;
+import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelPreviewRequest;
 import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpdateProviderChannelRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpsertChannelModelRequest;
 import com.api2api.ohs.http.admin.dto.ProviderChannelListResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelResponse;
+import com.api2api.ohs.http.admin.dto.ProviderModelPreviewResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -107,6 +110,21 @@ public class AdminProviderChannelController {
         );
         ProviderChannel channel = providerChannelApplicationService.enableChannel(command);
         return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
+    }
+
+    @PostMapping("/model-fetch-preview")
+    public ApiResponse<ProviderModelPreviewResponse> previewProviderModels(
+            @Valid @RequestBody AdminFetchProviderModelPreviewRequest fetchRequest,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        FetchProviderModelPreviewCommand command = providerChannelHttpConverter.toFetchModelPreviewCommand(
+                fetchRequest,
+                operatorUserId
+        );
+        return ApiResponse.success(providerChannelHttpConverter.toPreviewResponse(
+                providerChannelApplicationService.previewProviderModels(command)
+        ));
     }
 
     @PatchMapping("/{provider-channel-id}/disable")

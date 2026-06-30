@@ -21,6 +21,7 @@ export function ChannelModelSupportRow({ model, editing = false, actions }: Chan
         <Typography.Text type="secondary">→ {model.upstreamModel}</Typography.Text>
         <Tag>{model.upstreamProtocol}</Tag>
         <ModelPriorityBadge priority={model.priority} />
+        {model.preferred ? <Tag color="gold">优先模型</Tag> : null}
         <ModelSourceTag source={model.source} />
         <Tag color={model.status === 'ENABLED' ? 'success' : 'default'}>{model.status}</Tag>
         {editing ? <Tag color="processing">编辑中</Tag> : null}

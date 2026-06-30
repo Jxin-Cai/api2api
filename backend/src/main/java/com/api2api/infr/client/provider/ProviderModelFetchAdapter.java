@@ -129,6 +129,7 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
                         modelName,
                         protocol,
                         defaultPriority,
+                        false,
                         ModelSupportSource.FETCHED,
                         Instant.now(clock)
                 ));

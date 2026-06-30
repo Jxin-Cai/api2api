@@ -36,6 +36,8 @@ public final class CreateProviderChannelCommand {
     @NotNull
     private final ProviderKeyRef keyRef;
 
+    private final int routePriority;
+
     @NotEmpty
     private final Set<ProtocolType> supportedProtocols;
 
@@ -46,6 +48,7 @@ public final class CreateProviderChannelCommand {
             ProviderChannelName name,
             ProviderHost host,
             ProviderKeyRef keyRef,
+            int routePriority,
             Set<ProtocolType> supportedProtocols
     ) {
         this.operatorUserId = Objects.requireNonNull(operatorUserId, "Operator user id must not be null");
@@ -53,6 +56,7 @@ public final class CreateProviderChannelCommand {
         this.name = Objects.requireNonNull(name, "Provider channel name must not be null");
         this.host = Objects.requireNonNull(host, "Provider host must not be null");
         this.keyRef = Objects.requireNonNull(keyRef, "Provider key reference must not be null");
+        this.routePriority = routePriority;
         this.supportedProtocols = copyNotEmpty(supportedProtocols);
     }
 

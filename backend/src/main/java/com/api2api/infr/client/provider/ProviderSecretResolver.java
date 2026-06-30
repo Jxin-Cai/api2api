@@ -45,7 +45,7 @@ public class ProviderSecretResolver {
             return systemEnvironmentValue;
         }
 
-        throw new ProviderSecretResolveException("Provider secret is not configured for keyRef");
+        return ref;
     }
 
     private String resolveFromActiveProfiles(String ref) {

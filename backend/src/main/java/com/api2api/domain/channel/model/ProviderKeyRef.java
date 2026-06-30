@@ -3,11 +3,11 @@ package com.api2api.domain.channel.model;
 import java.util.Objects;
 
 /**
- * Provider key reference value object. It carries only a reference, never plaintext secret.
+ * Provider key reference or plaintext provider secret value object.
  */
 public final class ProviderKeyRef {
 
-    private static final int MAX_LENGTH = 255;
+    private static final int MAX_LENGTH = 4096;
 
     private final String value;
 
@@ -17,7 +17,7 @@ public final class ProviderKeyRef {
         }
         String trimmed = value.trim();
         if (trimmed.isEmpty() || trimmed.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("Provider key reference length must be between 1 and 255");
+            throw new IllegalArgumentException("Provider key reference length must be between 1 and 4096");
         }
         this.value = trimmed;
     }

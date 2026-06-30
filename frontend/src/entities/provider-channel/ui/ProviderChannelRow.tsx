@@ -26,7 +26,8 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
             {channel.host}
           </Typography.Text>
         </Tooltip>
-        <Typography.Text type="secondary">KeyRef: {channel.keyRef}</Typography.Text>
+        <Typography.Text type="secondary">Key: {channel.keyMasked ?? channel.keyRef}</Typography.Text>
+        <Typography.Text type="secondary">渠道优先级：{channel.routePriority ?? 0}</Typography.Text>
       </Space>
       <Space wrap>
         {channel.supportedProtocols.map((protocol) => (

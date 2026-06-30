@@ -6,12 +6,14 @@ export interface AdminCreateProviderChannelRequest {
   name: string;
   host: string;
   keyRef: string;
+  routePriority: number;
   supportedProtocols: string[];
 }
 
 export interface AdminUpdateProviderChannelRequest {
   name: string;
   host: string;
-  keyRef: string;
+  keyRef?: string;
+  routePriority: number;
   supportedProtocols: string[];
 }

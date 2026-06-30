@@ -24,8 +24,9 @@ public class AdminUpdateProviderChannelRequest {
     @NotBlank(message = "Provider host must not be blank")
     private String host;
 
-    @NotBlank(message = "Provider key reference must not be blank")
     private String keyRef;
+
+    private Integer routePriority;
 
     @NotEmpty(message = "Supported protocols must not be empty")
     private Set<String> supportedProtocols;

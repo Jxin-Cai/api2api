@@ -19,6 +19,7 @@ public class ChannelModelSupportResponse {
     private String upstreamModel;
     private String upstreamProtocol;
     private Integer priority;
+    private Boolean preferred;
     private String status;
     private String source;
     private Long createdAt;

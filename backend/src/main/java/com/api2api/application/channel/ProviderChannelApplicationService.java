@@ -3,6 +3,7 @@ package com.api2api.application.channel;
 import com.api2api.application.BusinessException;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
@@ -48,6 +49,7 @@ public class ProviderChannelApplicationService {
                 command.getName(),
                 command.getHost(),
                 command.getKeyRef(),
+                command.getRoutePriority(),
                 command.getSupportedProtocols(),
                 now()
         );
@@ -62,7 +64,8 @@ public class ProviderChannelApplicationService {
         Instant now = now();
 
         channel.rename(command.getName(), now);
-        channel.updateEndpoint(command.getHost(), command.getKeyRef(), now);
+        channel.updateEndpoint(command.getHost(), command.getKeyRef() == null ? channel.keyRef() : command.getKeyRef(), now);
+        channel.changeRoutePriority(command.getRoutePriority(), now);
         channel.replaceSupportedProtocols(command.getSupportedProtocols(), now);
         providerChannelRepository.save(channel);
         return channel;
@@ -107,6 +110,18 @@ public class ProviderChannelApplicationService {
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ChannelModelSupport> previewProviderModels(FetchProviderModelPreviewCommand command) {
+        assertAdmin(command.getOperatorUserId());
+        return providerModelFetchPort.fetchModels(
+                ProviderChannelId.of(1L),
+                command.getHost(),
+                command.getKeyRef(),
+                command.getSupportedProtocols(),
+                command.getDefaultPriority()
+        );
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ProviderChannel loadChannelForModelFetch(FetchProviderModelsCommand command) {
         assertAdmin(command.getOperatorUserId());
         return loadChannel(command.getProviderChannelId());
@@ -140,6 +155,7 @@ public class ProviderChannelApplicationService {
                 command.getUpstreamModel(),
                 command.getUpstreamProtocol(),
                 command.getPriority(),
+                command.isPreferred(),
                 command.getSource(),
                 now
         );

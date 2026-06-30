@@ -21,6 +21,9 @@ public class ProviderChannelResponse {
     private String name;
     private String host;
     private String keyRef;
+    private String keyMasked;
+    private Boolean hasKey;
+    private Integer routePriority;
     private Set<String> supportedProtocols;
     private List<ChannelModelSupportResponse> supportedModels;
     private String status;

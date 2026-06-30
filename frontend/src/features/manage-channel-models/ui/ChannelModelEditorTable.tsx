@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input, InputNumber, Popconfirm, Select, Space, Table, message } from 'antd';
+import { Button, Input, InputNumber, Popconfirm, Select, Space, Switch, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ChannelModelSupportRow, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse } from '@entities/provider-channel';
@@ -15,7 +15,7 @@ interface ChannelModelEditorTableProps {
   onChanged: (channel: ProviderChannelResponse) => void;
 }
 
-const EMPTY_DRAFT: ChannelModelDraft = { requestedModel: '', upstreamModel: '', upstreamProtocol: '', priority: 10, source: 'MANUAL', status: 'ENABLED' };
+const EMPTY_DRAFT: ChannelModelDraft = { requestedModel: '', upstreamModel: '', upstreamProtocol: '', priority: 10, preferred: false, source: 'MANUAL', status: 'ENABLED' };
 
 export function ChannelModelEditorTable({ channelId, models, onChanged }: ChannelModelEditorTableProps) {
   const { upsertMutation, removeMutation } = useChannelModelMutations();
@@ -52,12 +52,13 @@ export function ChannelModelEditorTable({ channelId, models, onChanged }: Channe
         <Input placeholder="上游模型" value={draft.upstreamModel} onChange={(event) => updateDraft('upstreamModel', event.target.value)} />
         <Input placeholder="协议" value={draft.upstreamProtocol} onChange={(event) => updateDraft('upstreamProtocol', event.target.value)} />
         <InputNumber min={1} value={draft.priority} onChange={(value) => updateDraft('priority', value ?? 1)} />
+        <Switch checked={Boolean(draft.preferred)} checkedChildren="优先" unCheckedChildren="普通" onChange={(value) => updateDraft('preferred', value)} />
         <Select value={draft.source} onChange={(value) => updateDraft('source', value)} options={[{ label: 'MANUAL', value: 'MANUAL' }, { label: 'FETCHED', value: 'FETCHED' }]} style={{ width: 130 }} />
         <Button type="primary" loading={upsertMutation.isPending} onClick={handleSave}>保存</Button>
         <Button onClick={() => setEditingId(null)}>取消</Button>
       </Space>
     ) : (
-      <ChannelModelSupportRow model={model} actions={<Space><Button size="small" onClick={() => { setEditingId(model.id); setDraft({ requestedModel: model.requestedModel, upstreamModel: model.upstreamModel, upstreamProtocol: model.upstreamProtocol, priority: model.priority, source: model.source }); }}>编辑</Button><Popconfirm title="确认删除模型？" onConfirm={() => handleDelete(model)}><Button size="small" danger>删除</Button></Popconfirm></Space>} />
+      <ChannelModelSupportRow model={model} actions={<Space><Button size="small" onClick={() => { setEditingId(model.id); setDraft({ requestedModel: model.requestedModel, upstreamModel: model.upstreamModel, upstreamProtocol: model.upstreamProtocol, priority: model.priority, preferred: Boolean(model.preferred), source: model.source }); }}>编辑</Button><Popconfirm title="确认删除模型？" onConfirm={() => handleDelete(model)}><Button size="small" danger>删除</Button></Popconfirm></Space>} />
     ),
   }];
 

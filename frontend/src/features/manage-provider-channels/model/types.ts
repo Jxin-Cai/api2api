@@ -5,6 +5,7 @@ export interface ProviderChannelFormState {
   name: string;
   host: string;
   keyRef: string;
+  routePriority: number;
   supportedProtocols: string[];
 }
 

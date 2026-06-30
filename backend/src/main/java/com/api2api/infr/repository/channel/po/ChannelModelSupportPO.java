@@ -17,6 +17,7 @@ public class ChannelModelSupportPO {
     private String upstreamModel;
     private String upstreamProtocol;
     private int priority;
+    private boolean preferred;
     private String source;
     private String status;
     private Instant createdTime;

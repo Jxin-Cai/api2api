@@ -21,6 +21,8 @@ public final class RouteCandidate {
     private final ProtocolType clientProtocol;
     private final ProtocolType upstreamProtocol;
     private final RoutePriority priority;
+    private final int routePriority;
+    private final boolean preferred;
     private final ConversionRoute conversionRoute;
     private final ModelMappingResult modelMappingResult;
 
@@ -32,6 +34,8 @@ public final class RouteCandidate {
             ProtocolType clientProtocol,
             ProtocolType upstreamProtocol,
             RoutePriority priority,
+            int routePriority,
+            boolean preferred,
             ConversionRoute conversionRoute,
             ModelMappingResult modelMappingResult
     ) {
@@ -42,6 +46,8 @@ public final class RouteCandidate {
         this.clientProtocol = Objects.requireNonNull(clientProtocol, "Client protocol must not be null");
         this.upstreamProtocol = Objects.requireNonNull(upstreamProtocol, "Upstream protocol must not be null");
         this.priority = Objects.requireNonNull(priority, "Route priority must not be null");
+        this.routePriority = routePriority;
+        this.preferred = preferred;
         this.conversionRoute = Objects.requireNonNull(conversionRoute, "Conversion route must not be null");
         this.modelMappingResult = Objects.requireNonNull(modelMappingResult, "Model mapping result must not be null");
         if (!conversionRoute.targetProtocol().equals(upstreamProtocol)) {
@@ -64,6 +70,8 @@ public final class RouteCandidate {
             ProtocolType clientProtocol,
             ProtocolType upstreamProtocol,
             RoutePriority priority,
+            int routePriority,
+            boolean preferred,
             ConversionRoute conversionRoute,
             ModelMappingResult modelMappingResult
     ) {
@@ -75,6 +83,8 @@ public final class RouteCandidate {
                 clientProtocol,
                 upstreamProtocol,
                 priority,
+                routePriority,
+                preferred,
                 conversionRoute,
                 modelMappingResult
         );
@@ -116,6 +126,14 @@ public final class RouteCandidate {
         return priority;
     }
 
+    public int routePriority() {
+        return routePriority;
+    }
+
+    public boolean preferred() {
+        return preferred;
+    }
+
     public ConversionRoute conversionRoute() {
         return conversionRoute;
     }
@@ -139,6 +157,8 @@ public final class RouteCandidate {
                 && clientProtocol == that.clientProtocol
                 && upstreamProtocol == that.upstreamProtocol
                 && Objects.equals(priority, that.priority)
+                && routePriority == that.routePriority
+                && preferred == that.preferred
                 && Objects.equals(conversionRoute, that.conversionRoute)
                 && Objects.equals(modelMappingResult, that.modelMappingResult);
     }
@@ -153,6 +173,8 @@ public final class RouteCandidate {
                 clientProtocol,
                 upstreamProtocol,
                 priority,
+                routePriority,
+                preferred,
                 conversionRoute,
                 modelMappingResult
         );

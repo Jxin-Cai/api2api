@@ -2,6 +2,7 @@ package com.api2api.ohs.http.admin.converter;
 
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
@@ -20,12 +21,14 @@ import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.lib.mapping.MapStructConfig;
 import com.api2api.ohs.http.admin.dto.AdminCreateProviderChannelRequest;
+import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelPreviewRequest;
 import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpdateProviderChannelRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpsertChannelModelRequest;
 import com.api2api.ohs.http.admin.dto.ChannelModelSupportResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelListResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelResponse;
+import com.api2api.ohs.http.admin.dto.ProviderModelPreviewResponse;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +53,7 @@ public interface ProviderChannelHttpConverter {
                 .name(ProviderChannelName.of(request.getName()))
                 .host(ProviderHost.of(request.getHost()))
                 .keyRef(ProviderKeyRef.of(request.getKeyRef()))
+                .routePriority(defaultRoutePriority(request.getRoutePriority()))
                 .supportedProtocols(toProtocolTypes(request.getSupportedProtocols()))
                 .build();
     }
@@ -64,7 +68,8 @@ public interface ProviderChannelHttpConverter {
                 .providerChannelId(providerChannelId)
                 .name(ProviderChannelName.of(request.getName()))
                 .host(ProviderHost.of(request.getHost()))
-                .keyRef(ProviderKeyRef.of(request.getKeyRef()))
+                .keyRef(hasText(request.getKeyRef()) ? ProviderKeyRef.of(request.getKeyRef()) : null)
+                .routePriority(defaultRoutePriority(request.getRoutePriority()))
                 .supportedProtocols(toProtocolTypes(request.getSupportedProtocols()))
                 .build();
     }
@@ -76,6 +81,19 @@ public interface ProviderChannelHttpConverter {
         return ChangeProviderChannelStatusCommand.builder()
                 .operatorUserId(operatorUserId)
                 .providerChannelId(providerChannelId)
+                .build();
+    }
+
+    default FetchProviderModelPreviewCommand toFetchModelPreviewCommand(
+            AdminFetchProviderModelPreviewRequest request,
+            UserAccountId operatorUserId
+    ) {
+        return FetchProviderModelPreviewCommand.builder()
+                .operatorUserId(operatorUserId)
+                .host(ProviderHost.of(request.getHost()))
+                .keyRef(ProviderKeyRef.of(request.getKeyRef()))
+                .supportedProtocols(toProtocolTypes(request.getSupportedProtocols()))
+                .defaultPriority(RoutePriority.of(request.getDefaultPriority()))
                 .build();
     }
 
@@ -105,6 +123,7 @@ public interface ProviderChannelHttpConverter {
                 .upstreamModel(ModelName.of(request.getUpstreamModel()))
                 .upstreamProtocol(toProtocolType(request.getUpstreamProtocol()))
                 .priority(RoutePriority.of(request.getPriority()))
+                .preferred(Boolean.TRUE.equals(request.getPreferred()))
                 .source(ModelSupportSource.valueOf(request.getSource()))
                 .build();
     }
@@ -129,10 +148,19 @@ public interface ProviderChannelHttpConverter {
                 .build();
     }
 
+    default ProviderModelPreviewResponse toPreviewResponse(List<ChannelModelSupport> models) {
+        return ProviderModelPreviewResponse.builder()
+                .models(toModelSupportResponses(models))
+                .build();
+    }
+
     @Mapping(target = "id", expression = "java(channel.id().value())")
     @Mapping(target = "name", expression = "java(channel.name().value())")
     @Mapping(target = "host", expression = "java(channel.host().value())")
-    @Mapping(target = "keyRef", expression = "java(channel.keyRef().value())")
+    @Mapping(target = "keyRef", expression = "java(maskKey(channel.keyRef().value()))")
+    @Mapping(target = "keyMasked", expression = "java(maskKey(channel.keyRef().value()))")
+    @Mapping(target = "hasKey", expression = "java(Boolean.TRUE)")
+    @Mapping(target = "routePriority", expression = "java(channel.routePriority())")
     @Mapping(target = "supportedProtocols", expression = "java(toProtocolNames(channel.supportedProtocols()))")
     @Mapping(target = "supportedModels", expression = "java(toModelSupportResponses(channel.supportedModels()))")
     @Mapping(target = "status", expression = "java(channel.status().name())")
@@ -145,6 +173,7 @@ public interface ProviderChannelHttpConverter {
     @Mapping(target = "upstreamModel", expression = "java(modelSupport.upstreamModel().value())")
     @Mapping(target = "upstreamProtocol", expression = "java(modelSupport.upstreamProtocol().name())")
     @Mapping(target = "priority", expression = "java(modelSupport.priority().value())")
+    @Mapping(target = "preferred", expression = "java(modelSupport.preferred())")
     @Mapping(target = "status", expression = "java(modelSupport.status().name())")
     @Mapping(target = "source", expression = "java(modelSupport.source().name())")
     @Mapping(target = "createdAt", expression = "java(modelSupport.createdAt().toEpochMilli())")
@@ -161,6 +190,25 @@ public interface ProviderChannelHttpConverter {
 
     default Set<ProtocolType> toProtocolTypes(Set<String> protocols) {
         return protocols.stream().map(this::toProtocolType).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    default int defaultRoutePriority(Integer routePriority) {
+        return routePriority == null ? 0 : routePriority;
+    }
+
+    default boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    default String maskKey(String value) {
+        if (!hasText(value)) {
+            return "";
+        }
+        String trimmed = value.trim();
+        if (trimmed.length() <= 8) {
+            return "****";
+        }
+        return trimmed.substring(0, 4) + "****" + trimmed.substring(trimmed.length() - 4);
     }
 
     default ProtocolType toProtocolType(String protocol) {

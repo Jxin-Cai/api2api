@@ -1,10 +1,9 @@
 package com.api2api.application.channel.command;
 
 import com.api2api.domain.channel.model.ProtocolType;
-import com.api2api.domain.channel.model.ProviderChannelId;
-import com.api2api.domain.channel.model.ProviderChannelName;
 import com.api2api.domain.channel.model.ProviderHost;
 import com.api2api.domain.channel.model.ProviderKeyRef;
+import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.domain.user.model.UserAccountId;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -16,47 +15,39 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * Command for updating a provider channel's basic configuration.
+ * Command for previewing upstream provider models without persisting them.
  */
 @Getter
-public final class UpdateProviderChannelCommand {
+public final class FetchProviderModelPreviewCommand {
 
     @NotNull
     private final UserAccountId operatorUserId;
 
     @NotNull
-    private final ProviderChannelId providerChannelId;
-
-    @NotNull
-    private final ProviderChannelName name;
-
-    @NotNull
     private final ProviderHost host;
 
+    @NotNull
     private final ProviderKeyRef keyRef;
-
-    private final int routePriority;
 
     @NotEmpty
     private final Set<ProtocolType> supportedProtocols;
 
+    @NotNull
+    private final RoutePriority defaultPriority;
+
     @Builder
-    private UpdateProviderChannelCommand(
+    private FetchProviderModelPreviewCommand(
             UserAccountId operatorUserId,
-            ProviderChannelId providerChannelId,
-            ProviderChannelName name,
             ProviderHost host,
             ProviderKeyRef keyRef,
-            int routePriority,
-            Set<ProtocolType> supportedProtocols
+            Set<ProtocolType> supportedProtocols,
+            RoutePriority defaultPriority
     ) {
         this.operatorUserId = Objects.requireNonNull(operatorUserId, "Operator user id must not be null");
-        this.providerChannelId = Objects.requireNonNull(providerChannelId, "Provider channel id must not be null");
-        this.name = Objects.requireNonNull(name, "Provider channel name must not be null");
         this.host = Objects.requireNonNull(host, "Provider host must not be null");
-        this.keyRef = keyRef;
-        this.routePriority = routePriority;
+        this.keyRef = Objects.requireNonNull(keyRef, "Provider key reference must not be null");
         this.supportedProtocols = copyNotEmpty(supportedProtocols);
+        this.defaultPriority = Objects.requireNonNull(defaultPriority, "Default priority must not be null");
     }
 
     private static Set<ProtocolType> copyNotEmpty(Set<ProtocolType> source) {

@@ -39,6 +39,8 @@ public final class UpsertChannelModelCommand {
     @NotNull
     private final RoutePriority priority;
 
+    private final boolean preferred;
+
     @NotNull
     private final ModelSupportSource source;
 }
