@@ -6,6 +6,7 @@ WORKDIR /workspace
 COPY package.json package-lock.json* ./
 RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 COPY index.html vite.config.ts tsconfig*.json ./
+COPY public ./public
 COPY src ./src
 RUN npm run build
 

@@ -95,6 +95,9 @@ export function AppShell({ portal }: AppShellProps) {
           width={276}
         >
           <div className="app-shell__brand app-shell__brand--drawer">
+            <span className="app-shell__logo">
+              <img className="app-shell__logo-image" src="/logo.png" alt="" aria-hidden="true" />
+            </span>
             <GradientText>意门</GradientText>
           </div>
           {menu}
@@ -110,7 +113,9 @@ export function AppShell({ portal }: AppShellProps) {
           trigger={null}
         >
           <div className="app-shell__brand">
-            <span className="app-shell__logo">门</span>
+            <span className="app-shell__logo">
+              <img className="app-shell__logo-image" src="/logo.png" alt="" aria-hidden="true" />
+            </span>
             {!sidebarCollapsed ? <GradientText>意门</GradientText> : null}
           </div>
           <div className="app-shell__menu">{menu}</div>

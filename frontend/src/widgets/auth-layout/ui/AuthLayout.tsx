@@ -56,7 +56,9 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       <section className="auth-layout__landing" aria-labelledby="auth-landing-title">
         <nav className="auth-layout__nav" aria-label="登录页导航">
           <div className="auth-layout__brand" aria-label="意门">
-            <span className="auth-layout__brand-mark">门</span>
+            <span className="auth-layout__brand-mark">
+              <img className="auth-layout__brand-logo" src="/logo.png" alt="" aria-hidden="true" />
+            </span>
             <span className="auth-layout__brand-text">
               <strong>意门</strong>
               <small>Protocol Gateway</small>
