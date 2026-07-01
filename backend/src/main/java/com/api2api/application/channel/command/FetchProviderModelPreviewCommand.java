@@ -1,8 +1,9 @@
 package com.api2api.application.channel.command;
 
-import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.channel.model.ChannelProtocolMapping;
 import com.api2api.domain.channel.model.ProviderHost;
 import com.api2api.domain.channel.model.ProviderKeyRef;
+import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.domain.user.model.UserAccountId;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,8 +30,11 @@ public final class FetchProviderModelPreviewCommand {
     @NotNull
     private final ProviderKeyRef keyRef;
 
+    @NotNull
+    private final ProviderModelsPath modelsPath;
+
     @NotEmpty
-    private final Set<ProtocolType> supportedProtocols;
+    private final Set<ChannelProtocolMapping> protocolMappings;
 
     @NotNull
     private final RoutePriority defaultPriority;
@@ -40,24 +44,26 @@ public final class FetchProviderModelPreviewCommand {
             UserAccountId operatorUserId,
             ProviderHost host,
             ProviderKeyRef keyRef,
-            Set<ProtocolType> supportedProtocols,
+            ProviderModelsPath modelsPath,
+            Set<ChannelProtocolMapping> protocolMappings,
             RoutePriority defaultPriority
     ) {
         this.operatorUserId = Objects.requireNonNull(operatorUserId, "Operator user id must not be null");
         this.host = Objects.requireNonNull(host, "Provider host must not be null");
         this.keyRef = Objects.requireNonNull(keyRef, "Provider key reference must not be null");
-        this.supportedProtocols = copyNotEmpty(supportedProtocols);
+        this.modelsPath = Objects.requireNonNullElse(modelsPath, ProviderModelsPath.DEFAULT);
+        this.protocolMappings = copyNotEmpty(protocolMappings);
         this.defaultPriority = Objects.requireNonNull(defaultPriority, "Default priority must not be null");
     }
 
-    private static Set<ProtocolType> copyNotEmpty(Set<ProtocolType> source) {
-        Objects.requireNonNull(source, "Supported protocols must not be null");
+    private static Set<ChannelProtocolMapping> copyNotEmpty(Set<ChannelProtocolMapping> source) {
+        Objects.requireNonNull(source, "Protocol mappings must not be null");
         if (source.isEmpty()) {
-            throw new IllegalArgumentException("Supported protocols must not be empty");
+            throw new IllegalArgumentException("Protocol mappings must not be empty");
         }
-        Set<ProtocolType> copied = new LinkedHashSet<>();
-        for (ProtocolType protocol : source) {
-            copied.add(Objects.requireNonNull(protocol, "Supported protocol must not be null"));
+        Set<ChannelProtocolMapping> copied = new LinkedHashSet<>();
+        for (ChannelProtocolMapping mapping : source) {
+            copied.add(Objects.requireNonNull(mapping, "Protocol mapping must not be null"));
         }
         return Collections.unmodifiableSet(copied);
     }

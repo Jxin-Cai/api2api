@@ -19,7 +19,7 @@ export function ChannelModelsPanel({ channel, onChannelChanged }: ChannelModelsP
           <Typography.Text type="secondary">当前 {channel.supportedModels.length} 个模型支持项</Typography.Text>
           <Button onClick={() => setFetchOpen(true)}>验证并获取模型列表</Button>
         </Space>
-        <ChannelModelEditorTable channelId={channel.id} models={channel.supportedModels} onChanged={onChannelChanged} />
+        <ChannelModelEditorTable channel={channel} models={channel.supportedModels} onChanged={onChannelChanged} />
         <ChannelModelFetchModal open={fetchOpen} channelId={channel.id} channelName={channel.name} models={channel.supportedModels} onClose={() => setFetchOpen(false)} onFetched={onChannelChanged} />
       </Space>
     </Card>

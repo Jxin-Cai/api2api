@@ -13,6 +13,11 @@ export interface ChannelModelSupportResponse {
   updatedAt?: number;
 }
 
+export interface ProtocolMappingResponse {
+  requestProtocol: string;
+  upstreamProtocol: string;
+}
+
 export interface ProviderChannelResponse {
   id: number;
   name: string;
@@ -20,8 +25,10 @@ export interface ProviderChannelResponse {
   keyRef: string;
   keyMasked?: string;
   hasKey?: boolean;
+  modelsPath?: string;
   routePriority?: number;
   supportedProtocols: string[];
+  protocolMappings?: ProtocolMappingResponse[];
   supportedModels: ChannelModelSupportResponse[];
   status: EnabledStatus | string;
   createdAt?: number;

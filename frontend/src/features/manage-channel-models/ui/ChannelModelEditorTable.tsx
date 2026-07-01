@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, Input, InputNumber, Popconfirm, Select, Space, Switch, Table, Tooltip, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ChannelModelSupportRow, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse } from '@entities/provider-channel';
+import { PROTOCOL_OPTIONS } from '@shared/lib/protocols';
 import { useChannelModelMutations } from '../model/useChannelModelMutations';
 import type { ChannelModelDraft, ChannelModelEditingId } from '../model/types';
 
 interface ChannelModelEditorTableProps {
-  /** 渠道 ID */
-  channelId: number;
+  /** 当前渠道 */
+  channel: ProviderChannelResponse;
   /** 当前模型列表 */
   models: ChannelModelSupportResponse[];
   /** 变更成功回调 */
@@ -17,10 +18,17 @@ interface ChannelModelEditorTableProps {
 
 const EMPTY_DRAFT: ChannelModelDraft = { requestedModel: '', upstreamModel: '', upstreamProtocol: '', priority: 10, preferred: false, source: 'MANUAL', status: 'ENABLED' };
 
-export function ChannelModelEditorTable({ channelId, models, onChanged }: ChannelModelEditorTableProps) {
+export function ChannelModelEditorTable({ channel, models, onChanged }: ChannelModelEditorTableProps) {
   const { upsertMutation, removeMutation } = useChannelModelMutations();
   const [editingId, setEditingId] = useState<ChannelModelEditingId>(null);
   const [draft, setDraft] = useState<ChannelModelDraft>(EMPTY_DRAFT);
+  const upstreamProtocolOptions = useMemo(() => {
+    const protocols = Array.from(new Set((channel.protocolMappings ?? []).map((mapping) => mapping.upstreamProtocol)));
+    if (protocols.length === 0) {
+      return PROTOCOL_OPTIONS;
+    }
+    return PROTOCOL_OPTIONS.filter((option) => protocols.includes(option.value));
+  }, [channel.protocolMappings]);
 
   function updateDraft<K extends keyof ChannelModelDraft>(key: K, value: ChannelModelDraft[K]): void {
     setDraft((current) => ({ ...current, [key]: value }));
@@ -31,14 +39,14 @@ export function ChannelModelEditorTable({ channelId, models, onChanged }: Channe
       message.warning('请完整填写模型映射信息');
       return;
     }
-    const response = await upsertMutation.mutateAsync({ channelId, modelId: editingId === 'new' ? 0 : Number(editingId), body: draft });
+    const response = await upsertMutation.mutateAsync({ channelId: channel.id, modelId: editingId === 'new' ? 0 : Number(editingId), body: draft });
     onChanged(response.data);
     setEditingId(null);
     setDraft(EMPTY_DRAFT);
   }
 
   async function handleDelete(model: ChannelModelSupportResponse): Promise<void> {
-    const response = await removeMutation.mutateAsync({ channelId, body: { requestedModel: model.requestedModel, upstreamProtocol: model.upstreamProtocol } });
+    const response = await removeMutation.mutateAsync({ channelId: channel.id, body: { requestedModel: model.requestedModel, upstreamProtocol: model.upstreamProtocol } });
     onChanged(response.data);
   }
 
@@ -50,7 +58,7 @@ export function ChannelModelEditorTable({ channelId, models, onChanged }: Channe
       <Space wrap>
         <Input placeholder="请求模型" value={draft.requestedModel} onChange={(event) => updateDraft('requestedModel', event.target.value)} />
         <Input placeholder="上游模型" value={draft.upstreamModel} onChange={(event) => updateDraft('upstreamModel', event.target.value)} />
-        <Input placeholder="协议" value={draft.upstreamProtocol} onChange={(event) => updateDraft('upstreamProtocol', event.target.value)} />
+        <Select placeholder="上游协议" value={draft.upstreamProtocol || undefined} options={upstreamProtocolOptions} style={{ width: 220 }} onChange={(value) => updateDraft('upstreamProtocol', value)} />
         <Tooltip title="模型排序值，数字越小越优先；仅在同一优先组内生效">
           <InputNumber min={1} value={draft.priority} onChange={(value) => updateDraft('priority', value ?? 1)} />
         </Tooltip>
@@ -68,7 +76,7 @@ export function ChannelModelEditorTable({ channelId, models, onChanged }: Channe
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <Button disabled={editingId !== null} onClick={() => { setEditingId('new'); setDraft(EMPTY_DRAFT); }}>手动新增模型</Button>
+      <Button disabled={editingId !== null} onClick={() => { setEditingId('new'); setDraft({ ...EMPTY_DRAFT, upstreamProtocol: upstreamProtocolOptions[0]?.value ?? '' }); }}>手动新增模型</Button>
       <Table rowKey="id" size="small" columns={columns} dataSource={data} pagination={false} scroll={{ x: true }} />
     </Space>
   );

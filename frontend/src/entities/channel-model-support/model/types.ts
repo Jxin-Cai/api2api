@@ -1,4 +1,4 @@
-import type { ChannelModelSupportResponse, ProviderModelPreviewResponse } from '@shared/api/contracts';
+import type { ChannelModelSupportResponse, ProviderModelPreviewResponse, ProtocolMappingResponse } from '@shared/api/contracts';
 import type { ModelSource } from '@shared/types/admin';
 
 export type { ChannelModelSupportResponse, ProviderModelPreviewResponse };
@@ -14,7 +14,9 @@ export interface AdminFetchProviderChannelModelPreviewRequest {
 export interface AdminFetchProviderModelPreviewRequest {
   host: string;
   keyRef: string;
+  modelsPath: string;
   supportedProtocols: string[];
+  protocolMappings: ProtocolMappingResponse[];
   defaultPriority: number;
 }
 

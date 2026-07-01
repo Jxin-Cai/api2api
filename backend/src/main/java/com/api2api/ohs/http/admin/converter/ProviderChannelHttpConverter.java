@@ -12,6 +12,7 @@ import com.api2api.application.channel.command.UpdateProviderChannelCommand;
 import com.api2api.application.channel.command.UpsertChannelModelCommand;
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
+import com.api2api.domain.channel.model.ChannelProtocolMapping;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ModelSupportSource;
 import com.api2api.domain.channel.model.ProtocolType;
@@ -20,6 +21,7 @@ import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.channel.model.ProviderChannelName;
 import com.api2api.domain.channel.model.ProviderHost;
 import com.api2api.domain.channel.model.ProviderKeyRef;
+import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.lib.mapping.MapStructConfig;
@@ -32,6 +34,8 @@ import com.api2api.ohs.http.admin.dto.AdminFetchProviderModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpdateProviderChannelRequest;
 import com.api2api.ohs.http.admin.dto.AdminUpsertChannelModelRequest;
 import com.api2api.ohs.http.admin.dto.ChannelModelSupportResponse;
+import com.api2api.ohs.http.admin.dto.ProtocolMappingRequest;
+import com.api2api.ohs.http.admin.dto.ProtocolMappingResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelListResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelResponse;
 import com.api2api.ohs.http.admin.dto.ProviderModelPreviewResponse;
@@ -60,8 +64,9 @@ public interface ProviderChannelHttpConverter {
                 .name(ProviderChannelName.of(request.getName()))
                 .host(ProviderHost.of(request.getHost()))
                 .keyRef(ProviderKeyRef.of(request.getKeyRef()))
+                .modelsPath(ProviderModelsPath.of(request.getModelsPath()))
                 .routePriority(defaultRoutePriority(request.getRoutePriority()))
-                .supportedProtocols(toProtocolTypes(request.getSupportedProtocols()))
+                .protocolMappings(toProtocolMappings(request.getProtocolMappings(), request.getSupportedProtocols()))
                 .build();
     }
 
@@ -76,8 +81,9 @@ public interface ProviderChannelHttpConverter {
                 .name(ProviderChannelName.of(request.getName()))
                 .host(ProviderHost.of(request.getHost()))
                 .keyRef(hasText(request.getKeyRef()) ? ProviderKeyRef.of(request.getKeyRef()) : null)
+                .modelsPath(ProviderModelsPath.of(request.getModelsPath()))
                 .routePriority(defaultRoutePriority(request.getRoutePriority()))
-                .supportedProtocols(toProtocolTypes(request.getSupportedProtocols()))
+                .protocolMappings(toProtocolMappings(request.getProtocolMappings(), request.getSupportedProtocols()))
                 .build();
     }
 
@@ -99,7 +105,8 @@ public interface ProviderChannelHttpConverter {
                 .operatorUserId(operatorUserId)
                 .host(ProviderHost.of(request.getHost()))
                 .keyRef(ProviderKeyRef.of(request.getKeyRef()))
-                .supportedProtocols(toProtocolTypes(request.getSupportedProtocols()))
+                .modelsPath(ProviderModelsPath.of(request.getModelsPath()))
+                .protocolMappings(toProtocolMappings(request.getProtocolMappings(), request.getSupportedProtocols()))
                 .defaultPriority(RoutePriority.of(request.getDefaultPriority()))
                 .build();
     }
@@ -204,8 +211,10 @@ public interface ProviderChannelHttpConverter {
     @Mapping(target = "keyRef", expression = "java(maskKey(channel.keyRef().value()))")
     @Mapping(target = "keyMasked", expression = "java(maskKey(channel.keyRef().value()))")
     @Mapping(target = "hasKey", expression = "java(Boolean.TRUE)")
+    @Mapping(target = "modelsPath", expression = "java(channel.modelsPath().value())")
     @Mapping(target = "routePriority", expression = "java(channel.routePriority())")
     @Mapping(target = "supportedProtocols", expression = "java(toProtocolNames(channel.supportedProtocols()))")
+    @Mapping(target = "protocolMappings", expression = "java(toProtocolMappingResponses(channel.protocolMappings()))")
     @Mapping(target = "supportedModels", expression = "java(toModelSupportResponses(channel.supportedModels()))")
     @Mapping(target = "status", expression = "java(channel.status().name())")
     @Mapping(target = "createdAt", expression = "java(channel.createdAt().toEpochMilli())")
@@ -228,6 +237,15 @@ public interface ProviderChannelHttpConverter {
         return modelSupports.stream().map(this::toModelSupportResponse).toList();
     }
 
+    default List<ProtocolMappingResponse> toProtocolMappingResponses(Set<ChannelProtocolMapping> mappings) {
+        return mappings.stream()
+                .map(mapping -> ProtocolMappingResponse.builder()
+                        .requestProtocol(mapping.requestProtocol().name())
+                        .upstreamProtocol(mapping.upstreamProtocol().name())
+                        .build())
+                .toList();
+    }
+
     default Set<String> toProtocolNames(Set<ProtocolType> protocols) {
         return protocols.stream().map(ProtocolType::name).collect(Collectors.toCollection(LinkedHashSet::new));
     }
@@ -237,6 +255,20 @@ public interface ProviderChannelHttpConverter {
             throw new IllegalArgumentException("supportedProtocols must not be empty");
         }
         return protocols.stream().map(this::toProtocolType).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    default Set<ChannelProtocolMapping> toProtocolMappings(List<ProtocolMappingRequest> mappings, Set<String> fallbackProtocols) {
+        if (mappings == null || mappings.isEmpty()) {
+            return toProtocolTypes(fallbackProtocols).stream()
+                    .map(protocol -> ChannelProtocolMapping.of(protocol, protocol))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+        return mappings.stream()
+                .map(mapping -> ChannelProtocolMapping.of(
+                        toProtocolType(mapping.getRequestProtocol()),
+                        toProtocolType(mapping.getUpstreamProtocol())
+                ))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     default int defaultRoutePriority(Integer routePriority) {

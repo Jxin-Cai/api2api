@@ -19,8 +19,9 @@ public class ProviderChannel {
     private ProviderChannelName name;
     private ProviderHost host;
     private ProviderKeyRef keyRef;
+    private ProviderModelsPath modelsPath;
     private int routePriority;
-    private Set<ProtocolType> supportedProtocols;
+    private Set<ChannelProtocolMapping> protocolMappings;
     private List<ChannelModelSupport> supportedModels;
     private ProviderChannelStatus status;
     private final Instant createdAt;
@@ -31,8 +32,9 @@ public class ProviderChannel {
             ProviderChannelName name,
             ProviderHost host,
             ProviderKeyRef keyRef,
+            ProviderModelsPath modelsPath,
             int routePriority,
-            Set<ProtocolType> supportedProtocols,
+            Set<ChannelProtocolMapping> protocolMappings,
             List<ChannelModelSupport> supportedModels,
             ProviderChannelStatus status,
             Instant createdAt,
@@ -42,8 +44,9 @@ public class ProviderChannel {
         this.name = Objects.requireNonNull(name, "Provider channel name must not be null");
         this.host = Objects.requireNonNull(host, "Provider host must not be null");
         this.keyRef = Objects.requireNonNull(keyRef, "Provider key reference must not be null");
+        this.modelsPath = Objects.requireNonNull(modelsPath, "Provider models path must not be null");
         this.routePriority = routePriority;
-        this.supportedProtocols = normalizeProtocols(supportedProtocols);
+        this.protocolMappings = normalizeProtocolMappings(protocolMappings);
         this.supportedModels = normalizeModels(supportedModels);
         this.status = Objects.requireNonNull(status, "Provider channel status must not be null");
         this.createdAt = Objects.requireNonNull(createdAt, "Created time must not be null");
@@ -59,14 +62,28 @@ public class ProviderChannel {
             Set<ProtocolType> supportedProtocols,
             Instant now
     ) {
+        return create(id, name, host, keyRef, ProviderModelsPath.DEFAULT, routePriority, identityMappings(supportedProtocols), now);
+    }
+
+    public static ProviderChannel create(
+            ProviderChannelId id,
+            ProviderChannelName name,
+            ProviderHost host,
+            ProviderKeyRef keyRef,
+            ProviderModelsPath modelsPath,
+            int routePriority,
+            Set<ChannelProtocolMapping> protocolMappings,
+            Instant now
+    ) {
         Objects.requireNonNull(now, "Current time must not be null");
         return new ProviderChannel(
                 id,
                 name,
                 host,
                 keyRef,
+                modelsPath,
                 routePriority,
-                supportedProtocols,
+                protocolMappings,
                 List.of(),
                 ProviderChannelStatus.ENABLED,
                 now,
@@ -86,13 +103,42 @@ public class ProviderChannel {
             Instant createdAt,
             Instant updatedAt
     ) {
+        return rehydrate(
+                id,
+                name,
+                host,
+                keyRef,
+                ProviderModelsPath.DEFAULT,
+                routePriority,
+                identityMappings(supportedProtocols),
+                supportedModels,
+                status,
+                createdAt,
+                updatedAt
+        );
+    }
+
+    public static ProviderChannel rehydrate(
+            ProviderChannelId id,
+            ProviderChannelName name,
+            ProviderHost host,
+            ProviderKeyRef keyRef,
+            ProviderModelsPath modelsPath,
+            int routePriority,
+            Set<ChannelProtocolMapping> protocolMappings,
+            List<ChannelModelSupport> supportedModels,
+            ProviderChannelStatus status,
+            Instant createdAt,
+            Instant updatedAt
+    ) {
         return new ProviderChannel(
                 id,
                 name,
                 host,
                 keyRef,
+                modelsPath,
                 routePriority,
-                supportedProtocols,
+                protocolMappings,
                 supportedModels,
                 status,
                 createdAt,
@@ -122,6 +168,16 @@ public class ProviderChannel {
         this.updatedAt = now;
     }
 
+    public void changeModelsPath(ProviderModelsPath modelsPath, Instant now) {
+        Objects.requireNonNull(modelsPath, "Provider models path must not be null");
+        Objects.requireNonNull(now, "Current time must not be null");
+        if (this.modelsPath.equals(modelsPath)) {
+            return;
+        }
+        this.modelsPath = modelsPath;
+        this.updatedAt = now;
+    }
+
     public void changeRoutePriority(int routePriority, Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
         if (this.routePriority == routePriority) {
@@ -132,19 +188,23 @@ public class ProviderChannel {
     }
 
     public void replaceSupportedProtocols(Set<ProtocolType> protocols, Instant now) {
+        replaceProtocolMappings(identityMappings(protocols), now);
+    }
+
+    public void replaceProtocolMappings(Set<ChannelProtocolMapping> mappings, Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
-        Set<ProtocolType> normalizedProtocols = normalizeProtocols(protocols);
-        if (this.supportedProtocols.equals(normalizedProtocols)) {
+        Set<ChannelProtocolMapping> normalizedMappings = normalizeProtocolMappings(mappings);
+        if (this.protocolMappings.equals(normalizedMappings)) {
             return;
         }
-        this.supportedProtocols = normalizedProtocols;
+        this.protocolMappings = normalizedMappings;
         this.updatedAt = now;
     }
 
     public void addOrUpdateModel(ChannelModelSupport modelSupport, Instant now) {
         Objects.requireNonNull(modelSupport, "Channel model support must not be null");
         Objects.requireNonNull(now, "Current time must not be null");
-        ensureProtocolSupported(modelSupport.upstreamProtocol());
+        ensureUpstreamProtocolSupported(modelSupport.upstreamProtocol());
 
         List<ChannelModelSupport> changedModels = new ArrayList<>(supportedModels);
         Optional<Integer> existingIndex = findSameCombinationIndex(modelSupport, changedModels);
@@ -160,7 +220,7 @@ public class ProviderChannel {
     public void replaceModels(List<ChannelModelSupport> modelSupports, Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
         List<ChannelModelSupport> normalizedModels = normalizeModels(modelSupports);
-        normalizedModels.forEach(modelSupport -> ensureProtocolSupported(modelSupport.upstreamProtocol()));
+        normalizedModels.forEach(modelSupport -> ensureUpstreamProtocolSupported(modelSupport.upstreamProtocol()));
         if (this.supportedModels.equals(normalizedModels)) {
             return;
         }
@@ -216,8 +276,31 @@ public class ProviderChannel {
     }
 
     public boolean supportsProtocol(ProtocolType protocol) {
+        return supportsRequestProtocol(protocol);
+    }
+
+    public boolean supportsRequestProtocol(ProtocolType protocol) {
         Objects.requireNonNull(protocol, "Protocol must not be null");
-        return supportedProtocols.contains(protocol);
+        return supportedProtocols().contains(protocol);
+    }
+
+    public boolean supportsUpstreamProtocol(ProtocolType protocol) {
+        Objects.requireNonNull(protocol, "Protocol must not be null");
+        return upstreamProtocols().contains(protocol);
+    }
+
+    public Optional<ProtocolType> upstreamProtocolFor(ProtocolType requestProtocol) {
+        Objects.requireNonNull(requestProtocol, "Request protocol must not be null");
+        return protocolMappings.stream()
+                .filter(mapping -> mapping.requestProtocol() == requestProtocol)
+                .map(ChannelProtocolMapping::upstreamProtocol)
+                .findFirst();
+    }
+
+    public Set<ProtocolType> upstreamProtocols() {
+        return protocolMappings.stream()
+                .map(ChannelProtocolMapping::upstreamProtocol)
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
     }
 
     public boolean supportsModel(ModelName requestedModel, ProtocolType upstreamProtocol) {
@@ -227,7 +310,7 @@ public class ProviderChannel {
     public Optional<ChannelModelSupport> findModelSupport(ModelName requestedModel, ProtocolType upstreamProtocol) {
         Objects.requireNonNull(requestedModel, "Requested model must not be null");
         Objects.requireNonNull(upstreamProtocol, "Upstream protocol must not be null");
-        if (!supportsProtocol(upstreamProtocol)) {
+        if (!supportsUpstreamProtocol(upstreamProtocol)) {
             return Optional.empty();
         }
         return supportedModels.stream()
@@ -240,7 +323,7 @@ public class ProviderChannel {
         return supportedModels.stream()
                 .filter(ChannelModelSupport::isEnabled)
                 .filter(modelSupport -> modelSupport.requestedModel().equals(requestedModel))
-                .filter(modelSupport -> supportsProtocol(modelSupport.upstreamProtocol()))
+                .filter(modelSupport -> supportsUpstreamProtocol(modelSupport.upstreamProtocol()))
                 .sorted(modelOrdering())
                 .toList();
     }
@@ -261,22 +344,39 @@ public class ProviderChannel {
         return Optional.empty();
     }
 
-    private void ensureProtocolSupported(ProtocolType protocol) {
-        if (!supportsProtocol(protocol)) {
-            throw new IllegalArgumentException("Model support protocol must be contained in provider channel supported protocols");
+    private void ensureUpstreamProtocolSupported(ProtocolType protocol) {
+        ensureUpstreamProtocolSupported(protocol, protocolMappings);
+    }
+
+    private static void ensureUpstreamProtocolSupported(ProtocolType protocol, Set<ChannelProtocolMapping> mappings) {
+        boolean supported = mappings.stream().anyMatch(mapping -> mapping.upstreamProtocol() == protocol);
+        if (!supported) {
+            throw new IllegalArgumentException("Model upstream protocol must be contained in provider channel protocol mappings");
         }
     }
 
-    private static Set<ProtocolType> normalizeProtocols(Set<ProtocolType> protocols) {
+    private static Set<ChannelProtocolMapping> identityMappings(Set<ProtocolType> protocols) {
         Objects.requireNonNull(protocols, "Supported protocols must not be null");
-        if (protocols.isEmpty()) {
-            throw new IllegalArgumentException("Provider channel must support at least one protocol");
+        return protocols.stream()
+                .map(protocol -> ChannelProtocolMapping.of(protocol, protocol))
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static Set<ChannelProtocolMapping> normalizeProtocolMappings(Set<ChannelProtocolMapping> mappings) {
+        Objects.requireNonNull(mappings, "Protocol mappings must not be null");
+        if (mappings.isEmpty()) {
+            throw new IllegalArgumentException("Provider channel must contain at least one protocol mapping");
         }
-        Set<ProtocolType> normalizedProtocols = new LinkedHashSet<>();
-        for (ProtocolType protocol : protocols) {
-            normalizedProtocols.add(Objects.requireNonNull(protocol, "Supported protocol must not be null"));
+        Set<ChannelProtocolMapping> normalized = new LinkedHashSet<>();
+        Set<ProtocolType> requestProtocols = new HashSet<>();
+        for (ChannelProtocolMapping mapping : mappings) {
+            ChannelProtocolMapping requiredMapping = Objects.requireNonNull(mapping, "Protocol mapping must not be null");
+            if (!requestProtocols.add(requiredMapping.requestProtocol())) {
+                throw new IllegalArgumentException("Duplicated request protocol mapping");
+            }
+            normalized.add(requiredMapping);
         }
-        return normalizedProtocols;
+        return normalized;
     }
 
     private static List<ChannelModelSupport> normalizeModels(List<ChannelModelSupport> modelSupports) {
@@ -319,12 +419,22 @@ public class ProviderChannel {
         return keyRef;
     }
 
+    public ProviderModelsPath modelsPath() {
+        return modelsPath;
+    }
+
     public int routePriority() {
         return routePriority;
     }
 
     public Set<ProtocolType> supportedProtocols() {
-        return Set.copyOf(supportedProtocols);
+        return protocolMappings.stream()
+                .map(ChannelProtocolMapping::requestProtocol)
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    public Set<ChannelProtocolMapping> protocolMappings() {
+        return Set.copyOf(protocolMappings);
     }
 
     public List<ChannelModelSupport> supportedModels() {

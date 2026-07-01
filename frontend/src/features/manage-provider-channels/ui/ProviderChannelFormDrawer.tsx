@@ -1,10 +1,10 @@
 import { useEffect, useState, type Key } from 'react';
-import { Alert, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Typography, message } from 'antd';
+import { Alert, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Tag, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { batchUpsertChannelModels, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
-import type { ProviderChannelResponse } from '@entities/provider-channel';
+import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
 import type { ApiErrorShape } from '@shared/api';
-import { PROTOCOL_OPTIONS } from '@shared/lib/protocols';
+import { PROTOCOL_OPTIONS, getProtocolMeta } from '@shared/lib/protocols';
 import type { AdminFormMode } from '@shared/types/admin';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
 import type { ProviderChannelFormState } from '../model/types';
@@ -22,7 +22,16 @@ interface ProviderChannelFormDrawerProps {
   onSaved: (channel: ProviderChannelResponse) => void;
 }
 
-const DEFAULT_FORM: ProviderChannelFormState = { name: '', host: '', keyRef: '', routePriority: 0, supportedProtocols: [] };
+const DEFAULT_MODELS_PATH = '/v1/models';
+const DEFAULT_FORM: ProviderChannelFormState = {
+  name: '',
+  host: '',
+  keyRef: '',
+  modelsPath: DEFAULT_MODELS_PATH,
+  routePriority: 0,
+  supportedProtocols: [],
+  protocolMappings: [],
+};
 
 function getErrorMessage(error: unknown, fallback: string): string {
   if (typeof error === 'object' && error !== null && 'message' in error) {
@@ -39,6 +48,14 @@ function isFormValidationError(error: unknown): boolean {
   return typeof error === 'object' && error !== null && 'errorFields' in error;
 }
 
+function normalizeProtocolMappings(protocols: string[], mappings?: ProtocolMappingRequest[]): ProtocolMappingRequest[] {
+  const existing = new Map((mappings ?? []).map((mapping) => [mapping.requestProtocol, mapping.upstreamProtocol]));
+  return protocols.map((protocol) => ({
+    requestProtocol: protocol,
+    upstreamProtocol: existing.get(protocol) ?? protocol,
+  }));
+}
+
 export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose, onSaved }: ProviderChannelFormDrawerProps) {
   const { createMutation, updateMutation } = useProviderChannelMutations();
   const [form] = Form.useForm<ProviderChannelFormState>();
@@ -46,6 +63,8 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   const [selectedModelIds, setSelectedModelIds] = useState<Key[]>([]);
   const [previewLoading, setPreviewLoading] = useState(false);
   const saving = createMutation.isPending || updateMutation.isPending;
+  const selectedProtocols = Form.useWatch('supportedProtocols', form) ?? [];
+  const protocolMappings = Form.useWatch('protocolMappings', form) ?? [];
 
   useEffect(() => {
     if (!open) {
@@ -54,21 +73,38 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
     setPreviewModels([]);
     setSelectedModelIds([]);
     if (channel && mode === 'edit') {
+      const supportedProtocols = channel.supportedProtocols;
       form.setFieldsValue({
         name: channel.name,
         host: channel.host,
         keyRef: '',
+        modelsPath: channel.modelsPath ?? DEFAULT_MODELS_PATH,
         routePriority: channel.routePriority ?? 0,
-        supportedProtocols: channel.supportedProtocols,
+        supportedProtocols,
+        protocolMappings: normalizeProtocolMappings(supportedProtocols, channel.protocolMappings),
       });
       return;
     }
     form.setFieldsValue(DEFAULT_FORM);
   }, [channel, form, mode, open]);
 
+  function handleSupportedProtocolsChange(protocols: string[]): void {
+    form.setFieldValue('supportedProtocols', protocols);
+    form.setFieldValue('protocolMappings', normalizeProtocolMappings(protocols, form.getFieldValue('protocolMappings')));
+  }
+
+  function handleUpstreamProtocolChange(requestProtocol: string, upstreamProtocol: string): void {
+    form.setFieldValue(
+      'protocolMappings',
+      normalizeProtocolMappings(selectedProtocols, protocolMappings).map((mapping) => (
+        mapping.requestProtocol === requestProtocol ? { ...mapping, upstreamProtocol } : mapping
+      ))
+    );
+  }
+
   async function handlePreviewModels(): Promise<void> {
     try {
-      const values = await form.validateFields(['host', 'keyRef', 'supportedProtocols']);
+      const values = await form.validateFields(['host', 'keyRef', 'modelsPath', 'supportedProtocols', 'protocolMappings']);
       if (!isHttpHost(values.host)) {
         form.setFields([{ name: 'host', errors: ['渠道 Host 必须以 http:// 或 https:// 开头'] }]);
         message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
@@ -79,23 +115,25 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         const response = await fetchProviderModelPreview({
           host: values.host.trim(),
           keyRef: values.keyRef.trim(),
+          modelsPath: values.modelsPath?.trim() || DEFAULT_MODELS_PATH,
           supportedProtocols: values.supportedProtocols,
+          protocolMappings: normalizeProtocolMappings(values.supportedProtocols, values.protocolMappings),
           defaultPriority: 10,
         });
         setPreviewModels(response.data.models);
         setSelectedModelIds(response.data.models.map((model) => model.id));
         message.success(`验证成功，已获取 ${response.data.models.length} 个模型候选`);
       } catch (error) {
-        message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key 和模型列表权限')}`);
+        message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key、模型列表路径和模型列表权限')}`);
       } finally {
         setPreviewLoading(false);
       }
     } catch (error) {
       if (isFormValidationError(error)) {
-        message.warning('请先填写渠道 Host、渠道 Key 和支持协议');
+        message.warning('请先填写渠道 Host、渠道 Key、模型列表路径、入口协议和转换协议');
         return;
       }
-      message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key 和模型列表权限')}`);
+      message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key、模型列表路径和模型列表权限')}`);
     }
   }
 
@@ -122,6 +160,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
     try {
       const values = await form.validateFields();
       if (!isHttpHost(values.host)) {
+        form.setFields([{ name: 'host', errors: ['渠道 Host 必须以 http:// 或 https:// 开头'] }]);
         message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
         return;
       }
@@ -129,8 +168,10 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         name: values.name.trim(),
         host: values.host.trim(),
         keyRef: values.keyRef?.trim(),
+        modelsPath: values.modelsPath?.trim() || DEFAULT_MODELS_PATH,
         routePriority: values.routePriority ?? 0,
         supportedProtocols: values.supportedProtocols,
+        protocolMappings: normalizeProtocolMappings(values.supportedProtocols, values.protocolMappings),
       };
       if (mode === 'edit' && !body.keyRef) {
         delete (body as Partial<typeof body>).keyRef;
@@ -166,7 +207,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       <Space wrap>
         <Typography.Text strong>{model.requestedModel}</Typography.Text>
         <Typography.Text type="secondary">→ {model.upstreamModel}</Typography.Text>
-        <span>{model.upstreamProtocol}</span>
+        <Tag>{getProtocolMeta(model.upstreamProtocol).label}</Tag>
       </Space>
     ),
   }, {
@@ -197,7 +238,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       onCancel={onClose}
       onOk={() => form.submit()}
       confirmLoading={saving}
-      width={760}
+      width={820}
       destroyOnHidden
     >
       <Form
@@ -221,24 +262,51 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         >
           <Input.Password placeholder={mode === 'edit' ? '留空不修改' : '请输入供应商 API Key'} autoComplete="new-password" />
         </Form.Item>
+        <Form.Item
+          name="modelsPath"
+          label="模型列表路径"
+          rules={[{ required: true, message: '请输入模型列表路径' }]}
+          extra="OpenAI-compatible 通常为 /v1/models；如果渠道 Host 已包含 /v1，可填 /models。"
+        >
+          <Input placeholder="/v1/models" />
+        </Form.Item>
         <Form.Item name="routePriority" label="渠道优先级" extra="数字越大越优先；同优先级命中时会负载均衡">
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
-        <Form.Item name="supportedProtocols" label="支持协议" rules={[{ required: true, message: '请选择至少一个协议' }]}>
+        <Form.Item name="supportedProtocols" label="入口支持协议" rules={[{ required: true, message: '请选择至少一个入口协议' }]}>
           <Select
             mode="multiple"
-            placeholder="支持协议"
+            placeholder="入口支持协议"
             options={PROTOCOL_OPTIONS}
             maxTagCount="responsive"
             popupMatchSelectWidth={false}
             style={{ width: '100%' }}
+            onChange={handleSupportedProtocolsChange}
           />
         </Form.Item>
+        {selectedProtocols.length > 0 ? (
+          <Form.Item label="转换协议配置" required>
+            <Space direction="vertical" style={{ width: '100%' }}>
+              {normalizeProtocolMappings(selectedProtocols, protocolMappings).map((mapping) => (
+                <Space key={mapping.requestProtocol} wrap>
+                  <Tag color={getProtocolMeta(mapping.requestProtocol).color}>{getProtocolMeta(mapping.requestProtocol).label}</Tag>
+                  <Typography.Text type="secondary">转换为</Typography.Text>
+                  <Select
+                    value={mapping.upstreamProtocol}
+                    options={PROTOCOL_OPTIONS}
+                    style={{ width: 240 }}
+                    onChange={(value) => handleUpstreamProtocolChange(mapping.requestProtocol, value)}
+                  />
+                </Space>
+              ))}
+            </Space>
+          </Form.Item>
+        ) : null}
       </Form>
 
       <Divider orientation="left">模型列表</Divider>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Alert type="info" showIcon message="验证并获取模型列表会真实请求上游模型列表接口，用于试探 Host/Key 是否具备模型列表权限；结果仅作为候选，保存前不会改变配置。" />
+        <Alert type="info" showIcon message="验证并获取模型列表会真实请求上游模型列表接口，用于试探 Host/Key/模型列表路径是否可用；结果仅作为候选，保存前不会改变配置。" />
         <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
         {previewModels.length > 0 ? (
           <Table

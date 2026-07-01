@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
-import { Badge, Space, Tooltip, Typography } from 'antd';
+import { Badge, Space, Tag, Tooltip, Typography } from 'antd';
 import type { ProviderChannelResponse } from '../model/types';
 import { ProtocolTag } from './ProtocolTag';
 import { ProviderChannelStatusTag } from './ProviderChannelStatusTag';
+import { formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
 
 interface ProviderChannelRowProps {
   /** 渠道响应 */
@@ -16,6 +17,7 @@ interface ProviderChannelRowProps {
 export function ProviderChannelRow({ channel, actions, expanded = false }: ProviderChannelRowProps) {
   const preferredModels = channel.supportedModels.filter((model) => model.preferred);
   const preferredSummary = preferredModels.slice(0, 3).map((model) => model.requestedModel).join('、');
+  const mappings = channel.protocolMappings ?? [];
 
   return (
     <Space wrap style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -29,6 +31,7 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
             {channel.host}
           </Typography.Text>
         </Tooltip>
+        <Typography.Text type="secondary">模型列表路径：{channel.modelsPath ?? '/v1/models'}</Typography.Text>
         <Typography.Text type="secondary">Key: {channel.keyMasked ?? channel.keyRef}</Typography.Text>
         <Typography.Text type="secondary">渠道优先级：{channel.routePriority ?? 0}（数字越大越优先）</Typography.Text>
         {preferredModels.length > 0 ? (
@@ -38,7 +41,13 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
         ) : null}
       </Space>
       <Space wrap>
-        {channel.supportedProtocols.map((protocol) => (
+        {mappings.length > 0 ? mappings.map((mapping) => (
+          <Tooltip key={mapping.requestProtocol} title={`${mapping.requestProtocol} -> ${mapping.upstreamProtocol}`}>
+            <Tag color={getProtocolMeta(mapping.upstreamProtocol).color}>
+              {formatProtocolDirection(mapping.requestProtocol, mapping.upstreamProtocol)}
+            </Tag>
+          </Tooltip>
+        )) : channel.supportedProtocols.map((protocol) => (
           <ProtocolTag key={protocol} protocol={protocol} compact />
         ))}
         <Badge count={channel.supportedModels.length} showZero title="模型数量" />

@@ -1,13 +1,14 @@
 package com.api2api.ohs.http.admin.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 /**
  * Request for updating a provider channel.
@@ -26,8 +27,13 @@ public class AdminUpdateProviderChannelRequest {
 
     private String keyRef;
 
+    private String modelsPath;
+
     private Integer routePriority;
 
     @NotEmpty(message = "Supported protocols must not be empty")
     private Set<String> supportedProtocols;
+
+    @Valid
+    private List<ProtocolMappingRequest> protocolMappings;
 }

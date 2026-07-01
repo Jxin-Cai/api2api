@@ -5,6 +5,7 @@ import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.channel.model.ProviderHost;
 import com.api2api.domain.channel.model.ProviderKeyRef;
+import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.model.RoutePriority;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,8 @@ public interface ProviderModelFetchPort {
             ProviderChannelId channelId,
             ProviderHost host,
             ProviderKeyRef keyRef,
-            Set<ProtocolType> supportedProtocols,
+            ProviderModelsPath modelsPath,
+            Set<ProtocolType> upstreamProtocols,
             RoutePriority defaultPriority
     );
 }

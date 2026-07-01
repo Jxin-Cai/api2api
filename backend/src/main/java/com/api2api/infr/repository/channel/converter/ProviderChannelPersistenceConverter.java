@@ -3,6 +3,7 @@ package com.api2api.infr.repository.channel.converter;
 import com.api2api.domain.channel.model.ChannelModelStatus;
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
+import com.api2api.domain.channel.model.ChannelProtocolMapping;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ModelSupportSource;
 import com.api2api.domain.channel.model.ProtocolType;
@@ -12,9 +13,11 @@ import com.api2api.domain.channel.model.ProviderChannelName;
 import com.api2api.domain.channel.model.ProviderChannelStatus;
 import com.api2api.domain.channel.model.ProviderHost;
 import com.api2api.domain.channel.model.ProviderKeyRef;
+import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.infr.lib.mapping.MapStructConfig;
 import com.api2api.infr.repository.channel.po.ChannelModelSupportPO;
+import com.api2api.infr.repository.channel.po.ChannelProtocolMappingPO;
 import com.api2api.infr.repository.channel.po.ProviderChannelPO;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -34,27 +37,59 @@ public interface ProviderChannelPersistenceConverter {
     @Mapping(target = "name", expression = "java(providerChannel.name().value())")
     @Mapping(target = "host", expression = "java(providerChannel.host().value())")
     @Mapping(target = "keyRef", expression = "java(providerChannel.keyRef().value())")
+    @Mapping(target = "modelsPath", expression = "java(providerChannel.modelsPath().value())")
     @Mapping(target = "routePriority", expression = "java(providerChannel.routePriority())")
     @Mapping(target = "supportedProtocols", expression = "java(toProtocolText(providerChannel.supportedProtocols()))")
     @Mapping(target = "status", expression = "java(providerChannel.status().name())")
     @Mapping(target = "createdTime", expression = "java(providerChannel.createdAt())")
     @Mapping(target = "updatedTime", expression = "java(providerChannel.updatedAt())")
     @Mapping(target = "deleted", constant = "false")
+    @Mapping(target = "protocolMappings", expression = "java(toProtocolMappingPOs(providerChannel.id().value(), providerChannel.protocolMappings(), providerChannel.createdAt(), providerChannel.updatedAt()))")
     @Mapping(target = "supportedModels", expression = "java(toModelPOs(providerChannel.id().value(), providerChannel.supportedModels()))")
     ProviderChannelPO toPO(ProviderChannel providerChannel);
 
     default ProviderChannel toDomain(ProviderChannelPO po) {
+        Set<ChannelProtocolMapping> mappings = po.getProtocolMappings() == null || po.getProtocolMappings().isEmpty()
+                ? toProtocols(po.getSupportedProtocols()).stream()
+                .map(protocol -> ChannelProtocolMapping.of(protocol, protocol))
+                .collect(Collectors.toCollection(LinkedHashSet::new))
+                : po.getProtocolMappings().stream().map(this::toProtocolMappingDomain).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProviderChannel.rehydrate(
                 ProviderChannelId.of(po.getId()),
                 ProviderChannelName.of(po.getName()),
                 ProviderHost.of(po.getHost()),
                 ProviderKeyRef.of(po.getKeyRef()),
+                ProviderModelsPath.of(po.getModelsPath()),
                 po.getRoutePriority(),
-                toProtocols(po.getSupportedProtocols()),
+                mappings,
                 po.getSupportedModels().stream().map(this::toModelDomain).toList(),
                 ProviderChannelStatus.valueOf(po.getStatus()),
                 po.getCreatedTime(),
                 po.getUpdatedTime()
+        );
+    }
+
+    default List<ChannelProtocolMappingPO> toProtocolMappingPOs(
+            Long providerChannelId,
+            Set<ChannelProtocolMapping> mappings,
+            java.time.Instant createdAt,
+            java.time.Instant updatedAt
+    ) {
+        return mappings.stream()
+                .map(mapping -> ChannelProtocolMappingPO.builder()
+                        .providerChannelId(providerChannelId)
+                        .requestProtocol(mapping.requestProtocol().name())
+                        .upstreamProtocol(mapping.upstreamProtocol().name())
+                        .createdTime(createdAt)
+                        .updatedTime(updatedAt)
+                        .build())
+                .toList();
+    }
+
+    default ChannelProtocolMapping toProtocolMappingDomain(ChannelProtocolMappingPO po) {
+        return ChannelProtocolMapping.of(
+                ProtocolType.valueOf(po.getRequestProtocol()),
+                ProtocolType.valueOf(po.getUpstreamProtocol())
         );
     }
 

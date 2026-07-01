@@ -85,26 +85,37 @@ public interface RoutingPolicyService {
             List<RouteCandidate> candidates,
             ProviderChannel channel
     ) {
+        Optional<ProtocolType> configuredUpstreamProtocol = channel.upstreamProtocolFor(request.requestProtocol());
+        if (configuredUpstreamProtocol.isEmpty()) {
+            return;
+        }
+        ProtocolType upstreamProtocol = configuredUpstreamProtocol.get();
+        Optional<ConversionRoute> conversionRoute = resolveRoute(
+                request.requestProtocol(),
+                upstreamProtocol,
+                request.requirement(),
+                conversionDefinitions
+        );
+        if (conversionRoute.isEmpty()) {
+            return;
+        }
         for (ChannelModelSupport modelSupport : channel.findModelSupports(request.requestedModel())) {
-            ProtocolType upstreamProtocol = modelSupport.upstreamProtocol();
-            if (!channel.supportsProtocol(upstreamProtocol)) {
+            if (modelSupport.upstreamProtocol() != upstreamProtocol) {
                 continue;
             }
-            resolveRoute(request.requestProtocol(), upstreamProtocol, request.requirement(), conversionDefinitions)
-                    .map(route -> RouteCandidate.of(
-                            channel.id(),
-                            channel.name(),
-                            modelSupport.requestedModel(),
-                            modelSupport.upstreamModel(),
-                            request.requestProtocol(),
-                            upstreamProtocol,
-                            modelSupport.priority(),
-                            channel.routePriority(),
-                            modelSupport.preferred(),
-                            route,
-                            ModelMappingResult.of(modelSupport.requestedModel(), modelSupport.upstreamModel())
-                    ))
-                    .ifPresent(candidates::add);
+            candidates.add(RouteCandidate.of(
+                    channel.id(),
+                    channel.name(),
+                    modelSupport.requestedModel(),
+                    modelSupport.upstreamModel(),
+                    request.requestProtocol(),
+                    upstreamProtocol,
+                    modelSupport.priority(),
+                    channel.routePriority(),
+                    modelSupport.preferred(),
+                    conversionRoute.get(),
+                    ModelMappingResult.of(modelSupport.requestedModel(), modelSupport.upstreamModel())
+            ));
         }
     }
 

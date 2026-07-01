@@ -1,12 +1,11 @@
 package com.api2api.ohs.http.admin.dto;
 
+import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Provider channel response DTO.
@@ -23,8 +22,10 @@ public class ProviderChannelResponse {
     private String keyRef;
     private String keyMasked;
     private Boolean hasKey;
+    private String modelsPath;
     private Integer routePriority;
     private Set<String> supportedProtocols;
+    private List<ProtocolMappingResponse> protocolMappings;
     private List<ChannelModelSupportResponse> supportedModels;
     private String status;
     private Long createdAt;

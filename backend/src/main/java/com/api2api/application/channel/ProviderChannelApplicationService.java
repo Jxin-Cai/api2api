@@ -13,6 +13,8 @@ import com.api2api.application.channel.command.UpdateProviderChannelCommand;
 import com.api2api.application.channel.command.UpsertChannelModelCommand;
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
+import com.api2api.domain.channel.model.ChannelProtocolMapping;
+import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
@@ -23,6 +25,7 @@ import com.api2api.domain.user.repository.UserAccountRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -54,8 +57,9 @@ public class ProviderChannelApplicationService {
                 command.getName(),
                 command.getHost(),
                 command.getKeyRef(),
+                command.getModelsPath(),
                 command.getRoutePriority(),
-                command.getSupportedProtocols(),
+                command.getProtocolMappings(),
                 now()
         );
         providerChannelRepository.save(channel);
@@ -70,8 +74,9 @@ public class ProviderChannelApplicationService {
 
         channel.rename(command.getName(), now);
         channel.updateEndpoint(command.getHost(), command.getKeyRef() == null ? channel.keyRef() : command.getKeyRef(), now);
+        channel.changeModelsPath(command.getModelsPath(), now);
         channel.changeRoutePriority(command.getRoutePriority(), now);
-        channel.replaceSupportedProtocols(command.getSupportedProtocols(), now);
+        channel.replaceProtocolMappings(command.getProtocolMappings(), now);
         providerChannelRepository.save(channel);
         return channel;
     }
@@ -108,7 +113,8 @@ public class ProviderChannelApplicationService {
                 channel.id(),
                 channel.host(),
                 channel.keyRef(),
-                channel.supportedProtocols(),
+                channel.modelsPath(),
+                channel.upstreamProtocols(),
                 command.getDefaultPriority()
         );
         return replaceFetchedModels(command.getOperatorUserId(), command.getProviderChannelId(), fetchedModels);
@@ -121,7 +127,8 @@ public class ProviderChannelApplicationService {
                 ProviderChannelId.of(1L),
                 command.getHost(),
                 command.getKeyRef(),
-                command.getSupportedProtocols(),
+                command.getModelsPath(),
+                upstreamProtocols(command.getProtocolMappings()),
                 command.getDefaultPriority()
         );
     }
@@ -134,7 +141,8 @@ public class ProviderChannelApplicationService {
                 channel.id(),
                 channel.host(),
                 channel.keyRef(),
-                channel.supportedProtocols(),
+                channel.modelsPath(),
+                channel.upstreamProtocols(),
                 command.getDefaultPriority()
         );
     }
@@ -227,6 +235,12 @@ public class ProviderChannelApplicationService {
                 item.getSource(),
                 now
         );
+    }
+
+    private Set<ProtocolType> upstreamProtocols(Set<ChannelProtocolMapping> mappings) {
+        return mappings.stream()
+                .map(ChannelProtocolMapping::upstreamProtocol)
+                .collect(java.util.stream.Collectors.toCollection(java.util.LinkedHashSet::new));
     }
 
     private void assertAdmin(UserAccountId operatorUserId) {

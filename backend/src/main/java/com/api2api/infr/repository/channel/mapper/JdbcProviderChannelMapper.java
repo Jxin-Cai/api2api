@@ -1,6 +1,7 @@
 package com.api2api.infr.repository.channel.mapper;
 
 import com.api2api.infr.repository.channel.po.ChannelModelSupportPO;
+import com.api2api.infr.repository.channel.po.ChannelProtocolMappingPO;
 import com.api2api.infr.repository.channel.po.ProviderChannelPO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,8 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class JdbcProviderChannelMapper implements ProviderChannelMapper {
 
-    private static final String CHANNEL_COLUMNS = "id, name, host, key_ref, route_priority, supported_protocols, status, created_at, updated_at, deleted";
+    private static final String CHANNEL_COLUMNS = "id, name, host, key_ref, models_path, route_priority, supported_protocols, status, created_at, updated_at, deleted";
     private static final String MODEL_COLUMNS = "id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, created_at, updated_at";
+    private static final String PROTOCOL_MAPPING_COLUMNS = "provider_channel_id, request_protocol, upstream_protocol, created_at, updated_at";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -32,6 +34,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
             .name(rs.getString("name"))
             .host(rs.getString("host"))
             .keyRef(rs.getString("key_ref"))
+            .modelsPath(rs.getString("models_path"))
             .routePriority(rs.getInt("route_priority"))
             .supportedProtocols(rs.getString("supported_protocols"))
             .status(rs.getString("status"))
@@ -54,13 +57,22 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
             .updatedTime(instant(rs, "updated_at"))
             .build();
 
+    private final RowMapper<ChannelProtocolMappingPO> protocolMappingRowMapper = (rs, rowNum) -> ChannelProtocolMappingPO.builder()
+            .providerChannelId(rs.getLong("provider_channel_id"))
+            .requestProtocol(rs.getString("request_protocol"))
+            .upstreamProtocol(rs.getString("upstream_protocol"))
+            .createdTime(instant(rs, "created_at"))
+            .updatedTime(instant(rs, "updated_at"))
+            .build();
+
     @Override
     @Transactional
     public int insert(ProviderChannelPO providerChannel) {
         int affected = jdbcTemplate.update("""
-                INSERT INTO provider_channels (id, name, host, key_ref, route_priority, supported_protocols, status, created_at, updated_at, deleted)
-                VALUES (:id, :name, :host, :keyRef, :routePriority, :supportedProtocols, :status, :createdTime, :updatedTime, :deleted)
+                INSERT INTO provider_channels (id, name, host, key_ref, models_path, route_priority, supported_protocols, status, created_at, updated_at, deleted)
+                VALUES (:id, :name, :host, :keyRef, :modelsPath, :routePriority, :supportedProtocols, :status, :createdTime, :updatedTime, :deleted)
                 """, params(providerChannel));
+        replaceProtocolMappings(providerChannel);
         replaceModelSupports(providerChannel);
         return affected;
     }
@@ -73,6 +85,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 SET name = :name,
                     host = :host,
                     key_ref = :keyRef,
+                    models_path = :modelsPath,
                     route_priority = :routePriority,
                     supported_protocols = :supportedProtocols,
                     status = :status,
@@ -80,6 +93,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                     deleted = :deleted
                 WHERE id = :id
                 """, params(providerChannel));
+        replaceProtocolMappings(providerChannel);
         replaceModelSupports(providerChannel);
         return affected;
     }
@@ -89,7 +103,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
         ProviderChannelPO channel = DataAccessUtils.singleResult(jdbcTemplate.query(
                 "SELECT " + CHANNEL_COLUMNS + " FROM provider_channels WHERE id = :id AND deleted = FALSE",
                 Map.of("id", id), channelRowMapper));
-        return withModels(channel, false);
+        return withChildren(channel, false);
     }
 
     @Override
@@ -98,7 +112,7 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                         "SELECT " + CHANNEL_COLUMNS + " FROM provider_channels WHERE deleted = FALSE ORDER BY created_at DESC, id DESC",
                         Map.of(), channelRowMapper)
                 .stream()
-                .map(channel -> withModels(channel, false))
+                .map(channel -> withChildren(channel, false))
                 .toList();
     }
 
@@ -108,21 +122,37 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                         "SELECT " + CHANNEL_COLUMNS + " FROM provider_channels WHERE deleted = FALSE AND status = 'ENABLED' ORDER BY created_at DESC, id DESC",
                         Map.of(), channelRowMapper)
                 .stream()
-                .map(channel -> withModels(channel, true))
+                .map(channel -> withChildren(channel, true))
                 .toList();
     }
 
-    private ProviderChannelPO withModels(ProviderChannelPO channel, boolean enabledOnly) {
+    private ProviderChannelPO withChildren(ProviderChannelPO channel, boolean enabledModelsOnly) {
         if (channel == null) {
             return null;
         }
+        channel.setProtocolMappings(jdbcTemplate.query(
+                "SELECT " + PROTOCOL_MAPPING_COLUMNS + " FROM provider_channel_protocol_mappings WHERE provider_channel_id = :providerChannelId ORDER BY created_at ASC, request_protocol ASC",
+                Map.of("providerChannelId", channel.getId()),
+                protocolMappingRowMapper
+        ));
         String sql = "SELECT " + MODEL_COLUMNS + " FROM channel_model_supports WHERE provider_channel_id = :providerChannelId";
-        if (enabledOnly) {
+        if (enabledModelsOnly) {
             sql += " AND status = 'ENABLED'";
         }
         sql += " ORDER BY priority ASC, created_at ASC, id ASC";
         channel.setSupportedModels(jdbcTemplate.query(sql, Map.of("providerChannelId", channel.getId()), modelRowMapper));
         return channel;
+    }
+
+    private void replaceProtocolMappings(ProviderChannelPO providerChannel) {
+        jdbcTemplate.update("DELETE FROM provider_channel_protocol_mappings WHERE provider_channel_id = :providerChannelId",
+                Map.of("providerChannelId", providerChannel.getId()));
+        for (ChannelProtocolMappingPO mapping : providerChannel.getProtocolMappings()) {
+            jdbcTemplate.update("""
+                    INSERT INTO provider_channel_protocol_mappings (provider_channel_id, request_protocol, upstream_protocol, created_at, updated_at)
+                    VALUES (:providerChannelId, :requestProtocol, :upstreamProtocol, :createdTime, :updatedTime)
+                    """, protocolMappingParams(mapping));
+        }
     }
 
     private void replaceModelSupports(ProviderChannelPO providerChannel) {
@@ -142,12 +172,22 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 .addValue("name", po.getName())
                 .addValue("host", po.getHost())
                 .addValue("keyRef", po.getKeyRef())
+                .addValue("modelsPath", po.getModelsPath())
                 .addValue("routePriority", po.getRoutePriority())
                 .addValue("supportedProtocols", po.getSupportedProtocols())
                 .addValue("status", po.getStatus())
                 .addValue("createdTime", timestamp(po.getCreatedTime()))
                 .addValue("updatedTime", timestamp(po.getUpdatedTime()))
                 .addValue("deleted", po.isDeleted());
+    }
+
+    private MapSqlParameterSource protocolMappingParams(ChannelProtocolMappingPO po) {
+        return new MapSqlParameterSource()
+                .addValue("providerChannelId", po.getProviderChannelId())
+                .addValue("requestProtocol", po.getRequestProtocol())
+                .addValue("upstreamProtocol", po.getUpstreamProtocol())
+                .addValue("createdTime", timestamp(po.getCreatedTime()))
+                .addValue("updatedTime", timestamp(po.getUpdatedTime()));
     }
 
     private MapSqlParameterSource modelParams(ChannelModelSupportPO po) {
