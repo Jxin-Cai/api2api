@@ -8,6 +8,7 @@ export const ROUTE_PATHS = {
   adminDashboard: '/admin/dashboard',
   adminUsers: '/admin/users',
   adminChannels: '/admin/channels',
+  adminModelMappings: '/admin/model-mappings',
   adminConversions: '/admin/conversions',
   adminUsage: '/admin/usage',
 } as const;

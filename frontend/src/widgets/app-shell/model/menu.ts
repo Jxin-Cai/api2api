@@ -19,6 +19,7 @@ export const adminMenuItems: AppMenuItem[] = [
   { key: 'admin-usage', label: '使用记录', path: ROUTE_PATHS.adminUsage, portal: 'admin' },
   { key: 'admin-users', label: '用户管理', path: ROUTE_PATHS.adminUsers, portal: 'admin' },
   { key: 'admin-channels', label: '供应商渠道', path: ROUTE_PATHS.adminChannels, portal: 'admin' },
+  { key: 'admin-model-mappings', label: '模型映射', path: ROUTE_PATHS.adminModelMappings, portal: 'admin' },
   { key: 'admin-conversions', label: '协议转换', path: ROUTE_PATHS.adminConversions, portal: 'admin' },
 ];
 

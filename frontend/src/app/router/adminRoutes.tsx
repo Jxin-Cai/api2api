@@ -6,6 +6,7 @@ import { PageState } from '@shared/ui';
 
 const AdminUsersPage = lazy(() => import('@pages/AdminUsersPage'));
 const AdminChannelsPage = lazy(() => import('@pages/AdminChannelsPage'));
+const AdminModelMappingsPage = lazy(() => import('@pages/AdminModelMappingsPage'));
 const AdminConversionsPage = lazy(() => import('@pages/AdminConversionsPage'));
 
 function withAdminGuard(element: ReactElement): ReactElement {
@@ -21,5 +22,6 @@ function withAdminGuard(element: ReactElement): ReactElement {
 export const adminRoutes: RouteObject[] = [
   { path: '/admin/users', element: withAdminGuard(<AdminUsersPage />) },
   { path: '/admin/channels', element: withAdminGuard(<AdminChannelsPage />) },
+  { path: '/admin/model-mappings', element: withAdminGuard(<AdminModelMappingsPage />) },
   { path: '/admin/conversions', element: withAdminGuard(<AdminConversionsPage />) },
 ];
