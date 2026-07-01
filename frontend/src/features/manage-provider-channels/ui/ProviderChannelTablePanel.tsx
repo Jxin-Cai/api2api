@@ -20,7 +20,9 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
   const source = localChannels.length > 0 ? localChannels : channels;
 
   const filtered = useMemo(() => source.filter((channel) => {
-    const text = `${channel.name} ${channel.host} ${channel.supportedProtocols.join(' ')}`.toLowerCase();
+    const mappings = (channel.protocolMappings ?? []).map((mapping) => `${mapping.requestProtocol} ${mapping.upstreamProtocol}`).join(' ');
+    const models = channel.supportedModels.map((model) => `${model.requestedModel} ${model.upstreamModel}`).join(' ');
+    const text = `${channel.name} ${channel.host} ${channel.supportedProtocols.join(' ')} ${mappings} ${models}`.toLowerCase();
     return text.includes(search.toLowerCase());
   }), [source, search]);
 
@@ -33,6 +35,21 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
     void refetch();
   }
 
+  function handleRefresh(): void {
+    setLocalChannels([]);
+    void refetch();
+  }
+
+  async function handleEnable(channelId: number): Promise<void> {
+    await enableMutation.mutateAsync(channelId);
+    handleRefresh();
+  }
+
+  async function handleDisable(channelId: number): Promise<void> {
+    await disableMutation.mutateAsync(channelId);
+    handleRefresh();
+  }
+
   const columns: ColumnsType<ProviderChannelResponse> = [{
     title: '渠道',
     dataIndex: 'name',
@@ -43,9 +60,9 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
           <Space>
             <Button size="small" onClick={() => setDrawer({ open: true, mode: 'edit', channel })}>编辑</Button>
             {channel.status === 'ENABLED' ? (
-              <Popconfirm title="确认禁用渠道？" onConfirm={() => disableMutation.mutate(channel.id)}><Button size="small" danger>禁用</Button></Popconfirm>
+              <Popconfirm title="确认禁用渠道？" onConfirm={() => void handleDisable(channel.id)}><Button size="small" danger>禁用</Button></Popconfirm>
             ) : (
-              <Popconfirm title="确认启用渠道？" onConfirm={() => enableMutation.mutate(channel.id)}><Button size="small">启用</Button></Popconfirm>
+              <Popconfirm title="确认启用渠道？" onConfirm={() => void handleEnable(channel.id)}><Button size="small">启用</Button></Popconfirm>
             )}
           </Space>
         }
@@ -56,7 +73,7 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
   return (
     <Card>
       <Space direction="vertical" size={16} style={{ width: '100%' }}>
-        <ProviderChannelToolbar search={search} onSearchChange={setSearch} onCreateClick={() => setDrawer({ open: true, mode: 'create', channel: null })} onRefresh={() => void refetch()} loading={isLoading} />
+        <ProviderChannelToolbar search={search} onSearchChange={setSearch} onCreateClick={() => setDrawer({ open: true, mode: 'create', channel: null })} onRefresh={handleRefresh} loading={isLoading} />
         <Table rowKey="id" columns={columns} dataSource={filtered} loading={isLoading} expandable={{ expandedRowRender: (channel) => renderModelsPanel ? renderModelsPanel(channel, handleChannelChanged) : null }} pagination={false} />
         <ProviderChannelFormDrawer open={drawer.open} mode={drawer.mode} channel={drawer.channel} onClose={() => setDrawer((current) => ({ ...current, open: false }))} onSaved={handleChannelChanged} />
       </Space>

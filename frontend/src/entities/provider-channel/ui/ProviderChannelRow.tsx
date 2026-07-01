@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Badge, Space, Tag, Tooltip, Typography } from 'antd';
+import type { ChannelModelSupportResponse } from '@shared/api/contracts';
 import type { ProviderChannelResponse } from '../model/types';
 import { ProtocolTag } from './ProtocolTag';
 import { ProviderChannelStatusTag } from './ProviderChannelStatusTag';
@@ -14,10 +15,29 @@ interface ProviderChannelRowProps {
   expanded?: boolean;
 }
 
+function modelSummary(models: ChannelModelSupportResponse[]): string {
+  if (models.length === 0) {
+    return '未配置';
+  }
+  const names = models.map((model) => model.requestedModel);
+  const summary = names.slice(0, 3).join('、');
+  return names.length > 3 ? `${summary} 等 ${names.length} 个` : summary;
+}
+
+function modelTooltip(models: ChannelModelSupportResponse[]): string {
+  if (models.length === 0) {
+    return '未配置模型';
+  }
+  return models.map((model) => `${model.requestedModel} → ${model.upstreamModel} (${model.upstreamProtocol}, 排序 ${model.priority})`).join('\n');
+}
+
 export function ProviderChannelRow({ channel, actions, expanded = false }: ProviderChannelRowProps) {
-  const preferredModels = channel.supportedModels.filter((model) => model.preferred);
-  const preferredSummary = preferredModels.slice(0, 3).map((model) => model.requestedModel).join('、');
+  const enabledModels = channel.supportedModels.filter((model) => model.status === 'ENABLED');
+  const preferredModels = enabledModels.filter((model) => model.preferred);
   const mappings = channel.protocolMappings ?? [];
+  const modelCountTitle = enabledModels.length === channel.supportedModels.length
+    ? `启用模型数量：${enabledModels.length}`
+    : `启用 ${enabledModels.length} / 总计 ${channel.supportedModels.length}`;
 
   return (
     <Space wrap style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -34,11 +54,12 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
         <Typography.Text type="secondary">模型列表路径：{channel.modelsPath ?? '/v1/models'}</Typography.Text>
         <Typography.Text type="secondary">Key: {channel.keyMasked ?? channel.keyRef}</Typography.Text>
         <Typography.Text type="secondary">渠道优先级：{channel.routePriority ?? 0}（数字越大越优先）</Typography.Text>
-        {preferredModels.length > 0 ? (
-          <Tooltip title={preferredSummary}>
-            <Typography.Text type="secondary">★ 优先模型：{preferredModels.length}</Typography.Text>
-          </Tooltip>
-        ) : null}
+        <Tooltip title={modelTooltip(enabledModels)}>
+          <Typography.Text type="secondary">启用模型：{enabledModels.length} 个（{modelSummary(enabledModels)}）</Typography.Text>
+        </Tooltip>
+        <Tooltip title={modelTooltip(preferredModels)}>
+          <Typography.Text type="secondary">★ 优先模型：{preferredModels.length} 个（{modelSummary(preferredModels)}）</Typography.Text>
+        </Tooltip>
       </Space>
       <Space wrap>
         {mappings.length > 0 ? mappings.map((mapping) => (
@@ -50,7 +71,7 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
         )) : channel.supportedProtocols.map((protocol) => (
           <ProtocolTag key={protocol} protocol={protocol} compact />
         ))}
-        <Badge count={channel.supportedModels.length} showZero title="模型数量" />
+        <Badge count={enabledModels.length} showZero title={modelCountTitle} />
         <ProviderChannelStatusTag status={channel.status} />
         {actions}
       </Space>

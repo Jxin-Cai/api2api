@@ -4,7 +4,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { batchUpsertChannelModels, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
 import type { ApiErrorShape } from '@shared/api';
-import { PROTOCOL_OPTIONS, getProtocolMeta } from '@shared/lib/protocols';
+import { PROTOCOL_OPTIONS, formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
 import type { AdminFormMode } from '@shared/types/admin';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
 import type { ProviderChannelFormState } from '../model/types';
@@ -56,24 +56,37 @@ function normalizeProtocolMappings(protocols: string[], mappings?: ProtocolMappi
   }));
 }
 
+function deriveSupportedProtocols(channel: ProviderChannelResponse): string[] {
+  const mappings = channel.protocolMappings ?? [];
+  if (mappings.length > 0) {
+    return mappings.map((mapping) => mapping.requestProtocol);
+  }
+  return channel.supportedProtocols ?? [];
+}
+
+function modelKey(model: Pick<ChannelModelSupportResponse, 'requestedModel' | 'upstreamProtocol'>): string {
+  return `${model.requestedModel}::${model.upstreamProtocol}`;
+}
+
 export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose, onSaved }: ProviderChannelFormDrawerProps) {
   const { createMutation, updateMutation } = useProviderChannelMutations();
   const [form] = Form.useForm<ProviderChannelFormState>();
   const [previewModels, setPreviewModels] = useState<ChannelModelSupportResponse[]>([]);
   const [selectedModelIds, setSelectedModelIds] = useState<Key[]>([]);
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [modelsDirty, setModelsDirty] = useState(false);
   const saving = createMutation.isPending || updateMutation.isPending;
   const selectedProtocols = Form.useWatch('supportedProtocols', form) ?? [];
   const protocolMappings = Form.useWatch('protocolMappings', form) ?? [];
+  const existingModels = channel?.supportedModels ?? [];
 
   useEffect(() => {
     if (!open) {
       return;
     }
-    setPreviewModels([]);
-    setSelectedModelIds([]);
+    setModelsDirty(false);
     if (channel && mode === 'edit') {
-      const supportedProtocols = channel.supportedProtocols;
+      const supportedProtocols = deriveSupportedProtocols(channel);
       form.setFieldsValue({
         name: channel.name,
         host: channel.host,
@@ -83,10 +96,32 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         supportedProtocols,
         protocolMappings: normalizeProtocolMappings(supportedProtocols, channel.protocolMappings),
       });
+      setPreviewModels(channel.supportedModels ?? []);
+      setSelectedModelIds((channel.supportedModels ?? []).map((model) => model.id));
       return;
     }
     form.setFieldsValue(DEFAULT_FORM);
+    setPreviewModels([]);
+    setSelectedModelIds([]);
   }, [channel, form, mode, open]);
+
+  function findExistingModel(model: Pick<ChannelModelSupportResponse, 'requestedModel' | 'upstreamProtocol'>): ChannelModelSupportResponse | undefined {
+    return existingModels.find((item) => modelKey(item) === modelKey(model));
+  }
+
+  function mergeWithExistingModels(models: ChannelModelSupportResponse[]): ChannelModelSupportResponse[] {
+    return models.map((model) => {
+      const existing = findExistingModel(model);
+      return existing ? {
+        ...model,
+        id: existing.id,
+        priority: existing.priority,
+        preferred: existing.preferred,
+        source: existing.source,
+        status: existing.status,
+      } : model;
+    });
+  }
 
   function handleSupportedProtocolsChange(protocols: string[]): void {
     form.setFieldValue('supportedProtocols', protocols);
@@ -110,6 +145,11 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
         return;
       }
+      if (!values.keyRef?.trim()) {
+        form.setFields([{ name: 'keyRef', errors: ['预览拉取模型需要填写真实渠道 Key'] }]);
+        message.warning('预览拉取模型需要填写真实渠道 Key');
+        return;
+      }
       setPreviewLoading(true);
       try {
         const response = await fetchProviderModelPreview({
@@ -120,8 +160,10 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
           protocolMappings: normalizeProtocolMappings(values.supportedProtocols, values.protocolMappings),
           defaultPriority: 10,
         });
-        setPreviewModels(response.data.models);
-        setSelectedModelIds(response.data.models.map((model) => model.id));
+        const mergedModels = mergeWithExistingModels(response.data.models);
+        setPreviewModels(mergedModels);
+        setSelectedModelIds(mergedModels.map((model) => model.id));
+        setModelsDirty(true);
         message.success(`验证成功，已获取 ${response.data.models.length} 个模型候选`);
       } catch (error) {
         message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key、模型列表路径和模型列表权限')}`);
@@ -138,21 +180,29 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   }
 
   async function saveSelectedModels(providerChannelId: number): Promise<ProviderChannelResponse | null> {
+    if (!modelsDirty) {
+      return null;
+    }
     const selectedModels = previewModels.filter((model) => selectedModelIds.includes(model.id));
     if (selectedModels.length === 0) {
       return null;
     }
     const response = await batchUpsertChannelModels(providerChannelId, {
       replaceExisting: false,
-      models: selectedModels.map((model) => ({
-        requestedModel: model.requestedModel,
-        upstreamModel: model.upstreamModel,
-        upstreamProtocol: model.upstreamProtocol,
-        priority: model.priority,
-        preferred: Boolean(model.preferred),
-        source: model.source,
-      })),
+      models: selectedModels.map((model) => {
+        const existing = findExistingModel(model);
+        return {
+          id: existing?.id,
+          requestedModel: model.requestedModel,
+          upstreamModel: model.upstreamModel,
+          upstreamProtocol: model.upstreamProtocol,
+          priority: model.priority,
+          preferred: Boolean(model.preferred),
+          source: model.source,
+        };
+      }),
     });
+    setModelsDirty(false);
     return response.data;
   }
 
@@ -197,19 +247,30 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   }
 
   function updatePreviewModel(modelId: number, patch: Partial<ChannelModelSupportResponse>): void {
+    setModelsDirty(true);
     setPreviewModels((current) => current.map((item) => (item.id === modelId ? { ...item, ...patch } : item)));
   }
 
+  function handleSelectedModelIdsChange(keys: Key[]): void {
+    setModelsDirty(true);
+    setSelectedModelIds(keys);
+  }
+
+  const normalizedMappings = normalizeProtocolMappings(selectedProtocols, protocolMappings);
   const columns: ColumnsType<ChannelModelSupportResponse> = [{
     title: '模型候选',
     dataIndex: 'requestedModel',
-    render: (_value, model) => (
-      <Space wrap>
-        <Typography.Text strong>{model.requestedModel}</Typography.Text>
-        <Typography.Text type="secondary">→ {model.upstreamModel}</Typography.Text>
-        <Tag>{getProtocolMeta(model.upstreamProtocol).label}</Tag>
-      </Space>
-    ),
+    render: (_value, model) => {
+      const existing = findExistingModel(model);
+      return (
+        <Space wrap>
+          <Typography.Text strong>{model.requestedModel}</Typography.Text>
+          <Typography.Text type="secondary">→ {model.upstreamModel}</Typography.Text>
+          <Tag>{getProtocolMeta(model.upstreamProtocol).label}</Tag>
+          {existing ? <Tag color="processing">已保存</Tag> : <Tag color="success">新增候选</Tag>}
+        </Space>
+      );
+    },
   }, {
     title: '优先模型',
     dataIndex: 'preferred',
@@ -273,7 +334,12 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         <Form.Item name="routePriority" label="渠道优先级" extra="数字越大越优先；同优先级命中时会负载均衡">
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
-        <Form.Item name="supportedProtocols" label="入口支持协议" rules={[{ required: true, message: '请选择至少一个入口协议' }]}>
+        <Form.Item
+          name="supportedProtocols"
+          label="入口支持协议"
+          rules={[{ required: true, message: '请选择至少一个入口协议' }]}
+          extra="选择入口协议后，请在下方为每个入口协议选择供应商实际调用的上游协议。请求会按入口协议接收，转换为上游协议调用供应商，再把响应转回入口协议。"
+        >
           <Select
             mode="multiple"
             placeholder="入口支持协议"
@@ -284,29 +350,41 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
             onChange={handleSupportedProtocolsChange}
           />
         </Form.Item>
-        {selectedProtocols.length > 0 ? (
-          <Form.Item label="转换协议配置" required>
-            <Space direction="vertical" style={{ width: '100%' }}>
-              {normalizeProtocolMappings(selectedProtocols, protocolMappings).map((mapping) => (
-                <Space key={mapping.requestProtocol} wrap>
-                  <Tag color={getProtocolMeta(mapping.requestProtocol).color}>{getProtocolMeta(mapping.requestProtocol).label}</Tag>
-                  <Typography.Text type="secondary">转换为</Typography.Text>
-                  <Select
-                    value={mapping.upstreamProtocol}
-                    options={PROTOCOL_OPTIONS}
-                    style={{ width: 240 }}
-                    onChange={(value) => handleUpstreamProtocolChange(mapping.requestProtocol, value)}
-                  />
-                </Space>
-              ))}
-            </Space>
-          </Form.Item>
-        ) : null}
+        <Form.Item label="入口协议 → 上游调用协议" required>
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <Alert
+              type="info"
+              showIcon
+              message="为每个入口协议选择转换后的上游调用协议"
+              description="例如 Claude Messages → OpenAI Responses 表示用 Claude Messages 接收请求，转换为 OpenAI Responses 调用供应商，响应再转回 Claude Messages。"
+            />
+            {selectedProtocols.length === 0 ? (
+              <Typography.Text type="secondary">请先选择入口支持协议。</Typography.Text>
+            ) : normalizedMappings.map((mapping) => (
+              <Space key={mapping.requestProtocol} wrap>
+                <Tag color={getProtocolMeta(mapping.requestProtocol).color}>入口：{getProtocolMeta(mapping.requestProtocol).label}</Tag>
+                <Typography.Text type="secondary">转换为</Typography.Text>
+                <Select
+                  value={mapping.upstreamProtocol}
+                  options={PROTOCOL_OPTIONS}
+                  style={{ width: 240 }}
+                  onChange={(value) => handleUpstreamProtocolChange(mapping.requestProtocol, value)}
+                />
+                <Typography.Text type="secondary">{formatProtocolDirection(mapping.requestProtocol, mapping.upstreamProtocol)}</Typography.Text>
+              </Space>
+            ))}
+          </Space>
+        </Form.Item>
       </Form>
 
-      <Divider orientation="left">模型列表</Divider>
+      <Divider orientation="left">已保存/预览模型列表</Divider>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Alert type="info" showIcon message="验证并获取模型列表会真实请求上游模型列表接口，用于试探 Host/Key/模型列表路径是否可用；结果仅作为候选，保存前不会改变配置。" />
+        <Alert
+          type="info"
+          showIcon
+          message="验证并获取模型列表会真实请求上游模型列表接口；编辑渠道时会先显示已保存模型，并保留已配置的优先模型和排序值。"
+          description="取消勾选只表示本次不保存该候选，不会删除已保存模型；删除模型请在展开的模型配置区操作。"
+        />
         <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
         {previewModels.length > 0 ? (
           <Table
@@ -315,7 +393,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
             columns={columns}
             dataSource={previewModels}
             pagination={{ pageSize: 6 }}
-            rowSelection={{ selectedRowKeys: selectedModelIds, onChange: setSelectedModelIds }}
+            rowSelection={{ selectedRowKeys: selectedModelIds, onChange: handleSelectedModelIdsChange }}
           />
         ) : null}
       </Space>
