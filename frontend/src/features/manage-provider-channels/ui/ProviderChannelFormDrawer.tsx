@@ -35,6 +35,10 @@ function isHttpHost(host: string): boolean {
   return /^https?:\/\//i.test(host.trim());
 }
 
+function isFormValidationError(error: unknown): boolean {
+  return typeof error === 'object' && error !== null && 'errorFields' in error;
+}
+
 export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose, onSaved }: ProviderChannelFormDrawerProps) {
   const { createMutation, updateMutation } = useProviderChannelMutations();
   const [form] = Form.useForm<ProviderChannelFormState>();
@@ -63,30 +67,35 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   }, [channel, form, mode, open]);
 
   async function handlePreviewModels(): Promise<void> {
-    const values = form.getFieldsValue();
-    if (!values.host?.trim() || !values.keyRef?.trim() || !values.supportedProtocols?.length) {
-      message.warning('请先填写渠道 Host、渠道 Key 和支持协议');
-      return;
-    }
-    if (!isHttpHost(values.host)) {
-      message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
-      return;
-    }
-    setPreviewLoading(true);
     try {
-      const response = await fetchProviderModelPreview({
-        host: values.host.trim(),
-        keyRef: values.keyRef.trim(),
-        supportedProtocols: values.supportedProtocols,
-        defaultPriority: 10,
-      });
-      setPreviewModels(response.data.models);
-      setSelectedModelIds(response.data.models.map((model) => model.id));
-      message.success(`验证成功，已获取 ${response.data.models.length} 个模型候选`);
+      const values = await form.validateFields(['host', 'keyRef', 'supportedProtocols']);
+      if (!isHttpHost(values.host)) {
+        form.setFields([{ name: 'host', errors: ['渠道 Host 必须以 http:// 或 https:// 开头'] }]);
+        message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
+        return;
+      }
+      setPreviewLoading(true);
+      try {
+        const response = await fetchProviderModelPreview({
+          host: values.host.trim(),
+          keyRef: values.keyRef.trim(),
+          supportedProtocols: values.supportedProtocols,
+          defaultPriority: 10,
+        });
+        setPreviewModels(response.data.models);
+        setSelectedModelIds(response.data.models.map((model) => model.id));
+        message.success(`验证成功，已获取 ${response.data.models.length} 个模型候选`);
+      } catch (error) {
+        message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key 和模型列表权限')}`);
+      } finally {
+        setPreviewLoading(false);
+      }
     } catch (error) {
+      if (isFormValidationError(error)) {
+        message.warning('请先填写渠道 Host、渠道 Key 和支持协议');
+        return;
+      }
       message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key 和模型列表权限')}`);
-    } finally {
-      setPreviewLoading(false);
     }
   }
 
@@ -138,7 +147,8 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       onSaved(latestChannel ?? response.data);
       onClose();
     } catch (error) {
-      if (typeof error === 'object' && error !== null && 'errorFields' in error) {
+      if (isFormValidationError(error)) {
+        message.warning('请完善表单必填项后再保存');
         return;
       }
       message.error(`保存渠道失败：${getErrorMessage(error, '请检查表单内容后重试')}`);
@@ -185,12 +195,18 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       title={mode === 'create' ? '新建渠道' : '编辑渠道'}
       open={open}
       onCancel={onClose}
-      onOk={() => void handleSave()}
+      onOk={() => form.submit()}
       confirmLoading={saving}
       width={760}
       destroyOnHidden
     >
-      <Form form={form} layout="vertical" initialValues={DEFAULT_FORM}>
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={DEFAULT_FORM}
+        onFinish={() => void handleSave()}
+        onFinishFailed={() => message.warning('请完善表单必填项后再保存')}
+      >
         <Form.Item name="name" label="渠道名称" rules={[{ required: true, message: '请输入渠道名称' }]}>
           <Input placeholder="例如：OpenAI 主渠道" />
         </Form.Item>
