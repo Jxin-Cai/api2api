@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -49,6 +50,9 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
     private final ObjectMapper objectMapper;
 
     @NonNull
+    private final UpstreamUrlResolver urlResolver;
+
+    @NonNull
     private final Clock clock;
 
     private final HttpClient httpClient;
@@ -58,15 +62,18 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
             ProviderHttpClientProperties properties,
             UpstreamHttpHeaderPolicy headerPolicy,
             ObjectMapper objectMapper,
+            UpstreamUrlResolver urlResolver,
             Clock clock
     ) {
         this.providerSecretResolver = Objects.requireNonNull(providerSecretResolver, "Provider secret resolver must not be null");
         this.properties = Objects.requireNonNull(properties, "Provider HTTP client properties must not be null");
         this.headerPolicy = Objects.requireNonNull(headerPolicy, "Upstream HTTP header policy must not be null");
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
+        this.urlResolver = Objects.requireNonNull(urlResolver, "Upstream URL resolver must not be null");
         this.clock = Objects.requireNonNull(clock, "Clock must not be null");
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(properties.getConnectTimeout())
+                .version(HttpClient.Version.HTTP_1_1)
                 .build();
     }
 
@@ -90,7 +97,7 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
         }
 
         String secret = providerSecretResolver.resolve(keyRef);
-        URI uri = URI.create(host.resolvePath(modelsPath.value()).value());
+        URI uri = URI.create(urlResolver.resolve(host.resolvePath(modelsPath.value()).value()));
         ProtocolType headerProtocol = upstreamProtocols.iterator().next();
         Map<String, String> headers = headerPolicy.buildHeaders(headerProtocol, Map.of(), secret, false);
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
@@ -99,13 +106,15 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
         headers.forEach(requestBuilder::header);
 
         try {
-            HttpResponse<String> response = httpClient.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = sendWithRetry(requestBuilder.build());
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
                 throw providerModelsHttpException(response.statusCode(), modelsPath);
             }
             return toModelSupports(response.body(), upstreamProtocols, defaultPriority);
         } catch (BusinessException exception) {
             throw exception;
+        } catch (HttpTimeoutException exception) {
+            throw new BusinessException("PROVIDER_MODELS_TIMEOUT", exception);
         } catch (IOException exception) {
             throw new BusinessException("PROVIDER_MODELS_IO_ERROR", exception);
         } catch (InterruptedException exception) {
@@ -114,7 +123,26 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
         }
     }
 
+    private HttpResponse<String> sendWithRetry(HttpRequest request) throws IOException, InterruptedException {
+        int maxAttempts = Math.max(1, properties.getModelsMaxRetries() + 1);
+        IOException lastException = null;
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            } catch (HttpTimeoutException exception) {
+                throw exception;
+            } catch (IOException exception) {
+                lastException = exception;
+                if (attempt == maxAttempts) {
+                    throw exception;
+                }
+            }
+        }
+        throw lastException == null ? new IOException("Provider model fetch failed") : lastException;
+    }
+
     private BusinessException providerModelsHttpException(int statusCode, ProviderModelsPath modelsPath) {
+        Objects.requireNonNull(modelsPath, "Provider models path must not be null");
         if (statusCode == 401 || statusCode == 403) {
             return new BusinessException("PROVIDER_MODELS_AUTH_FAILED");
         }

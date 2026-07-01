@@ -18,6 +18,7 @@ public class ProviderHttpClientProperties {
     private boolean allowInsecureHosts = false;
     private Duration upstreamReadTimeout = Duration.ofSeconds(120);
     private Duration streamingFirstByteTimeout = Duration.ofSeconds(30);
+    private String upstreamHostOverride = "";
     private String modelsPath = "/models";
     private String claudeMessagesPath = "/v1/messages";
     private String openaiResponsesPath = "/v1/responses";
@@ -91,6 +92,14 @@ public class ProviderHttpClientProperties {
 
     public void setStreamingFirstByteTimeout(Duration streamingFirstByteTimeout) {
         this.streamingFirstByteTimeout = positiveDuration(streamingFirstByteTimeout, "Streaming first byte timeout must be positive");
+    }
+
+    public String getUpstreamHostOverride() {
+        return upstreamHostOverride;
+    }
+
+    public void setUpstreamHostOverride(String upstreamHostOverride) {
+        this.upstreamHostOverride = upstreamHostOverride == null ? "" : upstreamHostOverride.trim();
     }
 
     public String getModelsPath() {

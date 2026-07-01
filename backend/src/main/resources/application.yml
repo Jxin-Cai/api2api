@@ -15,8 +15,9 @@ api2api:
     password: ${ADMIN_PASSWORD:}
   provider-http:
     connect-timeout: 2s
-    models-read-timeout: 10s
+    models-read-timeout: 30s
     models-max-retries: 1
+    upstream-host-override: ${API2API_UPSTREAM_HOST_OVERRIDE:${APP_UPSTREAM_HOST_OVERRIDE:}}
     upstream-read-timeout: 120s
     streaming-first-byte-timeout: 30s
   provider-secrets:

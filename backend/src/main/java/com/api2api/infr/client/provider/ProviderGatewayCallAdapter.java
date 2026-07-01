@@ -39,20 +39,26 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
     @NonNull
     private final UpstreamHttpHeaderPolicy headerPolicy;
 
+    @NonNull
+    private final UpstreamUrlResolver urlResolver;
+
     private final HttpClient httpClient;
 
     public ProviderGatewayCallAdapter(
             ProviderChannelRepository providerChannelRepository,
             ProviderSecretResolver providerSecretResolver,
             ProviderHttpClientProperties properties,
-            UpstreamHttpHeaderPolicy headerPolicy
+            UpstreamHttpHeaderPolicy headerPolicy,
+            UpstreamUrlResolver urlResolver
     ) {
         this.providerChannelRepository = Objects.requireNonNull(providerChannelRepository, "Provider channel repository must not be null");
         this.providerSecretResolver = Objects.requireNonNull(providerSecretResolver, "Provider secret resolver must not be null");
         this.properties = Objects.requireNonNull(properties, "Provider HTTP client properties must not be null");
         this.headerPolicy = Objects.requireNonNull(headerPolicy, "Upstream HTTP header policy must not be null");
+        this.urlResolver = Objects.requireNonNull(urlResolver, "Upstream URL resolver must not be null");
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(properties.getConnectTimeout())
+                .version(HttpClient.Version.HTTP_1_1)
                 .build();
     }
 
@@ -66,7 +72,7 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
         String secret = providerSecretResolver.resolve(channel.keyRef());
         String path = properties.defaultPathFor(candidate.upstreamProtocol());
         URI uri = OutboundUriGuard.verify(
-                URI.create(channel.host().resolvePath(path).value()),
+                URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
                 properties.isAllowInsecureHosts()
         );
         Map<String, String> headers = headerPolicy.buildHeaders(candidate.upstreamProtocol(), Map.of(), secret, streaming);

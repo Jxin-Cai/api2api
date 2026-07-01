@@ -31,6 +31,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-api2api}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      API2API_UPSTREAM_HOST_OVERRIDE: ${API2API_UPSTREAM_HOST_OVERRIDE:-host.docker.internal}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - shared-backend
 
