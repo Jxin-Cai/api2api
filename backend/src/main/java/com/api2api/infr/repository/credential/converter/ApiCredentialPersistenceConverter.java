@@ -6,6 +6,7 @@ import com.api2api.domain.credential.model.ApiCredentialName;
 import com.api2api.domain.credential.model.ApiCredentialStatus;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ApiKeyPreview;
+import com.api2api.domain.credential.model.EncryptedApiKeyMaterial;
 import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.credential.model.TokenLimit;
@@ -28,6 +29,9 @@ public interface ApiCredentialPersistenceConverter {
     @Mapping(target = "name", expression = "java(apiCredential.getName().getValue())")
     @Mapping(target = "keyHash", expression = "java(apiCredential.getKeyHash().getValue())")
     @Mapping(target = "keyPreview", expression = "java(apiCredential.getKeyPreview().getValue())")
+    @Mapping(target = "encryptedKeyMaterial", expression = "java(apiCredential.getEncryptedKeyMaterial().getCiphertext())")
+    @Mapping(target = "keyMaterialNonce", expression = "java(apiCredential.getEncryptedKeyMaterial().getNonce())")
+    @Mapping(target = "keyMaterialVersion", expression = "java(apiCredential.getEncryptedKeyMaterial().getVersion())")
     @Mapping(target = "modelWhitelist", expression = "java(toModelWhitelistText(apiCredential.getModelWhitelist()))")
     @Mapping(target = "tokenLimit", expression = "java(apiCredential.getTokenLimit().getValue())")
     @Mapping(target = "status", expression = "java(apiCredential.getStatus().name())")
@@ -44,6 +48,11 @@ public interface ApiCredentialPersistenceConverter {
                 ApiCredentialName.of(po.getName()),
                 ApiKeyHash.of(po.getKeyHash()),
                 ApiKeyPreview.of(po.getKeyPreview()),
+                EncryptedApiKeyMaterial.of(
+                        po.getEncryptedKeyMaterial(),
+                        po.getKeyMaterialNonce(),
+                        po.getKeyMaterialVersion() <= 0 ? 1 : po.getKeyMaterialVersion()
+                ),
                 toModelWhitelist(po.getModelWhitelist()),
                 TokenLimit.of(po.getTokenLimit()),
                 ApiCredentialStatus.valueOf(po.getStatus()),

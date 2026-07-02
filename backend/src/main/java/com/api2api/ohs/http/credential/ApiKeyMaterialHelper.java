@@ -68,7 +68,7 @@ public class ApiKeyMaterialHelper {
         return KEY_PREFIX + encodedRandom;
     }
 
-    private ApiKeyHash hashKey(String plaintextKey) {
+    public ApiKeyHash hashKey(String plaintextKey) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(plaintextKey.getBytes(StandardCharsets.UTF_8));

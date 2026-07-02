@@ -13,6 +13,10 @@ api2api:
   bootstrap-admin:
     username: ${ADMIN_USERNAME:admin}
     password: ${ADMIN_PASSWORD:}
+  security:
+    api-key-material:
+      encryption-key: ${API2API_API_KEY_ENCRYPTION_KEY:api2api-development-api-key-material-secret}
+      key-version: 1
   provider-http:
     connect-timeout: 2s
     models-read-timeout: 30s

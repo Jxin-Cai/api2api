@@ -3,7 +3,7 @@ package com.api2api.ohs.http.usage;
 import com.api2api.application.usage.UsageQueryApplicationService;
 import com.api2api.application.usage.command.QueryAdminUsageRecordsCommand;
 import com.api2api.application.usage.command.QueryMyUsageRecordsCommand;
-import com.api2api.domain.usage.model.PagedUsageRecords;
+import com.api2api.application.usage.dto.PagedUsageRecordViews;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.ohs.http.ApiResponse;
 import com.api2api.ohs.http.CurrentUserContextResolver;
@@ -43,7 +43,7 @@ public class UsageRecordController {
     ) {
         UserAccountId currentUserId = currentUserContextResolver.resolveCurrentUserId(request);
         QueryMyUsageRecordsCommand command = usageRecordHttpConverter.toQueryMyCommand(queryRequest, currentUserId);
-        PagedUsageRecords pagedRecords = usageQueryApplicationService.queryMyUsageRecords(command);
+        PagedUsageRecordViews pagedRecords = usageQueryApplicationService.queryMyUsageRecords(command);
         return ApiResponse.success(usageRecordHttpConverter.toPageResponse(pagedRecords, false));
     }
 
@@ -54,7 +54,7 @@ public class UsageRecordController {
     ) {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         QueryAdminUsageRecordsCommand command = usageRecordHttpConverter.toQueryAdminCommand(queryRequest, operatorUserId);
-        PagedUsageRecords pagedRecords = usageQueryApplicationService.queryAdminUsageRecords(command);
+        PagedUsageRecordViews pagedRecords = usageQueryApplicationService.queryAdminUsageRecords(command);
         return ApiResponse.success(usageRecordHttpConverter.toPageResponse(pagedRecords, true));
     }
 }

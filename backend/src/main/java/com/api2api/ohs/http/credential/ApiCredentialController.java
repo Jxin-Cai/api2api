@@ -6,6 +6,8 @@ import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
 import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
+import com.api2api.application.credential.dto.ApiCredentialUsageView;
+import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.user.model.UserAccountId;
@@ -13,6 +15,7 @@ import com.api2api.ohs.http.ApiResponse;
 import com.api2api.ohs.http.CurrentUserContextResolver;
 import com.api2api.ohs.http.IdentifierFactory;
 import com.api2api.ohs.http.credential.ApiKeyMaterialHelper.ApiKeyMaterial;
+import com.api2api.application.credential.ApiKeyMaterialProtector;
 import com.api2api.ohs.http.credential.converter.ApiCredentialHttpConverter;
 import com.api2api.ohs.http.credential.dto.ApiCredentialListResponse;
 import com.api2api.ohs.http.credential.dto.ApiCredentialResponse;
@@ -21,6 +24,7 @@ import com.api2api.ohs.http.credential.dto.CreateApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialResponse;
 import com.api2api.ohs.http.credential.dto.RenameApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.ReplaceModelWhitelistRequest;
+import com.api2api.ohs.http.credential.dto.RevealApiCredentialSecretResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -60,11 +64,14 @@ public class ApiCredentialController {
     @NonNull
     private final ApiKeyMaterialHelper apiKeyMaterialHelper;
 
+    @NonNull
+    private final ApiKeyMaterialProtector apiKeyMaterialProtector;
+
     @GetMapping
     public ApiResponse<ApiCredentialListResponse> listMyCredentials(HttpServletRequest request) {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
-        List<ApiCredential> credentials = apiCredentialApplicationService.listMyCredentials(ownerUserId);
-        return ApiResponse.success(apiCredentialHttpConverter.toListResponse(credentials));
+        List<ApiCredentialUsageView> credentials = apiCredentialApplicationService.listMyCredentialUsageViews(ownerUserId);
+        return ApiResponse.success(apiCredentialHttpConverter.toUsageListResponse(credentials));
     }
 
     @PostMapping
@@ -76,10 +83,28 @@ public class ApiCredentialController {
         ApiCredentialId apiCredentialId = identifierFactory.newApiCredentialId();
         ApiKeyMaterial keyMaterial = apiKeyMaterialHelper.generateApiKeyMaterial();
         CreateApiCredentialCommand command = apiCredentialHttpConverter.toCreateCommand(
-                createRequest, ownerUserId, apiCredentialId, keyMaterial);
+                createRequest,
+                ownerUserId,
+                apiCredentialId,
+                keyMaterial,
+                apiKeyMaterialProtector.protect(keyMaterial.getPlaintextKey())
+        );
         ApiCredential credential = apiCredentialApplicationService.createCredential(command);
         return ApiResponse.success(apiCredentialHttpConverter.toCreateResponse(
                 credential, keyMaterial.getPlaintextKey()));
+    }
+
+    @PostMapping("/{api-credential-id}/reveal")
+    public ApiResponse<RevealApiCredentialSecretResponse> revealCredentialSecret(
+            @PathVariable("api-credential-id") Long credentialId,
+            HttpServletRequest request
+    ) {
+        UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
+        ApiCredentialId apiCredentialId = ApiCredentialId.of(credentialId);
+        RevealedApiCredentialSecret secret = apiCredentialApplicationService.revealSecret(
+                apiCredentialHttpConverter.toRevealCommand(ownerUserId, apiCredentialId)
+        );
+        return ApiResponse.success(apiCredentialHttpConverter.toRevealResponse(secret));
     }
 
     @PatchMapping("/{api-credential-id}/name")

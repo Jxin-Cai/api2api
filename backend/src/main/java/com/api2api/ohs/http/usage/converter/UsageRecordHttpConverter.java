@@ -6,7 +6,8 @@ import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.credential.model.ApiCredentialId;
-import com.api2api.domain.usage.model.PagedUsageRecords;
+import com.api2api.application.usage.dto.PagedUsageRecordViews;
+import com.api2api.application.usage.dto.UsageRecordView;
 import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.lib.mapping.MapStructConfig;
@@ -61,9 +62,9 @@ public abstract class UsageRecordHttpConverter {
                 .build();
     }
 
-    public UsageRecordPageResponse toPageResponse(PagedUsageRecords pagedRecords, boolean adminView) {
+    public UsageRecordPageResponse toPageResponse(PagedUsageRecordViews pagedRecords, boolean adminView) {
         return UsageRecordPageResponse.builder()
-                .records(pagedRecords.getRecords().stream().map(record -> toRecordResponse(record, adminView)).toList())
+                .records(pagedRecords.getRecords().stream().map(this::toRecordResponse).toList())
                 .page(pagedRecords.getPage())
                 .size(pagedRecords.getSize())
                 .totalElements(pagedRecords.getTotalElements())
@@ -73,9 +74,12 @@ public abstract class UsageRecordHttpConverter {
                 .build();
     }
 
-    protected UsageRecordResponse toRecordResponse(UsageRecord record, boolean adminView) {
-        UsageRecord visibleRecord = adminView ? record : record.redactForUserPortal();
-        return toRecordResponse(visibleRecord);
+    protected UsageRecordResponse toRecordResponse(UsageRecordView view) {
+        UsageRecordResponse response = toRecordResponse(view.getRecord());
+        response.setUsername(view.getUsername());
+        response.setApiCredentialName(view.getApiCredentialName());
+        response.setProviderChannelName(view.getProviderChannelName());
+        return response;
     }
 
     @Mapping(target = "id", source = "id.value")

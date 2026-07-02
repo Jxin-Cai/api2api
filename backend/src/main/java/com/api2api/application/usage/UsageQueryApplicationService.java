@@ -3,6 +3,10 @@ package com.api2api.application.usage;
 import com.api2api.application.BusinessException;
 import com.api2api.application.usage.command.QueryAdminUsageRecordsCommand;
 import com.api2api.application.usage.command.QueryMyUsageRecordsCommand;
+import com.api2api.application.usage.dto.PagedUsageRecordViews;
+import com.api2api.application.usage.dto.UsageRecordView;
+import com.api2api.domain.channel.model.ProviderChannel;
+import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.usage.model.PageRequestSpec;
@@ -32,10 +36,13 @@ public class UsageQueryApplicationService {
     private final ApiCredentialRepository apiCredentialRepository;
 
     @NonNull
+    private final ProviderChannelRepository providerChannelRepository;
+
+    @NonNull
     private final UsageRecordRepository usageRecordRepository;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public PagedUsageRecords queryMyUsageRecords(QueryMyUsageRecordsCommand command) {
+    public PagedUsageRecordViews queryMyUsageRecords(QueryMyUsageRecordsCommand command) {
         UserAccount currentUser = userAccountRepository.findById(command.getCurrentUserId())
                 .orElseThrow(() -> new BusinessException("USER_NOT_FOUND"));
         currentUser.assertCanAccess(AccessScope.USER_PORTAL);
@@ -63,17 +70,17 @@ public class UsageQueryApplicationService {
                 .map(UsageRecord::redactForUserPortal)
                 .toList();
 
-        return PagedUsageRecords.of(
+        return PagedUsageRecordViews.of(toViews(redactedRecords, false), PagedUsageRecords.of(
                 redactedRecords,
                 page.getPage(),
                 page.getSize(),
                 page.getTotalElements(),
                 page.getFilteredTokenTotal()
-        );
+        ));
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public PagedUsageRecords queryAdminUsageRecords(QueryAdminUsageRecordsCommand command) {
+    public PagedUsageRecordViews queryAdminUsageRecords(QueryAdminUsageRecordsCommand command) {
         UserAccount operator = userAccountRepository.findById(command.getOperatorUserId())
                 .orElseThrow(() -> new BusinessException("OPERATOR_NOT_FOUND"));
         operator.assertCanAccess(AccessScope.ADMIN_BACKOFFICE);
@@ -93,6 +100,46 @@ public class UsageQueryApplicationService {
                 UserRole.ADMIN
         );
 
-        return usageRecordRepository.query(filter, pageRequest);
+        PagedUsageRecords page = usageRecordRepository.query(filter, pageRequest);
+        return PagedUsageRecordViews.of(toViews(page.getRecords(), true), page);
+    }
+
+    private List<UsageRecordView> toViews(List<UsageRecord> records, boolean adminView) {
+        return records.stream()
+                .map(record -> UsageRecordView.of(
+                        record,
+                        username(record),
+                        apiCredentialName(record),
+                        adminView ? providerChannelName(record) : null
+                ))
+                .toList();
+    }
+
+    private String username(UsageRecord record) {
+        if (record.getUserAccountId() == null) {
+            return null;
+        }
+        return userAccountRepository.findById(record.getUserAccountId())
+                .map(user -> user.getUsername().getValue())
+                .orElse(null);
+    }
+
+    private String apiCredentialName(UsageRecord record) {
+        if (record.getApiCredentialId() == null) {
+            return null;
+        }
+        return apiCredentialRepository.findById(record.getApiCredentialId())
+                .map(credential -> credential.getName().getValue())
+                .orElse(null);
+    }
+
+    private String providerChannelName(UsageRecord record) {
+        if (record.getProviderChannelId() == null) {
+            return null;
+        }
+        return providerChannelRepository.findById(record.getProviderChannelId())
+                .map(ProviderChannel::name)
+                .map(Object::toString)
+                .orElse(null);
     }
 }

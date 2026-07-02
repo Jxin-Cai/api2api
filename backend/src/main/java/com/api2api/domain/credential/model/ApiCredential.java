@@ -15,6 +15,7 @@ public final class ApiCredential {
     private ApiCredentialName name;
     private final ApiKeyHash keyHash;
     private final ApiKeyPreview keyPreview;
+    private final EncryptedApiKeyMaterial encryptedKeyMaterial;
     private ModelWhitelist modelWhitelist;
     private TokenLimit tokenLimit;
     private ApiCredentialStatus status;
@@ -28,6 +29,7 @@ public final class ApiCredential {
             ApiCredentialName name,
             ApiKeyHash keyHash,
             ApiKeyPreview keyPreview,
+            EncryptedApiKeyMaterial encryptedKeyMaterial,
             ModelWhitelist modelWhitelist,
             TokenLimit tokenLimit,
             ApiCredentialStatus status,
@@ -40,6 +42,7 @@ public final class ApiCredential {
         this.name = Objects.requireNonNull(name, "API credential name must not be null");
         this.keyHash = Objects.requireNonNull(keyHash, "API key hash must not be null");
         this.keyPreview = Objects.requireNonNull(keyPreview, "API key preview must not be null");
+        this.encryptedKeyMaterial = Objects.requireNonNull(encryptedKeyMaterial, "Encrypted API key material must not be null");
         this.modelWhitelist = Objects.requireNonNull(modelWhitelist, "Model whitelist must not be null");
         this.tokenLimit = Objects.requireNonNull(tokenLimit, "Token limit must not be null");
         this.status = Objects.requireNonNull(status, "API credential status must not be null");
@@ -57,6 +60,7 @@ public final class ApiCredential {
             ApiCredentialName name,
             ApiKeyHash keyHash,
             ApiKeyPreview keyPreview,
+            EncryptedApiKeyMaterial encryptedKeyMaterial,
             ModelWhitelist modelWhitelist,
             TokenLimit tokenLimit,
             Instant now
@@ -68,6 +72,7 @@ public final class ApiCredential {
                 name,
                 keyHash,
                 keyPreview,
+                encryptedKeyMaterial,
                 modelWhitelist,
                 tokenLimit,
                 ApiCredentialStatus.ACTIVE,
@@ -83,6 +88,7 @@ public final class ApiCredential {
             ApiCredentialName name,
             ApiKeyHash keyHash,
             ApiKeyPreview keyPreview,
+            EncryptedApiKeyMaterial encryptedKeyMaterial,
             ModelWhitelist modelWhitelist,
             TokenLimit tokenLimit,
             ApiCredentialStatus status,
@@ -96,6 +102,7 @@ public final class ApiCredential {
                 name,
                 keyHash,
                 keyPreview,
+                encryptedKeyMaterial,
                 modelWhitelist,
                 tokenLimit,
                 status,
@@ -244,6 +251,10 @@ public final class ApiCredential {
 
     public ApiKeyPreview getKeyPreview() {
         return keyPreview;
+    }
+
+    public EncryptedApiKeyMaterial getEncryptedKeyMaterial() {
+        return encryptedKeyMaterial;
     }
 
     public ModelWhitelist getModelWhitelist() {

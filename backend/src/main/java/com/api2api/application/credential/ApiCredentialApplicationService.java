@@ -6,7 +6,10 @@ import com.api2api.application.credential.command.ChangeApiCredentialStatusComma
 import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
+import com.api2api.application.credential.command.RevealApiCredentialSecretCommand;
 import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
+import com.api2api.application.credential.dto.ApiCredentialUsageView;
+import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
@@ -15,8 +18,12 @@ import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.repository.UserAccountRepository;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.HexFormat;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +44,9 @@ public class ApiCredentialApplicationService {
     private final UsageRecordRepository usageRecordRepository;
 
     @NonNull
+    private final ApiKeyMaterialProtector apiKeyMaterialProtector;
+
+    @NonNull
     private final Clock clock;
 
     @Transactional(rollbackFor = Exception.class)
@@ -49,6 +59,7 @@ public class ApiCredentialApplicationService {
                 command.getName(),
                 command.getKeyHash(),
                 command.getKeyPreview(),
+                command.getEncryptedKeyMaterial(),
                 command.getModelWhitelist(),
                 command.getTokenLimit(),
                 now()
@@ -61,6 +72,31 @@ public class ApiCredentialApplicationService {
     public List<ApiCredential> listMyCredentials(UserAccountId ownerUserId) {
         assertUserPortal(ownerUserId);
         return apiCredentialRepository.findByOwnerUserId(ownerUserId);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ApiCredentialUsageView> listMyCredentialUsageViews(UserAccountId ownerUserId) {
+        return listMyCredentials(ownerUserId).stream()
+                .map(credential -> ApiCredentialUsageView.of(
+                        credential,
+                        currentConsumedTokens(credential.getId())
+                ))
+                .toList();
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public RevealedApiCredentialSecret revealSecret(RevealApiCredentialSecretCommand command) {
+        assertUserPortal(command.getOwnerUserId());
+        ApiCredential apiCredential = loadCredential(command.getApiCredentialId());
+        apiCredential.assertOwnedBy(command.getOwnerUserId());
+        if (!apiCredential.getEncryptedKeyMaterial().isAvailable()) {
+            throw new BusinessException("API_KEY_MATERIAL_UNAVAILABLE");
+        }
+        String plaintextApiKey = apiKeyMaterialProtector.reveal(apiCredential.getEncryptedKeyMaterial());
+        if (!apiCredential.getKeyHash().getValue().equals(sha256Hex(plaintextApiKey))) {
+            throw new BusinessException("API_KEY_MATERIAL_CORRUPTED");
+        }
+        return RevealedApiCredentialSecret.of(apiCredential.getId(), apiCredential.getKeyPreview(), plaintextApiKey);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -150,6 +186,16 @@ public class ApiCredentialApplicationService {
             throw new BusinessException("INVALID_TOKEN_TOTAL");
         }
         return currentConsumedTokens;
+    }
+
+    private String sha256Hex(String value) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(hash);
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-256 algorithm is unavailable", exception);
+        }
     }
 
     private Instant now() {

@@ -36,7 +36,7 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOption
     if (createdResult?.plainApiKey && !saveConfirmed) {
       Modal.confirm({
         title: '确认已保存明文 API Key？',
-        content: '关闭后无法再次查看明文 key，请确认已复制并安全保存。',
+        content: '关闭后页面将不再保留明文 key，请确认已复制并安全保存。后续仍可在列表中通过“复制 Key”重新获取。',
         okText: '已保存，关闭',
         cancelText: '继续查看',
         onOk: onClose,
@@ -70,7 +70,7 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOption
       {createdResult ? (
         <Space direction="vertical" style={{ width: '100%' }} size={16}>
           <Result status="success" title="API Key 创建成功" subTitle="请立即复制并保存明文 key。" />
-          <ApiKeySecretBlock plainApiKey={createdResult.plainApiKey ?? ''} credentialName={createdResult.name} onCopied={(): void => setSaveConfirmed(true)} />
+          <ApiKeySecretBlock plainApiKey={createdResult.plainApiKey ?? ''} credentialName={createdResult.name} onCopied={(): void => setSaveConfirmed(true)} warningMessage="请立即复制并妥善保存。关闭后页面不保留明文，但后续可从列表再次复制。" />
           <Checkbox checked={saveConfirmed} onChange={(event): void => setSaveConfirmed(event.target.checked)}>
             我已安全保存明文 API Key
           </Checkbox>

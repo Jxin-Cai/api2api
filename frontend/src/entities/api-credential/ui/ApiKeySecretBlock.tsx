@@ -10,9 +10,11 @@ interface ApiKeySecretBlockProps {
   onCopied?: () => void;
   /** 复制后是否自动遮罩 */
   maskAfterCopy?: boolean;
+  /** 警告文案 */
+  warningMessage?: string;
 }
 
-export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskAfterCopy = false }: ApiKeySecretBlockProps) {
+export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskAfterCopy = false, warningMessage = '请立即保存 API Key，关闭后页面将不再保留明文。' }: ApiKeySecretBlockProps) {
   const [copied, setCopied] = useState(false);
   const [masked, setMasked] = useState(false);
 
@@ -37,7 +39,7 @@ export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskA
 
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={12}>
-      <Alert type="warning" showIcon message="请立即保存 API Key，关闭后将无法再次查看明文。" />
+      <Alert type="warning" showIcon message={warningMessage} />
       {credentialName ? <Typography.Text strong>{credentialName}</Typography.Text> : null}
       <Typography.Paragraph code copyable={false} style={{ wordBreak: 'break-all', padding: 12, background: '#f0f7ff' }}>
         {masked ? '••••••••••••••••••••••••••••••••' : plainApiKey}

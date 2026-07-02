@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class JdbcApiCredentialMapper implements ApiCredentialMapper {
 
-    private static final String COLUMNS = "id, owner_user_id, name, key_hash, key_preview, model_whitelist, token_limit, status, last_used_at, created_at, updated_at, deleted";
+    private static final String COLUMNS = "id, owner_user_id, name, key_hash, key_preview, encrypted_key_material, key_material_nonce, key_material_version, model_whitelist, token_limit, status, last_used_at, created_at, updated_at, deleted";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -30,6 +30,9 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
             .name(rs.getString("name"))
             .keyHash(rs.getString("key_hash"))
             .keyPreview(rs.getString("key_preview"))
+            .encryptedKeyMaterial(rs.getString("encrypted_key_material"))
+            .keyMaterialNonce(rs.getString("key_material_nonce"))
+            .keyMaterialVersion(rs.getInt("key_material_version"))
             .modelWhitelist(rs.getString("model_whitelist"))
             .tokenLimit(rs.getLong("token_limit"))
             .status(rs.getString("status"))
@@ -42,8 +45,8 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
     @Override
     public int insert(ApiCredentialPO apiCredential) {
         return jdbcTemplate.update("""
-                INSERT INTO api_credentials (id, owner_user_id, name, key_hash, key_preview, model_whitelist, token_limit, status, last_used_at, created_at, updated_at, deleted)
-                VALUES (:id, :ownerUserId, :name, :keyHash, :keyPreview, :modelWhitelist, :tokenLimit, :status, :lastUsedTime, :createdTime, :updatedTime, :deleted)
+                INSERT INTO api_credentials (id, owner_user_id, name, key_hash, key_preview, encrypted_key_material, key_material_nonce, key_material_version, model_whitelist, token_limit, status, last_used_at, created_at, updated_at, deleted)
+                VALUES (:id, :ownerUserId, :name, :keyHash, :keyPreview, :encryptedKeyMaterial, :keyMaterialNonce, :keyMaterialVersion, :modelWhitelist, :tokenLimit, :status, :lastUsedTime, :createdTime, :updatedTime, :deleted)
                 """, params(apiCredential));
     }
 
@@ -53,6 +56,9 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
                 UPDATE api_credentials
                 SET name = :name,
                     model_whitelist = :modelWhitelist,
+                    encrypted_key_material = :encryptedKeyMaterial,
+                    key_material_nonce = :keyMaterialNonce,
+                    key_material_version = :keyMaterialVersion,
                     token_limit = :tokenLimit,
                     status = :status,
                     last_used_at = :lastUsedTime,
@@ -90,6 +96,9 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
                 .addValue("name", po.getName())
                 .addValue("keyHash", po.getKeyHash())
                 .addValue("keyPreview", po.getKeyPreview())
+                .addValue("encryptedKeyMaterial", po.getEncryptedKeyMaterial())
+                .addValue("keyMaterialNonce", po.getKeyMaterialNonce())
+                .addValue("keyMaterialVersion", po.getKeyMaterialVersion())
                 .addValue("modelWhitelist", po.getModelWhitelist())
                 .addValue("tokenLimit", po.getTokenLimit())
                 .addValue("status", po.getStatus())

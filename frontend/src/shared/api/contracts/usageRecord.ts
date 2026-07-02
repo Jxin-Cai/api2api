@@ -4,12 +4,15 @@ export interface UsageRecordBackendResponse {
   id: string | number;
   requestId?: string;
   userAccountId?: string | number;
+  username?: string;
   apiCredentialId?: string | number;
+  apiCredentialName?: string;
   requestedModel?: string;
   upstreamModel?: string;
   requestProtocol?: string;
   upstreamProtocol?: string;
   providerChannelId?: string | number;
+  providerChannelName?: string;
   status?: string;
   inputTokens?: number;
   outputTokens?: number;

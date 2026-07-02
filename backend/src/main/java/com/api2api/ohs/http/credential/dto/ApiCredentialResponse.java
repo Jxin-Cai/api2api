@@ -23,6 +23,8 @@ public class ApiCredentialResponse {
     private String keyPreview;
     private List<String> modelWhitelist;
     private long tokenLimit;
+    private long consumedTokens;
+    private Long remainingTokens;
     private ApiCredentialStatus status;
     private Instant lastUsedAt;
     private Instant createdAt;

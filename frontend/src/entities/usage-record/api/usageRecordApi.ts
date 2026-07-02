@@ -52,7 +52,9 @@ function toFrontendRecord(record: UsageRecordBackendResponse): UsageRecordRespon
   return {
     id: String(record.id),
     apiCredentialId: toStringValue(record.apiCredentialId),
+    apiCredentialName: record.apiCredentialName,
     userId: toStringValue(record.userAccountId),
+    username: record.username,
     model: record.requestedModel ?? '-',
     protocolType: record.requestProtocol ?? '-',
     tokens: record.totalTokens ?? 0,
@@ -63,6 +65,7 @@ function toFrontendRecord(record: UsageRecordBackendResponse): UsageRecordRespon
     usageKnown: record.usageKnown,
     status: record.status,
     providerChannelId: toStringValue(record.providerChannelId),
+    providerChannelName: record.providerChannelName,
     diagnostic: buildDiagnostic(record),
     createdAt: record.createdAt ?? record.startedAt ?? '-',
   };

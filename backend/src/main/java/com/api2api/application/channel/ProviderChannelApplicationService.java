@@ -11,6 +11,8 @@ import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
 import com.api2api.application.channel.command.UpsertChannelModelCommand;
+import com.api2api.application.channel.dto.ProviderModelOption;
+import com.api2api.domain.channel.model.ChannelModelStatus;
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
 import com.api2api.domain.channel.model.ChannelProtocolMapping;
@@ -24,7 +26,12 @@ import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.NonNull;
@@ -105,6 +112,26 @@ public class ProviderChannelApplicationService {
     public List<ProviderChannel> listChannels(UserAccountId operatorUserId) {
         assertAdmin(operatorUserId);
         return providerChannelRepository.findAll();
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ProviderModelOption> listProviderModelOptions(UserAccountId userId) {
+        assertUserPortal(userId);
+        Map<String, ModelOptionAccumulator> options = new LinkedHashMap<>();
+        for (ProviderChannel channel : providerChannelRepository.findEnabledForRouting()) {
+            for (ChannelModelSupport modelSupport : channel.supportedModels()) {
+                if (modelSupport.status() != ChannelModelStatus.ENABLED) {
+                    continue;
+                }
+                String modelName = modelSupport.requestedModel().value();
+                options.computeIfAbsent(modelName, ignored -> new ModelOptionAccumulator(modelSupport.requestedModel()))
+                        .add(channel, modelSupport.upstreamProtocol());
+            }
+        }
+        return options.values().stream()
+                .map(ModelOptionAccumulator::toOption)
+                .sorted(Comparator.comparing(option -> option.model().value()))
+                .toList();
     }
 
     public ProviderChannel fetchAndReplaceModels(FetchProviderModelsCommand command) {
@@ -249,6 +276,12 @@ public class ProviderChannelApplicationService {
         operator.assertCanAccess(AccessScope.ADMIN_BACKOFFICE);
     }
 
+    private void assertUserPortal(UserAccountId userId) {
+        UserAccount user = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException("USER_NOT_FOUND"));
+        user.assertCanAccess(AccessScope.USER_PORTAL);
+    }
+
     private ProviderChannel loadChannel(ProviderChannelId providerChannelId) {
         return providerChannelRepository.findById(providerChannelId)
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
@@ -262,5 +295,25 @@ public class ProviderChannelApplicationService {
 
     private Instant now() {
         return Instant.now(clock);
+    }
+
+    private static final class ModelOptionAccumulator {
+        private final com.api2api.domain.channel.model.ModelName model;
+        private final Set<ProviderChannelId> channelIds = new LinkedHashSet<>();
+        private final Set<ProtocolType> protocols = new LinkedHashSet<>();
+
+        private ModelOptionAccumulator(com.api2api.domain.channel.model.ModelName model) {
+            this.model = model;
+        }
+
+        private ModelOptionAccumulator add(ProviderChannel channel, ProtocolType protocol) {
+            channelIds.add(channel.id());
+            protocols.add(protocol);
+            return this;
+        }
+
+        private ProviderModelOption toOption() {
+            return ProviderModelOption.of(model, channelIds.size(), protocols);
+        }
     }
 }

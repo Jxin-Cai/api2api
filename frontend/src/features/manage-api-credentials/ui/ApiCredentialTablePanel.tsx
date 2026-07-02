@@ -1,8 +1,8 @@
-import { Button, Card, Empty, Popconfirm, Space, Table, message } from 'antd';
+import { Button, Card, Empty, Modal, Popconfirm, Progress, Space, Table, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
-import { ApiCredentialStatusTag, useApiCredentials, type ApiCredentialResponse, type CreateApiCredentialResponse } from '@entities/api-credential';
+import { ApiCredentialStatusTag, ApiKeySecretBlock, useApiCredentials, type ApiCredentialResponse, type CreateApiCredentialResponse, type RevealApiCredentialSecretResponse } from '@entities/api-credential';
 import { PageState } from '@shared/ui';
 
 import { useApiCredentialMutations } from '../model/useApiCredentialMutations';
@@ -16,15 +16,25 @@ interface ApiCredentialTablePanelProps {
 }
 
 function isEnabled(credential: ApiCredentialResponse): boolean {
-  return String(credential.status).toUpperCase() === 'ENABLED';
+  const status = String(credential.status).toUpperCase();
+  return status === 'ENABLED' || status === 'ACTIVE';
+}
+
+function formatTokens(value: number | null | undefined): string {
+  if (value === null || value === undefined) {
+    return '-';
+  }
+  return value.toLocaleString();
 }
 
 export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTablePanelProps) {
   const { credentials, query } = useApiCredentials();
-  const { enableMutation, disableMutation } = useApiCredentialMutations();
+  const { enableMutation, disableMutation, revealMutation } = useApiCredentialMutations();
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
   const [editing, setEditing] = useState<ApiCredentialResponse | null>(null);
+  const [revealedSecret, setRevealedSecret] = useState<RevealApiCredentialSecretResponse | null>(null);
+  const [revealedCredentialName, setRevealedCredentialName] = useState<string>();
 
   const filteredCredentials = useMemo((): ApiCredentialResponse[] => {
     const keyword = search.trim().toLowerCase();
@@ -50,11 +60,45 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     query.refetch().catch((): void => undefined);
   }
 
+  function handleReveal(credential: ApiCredentialResponse): void {
+    Modal.confirm({
+      title: '复制完整 API Key？',
+      content: '完整 API Key 将短暂显示，请确认当前环境安全，复制后请妥善保管。',
+      okText: '继续复制',
+      cancelText: '取消',
+      onOk: async (): Promise<void> => {
+        const secret = await revealMutation.mutateAsync(credential.id);
+        setRevealedCredentialName(credential.name);
+        setRevealedSecret(secret);
+      },
+    });
+  }
+
+  function renderTokenUsage(credential: ApiCredentialResponse): ReactElement {
+    const consumedTokens = credential.consumedTokens ?? 0;
+    if (credential.tokenLimit === 0) {
+      return (
+        <Space direction="vertical" size={0}>
+          <Typography.Text>{formatTokens(consumedTokens)} / 不限</Typography.Text>
+          <Typography.Text type="secondary">剩余不限</Typography.Text>
+        </Space>
+      );
+    }
+    const percent = credential.tokenLimit > 0 ? Math.min(100, Math.round((consumedTokens / credential.tokenLimit) * 100)) : 0;
+    return (
+      <Space direction="vertical" size={0} style={{ minWidth: 160 }}>
+        <Typography.Text>{formatTokens(consumedTokens)} / {formatTokens(credential.tokenLimit)}</Typography.Text>
+        <Progress percent={percent} size="small" status={percent >= 100 ? 'exception' : 'normal'} />
+        <Typography.Text type="secondary">剩余 {formatTokens(credential.remainingTokens)}</Typography.Text>
+      </Space>
+    );
+  }
+
   const columns: ColumnsType<ApiCredentialResponse> = [
     { title: '名称', dataIndex: 'name', key: 'name' },
     { title: 'ID', dataIndex: 'id', key: 'id', ellipsis: true },
     { title: '模型白名单', dataIndex: 'modelWhitelist', key: 'modelWhitelist', render: (models: string[]): string => models.length ? models.join(', ') : '未配置' },
-    { title: 'Token 上限', dataIndex: 'tokenLimit', key: 'tokenLimit', align: 'right' },
+    { title: 'Token 用量', key: 'tokenUsage', render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
     { title: '状态', dataIndex: 'status', key: 'status', render: (status: string): ReactElement => <ApiCredentialStatusTag status={status} /> },
     {
       title: '操作',
@@ -63,6 +107,7 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       render: (_: unknown, credential: ApiCredentialResponse): ReactElement => (
         <Space>
           <Button size="small" onClick={(): void => setEditing(credential)}>编辑</Button>
+          <Button size="small" onClick={(): void => handleReveal(credential)} loading={revealMutation.isPending}>复制 Key</Button>
           <Popconfirm
             title={isEnabled(credential) ? '确认禁用该 API Key？' : '确认启用该 API Key？'}
             description={isEnabled(credential) ? '禁用后使用该 key 的调用将失败。' : '启用后该 key 可继续调用。'}
@@ -97,6 +142,20 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       </Space>
       <ApiCredentialCreateModal open={createOpen} onClose={(): void => setCreateOpen(false)} onCreated={handleCreated} modelOptions={modelOptions} />
       <ApiCredentialEditDrawer open={Boolean(editing)} credential={editing} onClose={(): void => setEditing(null)} onUpdated={(credential): void => setEditing(credential)} modelOptions={modelOptions} />
+      <Modal
+        title="复制 API Key"
+        open={Boolean(revealedSecret)}
+        onCancel={(): void => { setRevealedSecret(null); setRevealedCredentialName(undefined); }}
+        footer={<Button type="primary" onClick={(): void => { setRevealedSecret(null); setRevealedCredentialName(undefined); }}>关闭</Button>}
+        destroyOnClose
+      >
+        <ApiKeySecretBlock
+          plainApiKey={revealedSecret?.plainApiKey ?? ''}
+          credentialName={revealedCredentialName}
+          maskAfterCopy
+          warningMessage="完整 API Key 已临时显示。复制后请妥善保管，关闭窗口后页面不会保留明文。"
+        />
+      </Modal>
     </Card>
   );
 }

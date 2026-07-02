@@ -4,6 +4,7 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiCredentialName;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ApiKeyPreview;
+import com.api2api.domain.credential.model.EncryptedApiKeyMaterial;
 import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.domain.user.model.UserAccountId;
@@ -32,6 +33,9 @@ public final class CreateApiCredentialCommand {
 
     @NotNull
     private final ApiKeyPreview keyPreview;
+
+    @NotNull
+    private final EncryptedApiKeyMaterial encryptedKeyMaterial;
 
     @NotNull
     private final ModelWhitelist modelWhitelist;

@@ -20,12 +20,15 @@ public class UsageRecordResponse {
     private Long id;
     private String requestId;
     private Long userAccountId;
+    private String username;
     private Long apiCredentialId;
+    private String apiCredentialName;
     private String requestedModel;
     private String upstreamModel;
     private ProtocolType requestProtocol;
     private ProtocolType upstreamProtocol;
     private Long providerChannelId;
+    private String providerChannelName;
     private UsageRecordStatus status;
     private long inputTokens;
     private long outputTokens;

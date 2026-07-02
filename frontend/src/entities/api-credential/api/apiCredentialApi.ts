@@ -9,13 +9,24 @@ import type {
   CreateApiCredentialResponse,
   RenameApiCredentialRequest,
   ReplaceModelWhitelistRequest,
+  RevealApiCredentialSecretResponse,
 } from '../model/types';
+
+interface RevealApiCredentialSecretBackendResponse {
+  apiCredentialId: string | number;
+  keyPreview?: string;
+  plaintextApiKey?: string;
+}
 
 interface ApiCredentialBackendResponse {
   id: string | number;
   name?: string;
   modelWhitelist?: string[];
   tokenLimit?: number;
+  consumedTokens?: number;
+  remainingTokens?: number | null;
+  keyPreview?: string;
+  lastUsedAt?: string | number;
   status?: string;
   createdAt?: string | number;
   updatedAt?: string | number;
@@ -27,6 +38,10 @@ function normalizeCredential(raw: ApiCredentialBackendResponse): ApiCredentialRe
     name: raw.name ?? '',
     modelWhitelist: raw.modelWhitelist ?? [],
     tokenLimit: Number(raw.tokenLimit ?? 0),
+    consumedTokens: Number(raw.consumedTokens ?? 0),
+    remainingTokens: raw.remainingTokens ?? null,
+    keyPreview: raw.keyPreview,
+    lastUsedAt: raw.lastUsedAt,
     status: raw.status ?? 'UNKNOWN',
     createdAt: raw.createdAt,
     updatedAt: raw.updatedAt,
@@ -53,6 +68,18 @@ export async function createApiCredential(
     ...response,
     data: {
       ...normalizeCredential(response.data.credential),
+      plainApiKey: response.data.plaintextApiKey,
+    },
+  };
+}
+
+export async function revealApiCredentialSecret(credentialId: string): Promise<ApiResponse<RevealApiCredentialSecretResponse>> {
+  const response = await apiClient.post<RevealApiCredentialSecretBackendResponse>(credentialPath(credentialId, '/reveal'));
+  return {
+    ...response,
+    data: {
+      apiCredentialId: String(response.data.apiCredentialId),
+      keyPreview: response.data.keyPreview,
       plainApiKey: response.data.plaintextApiKey,
     },
   };

@@ -5,6 +5,10 @@ export interface ApiCredentialResponse {
   name: string;
   modelWhitelist: string[];
   tokenLimit: number;
+  consumedTokens?: number;
+  remainingTokens?: number | null;
+  keyPreview?: string;
+  lastUsedAt?: string | number;
   status: ApiCredentialStatus;
   createdAt?: string | number;
   updatedAt?: string | number;
@@ -23,6 +27,12 @@ export interface CreateApiCredentialRequest {
 export interface CreateApiCredentialBackendResponse {
   credential: ApiCredentialResponse;
   plaintextApiKey?: string;
+}
+
+export interface RevealApiCredentialSecretResponse {
+  apiCredentialId: string;
+  keyPreview?: string;
+  plainApiKey?: string;
 }
 
 export interface CreateApiCredentialResponse extends ApiCredentialResponse {
