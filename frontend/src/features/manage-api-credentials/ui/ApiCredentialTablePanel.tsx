@@ -67,9 +67,13 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       okText: '继续复制',
       cancelText: '取消',
       onOk: async (): Promise<void> => {
-        const secret = await revealMutation.mutateAsync(credential.id);
-        setRevealedCredentialName(credential.name);
-        setRevealedSecret(secret);
+        try {
+          const secret = await revealMutation.mutateAsync(credential.id);
+          setRevealedCredentialName(credential.name);
+          setRevealedSecret(secret);
+        } catch (error: unknown) {
+          message.error(error instanceof Error ? error.message : '获取 API Key 失败');
+        }
       },
     });
   }
