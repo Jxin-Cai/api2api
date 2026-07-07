@@ -9,4 +9,6 @@ import com.api2api.domain.routing.model.RouteCandidate;
 public interface ProviderGatewayCallPort {
 
     ConversionPayload forward(RouteCandidate candidate, String upstreamRequestBody, boolean streaming);
+
+    ProviderStreamingResponse openStream(RouteCandidate candidate, String upstreamRequestBody);
 }

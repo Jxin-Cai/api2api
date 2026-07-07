@@ -2,6 +2,7 @@ package com.api2api.infr.client.provider;
 
 import com.api2api.application.BusinessException;
 import com.api2api.application.gateway.ProviderGatewayCallPort;
+import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.application.gateway.UpstreamGatewayException;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
@@ -9,6 +10,7 @@ import com.api2api.domain.protocol.model.ConversionPayload;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.routing.model.RouteFailureType;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -67,24 +69,10 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
 
-        ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
-                .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
-        String secret = providerSecretResolver.resolve(channel.keyRef());
-        String path = properties.defaultPathFor(candidate.upstreamProtocol());
-        URI uri = OutboundUriGuard.verify(
-                URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
-                properties.isAllowInsecureHosts()
-        );
-        Map<String, String> headers = headerPolicy.buildHeaders(candidate.upstreamProtocol(), Map.of(), secret, streaming);
-
-        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
-                .timeout(readTimeout(streaming))
-                .POST(HttpRequest.BodyPublishers.ofString(upstreamRequestBody));
-        headers.forEach(requestBuilder::header);
-
+        HttpRequest request = buildRequest(candidate, upstreamRequestBody, streaming);
         Instant startedAt = Instant.now();
         try {
-            HttpResponse<String> response = httpClient.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             long elapsedMillis = Duration.between(startedAt, Instant.now()).toMillis();
             int statusCode = response.statusCode();
             if (statusCode < 200 || statusCode >= 300) {
@@ -99,6 +87,50 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
             Thread.currentThread().interrupt();
             throw new UpstreamGatewayException(RouteFailureType.UPSTREAM_ERROR, null, false, elapsedSince(startedAt), "Upstream call interrupted");
         }
+    }
+
+    @Override
+    public ProviderStreamingResponse openStream(RouteCandidate candidate, String upstreamRequestBody) {
+        Objects.requireNonNull(candidate, "Route candidate must not be null");
+        Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
+
+        HttpRequest request = buildRequest(candidate, upstreamRequestBody, true);
+        Instant startedAt = Instant.now();
+        try {
+            HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            long elapsedMillis = Duration.between(startedAt, Instant.now()).toMillis();
+            int statusCode = response.statusCode();
+            if (statusCode < 200 || statusCode >= 300) {
+                closeQuietly(response.body());
+                throw toStatusFailure(statusCode, elapsedMillis);
+            }
+            return ProviderStreamingResponse.of(response.body());
+        } catch (HttpTimeoutException exception) {
+            throw new UpstreamGatewayException(RouteFailureType.TIMEOUT, null, true, elapsedSince(startedAt), "Upstream request timed out");
+        } catch (IOException exception) {
+            throw new UpstreamGatewayException(RouteFailureType.CHANNEL_UNAVAILABLE, null, true, elapsedSince(startedAt), "Upstream connection failed");
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new UpstreamGatewayException(RouteFailureType.UPSTREAM_ERROR, null, false, elapsedSince(startedAt), "Upstream call interrupted");
+        }
+    }
+
+    private HttpRequest buildRequest(RouteCandidate candidate, String upstreamRequestBody, boolean streaming) {
+        ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
+                .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
+        String secret = providerSecretResolver.resolve(channel.keyRef());
+        String path = properties.defaultPathFor(candidate.upstreamProtocol());
+        URI uri = OutboundUriGuard.verify(
+                URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
+                properties.isAllowInsecureHosts()
+        );
+        Map<String, String> headers = headerPolicy.buildHeaders(candidate.upstreamProtocol(), Map.of(), secret, streaming);
+
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
+                .timeout(readTimeout(streaming))
+                .POST(HttpRequest.BodyPublishers.ofString(upstreamRequestBody));
+        headers.forEach(requestBuilder::header);
+        return requestBuilder.build();
     }
 
     private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis) {
@@ -122,6 +154,17 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
 
     private Duration readTimeout(boolean streaming) {
         return streaming ? properties.getStreamingFirstByteTimeout() : properties.getUpstreamReadTimeout();
+    }
+
+    private void closeQuietly(InputStream body) {
+        if (body == null) {
+            return;
+        }
+        try {
+            body.close();
+        } catch (IOException ignored) {
+            // Ignore close failure while reporting the upstream status failure.
+        }
     }
 
     private long elapsedSince(Instant startedAt) {

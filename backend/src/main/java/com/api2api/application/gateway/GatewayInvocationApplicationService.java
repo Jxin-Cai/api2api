@@ -192,6 +192,150 @@ public class GatewayInvocationApplicationService {
         return invocation;
     }
 
+    public GatewayStreamingInvocation openStreaming(InvokeGatewayCommand command) {
+        Objects.requireNonNull(command, "Invoke gateway command must not be null");
+        if (!command.isStreaming()) {
+            throw new IllegalArgumentException("Streaming invocation requires a streaming command");
+        }
+
+        GatewayInvocation invocation = authenticateAndStartInvocation(command);
+        Instant now = Instant.now(clock);
+        List<ProtocolConversionDefinition> conversionDefinitions = conversionDefinitionRepository.findAll();
+        List<ProviderChannel> channels = providerChannelRepository.findEnabledForRouting();
+        RoutingRequest routingRequest = RoutingRequest.of(
+                command.getRequestProtocol(),
+                command.getRequestedModel(),
+                invocation.requirement()
+        );
+        RoutePlan routePlan = routingPolicyService.buildRoutePlan(routingRequest, channels, conversionDefinitions, now);
+
+        if (!routePlan.hasCandidate()) {
+            InvocationError error = InvocationError.withoutFailures(
+                    InvocationErrorType.NO_AVAILABLE_CHANNEL,
+                    "NO_AVAILABLE_CHANNEL"
+            );
+            invocation = gatewayInvocationService.completeFailure(invocation, error, true, Instant.now(clock));
+            appendUsageRecord(command.getUsageRecordId(), invocation);
+            return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
+        }
+
+        invocation = gatewayInvocationService.route(invocation, routePlan, Instant.now(clock));
+        RouteCandidate candidate = routePlan.firstCandidate();
+        while (candidate != null) {
+            try {
+                invocation.startAttempt(candidate, Instant.now(clock));
+                if (candidate.requiresProtocolConversion()) {
+                    throw new ProtocolConversionException("STREAMING_PROTOCOL_TRANSFORM_NOT_SUPPORTED");
+                }
+                ConversionPayload requestPayload = ConversionPayload.of(
+                        command.getRequestProtocol(),
+                        command.getRequestBody(),
+                        true
+                );
+                ConversionResult requestConversion = protocolConversionService.convertRequest(
+                        requestPayload,
+                        candidate.upstreamProtocol(),
+                        invocation.requirement(),
+                        conversionDefinitions
+                );
+                invocation = gatewayInvocationService.recordConversion(
+                        invocation,
+                        requestConversion,
+                        true,
+                        Instant.now(clock)
+                );
+                ProviderStreamingResponse providerResponse = providerGatewayCallPort.openStream(
+                        candidate,
+                        requestConversion.body()
+                );
+                return GatewayStreamingInvocation.opened(
+                        invocation,
+                        command.getUsageRecordId(),
+                        candidate,
+                        providerResponse
+                );
+            } catch (ProtocolConversionException exception) {
+                RouteFailure routeFailure = toRouteFailure(candidate, RouteFailureType.CONVERSION_ERROR, exception);
+                invocation = recordAttemptFailure(invocation, routeFailure);
+                FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
+                if (decision.action() == FailoverAction.RETRY_NEXT) {
+                    candidate = decision.nextCandidate();
+                    continue;
+                }
+                invocation = completeFailedInvocation(command, invocation, InvocationErrorType.CONVERSION_FAILED, decision);
+                appendUsageRecord(command.getUsageRecordId(), invocation);
+                return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
+            } catch (UpstreamGatewayException exception) {
+                RouteFailure routeFailure = toRouteFailure(candidate, exception.failureType(), exception);
+                invocation = recordAttemptFailure(invocation, routeFailure);
+                FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
+                if (decision.action() == FailoverAction.RETRY_NEXT) {
+                    candidate = decision.nextCandidate();
+                    continue;
+                }
+                invocation = completeFailedInvocation(command, invocation, InvocationErrorType.UPSTREAM_FAILED, decision);
+                appendUsageRecord(command.getUsageRecordId(), invocation);
+                return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
+            } catch (RuntimeException exception) {
+                RouteFailure routeFailure = toRouteFailure(candidate, mapUpstreamFailureType(exception), exception);
+                invocation = recordAttemptFailure(invocation, routeFailure);
+                FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
+                if (decision.action() == FailoverAction.RETRY_NEXT) {
+                    candidate = decision.nextCandidate();
+                    continue;
+                }
+                invocation = completeFailedInvocation(command, invocation, InvocationErrorType.UPSTREAM_FAILED, decision);
+                appendUsageRecord(command.getUsageRecordId(), invocation);
+                return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
+            }
+        }
+
+        InvocationError error = InvocationError.of(
+                InvocationErrorType.UPSTREAM_FAILED,
+                "ALL_CANDIDATE_CHANNELS_FAILED",
+                invocation.failures()
+        );
+        invocation = gatewayInvocationService.completeFailure(invocation, error, true, Instant.now(clock));
+        appendUsageRecord(command.getUsageRecordId(), invocation);
+        return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void completeStreamingSuccess(GatewayStreamingInvocation streamingInvocation) {
+        Objects.requireNonNull(streamingInvocation, "Streaming invocation must not be null");
+        if (!streamingInvocation.opened() || streamingInvocation.invocation().isTerminal()) {
+            return;
+        }
+        GatewayInvocation invocation = gatewayInvocationService.completeSuccess(
+                streamingInvocation.invocation(),
+                streamingInvocation.candidate(),
+                UnifiedTokenUsage.unknown(),
+                true,
+                Instant.now(clock)
+        );
+        appendUsageRecord(streamingInvocation.usageRecordId(), invocation);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void completeStreamingFailure(GatewayStreamingInvocation streamingInvocation, RuntimeException exception) {
+        Objects.requireNonNull(streamingInvocation, "Streaming invocation must not be null");
+        if (!streamingInvocation.opened() || streamingInvocation.invocation().isTerminal()) {
+            return;
+        }
+        InvocationError error = InvocationError.of(
+                InvocationErrorType.UPSTREAM_FAILED,
+                safeReason(exception),
+                streamingInvocation.invocation().failures()
+        );
+        GatewayInvocation invocation = gatewayInvocationService.completeFailure(
+                streamingInvocation.invocation(),
+                error,
+                true,
+                Instant.now(clock)
+        );
+        appendUsageRecord(streamingInvocation.usageRecordId(), invocation);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public GatewayInvocation authenticateAndStartInvocation(InvokeGatewayCommand command) {
         Objects.requireNonNull(command, "Invoke gateway command must not be null");
