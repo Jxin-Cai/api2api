@@ -1,7 +1,7 @@
 import { useEffect, useState, type Key } from 'react';
 import { Alert, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Tag, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { batchUpsertChannelModels, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
+import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
 import type { ApiErrorShape } from '@shared/api';
 import { PROTOCOL_OPTIONS, formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
@@ -68,6 +68,19 @@ function modelKey(model: Pick<ChannelModelSupportResponse, 'requestedModel' | 'u
   return `${model.requestedModel}::${model.upstreamProtocol}`;
 }
 
+function isMaskedKey(value: string | undefined, keyMasked?: string): boolean {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return false;
+  }
+  return trimmed.includes('****') || Boolean(keyMasked && trimmed === keyMasked);
+}
+
+function sanitizeEditableKey(value: string | undefined, keyMasked?: string): string {
+  const trimmed = value?.trim() ?? '';
+  return isMaskedKey(trimmed, keyMasked) ? '' : trimmed;
+}
+
 export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose, onSaved }: ProviderChannelFormDrawerProps) {
   const { createMutation, updateMutation } = useProviderChannelMutations();
   const [form] = Form.useForm<ProviderChannelFormState>();
@@ -97,7 +110,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         protocolMappings: normalizeProtocolMappings(supportedProtocols, channel.protocolMappings),
       });
       setPreviewModels(channel.supportedModels ?? []);
-      setSelectedModelIds((channel.supportedModels ?? []).map((model) => model.id));
+      setSelectedModelIds((channel.supportedModels ?? []).filter((model) => model.status === 'ENABLED').map((model) => model.id));
       return;
     }
     form.setFieldsValue(DEFAULT_FORM);
@@ -145,24 +158,33 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
         return;
       }
-      if (!values.keyRef?.trim()) {
+      const keyRef = sanitizeEditableKey(values.keyRef, channel?.keyMasked);
+      if (mode === 'create' && !keyRef) {
         form.setFields([{ name: 'keyRef', errors: ['预览拉取模型需要填写真实渠道 Key'] }]);
         message.warning('预览拉取模型需要填写真实渠道 Key');
         return;
       }
+      if (mode === 'edit' && !keyRef && !channel?.hasKey) {
+        form.setFields([{ name: 'keyRef', errors: ['当前渠道没有已保存 Key，请输入真实渠道 Key'] }]);
+        message.warning('当前渠道没有已保存 Key，请输入真实渠道 Key');
+        return;
+      }
       setPreviewLoading(true);
       try {
-        const response = await fetchProviderModelPreview({
+        const protocolMappings = normalizeProtocolMappings(values.supportedProtocols, values.protocolMappings);
+        const commonParams = {
           host: values.host.trim(),
-          keyRef: values.keyRef.trim(),
           modelsPath: values.modelsPath?.trim() || DEFAULT_MODELS_PATH,
           supportedProtocols: values.supportedProtocols,
-          protocolMappings: normalizeProtocolMappings(values.supportedProtocols, values.protocolMappings),
+          protocolMappings,
           defaultPriority: 10,
-        });
+        };
+        const response = mode === 'edit' && channel && !keyRef
+          ? await fetchProviderChannelModelPreview(channel.id, commonParams)
+          : await fetchProviderModelPreview({ ...commonParams, keyRef });
         const mergedModels = mergeWithExistingModels(response.data.models);
         setPreviewModels(mergedModels);
-        setSelectedModelIds(mergedModels.map((model) => model.id));
+        setSelectedModelIds(mergedModels.filter((model) => findExistingModel(model)?.status === 'ENABLED').map((model) => model.id));
         setModelsDirty(true);
         message.success(`验证成功，已获取 ${response.data.models.length} 个模型候选`);
       } catch (error) {
@@ -185,10 +207,11 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
     }
     const selectedModels = previewModels.filter((model) => selectedModelIds.includes(model.id));
     if (selectedModels.length === 0) {
+      message.warning('渠道已保存，但尚未选择启用模型');
       return null;
     }
     const response = await batchUpsertChannelModels(providerChannelId, {
-      replaceExisting: false,
+      replaceExisting: true,
       models: selectedModels.map((model) => {
         const existing = findExistingModel(model);
         return {
@@ -217,7 +240,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       const body = {
         name: values.name.trim(),
         host: values.host.trim(),
-        keyRef: values.keyRef?.trim(),
+        keyRef: sanitizeEditableKey(values.keyRef, channel?.keyMasked),
         modelsPath: values.modelsPath?.trim() || DEFAULT_MODELS_PATH,
         routePriority: values.routePriority ?? 0,
         supportedProtocols: values.supportedProtocols,
@@ -319,9 +342,9 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
           name="keyRef"
           label="渠道 Key"
           rules={mode === 'create' ? [{ required: true, message: '请输入渠道 Key' }] : []}
-          extra={mode === 'edit' ? `留空则保存时保持当前 Key 不变；如需预览拉取模型，请重新输入真实 Key。当前：${channel?.keyMasked ?? channel?.keyRef ?? '已配置'}` : '真实 API Key 将由后端保存，接口响应会脱敏'}
+          extra={mode === 'edit' ? `留空则保存和预览均沿用当前 Key；输入新 Key 才会替换。当前：${channel?.keyMasked ?? channel?.keyRef ?? '已配置'}` : '真实 API Key 将由后端保存，接口响应会脱敏'}
         >
-          <Input.Password placeholder={mode === 'edit' ? '留空不修改' : '请输入供应商 API Key'} autoComplete="new-password" />
+          <Input.Password placeholder={mode === 'edit' ? '留空沿用已保存 Key' : '请输入供应商 API Key'} autoComplete="new-password" />
         </Form.Item>
         <Form.Item
           name="modelsPath"
@@ -349,6 +372,9 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
             style={{ width: '100%' }}
             onChange={handleSupportedProtocolsChange}
           />
+        </Form.Item>
+        <Form.Item name="protocolMappings" hidden>
+          <Input type="hidden" />
         </Form.Item>
         <Form.Item label="入口协议 → 上游调用协议" required>
           <Space direction="vertical" style={{ width: '100%' }}>
@@ -382,8 +408,8 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         <Alert
           type="info"
           showIcon
-          message="验证并获取模型列表会真实请求上游模型列表接口；编辑渠道时会先显示已保存模型，并保留已配置的优先模型和排序值。"
-          description="取消勾选只表示本次不保存该候选，不会删除已保存模型；删除模型请在展开的模型配置区操作。"
+          message="验证并获取模型列表会真实请求上游模型列表接口；编辑渠道时可沿用已保存 Key，并保留已配置的优先模型和排序值。"
+          description="获取结果仅作为上游支持模型候选；默认只勾选已保存的启用模型，新候选需要手动勾选后才会保存为选用模型。"
         />
         <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
         {previewModels.length > 0 ? (

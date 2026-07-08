@@ -58,10 +58,10 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
       const response = await previewMutation.mutateAsync({ channelId, body: { defaultPriority } });
       const merged = response.data.models.map((model) => {
         const existing = findExisting(model);
-        return existing ? { ...model, id: existing.id, priority: existing.priority, preferred: existing.preferred, source: existing.source } : model;
+        return existing ? { ...model, id: existing.id, priority: existing.priority, preferred: existing.preferred, source: existing.source, status: existing.status } : model;
       });
       setPreviewModels(merged);
-      setSelectedModelIds(merged.map((model) => model.id));
+      setSelectedModelIds(merged.filter((model) => findExisting(model)?.status === 'ENABLED').map((model) => model.id));
       message.success(`验证成功，已获取 ${merged.length} 个模型候选`);
     } catch (error) {
       message.error(`验证并获取模型失败：${getErrorMessage(error)}`);
@@ -78,7 +78,7 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
       const response = await batchUpsertMutation.mutateAsync({
         channelId,
         body: {
-          replaceExisting: false,
+          replaceExisting: true,
           models: selectedModels.map((model) => {
             const existing = findExisting(model);
             return {
@@ -143,7 +143,8 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
         <Alert
           type="info"
           showIcon
-          message="此操作会请求上游模型列表接口，用于验证当前渠道 Host/Key 是否具备模型列表权限。获取结果仅作为候选，不会自动替换当前模型配置。"
+          message="此操作会请求上游模型列表接口，用于验证当前渠道 Host/Key 是否具备模型列表权限。获取结果仅作为上游支持模型候选。"
+          description="默认只勾选已保存的启用模型；保存时会以所选模型作为当前启用模型集合，未勾选的候选不会展示或参与路由。"
         />
         <Space wrap>
           <Typography.Text>默认模型排序值</Typography.Text>
@@ -160,8 +161,10 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
               pagination={{ pageSize: 8 }}
               rowSelection={{ selectedRowKeys: selectedModelIds, onChange: setSelectedModelIds }}
             />
-            <Space>
-              <Button type="primary" loading={batchUpsertMutation.isPending} onClick={handleSave}>保存所选模型</Button>
+            <Space wrap>
+              <Button onClick={() => setSelectedModelIds(previewModels.map((model) => model.id))}>全选候选</Button>
+              <Button onClick={() => setSelectedModelIds([])}>清空选择</Button>
+              <Button type="primary" loading={batchUpsertMutation.isPending} onClick={handleSave}>保存所选为启用模型</Button>
               <Typography.Text type="secondary">优先模型会在路由时优先尝试；模型排序值数字越小越优先。</Typography.Text>
             </Space>
           </>

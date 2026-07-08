@@ -1,5 +1,6 @@
-import { Button, Space, Typography, message } from 'antd';
+import { Button, Space, Typography, message, notification } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
+import { copyText } from '@shared/lib';
 
 interface CopyableTextProps {
   /** 待复制文本 */
@@ -10,7 +11,11 @@ interface CopyableTextProps {
 
 export function CopyableText({ text, masked = false }: CopyableTextProps) {
   async function handleCopy(): Promise<void> {
-    await navigator.clipboard.writeText(text);
+    const result = await copyText(text);
+    if (!result.ok) {
+      notification.error({ message: '复制失败', description: result.reason ?? '请手动选择文本复制。' });
+      return;
+    }
     message.success('已复制');
   }
 

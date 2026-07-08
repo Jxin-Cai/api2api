@@ -1,5 +1,5 @@
 import { Alert, Button, Space, Typography, message, notification } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { copyText } from '@shared/lib';
 
@@ -20,9 +20,20 @@ export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskA
   const [copied, setCopied] = useState(false);
   const [masked, setMasked] = useState(false);
 
+  useEffect(() => {
+    setCopied(false);
+    setMasked(false);
+  }, [plainApiKey]);
+
   async function handleCopy(): Promise<void> {
-    const result = await copyText(plainApiKey);
+    const text = plainApiKey.trim();
+    if (!text) {
+      notification.error({ message: '复制失败', description: '当前没有可复制的 API Key 明文。' });
+      return;
+    }
+    const result = await copyText(text);
     if (!result.ok) {
+      setMasked(false);
       notification.error({ message: '复制失败', description: result.reason ? `${result.reason}，请手动选择文本复制。` : '请手动选择文本复制。' });
       return;
     }

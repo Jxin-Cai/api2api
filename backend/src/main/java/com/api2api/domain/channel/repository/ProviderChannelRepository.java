@@ -47,4 +47,13 @@ public interface ProviderChannelRepository {
      * @return enabled provider channels ready for routing decisions
      */
     List<ProviderChannel> findEnabledForRouting();
+
+    /**
+     * Soft deletes a provider channel so it disappears from management lists and routing,
+     * while preserving historical usage records and child rows for auditability.
+     *
+     * @param id provider channel id
+     * @param deletedAt deletion time
+     */
+    void softDeleteById(ProviderChannelId id, java.time.Instant deletedAt);
 }

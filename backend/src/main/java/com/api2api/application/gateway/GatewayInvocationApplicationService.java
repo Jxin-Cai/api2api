@@ -69,6 +69,9 @@ public class GatewayInvocationApplicationService {
     private final ProviderGatewayCallPort providerGatewayCallPort;
 
     @NonNull
+    private final GatewayPayloadModelMappingPort payloadModelMappingPort;
+
+    @NonNull
     private final Clock clock;
 
     public GatewayInvocation invoke(InvokeGatewayCommand command) {
@@ -118,10 +121,11 @@ public class GatewayInvocationApplicationService {
                         Instant.now(clock)
                 );
 
+                String upstreamRequestBody = rewriteRequestModel(candidate, requestConversion.body());
                 ConversionPayload upstreamResponsePayload = forwardToProvider(
                         providerGatewayCallPort,
                         candidate,
-                        requestConversion.body(),
+                        upstreamRequestBody,
                         command.isStreaming()
                 );
                 ConversionResult responseConversion = protocolConversionService.convertResponse(
@@ -130,6 +134,7 @@ public class GatewayInvocationApplicationService {
                         invocation.requirement(),
                         conversionDefinitions
                 );
+                responseConversion = rewriteResponseModel(candidate, responseConversion);
                 invocation = gatewayInvocationService.recordConversion(
                         invocation,
                         responseConversion,
@@ -158,7 +163,7 @@ public class GatewayInvocationApplicationService {
                 appendUsageRecord(command.getUsageRecordId(), invocation);
                 return invocation;
             } catch (UpstreamGatewayException exception) {
-                RouteFailure routeFailure = toRouteFailure(candidate, exception.failureType(), exception);
+                RouteFailure routeFailure = toRouteFailure(candidate, exception);
                 invocation = recordAttemptFailure(invocation, routeFailure);
                 FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
                 if (decision.action() == FailoverAction.RETRY_NEXT) {
@@ -246,7 +251,7 @@ public class GatewayInvocationApplicationService {
                 );
                 ProviderStreamingResponse providerResponse = providerGatewayCallPort.openStream(
                         candidate,
-                        requestConversion.body()
+                        rewriteRequestModel(candidate, requestConversion.body())
                 );
                 return GatewayStreamingInvocation.opened(
                         invocation,
@@ -266,7 +271,7 @@ public class GatewayInvocationApplicationService {
                 appendUsageRecord(command.getUsageRecordId(), invocation);
                 return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
             } catch (UpstreamGatewayException exception) {
-                RouteFailure routeFailure = toRouteFailure(candidate, exception.failureType(), exception);
+                RouteFailure routeFailure = toRouteFailure(candidate, exception);
                 invocation = recordAttemptFailure(invocation, routeFailure);
                 FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
                 if (decision.action() == FailoverAction.RETRY_NEXT) {
@@ -380,6 +385,27 @@ public class GatewayInvocationApplicationService {
         usageRecordRepository.save(usageRecord);
     }
 
+    private String rewriteRequestModel(RouteCandidate candidate, String body) {
+        if (!candidate.requiresModelMapping()) {
+            return body;
+        }
+        return payloadModelMappingPort.rewriteModel(candidate.upstreamProtocol(), body, candidate.upstreamModel());
+    }
+
+    private ConversionResult rewriteResponseModel(RouteCandidate candidate, ConversionResult responseConversion) {
+        if (!candidate.requiresModelMapping()) {
+            return responseConversion;
+        }
+        String body = payloadModelMappingPort.rewriteModel(candidate.clientProtocol(), responseConversion.body(), candidate.requestedModel());
+        return ConversionResult.of(
+                responseConversion.sourceProtocol(),
+                responseConversion.targetProtocol(),
+                body,
+                responseConversion.passthrough(),
+                responseConversion.usage().orElse(null)
+        );
+    }
+
     private ConversionPayload forwardToProvider(
             ProviderGatewayCallPort port,
             RouteCandidate candidate,
@@ -407,8 +433,34 @@ public class GatewayInvocationApplicationService {
             InvocationErrorType errorType,
             FailoverDecision decision
     ) {
-        InvocationError error = InvocationError.of(errorType, decision.reason(), decision.failures());
+        InvocationError error = InvocationError.of(errorType, failureMessage(decision), decision.failures());
         return gatewayInvocationService.completeFailure(invocation, error, command.isStreaming(), Instant.now(clock));
+    }
+
+    private String failureMessage(FailoverDecision decision) {
+        List<RouteFailure> failures = decision.failures();
+        if (failures.isEmpty()) {
+            return safeFailureMessage(decision.reason());
+        }
+        RouteFailure latestFailure = failures.get(failures.size() - 1);
+        return safeFailureMessage(latestFailure.failureType() + ": " + latestFailure.reason());
+    }
+
+    private String safeFailureMessage(String message) {
+        if (message.length() > MAX_FAILURE_REASON_LENGTH) {
+            return message.substring(0, MAX_FAILURE_REASON_LENGTH);
+        }
+        return message;
+    }
+
+    private RouteFailure toRouteFailure(RouteCandidate candidate, UpstreamGatewayException exception) {
+        return RouteFailure.of(
+                candidate.providerChannelId(),
+                exception.failureType(),
+                safeReason(exception),
+                exception.retryable(),
+                Instant.now(clock)
+        );
     }
 
     private RouteFailure toRouteFailure(RouteCandidate candidate, RouteFailureType failureType, RuntimeException exception) {

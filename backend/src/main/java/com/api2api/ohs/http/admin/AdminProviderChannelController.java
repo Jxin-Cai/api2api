@@ -4,6 +4,7 @@ import com.api2api.application.channel.ProviderChannelApplicationService;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
 import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
+import com.api2api.application.channel.command.DeleteProviderChannelCommand;
 import com.api2api.application.channel.command.FetchProviderChannelModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
@@ -160,6 +161,20 @@ public class AdminProviderChannelController {
         );
         ProviderChannel channel = providerChannelApplicationService.disableChannel(command);
         return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
+    }
+
+    @DeleteMapping("/{provider-channel-id}")
+    public ApiResponse<Void> deleteChannel(
+            @PathVariable("provider-channel-id") Long providerChannelId,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        DeleteProviderChannelCommand command = DeleteProviderChannelCommand.builder()
+                .operatorUserId(operatorUserId)
+                .providerChannelId(ProviderChannelId.of(providerChannelId))
+                .build();
+        providerChannelApplicationService.deleteChannel(command);
+        return ApiResponse.success();
     }
 
     @PostMapping("/{provider-channel-id}/model-fetches")

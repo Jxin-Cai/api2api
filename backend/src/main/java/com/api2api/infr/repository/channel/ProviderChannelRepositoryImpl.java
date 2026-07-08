@@ -6,6 +6,7 @@ import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.infr.repository.channel.converter.ProviderChannelPersistenceConverter;
 import com.api2api.infr.repository.channel.mapper.ProviderChannelMapper;
 import com.api2api.infr.repository.channel.po.ProviderChannelPO;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -53,5 +54,12 @@ public class ProviderChannelRepositoryImpl implements ProviderChannelRepository 
         return mapper.selectEnabledForRouting().stream()
                 .map(converter::toDomain)
                 .toList();
+    }
+
+    @Override
+    public void softDeleteById(ProviderChannelId id, Instant deletedAt) {
+        Objects.requireNonNull(id, "ProviderChannelId must not be null");
+        Objects.requireNonNull(deletedAt, "Deleted time must not be null");
+        mapper.softDeleteById(id.value(), deletedAt);
     }
 }

@@ -8,6 +8,11 @@ export interface AdminFetchProviderModelsRequest {
 }
 
 export interface AdminFetchProviderChannelModelPreviewRequest {
+  host?: string;
+  keyRef?: string;
+  modelsPath?: string;
+  supportedProtocols?: string[];
+  protocolMappings?: ProtocolMappingResponse[];
   defaultPriority: number;
 }
 

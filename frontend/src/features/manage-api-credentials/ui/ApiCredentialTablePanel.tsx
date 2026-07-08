@@ -111,7 +111,7 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       render: (_: unknown, credential: ApiCredentialResponse): ReactElement => (
         <Space>
           <Button size="small" onClick={(): void => setEditing(credential)}>编辑</Button>
-          <Button size="small" onClick={(): void => handleReveal(credential)} loading={revealMutation.isPending}>复制 Key</Button>
+          <Button size="small" onClick={(): void => handleReveal(credential)} loading={revealMutation.isPending}>查看并复制 Key</Button>
           <Popconfirm
             title={isEnabled(credential) ? '确认禁用该 API Key？' : '确认启用该 API Key？'}
             description={isEnabled(credential) ? '禁用后使用该 key 的调用将失败。' : '启用后该 key 可继续调用。'}

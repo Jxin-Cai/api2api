@@ -35,3 +35,7 @@ export function enableProviderChannel(providerChannelId: number): Promise<ApiRes
 export function disableProviderChannel(providerChannelId: number): Promise<ApiResponse<ProviderChannelResponse>> {
   return apiClient.patch(`/api/admin/provider-channels/${encodeId(providerChannelId)}/disable`);
 }
+
+export function deleteProviderChannel(providerChannelId: number): Promise<ApiResponse<void>> {
+  return apiClient.delete(`/api/admin/provider-channels/${encodeId(providerChannelId)}`);
+}

@@ -9,4 +9,5 @@ public interface ProviderChannelMapper {
     ProviderChannelPO selectById(Long id);
     List<ProviderChannelPO> selectAll();
     List<ProviderChannelPO> selectEnabledForRouting();
+    int softDeleteById(Long id, java.time.Instant updatedAt);
 }

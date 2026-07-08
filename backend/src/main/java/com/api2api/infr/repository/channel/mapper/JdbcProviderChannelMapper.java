@@ -126,6 +126,20 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 .toList();
     }
 
+    @Override
+    public int softDeleteById(Long id, Instant updatedAt) {
+        return jdbcTemplate.update("""
+                UPDATE provider_channels
+                SET deleted = TRUE,
+                    status = 'DISABLED',
+                    updated_at = :updatedTime
+                WHERE id = :id
+                  AND deleted = FALSE
+                """, new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("updatedTime", timestamp(updatedAt)));
+    }
+
     private ProviderChannelPO withChildren(ProviderChannelPO channel, boolean enabledModelsOnly) {
         if (channel == null) {
             return null;

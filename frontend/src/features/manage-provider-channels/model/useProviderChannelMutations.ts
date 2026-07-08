@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   createProviderChannel,
+  deleteProviderChannel,
   disableProviderChannel,
   enableProviderChannel,
   providerChannelQueryKeys,
@@ -21,6 +22,7 @@ export function useProviderChannelMutations() {
   });
   const enableMutation = useMutation({ mutationFn: enableProviderChannel, onSuccess: invalidate });
   const disableMutation = useMutation({ mutationFn: disableProviderChannel, onSuccess: invalidate });
+  const deleteMutation = useMutation({ mutationFn: deleteProviderChannel, onSuccess: invalidate });
 
-  return { createMutation, updateMutation, enableMutation, disableMutation, invalidate };
+  return { createMutation, updateMutation, enableMutation, disableMutation, deleteMutation, invalidate };
 }

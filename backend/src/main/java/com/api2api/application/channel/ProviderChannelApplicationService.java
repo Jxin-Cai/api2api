@@ -5,6 +5,7 @@ import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.ChannelModelUpsertItemCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
+import com.api2api.application.channel.command.DeleteProviderChannelCommand;
 import com.api2api.application.channel.command.FetchProviderChannelModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelPreviewCommand;
 import com.api2api.application.channel.command.FetchProviderModelsCommand;
@@ -108,6 +109,13 @@ public class ProviderChannelApplicationService {
         return channel;
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteChannel(DeleteProviderChannelCommand command) {
+        assertAdmin(command.getOperatorUserId());
+        loadChannel(command.getProviderChannelId());
+        providerChannelRepository.softDeleteById(command.getProviderChannelId(), now());
+    }
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ProviderChannel> listChannels(UserAccountId operatorUserId) {
         assertAdmin(operatorUserId);
@@ -164,12 +172,15 @@ public class ProviderChannelApplicationService {
     public List<ChannelModelSupport> previewProviderModels(FetchProviderChannelModelPreviewCommand command) {
         assertAdmin(command.getOperatorUserId());
         ProviderChannel channel = loadChannel(command.getProviderChannelId());
+        Set<ProtocolType> upstreamProtocols = command.getProtocolMappings() == null || command.getProtocolMappings().isEmpty()
+                ? channel.upstreamProtocols()
+                : upstreamProtocols(command.getProtocolMappings());
         return providerModelFetchPort.fetchModels(
                 channel.id(),
-                channel.host(),
-                channel.keyRef(),
-                channel.modelsPath(),
-                channel.upstreamProtocols(),
+                command.getHost() == null ? channel.host() : command.getHost(),
+                command.getKeyRef() == null ? channel.keyRef() : command.getKeyRef(),
+                command.getModelsPath() == null ? channel.modelsPath() : command.getModelsPath(),
+                upstreamProtocols,
                 command.getDefaultPriority()
         );
     }

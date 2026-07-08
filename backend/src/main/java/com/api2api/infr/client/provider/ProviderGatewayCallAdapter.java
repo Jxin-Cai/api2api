@@ -76,7 +76,7 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
             long elapsedMillis = Duration.between(startedAt, Instant.now()).toMillis();
             int statusCode = response.statusCode();
             if (statusCode < 200 || statusCode >= 300) {
-                throw toStatusFailure(statusCode, elapsedMillis);
+                throw toStatusFailure(statusCode, elapsedMillis, response.body());
             }
             return ConversionPayload.of(candidate.upstreamProtocol(), response.body(), streaming);
         } catch (HttpTimeoutException exception) {
@@ -101,8 +101,9 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
             long elapsedMillis = Duration.between(startedAt, Instant.now()).toMillis();
             int statusCode = response.statusCode();
             if (statusCode < 200 || statusCode >= 300) {
+                String errorBody = readErrorBody(response.body());
                 closeQuietly(response.body());
-                throw toStatusFailure(statusCode, elapsedMillis);
+                throw toStatusFailure(statusCode, elapsedMillis, errorBody);
             }
             return ProviderStreamingResponse.of(response.body());
         } catch (HttpTimeoutException exception) {
@@ -133,7 +134,7 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
         return requestBuilder.build();
     }
 
-    private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis) {
+    private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis, String responseBody) {
         RouteFailureType failureType;
         boolean retryable;
         if (statusCode == 401 || statusCode == 403) {
@@ -149,11 +150,35 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
             failureType = RouteFailureType.UPSTREAM_ERROR;
             retryable = false;
         }
-        return new UpstreamGatewayException(failureType, statusCode, retryable, elapsedMillis, "Upstream returned HTTP " + statusCode);
+        return new UpstreamGatewayException(failureType, statusCode, retryable, elapsedMillis, statusFailureMessage(statusCode, responseBody));
+    }
+
+    private String statusFailureMessage(int statusCode, String responseBody) {
+        String message = "Upstream returned HTTP " + statusCode;
+        if (responseBody == null || responseBody.isBlank()) {
+            return message;
+        }
+        String compactBody = responseBody.replaceAll("\\s+", " ").trim();
+        int maxBodyLength = 500;
+        if (compactBody.length() > maxBodyLength) {
+            compactBody = compactBody.substring(0, maxBodyLength) + "...";
+        }
+        return message + ": " + compactBody;
     }
 
     private Duration readTimeout(boolean streaming) {
         return streaming ? properties.getStreamingFirstByteTimeout() : properties.getUpstreamReadTimeout();
+    }
+
+    private String readErrorBody(InputStream body) {
+        if (body == null) {
+            return "";
+        }
+        try {
+            return new String(body.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        } catch (IOException exception) {
+            return "";
+        }
     }
 
     private void closeQuietly(InputStream body) {

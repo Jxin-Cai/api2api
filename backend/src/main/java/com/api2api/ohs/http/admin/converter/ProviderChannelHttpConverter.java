@@ -131,6 +131,10 @@ public interface ProviderChannelHttpConverter {
         return FetchProviderChannelModelPreviewCommand.builder()
                 .operatorUserId(operatorUserId)
                 .providerChannelId(providerChannelId)
+                .host(hasText(request.getHost()) ? ProviderHost.of(request.getHost()) : null)
+                .keyRef(hasText(request.getKeyRef()) ? ProviderKeyRef.of(request.getKeyRef()) : null)
+                .modelsPath(hasText(request.getModelsPath()) ? ProviderModelsPath.of(request.getModelsPath()) : null)
+                .protocolMappings(toOptionalProtocolMappings(request.getProtocolMappings(), request.getSupportedProtocols()))
                 .defaultPriority(RoutePriority.of(request.getDefaultPriority()))
                 .build();
     }
@@ -210,7 +214,7 @@ public interface ProviderChannelHttpConverter {
     @Mapping(target = "host", expression = "java(channel.host().value())")
     @Mapping(target = "keyRef", expression = "java(maskKey(channel.keyRef().value()))")
     @Mapping(target = "keyMasked", expression = "java(maskKey(channel.keyRef().value()))")
-    @Mapping(target = "hasKey", expression = "java(Boolean.TRUE)")
+    @Mapping(target = "hasKey", expression = "java(hasText(channel.keyRef().value()))")
     @Mapping(target = "modelsPath", expression = "java(channel.modelsPath().value())")
     @Mapping(target = "routePriority", expression = "java(channel.routePriority())")
     @Mapping(target = "supportedProtocols", expression = "java(toProtocolNames(channel.supportedProtocols()))")
@@ -258,17 +262,36 @@ public interface ProviderChannelHttpConverter {
     }
 
     default Set<ChannelProtocolMapping> toProtocolMappings(List<ProtocolMappingRequest> mappings, Set<String> fallbackProtocols) {
+        Set<ProtocolType> supportedProtocols = toProtocolTypes(fallbackProtocols);
         if (mappings == null || mappings.isEmpty()) {
-            return toProtocolTypes(fallbackProtocols).stream()
+            return supportedProtocols.stream()
                     .map(protocol -> ChannelProtocolMapping.of(protocol, protocol))
                     .collect(Collectors.toCollection(LinkedHashSet::new));
         }
-        return mappings.stream()
+        Set<ChannelProtocolMapping> protocolMappings = mappings.stream()
                 .map(mapping -> ChannelProtocolMapping.of(
                         toProtocolType(mapping.getRequestProtocol()),
                         toProtocolType(mapping.getUpstreamProtocol())
                 ))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
+        assertRequestProtocolsSupported(protocolMappings, supportedProtocols);
+        return protocolMappings;
+    }
+
+    default Set<ChannelProtocolMapping> toOptionalProtocolMappings(List<ProtocolMappingRequest> mappings, Set<String> fallbackProtocols) {
+        if ((mappings == null || mappings.isEmpty()) && (fallbackProtocols == null || fallbackProtocols.isEmpty())) {
+            return null;
+        }
+        return toProtocolMappings(mappings, fallbackProtocols);
+    }
+
+    default void assertRequestProtocolsSupported(Set<ChannelProtocolMapping> mappings, Set<ProtocolType> supportedProtocols) {
+        Set<ProtocolType> requestProtocols = mappings.stream()
+                .map(ChannelProtocolMapping::requestProtocol)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        if (!supportedProtocols.containsAll(requestProtocols)) {
+            throw new IllegalArgumentException("Protocol mappings request protocols must be contained in supportedProtocols");
+        }
     }
 
     default int defaultRoutePriority(Integer routePriority) {
