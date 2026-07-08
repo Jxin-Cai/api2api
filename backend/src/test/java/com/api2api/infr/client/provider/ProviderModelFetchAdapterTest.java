@@ -1,8 +1,6 @@
 package com.api2api.infr.client.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ProtocolType;
@@ -20,7 +18,9 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import org.springframework.mock.env.MockEnvironment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,8 +51,9 @@ class ProviderModelFetchAdapterTest {
         });
         server.start();
 
-        ProviderSecretResolver secretResolver = mock(ProviderSecretResolver.class);
-        when(secretResolver.resolve(ProviderKeyRef.of("test-key"))).thenReturn("test-secret");
+        ProviderSecretProperties secretProperties = new ProviderSecretProperties();
+        secretProperties.setKeys(Map.of("test-key", "test-secret"));
+        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         ProviderModelFetchAdapter adapter = new ProviderModelFetchAdapter(
                 secretResolver,

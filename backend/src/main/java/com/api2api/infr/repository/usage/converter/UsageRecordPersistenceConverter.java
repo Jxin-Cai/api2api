@@ -93,10 +93,14 @@ public class UsageRecordPersistenceConverter {
                 po.isStreaming(),
                 po.getStartedTime(),
                 po.getEndedTime(),
-                UsageDuration.of(po.getDurationMillis()),
+                durationOf(po),
                 diagnostic,
                 po.getCreatedTime()
         );
+    }
+
+    private UsageDuration durationOf(UsageRecordPO po) {
+        return UsageDuration.between(po.getStartedTime(), po.getEndedTime());
     }
 
     public UsageRecordQueryPO toQueryPO(UsageRecordFilter filter) {
