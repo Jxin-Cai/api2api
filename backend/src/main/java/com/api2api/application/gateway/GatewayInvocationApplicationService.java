@@ -32,6 +32,7 @@ import com.api2api.domain.usage.repository.UsageRecordRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -75,6 +76,10 @@ public class GatewayInvocationApplicationService {
     private final Clock clock;
 
     public GatewayInvocation invoke(InvokeGatewayCommand command) {
+        return invokeOutcome(command).invocation();
+    }
+
+    public GatewayInvocationOutcome invokeOutcome(InvokeGatewayCommand command) {
         Objects.requireNonNull(command, "Invoke gateway command must not be null");
 
         GatewayInvocation invocation = authenticateAndStartInvocation(command);
@@ -95,7 +100,7 @@ public class GatewayInvocationApplicationService {
             );
             invocation = gatewayInvocationService.completeFailure(invocation, error, command.isStreaming(), Instant.now(clock));
             appendUsageRecord(command.getUsageRecordId(), invocation);
-            return invocation;
+            return GatewayInvocationOutcome.withoutProviderResponse(invocation);
         }
 
         invocation = gatewayInvocationService.route(invocation, routePlan, Instant.now(clock));
@@ -122,11 +127,29 @@ public class GatewayInvocationApplicationService {
                 );
 
                 String upstreamRequestBody = rewriteRequestModel(candidate, requestConversion.body());
-                ConversionPayload upstreamResponsePayload = forwardToProvider(
+                ProviderGatewayResponse upstreamResponse = forwardToProvider(
                         providerGatewayCallPort,
                         candidate,
                         upstreamRequestBody,
-                        command.isStreaming()
+                        command.isStreaming(),
+                        command.getIncomingHeaders()
+                );
+                if (!upstreamResponse.successful()) {
+                    RouteFailure routeFailure = toRouteFailure(candidate, upstreamResponse);
+                    invocation = recordAttemptFailure(invocation, routeFailure);
+                    FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
+                    if (decision.action() == FailoverAction.RETRY_NEXT) {
+                        candidate = decision.nextCandidate();
+                        continue;
+                    }
+                    invocation = completeFailedInvocation(command, invocation, InvocationErrorType.UPSTREAM_FAILED, decision);
+                    appendUsageRecord(command.getUsageRecordId(), invocation);
+                    return GatewayInvocationOutcome.of(invocation, upstreamResponse);
+                }
+                ConversionPayload upstreamResponsePayload = ConversionPayload.of(
+                        upstreamResponse.protocol(),
+                        upstreamResponse.body(),
+                        upstreamResponse.streaming()
                 );
                 ConversionResult responseConversion = protocolConversionService.convertResponse(
                         upstreamResponsePayload,
@@ -150,7 +173,7 @@ public class GatewayInvocationApplicationService {
                         Instant.now(clock)
                 );
                 appendUsageRecord(command.getUsageRecordId(), invocation);
-                return invocation;
+                return GatewayInvocationOutcome.of(invocation, upstreamResponse);
             } catch (ProtocolConversionException exception) {
                 RouteFailure routeFailure = toRouteFailure(candidate, RouteFailureType.CONVERSION_ERROR, exception);
                 invocation = recordAttemptFailure(invocation, routeFailure);
@@ -161,7 +184,7 @@ public class GatewayInvocationApplicationService {
                 }
                 invocation = completeFailedInvocation(command, invocation, InvocationErrorType.CONVERSION_FAILED, decision);
                 appendUsageRecord(command.getUsageRecordId(), invocation);
-                return invocation;
+                return GatewayInvocationOutcome.withoutProviderResponse(invocation);
             } catch (UpstreamGatewayException exception) {
                 RouteFailure routeFailure = toRouteFailure(candidate, exception);
                 invocation = recordAttemptFailure(invocation, routeFailure);
@@ -172,7 +195,7 @@ public class GatewayInvocationApplicationService {
                 }
                 invocation = completeFailedInvocation(command, invocation, InvocationErrorType.UPSTREAM_FAILED, decision);
                 appendUsageRecord(command.getUsageRecordId(), invocation);
-                return invocation;
+                return GatewayInvocationOutcome.withoutProviderResponse(invocation);
             } catch (RuntimeException exception) {
                 RouteFailure routeFailure = toRouteFailure(candidate, mapUpstreamFailureType(exception), exception);
                 invocation = recordAttemptFailure(invocation, routeFailure);
@@ -183,7 +206,7 @@ public class GatewayInvocationApplicationService {
                 }
                 invocation = completeFailedInvocation(command, invocation, InvocationErrorType.UPSTREAM_FAILED, decision);
                 appendUsageRecord(command.getUsageRecordId(), invocation);
-                return invocation;
+                return GatewayInvocationOutcome.withoutProviderResponse(invocation);
             }
         }
 
@@ -194,7 +217,7 @@ public class GatewayInvocationApplicationService {
         );
         invocation = gatewayInvocationService.completeFailure(invocation, error, command.isStreaming(), Instant.now(clock));
         appendUsageRecord(command.getUsageRecordId(), invocation);
-        return invocation;
+        return GatewayInvocationOutcome.withoutProviderResponse(invocation);
     }
 
     public GatewayStreamingInvocation openStreaming(InvokeGatewayCommand command) {
@@ -251,7 +274,8 @@ public class GatewayInvocationApplicationService {
                 );
                 ProviderStreamingResponse providerResponse = providerGatewayCallPort.openStream(
                         candidate,
-                        rewriteRequestModel(candidate, requestConversion.body())
+                        rewriteRequestModel(candidate, requestConversion.body()),
+                        command.getIncomingHeaders()
                 );
                 return GatewayStreamingInvocation.opened(
                         invocation,
@@ -406,20 +430,21 @@ public class GatewayInvocationApplicationService {
         );
     }
 
-    private ConversionPayload forwardToProvider(
+    private ProviderGatewayResponse forwardToProvider(
             ProviderGatewayCallPort port,
             RouteCandidate candidate,
             String upstreamRequestBody,
-            boolean streaming
+            boolean streaming,
+            Map<String, List<String>> incomingHeaders
     ) {
         Objects.requireNonNull(port, "Provider gateway call port must not be null");
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
-        ConversionPayload responsePayload = port.forward(candidate, upstreamRequestBody, streaming);
-        if (!candidate.upstreamProtocol().equals(responsePayload.protocol())) {
+        ProviderGatewayResponse response = port.forward(candidate, upstreamRequestBody, streaming, incomingHeaders);
+        if (!candidate.upstreamProtocol().equals(response.protocol())) {
             throw new BusinessException("UPSTREAM_RESPONSE_PROTOCOL_MISMATCH");
         }
-        return responsePayload;
+        return response;
     }
 
     private GatewayInvocation recordAttemptFailure(GatewayInvocation invocation, RouteFailure routeFailure) {
@@ -461,6 +486,43 @@ public class GatewayInvocationApplicationService {
                 exception.retryable(),
                 Instant.now(clock)
         );
+    }
+
+    private RouteFailure toRouteFailure(RouteCandidate candidate, ProviderGatewayResponse response) {
+        RouteFailureType failureType = routeFailureType(response.statusCode());
+        return RouteFailure.of(
+                candidate.providerChannelId(),
+                failureType,
+                statusFailureMessage(response.statusCode(), response.body()),
+                failureType.isRetryableByDefault(),
+                Instant.now(clock)
+        );
+    }
+
+    private RouteFailureType routeFailureType(int statusCode) {
+        if (statusCode == 401 || statusCode == 403) {
+            return RouteFailureType.AUTHORIZATION_ERROR;
+        }
+        if (statusCode == 429) {
+            return RouteFailureType.RATE_LIMITED;
+        }
+        if (statusCode >= 500) {
+            return RouteFailureType.CHANNEL_UNAVAILABLE;
+        }
+        return RouteFailureType.UPSTREAM_ERROR;
+    }
+
+    private String statusFailureMessage(int statusCode, String responseBody) {
+        String message = "Upstream returned HTTP " + statusCode;
+        if (responseBody == null || responseBody.isBlank()) {
+            return message;
+        }
+        String compactBody = responseBody.replaceAll("\\s+", " ").trim();
+        int maxBodyLength = 500;
+        if (compactBody.length() > maxBodyLength) {
+            compactBody = compactBody.substring(0, maxBodyLength) + "...";
+        }
+        return message + ": " + compactBody;
     }
 
     private RouteFailure toRouteFailure(RouteCandidate candidate, RouteFailureType failureType, RuntimeException exception) {

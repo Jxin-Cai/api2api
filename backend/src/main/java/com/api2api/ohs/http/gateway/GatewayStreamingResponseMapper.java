@@ -5,6 +5,10 @@ import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
@@ -20,6 +24,19 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 @Component
 @RequiredArgsConstructor
 public class GatewayStreamingResponseMapper {
+
+    private static final Set<String> FILTERED_RESPONSE_HEADERS = Set.of(
+            "connection",
+            "content-length",
+            "keep-alive",
+            "proxy-authenticate",
+            "proxy-authorization",
+            "set-cookie",
+            "te",
+            "trailer",
+            "transfer-encoding",
+            "upgrade"
+    );
 
     @NonNull
     private final GatewayInvocationApplicationService gatewayInvocationApplicationService;
@@ -42,11 +59,53 @@ public class GatewayStreamingResponseMapper {
             gatewayInvocationApplicationService.completeStreamingSuccess(streamingInvocation);
         };
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.TEXT_EVENT_STREAM)
-                .cacheControl(CacheControl.noCache())
-                .header(HttpHeaders.CONNECTION, "keep-alive")
-                .header("X-Accel-Buffering", "no")
+        ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse();
+        HttpHeaders responseHeaders = responseHeaders(providerResponse.headers());
+        responseHeaders.setContentType(contentTypeOf(providerResponse.headers()));
+        responseHeaders.setCacheControl(CacheControl.noCache());
+        responseHeaders.set(HttpHeaders.CONNECTION, "keep-alive");
+        responseHeaders.set("X-Accel-Buffering", "no");
+
+        return ResponseEntity.status(providerResponse.statusCode())
+                .headers(responseHeaders)
                 .body(responseBody);
+    }
+
+    private HttpHeaders responseHeaders(Map<String, List<String>> upstreamHeaders) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if (upstreamHeaders == null) {
+            return responseHeaders;
+        }
+        upstreamHeaders.forEach((name, values) -> {
+            if (shouldForwardHeader(name) && values != null) {
+                responseHeaders.put(name, List.copyOf(values));
+            }
+        });
+        return responseHeaders;
+    }
+
+    private MediaType contentTypeOf(Map<String, List<String>> upstreamHeaders) {
+        if (upstreamHeaders != null) {
+            for (Map.Entry<String, List<String>> entry : upstreamHeaders.entrySet()) {
+                if (entry.getKey() != null
+                        && entry.getKey().equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)
+                        && entry.getValue() != null
+                        && !entry.getValue().isEmpty()
+                        && entry.getValue().get(0) != null
+                        && !entry.getValue().get(0).isBlank()) {
+                    return MediaType.parseMediaType(entry.getValue().get(0));
+                }
+            }
+        }
+        return MediaType.TEXT_EVENT_STREAM;
+    }
+
+    private boolean shouldForwardHeader(String name) {
+        if (name == null || name.isBlank()) {
+            return false;
+        }
+        String normalized = name.trim().toLowerCase(Locale.ROOT);
+        return !FILTERED_RESPONSE_HEADERS.contains(normalized)
+                && !normalized.equals(HttpHeaders.CONTENT_TYPE.toLowerCase(Locale.ROOT));
     }
 }

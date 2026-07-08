@@ -27,6 +27,8 @@ public class ProviderHttpClientProperties {
     private Set<String> passthroughHeaderAllowlist = new LinkedHashSet<>(Set.of(
             "x-request-id",
             "x-correlation-id",
+            "anthropic-beta",
+            "openai-beta",
             "traceparent",
             "tracestate",
             "baggage"

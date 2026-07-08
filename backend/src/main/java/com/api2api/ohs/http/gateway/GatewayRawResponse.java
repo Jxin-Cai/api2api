@@ -1,7 +1,11 @@
 package com.api2api.ohs.http.gateway;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
-import org.springframework.http.HttpStatus;
+import java.util.Set;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -10,35 +14,96 @@ import org.springframework.http.ResponseEntity;
  */
 public final class GatewayRawResponse {
 
-    private final String body;
-    private final HttpStatus status;
-    private final MediaType contentType;
+    private static final Set<String> FILTERED_RESPONSE_HEADERS = Set.of(
+            "connection",
+            "content-length",
+            "keep-alive",
+            "proxy-authenticate",
+            "proxy-authorization",
+            "set-cookie",
+            "te",
+            "trailer",
+            "transfer-encoding",
+            "upgrade"
+    );
 
-    private GatewayRawResponse(String body, HttpStatus status, MediaType contentType) {
+    private final String body;
+    private final int statusCode;
+    private final MediaType contentType;
+    private final Map<String, List<String>> headers;
+
+    private GatewayRawResponse(String body, int statusCode, MediaType contentType, Map<String, List<String>> headers) {
+        if (statusCode < 100 || statusCode > 599) {
+            throw new IllegalArgumentException("HTTP status code must be between 100 and 599");
+        }
         this.body = Objects.requireNonNull(body, "Response body must not be null");
-        this.status = Objects.requireNonNull(status, "HTTP status must not be null");
+        this.statusCode = statusCode;
         this.contentType = Objects.requireNonNull(contentType, "Content type must not be null");
+        this.headers = copyHeaders(headers);
     }
 
-    public static GatewayRawResponse of(String body, HttpStatus status, MediaType contentType) {
-        return new GatewayRawResponse(body, status, contentType);
+    public static GatewayRawResponse of(String body, int statusCode, MediaType contentType) {
+        return new GatewayRawResponse(body, statusCode, contentType, Map.of());
+    }
+
+    public static GatewayRawResponse of(
+            String body,
+            int statusCode,
+            MediaType contentType,
+            Map<String, List<String>> headers
+    ) {
+        return new GatewayRawResponse(body, statusCode, contentType, headers);
     }
 
     public ResponseEntity<String> toResponseEntity() {
-        return ResponseEntity.status(status)
-                .contentType(contentType)
+        HttpHeaders responseHeaders = new HttpHeaders();
+        headers.forEach((name, values) -> {
+            if (shouldForwardHeader(name)) {
+                responseHeaders.put(name, List.copyOf(values));
+            }
+        });
+        responseHeaders.setContentType(contentType);
+        return ResponseEntity.status(statusCode)
+                .headers(responseHeaders)
                 .body(body);
+    }
+
+    private static Map<String, List<String>> copyHeaders(Map<String, List<String>> headers) {
+        if (headers == null || headers.isEmpty()) {
+            return Map.of();
+        }
+        return headers.entrySet().stream()
+                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank())
+                .filter(entry -> entry.getValue() != null)
+                .collect(java.util.stream.Collectors.toUnmodifiableMap(
+                        entry -> entry.getKey().trim(),
+                        entry -> List.copyOf(entry.getValue()),
+                        (left, right) -> left
+                ));
+    }
+
+    private static boolean shouldForwardHeader(String name) {
+        if (name == null || name.isBlank()) {
+            return false;
+        }
+        String normalized = name.trim().toLowerCase(Locale.ROOT);
+        return !FILTERED_RESPONSE_HEADERS.contains(normalized)
+                && !normalized.equals(HttpHeaders.CONTENT_TYPE.toLowerCase(Locale.ROOT));
     }
 
     public String body() {
         return body;
     }
 
-    public HttpStatus status() {
-        return status;
+    public int statusCode() {
+        return statusCode;
     }
 
     public MediaType contentType() {
         return contentType;
+    }
+
+    public Map<String, List<String>> headers() {
+        return headers;
     }
 }

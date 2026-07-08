@@ -1,40 +1,46 @@
 package com.api2api.application.gateway;
 
 import com.api2api.domain.channel.model.ProtocolType;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
- * Streaming response opened from an upstream provider and owned by the gateway response writer.
+ * Raw HTTP response returned by an upstream provider for a gateway call.
  */
-public final class ProviderStreamingResponse implements AutoCloseable {
+public final class ProviderGatewayResponse {
 
     private final ProtocolType protocol;
     private final int statusCode;
     private final Map<String, List<String>> headers;
-    private final InputStream body;
+    private final String body;
+    private final boolean streaming;
 
-    private ProviderStreamingResponse(ProtocolType protocol, int statusCode, Map<String, List<String>> headers, InputStream body) {
-        if (statusCode < 100 || statusCode > 599) {
-            throw new IllegalArgumentException("HTTP status code must be between 100 and 599");
-        }
-        this.protocol = Objects.requireNonNull(protocol, "Streaming response protocol must not be null");
-        this.statusCode = statusCode;
-        this.headers = copyHeaders(headers);
-        this.body = Objects.requireNonNull(body, "Streaming response body must not be null");
-    }
-
-    public static ProviderStreamingResponse of(
+    private ProviderGatewayResponse(
             ProtocolType protocol,
             int statusCode,
             Map<String, List<String>> headers,
-            InputStream body
+            String body,
+            boolean streaming
     ) {
-        return new ProviderStreamingResponse(protocol, statusCode, headers, body);
+        if (statusCode < 100 || statusCode > 599) {
+            throw new IllegalArgumentException("HTTP status code must be between 100 and 599");
+        }
+        this.protocol = Objects.requireNonNull(protocol, "Response protocol must not be null");
+        this.statusCode = statusCode;
+        this.headers = copyHeaders(headers);
+        this.body = Objects.requireNonNull(body, "Response body must not be null");
+        this.streaming = streaming;
+    }
+
+    public static ProviderGatewayResponse of(
+            ProtocolType protocol,
+            int statusCode,
+            Map<String, List<String>> headers,
+            String body,
+            boolean streaming
+    ) {
+        return new ProviderGatewayResponse(protocol, statusCode, headers, body, streaming);
     }
 
     private static Map<String, List<String>> copyHeaders(Map<String, List<String>> headers) {
@@ -44,11 +50,15 @@ public final class ProviderStreamingResponse implements AutoCloseable {
         return headers.entrySet().stream()
                 .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank())
                 .filter(entry -> entry.getValue() != null)
-                .collect(Collectors.toUnmodifiableMap(
+                .collect(java.util.stream.Collectors.toUnmodifiableMap(
                         entry -> entry.getKey().trim(),
                         entry -> List.copyOf(entry.getValue()),
                         (left, right) -> left
                 ));
+    }
+
+    public boolean successful() {
+        return statusCode >= 200 && statusCode < 300;
     }
 
     public ProtocolType protocol() {
@@ -63,12 +73,11 @@ public final class ProviderStreamingResponse implements AutoCloseable {
         return headers;
     }
 
-    public InputStream body() {
+    public String body() {
         return body;
     }
 
-    @Override
-    public void close() throws IOException {
-        body.close();
+    public boolean streaming() {
+        return streaming;
     }
 }

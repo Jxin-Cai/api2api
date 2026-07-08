@@ -9,6 +9,7 @@ import com.api2api.domain.usage.model.UsageRecordId;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +29,8 @@ public class GatewayRequestMapper {
             GatewayProtocolRequest protocolRequest,
             String authorizationHeader,
             String xRequestId,
-            ProtocolType requestProtocol
+            ProtocolType requestProtocol,
+            HttpHeaders incomingHeaders
     ) {
         Objects.requireNonNull(protocolRequest, "Protocol request must not be null");
         Objects.requireNonNull(requestProtocol, "Request protocol must not be null");
@@ -57,6 +59,7 @@ public class GatewayRequestMapper {
                 .requestedModel(requestedModel)
                 .requestProtocol(requestProtocol)
                 .requestBody(protocolRequest.rawBody())
+                .incomingHeaders(incomingHeaders)
                 .streaming(protocolRequest.streaming())
                 .toolCallingRequired(protocolRequest.toolCallingRequired())
                 .reasoningRequired(protocolRequest.reasoningRequired())

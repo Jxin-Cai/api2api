@@ -1,15 +1,16 @@
 package com.api2api.ohs.http.gateway;
 
 import com.api2api.application.gateway.GatewayInvocationApplicationService;
+import com.api2api.application.gateway.GatewayInvocationOutcome;
 import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
 import com.api2api.domain.channel.model.ProtocolType;
-import com.api2api.domain.gateway.model.GatewayInvocation;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,7 @@ public class GatewayProtocolController {
     @PostMapping("/v1/messages")
     public ResponseEntity<?> claudeMessages(
             @RequestBody String rawBody,
+            @RequestHeader HttpHeaders headers,
             @RequestHeader(value = "Authorization", required = true) String authorization,
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId
     ) {
@@ -54,18 +56,19 @@ public class GatewayProtocolController {
                 protocolRequest,
                 authorization,
                 xRequestId,
-                ProtocolType.CLAUDE_MESSAGES
+                ProtocolType.CLAUDE_MESSAGES,
+                headers
         );
 
         if (command.isStreaming()) {
             return stream(command);
         }
 
-        GatewayInvocation invocation = gatewayInvocationApplicationService.invoke(command);
-        GatewayRawResponse rawResponse = responseMapper.toRawResponse(invocation);
+        GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
+        GatewayRawResponse rawResponse = responseMapper.toRawResponse(outcome);
 
         log.info("Claude Messages request completed, requestId: {}, status: {}",
-                invocation.requestId().value(), invocation.result().status());
+                outcome.invocation().requestId().value(), outcome.invocation().result().status());
 
         return rawResponse.toResponseEntity();
     }
@@ -73,6 +76,7 @@ public class GatewayProtocolController {
     @PostMapping("/v1/responses")
     public ResponseEntity<?> openaiResponses(
             @RequestBody String rawBody,
+            @RequestHeader HttpHeaders headers,
             @RequestHeader(value = "Authorization", required = true) String authorization,
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId
     ) {
@@ -84,18 +88,19 @@ public class GatewayProtocolController {
                 protocolRequest,
                 authorization,
                 xRequestId,
-                ProtocolType.OPENAI_RESPONSES
+                ProtocolType.OPENAI_RESPONSES,
+                headers
         );
 
         if (command.isStreaming()) {
             return stream(command);
         }
 
-        GatewayInvocation invocation = gatewayInvocationApplicationService.invoke(command);
-        GatewayRawResponse rawResponse = responseMapper.toRawResponse(invocation);
+        GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
+        GatewayRawResponse rawResponse = responseMapper.toRawResponse(outcome);
 
         log.info("OpenAI Responses request completed, requestId: {}, status: {}",
-                invocation.requestId().value(), invocation.result().status());
+                outcome.invocation().requestId().value(), outcome.invocation().result().status());
 
         return rawResponse.toResponseEntity();
     }
@@ -103,6 +108,7 @@ public class GatewayProtocolController {
     @PostMapping("/v1/chat/completions")
     public ResponseEntity<?> openaiChatCompletions(
             @RequestBody String rawBody,
+            @RequestHeader HttpHeaders headers,
             @RequestHeader(value = "Authorization", required = true) String authorization,
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId
     ) {
@@ -114,18 +120,19 @@ public class GatewayProtocolController {
                 protocolRequest,
                 authorization,
                 xRequestId,
-                ProtocolType.OPENAI_CHAT_COMPLETIONS
+                ProtocolType.OPENAI_CHAT_COMPLETIONS,
+                headers
         );
 
         if (command.isStreaming()) {
             return stream(command);
         }
 
-        GatewayInvocation invocation = gatewayInvocationApplicationService.invoke(command);
-        GatewayRawResponse rawResponse = responseMapper.toRawResponse(invocation);
+        GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
+        GatewayRawResponse rawResponse = responseMapper.toRawResponse(outcome);
 
         log.info("OpenAI Chat Completions request completed, requestId: {}, status: {}",
-                invocation.requestId().value(), invocation.result().status());
+                outcome.invocation().requestId().value(), outcome.invocation().result().status());
 
         return rawResponse.toResponseEntity();
     }

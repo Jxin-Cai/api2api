@@ -1,5 +1,7 @@
 package com.api2api.ohs.http.gateway;
 
+import com.api2api.application.gateway.GatewayInvocationOutcome;
+import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.gateway.model.ConversionTrace;
 import com.api2api.domain.gateway.model.GatewayInvocation;
@@ -10,6 +12,8 @@ import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.protocol.model.ConversionResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +33,55 @@ public class GatewayInvocationResponseMapper {
 
     public GatewayRawResponse toRawResponse(GatewayInvocation invocation) {
         Objects.requireNonNull(invocation, "Gateway invocation must not be null");
+        return toRawResponse(GatewayInvocationOutcome.withoutProviderResponse(invocation));
+    }
+
+    public GatewayRawResponse toRawResponse(GatewayInvocationOutcome outcome) {
+        Objects.requireNonNull(outcome, "Gateway invocation outcome must not be null");
+        GatewayInvocation invocation = outcome.invocation();
 
         GatewayInvocationResult result = invocation.result();
         if (result == null) {
             throw new IllegalArgumentException("Gateway invocation result must not be null");
         }
 
+        if (outcome.hasProviderResponse() && !requiresProtocolConversion(outcome.providerResponse(), invocation)) {
+            return mapProviderResponse(outcome.providerResponse());
+        }
         if (result.status() == InvocationStatus.SUCCESS) {
             return mapSuccessResponse(invocation);
         } else {
             return mapFailureResponse(invocation);
         }
+    }
+
+    private boolean requiresProtocolConversion(ProviderGatewayResponse providerResponse, GatewayInvocation invocation) {
+        return providerResponse.protocol() != invocation.requestProtocol();
+    }
+
+    private GatewayRawResponse mapProviderResponse(ProviderGatewayResponse providerResponse) {
+        return GatewayRawResponse.of(
+                providerResponse.body(),
+                providerResponse.statusCode(),
+                contentTypeOf(providerResponse.headers(), providerResponse.streaming()),
+                providerResponse.headers()
+        );
+    }
+
+    private MediaType contentTypeOf(Map<String, List<String>> headers, boolean streaming) {
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                if (entry.getKey() != null
+                        && entry.getKey().equalsIgnoreCase("content-type")
+                        && entry.getValue() != null
+                        && !entry.getValue().isEmpty()
+                        && entry.getValue().get(0) != null
+                        && !entry.getValue().get(0).isBlank()) {
+                    return MediaType.parseMediaType(entry.getValue().get(0));
+                }
+            }
+        }
+        return streaming ? MediaType.TEXT_EVENT_STREAM : MediaType.APPLICATION_JSON;
     }
 
     private GatewayRawResponse mapSuccessResponse(GatewayInvocation invocation) {
@@ -58,7 +100,7 @@ public class GatewayInvocationResponseMapper {
                 ? MediaType.TEXT_EVENT_STREAM
                 : MediaType.APPLICATION_JSON;
 
-        return GatewayRawResponse.of(body, HttpStatus.OK, contentType);
+        return GatewayRawResponse.of(body, HttpStatus.OK.value(), contentType);
     }
 
     private GatewayRawResponse mapFailureResponse(GatewayInvocation invocation) {
@@ -72,7 +114,7 @@ public class GatewayInvocationResponseMapper {
         HttpStatus httpStatus = mapErrorToHttpStatus(error.errorType());
         String errorBody = buildProtocolErrorBody(requestProtocol, error);
 
-        return GatewayRawResponse.of(errorBody, httpStatus, MediaType.APPLICATION_JSON);
+        return GatewayRawResponse.of(errorBody, httpStatus.value(), MediaType.APPLICATION_JSON);
     }
 
     private HttpStatus mapErrorToHttpStatus(InvocationErrorType errorType) {

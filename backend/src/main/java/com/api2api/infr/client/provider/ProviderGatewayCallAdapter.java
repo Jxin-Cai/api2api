@@ -2,11 +2,11 @@ package com.api2api.infr.client.provider;
 
 import com.api2api.application.BusinessException;
 import com.api2api.application.gateway.ProviderGatewayCallPort;
+import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.application.gateway.UpstreamGatewayException;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
-import com.api2api.domain.protocol.model.ConversionPayload;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.routing.model.RouteFailureType;
 import java.io.IOException;
@@ -18,6 +18,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.NonNull;
@@ -65,20 +66,26 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
     }
 
     @Override
-    public ConversionPayload forward(RouteCandidate candidate, String upstreamRequestBody, boolean streaming) {
+    public ProviderGatewayResponse forward(
+            RouteCandidate candidate,
+            String upstreamRequestBody,
+            boolean streaming,
+            Map<String, List<String>> incomingHeaders
+    ) {
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
 
-        HttpRequest request = buildRequest(candidate, upstreamRequestBody, streaming);
+        HttpRequest request = buildRequest(candidate, upstreamRequestBody, streaming, incomingHeaders);
         Instant startedAt = Instant.now();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            long elapsedMillis = Duration.between(startedAt, Instant.now()).toMillis();
-            int statusCode = response.statusCode();
-            if (statusCode < 200 || statusCode >= 300) {
-                throw toStatusFailure(statusCode, elapsedMillis, response.body());
-            }
-            return ConversionPayload.of(candidate.upstreamProtocol(), response.body(), streaming);
+            return ProviderGatewayResponse.of(
+                    candidate.upstreamProtocol(),
+                    response.statusCode(),
+                    response.headers().map(),
+                    response.body(),
+                    streaming
+            );
         } catch (HttpTimeoutException exception) {
             throw new UpstreamGatewayException(RouteFailureType.TIMEOUT, null, true, elapsedSince(startedAt), "Upstream request timed out");
         } catch (IOException exception) {
@@ -90,11 +97,15 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
     }
 
     @Override
-    public ProviderStreamingResponse openStream(RouteCandidate candidate, String upstreamRequestBody) {
+    public ProviderStreamingResponse openStream(
+            RouteCandidate candidate,
+            String upstreamRequestBody,
+            Map<String, List<String>> incomingHeaders
+    ) {
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
 
-        HttpRequest request = buildRequest(candidate, upstreamRequestBody, true);
+        HttpRequest request = buildRequest(candidate, upstreamRequestBody, true, incomingHeaders);
         Instant startedAt = Instant.now();
         try {
             HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
@@ -105,7 +116,12 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
                 closeQuietly(response.body());
                 throw toStatusFailure(statusCode, elapsedMillis, errorBody);
             }
-            return ProviderStreamingResponse.of(response.body());
+            return ProviderStreamingResponse.of(
+                    candidate.upstreamProtocol(),
+                    statusCode,
+                    response.headers().map(),
+                    response.body()
+            );
         } catch (HttpTimeoutException exception) {
             throw new UpstreamGatewayException(RouteFailureType.TIMEOUT, null, true, elapsedSince(startedAt), "Upstream request timed out");
         } catch (IOException exception) {
@@ -116,7 +132,12 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
         }
     }
 
-    private HttpRequest buildRequest(RouteCandidate candidate, String upstreamRequestBody, boolean streaming) {
+    private HttpRequest buildRequest(
+            RouteCandidate candidate,
+            String upstreamRequestBody,
+            boolean streaming,
+            Map<String, List<String>> incomingHeaders
+    ) {
         ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
         String secret = providerSecretResolver.resolve(channel.keyRef());
@@ -125,7 +146,7 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
                 URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
                 properties.isAllowInsecureHosts()
         );
-        Map<String, String> headers = headerPolicy.buildHeaders(candidate.upstreamProtocol(), Map.of(), secret, streaming);
+        Map<String, String> headers = headerPolicy.buildHeaders(candidate.upstreamProtocol(), incomingHeaders, secret, streaming);
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
                 .timeout(readTimeout(streaming))
