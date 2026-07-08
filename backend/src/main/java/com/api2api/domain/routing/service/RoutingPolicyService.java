@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -85,38 +86,53 @@ public interface RoutingPolicyService {
             List<RouteCandidate> candidates,
             ProviderChannel channel
     ) {
-        Optional<ProtocolType> configuredUpstreamProtocol = channel.upstreamProtocolFor(request.requestProtocol());
-        if (configuredUpstreamProtocol.isEmpty()) {
+        List<ChannelModelSupport> modelSupports = channel.findModelSupports(request.requestedModel());
+        if (modelSupports.isEmpty()) {
             return;
         }
-        ProtocolType upstreamProtocol = configuredUpstreamProtocol.get();
-        Optional<ConversionRoute> conversionRoute = resolveRoute(
-                request.requestProtocol(),
-                upstreamProtocol,
-                request.requirement(),
-                conversionDefinitions
-        );
-        if (conversionRoute.isEmpty()) {
-            return;
-        }
-        for (ChannelModelSupport modelSupport : channel.findModelSupports(request.requestedModel())) {
-            if (modelSupport.upstreamProtocol() != upstreamProtocol) {
-                continue;
-            }
-            candidates.add(RouteCandidate.of(
-                    channel.id(),
-                    channel.name(),
-                    modelSupport.requestedModel(),
-                    modelSupport.upstreamModel(),
+        for (ProtocolType upstreamProtocol : candidateUpstreamProtocols(request, channel, modelSupports)) {
+            Optional<ConversionRoute> conversionRoute = resolveRoute(
                     request.requestProtocol(),
                     upstreamProtocol,
-                    modelSupport.priority(),
-                    channel.routePriority(),
-                    modelSupport.preferred(),
-                    conversionRoute.get(),
-                    ModelMappingResult.of(modelSupport.requestedModel(), modelSupport.upstreamModel())
-            ));
+                    request.requirement(),
+                    conversionDefinitions
+            );
+            if (conversionRoute.isEmpty()) {
+                continue;
+            }
+            for (ChannelModelSupport modelSupport : modelSupports) {
+                if (modelSupport.upstreamProtocol() != upstreamProtocol) {
+                    continue;
+                }
+                candidates.add(RouteCandidate.of(
+                        channel.id(),
+                        channel.name(),
+                        modelSupport.requestedModel(),
+                        modelSupport.upstreamModel(),
+                        request.requestProtocol(),
+                        upstreamProtocol,
+                        modelSupport.priority(),
+                        channel.routePriority(),
+                        modelSupport.preferred(),
+                        conversionRoute.get(),
+                        ModelMappingResult.of(modelSupport.requestedModel(), modelSupport.upstreamModel())
+                ));
+            }
         }
+    }
+
+    private static Set<ProtocolType> candidateUpstreamProtocols(
+            RoutingRequest request,
+            ProviderChannel channel,
+            List<ChannelModelSupport> modelSupports
+    ) {
+        Optional<ProtocolType> configuredUpstreamProtocol = channel.upstreamProtocolFor(request.requestProtocol());
+        if (configuredUpstreamProtocol.isPresent()) {
+            return Set.of(configuredUpstreamProtocol.get());
+        }
+        return modelSupports.stream()
+                .map(ChannelModelSupport::upstreamProtocol)
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
     }
 
     private static Optional<ConversionRoute> resolveRoute(

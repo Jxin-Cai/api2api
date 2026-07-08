@@ -7,8 +7,10 @@ import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.gateway.model.GatewayInvocation;
+import com.api2api.domain.gateway.model.GatewayInvocationResult;
 import com.api2api.domain.gateway.model.InvocationError;
 import com.api2api.domain.gateway.model.InvocationErrorType;
+import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.gateway.service.GatewayInvocationService;
 import com.api2api.domain.protocol.model.ConversionPayload;
 import com.api2api.domain.protocol.model.ConversionRequirement;
@@ -401,12 +403,25 @@ public class GatewayInvocationApplicationService {
 
     @Transactional(rollbackFor = Exception.class)
     public void appendUsageRecord(UsageRecordId usageRecordId, GatewayInvocation invocation) {
-        UsageRecord usageRecord = UsageRecord.fromInvocation(
-                Objects.requireNonNull(usageRecordId, "Usage record id must not be null"),
-                Objects.requireNonNull(invocation, "Gateway invocation must not be null"),
-                Instant.now(clock)
-        );
+        Objects.requireNonNull(usageRecordId, "Usage record id must not be null");
+        Objects.requireNonNull(invocation, "Gateway invocation must not be null");
+        if (!hasBillableSuccessfulUsage(invocation)) {
+            return;
+        }
+        UsageRecord usageRecord = UsageRecord.fromInvocation(usageRecordId, invocation, Instant.now(clock));
         usageRecordRepository.save(usageRecord);
+    }
+
+    private boolean hasBillableSuccessfulUsage(GatewayInvocation invocation) {
+        if (!invocation.isTerminal()) {
+            return false;
+        }
+        GatewayInvocationResult result = invocation.result();
+        if (result == null || result.status() != InvocationStatus.SUCCESS) {
+            return false;
+        }
+        UnifiedTokenUsage usage = result.usage();
+        return usage != null && usage.usageKnown() && usage.totalTokens() > 0;
     }
 
     private String rewriteRequestModel(RouteCandidate candidate, String body) {

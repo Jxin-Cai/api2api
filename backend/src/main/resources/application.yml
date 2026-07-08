@@ -22,6 +22,7 @@ api2api:
     models-read-timeout: 30s
     models-max-retries: 1
     upstream-host-override: ${API2API_UPSTREAM_HOST_OVERRIDE:${APP_UPSTREAM_HOST_OVERRIDE:}}
+    allow-insecure-hosts: ${API2API_PROVIDER_HTTP_ALLOW_INSECURE_HOSTS:true}
     upstream-read-timeout: 120s
     streaming-first-byte-timeout: 30s
   provider-secrets:

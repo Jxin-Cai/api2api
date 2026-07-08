@@ -79,6 +79,100 @@ class RoutingPolicyServiceTest {
         });
     }
 
+    @Test
+    void derivesUpstreamProtocolFromModelSupportWhenRequestMappingMissing() {
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("OpenAI responses channel"),
+                ProviderHost.of("https://api.example.com"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)),
+                List.of(model(1L, "gpt5.5", "gpt-5.5", ProtocolType.OPENAI_RESPONSES, 1, true)),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ModelName.of("gpt5.5"),
+                        ConversionRequirement.of(false, false, false)
+                ),
+                List.of(channel),
+                List.of(definition(1L, ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)),
+                NOW
+        );
+
+        assertThat(plan.candidates()).singleElement().satisfies(candidate -> {
+            assertThat(candidate.clientProtocol()).isEqualTo(ProtocolType.CLAUDE_MESSAGES);
+            assertThat(candidate.upstreamProtocol()).isEqualTo(ProtocolType.OPENAI_RESPONSES);
+            assertThat(candidate.upstreamModel().value()).isEqualTo("gpt-5.5");
+        });
+    }
+
+    @Test
+    void doesNotDeriveCandidateWhenConversionCapabilityDoesNotSatisfyRequirement() {
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("OpenAI responses channel"),
+                ProviderHost.of("https://api.example.com"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)),
+                List.of(model(1L, "gpt5.5", "gpt-5.5", ProtocolType.OPENAI_RESPONSES, 1, true)),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ModelName.of("gpt5.5"),
+                        ConversionRequirement.of(true, false, false)
+                ),
+                List.of(channel),
+                List.of(definition(1L, ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)),
+                NOW
+        );
+
+        assertThat(plan.candidates()).isEmpty();
+    }
+
+    @Test
+    void doesNotDeriveCandidateWithoutConversionDefinition() {
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("OpenAI responses channel"),
+                ProviderHost.of("https://api.example.com"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)),
+                List.of(model(1L, "gpt5.5", "gpt-5.5", ProtocolType.OPENAI_RESPONSES, 1, true)),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ModelName.of("gpt5.5"),
+                        ConversionRequirement.of(false, false, false)
+                ),
+                List.of(channel),
+                List.of(),
+                NOW
+        );
+
+        assertThat(plan.candidates()).isEmpty();
+    }
+
     private ChannelModelSupport model(
             long id,
             String requestedModel,

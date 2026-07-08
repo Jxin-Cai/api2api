@@ -25,6 +25,8 @@ public class AdminFetchProviderChannelModelPreviewRequest {
 
     private String modelsPath;
 
+    private Set<String> upstreamProtocols;
+
     private Set<String> supportedProtocols;
 
     @Valid

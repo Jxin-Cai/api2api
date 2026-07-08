@@ -106,7 +106,7 @@ public interface ProviderChannelHttpConverter {
                 .host(ProviderHost.of(request.getHost()))
                 .keyRef(ProviderKeyRef.of(request.getKeyRef()))
                 .modelsPath(ProviderModelsPath.of(request.getModelsPath()))
-                .protocolMappings(toProtocolMappings(request.getProtocolMappings(), request.getSupportedProtocols()))
+                .upstreamProtocols(toPreviewUpstreamProtocols(request.getUpstreamProtocols(), request.getProtocolMappings(), request.getSupportedProtocols()))
                 .defaultPriority(RoutePriority.of(request.getDefaultPriority()))
                 .build();
     }
@@ -134,7 +134,7 @@ public interface ProviderChannelHttpConverter {
                 .host(hasText(request.getHost()) ? ProviderHost.of(request.getHost()) : null)
                 .keyRef(hasText(request.getKeyRef()) ? ProviderKeyRef.of(request.getKeyRef()) : null)
                 .modelsPath(hasText(request.getModelsPath()) ? ProviderModelsPath.of(request.getModelsPath()) : null)
-                .protocolMappings(toOptionalProtocolMappings(request.getProtocolMappings(), request.getSupportedProtocols()))
+                .upstreamProtocols(toOptionalPreviewUpstreamProtocols(request.getUpstreamProtocols(), request.getProtocolMappings(), request.getSupportedProtocols()))
                 .defaultPriority(RoutePriority.of(request.getDefaultPriority()))
                 .build();
     }
@@ -259,6 +259,42 @@ public interface ProviderChannelHttpConverter {
             throw new IllegalArgumentException("supportedProtocols must not be empty");
         }
         return protocols.stream().map(this::toProtocolType).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    default Set<ProtocolType> toPreviewUpstreamProtocols(
+            Set<String> upstreamProtocols,
+            List<ProtocolMappingRequest> mappings,
+            Set<String> fallbackProtocols
+    ) {
+        Set<ProtocolType> protocols = toOptionalPreviewUpstreamProtocols(upstreamProtocols, mappings, fallbackProtocols);
+        if (protocols == null || protocols.isEmpty()) {
+            throw new IllegalArgumentException("upstreamProtocols must not be empty");
+        }
+        return protocols;
+    }
+
+    default Set<ProtocolType> toOptionalPreviewUpstreamProtocols(
+            Set<String> upstreamProtocols,
+            List<ProtocolMappingRequest> mappings,
+            Set<String> fallbackProtocols
+    ) {
+        if (upstreamProtocols != null && !upstreamProtocols.isEmpty()) {
+            return upstreamProtocols.stream()
+                    .map(this::toProtocolType)
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+        if (mappings != null && !mappings.isEmpty()) {
+            return mappings.stream()
+                    .map(ProtocolMappingRequest::getUpstreamProtocol)
+                    .map(this::toProtocolType)
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+        if (fallbackProtocols != null && !fallbackProtocols.isEmpty()) {
+            return fallbackProtocols.stream()
+                    .map(this::toProtocolType)
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+        return null;
     }
 
     default Set<ChannelProtocolMapping> toProtocolMappings(List<ProtocolMappingRequest> mappings, Set<String> fallbackProtocols) {

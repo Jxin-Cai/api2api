@@ -1,6 +1,6 @@
 package com.api2api.application.channel.command;
 
-import com.api2api.domain.channel.model.ChannelProtocolMapping;
+import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.channel.model.ProviderHost;
 import com.api2api.domain.channel.model.ProviderKeyRef;
@@ -31,7 +31,7 @@ public final class FetchProviderChannelModelPreviewCommand {
 
     private final ProviderModelsPath modelsPath;
 
-    private final Set<ChannelProtocolMapping> protocolMappings;
+    private final Set<ProtocolType> upstreamProtocols;
 
     @NotNull
     private final RoutePriority defaultPriority;

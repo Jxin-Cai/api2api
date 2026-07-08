@@ -16,7 +16,6 @@ import com.api2api.application.channel.dto.ProviderModelOption;
 import com.api2api.domain.channel.model.ChannelModelStatus;
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
-import com.api2api.domain.channel.model.ChannelProtocolMapping;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
@@ -163,7 +162,7 @@ public class ProviderChannelApplicationService {
                 command.getHost(),
                 command.getKeyRef(),
                 command.getModelsPath(),
-                upstreamProtocols(command.getProtocolMappings()),
+                command.getUpstreamProtocols(),
                 command.getDefaultPriority()
         );
     }
@@ -172,9 +171,9 @@ public class ProviderChannelApplicationService {
     public List<ChannelModelSupport> previewProviderModels(FetchProviderChannelModelPreviewCommand command) {
         assertAdmin(command.getOperatorUserId());
         ProviderChannel channel = loadChannel(command.getProviderChannelId());
-        Set<ProtocolType> upstreamProtocols = command.getProtocolMappings() == null || command.getProtocolMappings().isEmpty()
+        Set<ProtocolType> upstreamProtocols = command.getUpstreamProtocols() == null || command.getUpstreamProtocols().isEmpty()
                 ? channel.upstreamProtocols()
-                : upstreamProtocols(command.getProtocolMappings());
+                : command.getUpstreamProtocols();
         return providerModelFetchPort.fetchModels(
                 channel.id(),
                 command.getHost() == null ? channel.host() : command.getHost(),
@@ -273,12 +272,6 @@ public class ProviderChannelApplicationService {
                 item.getSource(),
                 now
         );
-    }
-
-    private Set<ProtocolType> upstreamProtocols(Set<ChannelProtocolMapping> mappings) {
-        return mappings.stream()
-                .map(ChannelProtocolMapping::upstreamProtocol)
-                .collect(java.util.stream.Collectors.toCollection(java.util.LinkedHashSet::new));
     }
 
     private void assertAdmin(UserAccountId operatorUserId) {

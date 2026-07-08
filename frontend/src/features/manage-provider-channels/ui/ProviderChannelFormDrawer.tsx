@@ -56,6 +56,11 @@ function normalizeProtocolMappings(protocols: string[], mappings?: ProtocolMappi
   }));
 }
 
+function derivePreviewUpstreamProtocols(protocols: string[], mappings?: ProtocolMappingRequest[]): string[] {
+  const normalizedMappings = normalizeProtocolMappings(protocols, mappings);
+  return Array.from(new Set(normalizedMappings.map((mapping) => mapping.upstreamProtocol)));
+}
+
 function deriveSupportedProtocols(channel: ProviderChannelResponse): string[] {
   const mappings = channel.protocolMappings ?? [];
   if (mappings.length > 0) {
@@ -152,7 +157,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
 
   async function handlePreviewModels(): Promise<void> {
     try {
-      const values = await form.validateFields(['host', 'keyRef', 'modelsPath', 'supportedProtocols', 'protocolMappings']);
+      const values = await form.validateFields(['host', 'keyRef', 'modelsPath']);
       if (!isHttpHost(values.host)) {
         form.setFields([{ name: 'host', errors: ['渠道 Host 必须以 http:// 或 https:// 开头'] }]);
         message.warning('渠道 Host 必须以 http:// 或 https:// 开头');
@@ -171,12 +176,15 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       }
       setPreviewLoading(true);
       try {
-        const protocolMappings = normalizeProtocolMappings(values.supportedProtocols, values.protocolMappings);
+        const upstreamProtocols = derivePreviewUpstreamProtocols(selectedProtocols, protocolMappings);
+        if (upstreamProtocols.length === 0) {
+          message.warning('请先选择至少一个上游调用协议');
+          return;
+        }
         const commonParams = {
           host: values.host.trim(),
           modelsPath: values.modelsPath?.trim() || DEFAULT_MODELS_PATH,
-          supportedProtocols: values.supportedProtocols,
-          protocolMappings,
+          upstreamProtocols,
           defaultPriority: 10,
         };
         const response = mode === 'edit' && channel && !keyRef
@@ -194,7 +202,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       }
     } catch (error) {
       if (isFormValidationError(error)) {
-        message.warning('请先填写渠道 Host、渠道 Key、模型列表路径、入口协议和转换协议');
+        message.warning('请先填写渠道 Host、渠道 Key 和模型列表路径');
         return;
       }
       message.error(`验证并获取模型失败：${getErrorMessage(error, '请检查 Host、Key、模型列表路径和模型列表权限')}`);
@@ -408,8 +416,8 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         <Alert
           type="info"
           showIcon
-          message="验证并获取模型列表会真实请求上游模型列表接口；编辑渠道时可沿用已保存 Key，并保留已配置的优先模型和排序值。"
-          description="获取结果仅作为上游支持模型候选；默认只勾选已保存的启用模型，新候选需要手动勾选后才会保存为选用模型。"
+          message="验证并获取模型列表会按上游调用协议真实请求供应商模型列表；编辑渠道时可沿用已保存 Key，并保留已配置的优先模型和排序值。"
+          description="获取结果仅作为上游支持模型候选；预览请求只提交上游调用协议，不提交入口请求协议。默认只勾选已保存的启用模型，新候选需要手动勾选后才会保存为选用模型。"
         />
         <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
         {previewModels.length > 0 ? (
