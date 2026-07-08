@@ -6,6 +6,7 @@ import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -42,11 +43,12 @@ public class GatewayProtocolController {
     private final ObjectMapper objectMapper;
 
     @PostMapping("/v1/messages")
-    public ResponseEntity<?> claudeMessages(
+    public Object claudeMessages(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
             @RequestHeader(value = "Authorization", required = true) String authorization,
-            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId
+            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
+            HttpServletResponse httpResponse
     ) {
         log.info("Received Claude Messages request, X-Request-Id: {}", xRequestId);
 
@@ -61,7 +63,7 @@ public class GatewayProtocolController {
         );
 
         if (command.isStreaming()) {
-            return stream(command);
+            return stream(command, httpResponse);
         }
 
         GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
@@ -74,11 +76,12 @@ public class GatewayProtocolController {
     }
 
     @PostMapping("/v1/responses")
-    public ResponseEntity<?> openaiResponses(
+    public Object openaiResponses(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
             @RequestHeader(value = "Authorization", required = true) String authorization,
-            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId
+            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
+            HttpServletResponse httpResponse
     ) {
         log.info("Received OpenAI Responses request, X-Request-Id: {}", xRequestId);
 
@@ -93,7 +96,7 @@ public class GatewayProtocolController {
         );
 
         if (command.isStreaming()) {
-            return stream(command);
+            return stream(command, httpResponse);
         }
 
         GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
@@ -106,11 +109,12 @@ public class GatewayProtocolController {
     }
 
     @PostMapping("/v1/chat/completions")
-    public ResponseEntity<?> openaiChatCompletions(
+    public Object openaiChatCompletions(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
             @RequestHeader(value = "Authorization", required = true) String authorization,
-            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId
+            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
+            HttpServletResponse httpResponse
     ) {
         log.info("Received OpenAI Chat Completions request, X-Request-Id: {}", xRequestId);
 
@@ -125,7 +129,7 @@ public class GatewayProtocolController {
         );
 
         if (command.isStreaming()) {
-            return stream(command);
+            return stream(command, httpResponse);
         }
 
         GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
@@ -137,12 +141,12 @@ public class GatewayProtocolController {
         return rawResponse.toResponseEntity();
     }
 
-    private ResponseEntity<?> stream(InvokeGatewayCommand command) {
+    private Object stream(InvokeGatewayCommand command, HttpServletResponse httpResponse) {
         GatewayStreamingInvocation streamingInvocation = gatewayInvocationApplicationService.openStreaming(command);
         if (!streamingInvocation.opened()) {
             return responseMapper.toRawResponse(streamingInvocation.invocation()).toResponseEntity();
         }
-        return streamingResponseMapper.toResponseEntity(streamingInvocation);
+        return streamingResponseMapper.toResponseBody(streamingInvocation, httpResponse);
     }
 
     private JsonNode parseJsonBody(String rawBody, ProtocolType protocol) {

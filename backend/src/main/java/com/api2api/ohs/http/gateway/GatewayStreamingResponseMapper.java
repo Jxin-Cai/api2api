@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -41,7 +41,11 @@ public class GatewayStreamingResponseMapper {
     @NonNull
     private final GatewayInvocationApplicationService gatewayInvocationApplicationService;
 
-    public ResponseEntity<StreamingResponseBody> toResponseEntity(GatewayStreamingInvocation streamingInvocation) {
+    public StreamingResponseBody toResponseBody(
+            GatewayStreamingInvocation streamingInvocation,
+            HttpServletResponse response
+    ) {
+        applyHeaders(streamingInvocation.providerResponse(), response);
         StreamingResponseBody responseBody = outputStream -> {
             try (ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse()) {
                 providerResponse.body().transferTo(outputStream);
@@ -59,29 +63,24 @@ public class GatewayStreamingResponseMapper {
             gatewayInvocationApplicationService.completeStreamingSuccess(streamingInvocation);
         };
 
-        ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse();
-        HttpHeaders responseHeaders = responseHeaders(providerResponse.headers());
-        responseHeaders.setContentType(contentTypeOf(providerResponse.headers()));
-        responseHeaders.setCacheControl(CacheControl.noCache());
-        responseHeaders.set(HttpHeaders.CONNECTION, "keep-alive");
-        responseHeaders.set("X-Accel-Buffering", "no");
-
-        return ResponseEntity.status(providerResponse.statusCode())
-                .headers(responseHeaders)
-                .body(responseBody);
+        return responseBody;
     }
 
-    private HttpHeaders responseHeaders(Map<String, List<String>> upstreamHeaders) {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        if (upstreamHeaders == null) {
-            return responseHeaders;
+    private void applyHeaders(ProviderStreamingResponse providerResponse, HttpServletResponse response) {
+        response.setStatus(providerResponse.statusCode());
+        if (providerResponse.headers() != null) {
+            providerResponse.headers().forEach((name, values) -> {
+                if (shouldForwardHeader(name) && values != null) {
+                    values.stream()
+                            .filter(value -> value != null && !value.isBlank())
+                            .forEach(value -> response.addHeader(name, value));
+                }
+            });
         }
-        upstreamHeaders.forEach((name, values) -> {
-            if (shouldForwardHeader(name) && values != null) {
-                responseHeaders.put(name, List.copyOf(values));
-            }
-        });
-        return responseHeaders;
+        response.setContentType(contentTypeOf(providerResponse.headers()).toString());
+        response.setHeader(HttpHeaders.CACHE_CONTROL, CacheControl.noCache().getHeaderValue());
+        response.setHeader(HttpHeaders.CONNECTION, "keep-alive");
+        response.setHeader("X-Accel-Buffering", "no");
     }
 
     private MediaType contentTypeOf(Map<String, List<String>> upstreamHeaders) {
