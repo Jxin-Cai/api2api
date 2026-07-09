@@ -2,7 +2,7 @@ import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 import { Suspense, type ReactElement } from 'react';
 
 import { RequireAuth, RequireRole, RoleLandingRedirect } from '@features/route-by-role';
-import { PageState } from '@shared/ui';
+import { PageState, RouteErrorState } from '@shared/ui';
 import { ROUTE_PATHS } from '@shared/config/constants';
 import { AuthRouteLayout } from '@app/layouts/AuthRouteLayout';
 import { ProtectedRouteLayout } from '@app/layouts/ProtectedRouteLayout';
@@ -39,6 +39,7 @@ export const routes: RouteObject[] = [
         <ProtectedRouteLayout portal="app" />
       </RequireAuth>
     ),
+    errorElement: <RouteErrorState />,
     children: [
       { index: true, element: <Navigate to={ROUTE_PATHS.appDashboard} replace /> },
       { path: 'dashboard', element: page(<AppDashboardPage />) },
@@ -54,6 +55,7 @@ export const routes: RouteObject[] = [
         <ProtectedRouteLayout portal="admin" />
       </RequireRole>
     ),
+    errorElement: <RouteErrorState />,
     children: [
       { index: true, element: <Navigate to={ROUTE_PATHS.adminDashboard} replace /> },
       { path: 'dashboard', element: page(<AdminDashboardPage />) },
