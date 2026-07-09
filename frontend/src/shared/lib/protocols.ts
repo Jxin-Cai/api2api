@@ -1,4 +1,4 @@
-export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT_COMPLETIONS';
+export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT_COMPLETIONS' | 'AWS_BEDROCK_CONVERSE';
 
 export interface ProtocolMeta {
   label: string;
@@ -18,10 +18,18 @@ export const PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolType }> = [
   { label: 'OpenAI Chat Completions', value: 'OPENAI_CHAT_COMPLETIONS' },
 ];
 
+export const UPSTREAM_PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolType }> = [
+  { label: 'Claude Messages', value: 'CLAUDE_MESSAGES' },
+  { label: 'OpenAI Responses', value: 'OPENAI_RESPONSES' },
+  { label: 'OpenAI Chat Completions', value: 'OPENAI_CHAT_COMPLETIONS' },
+  { label: 'AWS Bedrock Converse', value: 'AWS_BEDROCK_CONVERSE' },
+];
+
 const PROTOCOL_META: Record<string, ProtocolMeta> = {
   CLAUDE_MESSAGES: { label: 'Claude Messages', color: 'orange' },
   OPENAI_RESPONSES: { label: 'OpenAI Responses', color: 'purple' },
   OPENAI_CHAT_COMPLETIONS: { label: 'OpenAI Chat Completions', color: 'blue' },
+  AWS_BEDROCK_CONVERSE: { label: 'AWS Bedrock Converse', color: 'green' },
   OPENAI_CHAT: { label: 'OpenAI Chat Completions', color: 'blue' },
   'claude-messages': { label: 'Claude Messages', color: 'orange' },
   'openai-responses': { label: 'OpenAI Responses', color: 'purple' },

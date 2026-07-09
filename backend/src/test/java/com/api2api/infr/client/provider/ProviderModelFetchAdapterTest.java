@@ -53,7 +53,8 @@ class ProviderModelFetchAdapterTest {
 
         ProviderSecretProperties secretProperties = new ProviderSecretProperties();
         secretProperties.setKeys(Map.of("test-key", "test-secret"));
-        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
+        MockEnvironment mockEnv = new MockEnvironment();
+        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, mockEnv);
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         ProviderModelFetchAdapter adapter = new ProviderModelFetchAdapter(
                 secretResolver,
@@ -61,6 +62,7 @@ class ProviderModelFetchAdapterTest {
                 new UpstreamHttpHeaderPolicy(properties),
                 new ObjectMapper(),
                 new UpstreamUrlResolver(properties),
+                new BedrockCredentialResolver(secretResolver, mockEnv),
                 CLOCK
         );
 

@@ -4,7 +4,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
 import type { ApiErrorShape } from '@shared/api';
-import { PROTOCOL_OPTIONS, formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
+import { PROTOCOL_OPTIONS, UPSTREAM_PROTOCOL_OPTIONS, formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
 import type { AdminFormMode } from '@shared/types/admin';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
 import type { ProviderChannelFormState } from '../model/types';
@@ -400,7 +400,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
                 <Typography.Text type="secondary">转换为</Typography.Text>
                 <Select
                   value={mapping.upstreamProtocol}
-                  options={PROTOCOL_OPTIONS}
+                  options={UPSTREAM_PROTOCOL_OPTIONS}
                   style={{ width: 240 }}
                   onChange={(value) => handleUpstreamProtocolChange(mapping.requestProtocol, value)}
                 />
