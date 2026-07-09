@@ -55,7 +55,9 @@ class BedrockProviderCallStrategy implements ProviderCallStrategy {
 
     @Override
     public boolean supports(ProtocolType upstreamProtocol) {
-        return upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE;
+        // SigV4 direct-to-AWS strategy is currently disabled in favor of enterprise proxy (Bearer Token).
+        // Re-enable when direct AWS Bedrock access without a proxy is needed.
+        return false;
     }
 
     @Override

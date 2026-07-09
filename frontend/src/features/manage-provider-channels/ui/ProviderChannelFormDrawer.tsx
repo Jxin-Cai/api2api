@@ -1,5 +1,5 @@
 import { useEffect, useState, type Key } from 'react';
-import { Alert, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Tag, Typography, message } from 'antd';
+import { Alert, AutoComplete, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Tag, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
@@ -23,6 +23,12 @@ interface ProviderChannelFormDrawerProps {
 }
 
 const DEFAULT_MODELS_PATH = '/v1/models';
+
+const MODELS_PATH_OPTIONS = [
+  { label: '/v1/models (OpenAI 兼容)', value: '/v1/models' },
+  { label: '/foundation-models (AWS Bedrock)', value: '/foundation-models' },
+  { label: '/models (通用)', value: '/models' },
+];
 const DEFAULT_FORM: ProviderChannelFormState = {
   name: '',
   host: '',
@@ -93,6 +99,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   const [selectedModelIds, setSelectedModelIds] = useState<Key[]>([]);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [modelsDirty, setModelsDirty] = useState(false);
+  const [manualModelName, setManualModelName] = useState('');
   const saving = createMutation.isPending || updateMutation.isPending;
   const selectedProtocols = Form.useWatch('supportedProtocols', form) ?? [];
   const protocolMappings = Form.useWatch('protocolMappings', form) ?? [];
@@ -287,6 +294,40 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
     setSelectedModelIds(keys);
   }
 
+  function handleAddManualModel(): void {
+    const modelName = manualModelName.trim();
+    if (!modelName) {
+      message.warning('请输入模型名称');
+      return;
+    }
+    const upstreamProtocols = derivePreviewUpstreamProtocols(selectedProtocols, protocolMappings);
+    if (upstreamProtocols.length === 0) {
+      message.warning('请先选择上游调用协议');
+      return;
+    }
+    const idBase = Date.now() * 1000;
+    const newModels: ChannelModelSupportResponse[] = upstreamProtocols.map((protocol, index) => ({
+      id: idBase + index + 1,
+      requestedModel: modelName,
+      upstreamModel: modelName,
+      upstreamProtocol: protocol,
+      priority: 10,
+      preferred: false,
+      source: 'MANUAL' as const,
+      status: 'ENABLED' as const,
+    }));
+    const duplicates = newModels.filter((nm) => previewModels.some((pm) => modelKey(pm) === modelKey(nm)));
+    if (duplicates.length > 0) {
+      message.warning(`模型 ${modelName} 已存在`);
+      return;
+    }
+    setPreviewModels((current) => [...current, ...newModels]);
+    setSelectedModelIds((current) => [...current, ...newModels.map((m) => m.id)]);
+    setModelsDirty(true);
+    setManualModelName('');
+    message.success(`已添加模型: ${modelName}`);
+  }
+
   const normalizedMappings = normalizeProtocolMappings(selectedProtocols, protocolMappings);
   const columns: ColumnsType<ChannelModelSupportResponse> = [{
     title: '模型候选',
@@ -357,10 +398,15 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         <Form.Item
           name="modelsPath"
           label="模型列表路径"
-          rules={[{ required: true, message: '请输入模型列表路径' }]}
-          extra="OpenAI-compatible 通常为 /v1/models；如果渠道 Host 已包含 /v1，可填 /models。"
+          rules={[{ required: true, message: '请选择或输入模型列表路径' }]}
+          extra="OpenAI 兼容用 /v1/models；AWS Bedrock 代理用 /foundation-models；也可手动输入自定义路径。"
         >
-          <Input placeholder="/v1/models" />
+          <AutoComplete
+            placeholder="选择或输入路径"
+            options={MODELS_PATH_OPTIONS}
+            style={{ width: '100%' }}
+            filterOption={(input, option) => (option?.value ?? '').toLowerCase().includes(input.toLowerCase())}
+          />
         </Form.Item>
         <Form.Item name="routePriority" label="渠道优先级" extra="数字越大越优先；同优先级命中时会负载均衡">
           <InputNumber style={{ width: '100%' }} />
@@ -419,7 +465,17 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
           message="验证并获取模型列表会按上游调用协议真实请求供应商模型列表；编辑渠道时可沿用已保存 Key，并保留已配置的优先模型和排序值。"
           description="获取结果仅作为上游支持模型候选；预览请求只提交上游调用协议，不提交入口请求协议。默认只勾选已保存的启用模型，新候选需要手动勾选后才会保存为选用模型。"
         />
-        <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
+        <Space wrap>
+          <Button loading={previewLoading} onClick={() => void handlePreviewModels()}>验证并获取模型列表</Button>
+          <Input
+            placeholder="手动输入模型名称"
+            value={manualModelName}
+            onChange={(e) => setManualModelName(e.target.value)}
+            onPressEnter={handleAddManualModel}
+            style={{ width: 240 }}
+          />
+          <Button onClick={handleAddManualModel}>手动添加</Button>
+        </Space>
         {previewModels.length > 0 ? (
           <Table
             rowKey="id"

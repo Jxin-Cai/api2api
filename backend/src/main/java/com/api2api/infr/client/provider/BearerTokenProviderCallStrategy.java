@@ -53,7 +53,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
 
     @Override
     public boolean supports(ProtocolType upstreamProtocol) {
-        return upstreamProtocol != ProtocolType.AWS_BEDROCK_CONVERSE;
+        return true;
     }
 
     @Override
@@ -125,7 +125,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
         String secret = providerSecretResolver.resolve(channel.keyRef());
-        String path = properties.defaultPathFor(candidate.upstreamProtocol());
+        String path = resolveUpstreamPath(candidate);
         URI uri = OutboundUriGuard.verify(
                 URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
                 properties.isAllowInsecureHosts()
@@ -137,6 +137,14 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                 .POST(HttpRequest.BodyPublishers.ofString(upstreamRequestBody));
         headers.forEach(requestBuilder::header);
         return requestBuilder.build();
+    }
+
+    private String resolveUpstreamPath(RouteCandidate candidate) {
+        if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE) {
+            String modelId = candidate.upstreamModel().value();
+            return "/model/" + modelId + "/converse";
+        }
+        return properties.defaultPathFor(candidate.upstreamProtocol());
     }
 
     private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis, String responseBody) {
