@@ -8,7 +8,8 @@ import java.util.Objects;
 public enum ProtocolType {
     CLAUDE_MESSAGES("/v1/messages"),
     OPENAI_RESPONSES("/v1/responses"),
-    OPENAI_CHAT_COMPLETIONS("/v1/chat/completions");
+    OPENAI_CHAT_COMPLETIONS("/v1/chat/completions"),
+    AWS_BEDROCK_CONVERSE("/model/{modelId}/converse");
 
     private final String defaultEndpointPath;
 
@@ -18,6 +19,10 @@ public enum ProtocolType {
 
     public boolean isSameAs(ProtocolType other) {
         return this == Objects.requireNonNull(other, "protocol must not be null");
+    }
+
+    public boolean isClientFacing() {
+        return this != AWS_BEDROCK_CONVERSE;
     }
 
     public String defaultEndpointPath() {

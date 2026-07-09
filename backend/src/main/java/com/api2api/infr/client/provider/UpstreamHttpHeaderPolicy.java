@@ -31,6 +31,9 @@ public class UpstreamHttpHeaderPolicy {
             boolean streaming
     ) {
         Objects.requireNonNull(protocolType, "Protocol type must not be null");
+        if (protocolType == ProtocolType.AWS_BEDROCK_CONVERSE) {
+            throw new IllegalArgumentException("Bedrock Converse headers are managed by BedrockProviderCallStrategy");
+        }
         if (bearerToken == null || bearerToken.isBlank()) {
             throw new IllegalArgumentException("Bearer token must not be blank");
         }

@@ -124,13 +124,16 @@ class ProviderGatewayCallAdapterTest {
         properties.setAllowInsecureHosts(true);
         ProviderSecretProperties secretProperties = new ProviderSecretProperties();
         secretProperties.setKeys(Map.of("provider-key", "provider-secret"));
-        return new ProviderGatewayCallAdapter(
-                new FixedProviderChannelRepository(channel()),
-                new ProviderSecretResolver(secretProperties, new MockEnvironment()),
+        ProviderChannelRepository repo = new FixedProviderChannelRepository(channel());
+        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
+        BearerTokenProviderCallStrategy bearerStrategy = new BearerTokenProviderCallStrategy(
+                repo,
+                secretResolver,
                 properties,
                 new UpstreamHttpHeaderPolicy(properties),
                 new UpstreamUrlResolver(properties)
         );
+        return new ProviderGatewayCallAdapter(List.of(bearerStrategy));
     }
 
     private ProviderChannel channel() {

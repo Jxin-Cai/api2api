@@ -169,6 +169,7 @@ public class ProviderHttpClientProperties {
             case CLAUDE_MESSAGES -> claudeMessagesPath;
             case OPENAI_RESPONSES -> openaiResponsesPath;
             case OPENAI_CHAT_COMPLETIONS -> openaiChatCompletionsPath;
+            case AWS_BEDROCK_CONVERSE -> throw new IllegalArgumentException("Bedrock Converse uses dynamic path resolution, not a static default path");
         };
     }
 
