@@ -75,6 +75,9 @@ public class GatewayInvocationApplicationService {
     private final GatewayPayloadModelMappingPort payloadModelMappingPort;
 
     @NonNull
+    private final GatewayStreamingConversionPort streamingConversionPort;
+
+    @NonNull
     private final Clock clock;
 
     public GatewayInvocation invoke(InvokeGatewayCommand command) {
@@ -254,7 +257,8 @@ public class GatewayInvocationApplicationService {
         while (candidate != null) {
             try {
                 invocation.startAttempt(candidate, Instant.now(clock));
-                if (candidate.requiresProtocolConversion()) {
+                if (candidate.requiresProtocolConversion()
+                        && !streamingConversionPort.supports(candidate.upstreamProtocol(), command.getRequestProtocol())) {
                     throw new ProtocolConversionException("STREAMING_PROTOCOL_TRANSFORM_NOT_SUPPORTED");
                 }
                 ConversionPayload requestPayload = ConversionPayload.of(
@@ -333,6 +337,11 @@ public class GatewayInvocationApplicationService {
 
     @Transactional(rollbackFor = Exception.class)
     public void completeStreamingSuccess(GatewayStreamingInvocation streamingInvocation) {
+        completeStreamingSuccess(streamingInvocation, UnifiedTokenUsage.unknown());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void completeStreamingSuccess(GatewayStreamingInvocation streamingInvocation, UnifiedTokenUsage usage) {
         Objects.requireNonNull(streamingInvocation, "Streaming invocation must not be null");
         if (!streamingInvocation.opened() || streamingInvocation.invocation().isTerminal()) {
             return;
@@ -340,7 +349,7 @@ public class GatewayInvocationApplicationService {
         GatewayInvocation invocation = gatewayInvocationService.completeSuccess(
                 streamingInvocation.invocation(),
                 streamingInvocation.candidate(),
-                UnifiedTokenUsage.unknown(),
+                usage == null ? UnifiedTokenUsage.unknown() : usage,
                 true,
                 Instant.now(clock)
         );

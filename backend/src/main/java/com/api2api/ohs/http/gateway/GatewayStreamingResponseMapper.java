@@ -1,8 +1,10 @@
 package com.api2api.ohs.http.gateway;
 
 import com.api2api.application.gateway.GatewayInvocationApplicationService;
+import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.ProviderStreamingResponse;
+import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
@@ -41,14 +43,27 @@ public class GatewayStreamingResponseMapper {
     @NonNull
     private final GatewayInvocationApplicationService gatewayInvocationApplicationService;
 
+    @NonNull
+    private final GatewayStreamingConversionPort streamingConversionPort;
+
     public StreamingResponseBody toResponseBody(
             GatewayStreamingInvocation streamingInvocation,
             HttpServletResponse response
     ) {
-        applyHeaders(streamingInvocation.providerResponse(), response);
+        applyHeaders(streamingInvocation, response);
         StreamingResponseBody responseBody = outputStream -> {
+            UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
             try (ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse()) {
-                providerResponse.body().transferTo(outputStream);
+                if (streamingInvocation.requiresProtocolConversion()) {
+                    usage = streamingConversionPort.transform(
+                            providerResponse.protocol(),
+                            streamingInvocation.invocation().requestProtocol(),
+                            providerResponse.body(),
+                            outputStream
+                    );
+                } else {
+                    providerResponse.body().transferTo(outputStream);
+                }
                 outputStream.flush();
             } catch (IOException exception) {
                 gatewayInvocationApplicationService.completeStreamingFailure(
@@ -60,15 +75,16 @@ public class GatewayStreamingResponseMapper {
                 gatewayInvocationApplicationService.completeStreamingFailure(streamingInvocation, exception);
                 throw exception;
             }
-            gatewayInvocationApplicationService.completeStreamingSuccess(streamingInvocation);
+            gatewayInvocationApplicationService.completeStreamingSuccess(streamingInvocation, usage);
         };
 
         return responseBody;
     }
 
-    private void applyHeaders(ProviderStreamingResponse providerResponse, HttpServletResponse response) {
+    private void applyHeaders(GatewayStreamingInvocation streamingInvocation, HttpServletResponse response) {
+        ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse();
         response.setStatus(providerResponse.statusCode());
-        if (providerResponse.headers() != null) {
+        if (!streamingInvocation.requiresProtocolConversion() && providerResponse.headers() != null) {
             providerResponse.headers().forEach((name, values) -> {
                 if (shouldForwardHeader(name) && values != null) {
                     values.stream()
@@ -77,7 +93,10 @@ public class GatewayStreamingResponseMapper {
                 }
             });
         }
-        response.setContentType(contentTypeOf(providerResponse.headers()).toString());
+        MediaType contentType = streamingInvocation.requiresProtocolConversion()
+                ? MediaType.TEXT_EVENT_STREAM
+                : contentTypeOf(providerResponse.headers());
+        response.setContentType(contentType.toString());
         response.setHeader(HttpHeaders.CACHE_CONTROL, CacheControl.noCache().getHeaderValue());
         response.setHeader(HttpHeaders.CONNECTION, "keep-alive");
         response.setHeader("X-Accel-Buffering", "no");

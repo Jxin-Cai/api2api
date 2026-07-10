@@ -23,6 +23,8 @@ public class ProviderHttpClientProperties {
     private String claudeMessagesPath = "/v1/messages";
     private String openaiResponsesPath = "/v1/responses";
     private String openaiChatCompletionsPath = "/v1/chat/completions";
+    private String bedrockConversePathTemplate = "/model/{modelId}/converse";
+    private String bedrockConverseStreamPathTemplate = "/model/{modelId}/converse-stream";
     private String anthropicVersion = "2023-06-01";
     private Set<String> passthroughHeaderAllowlist = new LinkedHashSet<>(Set.of(
             "x-request-id",
@@ -136,6 +138,28 @@ public class ProviderHttpClientProperties {
         this.openaiChatCompletionsPath = normalizePath(openaiChatCompletionsPath, "OpenAI chat completions path must start with /");
     }
 
+    public String getBedrockConversePathTemplate() {
+        return bedrockConversePathTemplate;
+    }
+
+    public void setBedrockConversePathTemplate(String bedrockConversePathTemplate) {
+        this.bedrockConversePathTemplate = normalizePathTemplate(
+                bedrockConversePathTemplate,
+                "Bedrock Converse path template must start with /"
+        );
+    }
+
+    public String getBedrockConverseStreamPathTemplate() {
+        return bedrockConverseStreamPathTemplate;
+    }
+
+    public void setBedrockConverseStreamPathTemplate(String bedrockConverseStreamPathTemplate) {
+        this.bedrockConverseStreamPathTemplate = normalizePathTemplate(
+                bedrockConverseStreamPathTemplate,
+                "Bedrock Converse stream path template must start with /"
+        );
+    }
+
     public String getAnthropicVersion() {
         return anthropicVersion;
     }
@@ -185,6 +209,14 @@ public class ProviderHttpClientProperties {
             throw new IllegalArgumentException(message);
         }
         return path.trim();
+    }
+
+    private static String normalizePathTemplate(String pathTemplate, String message) {
+        String normalized = normalizePath(pathTemplate, message);
+        if (!normalized.contains("{modelId}")) {
+            throw new IllegalArgumentException("Bedrock path template must contain {modelId}");
+        }
+        return normalized;
     }
 
     private static Set<String> normalizeHeaderNames(Set<String> names) {

@@ -125,7 +125,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
         String secret = providerSecretResolver.resolve(channel.keyRef());
-        String path = resolveUpstreamPath(candidate);
+        String path = resolveUpstreamPath(candidate, streaming);
         URI uri = OutboundUriGuard.verify(
                 URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
                 properties.isAllowInsecureHosts()
@@ -139,10 +139,12 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         return requestBuilder.build();
     }
 
-    private String resolveUpstreamPath(RouteCandidate candidate) {
+    private String resolveUpstreamPath(RouteCandidate candidate, boolean streaming) {
         if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE) {
-            String modelId = candidate.upstreamModel().value();
-            return "/model/" + modelId + "/converse";
+            String template = streaming
+                    ? properties.getBedrockConverseStreamPathTemplate()
+                    : properties.getBedrockConversePathTemplate();
+            return template.replace("{modelId}", candidate.upstreamModel().value());
         }
         return properties.defaultPathFor(candidate.upstreamProtocol());
     }

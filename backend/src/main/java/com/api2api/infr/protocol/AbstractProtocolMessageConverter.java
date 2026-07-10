@@ -72,9 +72,9 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
         if (!supports(requirement)) {
             throw new ProtocolConversionException("converter capability does not satisfy request: " + converterName());
         }
-        if (payload.streaming()) {
+        if (payload.streaming() && direction == ProtocolConversionDirection.RESPONSE) {
             String transformed = sseEventTransformer.transform(payload.body(), data -> convertJsonString(data, true));
-            UnifiedTokenUsage usage = direction == ProtocolConversionDirection.RESPONSE ? UnifiedTokenUsage.unknown() : null;
+            UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
             return ProtocolConversionResult.of(sourceProtocol, targetProtocol, transformed, false, usage);
         }
         JsonNode source = json.parse(payload.body(), converterName());

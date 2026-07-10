@@ -22,7 +22,18 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
     @Override
     public boolean supports(ProtocolConversionRequest requirement) {
-        return !requirement.streaming() && !requirement.toolCallingRequired() && super.supports(requirement);
+        if (isClaudeBedrockPair()) {
+            return super.supports(requirement);
+        }
+        return !requirement.streaming()
+                && !requirement.toolCallingRequired()
+                && !requirement.reasoningRequired()
+                && super.supports(requirement);
+    }
+
+    private boolean isClaudeBedrockPair() {
+        return (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE)
+                || (sourceProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE && targetProtocol() == ProtocolType.CLAUDE_MESSAGES);
     }
 
     @Override
@@ -101,6 +112,27 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         if (!inferenceConfig.isEmpty()) {
             target.set("inferenceConfig", inferenceConfig);
+        }
+
+        ObjectNode toolConfig = toBedrockToolConfig(source.get("tools"), source.get("tool_choice"));
+        if (!toolConfig.isEmpty()) {
+            target.set("toolConfig", toolConfig);
+        }
+
+        ObjectNode additionalFields = json.objectNode();
+        JsonNode existingAdditionalFields = source.get("additionalModelRequestFields");
+        if (existingAdditionalFields != null && existingAdditionalFields.isObject()) {
+            existingAdditionalFields.fields().forEachRemaining(entry -> additionalFields.set(entry.getKey(), entry.getValue()));
+        }
+        JsonNode thinking = source.get("thinking");
+        JsonNode reasoning = source.get("reasoning");
+        if (thinking != null && !thinking.isNull()) {
+            additionalFields.set("thinking", thinking);
+        } else if (reasoning != null && !reasoning.isNull()) {
+            additionalFields.set("thinking", reasoning);
+        }
+        if (!additionalFields.isEmpty()) {
+            target.set("additionalModelRequestFields", additionalFields);
         }
 
         return target;
@@ -249,12 +281,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         JsonNode output = source.path("output").path("message").path("content");
         if (output.isArray()) {
             for (JsonNode block : output) {
-                if (block.has("text")) {
-                    ObjectNode textBlock = json.objectNode();
-                    textBlock.put("type", "text");
-                    textBlock.put("text", block.path("text").asText(""));
-                    content.add(textBlock);
-                }
+                appendBedrockBlockAsClaudeContent(content, block);
             }
         }
         if (content.isEmpty()) {
@@ -372,31 +399,198 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         ArrayNode contentBlocks = json.arrayNode();
 
         if (claudeContent == null || claudeContent.isNull()) {
-            ObjectNode textBlock = json.objectNode();
-            textBlock.put("text", "");
-            contentBlocks.add(textBlock);
+            contentBlocks.add(textBlock(""));
         } else if (claudeContent.isTextual()) {
-            ObjectNode textBlock = json.objectNode();
-            textBlock.put("text", claudeContent.asText());
-            contentBlocks.add(textBlock);
+            contentBlocks.add(textBlock(claudeContent.asText()));
         } else if (claudeContent.isArray()) {
             for (JsonNode item : claudeContent) {
                 String type = item.path("type").asText("");
-                if ("text".equals(type)) {
-                    ObjectNode textBlock = json.objectNode();
-                    textBlock.put("text", item.path("text").asText(""));
-                    contentBlocks.add(textBlock);
+                switch (type) {
+                    case "text" -> contentBlocks.add(textBlock(item.path("text").asText("")));
+                    case "tool_use" -> contentBlocks.add(toBedrockToolUse(item));
+                    case "tool_result" -> contentBlocks.add(toBedrockToolResult(item));
+                    case "thinking", "reasoning" -> contentBlocks.add(toBedrockReasoningContent(item));
+                    default -> {
+                        String text = item.path("text").asText("");
+                        if (!text.isBlank()) {
+                            contentBlocks.add(textBlock(text));
+                        }
+                    }
                 }
             }
             if (contentBlocks.isEmpty()) {
-                ObjectNode textBlock = json.objectNode();
-                textBlock.put("text", "");
-                contentBlocks.add(textBlock);
+                contentBlocks.add(textBlock(""));
             }
         }
 
         msg.set("content", contentBlocks);
         return msg;
+    }
+
+    private ObjectNode textBlock(String text) {
+        ObjectNode textBlock = json.objectNode();
+        textBlock.put("text", text == null ? "" : text);
+        return textBlock;
+    }
+
+    private ObjectNode toBedrockToolUse(JsonNode item) {
+        ObjectNode block = json.objectNode();
+        ObjectNode toolUse = json.objectNode();
+        toolUse.put("toolUseId", item.path("id").asText(""));
+        toolUse.put("name", item.path("name").asText(""));
+        JsonNode input = item.get("input");
+        toolUse.set("input", input == null || input.isNull() ? json.objectNode() : input);
+        block.set("toolUse", toolUse);
+        return block;
+    }
+
+    private ObjectNode toBedrockToolResult(JsonNode item) {
+        ObjectNode block = json.objectNode();
+        ObjectNode toolResult = json.objectNode();
+        toolResult.put("toolUseId", item.path("tool_use_id").asText(""));
+        JsonNode isError = item.get("is_error");
+        if (isError != null && isError.isBoolean()) {
+            toolResult.put("status", isError.asBoolean() ? "error" : "success");
+        }
+        ArrayNode content = json.arrayNode();
+        JsonNode resultContent = item.get("content");
+        if (resultContent == null || resultContent.isNull()) {
+            content.add(textBlock(""));
+        } else if (resultContent.isTextual()) {
+            content.add(textBlock(resultContent.asText()));
+        } else if (resultContent.isArray()) {
+            for (JsonNode contentItem : resultContent) {
+                String text = contentItem.isTextual() ? contentItem.asText() : contentItem.path("text").asText("");
+                if (!text.isBlank()) {
+                    content.add(textBlock(text));
+                }
+            }
+            if (content.isEmpty()) {
+                content.add(textBlock(resultContent.toString()));
+            }
+        } else {
+            content.add(textBlock(resultContent.toString()));
+        }
+        toolResult.set("content", content);
+        block.set("toolResult", toolResult);
+        return block;
+    }
+
+    private ObjectNode toBedrockReasoningContent(JsonNode item) {
+        ObjectNode block = json.objectNode();
+        ObjectNode reasoningContent = json.objectNode();
+        ObjectNode reasoningText = json.objectNode();
+        reasoningText.put("text", item.path("thinking").asText(item.path("text").asText("")));
+        JsonNode signature = item.get("signature");
+        if (signature != null && signature.isTextual()) {
+            reasoningText.put("signature", signature.asText());
+        }
+        reasoningContent.set("reasoningText", reasoningText);
+        block.set("reasoningContent", reasoningContent);
+        return block;
+    }
+
+    private ObjectNode toBedrockToolConfig(JsonNode tools, JsonNode toolChoice) {
+        ObjectNode toolConfig = json.objectNode();
+        if (tools != null && tools.isArray() && !tools.isEmpty()) {
+            ArrayNode bedrockTools = json.arrayNode();
+            for (JsonNode tool : tools) {
+                ObjectNode toolWrapper = json.objectNode();
+                ObjectNode toolSpec = json.objectNode();
+                toolSpec.put("name", tool.path("name").asText(""));
+                JsonNode description = tool.get("description");
+                if (description != null && description.isTextual()) {
+                    toolSpec.put("description", description.asText());
+                }
+                ObjectNode inputSchema = json.objectNode();
+                JsonNode schema = tool.get("input_schema");
+                if (schema == null || schema.isNull()) {
+                    schema = tool.get("inputSchema");
+                }
+                inputSchema.set("json", schema == null || schema.isNull() ? json.objectNode() : schema);
+                toolSpec.set("inputSchema", inputSchema);
+                toolWrapper.set("toolSpec", toolSpec);
+                bedrockTools.add(toolWrapper);
+            }
+            toolConfig.set("tools", bedrockTools);
+        }
+        ObjectNode mappedChoice = toBedrockToolChoice(toolChoice);
+        if (!mappedChoice.isEmpty()) {
+            toolConfig.set("toolChoice", mappedChoice);
+        }
+        return toolConfig;
+    }
+
+    private ObjectNode toBedrockToolChoice(JsonNode toolChoice) {
+        ObjectNode mappedChoice = json.objectNode();
+        if (toolChoice == null || toolChoice.isNull()) {
+            return mappedChoice;
+        }
+        if (toolChoice.isTextual()) {
+            putTextualToolChoice(mappedChoice, toolChoice.asText("auto"));
+            return mappedChoice;
+        }
+        String type = toolChoice.path("type").asText("auto");
+        if ("tool".equals(type)) {
+            ObjectNode tool = json.objectNode();
+            tool.put("name", toolChoice.path("name").asText(""));
+            mappedChoice.set("tool", tool);
+            return mappedChoice;
+        }
+        putTextualToolChoice(mappedChoice, type);
+        return mappedChoice;
+    }
+
+    private void putTextualToolChoice(ObjectNode mappedChoice, String type) {
+        if ("any".equalsIgnoreCase(type)) {
+            mappedChoice.set("any", json.objectNode());
+        } else if (!"none".equalsIgnoreCase(type)) {
+            mappedChoice.set("auto", json.objectNode());
+        }
+    }
+
+    private void appendBedrockBlockAsClaudeContent(ArrayNode content, JsonNode block) {
+        if (block.has("text")) {
+            ObjectNode textBlock = json.objectNode();
+            textBlock.put("type", "text");
+            textBlock.put("text", block.path("text").asText(""));
+            content.add(textBlock);
+            return;
+        }
+        JsonNode toolUse = block.get("toolUse");
+        if (toolUse != null && toolUse.isObject()) {
+            ObjectNode toolBlock = json.objectNode();
+            toolBlock.put("type", "tool_use");
+            toolBlock.put("id", toolUse.path("toolUseId").asText(""));
+            toolBlock.put("name", toolUse.path("name").asText(""));
+            JsonNode input = toolUse.get("input");
+            toolBlock.set("input", input == null || input.isNull() ? json.objectNode() : input);
+            content.add(toolBlock);
+            return;
+        }
+        JsonNode reasoningText = reasoningTextNode(block);
+        if (reasoningText != null && !reasoningText.isMissingNode() && !reasoningText.isNull()) {
+            ObjectNode thinkingBlock = json.objectNode();
+            thinkingBlock.put("type", "thinking");
+            thinkingBlock.put("thinking", reasoningText.path("text").asText(reasoningText.asText("")));
+            JsonNode signature = reasoningText.get("signature");
+            if (signature != null && signature.isTextual()) {
+                thinkingBlock.put("signature", signature.asText());
+            }
+            content.add(thinkingBlock);
+        }
+    }
+
+    private JsonNode reasoningTextNode(JsonNode block) {
+        JsonNode reasoningContent = block.get("reasoningContent");
+        if (reasoningContent == null || reasoningContent.isNull()) {
+            return null;
+        }
+        JsonNode reasoningText = reasoningContent.get("reasoningText");
+        if (reasoningText != null && !reasoningText.isNull()) {
+            return reasoningText;
+        }
+        return reasoningContent;
     }
 
     private void insertDummyAlternation(ArrayNode messages, String currentRole) {

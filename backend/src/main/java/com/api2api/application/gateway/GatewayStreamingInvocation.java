@@ -59,6 +59,10 @@ public final class GatewayStreamingInvocation {
         return candidate;
     }
 
+    public boolean requiresProtocolConversion() {
+        return opened() && candidate.requiresProtocolConversion();
+    }
+
     public ProviderStreamingResponse providerResponse() {
         if (providerResponse == null) {
             throw new IllegalStateException("Streaming provider response is not opened");

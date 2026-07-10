@@ -130,7 +130,7 @@ class BedrockProviderCallStrategy implements ProviderCallStrategy {
 
     private URI buildBedrockUri(String region, String modelId, boolean streaming) {
         String path = streaming
-                ? "/model/" + modelId + "/converse-stream"
+                ? "/model/" + modelId + "/converseStream"
                 : "/model/" + modelId + "/converse";
         return URI.create("https://bedrock-runtime." + region + ".amazonaws.com" + path);
     }
