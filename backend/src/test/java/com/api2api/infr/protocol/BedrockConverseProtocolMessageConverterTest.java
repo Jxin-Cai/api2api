@@ -57,6 +57,39 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void shouldMapOpenAIResponsesReasoningToBedrockThinking() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json,
+                null,
+                ProtocolType.OPENAI_RESPONSES,
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST,
+                sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "stream":true,
+                  "input":[{"type":"message","role":"user","content":"Hello"}],
+                  "reasoning":{"effort":"high","summary":"detailed"},
+                  "tools":[],
+                  "instructions":null
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, true),
+                ProtocolConversionRequest.of(true, false, true)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/additionalModelRequestFields/thinking/type").asText()).isEqualTo("enabled");
+        assertThat(mapped.at("/additionalModelRequestFields/thinking/budget_tokens").asInt()).isEqualTo(4096);
+        assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(5120);
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("Hello");
+    }
+
+    @Test
     void shouldMapBedrockToolUseAndReasoningToClaudeResponse() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,

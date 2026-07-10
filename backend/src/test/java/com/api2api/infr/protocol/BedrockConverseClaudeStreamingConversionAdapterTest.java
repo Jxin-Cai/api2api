@@ -49,11 +49,40 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         assertThat(usage.totalTokens()).isEqualTo(5);
     }
 
+    @Test
+    void shouldConvertBedrockEventStreamToOpenAIResponsesSseAndExtractUsage() throws Exception {
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":0,\"delta\":{\"text\":\"OK\"}}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"end_turn\"}");
+        writeEvent(upstream, "metadata", "{\"usage\":{\"inputTokens\":3,\"outputTokens\":2}}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        UnifiedTokenUsage usage = adapter.transform(
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES,
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        String sse = downstream.toString(StandardCharsets.UTF_8);
+        assertThat(sse).contains("event: response.created");
+        assertThat(sse).contains("event: response.output_text.delta");
+        assertThat(sse).contains("event: response.completed");
+        assertThat(sse).contains("data: [DONE]");
+        assertThat(dataEvents(sse).stream().anyMatch(node -> "OK".equals(node.path("delta").asText()))).isTrue();
+        assertThat(usage.usageKnown()).isTrue();
+        assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
     private List<JsonNode> dataEvents(String sse) throws Exception {
         List<JsonNode> events = new ArrayList<>();
         for (String line : sse.split("\\R")) {
             if (line.startsWith("data: ")) {
-                events.add(objectMapper.readTree(line.substring("data: ".length())));
+                String data = line.substring("data: ".length());
+                if (!"[DONE]".equals(data)) {
+                    events.add(objectMapper.readTree(data));
+                }
             }
         }
         return events;

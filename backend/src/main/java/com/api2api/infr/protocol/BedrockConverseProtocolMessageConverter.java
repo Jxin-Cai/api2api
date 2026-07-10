@@ -25,6 +25,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (isClaudeBedrockPair()) {
             return super.supports(requirement);
         }
+        if (isOpenAIResponsesBedrockPair()) {
+            return !requirement.toolCallingRequired() && super.supports(requirement);
+        }
         return !requirement.streaming()
                 && !requirement.toolCallingRequired()
                 && !requirement.reasoningRequired()
@@ -34,6 +37,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private boolean isClaudeBedrockPair() {
         return (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE)
                 || (sourceProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE && targetProtocol() == ProtocolType.CLAUDE_MESSAGES);
+    }
+
+    private boolean isOpenAIResponsesBedrockPair() {
+        return (sourceProtocol() == ProtocolType.OPENAI_RESPONSES && targetProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE)
+                || (sourceProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE && targetProtocol() == ProtocolType.OPENAI_RESPONSES);
     }
 
     @Override
@@ -250,8 +258,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
         ObjectNode inferenceConfig = json.objectNode();
         JsonNode maxTokens = source.get("max_output_tokens");
+        Integer reasoningBudgetTokens = reasoningBudgetTokens(source.get("reasoning"));
         if (maxTokens != null && !maxTokens.isNull()) {
             inferenceConfig.put("maxTokens", maxTokens.asInt());
+        } else if (reasoningBudgetTokens != null) {
+            inferenceConfig.put("maxTokens", reasoningBudgetTokens + 1024);
         }
         JsonNode temperature = source.get("temperature");
         if (temperature != null && !temperature.isNull()) {
@@ -263,6 +274,17 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         if (!inferenceConfig.isEmpty()) {
             target.set("inferenceConfig", inferenceConfig);
+        }
+
+        ObjectNode additionalFields = json.objectNode();
+        if (reasoningBudgetTokens != null) {
+            ObjectNode thinking = json.objectNode();
+            thinking.put("type", "enabled");
+            thinking.put("budget_tokens", reasoningBudgetTokens);
+            additionalFields.set("thinking", thinking);
+        }
+        if (!additionalFields.isEmpty()) {
+            target.set("additionalModelRequestFields", additionalFields);
         }
 
         return target;
@@ -488,6 +510,22 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         reasoningContent.set("reasoningText", reasoningText);
         block.set("reasoningContent", reasoningContent);
         return block;
+    }
+
+    private Integer reasoningBudgetTokens(JsonNode reasoning) {
+        if (reasoning == null || reasoning.isMissingNode() || reasoning.isNull()) {
+            return null;
+        }
+        JsonNode budgetTokens = reasoning.get("budget_tokens");
+        if (budgetTokens != null && budgetTokens.canConvertToInt() && budgetTokens.asInt() > 0) {
+            return Math.max(1024, budgetTokens.asInt());
+        }
+        String effort = reasoning.path("effort").asText("medium");
+        return switch (effort) {
+            case "low" -> 1024;
+            case "high" -> 4096;
+            default -> 2048;
+        };
     }
 
     private ObjectNode toBedrockToolConfig(JsonNode tools, JsonNode toolChoice) {
