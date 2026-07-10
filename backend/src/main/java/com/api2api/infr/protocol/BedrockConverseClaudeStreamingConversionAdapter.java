@@ -7,10 +7,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -34,8 +36,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     @Override
     public boolean supports(ProtocolType upstreamProtocol, ProtocolType clientProtocol) {
-        return upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
-                && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES);
+        return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
+                && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
+                || (upstreamProtocol == ProtocolType.OPENAI_RESPONSES
+                && clientProtocol == ProtocolType.CLAUDE_MESSAGES);
     }
 
     @Override
@@ -47,6 +51,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     ) throws IOException {
         if (!supports(upstreamProtocol, clientProtocol)) {
             return UnifiedTokenUsage.unknown();
+        }
+        if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
+            return transformResponsesToClaude(upstreamBody, clientBody);
         }
         StreamState state = new StreamState(clientProtocol);
         BedrockEvent event;
@@ -166,6 +173,16 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             writeSse(clientBody, "response.completed", event);
             clientBody.write("data: [DONE]\n\n".getBytes(StandardCharsets.UTF_8));
         } else {
+            ObjectNode deltaEvent = objectNode();
+            deltaEvent.put("type", "message_delta");
+            ObjectNode delta = objectNode();
+            delta.put("stop_reason", state.stopReason);
+            delta.putNull("stop_sequence");
+            deltaEvent.set("delta", delta);
+            if (state.usage != null && state.usage.usageKnown()) {
+                deltaEvent.set("usage", claudeUsage(state.usage));
+            }
+            writeSse(clientBody, "message_delta", deltaEvent);
             writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
         }
         state.messageStopped = true;
@@ -311,35 +328,180 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     }
 
     private void writeMessageStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        String stopReason = mapBedrockStopToClaudeStop(payload.path("stopReason").asText("end_turn"));
-        ObjectNode event = objectNode();
-        event.put("type", "message_delta");
-        ObjectNode delta = objectNode();
-        delta.put("stop_reason", stopReason);
-        delta.putNull("stop_sequence");
-        event.set("delta", delta);
-        writeSse(clientBody, "message_delta", event);
+        state.stopReason = mapBedrockStopToClaudeStop(payload.path("stopReason").asText("end_turn"));
     }
 
     private void writeMetadata(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         UnifiedTokenUsage usage = extractUsage(payload.path("usage"));
         state.usage = usage;
-        if (usage.usageKnown()) {
-            ObjectNode event = objectNode();
-            event.put("type", "message_delta");
-            ObjectNode usageNode = objectNode();
-            usageNode.put("input_tokens", usage.inputTokens());
-            usageNode.put("output_tokens", usage.outputTokens());
-            if (usage.cacheReadInputTokens() > 0) {
-                usageNode.put("cache_read_input_tokens", usage.cacheReadInputTokens());
-            }
-            if (usage.cacheCreationInputTokens() > 0) {
-                usageNode.put("cache_creation_input_tokens", usage.cacheCreationInputTokens());
-            }
-            event.set("usage", usageNode);
-            writeSse(clientBody, "message_delta", event);
-        }
         writeTerminalEventIfNecessary(state, clientBody);
+    }
+
+    private ObjectNode claudeUsage(UnifiedTokenUsage usage) {
+        ObjectNode usageNode = objectNode();
+        usageNode.put("input_tokens", usage.inputTokens());
+        usageNode.put("output_tokens", usage.outputTokens());
+        if (usage.cacheReadInputTokens() > 0) {
+            usageNode.put("cache_read_input_tokens", usage.cacheReadInputTokens());
+        }
+        if (usage.cacheCreationInputTokens() > 0) {
+            usageNode.put("cache_creation_input_tokens", usage.cacheCreationInputTokens());
+        }
+        return usageNode;
+    }
+
+    private UnifiedTokenUsage transformResponsesToClaude(InputStream upstreamBody, OutputStream clientBody) throws IOException {
+        ResponsesStreamState state = new ResponsesStreamState();
+        writeClaudeMessageStart(clientBody, state);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(upstreamBody, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.startsWith("data:")) {
+                    continue;
+                }
+                String data = line.substring("data:".length()).trim();
+                if (data.isEmpty() || "[DONE]".equals(data)) {
+                    continue;
+                }
+                handleResponsesSseEvent(objectMapper.readTree(data), state, clientBody);
+            }
+        }
+        finishResponsesToClaude(state, clientBody);
+        clientBody.flush();
+        return state.usage == null ? UnifiedTokenUsage.unknown() : state.usage;
+    }
+
+    private void handleResponsesSseEvent(JsonNode event, ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        String type = event.path("type").asText("");
+        int outputIndex = event.path("output_index").asInt(0);
+        switch (type) {
+            case "response.output_text.delta" -> {
+                ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
+                writeClaudeContentDelta(outputIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
+            }
+            case "response.reasoning_summary_text.delta" -> {
+                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                writeClaudeContentDelta(outputIndex, "thinking_delta", "thinking", event.path("delta").asText(""), state, clientBody);
+            }
+            case "response.output_item.added" -> {
+                JsonNode item = event.path("item");
+                if ("function_call".equals(item.path("type").asText())) {
+                    ensureClaudeBlockStarted(outputIndex, "tool_use", item.path("call_id").asText(item.path("id").asText("")),
+                            item.path("name").asText(""), state, clientBody);
+                    state.toolCallSeen = true;
+                }
+            }
+            case "response.function_call_arguments.delta" -> {
+                ensureClaudeBlockStarted(outputIndex, "tool_use", event.path("call_id").asText(event.path("item_id").asText("")),
+                        event.path("name").asText(""), state, clientBody);
+                writeClaudeContentDelta(outputIndex, "input_json_delta", "partial_json", event.path("delta").asText(""), state, clientBody);
+                state.toolCallSeen = true;
+            }
+            case "response.output_item.done" -> stopClaudeBlock(outputIndex, state, clientBody);
+            case "response.completed", "response.incomplete", "response.failed" -> recordResponsesCompletion(event.path("response"), state);
+            default -> {
+            }
+        }
+    }
+
+    private void writeClaudeMessageStart(OutputStream clientBody, ResponsesStreamState state) throws IOException {
+        ObjectNode message = objectNode();
+        message.put("id", "msg_api2api_responses_stream");
+        message.put("type", "message");
+        message.put("role", "assistant");
+        message.put("model", "responses");
+        message.set("content", objectMapper.createArrayNode());
+        message.putNull("stop_reason");
+        message.putNull("stop_sequence");
+        message.set("usage", objectNode().put("input_tokens", 0).put("output_tokens", 0));
+        ObjectNode event = objectNode();
+        event.put("type", "message_start");
+        event.set("message", message);
+        writeSse(clientBody, "message_start", event);
+        state.messageStarted = true;
+    }
+
+    private void ensureClaudeBlockStarted(int index, String type, String id, String name,
+                                          ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        int claudeIndex = state.claudeIndexFor(index);
+        if (state.blockTypes.containsKey(claudeIndex)) {
+            return;
+        }
+        ObjectNode block = objectNode();
+        block.put("type", type);
+        if ("text".equals(type)) {
+            block.put("text", "");
+        } else if ("thinking".equals(type)) {
+            block.put("thinking", "");
+        } else {
+            block.put("id", id == null ? "" : id);
+            block.put("name", name == null ? "" : name);
+            block.set("input", objectNode());
+        }
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_start");
+        event.put("index", claudeIndex);
+        event.set("content_block", block);
+        writeSse(clientBody, "content_block_start", event);
+        state.blockTypes.put(claudeIndex, type);
+    }
+
+    private void writeClaudeContentDelta(int index, String deltaType, String valueField, String value,
+                                         ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        ObjectNode delta = objectNode();
+        delta.put("type", deltaType);
+        delta.put(valueField, value);
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_delta");
+        event.put("index", state.claudeIndexFor(index));
+        event.set("delta", delta);
+        writeSse(clientBody, "content_block_delta", event);
+    }
+
+    private void stopClaudeBlock(int index, ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        Integer claudeIndex = state.claudeIndexes.get(index);
+        if (claudeIndex == null) {
+            return;
+        }
+        if (!state.blockTypes.containsKey(claudeIndex) || state.stoppedBlocks.containsKey(claudeIndex)) {
+            return;
+        }
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_stop");
+        event.put("index", claudeIndex);
+        writeSse(clientBody, "content_block_stop", event);
+        state.stoppedBlocks.put(claudeIndex, true);
+    }
+
+    private void recordResponsesCompletion(JsonNode response, ResponsesStreamState state) {
+        JsonNode usage = response.path("usage");
+        if (!usage.isMissingNode() && !usage.isNull()) {
+            long input = usage.path("input_tokens").asLong(0);
+            long output = usage.path("output_tokens").asLong(0);
+            long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
+            state.usage = UnifiedTokenUsage.known(Math.max(0, input - cached), output, 0, cached);
+        }
+        if ("incomplete".equals(response.path("status").asText())
+                && "max_output_tokens".equals(response.path("incomplete_details").path("reason").asText())) {
+            state.stopReason = "max_tokens";
+        }
+    }
+
+    private void finishResponsesToClaude(ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        for (Integer index : state.claudeIndexes.keySet()) {
+            stopClaudeBlock(index, state, clientBody);
+        }
+        ObjectNode event = objectNode();
+        event.put("type", "message_delta");
+        ObjectNode delta = objectNode();
+        delta.put("stop_reason", state.toolCallSeen ? "tool_use" : state.stopReason);
+        delta.putNull("stop_sequence");
+        event.set("delta", delta);
+        if (state.usage != null && state.usage.usageKnown()) {
+            event.set("usage", claudeUsage(state.usage));
+        }
+        writeSse(clientBody, "message_delta", event);
+        writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
     }
 
     private UnifiedTokenUsage extractUsage(JsonNode usage) {
@@ -468,6 +630,27 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
         private StreamState(ProtocolType clientProtocol) {
             this.clientProtocol = clientProtocol;
+        }
+    }
+
+    private static final class ResponsesStreamState {
+        private boolean messageStarted;
+        private boolean toolCallSeen;
+        private String stopReason = "end_turn";
+        private UnifiedTokenUsage usage;
+        private int nextClaudeIndex;
+        private final Map<Integer, String> blockTypes = new HashMap<>();
+        private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
+        private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
+
+        private int claudeIndexFor(int responseOutputIndex) {
+            Integer existing = claudeIndexes.get(responseOutputIndex);
+            if (existing != null) {
+                return existing;
+            }
+            int assigned = nextClaudeIndex++;
+            claudeIndexes.put(responseOutputIndex, assigned);
+            return assigned;
         }
     }
 }

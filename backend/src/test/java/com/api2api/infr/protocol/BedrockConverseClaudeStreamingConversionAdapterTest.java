@@ -45,8 +45,59 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         List<JsonNode> dataEvents = dataEvents(sse);
         assertThat(dataEvents.stream().anyMatch(node -> "text_delta".equals(node.at("/delta/type").asText()))).isTrue();
         assertThat(dataEvents.stream().anyMatch(node -> "OK".equals(node.at("/delta/text").asText()))).isTrue();
+        assertThat(dataEvents.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .allMatch(node -> node.has("delta"))).isTrue();
         assertThat(usage.usageKnown()).isTrue();
         assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
+    @Test
+    void shouldConvertOpenAIResponsesSseToClaudeSseWithToolUseAndUsage() throws Exception {
+        String upstream = """
+                event: response.created
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                event: response.output_item.done
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"reasoning"}}
+
+                event: response.output_item.added
+                data: {"type":"response.output_item.added","output_index":1,"item":{"type":"function_call","call_id":"call_1","name":"get_weather"}}
+
+                event: response.function_call_arguments.delta
+                data: {"type":"response.function_call_arguments.delta","output_index":1,"delta":"{\\\"city\\\":\\\"BJ\\\"}"}
+
+                event: response.output_item.done
+                data: {"type":"response.output_item.done","output_index":1}
+
+                event: response.completed
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":7,"output_tokens":3,"input_tokens_details":{"cached_tokens":2}}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        UnifiedTokenUsage usage = adapter.transform(
+                ProtocolType.OPENAI_RESPONSES,
+                ProtocolType.CLAUDE_MESSAGES,
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        assertThat(events.stream().anyMatch(node -> "tool_use".equals(node.at("/content_block/type").asText()))).isTrue();
+        assertThat(events.stream()
+                .filter(node -> "content_block_start".equals(node.path("type").asText()))
+                .findFirst().orElseThrow().path("index").asInt()).isZero();
+        assertThat(events.stream().anyMatch(node -> "input_json_delta".equals(node.at("/delta/type").asText()))).isTrue();
+        JsonNode messageDelta = events.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(messageDelta.at("/delta/stop_reason").asText()).isEqualTo("tool_use");
+        assertThat(messageDelta.at("/usage/output_tokens").asLong()).isEqualTo(3);
+        assertThat(usage.totalTokens()).isEqualTo(10);
     }
 
     @Test
