@@ -231,8 +231,16 @@ jobs:
           test -s .env
 
           git fetch --prune origin "$deploy_branch"
-          git checkout -B "$deploy_branch" "origin/$deploy_branch"
+
+          # The deployment directory is a disposable checkout. Clean it before
+          # switching branches so tracked edits or untracked files from an older
+          # deployment cannot block checkout. Keep the uploaded environment file.
+          git reset --hard HEAD
+          git clean -fd -e .env -e .env.next
+
+          git checkout -f -B "$deploy_branch" "origin/$deploy_branch"
           git reset --hard "origin/$deploy_branch"
+          git clean -fd -e .env -e .env.next
 
           docker compose --env-file .env -p "$compose_project_name" config --quiet
           docker compose --env-file .env -p "$compose_project_name" up -d --build --remove-orphans
