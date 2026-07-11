@@ -126,6 +126,31 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void shouldDropClaudeMetadataValuesThatBedrockRequestMetadataRejects() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":64,
+                  "metadata":{"user_id":"user-1","session":"session{}"},
+                  "messages":[{"role":"user","content":"hello"}]
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/requestMetadata/user_id").asText()).isEqualTo("user-1");
+        assertThat(mapped.at("/requestMetadata/session").isMissingNode()).isTrue();
+    }
+
+    @Test
     void shouldRejectContextManagementStrategiesThatConverseCannotExecute() {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,

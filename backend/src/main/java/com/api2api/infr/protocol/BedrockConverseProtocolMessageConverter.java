@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMessageConverter {
 
@@ -18,6 +19,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             "tools", "cache_control", "output_config", "output_format", "context_management",
             "additionalModelRequestFields"
     );
+    private static final Pattern BEDROCK_REQUEST_METADATA_VALUE_PATTERN = Pattern.compile("[a-zA-Z0-9\\s:_@$#=/+,.\\-]{0,256}");
 
     BedrockConverseProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -572,8 +574,12 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         metadata.fields().forEachRemaining(entry -> {
             JsonNode value = entry.getValue();
-            if (value != null && value.isValueNode() && !value.isNull()) {
-                target.put(entry.getKey(), value.asText());
+            if (value == null || !value.isValueNode() || value.isNull()) {
+                return;
+            }
+            String text = value.asText();
+            if (BEDROCK_REQUEST_METADATA_VALUE_PATTERN.matcher(text).matches()) {
+                target.put(entry.getKey(), text);
             }
         });
         return target;
