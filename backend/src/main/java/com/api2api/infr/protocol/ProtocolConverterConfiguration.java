@@ -753,6 +753,9 @@ class ProtocolConverterConfiguration {
             }
             ArrayNode converted = json.arrayNode();
             for (JsonNode edit : edits) {
+                if (isNoopClearThinkingContextEdit(edit)) {
+                    continue;
+                }
                 if ("compact_20260112".equals(edit.path("type").asText(""))) {
                     if (edit.hasNonNull("instructions") || edit.path("pause_after_compaction").asBoolean(false)) {
                         throw new ProtocolConversionException("CLAUDE_RESPONSES_COMPACTION_OPTIONS_NOT_LOSSLESS");
@@ -769,7 +772,12 @@ class ProtocolConverterConfiguration {
                             + edit.path("type").asText("unknown"));
                 }
             }
-            return converted;
+            return converted.isEmpty() ? null : converted;
+        }
+
+        private boolean isNoopClearThinkingContextEdit(JsonNode edit) {
+            return "clear_thinking_20251015".equals(edit.path("type").asText(""))
+                    && "all".equals(edit.path("keep").asText(""));
         }
 
         private boolean isReasoningModel(String model) {

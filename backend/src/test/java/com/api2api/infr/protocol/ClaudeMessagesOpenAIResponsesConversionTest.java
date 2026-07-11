@@ -1,6 +1,7 @@
 package com.api2api.infr.protocol;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
@@ -51,6 +52,55 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThat(mapped.at("/input/1/call_id").asText()).isEqualTo("call_1");
         assertThat(mapped.at("/input/2/type").asText()).isEqualTo("function_call_output");
         assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+    }
+
+    @Test
+    void shouldAcceptClaudeCodeNoopClearThinkingContextManagementForResponses() throws Exception {
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"gpt-5.5",
+                  "stream":true,
+                  "max_tokens":8192,
+                  "thinking":{"type":"adaptive"},
+                  "context_management":{"edits":[{"type":"clear_thinking_20251015","keep":"all"}]},
+                  "messages":[{"role":"user","content":"continue"}]
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, true),
+                ProtocolConversionRequest.of(true, false, true)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("context_management").isMissingNode()).isTrue();
+        assertThat(mapped.path("stream").asBoolean()).isTrue();
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+        assertThat(mapped.at("/input/0/role").asText()).isEqualTo("user");
+        assertThat(mapped.at("/input/0/content/0/text").asText()).isEqualTo("continue");
+    }
+
+    @Test
+    void shouldRejectNonNoopClearThinkingContextManagementForResponses() {
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"gpt-5.5",
+                  "max_tokens":8192,
+                  "context_management":{"edits":[{"type":"clear_thinking_20251015","keep":"none"}]},
+                  "messages":[{"role":"user","content":"continue"}]
+                }
+                """;
+
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("CLAUDE_RESPONSES_CONTEXT_EDIT_NOT_SUPPORTED: clear_thinking_20251015");
     }
 
     @Test
