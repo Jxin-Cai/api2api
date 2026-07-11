@@ -27,6 +27,10 @@ import com.api2api.domain.protocol.model.MappingLossiness;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinitionId;
 import com.api2api.domain.routing.model.RoutePlan;
+import com.api2api.domain.routing.model.RouteAttempt;
+import com.api2api.domain.routing.model.RouteFailure;
+import com.api2api.domain.routing.model.RouteFailureType;
+import com.api2api.domain.routing.model.FailoverAction;
 import com.api2api.domain.routing.model.RoutingRequest;
 import java.time.Instant;
 import java.util.List;
@@ -77,6 +81,61 @@ class RoutingPolicyServiceTest {
             assertThat(candidate.upstreamProtocol()).isEqualTo(ProtocolType.OPENAI_RESPONSES);
             assertThat(candidate.upstreamModel().value()).isEqualTo("gpt-4.1");
         });
+    }
+
+    @Test
+    void keepsModelProtocolAsFallbackWhenConfiguredProtocolCannotServeModel() {
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("multi-protocol channel"),
+                ProviderHost.of("https://api.example.com"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(
+                        ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                        ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)
+                ),
+                List.of(
+                        model(1L, "gpt-5.5", "gpt-5.5", ProtocolType.CLAUDE_MESSAGES, 1, true),
+                        model(2L, "gpt-5.5", "gpt-5.5", ProtocolType.OPENAI_RESPONSES, 1, true)
+                ),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ModelName.of("gpt-5.5"),
+                        ConversionRequirement.of(false, false, false)
+                ),
+                List.of(channel),
+                List.of(
+                        definition(1L, ProtocolType.CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                        definition(2L, ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)
+                ),
+                NOW
+        );
+
+        assertThat(plan.candidates()).extracting(candidate -> candidate.upstreamProtocol())
+                .containsExactly(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES);
+
+        RouteFailure failure = RouteFailure.of(
+                ProviderChannelId.of(1L),
+                RouteFailureType.UPSTREAM_ERROR,
+                "model_not_found",
+                true,
+                NOW
+        );
+        RouteAttempt failedAttempt = RouteAttempt.start(plan.firstCandidate(), 1, NOW).markFailed(failure, NOW);
+
+        var decision = service.decideNext(plan, List.of(failedAttempt), failure);
+
+        assertThat(decision.action()).isEqualTo(FailoverAction.RETRY_NEXT);
+        assertThat(decision.nextCandidate().upstreamProtocol()).isEqualTo(ProtocolType.OPENAI_RESPONSES);
+        assertThat(decision.nextCandidate().providerChannelId()).isEqualTo(ProviderChannelId.of(1L));
     }
 
     @Test

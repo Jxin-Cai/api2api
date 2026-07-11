@@ -38,10 +38,12 @@ import java.util.Map;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GatewayInvocationApplicationService {
 
@@ -113,6 +115,7 @@ public class GatewayInvocationApplicationService {
         while (candidate != null) {
             try {
                 invocation.startAttempt(candidate, Instant.now(clock));
+                logRouteAttempt(command, candidate);
                 ConversionPayload requestPayload = ConversionPayload.of(
                         command.getRequestProtocol(),
                         requestBodyForCandidate(command, candidate),
@@ -256,6 +259,7 @@ public class GatewayInvocationApplicationService {
         while (candidate != null) {
             try {
                 invocation.startAttempt(candidate, Instant.now(clock));
+                logRouteAttempt(command, candidate);
                 if (candidate.requiresProtocolConversion()
                         && !streamingConversionPort.supports(candidate.upstreamProtocol(), command.getRequestProtocol())) {
                     throw new ProtocolConversionException("STREAMING_PROTOCOL_TRANSFORM_NOT_SUPPORTED");
@@ -521,8 +525,29 @@ public class GatewayInvocationApplicationService {
                 candidate.providerChannelId(),
                 failureType,
                 statusFailureMessage(response.statusCode(), response.body()),
-                failureType.isRetryableByDefault(),
+                failureType.isRetryableByDefault() || isModelUnavailable(response.statusCode(), response.body()),
                 Instant.now(clock)
+        );
+    }
+
+    private boolean isModelUnavailable(int statusCode, String responseBody) {
+        if (statusCode != 404 || responseBody == null) {
+            return false;
+        }
+        String normalized = responseBody.toLowerCase(java.util.Locale.ROOT);
+        return normalized.contains("model_not_found")
+                || normalized.contains("model not found")
+                || normalized.contains("not supported by any configured account");
+    }
+
+    private void logRouteAttempt(InvokeGatewayCommand command, RouteCandidate candidate) {
+        log.info(
+                "Gateway route attempt, requestId: {}, channelId: {}, upstreamProtocol: {}, upstreamModel: {}, streaming: {}",
+                command.getGatewayRequestId().value(),
+                candidate.providerChannelId().value(),
+                candidate.upstreamProtocol(),
+                candidate.upstreamModel().value(),
+                command.isStreaming()
         );
     }
 

@@ -163,7 +163,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             retryable = true;
         } else {
             failureType = RouteFailureType.UPSTREAM_ERROR;
-            retryable = false;
+            retryable = isModelUnavailable(statusCode, responseBody);
         }
         String message = "Upstream returned HTTP " + statusCode;
         if (responseBody != null && !responseBody.isBlank()) {
@@ -174,6 +174,16 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             message += ": " + compact;
         }
         return new UpstreamGatewayException(failureType, statusCode, retryable, elapsedMillis, message);
+    }
+
+    private boolean isModelUnavailable(int statusCode, String responseBody) {
+        if (statusCode != 404 || responseBody == null) {
+            return false;
+        }
+        String normalized = responseBody.toLowerCase(java.util.Locale.ROOT);
+        return normalized.contains("model_not_found")
+                || normalized.contains("model not found")
+                || normalized.contains("not supported by any configured account");
     }
 
     private Duration readTimeout(boolean streaming) {

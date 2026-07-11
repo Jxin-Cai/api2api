@@ -4,7 +4,6 @@ import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ModelMappingResult;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
-import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.protocol.model.ConversionRequirement;
 import com.api2api.domain.protocol.model.ConversionRoute;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
@@ -70,9 +69,9 @@ public interface RoutingPolicyService {
             return FailoverDecision.stop(failures, "Latest failure is not retryable");
         }
 
-        Set<ProviderChannelId> attemptedChannelIds = collectAttemptedChannelIds(attempts, latestFailure);
+        Set<RouteCandidate> attemptedCandidates = collectAttemptedCandidates(attempts);
         Optional<RouteCandidate> nextCandidate = routePlan.candidates().stream()
-                .filter(candidate -> !attemptedChannelIds.contains(candidate.providerChannelId()))
+                .filter(candidate -> !attemptedCandidates.contains(candidate))
                 .findFirst();
 
         return nextCandidate
@@ -126,13 +125,12 @@ public interface RoutingPolicyService {
             ProviderChannel channel,
             List<ChannelModelSupport> modelSupports
     ) {
-        Optional<ProtocolType> configuredUpstreamProtocol = channel.upstreamProtocolFor(request.requestProtocol());
-        if (configuredUpstreamProtocol.isPresent()) {
-            return Set.of(configuredUpstreamProtocol.get());
-        }
-        return modelSupports.stream()
+        Set<ProtocolType> protocols = new LinkedHashSet<>();
+        channel.upstreamProtocolFor(request.requestProtocol()).ifPresent(protocols::add);
+        modelSupports.stream()
                 .map(ChannelModelSupport::upstreamProtocol)
-                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
+                .forEach(protocols::add);
+        return protocols;
     }
 
     private static Optional<ConversionRoute> resolveRoute(
@@ -225,14 +223,13 @@ public interface RoutingPolicyService {
         return List.copyOf(failures);
     }
 
-    private static Set<ProviderChannelId> collectAttemptedChannelIds(List<RouteAttempt> attempts, RouteFailure latestFailure) {
-        Set<ProviderChannelId> attemptedChannelIds = new HashSet<>();
+    private static Set<RouteCandidate> collectAttemptedCandidates(List<RouteAttempt> attempts) {
+        Set<RouteCandidate> attemptedCandidates = new HashSet<>();
         for (RouteAttempt attempt : attempts) {
             if (attempt != null) {
-                attemptedChannelIds.add(attempt.candidate().providerChannelId());
+                attemptedCandidates.add(attempt.candidate());
             }
         }
-        attemptedChannelIds.add(latestFailure.providerChannelId());
-        return attemptedChannelIds;
+        return attemptedCandidates;
     }
 }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
+import com.api2api.application.gateway.UpstreamGatewayException;
 import com.api2api.domain.channel.model.ChannelProtocolMapping;
 import com.api2api.domain.channel.model.ModelMappingResult;
 import com.api2api.domain.channel.model.ModelName;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
@@ -102,6 +104,20 @@ class ProviderGatewayCallAdapterTest {
         assertThat(response.headers()).containsKey("content-type");
         assertThat(new String(response.body().readAllBytes(), StandardCharsets.UTF_8)).isEqualTo("data: hello\n\n");
         response.close();
+    }
+
+    @Test
+    void openStreamTreatsModelNotFoundAsRetryableForProtocolFallback() throws IOException {
+        server = server(404, "application/json", "{\"error\":{\"type\":\"model_not_found\",\"message\":\"not supported by any configured account\"}}");
+        ProviderGatewayCallAdapter adapter = adapter();
+
+        UpstreamGatewayException exception = Assertions.catchThrowableOfType(
+                () -> adapter.openStream(candidate(ProtocolType.OPENAI_RESPONSES), "{}", Map.of()),
+                UpstreamGatewayException.class
+        );
+
+        assertThat(exception.statusCode()).isEqualTo(404);
+        assertThat(exception.retryable()).isTrue();
     }
 
     private HttpServer server(int status, String contentType, String body) throws IOException {
