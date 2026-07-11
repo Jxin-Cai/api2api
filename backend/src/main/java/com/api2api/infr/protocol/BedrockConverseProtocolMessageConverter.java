@@ -15,7 +15,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private static final Set<String> CLAUDE_REQUEST_FIELDS = Set.of(
             "model", "messages", "max_tokens", "system", "stream", "temperature", "top_p", "top_k",
             "stop_sequences", "metadata", "service_tier", "speed", "thinking", "reasoning", "tool_choice",
-            "tools", "cache_control", "output_config", "output_format", "additionalModelRequestFields"
+            "tools", "cache_control", "output_config", "output_format", "context_management",
+            "additionalModelRequestFields"
     );
 
     BedrockConverseProtocolMessageConverter(
@@ -86,6 +87,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private ObjectNode claudeRequestToBedrock(JsonNode source) {
         validateClaudeRequestFields(source);
         ObjectNode target = json.objectNode();
+
+        // Claude Code 2.1.87+ sends context_management by default when thinking
+        // is enabled (normally clear_thinking_20251015 with keep=all). Bedrock
+        // Converse has no context_management request field, and AWS explicitly
+        // documents compaction as InvokeModel-only. The validator only accepts
+        // Claude Code's keep=all no-op form; after that it is safe to omit this
+        // optional hint from the Converse payload.
 
         ArrayNode bedrockMessages = json.arrayNode();
         JsonNode messages = source.get("messages");
@@ -461,6 +469,31 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         JsonNode toolChoice = source.get("tool_choice");
         if (toolChoice != null && toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
             throw new ProtocolConversionException("CLAUDE_BEDROCK_DISABLE_PARALLEL_TOOL_USE_NOT_SUPPORTED_BY_CONVERSE");
+        }
+        validateClaudeContextManagementForConverse(source.get("context_management"));
+    }
+
+    private void validateClaudeContextManagementForConverse(JsonNode contextManagement) {
+        if (contextManagement == null || contextManagement.isNull()) {
+            return;
+        }
+        JsonNode edits = contextManagement.path("edits");
+        if (!contextManagement.isObject() || !edits.isArray()) {
+            throw new ProtocolConversionException("CLAUDE_BEDROCK_INVALID_CONTEXT_MANAGEMENT");
+        }
+        for (JsonNode edit : edits) {
+            String type = edit.path("type").asText("");
+            JsonNode keep = edit.get("keep");
+            boolean keepAll = keep != null && (
+                    (keep.isTextual() && "all".equals(keep.asText()))
+                            || (keep.isObject() && "all".equals(keep.path("type").asText("")))
+            );
+            if (!"clear_thinking_20251015".equals(type) || !keepAll) {
+                throw new ProtocolConversionException(
+                        "CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: "
+                                + (type.isBlank() ? "unknown" : type)
+                );
+            }
         }
     }
 

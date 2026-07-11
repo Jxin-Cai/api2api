@@ -1,6 +1,7 @@
 package com.api2api.infr.protocol;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
@@ -90,6 +91,56 @@ class BedrockConverseProtocolMessageConverterTest {
         JsonNode mapped = objectMapper.readTree(result.body());
         assertThat(mapped.at("/inferenceConfig/maxTokens").isMissingNode()).isTrue();
         assertThat(mapped.at("/additionalModelRequestFields/thinking/budget_tokens").asInt()).isEqualTo(4096);
+    }
+
+    @Test
+    void shouldAcceptClaudeCodeContextManagementHintWithoutSendingUnsupportedConverseField() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4-6",
+                  "stream":true,
+                  "max_tokens":8192,
+                  "thinking":{"type":"adaptive"},
+                  "context_management":{"edits":[{"type":"clear_thinking_20251015","keep":"all"}]},
+                  "tools":[{"name":"Write","description":"Write a file","input_schema":{"type":"object","properties":{"file_path":{"type":"string"},"content":{"type":"string"}},"required":["file_path","content"]}}],
+                  "messages":[{"role":"user","content":"Write the implementation plan to the plan file"}]
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, true),
+                ProtocolConversionRequest.of(true, true, true)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.has("context_management")).isFalse();
+        assertThat(mapped.at("/additionalModelRequestFields/context_management").isMissingNode()).isTrue();
+        assertThat(mapped.at("/additionalModelRequestFields/thinking/type").asText()).isEqualTo("adaptive");
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/name").asText()).isEqualTo("Write");
+        assertThat(mapped.at("/messages/0/content/0/text").asText())
+                .isEqualTo("Write the implementation plan to the plan file");
+    }
+
+    @Test
+    void shouldRejectContextManagementStrategiesThatConverseCannotExecute() {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4-6","max_tokens":8192,
+                 "context_management":{"edits":[{"type":"compact_20260112"}]},
+                 "messages":[{"role":"user","content":"continue"}]}
+                """;
+
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: compact_20260112");
     }
 
     @Test

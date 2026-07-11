@@ -54,6 +54,50 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
     }
 
     @Test
+    void shouldPreserveWriteToolUseAfterPlanIntroText() throws Exception {
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "contentBlockStart", "{\"contentBlockIndex\":0,\"start\":{}}");
+        writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":0,\"delta\":{\"text\":\"现在让我写计划文件：\"}}");
+        writeEvent(upstream, "contentBlockStop", "{\"contentBlockIndex\":0}");
+        writeEvent(upstream, "contentBlockStart", "{\"contentBlockIndex\":1,\"start\":{\"toolUse\":{\"toolUseId\":\"tooluse_plan_1\",\"name\":\"Write\"}}}");
+        writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":1,\"delta\":{\"toolUse\":{\"input\":\"{\\\"file_path\\\":\\\"/tmp/plan.md\\\",\"}}}");
+        writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":1,\"delta\":{\"toolUse\":{\"input\":\"\\\"content\\\":\\\"# Plan\\\"}\"}}}");
+        writeEvent(upstream, "contentBlockStop", "{\"contentBlockIndex\":1}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"tool_use\"}");
+        writeEvent(upstream, "metadata", "{\"usage\":{\"inputTokens\":100,\"outputTokens\":20}}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        adapter.transform(
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES,
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode toolStart = events.stream()
+                .filter(node -> "tool_use".equals(node.at("/content_block/type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(toolStart.path("index").asInt()).isEqualTo(1);
+        assertThat(toolStart.at("/content_block/id").asText()).isEqualTo("tooluse_plan_1");
+        assertThat(toolStart.at("/content_block/name").asText()).isEqualTo("Write");
+        assertThat(events.stream()
+                .filter(node -> "input_json_delta".equals(node.at("/delta/type").asText()))
+                .map(node -> node.at("/delta/partial_json").asText())
+                .toList()).containsExactly(
+                        "{\"file_path\":\"/tmp/plan.md\",",
+                        "\"content\":\"# Plan\"}"
+                );
+        JsonNode messageDelta = events.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(messageDelta.at("/delta/stop_reason").asText()).isEqualTo("tool_use");
+    }
+
+    @Test
     void shouldConvertOpenAIResponsesSseToClaudeSseWithToolUseAndUsage() throws Exception {
         String upstream = """
                 event: response.created

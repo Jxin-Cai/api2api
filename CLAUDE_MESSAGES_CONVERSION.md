@@ -11,6 +11,7 @@
 - Claude server tools（web search、web fetch、code execution、tool search、MCP toolset）的“工具定义”。Converse 仅能接收普通 tool spec；请求会明确失败。历史中的 server tool use/result 可以作为通用 tool use/result 转换。
 - `tool_choice.disable_parallel_tool_use`。Converse 没有等价开关，请求会明确失败。
 - `output_config.task_budget`。Converse 没有等价字段，请求会明确失败。
+- `context_management`。Claude Code 默认发送的 `clear_thinking_20251015 + keep: all` 会被兼容接收，但不会写入 Converse 请求；该配置本身不删除 thinking，因此语义不变。其他 context editing 策略会明确失败，AWS server-side compaction 目前仅支持 InvokeModel。
 - URL 图片。Converse 图片块要求字节数据；客户端需发送 base64。
 - citation 的完整结构化元数据。引用文本可以保留，但 Claude 与 Converse 的引用对象并非完全同构。
 - 未识别的新 Claude 顶层字段或内容块。转换器采用 fail-closed，升级协议前不会静默忽略。
