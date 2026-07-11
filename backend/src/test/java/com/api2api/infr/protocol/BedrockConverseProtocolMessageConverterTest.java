@@ -30,11 +30,12 @@ class BedrockConverseProtocolMessageConverterTest {
                 {
                   "model":"claude-opus-4.6",
                   "max_tokens":64,
+                  "system":[{"type":"text","text":"You are Claude Code.","cache_control":{"type":"ephemeral"}}],
                   "thinking":{"type":"enabled","budget_tokens":1024},
-                  "tools":[{"name":"get_weather","description":"weather","input_schema":{"type":"object"}}],
+                  "tools":[{"name":"get_weather","description":"weather","input_schema":{"type":"object"},"cache_control":{"type":"ephemeral"}}],
                   "tool_choice":{"type":"tool","name":"get_weather"},
                   "messages":[
-                    {"role":"user","content":"hello"},
+                    {"role":"user","content":[{"type":"text","text":"hello","cache_control":{"type":"ephemeral"}}]},
                     {"role":"assistant","content":[{"type":"tool_use","id":"toolu_1","name":"get_weather","input":{"city":"BJ"}}]},
                     {"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_1","content":"sunny"}]}
                   ]
@@ -47,13 +48,46 @@ class BedrockConverseProtocolMessageConverterTest {
         );
 
         JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/system/0/text").asText()).isEqualTo("You are Claude Code.");
+        assertThat(mapped.at("/system/1/cachePoint/type").asText()).isEqualTo("default");
+        assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(2048);
+        assertThat(mapped.at("/messages/0/content/1/cachePoint/type").asText()).isEqualTo("default");
         assertThat(mapped.at("/toolConfig/tools/0/toolSpec/name").asText()).isEqualTo("get_weather");
         assertThat(mapped.at("/toolConfig/tools/0/toolSpec/inputSchema/json/type").asText()).isEqualTo("object");
+        assertThat(mapped.at("/toolConfig/tools/1/cachePoint/type").asText()).isEqualTo("default");
         assertThat(mapped.at("/toolConfig/toolChoice/tool/name").asText()).isEqualTo("get_weather");
         assertThat(mapped.at("/additionalModelRequestFields/thinking/type").asText()).isEqualTo("enabled");
         assertThat(mapped.at("/messages/1/content/0/toolUse/toolUseId").asText()).isEqualTo("toolu_1");
         assertThat(mapped.at("/messages/2/content/0/toolResult/toolUseId").asText()).isEqualTo("toolu_1");
         assertThat(mapped.at("/messages/2/content/0/toolResult/content/0/text").asText()).isEqualTo("sunny");
+    }
+
+    @Test
+    void shouldAddBedrockMaxTokensWhenClaudeThinkingHasNoMaxTokens() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json,
+                null,
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST,
+                sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "thinking":{"type":"enabled","budget_tokens":4096},
+                  "messages":[{"role":"user","content":"work on this task"}]
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(5120);
+        assertThat(mapped.at("/additionalModelRequestFields/thinking/budget_tokens").asInt()).isEqualTo(4096);
     }
 
     @Test

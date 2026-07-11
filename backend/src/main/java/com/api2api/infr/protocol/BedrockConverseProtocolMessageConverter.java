@@ -94,17 +94,22 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
         JsonNode system = source.get("system");
         if (system != null && !system.isNull()) {
-            ArrayNode systemBlocks = json.arrayNode();
-            ObjectNode textBlock = json.objectNode();
-            textBlock.put("text", system.isTextual() ? system.asText() : firstTextFromClaudeContent(system));
-            systemBlocks.add(textBlock);
-            target.set("system", systemBlocks);
+            ArrayNode systemBlocks = claudeSystemToBedrock(system);
+            if (!systemBlocks.isEmpty()) {
+                target.set("system", systemBlocks);
+            }
         }
 
         ObjectNode inferenceConfig = json.objectNode();
         JsonNode maxTokens = source.get("max_tokens");
+        Integer thinkingBudgetTokens = claudeThinkingBudgetTokens(source.get("thinking"), source.get("reasoning"));
         if (maxTokens != null && !maxTokens.isNull()) {
-            inferenceConfig.put("maxTokens", maxTokens.asInt());
+            int configuredMaxTokens = maxTokens.asInt();
+            inferenceConfig.put("maxTokens", thinkingBudgetTokens == null
+                    ? configuredMaxTokens
+                    : Math.max(configuredMaxTokens, thinkingBudgetTokens + 1024));
+        } else if (thinkingBudgetTokens != null) {
+            inferenceConfig.put("maxTokens", thinkingBudgetTokens + 1024);
         }
         JsonNode temperature = source.get("temperature");
         if (temperature != null && !temperature.isNull()) {
@@ -415,6 +420,48 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
     // ==================== Helper methods ====================
 
+    private ArrayNode claudeSystemToBedrock(JsonNode system) {
+        ArrayNode systemBlocks = json.arrayNode();
+        if (system.isTextual()) {
+            systemBlocks.add(textBlock(system.asText()));
+            return systemBlocks;
+        }
+        if (!system.isArray()) {
+            systemBlocks.add(textBlock(firstTextFromClaudeContent(system)));
+            return systemBlocks;
+        }
+        for (JsonNode item : system) {
+            if (!"text".equals(item.path("type").asText(""))) {
+                continue;
+            }
+            ObjectNode textBlock = textBlock(item.path("text").asText(""));
+            systemBlocks.add(textBlock);
+            if (hasEphemeralCacheControl(item)) {
+                systemBlocks.add(cachePointBlock());
+            }
+        }
+        if (systemBlocks.isEmpty()) {
+            String text = firstTextFromClaudeContent(system);
+            if (!text.isBlank()) {
+                systemBlocks.add(textBlock(text));
+            }
+        }
+        return systemBlocks;
+    }
+
+    private boolean hasEphemeralCacheControl(JsonNode item) {
+        JsonNode cacheControl = item.get("cache_control");
+        return cacheControl != null
+                && cacheControl.isObject()
+                && "ephemeral".equals(cacheControl.path("type").asText(""));
+    }
+
+    private ObjectNode cachePointBlock() {
+        ObjectNode cachePointBlock = json.objectNode();
+        cachePointBlock.set("cachePoint", json.objectNode().put("type", "default"));
+        return cachePointBlock;
+    }
+
     private ObjectNode toBedrockMessage(String role, JsonNode claudeContent) {
         ObjectNode msg = json.objectNode();
         msg.put("role", "assistant".equals(role) ? "assistant" : "user");
@@ -427,6 +474,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         } else if (claudeContent.isArray()) {
             for (JsonNode item : claudeContent) {
                 String type = item.path("type").asText("");
+                boolean blockMapped = true;
                 switch (type) {
                     case "text" -> contentBlocks.add(textBlock(item.path("text").asText("")));
                     case "tool_use" -> contentBlocks.add(toBedrockToolUse(item));
@@ -436,8 +484,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                         String text = item.path("text").asText("");
                         if (!text.isBlank()) {
                             contentBlocks.add(textBlock(text));
+                        } else {
+                            blockMapped = false;
                         }
                     }
+                }
+                if (blockMapped && hasEphemeralCacheControl(item)) {
+                    contentBlocks.add(cachePointBlock());
                 }
             }
             if (contentBlocks.isEmpty()) {
@@ -512,6 +565,19 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return block;
     }
 
+    private Integer claudeThinkingBudgetTokens(JsonNode thinking, JsonNode reasoning) {
+        if (thinking != null && !thinking.isMissingNode() && !thinking.isNull()) {
+            if (!"enabled".equals(thinking.path("type").asText(""))) {
+                return null;
+            }
+            JsonNode budgetTokens = thinking.get("budget_tokens");
+            return budgetTokens != null && budgetTokens.canConvertToInt() && budgetTokens.asInt() > 0
+                    ? Math.max(1024, budgetTokens.asInt())
+                    : 1024;
+        }
+        return reasoningBudgetTokens(reasoning);
+    }
+
     private Integer reasoningBudgetTokens(JsonNode reasoning) {
         if (reasoning == null || reasoning.isMissingNode() || reasoning.isNull()) {
             return null;
@@ -549,6 +615,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 toolSpec.set("inputSchema", inputSchema);
                 toolWrapper.set("toolSpec", toolSpec);
                 bedrockTools.add(toolWrapper);
+                if (hasEphemeralCacheControl(tool)) {
+                    bedrockTools.add(cachePointBlock());
+                }
             }
             toolConfig.set("tools", bedrockTools);
         }
