@@ -1,5 +1,5 @@
 import { useEffect, useState, type Key } from 'react';
-import { Alert, AutoComplete, Button, Divider, Form, Input, InputNumber, Modal, Select, Space, Switch, Table, Tag, Typography, message } from 'antd';
+import { Alert, AutoComplete, Button, Divider, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
@@ -221,10 +221,6 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       return null;
     }
     const selectedModels = previewModels.filter((model) => selectedModelIds.includes(model.id));
-    if (selectedModels.length === 0) {
-      message.warning('渠道已保存，但尚未选择启用模型');
-      return null;
-    }
     const response = await batchUpsertChannelModels(providerChannelId, {
       replaceExisting: true,
       models: selectedModels.map((model) => {
@@ -241,6 +237,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       }),
     });
     setModelsDirty(false);
+    message.success(selectedModels.length === 0 ? '已清空该渠道模型配置' : `已保存 ${selectedModels.length} 个模型配置`);
     return response.data;
   }
 
@@ -292,6 +289,12 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   function handleSelectedModelIdsChange(keys: Key[]): void {
     setModelsDirty(true);
     setSelectedModelIds(keys);
+  }
+
+  function handleRemovePreviewModel(model: ChannelModelSupportResponse): void {
+    setPreviewModels((current) => current.filter((item) => item.id !== model.id));
+    setSelectedModelIds((current) => current.filter((id) => id !== model.id));
+    setModelsDirty(true);
   }
 
   function handleAddManualModel(): void {
@@ -362,6 +365,26 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
     render: (_value, model) => (
       <InputNumber min={1} value={model.priority} onChange={(value) => updatePreviewModel(model.id, { priority: value ?? 1 })} />
     ),
+  }, {
+    title: '操作',
+    key: 'actions',
+    width: 110,
+    render: (_value, model) => {
+      const existing = findExistingModel(model);
+      const button = <Button size="small" danger onClick={() => !existing && handleRemovePreviewModel(model)}>移除</Button>;
+      if (!existing) {
+        return button;
+      }
+      return (
+        <Popconfirm
+          title="移除模型配置？"
+          description="保存后该模型将从渠道配置中移除，不再参与路由。"
+          onConfirm={() => handleRemovePreviewModel(model)}
+        >
+          <Button size="small" danger>移除</Button>
+        </Popconfirm>
+      );
+    },
   }];
 
   return (

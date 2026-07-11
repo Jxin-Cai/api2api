@@ -163,11 +163,14 @@ public interface ProviderChannelHttpConverter {
             UserAccountId operatorUserId,
             ProviderChannelId providerChannelId
     ) {
+        List<AdminBatchUpsertChannelModelItemRequest> models = request.getModels() == null
+                ? List.of()
+                : request.getModels();
         return BatchUpsertChannelModelsCommand.builder()
                 .operatorUserId(operatorUserId)
                 .providerChannelId(providerChannelId)
                 .replaceExisting(Boolean.TRUE.equals(request.getReplaceExisting()))
-                .models(request.getModels().stream().map(this::toBatchUpsertItemCommand).toList())
+                .models(models.stream().map(this::toBatchUpsertItemCommand).toList())
                 .build();
     }
 

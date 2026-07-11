@@ -212,6 +212,9 @@ public class ProviderChannelApplicationService {
         assertAdmin(command.getOperatorUserId());
         ProviderChannel channel = loadChannel(command.getProviderChannelId());
         Instant now = now();
+        if (!command.isReplaceExisting() && command.getModels().isEmpty()) {
+            throw new BusinessException("CHANNEL_MODELS_EMPTY");
+        }
         List<ChannelModelSupport> modelSupports = command.getModels().stream()
                 .map(item -> toModelSupport(item, channel, now))
                 .toList();

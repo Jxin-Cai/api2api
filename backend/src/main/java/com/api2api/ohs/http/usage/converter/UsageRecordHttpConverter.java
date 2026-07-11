@@ -134,7 +134,7 @@ public abstract class UsageRecordHttpConverter {
     protected ProtocolType toProtocolType(String value) {
         return value == null || value.isBlank()
                 ? null
-                : ProtocolType.valueOf(value.trim().toUpperCase().replace('-', '_'));
+                : ProtocolType.parseExternal(value).orElse(null);
     }
 
     private Instant defaultStart(Instant value) {

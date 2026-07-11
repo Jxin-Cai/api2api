@@ -3,6 +3,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
 import { ApiCredentialStatusTag, ApiKeySecretBlock, useApiCredentials, type ApiCredentialResponse, type CreateApiCredentialResponse, type RevealApiCredentialSecretResponse } from '@entities/api-credential';
+import { formatTokenMillions } from '@shared/lib/formatters';
 import { PageState } from '@shared/ui';
 
 import { useApiCredentialMutations } from '../model/useApiCredentialMutations';
@@ -18,13 +19,6 @@ interface ApiCredentialTablePanelProps {
 function isEnabled(credential: ApiCredentialResponse): boolean {
   const status = String(credential.status).toUpperCase();
   return status === 'ENABLED' || status === 'ACTIVE';
-}
-
-function formatTokens(value: number | null | undefined): string {
-  if (value === null || value === undefined) {
-    return '-';
-  }
-  return value.toLocaleString();
 }
 
 export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTablePanelProps) {
@@ -83,7 +77,7 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     if (credential.tokenLimit === 0) {
       return (
         <Space direction="vertical" size={0}>
-          <Typography.Text>{formatTokens(consumedTokens)} / 不限</Typography.Text>
+          <Typography.Text>{formatTokenMillions(consumedTokens)} / 不限</Typography.Text>
           <Typography.Text type="secondary">剩余不限</Typography.Text>
         </Space>
       );
@@ -91,9 +85,9 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     const percent = credential.tokenLimit > 0 ? Math.min(100, Math.round((consumedTokens / credential.tokenLimit) * 100)) : 0;
     return (
       <Space direction="vertical" size={0} style={{ minWidth: 160 }}>
-        <Typography.Text>{formatTokens(consumedTokens)} / {formatTokens(credential.tokenLimit)}</Typography.Text>
+        <Typography.Text>{formatTokenMillions(consumedTokens)} / {formatTokenMillions(credential.tokenLimit)}</Typography.Text>
         <Progress percent={percent} size="small" status={percent >= 100 ? 'exception' : 'normal'} />
-        <Typography.Text type="secondary">剩余 {formatTokens(credential.remainingTokens)}</Typography.Text>
+        <Typography.Text type="secondary">剩余 {formatTokenMillions(credential.remainingTokens)}</Typography.Text>
       </Space>
     );
   }

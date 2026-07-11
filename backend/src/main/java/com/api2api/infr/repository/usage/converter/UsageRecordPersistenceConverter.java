@@ -19,6 +19,7 @@ import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.repository.usage.po.UsageRecordPO;
 import com.api2api.infr.repository.usage.po.UsageRecordQueryPO;
 import com.api2api.infr.repository.usage.po.UsageTokenSummaryPO;
+import java.time.Instant;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -60,27 +61,26 @@ public class UsageRecordPersistenceConverter {
     }
 
     public UsageRecord toDomain(UsageRecordPO po) {
-        UsageRecordStatus status = UsageRecordStatus.valueOf(po.getStatus());
+        UsageRecordStatus status = parseStatus(po);
         UsageErrorDiagnostic diagnostic = null;
         if (status == UsageRecordStatus.FAILED) {
-            InvocationErrorType errorType = po.getErrorType() == null
-                    ? InvocationErrorType.UPSTREAM_FAILED
-                    : InvocationErrorType.valueOf(po.getErrorType());
             String message = po.getErrorMessage() == null || po.getErrorMessage().isBlank()
                     ? "Unknown invocation failure"
                     : po.getErrorMessage();
-            diagnostic = UsageErrorDiagnostic.of(errorType, message, List.of());
+            diagnostic = UsageErrorDiagnostic.of(parseErrorType(po.getErrorType()), message, List.of());
         }
+        Instant startedAt = safeStartedAt(po);
+        Instant endedAt = safeEndedAt(po, startedAt);
         return UsageRecord.rehydrate(
                 UsageRecordId.of(po.getId()),
-                GatewayRequestId.of(po.getRequestId()),
+                GatewayRequestId.of(safeText(po.getRequestId(), "unknown-" + po.getId())),
                 UserAccountId.of(po.getUserAccountId()),
                 ApiCredentialId.of(po.getApiCredentialId()),
-                ModelName.of(po.getRequestedModel()),
-                po.getUpstreamModel() == null ? null : ModelName.of(po.getUpstreamModel()),
-                ProtocolType.valueOf(po.getRequestProtocol()),
-                po.getUpstreamProtocol() == null ? null : ProtocolType.valueOf(po.getUpstreamProtocol()),
-                po.getProviderChannelId() == null ? null : ProviderChannelId.of(po.getProviderChannelId()),
+                ModelName.of(safeText(po.getRequestedModel(), "unknown")),
+                safeModelName(po.getUpstreamModel(), status),
+                parseProtocol(po.getRequestProtocol(), ProtocolType.CLAUDE_MESSAGES),
+                parseUpstreamProtocol(po.getUpstreamProtocol(), status),
+                safeProviderChannelId(po.getProviderChannelId(), status),
                 status,
                 UsageTokenBreakdown.of(
                         po.getInputTokens(),
@@ -91,16 +91,98 @@ public class UsageRecordPersistenceConverter {
                         po.isUsageKnown()
                 ),
                 po.isStreaming(),
-                po.getStartedTime(),
-                po.getEndedTime(),
-                durationOf(po),
+                startedAt,
+                endedAt,
+                UsageDuration.between(startedAt, endedAt),
                 diagnostic,
-                po.getCreatedTime()
+                po.getCreatedTime() == null ? startedAt : po.getCreatedTime()
         );
     }
 
-    private UsageDuration durationOf(UsageRecordPO po) {
-        return UsageDuration.between(po.getStartedTime(), po.getEndedTime());
+    private UsageRecordStatus parseStatus(UsageRecordPO po) {
+        UsageRecordStatus status = null;
+        if (po.getStatus() != null && !po.getStatus().isBlank()) {
+            try {
+                status = UsageRecordStatus.valueOf(po.getStatus().trim().toUpperCase());
+            } catch (IllegalArgumentException ignored) {
+                // Fall through to infer from diagnostics.
+            }
+        }
+        if (status == null) {
+            status = po.getErrorType() != null || (po.getErrorMessage() != null && !po.getErrorMessage().isBlank())
+                    ? UsageRecordStatus.FAILED
+                    : UsageRecordStatus.SUCCESS;
+        }
+        if (status == UsageRecordStatus.SUCCESS && (po.getUpstreamModel() == null || po.getUpstreamModel().isBlank()
+                || ProtocolType.parseExternal(po.getUpstreamProtocol()).isEmpty()
+                || po.getProviderChannelId() == null)) {
+            return UsageRecordStatus.FAILED;
+        }
+        return status;
+    }
+
+    private InvocationErrorType parseErrorType(String value) {
+        if (value == null || value.isBlank()) {
+            return InvocationErrorType.UPSTREAM_FAILED;
+        }
+        try {
+            return InvocationErrorType.valueOf(value.trim().toUpperCase());
+        } catch (IllegalArgumentException exception) {
+            return InvocationErrorType.UPSTREAM_FAILED;
+        }
+    }
+
+    private ProtocolType parseProtocol(String value, ProtocolType fallback) {
+        return ProtocolType.parseExternal(value).orElse(fallback);
+    }
+
+    private ProtocolType parseUpstreamProtocol(String value, UsageRecordStatus status) {
+        if (value == null || value.isBlank()) {
+            return status == UsageRecordStatus.SUCCESS ? ProtocolType.CLAUDE_MESSAGES : null;
+        }
+        return parseProtocol(value, status == UsageRecordStatus.SUCCESS ? ProtocolType.CLAUDE_MESSAGES : null);
+    }
+
+    private ModelName safeModelName(String value, UsageRecordStatus status) {
+        if (value == null || value.isBlank()) {
+            return status == UsageRecordStatus.SUCCESS ? ModelName.of("unknown") : null;
+        }
+        return ModelName.of(value);
+    }
+
+    private ProviderChannelId safeProviderChannelId(Long value, UsageRecordStatus status) {
+        if (value == null || value <= 0) {
+            return null;
+        }
+        return ProviderChannelId.of(value);
+    }
+
+    private String safeText(String value, String fallback) {
+        return value == null || value.isBlank() ? fallback : value;
+    }
+
+    private Instant safeStartedAt(UsageRecordPO po) {
+        if (po.getStartedTime() != null) {
+            return po.getStartedTime();
+        }
+        if (po.getCreatedTime() != null) {
+            return po.getCreatedTime();
+        }
+        if (po.getUpdatedTime() != null) {
+            return po.getUpdatedTime();
+        }
+        return Instant.EPOCH;
+    }
+
+    private Instant safeEndedAt(UsageRecordPO po, Instant startedAt) {
+        Instant endedAt = po.getEndedTime();
+        if (endedAt == null && po.getDurationMillis() > 0) {
+            endedAt = startedAt.plusMillis(po.getDurationMillis());
+        }
+        if (endedAt == null || endedAt.isBefore(startedAt)) {
+            return startedAt;
+        }
+        return endedAt;
     }
 
     public UsageRecordQueryPO toQueryPO(UsageRecordFilter filter) {

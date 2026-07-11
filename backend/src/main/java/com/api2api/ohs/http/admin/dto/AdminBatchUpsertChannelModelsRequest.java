@@ -1,7 +1,7 @@
 package com.api2api.ohs.http.admin.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +20,6 @@ public class AdminBatchUpsertChannelModelsRequest {
     private Boolean replaceExisting;
 
     @Valid
-    @NotEmpty(message = "Models must not be empty")
+    @NotNull(message = "Models must not be null")
     private List<AdminBatchUpsertChannelModelItemRequest> models;
 }

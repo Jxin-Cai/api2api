@@ -1,4 +1,4 @@
-import { Card, Space } from 'antd';
+import { Button, Card, Space } from 'antd';
 
 import { useUsageRecords, UsageRecordTable, UsageTokenSummary, type UsageScope } from '@entities/usage-record';
 import { UsagePageSizeSelector, UsageRecordFilterBar, useUsageFilters } from '@features/filter-usage-records';
@@ -13,16 +13,7 @@ export function UsageRecordsPanel({ scope }: UsageRecordsPanelProps) {
   const query = useUsageRecords({ scope, filters });
   const data = query.data;
 
-  if (query.isError) {
-    return (
-      <PageState
-        status="error"
-        title="使用记录加载失败"
-        description={query.error.message}
-        onRetry={(): void => { query.refetch().catch(() => undefined); }}
-      />
-    );
-  }
+  const retry = (): void => { query.refetch().catch(() => undefined); };
 
   return (
     <Card>
@@ -36,19 +27,33 @@ export function UsageRecordsPanel({ scope }: UsageRecordsPanelProps) {
           disabled={query.isFetching}
         />
         <UsagePageSizeSelector value={filters.pageSize} onChange={(pageSize): void => setPage(1, pageSize)} />
-        <UsageTokenSummary
-          scope={scope}
-          totalTokens={data?.summary?.totalTokens ?? data?.totalTokens ?? 0}
-          recordCount={data?.summary?.recordCount ?? data?.total ?? 0}
-          loading={query.isLoading}
-        />
-        <UsageRecordTable
-          scope={scope}
-          records={data?.records ?? []}
-          loading={query.isLoading || query.isFetching}
-          pagination={{ page: filters.page, pageSize: filters.pageSize, total: data?.total ?? 0 }}
-          onPageChange={setPage}
-        />
+        {query.isError ? (
+          <PageState
+            status="error"
+            title="使用记录加载失败"
+            description={query.error.message}
+            onRetry={retry}
+          />
+        ) : (
+          <>
+            <UsageTokenSummary
+              scope={scope}
+              totalTokens={data?.summary?.totalTokens ?? data?.totalTokens ?? 0}
+              recordCount={data?.summary?.recordCount ?? data?.total ?? 0}
+              loading={query.isLoading}
+            />
+            <UsageRecordTable
+              scope={scope}
+              records={data?.records ?? []}
+              loading={query.isLoading || query.isFetching}
+              pagination={{ page: filters.page, pageSize: filters.pageSize, total: data?.total ?? 0 }}
+              onPageChange={setPage}
+            />
+          </>
+        )}
+        {query.isError ? (
+          <Button onClick={resetFilters}>重置筛选</Button>
+        ) : null}
       </Space>
     </Card>
   );

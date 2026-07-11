@@ -2,7 +2,6 @@ package com.api2api.application.channel.command;
 
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.user.model.UserAccountId;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.Builder;
@@ -21,7 +20,7 @@ public final class BatchUpsertChannelModelsCommand {
     @NotNull
     private final ProviderChannelId providerChannelId;
 
-    @NotEmpty
+    @NotNull
     private final List<ChannelModelUpsertItemCommand> models;
 
     private final boolean replaceExisting;

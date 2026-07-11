@@ -22,15 +22,40 @@ type BackendUsageQueryParams = QueryParams & {
   size: UsagePageSize;
 };
 
+function cleanOptionalString(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function cleanPositiveInteger(value: string | undefined): string | undefined {
+  const trimmed = cleanOptionalString(value);
+  if (!trimmed || !/^\d+$/.test(trimmed)) {
+    return undefined;
+  }
+  return Number(trimmed) > 0 ? trimmed : undefined;
+}
+
+function cleanIsoDate(value: string | undefined): string | undefined {
+  const trimmed = cleanOptionalString(value);
+  if (!trimmed) {
+    return undefined;
+  }
+  const time = Date.parse(trimmed);
+  return Number.isNaN(time) ? undefined : new Date(time).toISOString();
+}
+
 function toBackendParams(params: QueryUsageRecordsRequest): BackendUsageQueryParams {
+  const startInclusive = cleanIsoDate(params.startTime);
+  const endExclusive = cleanIsoDate(params.endTime);
+  const hasValidTimeRange = !startInclusive || !endExclusive || Date.parse(startInclusive) < Date.parse(endExclusive);
   return {
-    apiCredentialId: params.apiCredentialId,
-    requestedModel: params.model,
-    requestProtocol: params.protocolType,
-    startInclusive: params.startTime,
-    endExclusive: params.endTime,
-    userAccountId: 'userId' in params ? params.userId : undefined,
-    providerChannelId: 'providerChannelId' in params ? params.providerChannelId : undefined,
+    apiCredentialId: cleanPositiveInteger(params.apiCredentialId),
+    requestedModel: cleanOptionalString(params.model),
+    requestProtocol: cleanOptionalString(params.protocolType),
+    startInclusive: hasValidTimeRange ? startInclusive : undefined,
+    endExclusive: hasValidTimeRange ? endExclusive : undefined,
+    userAccountId: 'userId' in params ? cleanPositiveInteger(params.userId) : undefined,
+    providerChannelId: 'providerChannelId' in params ? cleanPositiveInteger(params.providerChannelId) : undefined,
     page: params.page,
     size: params.pageSize,
   };

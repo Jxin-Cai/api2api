@@ -2,7 +2,7 @@ export function formatTokenMillions(tokens?: number | null): string {
   if (tokens === undefined || tokens === null) {
     return '-';
   }
-  return `${(tokens / 1_000_000).toFixed(2)}M`;
+  return `${(tokens / 1_000_000).toFixed(1)}M`;
 }
 
 export function formatDateTime(value?: string | number | null): string {

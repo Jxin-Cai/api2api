@@ -45,9 +45,11 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThat(mapped.at("/tools/0/type").asText()).isEqualTo("function");
         assertThat(mapped.at("/tools/0/parameters/type").asText()).isEqualTo("object");
         assertThat(mapped.at("/tool_choice/type").asText()).isEqualTo("function");
-        assertThat(mapped.at("/input/0/type").asText()).isEqualTo("function_call");
-        assertThat(mapped.at("/input/0/call_id").asText()).isEqualTo("call_1");
-        assertThat(mapped.at("/input/1/type").asText()).isEqualTo("function_call_output");
+        assertThat(mapped.at("/input/0/role").asText()).isEqualTo("developer");
+        assertThat(mapped.at("/input/0/content/0/text").asText()).isEqualTo("Be concise");
+        assertThat(mapped.at("/input/1/type").asText()).isEqualTo("function_call");
+        assertThat(mapped.at("/input/1/call_id").asText()).isEqualTo("call_1");
+        assertThat(mapped.at("/input/2/type").asText()).isEqualTo("function_call_output");
         assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
     }
 
