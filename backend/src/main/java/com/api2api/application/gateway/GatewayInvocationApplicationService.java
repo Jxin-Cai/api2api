@@ -115,7 +115,7 @@ public class GatewayInvocationApplicationService {
                 invocation.startAttempt(candidate, Instant.now(clock));
                 ConversionPayload requestPayload = ConversionPayload.of(
                         command.getRequestProtocol(),
-                        command.getRequestBody(),
+                        requestBodyForCandidate(command, candidate),
                         command.isStreaming()
                 );
                 ConversionResult requestConversion = protocolConversionService.convertRequest(
@@ -131,11 +131,10 @@ public class GatewayInvocationApplicationService {
                         Instant.now(clock)
                 );
 
-                String upstreamRequestBody = rewriteRequestModel(candidate, requestConversion.body());
                 ProviderGatewayResponse upstreamResponse = forwardToProvider(
                         providerGatewayCallPort,
                         candidate,
-                        upstreamRequestBody,
+                        requestConversion.body(),
                         command.isStreaming(),
                         command.getIncomingHeaders()
                 );
@@ -263,7 +262,7 @@ public class GatewayInvocationApplicationService {
                 }
                 ConversionPayload requestPayload = ConversionPayload.of(
                         command.getRequestProtocol(),
-                        command.getRequestBody(),
+                        requestBodyForCandidate(command, candidate),
                         true
                 );
                 ConversionResult requestConversion = protocolConversionService.convertRequest(
@@ -280,7 +279,7 @@ public class GatewayInvocationApplicationService {
                 );
                 ProviderStreamingResponse providerResponse = providerGatewayCallPort.openStream(
                         candidate,
-                        rewriteRequestModel(candidate, requestConversion.body()),
+                        requestConversion.body(),
                         command.getIncomingHeaders()
                 );
                 return GatewayStreamingInvocation.opened(
@@ -433,11 +432,15 @@ public class GatewayInvocationApplicationService {
         return usage != null && usage.usageKnown() && usage.totalTokens() > 0;
     }
 
-    private String rewriteRequestModel(RouteCandidate candidate, String body) {
+    private String requestBodyForCandidate(InvokeGatewayCommand command, RouteCandidate candidate) {
         if (!candidate.requiresModelMapping()) {
-            return body;
+            return command.getRequestBody();
         }
-        return payloadModelMappingPort.rewriteModel(candidate.upstreamProtocol(), body, candidate.upstreamModel());
+        return payloadModelMappingPort.rewriteModel(
+                command.getRequestProtocol(),
+                command.getRequestBody(),
+                candidate.upstreamModel()
+        );
     }
 
     private ConversionResult rewriteResponseModel(RouteCandidate candidate, ConversionResult responseConversion) {

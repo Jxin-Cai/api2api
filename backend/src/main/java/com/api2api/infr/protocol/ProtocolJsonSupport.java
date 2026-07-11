@@ -46,6 +46,10 @@ final class ProtocolJsonSupport {
         return objectMapper.valueToTree(value);
     }
 
+    ObjectMapper objectMapper() {
+        return objectMapper;
+    }
+
     JsonNode path(JsonNode node, String pointer, String direction, boolean required) {
         JsonNode current = node.at(pointer);
         if ((current.isMissingNode() || current.isNull()) && required) {

@@ -29,6 +29,11 @@ public class JsonGatewayPayloadModelMappingAdapter implements GatewayPayloadMode
         if (body == null || body.isBlank()) {
             throw new ProtocolConversionException("MODEL_MAPPING_BODY_EMPTY");
         }
+        // Bedrock Converse selects the model exclusively through the URI path.
+        // A top-level model field is outside the AWS request schema.
+        if (protocol == ProtocolType.AWS_BEDROCK_CONVERSE) {
+            return body;
+        }
         try {
             JsonNode root = objectMapper.readTree(body);
             if (!root.isObject()) {

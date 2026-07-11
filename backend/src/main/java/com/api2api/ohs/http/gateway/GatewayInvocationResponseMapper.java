@@ -11,6 +11,7 @@ import com.api2api.domain.gateway.model.InvocationErrorType;
 import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.protocol.model.ConversionResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +46,13 @@ public class GatewayInvocationResponseMapper {
             throw new IllegalArgumentException("Gateway invocation result must not be null");
         }
 
-        if (outcome.hasProviderResponse() && !requiresProtocolConversion(outcome.providerResponse(), invocation)) {
-            return mapProviderResponse(outcome.providerResponse());
+        if (outcome.hasProviderResponse()) {
+            if (result.status() != InvocationStatus.SUCCESS) {
+                return mapProviderFailure(outcome.providerResponse(), invocation.requestProtocol());
+            }
+            if (!requiresProtocolConversion(outcome.providerResponse(), invocation)) {
+                return mapProviderResponse(outcome.providerResponse());
+            }
         }
         if (result.status() == InvocationStatus.SUCCESS) {
             return mapSuccessResponse(invocation);
@@ -66,6 +72,80 @@ public class GatewayInvocationResponseMapper {
                 contentTypeOf(providerResponse.headers(), providerResponse.streaming()),
                 providerResponse.headers()
         );
+    }
+
+    private GatewayRawResponse mapProviderFailure(ProviderGatewayResponse providerResponse, ProtocolType clientProtocol) {
+        if (providerResponse.protocol() == clientProtocol) {
+            return mapProviderResponse(providerResponse);
+        }
+        String message = upstreamErrorMessage(providerResponse.body());
+        String body = clientProtocol == ProtocolType.CLAUDE_MESSAGES
+                ? buildClaudeUpstreamErrorBody(providerResponse.statusCode(), message)
+                : buildOpenAIUpstreamErrorBody(providerResponse.statusCode(), message);
+        return GatewayRawResponse.of(
+                body,
+                providerResponse.statusCode(),
+                MediaType.APPLICATION_JSON,
+                providerResponse.headers()
+        );
+    }
+
+    private String upstreamErrorMessage(String body) {
+        if (body == null || body.isBlank()) {
+            return "Upstream request failed";
+        }
+        try {
+            JsonNode root = objectMapper.readTree(body);
+            for (JsonNode candidate : List.of(
+                    root.path("error").path("message"),
+                    root.path("message"),
+                    root.path("detail"),
+                    root.path("error")
+            )) {
+                if (candidate.isTextual() && !candidate.asText().isBlank()) {
+                    return candidate.asText();
+                }
+            }
+        } catch (Exception ignored) {
+            // Preserve plain-text upstream errors as the message.
+        }
+        return body;
+    }
+
+    private String buildClaudeUpstreamErrorBody(int statusCode, String message) {
+        try {
+            ObjectNode root = objectMapper.createObjectNode();
+            root.put("type", "error");
+            ObjectNode error = objectMapper.createObjectNode();
+            error.put("type", switch (statusCode) {
+                case 400 -> "invalid_request_error";
+                case 401 -> "authentication_error";
+                case 403 -> "permission_error";
+                case 404 -> "not_found_error";
+                case 429 -> "rate_limit_error";
+                default -> "api_error";
+            });
+            error.put("message", message);
+            root.set("error", error);
+            return objectMapper.writeValueAsString(root);
+        } catch (Exception exception) {
+            return "{\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Upstream request failed\"}}";
+        }
+    }
+
+    private String buildOpenAIUpstreamErrorBody(int statusCode, String message) {
+        try {
+            ObjectNode root = objectMapper.createObjectNode();
+            ObjectNode error = objectMapper.createObjectNode();
+            error.put("message", message);
+            error.put("type", statusCode == 429 ? "rate_limit_error" : statusCode >= 500 ? "api_error" : "invalid_request_error");
+            error.putNull("param");
+            error.putNull("code");
+            root.set("error", error);
+            return objectMapper.writeValueAsString(root);
+        } catch (Exception exception) {
+            return "{\"error\":{\"message\":\"Upstream request failed\",\"type\":\"api_error\"}}";
+        }
     }
 
     private MediaType contentTypeOf(Map<String, List<String>> headers, boolean streaming) {
@@ -141,8 +221,15 @@ public class GatewayInvocationResponseMapper {
     private String buildClaudeErrorBody(InvocationError error) {
         try {
             ObjectNode errorNode = objectMapper.createObjectNode();
+            errorNode.put("type", "error");
             ObjectNode innerError = objectMapper.createObjectNode();
-            innerError.put("type", "error");
+            innerError.put("type", switch (error.errorType()) {
+                case AUTHENTICATION_FAILED -> "authentication_error";
+                case MODEL_NOT_ALLOWED -> "permission_error";
+                case QUOTA_EXHAUSTED -> "rate_limit_error";
+                case CONVERSION_FAILED -> "invalid_request_error";
+                case NO_AVAILABLE_CHANNEL, UPSTREAM_FAILED -> "api_error";
+            });
             innerError.put("message", error.message());
             errorNode.set("error", innerError);
             return objectMapper.writeValueAsString(errorNode);

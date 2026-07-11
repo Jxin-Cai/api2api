@@ -1,6 +1,7 @@
 package com.api2api.infr.protocol;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
@@ -59,7 +60,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 data: {"type":"response.created","response":{"id":"resp_1"}}
 
                 event: response.output_item.done
-                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"reasoning"}}
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"reasoning","id":"rs_1","summary":[],"encrypted_content":"encrypted"}}
 
                 event: response.output_item.added
                 data: {"type":"response.output_item.added","output_index":1,"item":{"type":"function_call","call_id":"call_1","name":"get_weather"}}
@@ -91,6 +92,8 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .filter(node -> "content_block_start".equals(node.path("type").asText()))
                 .findFirst().orElseThrow().path("index").asInt()).isZero();
         assertThat(events.stream().anyMatch(node -> "input_json_delta".equals(node.at("/delta/type").asText()))).isTrue();
+        assertThat(events.stream().anyMatch(node -> "signature_delta".equals(node.at("/delta/type").asText())
+                && node.at("/delta/signature").asText().startsWith(ResponsesReasoningBridge.SIGNATURE_PREFIX))).isTrue();
         JsonNode messageDelta = events.stream()
                 .filter(node -> "message_delta".equals(node.path("type").asText()))
                 .findFirst()
@@ -124,6 +127,21 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         assertThat(dataEvents(sse).stream().anyMatch(node -> "OK".equals(node.path("delta").asText()))).isTrue();
         assertThat(usage.usageKnown()).isTrue();
         assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
+    @Test
+    void shouldSurfaceBedrockStreamExceptionInsteadOfCompletingSuccessfully() throws Exception {
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "validationException", "{\"message\":\"invalid thinking field\"}");
+
+        assertThatThrownBy(() -> adapter.transform(
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES,
+                new ByteArrayInputStream(upstream.toByteArray()),
+                new ByteArrayOutputStream()
+        )).isInstanceOf(java.io.IOException.class)
+                .hasMessageContaining("validationException")
+                .hasMessageContaining("invalid thinking field");
     }
 
     private List<JsonNode> dataEvents(String sse) throws Exception {

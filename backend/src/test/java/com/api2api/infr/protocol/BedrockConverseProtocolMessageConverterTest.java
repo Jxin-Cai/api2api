@@ -30,9 +30,9 @@ class BedrockConverseProtocolMessageConverterTest {
                 {
                   "model":"claude-opus-4.6",
                   "max_tokens":64,
-                  "system":[{"type":"text","text":"You are Claude Code.","cache_control":{"type":"ephemeral"}}],
+                  "system":[{"type":"text","text":"You are Claude Code.","cache_control":{"type":"ephemeral","ttl":"1h"}}],
                   "thinking":{"type":"enabled","budget_tokens":1024},
-                  "tools":[{"name":"get_weather","description":"weather","input_schema":{"type":"object"},"cache_control":{"type":"ephemeral"}}],
+                  "tools":[{"name":"get_weather","description":"weather","input_schema":{"type":"object"},"strict":true,"cache_control":{"type":"ephemeral"}}],
                   "tool_choice":{"type":"tool","name":"get_weather"},
                   "messages":[
                     {"role":"user","content":[{"type":"text","text":"hello","cache_control":{"type":"ephemeral"}}]},
@@ -50,10 +50,12 @@ class BedrockConverseProtocolMessageConverterTest {
         JsonNode mapped = objectMapper.readTree(result.body());
         assertThat(mapped.at("/system/0/text").asText()).isEqualTo("You are Claude Code.");
         assertThat(mapped.at("/system/1/cachePoint/type").asText()).isEqualTo("default");
-        assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(2048);
+        assertThat(mapped.at("/system/1/cachePoint/ttl").asText()).isEqualTo("1h");
+        assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(64);
         assertThat(mapped.at("/messages/0/content/1/cachePoint/type").asText()).isEqualTo("default");
         assertThat(mapped.at("/toolConfig/tools/0/toolSpec/name").asText()).isEqualTo("get_weather");
         assertThat(mapped.at("/toolConfig/tools/0/toolSpec/inputSchema/json/type").asText()).isEqualTo("object");
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/strict").asBoolean()).isTrue();
         assertThat(mapped.at("/toolConfig/tools/1/cachePoint/type").asText()).isEqualTo("default");
         assertThat(mapped.at("/toolConfig/toolChoice/tool/name").asText()).isEqualTo("get_weather");
         assertThat(mapped.at("/additionalModelRequestFields/thinking/type").asText()).isEqualTo("enabled");
@@ -63,7 +65,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldAddBedrockMaxTokensWhenClaudeThinkingHasNoMaxTokens() throws Exception {
+    void shouldNotInventBedrockMaxTokensWhenClaudeThinkingHasNoMaxTokens() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,
                 null,
@@ -86,8 +88,83 @@ class BedrockConverseProtocolMessageConverterTest {
         );
 
         JsonNode mapped = objectMapper.readTree(result.body());
-        assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(5120);
+        assertThat(mapped.at("/inferenceConfig/maxTokens").isMissingNode()).isTrue();
         assertThat(mapped.at("/additionalModelRequestFields/thinking/budget_tokens").asInt()).isEqualTo(4096);
+    }
+
+    @Test
+    void shouldMapAdaptiveEffortStructuredOutputMultimodalContentAndMidConversationSystem() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4-8",
+                  "max_tokens":8192,
+                  "thinking":{"type":"adaptive"},
+                  "output_config":{
+                    "effort":"xhigh",
+                    "format":{"type":"json_schema","name":"result","schema":{"type":"object","properties":{"ok":{"type":"boolean"}},"required":["ok"],"additionalProperties":false}}
+                  },
+                  "service_tier":"standard_only",
+                  "speed":"fast",
+                  "metadata":{"user_id":"user-1"},
+                  "messages":[
+                    {"role":"user","content":[
+                      {"type":"text","text":"inspect"},
+                      {"type":"image","source":{"type":"base64","media_type":"image/png","data":"aW1hZ2U="}},
+                      {"type":"document","title":"notes.md","source":{"type":"text","media_type":"text/plain","data":"hello"}},
+                      {"type":"search_result","source":"https://example.com","title":"Example","content":[{"type":"text","text":"result"}]}
+                    ]},
+                    {"role":"user","content":[{"type":"mid_conv_system","content":[{"type":"text","text":"Use the new constraint"}]}]},
+                    {"role":"assistant","content":"ack"}
+                  ]
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/additionalModelRequestFields/thinking/type").asText()).isEqualTo("adaptive");
+        assertThat(mapped.at("/additionalModelRequestFields/output_config/effort").asText()).isEqualTo("xhigh");
+        assertThat(mapped.at("/outputConfig/textFormat/type").asText()).isEqualTo("json_schema");
+        assertThat(mapped.at("/outputConfig/textFormat/structure/jsonSchema/name").asText()).isEqualTo("result");
+        assertThat(mapped.at("/messages/0/content/1/image/format").asText()).isEqualTo("png");
+        assertThat(mapped.at("/messages/0/content/2/document/format").asText()).isEqualTo("txt");
+        assertThat(mapped.at("/messages/0/content/3/searchResult/source").asText()).isEqualTo("https://example.com");
+        assertThat(mapped.at("/messages/1/role").asText()).isEqualTo("system");
+        assertThat(mapped.at("/messages/1/content/0/text").asText()).isEqualTo("Use the new constraint");
+        assertThat(mapped.at("/messages/2/role").asText()).isEqualTo("assistant");
+        assertThat(mapped.at("/serviceTier/type").asText()).isEqualTo("default");
+        assertThat(mapped.at("/performanceConfig/latency").asText()).isEqualTo("optimized");
+        assertThat(mapped.at("/requestMetadata/user_id").asText()).isEqualTo("user-1");
+        assertThat(mapped.at("/additionalModelResponseFieldPaths/0").asText()).isEqualTo("/stop_sequence");
+    }
+
+    @Test
+    void shouldMergeConsecutiveRolesWithoutFabricatingMessages() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4-8","max_tokens":100,
+                 "messages":[{"role":"user","content":"one"},{"role":"user","content":"two"}]}
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("messages")).hasSize(1);
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("one");
+        assertThat(mapped.at("/messages/0/content/1/text").asText()).isEqualTo("two");
     }
 
     @Test
@@ -159,5 +236,35 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.at("/usage/input_tokens").asLong()).isEqualTo(10);
         assertThat(result.usage()).isPresent();
         assertThat(result.usage().orElseThrow().totalTokens()).isEqualTo(18);
+    }
+
+    @Test
+    void shouldMapBedrockRedactedReasoningAndExactStopSequenceToClaude() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[
+                    {"reasoningContent":{"redactedContent":"cmVkYWN0ZWQ="}},
+                    {"text":"done"}
+                  ]}},
+                  "stopReason":"stop_sequence",
+                  "additionalModelResponseFields":{"stop_sequence":"<END>"},
+                  "usage":{"inputTokens":1,"outputTokens":2}
+                }
+                """;
+
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, true)
+        );
+
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/content/0/type").asText()).isEqualTo("redacted_thinking");
+        assertThat(mapped.at("/content/0/data").asText()).isEqualTo("cmVkYWN0ZWQ=");
+        assertThat(mapped.path("stop_reason").asText()).isEqualTo("stop_sequence");
+        assertThat(mapped.path("stop_sequence").asText()).isEqualTo("<END>");
     }
 }

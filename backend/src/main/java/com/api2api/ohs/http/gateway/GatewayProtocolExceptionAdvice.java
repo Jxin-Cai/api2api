@@ -56,7 +56,8 @@ public class GatewayProtocolExceptionAdvice {
             ObjectNode root = objectMapper.createObjectNode();
             ObjectNode error = objectMapper.createObjectNode();
             if (protocol == ProtocolType.CLAUDE_MESSAGES) {
-                error.put("type", "error");
+                root.put("type", "error");
+                error.put("type", errorType == null || errorType.isBlank() ? "invalid_request_error" : errorType);
                 error.put("message", message);
             } else {
                 error.put("message", message);

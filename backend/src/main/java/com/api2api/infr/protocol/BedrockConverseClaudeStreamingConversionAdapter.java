@@ -78,6 +78,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             case "contentBlockStop" -> writeContentBlockStop(payload, state, clientBody);
             case "messageStop" -> writeMessageStop(payload, state, clientBody);
             case "metadata" -> writeMetadata(payload, state, clientBody);
+            case "internalServerException", "modelStreamErrorException", "validationException",
+                 "throttlingException", "serviceUnavailableException" ->
+                    throw new IOException("Bedrock Converse stream failed: " + eventType + streamErrorMessage(payload));
             default -> {
             }
         }
@@ -177,7 +180,11 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             deltaEvent.put("type", "message_delta");
             ObjectNode delta = objectNode();
             delta.put("stop_reason", state.stopReason);
-            delta.putNull("stop_sequence");
+            if (state.stopSequence == null) {
+                delta.putNull("stop_sequence");
+            } else {
+                delta.put("stop_sequence", state.stopSequence);
+            }
             deltaEvent.set("delta", delta);
             if (state.usage != null && state.usage.usageKnown()) {
                 deltaEvent.set("usage", claudeUsage(state.usage));
@@ -223,6 +230,14 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             contentBlock.put("name", toolUse.path("name").asText(""));
             contentBlock.set("input", objectNode());
             writeContentBlockStart(index, contentBlock, "tool_use", state, clientBody);
+            return;
+        }
+        JsonNode reasoningContent = start.path("reasoningContent");
+        if (reasoningContent.hasNonNull("redactedContent")) {
+            ObjectNode contentBlock = objectNode();
+            contentBlock.put("type", "redacted_thinking");
+            contentBlock.put("data", reasoningContent.path("redactedContent").asText());
+            writeContentBlockStart(index, contentBlock, "redacted_thinking", state, clientBody);
         }
     }
 
@@ -329,6 +344,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     private void writeMessageStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         state.stopReason = mapBedrockStopToClaudeStop(payload.path("stopReason").asText("end_turn"));
+        JsonNode stopSequence = payload.path("additionalModelResponseFields").get("stop_sequence");
+        if (stopSequence != null && stopSequence.isTextual()) {
+            state.stopSequence = stopSequence.asText();
+        }
     }
 
     private void writeMetadata(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
@@ -383,6 +402,11 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                 ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
                 writeClaudeContentDelta(outputIndex, "thinking_delta", "thinking", event.path("delta").asText(""), state, clientBody);
             }
+            case "response.refusal.delta" -> {
+                ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
+                writeClaudeContentDelta(outputIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
+                state.stopReason = "refusal";
+            }
             case "response.output_item.added" -> {
                 JsonNode item = event.path("item");
                 if ("function_call".equals(item.path("type").asText())) {
@@ -397,8 +421,26 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                 writeClaudeContentDelta(outputIndex, "input_json_delta", "partial_json", event.path("delta").asText(""), state, clientBody);
                 state.toolCallSeen = true;
             }
-            case "response.output_item.done" -> stopClaudeBlock(outputIndex, state, clientBody);
+            case "response.output_item.done" -> {
+                JsonNode item = event.path("item");
+                String itemType = item.path("type").asText("");
+                if ("reasoning".equals(itemType)) {
+                    ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                    String signature = ResponsesReasoningBridge.encode(objectMapper, item)
+                            .orElseThrow(() -> new IOException("OpenAI Responses reasoning item is missing encrypted state"));
+                    writeClaudeContentDelta(outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                } else if (!"function_call".equals(itemType) && !"message".equals(itemType)
+                        && !itemType.isBlank()) {
+                    ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                    String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                            .orElseThrow(() -> new IOException("OpenAI Responses output item is missing state"));
+                    writeClaudeContentDelta(outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                }
+                stopClaudeBlock(outputIndex, state, clientBody);
+            }
             case "response.completed", "response.incomplete", "response.failed" -> recordResponsesCompletion(event.path("response"), state);
+            case "error", "response.error" -> throw new IOException("OpenAI Responses stream failed: "
+                    + event.path("error").path("message").asText(event.path("message").asText("unknown error")));
             default -> {
             }
         }
@@ -484,7 +526,16 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         if ("incomplete".equals(response.path("status").asText())
                 && "max_output_tokens".equals(response.path("incomplete_details").path("reason").asText())) {
             state.stopReason = "max_tokens";
+        } else if ("failed".equals(response.path("status").asText())
+                || "cancelled".equals(response.path("status").asText())
+                || "content_filter".equals(response.path("incomplete_details").path("reason").asText())) {
+            state.stopReason = "refusal";
         }
+    }
+
+    private String streamErrorMessage(JsonNode payload) {
+        String message = payload == null ? "" : payload.path("message").asText("");
+        return message.isBlank() ? "" : " - " + message;
     }
 
     private void finishResponsesToClaude(ResponsesStreamState state, OutputStream clientBody) throws IOException {
@@ -521,7 +572,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             return null;
         }
         JsonNode reasoningText = reasoningContent.path("reasoningText");
-        return reasoningText.isMissingNode() ? reasoningContent : reasoningText;
+        if (!reasoningText.isMissingNode()) {
+            return reasoningText;
+        }
+        return reasoningContent.has("text") || reasoningContent.has("signature") ? reasoningContent : null;
     }
 
     private String mapBedrockStopToClaudeStop(String stopReason) {
@@ -624,6 +678,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         private boolean messageStarted;
         private boolean messageStopped;
         private String stopReason = "end_turn";
+        private String stopSequence;
         private UnifiedTokenUsage usage;
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
