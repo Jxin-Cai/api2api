@@ -28,6 +28,7 @@ public class GatewayRequestMapper {
     public InvokeGatewayCommand toCommand(
             GatewayProtocolRequest protocolRequest,
             String authorizationHeader,
+            String apiKeyHeader,
             String xRequestId,
             ProtocolType requestProtocol,
             HttpHeaders incomingHeaders
@@ -35,7 +36,7 @@ public class GatewayRequestMapper {
         Objects.requireNonNull(protocolRequest, "Protocol request must not be null");
         Objects.requireNonNull(requestProtocol, "Request protocol must not be null");
 
-        ApiKeyHash keyHash = apiKeyHashHelper.hashBearerToken(authorizationHeader);
+        ApiKeyHash keyHash = apiKeyHashHelper.hashGatewayApiKey(authorizationHeader, apiKeyHeader);
         GatewayInvocationId gatewayInvocationId = identifierHelper.nextInvocationId();
         GatewayRequestId gatewayRequestId = identifierHelper.requestId(xRequestId);
         UsageRecordId usageRecordId = identifierHelper.nextUsageRecordId();

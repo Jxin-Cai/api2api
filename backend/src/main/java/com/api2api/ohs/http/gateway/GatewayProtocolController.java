@@ -46,7 +46,8 @@ public class GatewayProtocolController {
     public Object claudeMessages(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
-            @RequestHeader(value = "Authorization", required = true) String authorization,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey,
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletResponse httpResponse
     ) {
@@ -57,6 +58,7 @@ public class GatewayProtocolController {
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
+                apiKey,
                 xRequestId,
                 ProtocolType.CLAUDE_MESSAGES,
                 headers
@@ -79,7 +81,8 @@ public class GatewayProtocolController {
     public Object openaiResponses(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
-            @RequestHeader(value = "Authorization", required = true) String authorization,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey,
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletResponse httpResponse
     ) {
@@ -90,6 +93,7 @@ public class GatewayProtocolController {
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
+                apiKey,
                 xRequestId,
                 ProtocolType.OPENAI_RESPONSES,
                 headers
@@ -112,7 +116,8 @@ public class GatewayProtocolController {
     public Object openaiChatCompletions(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
-            @RequestHeader(value = "Authorization", required = true) String authorization,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey,
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletResponse httpResponse
     ) {
@@ -123,6 +128,7 @@ public class GatewayProtocolController {
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
+                apiKey,
                 xRequestId,
                 ProtocolType.OPENAI_CHAT_COMPLETIONS,
                 headers

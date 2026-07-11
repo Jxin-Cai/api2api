@@ -11,6 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -34,7 +35,7 @@ public class GatewayProtocolExceptionAdvice {
                 .body(buildErrorBody(exception.protocol(), exception.errorType(), exception.getMessage()));
     }
 
-    @ExceptionHandler({ IllegalArgumentException.class, IllegalStateException.class })
+    @ExceptionHandler({ IllegalArgumentException.class, IllegalStateException.class, MissingRequestHeaderException.class })
     public ResponseEntity<String> handleBadRequest(RuntimeException exception) {
         String message = exception.getMessage() == null ? "Invalid request" : exception.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
