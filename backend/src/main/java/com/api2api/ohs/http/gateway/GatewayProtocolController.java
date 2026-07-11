@@ -63,6 +63,7 @@ public class GatewayProtocolController {
                 ProtocolType.CLAUDE_MESSAGES,
                 headers
         );
+        logAcceptedRequest(command, xRequestId);
 
         if (command.isStreaming()) {
             return stream(command, httpResponse);
@@ -98,6 +99,7 @@ public class GatewayProtocolController {
                 ProtocolType.OPENAI_RESPONSES,
                 headers
         );
+        logAcceptedRequest(command, xRequestId);
 
         if (command.isStreaming()) {
             return stream(command, httpResponse);
@@ -133,6 +135,7 @@ public class GatewayProtocolController {
                 ProtocolType.OPENAI_CHAT_COMPLETIONS,
                 headers
         );
+        logAcceptedRequest(command, xRequestId);
 
         if (command.isStreaming()) {
             return stream(command, httpResponse);
@@ -153,6 +156,17 @@ public class GatewayProtocolController {
             return responseMapper.toRawResponse(streamingInvocation.invocation()).toResponseEntity();
         }
         return streamingResponseMapper.toResponseBody(streamingInvocation, httpResponse);
+    }
+
+    private void logAcceptedRequest(InvokeGatewayCommand command, String incomingRequestId) {
+        log.info(
+                "Gateway request accepted, requestId: {}, incomingXRequestId: {}, protocol: {}, model: {}, streaming: {}",
+                command.getGatewayRequestId().value(),
+                incomingRequestId,
+                command.getRequestProtocol(),
+                command.getRequestedModel().value(),
+                command.isStreaming()
+        );
     }
 
     private JsonNode parseJsonBody(String rawBody, ProtocolType protocol) {

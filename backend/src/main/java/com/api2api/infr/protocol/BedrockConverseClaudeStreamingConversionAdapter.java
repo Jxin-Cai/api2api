@@ -59,6 +59,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         BedrockEvent event;
         while ((event = readEvent(upstreamBody)) != null) {
             JsonNode payload = objectMapper.readTree(event.payload());
+            throwIfModeledException(event, payload);
             handleEvent(event.eventType(), payload, state, clientBody);
         }
         writeTerminalEventIfNecessary(state, clientBody);
@@ -533,6 +534,14 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         }
     }
 
+    private void throwIfModeledException(BedrockEvent event, JsonNode payload) throws IOException {
+        if (!"exception".equals(event.messageType())) {
+            return;
+        }
+        String exceptionType = event.exceptionType().isBlank() ? "unknownException" : event.exceptionType();
+        throw new IOException("Bedrock Converse stream failed: " + exceptionType + streamErrorMessage(payload));
+    }
+
     private String streamErrorMessage(JsonNode payload) {
         String message = payload == null ? "" : payload.path("message").asText("");
         return message.isBlank() ? "" : " - " + message;
@@ -617,21 +626,34 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         }
         byte[] payload = dataInput.readNBytes(payloadLength);
         dataInput.readInt(); // message CRC
-        return new BedrockEvent(parseEventType(headers), payload);
+        BedrockEventHeaders eventHeaders = parseHeaders(headers);
+        return new BedrockEvent(
+                eventHeaders.eventType(),
+                eventHeaders.messageType(),
+                eventHeaders.exceptionType(),
+                payload
+        );
     }
 
-    private String parseEventType(byte[] headers) throws IOException {
+    private BedrockEventHeaders parseHeaders(byte[] headers) throws IOException {
         DataInputStream input = new DataInputStream(new java.io.ByteArrayInputStream(headers));
+        String eventType = "";
+        String messageType = "";
+        String exceptionType = "";
         while (input.available() > 0) {
             int nameLength = input.readUnsignedByte();
             String name = new String(input.readNBytes(nameLength), StandardCharsets.UTF_8);
             int type = input.readUnsignedByte();
             String value = readHeaderValue(input, type);
-            if (":event-type".equals(name)) {
-                return value;
+            switch (name) {
+                case ":event-type" -> eventType = value;
+                case ":message-type" -> messageType = value;
+                case ":exception-type" -> exceptionType = value;
+                default -> {
+                }
             }
         }
-        return "";
+        return new BedrockEventHeaders(eventType, messageType, exceptionType);
     }
 
     private String readHeaderValue(DataInputStream input, int type) throws IOException {
@@ -670,7 +692,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         };
     }
 
-    private record BedrockEvent(String eventType, byte[] payload) {
+    private record BedrockEventHeaders(String eventType, String messageType, String exceptionType) {
+    }
+
+    private record BedrockEvent(String eventType, String messageType, String exceptionType, byte[] payload) {
     }
 
     private static final class StreamState {

@@ -101,6 +101,7 @@ public class GatewayInvocationApplicationService {
         RoutePlan routePlan = routingPolicyService.buildRoutePlan(routingRequest, channels, conversionDefinitions, now);
 
         if (!routePlan.hasCandidate()) {
+            logNoAvailableChannel(command);
             InvocationError error = InvocationError.withoutFailures(
                     InvocationErrorType.NO_AVAILABLE_CHANNEL,
                     "NO_AVAILABLE_CHANNEL"
@@ -245,6 +246,7 @@ public class GatewayInvocationApplicationService {
         RoutePlan routePlan = routingPolicyService.buildRoutePlan(routingRequest, channels, conversionDefinitions, now);
 
         if (!routePlan.hasCandidate()) {
+            logNoAvailableChannel(command);
             InvocationError error = InvocationError.withoutFailures(
                     InvocationErrorType.NO_AVAILABLE_CHANNEL,
                     "NO_AVAILABLE_CHANNEL"
@@ -349,12 +351,20 @@ public class GatewayInvocationApplicationService {
         if (!streamingInvocation.opened() || streamingInvocation.invocation().isTerminal()) {
             return;
         }
+        UnifiedTokenUsage finalUsage = usage == null ? UnifiedTokenUsage.unknown() : usage;
         GatewayInvocation invocation = gatewayInvocationService.completeSuccess(
                 streamingInvocation.invocation(),
                 streamingInvocation.candidate(),
-                usage == null ? UnifiedTokenUsage.unknown() : usage,
+                finalUsage,
                 true,
                 Instant.now(clock)
+        );
+        log.info(
+                "Gateway streaming request completed, requestId: {}, channelId: {}, usageKnown: {}, totalTokens: {}",
+                invocation.requestId().value(),
+                streamingInvocation.candidate().providerChannelId().value(),
+                finalUsage.usageKnown(),
+                finalUsage.usageKnown() ? finalUsage.totalTokens() : null
         );
         appendUsageRecord(streamingInvocation.usageRecordId(), invocation);
     }
@@ -375,6 +385,12 @@ public class GatewayInvocationApplicationService {
                 error,
                 true,
                 Instant.now(clock)
+        );
+        log.warn(
+                "Gateway streaming request failed, requestId: {}, channelId: {}, reason: {}",
+                invocation.requestId().value(),
+                streamingInvocation.candidate().providerChannelId().value(),
+                error.message()
         );
         appendUsageRecord(streamingInvocation.usageRecordId(), invocation);
     }
@@ -490,6 +506,15 @@ public class GatewayInvocationApplicationService {
             FailoverDecision decision
     ) {
         InvocationError error = InvocationError.of(errorType, failureMessage(decision), decision.failures());
+        log.warn(
+                "Gateway request failed, requestId: {}, protocol: {}, requestedModel: {}, streaming: {}, errorType: {}, reason: {}",
+                command.getGatewayRequestId().value(),
+                command.getRequestProtocol(),
+                command.getRequestedModel().value(),
+                command.isStreaming(),
+                errorType,
+                error.message()
+        );
         return gatewayInvocationService.completeFailure(invocation, error, command.isStreaming(), Instant.now(clock));
     }
 
@@ -548,6 +573,17 @@ public class GatewayInvocationApplicationService {
                 candidate.upstreamProtocol(),
                 candidate.upstreamModel().value(),
                 command.isStreaming()
+        );
+    }
+
+    private void logNoAvailableChannel(InvokeGatewayCommand command) {
+        log.warn(
+                "Gateway route unavailable, requestId: {}, protocol: {}, requestedModel: {}, streaming: {}, reason: {}",
+                command.getGatewayRequestId().value(),
+                command.getRequestProtocol(),
+                command.getRequestedModel().value(),
+                command.isStreaming(),
+                InvocationErrorType.NO_AVAILABLE_CHANNEL
         );
     }
 

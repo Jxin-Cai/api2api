@@ -12,7 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.CRC32;
 import org.junit.jupiter.api.Test;
 
@@ -188,6 +190,42 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .hasMessageContaining("invalid thinking field");
     }
 
+    @Test
+    void shouldSurfaceModeledBedrockExceptionFrame_when_eventTypeIsAbsent() throws Exception {
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+        writeModeledException(upstream, "validationException", "{\"message\":\"invalid thinking field\"}");
+
+        assertThatThrownBy(() -> adapter.transform(
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES,
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        )).isInstanceOf(java.io.IOException.class)
+                .hasMessageContaining("validationException")
+                .hasMessageContaining("invalid thinking field");
+        assertThat(downstream.toString(StandardCharsets.UTF_8)).doesNotContain("event: message_stop");
+    }
+
+    @Test
+    void shouldSurfaceModeledBedrockExceptionFrameForResponses_when_eventTypeIsAbsent() throws Exception {
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+        writeModeledException(upstream, "throttlingException", "{\"message\":\"rate limited\"}");
+
+        assertThatThrownBy(() -> adapter.transform(
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES,
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        )).isInstanceOf(java.io.IOException.class)
+                .hasMessageContaining("throttlingException")
+                .hasMessageContaining("rate limited");
+        assertThat(downstream.toString(StandardCharsets.UTF_8))
+                .doesNotContain("event: response.completed")
+                .doesNotContain("data: [DONE]");
+    }
+
     private List<JsonNode> dataEvents(String sse) throws Exception {
         List<JsonNode> events = new ArrayList<>();
         for (String line : sse.split("\\R")) {
@@ -202,7 +240,23 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
     }
 
     private void writeEvent(ByteArrayOutputStream outputStream, String eventType, String payload) throws Exception {
-        byte[] headers = headers(eventType);
+        Map<String, String> headers = new LinkedHashMap<>();
+        headers.put(":event-type", eventType);
+        headers.put(":content-type", "application/json");
+        headers.put(":message-type", "event");
+        writeFrame(outputStream, headers, payload);
+    }
+
+    private void writeModeledException(ByteArrayOutputStream outputStream, String exceptionType, String payload) throws Exception {
+        Map<String, String> headers = new LinkedHashMap<>();
+        headers.put(":content-type", "application/json");
+        headers.put(":message-type", "exception");
+        headers.put(":exception-type", exceptionType);
+        writeFrame(outputStream, headers, payload);
+    }
+
+    private void writeFrame(ByteArrayOutputStream outputStream, Map<String, String> headerValues, String payload) throws Exception {
+        byte[] headers = headers(headerValues);
         byte[] payloadBytes = payload.getBytes(StandardCharsets.UTF_8);
         int totalLength = 16 + headers.length + payloadBytes.length;
         ByteArrayOutputStream messageWithoutCrc = new ByteArrayOutputStream();
@@ -221,11 +275,11 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         outputStream.write(messageWithoutCrc.toByteArray());
     }
 
-    private byte[] headers(String eventType) throws Exception {
+    private byte[] headers(Map<String, String> headerValues) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        writeStringHeader(outputStream, ":event-type", eventType);
-        writeStringHeader(outputStream, ":content-type", "application/json");
-        writeStringHeader(outputStream, ":message-type", "event");
+        for (Map.Entry<String, String> entry : headerValues.entrySet()) {
+            writeStringHeader(outputStream, entry.getKey(), entry.getValue());
+        }
         return outputStream.toByteArray();
     }
 
