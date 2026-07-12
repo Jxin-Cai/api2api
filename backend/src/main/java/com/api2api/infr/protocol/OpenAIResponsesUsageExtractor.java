@@ -19,11 +19,29 @@ public class OpenAIResponsesUsageExtractor implements UnifiedUsageExtractor {
         if (usage.isMissingNode() || usage.isNull()) {
             return UnifiedTokenUsage.unknown();
         }
+        return extractUsage(usage);
+    }
+
+    static UnifiedTokenUsage extractUsage(JsonNode usage) {
         long cacheReadTokens = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
-        long cacheWriteTokens = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
+        long cacheWriteTokens = firstPresentLong(
+                usage.path("input_tokens_details").get("cache_creation_input_tokens"),
+                usage.path("input_tokens_details").get("cache_creation_tokens"),
+                usage.path("input_tokens_details").get("cache_write_tokens"),
+                usage.get("cache_creation_input_tokens")
+        );
         long rawInputTokens = usage.path("input_tokens").asLong(0);
         long inputTokens = Math.max(0, rawInputTokens - cacheReadTokens - cacheWriteTokens);
         long outputTokens = usage.path("output_tokens").asLong(0);
         return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
+    }
+
+    private static long firstPresentLong(JsonNode... values) {
+        for (JsonNode value : values) {
+            if (value != null && !value.isNull() && !value.isMissingNode()) {
+                return Math.max(0, value.asLong(0));
+            }
+        }
+        return 0;
     }
 }

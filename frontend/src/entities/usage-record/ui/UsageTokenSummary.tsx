@@ -1,5 +1,6 @@
 import { Card, Skeleton, Space, Statistic, Typography } from 'antd';
 
+import { formatTokenThousands } from '@shared/lib/formatters';
 import type { UsageScope } from '../model/types';
 
 interface UsageTokenSummaryProps {
@@ -20,7 +21,10 @@ export function UsageTokenSummary({ totalTokens, recordCount = 0, scope, loading
         <Skeleton active paragraph={false} />
       ) : (
         <Space size={32} wrap>
-          <Statistic title={scope === 'admin' ? '全平台过滤后 Token' : '个人过滤后 Token'} value={totalTokens} />
+          <Statistic
+            title={scope === 'admin' ? '全平台过滤后 Token' : '个人过滤后 Token'}
+            value={formatTokenThousands(totalTokens)}
+          />
           <Typography.Text type="secondary">记录总数：{recordCount}</Typography.Text>
         </Space>
       )}

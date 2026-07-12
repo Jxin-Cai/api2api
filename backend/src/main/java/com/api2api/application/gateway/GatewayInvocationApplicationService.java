@@ -32,6 +32,7 @@ import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.usage.model.UsageRecordId;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GatewayInvocationApplicationService {
 
     private static final int MAX_FAILURE_REASON_LENGTH = 1000;
+    private static final Duration RATE_LIMIT_ISOLATION_DURATION = Duration.ofHours(24);
 
     @NonNull
     private final ApiCredentialRepository apiCredentialRepository;
@@ -92,7 +94,7 @@ public class GatewayInvocationApplicationService {
         GatewayInvocation invocation = authenticateAndStartInvocation(command);
         Instant now = Instant.now(clock);
         List<ProtocolConversionDefinition> conversionDefinitions = conversionDefinitionRepository.findAll();
-        List<ProviderChannel> channels = providerChannelRepository.findEnabledForRouting();
+        List<ProviderChannel> channels = routableChannels(now);
         RoutingRequest routingRequest = RoutingRequest.of(
                 command.getRequestProtocol(),
                 command.getRequestedModel(),
@@ -144,6 +146,7 @@ public class GatewayInvocationApplicationService {
                 );
                 if (!upstreamResponse.successful()) {
                     RouteFailure routeFailure = toRouteFailure(candidate, upstreamResponse);
+                    isolateRateLimitedChannel(routeFailure);
                     invocation = recordAttemptFailure(invocation, routeFailure);
                     FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
                     if (decision.action() == FailoverAction.RETRY_NEXT) {
@@ -195,6 +198,7 @@ public class GatewayInvocationApplicationService {
                 return GatewayInvocationOutcome.withoutProviderResponse(invocation);
             } catch (UpstreamGatewayException exception) {
                 RouteFailure routeFailure = toRouteFailure(candidate, exception);
+                isolateRateLimitedChannel(routeFailure);
                 invocation = recordAttemptFailure(invocation, routeFailure);
                 FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
                 if (decision.action() == FailoverAction.RETRY_NEXT) {
@@ -237,7 +241,7 @@ public class GatewayInvocationApplicationService {
         GatewayInvocation invocation = authenticateAndStartInvocation(command);
         Instant now = Instant.now(clock);
         List<ProtocolConversionDefinition> conversionDefinitions = conversionDefinitionRepository.findAll();
-        List<ProviderChannel> channels = providerChannelRepository.findEnabledForRouting();
+        List<ProviderChannel> channels = routableChannels(now);
         RoutingRequest routingRequest = RoutingRequest.of(
                 command.getRequestProtocol(),
                 command.getRequestedModel(),
@@ -307,6 +311,7 @@ public class GatewayInvocationApplicationService {
                 return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
             } catch (UpstreamGatewayException exception) {
                 RouteFailure routeFailure = toRouteFailure(candidate, exception);
+                isolateRateLimitedChannel(routeFailure);
                 invocation = recordAttemptFailure(invocation, routeFailure);
                 FailoverDecision decision = routingPolicyService.decideNext(routePlan, invocation.attempts(), routeFailure);
                 if (decision.action() == FailoverAction.RETRY_NEXT) {
@@ -541,6 +546,23 @@ public class GatewayInvocationApplicationService {
                 safeReason(exception),
                 exception.retryable(),
                 Instant.now(clock)
+        );
+    }
+
+    private List<ProviderChannel> routableChannels(Instant now) {
+        providerChannelRepository.restoreRateLimitedBefore(now.minus(RATE_LIMIT_ISOLATION_DURATION), now);
+        return providerChannelRepository.findEnabledForRouting();
+    }
+
+    private void isolateRateLimitedChannel(RouteFailure failure) {
+        if (failure.failureType() != RouteFailureType.RATE_LIMITED) {
+            return;
+        }
+        providerChannelRepository.markRateLimited(failure.providerChannelId(), failure.occurredAt());
+        log.warn(
+                "Provider channel isolated after upstream rate limit, channelId: {}, isolationHours: {}",
+                failure.providerChannelId().value(),
+                RATE_LIMIT_ISOLATION_DURATION.toHours()
         );
     }
 

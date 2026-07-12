@@ -5,6 +5,13 @@ export function formatTokenMillions(tokens?: number | null): string {
   return `${(tokens / 1_000_000).toFixed(1)}M`;
 }
 
+export function formatTokenThousands(tokens?: number | null, decimals = 1): string {
+  if (tokens === undefined || tokens === null || !Number.isFinite(tokens)) {
+    return '-';
+  }
+  return `${(tokens / 1_000).toFixed(decimals)}k`;
+}
+
 export function formatDateTime(value?: string | number | null): string {
   if (value === undefined || value === null || value === '') {
     return '-';

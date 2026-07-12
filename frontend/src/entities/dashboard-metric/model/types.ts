@@ -65,8 +65,8 @@ export interface GetAdminDashboardRequest {
 }
 
 export interface FrontDashboardBackendResponse {
-  todayTokens?: TokenAmountResponse;
-  monthTokens?: TokenAmountResponse;
+  todayTokens?: TokenAmountResponse | number;
+  monthTokens?: TokenAmountResponse | number;
   apiKeyCount?: number;
   recentCalls?: FrontDashboardRecentCallBackendResponse[];
 }

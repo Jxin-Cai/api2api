@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { MetricCard, TopRankList, TrendChart, useAdminDashboardMetrics } from '@entities/dashboard-metric';
 import { normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
-import { formatTokenMillions } from '@shared/lib/formatters';
+import { formatTokenThousands } from '@shared/lib/formatters';
 import { getProtocolMeta } from '@shared/lib/protocols';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
 
@@ -38,8 +38,8 @@ export function AdminDashboardPanel() {
   return (
     <Space direction="vertical" size={20} style={{ width: '100%' }}>
       <DashboardSummaryGrid colProps={{ xs: 24, sm: 12, xl: 6 }}>
-        <MetricCard title="全平台今日 Token" value={formatTokenMillions(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={query.isLoading} />
-        <MetricCard title="全平台本月 Token" value={formatTokenMillions(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="全平台今日 Token" value={formatTokenThousands(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="全平台本月 Token" value={formatTokenThousands(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
         {PROTOCOLS.map((protocol) => {
           const meta = getProtocolMeta(protocol);
           const rate = rateByProtocol.get(protocol);
@@ -66,12 +66,12 @@ export function AdminDashboardPanel() {
       </Row>
 
       <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日协议 Token 趋势</Typography.Title>
+        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日协议 Token 趋势（k）</Typography.Title>
         <TrendChart data={normalizeTrendPoints(data?.protocolTokenTrends)} loading={query.isLoading} />
       </Space>
 
       <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日供应商渠道 Token 趋势</Typography.Title>
+        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日供应商渠道 Token 趋势（k）</Typography.Title>
         <TrendChart data={normalizeTrendPoints(data?.channelTokenTrends)} loading={query.isLoading} />
       </Space>
     </Space>

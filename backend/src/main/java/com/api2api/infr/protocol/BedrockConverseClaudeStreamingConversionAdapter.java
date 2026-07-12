@@ -934,12 +934,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         }
         JsonNode usage = response.path("usage");
         if (!usage.isMissingNode() && !usage.isNull()) {
-            long input = usage.path("input_tokens").asLong(0);
-            long output = usage.path("output_tokens").asLong(0);
-            long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
-            long cacheWrite = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
-            state.usage = UnifiedTokenUsage.known(
-                    Math.max(0, input - cached - cacheWrite), output, cacheWrite, cached);
+            state.usage = OpenAIResponsesUsageExtractor.extractUsage(usage);
         }
         JsonNode output = response.path("output");
         if (output.isArray()) {

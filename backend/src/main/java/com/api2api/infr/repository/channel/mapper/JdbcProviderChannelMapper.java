@@ -127,6 +127,34 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
     }
 
     @Override
+    public int markRateLimited(Long id, Instant updatedAt) {
+        return jdbcTemplate.update("""
+                UPDATE provider_channels
+                SET status = 'DEGRADED',
+                    updated_at = :updatedTime
+                WHERE id = :id
+                  AND deleted = FALSE
+                  AND status = 'ENABLED'
+                """, new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("updatedTime", timestamp(updatedAt)));
+    }
+
+    @Override
+    public int restoreRateLimitedBefore(Instant cutoff, Instant updatedAt) {
+        return jdbcTemplate.update("""
+                UPDATE provider_channels
+                SET status = 'ENABLED',
+                    updated_at = :updatedTime
+                WHERE deleted = FALSE
+                  AND status = 'DEGRADED'
+                  AND updated_at <= :cutoff
+                """, new MapSqlParameterSource()
+                .addValue("cutoff", timestamp(cutoff))
+                .addValue("updatedTime", timestamp(updatedAt)));
+    }
+
+    @Override
     public int softDeleteById(Long id, Instant updatedAt) {
         return jdbcTemplate.update("""
                 UPDATE provider_channels

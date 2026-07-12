@@ -97,15 +97,20 @@ function toFrontendRecord(record: UsageRecordBackendResponse): UsageRecordRespon
 }
 
 function toFrontendPage(response: UsageRecordBackendPageResponse): UsageRecordPageResponse {
+  const records = Array.isArray(response?.records) ? response.records : [];
+  const page = Number.isFinite(response?.page) ? response.page : 1;
+  const size = response?.size === 100 || response?.size === 200 ? response.size : 50;
+  const totalElements = Number.isFinite(response?.totalElements) ? response.totalElements : records.length;
+  const filteredTotalTokens = Number.isFinite(response?.filteredTotalTokens) ? response.filteredTotalTokens : 0;
   return {
-    records: response.records.map(toFrontendRecord),
-    page: response.page,
-    pageSize: response.size,
-    total: response.totalElements,
-    totalTokens: response.filteredTotalTokens,
+    records: records.map(toFrontendRecord),
+    page,
+    pageSize: size,
+    total: totalElements,
+    totalTokens: filteredTotalTokens,
     summary: {
-      totalTokens: response.filteredTotalTokens,
-      recordCount: response.totalElements,
+      totalTokens: filteredTotalTokens,
+      recordCount: totalElements,
     },
   };
 }

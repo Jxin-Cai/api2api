@@ -57,6 +57,20 @@ public class ProviderChannelRepositoryImpl implements ProviderChannelRepository 
     }
 
     @Override
+    public void markRateLimited(ProviderChannelId id, Instant isolatedAt) {
+        Objects.requireNonNull(id, "ProviderChannelId must not be null");
+        Objects.requireNonNull(isolatedAt, "Isolation time must not be null");
+        mapper.markRateLimited(id.value(), isolatedAt);
+    }
+
+    @Override
+    public int restoreRateLimitedBefore(Instant cutoff, Instant restoredAt) {
+        Objects.requireNonNull(cutoff, "Rate-limit cutoff must not be null");
+        Objects.requireNonNull(restoredAt, "Rate-limit restore time must not be null");
+        return mapper.restoreRateLimitedBefore(cutoff, restoredAt);
+    }
+
+    @Override
     public void softDeleteById(ProviderChannelId id, Instant deletedAt) {
         Objects.requireNonNull(id, "ProviderChannelId must not be null");
         Objects.requireNonNull(deletedAt, "Deleted time must not be null");

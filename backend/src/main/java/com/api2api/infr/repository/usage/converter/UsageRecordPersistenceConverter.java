@@ -82,12 +82,11 @@ public class UsageRecordPersistenceConverter {
                 parseUpstreamProtocol(po.getUpstreamProtocol(), status),
                 safeProviderChannelId(po.getProviderChannelId(), status),
                 status,
-                UsageTokenBreakdown.of(
+                normalizedTokenBreakdown(
                         po.getInputTokens(),
                         po.getOutputTokens(),
                         po.getCacheCreationInputTokens(),
                         po.getCacheReadInputTokens(),
-                        po.getTotalTokens(),
                         po.isUsageKnown()
                 ),
                 po.isStreaming(),
@@ -218,13 +217,30 @@ public class UsageRecordPersistenceConverter {
         if (summary == null) {
             return UsageTokenBreakdown.zeroKnown();
         }
-        return UsageTokenBreakdown.of(
+        return normalizedTokenBreakdown(
                 summary.getInputTokens(),
                 summary.getOutputTokens(),
                 summary.getCacheCreationInputTokens(),
                 summary.getCacheReadInputTokens(),
-                summary.getTotalTokens(),
                 summary.isUsageKnown()
+        );
+    }
+
+    private UsageTokenBreakdown normalizedTokenBreakdown(
+            long inputTokens,
+            long outputTokens,
+            long cacheCreationInputTokens,
+            long cacheReadInputTokens,
+            boolean usageKnown
+    ) {
+        long totalTokens = inputTokens + outputTokens + cacheCreationInputTokens + cacheReadInputTokens;
+        return UsageTokenBreakdown.of(
+                inputTokens,
+                outputTokens,
+                cacheCreationInputTokens,
+                cacheReadInputTokens,
+                totalTokens,
+                usageKnown
         );
     }
 }

@@ -38,7 +38,7 @@ class ProviderModelFetchAdapterTest {
     }
 
     @Test
-    void fetchesOpenAiCompatibleModelList() throws IOException {
+    void test_fetchesModels_when_openAiListUsesDataAndId() throws IOException {
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/models", exchange -> {
             assertThat(exchange.getRequestMethod()).isEqualTo("GET");
@@ -75,8 +75,52 @@ class ProviderModelFetchAdapterTest {
 
         assertThat(models).hasSize(2);
         assertThat(models).extracting(model -> model.requestedModel().value())
-                .containsExactly("gpt-4.1", "claude-sonnet");
+                .containsExactly("claude-sonnet", "gpt-4.1");
         assertThat(models).extracting(ChannelModelSupport::upstreamProtocol)
                 .containsOnly(ProtocolType.OPENAI_RESPONSES);
+    }
+
+    @Test
+    void test_fetchesNewModels_when_hostAlreadyContainsV1AndListUsesModelsAliases() throws IOException {
+        // Arrange
+        server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1/models", exchange -> {
+            byte[] body = "{\"models\":[{\"slug\":\"gpt-5.5\"},{\"name\":\"models/gpt-5.5-mini\"}]}"
+                    .getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        server.start();
+        ProviderModelFetchAdapter adapter = adapter();
+
+        // Act
+        List<ChannelModelSupport> models = adapter.fetchModels(
+                ProviderChannelId.of(1L),
+                ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort() + "/v1"),
+                ProviderKeyRef.of("test-key"),
+                ProviderModelsPath.DEFAULT,
+                Set.of(ProtocolType.OPENAI_RESPONSES),
+                RoutePriority.of(10)
+        );
+
+        // Assert
+        assertThat(models).extracting(model -> model.requestedModel().value())
+                .containsExactly("gpt-5.5", "gpt-5.5-mini");
+    }
+
+    private ProviderModelFetchAdapter adapter() {
+        ProviderSecretProperties secretProperties = new ProviderSecretProperties();
+        secretProperties.setKeys(Map.of("test-key", "test-secret"));
+        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
+        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+        return new ProviderModelFetchAdapter(
+                secretResolver,
+                properties,
+                new UpstreamHttpHeaderPolicy(properties),
+                new ObjectMapper(),
+                new UpstreamUrlResolver(properties),
+                CLOCK
+        );
     }
 }

@@ -2,7 +2,7 @@ import { Empty, Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useState, type ReactElement } from 'react';
 
-import { formatDateTime } from '@shared/lib/formatters';
+import { formatDateTime, formatTokenThousands } from '@shared/lib/formatters';
 import { buildTablePagination, USAGE_EMPTY_TEXT } from '@shared/lib/table';
 import type { TablePaginationState, UsagePageSize } from '@shared/types/table';
 
@@ -30,11 +30,11 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
     { title: 'API Key', dataIndex: 'apiCredentialName', key: 'apiCredentialName', width: 140, render: (_: unknown, record: UsageRecordResponse): string => record.apiCredentialName ?? record.apiCredentialId ?? '-' },
     { title: '模型', dataIndex: 'model', key: 'model', width: 180 },
     { title: '协议', dataIndex: 'protocolType', key: 'protocolType', width: 180 },
-    { title: '输入 Token', dataIndex: 'inputTokens', key: 'inputTokens', align: 'right', width: 120, render: (value: number | undefined): number => value ?? 0 },
-    { title: '输出 Token', dataIndex: 'outputTokens', key: 'outputTokens', align: 'right', width: 120, render: (value: number | undefined): number => value ?? 0 },
-    { title: '缓存创建输入', dataIndex: 'cacheCreationInputTokens', key: 'cacheCreationInputTokens', align: 'right', width: 140, render: (value: number | undefined): number => value ?? 0 },
-    { title: '缓存命中输入', dataIndex: 'cacheReadInputTokens', key: 'cacheReadInputTokens', align: 'right', width: 140, render: (value: number | undefined): number => value ?? 0 },
-    { title: '总 Token', dataIndex: 'tokens', key: 'tokens', align: 'right', width: 120 },
+    { title: '输入 Token', dataIndex: 'inputTokens', key: 'inputTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '输出 Token', dataIndex: 'outputTokens', key: 'outputTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '缓存创建输入', dataIndex: 'cacheCreationInputTokens', key: 'cacheCreationInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '缓存命中输入', dataIndex: 'cacheReadInputTokens', key: 'cacheReadInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '总 Token', dataIndex: 'tokens', key: 'tokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
     { title: '状态', dataIndex: 'status', key: 'status', width: 120, render: (value: string | undefined): ReactElement => <UsageRecordStatusTag status={value ?? 'SUCCESS'} /> },
   ];
 

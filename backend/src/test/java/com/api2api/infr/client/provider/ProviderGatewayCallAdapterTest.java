@@ -122,22 +122,21 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
-    void test_retriesStreamingRequest_when_enterpriseUpstreamTemporarilyRateLimits() throws IOException {
+    void test_doesNotRetryStreamingRequest_when_upstreamRateLimits() throws IOException {
         // Arrange
         AtomicInteger requests = new AtomicInteger();
         server = serverThatRateLimitsOnce(requests);
         ProviderGatewayCallAdapter adapter = adapterWithStreamingRetryBackoff();
 
         // Act
-        ProviderStreamingResponse response = adapter.openStream(
-                candidate(ProtocolType.OPENAI_RESPONSES),
-                "{}",
-                Map.of()
+        UpstreamGatewayException exception = Assertions.catchThrowableOfType(
+                () -> adapter.openStream(candidate(ProtocolType.OPENAI_RESPONSES), "{}", Map.of()),
+                UpstreamGatewayException.class
         );
 
         // Assert
-        assertThat(requests.get()).isEqualTo(2);
-        response.close();
+        assertThat(exception.failureType()).isEqualTo(com.api2api.domain.routing.model.RouteFailureType.RATE_LIMITED);
+        assertThat(requests.get()).isEqualTo(1);
     }
 
     private HttpServer server(int status, String contentType, String body) throws IOException {
@@ -280,6 +279,15 @@ class ProviderGatewayCallAdapterTest {
         @Override
         public List<ProviderChannel> findEnabledForRouting() {
             return List.of(channel);
+        }
+
+        @Override
+        public void markRateLimited(ProviderChannelId id, java.time.Instant isolatedAt) {
+        }
+
+        @Override
+        public int restoreRateLimitedBefore(java.time.Instant cutoff, java.time.Instant restoredAt) {
+            return 0;
         }
 
         @Override

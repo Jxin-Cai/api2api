@@ -14,6 +14,7 @@ import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.model.RoutePriority;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -23,6 +24,7 @@ import java.net.http.HttpTimeoutException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -168,17 +170,18 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
             return toBedrockModelSupports(modelSummaries, upstreamProtocols, defaultPriority);
         }
 
-        JsonNode data = root.path("data");
+        JsonNode data = modelEntries(root);
         if (!data.isArray()) {
             throw new BusinessException("PROVIDER_MODELS_RESPONSE_INVALID");
         }
         Set<ProtocolType> uniqueProtocols = new LinkedHashSet<>(upstreamProtocols);
+        Set<String> uniqueModelIds = new LinkedHashSet<>();
         List<ChannelModelSupport> supports = new ArrayList<>();
         long idBase = Instant.now(clock).toEpochMilli() * 1_000L;
         long index = 1L;
         for (JsonNode item : data) {
-            String id = item.path("id").asText("").trim();
-            if (id.isBlank()) {
+            String id = modelId(item);
+            if (id.isBlank() || !uniqueModelIds.add(id)) {
                 continue;
             }
             ModelName modelName = ModelName.of(id);
@@ -198,7 +201,46 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
         if (supports.isEmpty()) {
             throw new BusinessException("PROVIDER_MODELS_EMPTY");
         }
-        return supports;
+        return supports.stream()
+                .sorted(Comparator.comparing(model -> model.requestedModel().value()))
+                .toList();
+    }
+
+    private JsonNode modelEntries(JsonNode root) {
+        if (root.isArray()) {
+            return root;
+        }
+        boolean hasData = root.path("data").isArray();
+        boolean hasModels = root.path("models").isArray();
+        if (!hasData && !hasModels) {
+            return root.path("data");
+        }
+        ArrayNode entries = objectMapper.createArrayNode();
+        if (hasData) {
+            entries.addAll((ArrayNode) root.path("data"));
+        }
+        if (hasModels) {
+            entries.addAll((ArrayNode) root.path("models"));
+        }
+        return entries;
+    }
+
+    private String modelId(JsonNode item) {
+        if (item.isTextual()) {
+            return normalizeModelId(item.asText());
+        }
+        for (String field : List.of("id", "slug", "name", "model")) {
+            String value = item.path(field).asText("").trim();
+            if (!value.isBlank()) {
+                return normalizeModelId(value);
+            }
+        }
+        return "";
+    }
+
+    private String normalizeModelId(String value) {
+        String normalized = value == null ? "" : value.trim();
+        return normalized.startsWith("models/") ? normalized.substring("models/".length()) : normalized;
     }
 
     private List<ChannelModelSupport> toBedrockModelSupports(

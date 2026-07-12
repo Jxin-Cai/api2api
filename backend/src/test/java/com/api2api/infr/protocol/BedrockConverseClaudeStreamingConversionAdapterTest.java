@@ -487,7 +487,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .findFirst()
                 .orElseThrow();
         assertThat(clientTool.at("/content_block/caller/type").asText())
-                .isEqualTo("code_execution_20260120");
+                .isEqualTo("code_execution_20260521");
         assertThat(clientTool.at("/content_block/caller/tool_id").asText())
                 .isEqualTo(serverTool.at("/content_block/id").asText());
     }

@@ -62,6 +62,19 @@ class UsageRecordPersistenceConverterTest {
         assertThat(po.getDurationMillis()).isEqualTo(1250L);
     }
 
+    @Test
+    void test_recalculatesTotalTokens_when_persistedTotalIsInconsistent() {
+        // Arrange
+        UsageRecordPO po = po();
+        po.setTotalTokens(999L);
+
+        // Act
+        UsageRecord record = converter.toDomain(po);
+
+        // Assert
+        assertThat(record.totalTokens()).isEqualTo(10L);
+    }
+
     private UsageRecordPO po() {
         return UsageRecordPO.builder()
                 .id(1L)

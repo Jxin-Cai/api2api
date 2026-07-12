@@ -28,6 +28,12 @@ public final class ProviderHost {
         if (path == null || !path.startsWith("/")) {
             throw new IllegalArgumentException("Provider host path must start with /");
         }
+        if (value.endsWith(path)) {
+            return this;
+        }
+        if (value.endsWith("/v1") && path.startsWith("/v1/")) {
+            return new ProviderHost(value + path.substring("/v1".length()));
+        }
         return new ProviderHost(value + path);
     }
 

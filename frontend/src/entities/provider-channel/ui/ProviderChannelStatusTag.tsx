@@ -6,10 +6,14 @@ interface ProviderChannelStatusTagProps {
 }
 
 export function ProviderChannelStatusTag({ status }: ProviderChannelStatusTagProps) {
-  const enabled = status === 'ENABLED';
+  const meta = status === 'ENABLED'
+    ? { color: 'success', label: '启用', description: '渠道可参与路由' }
+    : status === 'DEGRADED'
+      ? { color: 'warning', label: '限流隔离', description: '上游返回 429，24 小时后自动恢复；也可手动启用' }
+      : { color: 'default', label: '禁用', description: '渠道不会参与路由' };
   return (
-    <Tooltip title={status}>
-      <Tag color={enabled ? 'success' : 'default'}>{enabled ? '启用' : '禁用'}</Tag>
+    <Tooltip title={meta.description}>
+      <Tag color={meta.color}>{meta.label}</Tag>
     </Tooltip>
   );
 }

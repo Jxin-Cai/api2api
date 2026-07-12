@@ -159,6 +159,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     private boolean shouldRetryStream(int attempt, UpstreamGatewayException failure) {
         return failure.retryable()
                 && failure.failureType() != RouteFailureType.UPSTREAM_ERROR
+                && failure.failureType() != RouteFailureType.RATE_LIMITED
                 && attempt < properties.getStreamingMaxRetries();
     }
 
@@ -200,6 +201,15 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     ) {
         ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
+        if (!channel.isEnabledForRouting()) {
+            throw new UpstreamGatewayException(
+                    RouteFailureType.CHANNEL_UNAVAILABLE,
+                    null,
+                    true,
+                    0,
+                    "Provider channel is not enabled for routing"
+            );
+        }
         String secret = providerSecretResolver.resolve(channel.keyRef());
         String path = resolveUpstreamPath(candidate, streaming);
         URI uri = OutboundUriGuard.verify(

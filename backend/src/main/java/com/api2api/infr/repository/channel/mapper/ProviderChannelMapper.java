@@ -9,5 +9,7 @@ public interface ProviderChannelMapper {
     ProviderChannelPO selectById(Long id);
     List<ProviderChannelPO> selectAll();
     List<ProviderChannelPO> selectEnabledForRouting();
+    int markRateLimited(Long id, java.time.Instant updatedAt);
+    int restoreRateLimitedBefore(java.time.Instant cutoff, java.time.Instant updatedAt);
     int softDeleteById(Long id, java.time.Instant updatedAt);
 }
