@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -20,6 +23,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             "additionalModelRequestFields"
     );
     private static final Pattern BEDROCK_REQUEST_METADATA_VALUE_PATTERN = Pattern.compile("[a-zA-Z0-9\\s:_@$#=/+,.\\-]{0,256}");
+    private static final String ASK_USER_QUESTION_TOOL = "AskUserQuestion";
+    private static final String ENTER_PLAN_MODE_TOOL = "EnterPlanMode";
+    private static final String EXIT_PLAN_MODE_TOOL = "ExitPlanMode";
 
     BedrockConverseProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -145,7 +151,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             target.set("outputConfig", bedrockOutputConfig);
         }
 
-        ObjectNode toolConfig = toBedrockToolConfig(source.get("tools"), source.get("tool_choice"));
+        ClaudeCodeToolState toolState = inferClaudeCodeToolState(source.get("messages"));
+        ObjectNode toolConfig = toBedrockToolConfig(source.get("tools"), source.get("tool_choice"), toolState);
         if (!toolConfig.isEmpty()) {
             target.set("toolConfig", toolConfig);
         }
@@ -828,9 +835,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         ObjectNode toolResult = json.objectNode();
         toolResult.put("toolUseId", item.path("tool_use_id").asText(""));
         JsonNode isError = item.get("is_error");
-        if (isError != null && isError.isBoolean()) {
-            toolResult.put("status", isError.asBoolean() ? "error" : "success");
-        }
+        toolResult.put("status", isError != null && isError.asBoolean(false) ? "error" : "success");
         ArrayNode content = json.arrayNode();
         JsonNode resultContent = item.get("content");
         if (resultContent == null || resultContent.isNull()) {
@@ -911,6 +916,14 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     private ObjectNode toBedrockToolConfig(JsonNode tools, JsonNode toolChoice) {
+        return toBedrockToolConfig(tools, toolChoice, ClaudeCodeToolState.unknown());
+    }
+
+    private ObjectNode toBedrockToolConfig(
+            JsonNode tools,
+            JsonNode toolChoice,
+            ClaudeCodeToolState toolState
+    ) {
         ObjectNode toolConfig = json.objectNode();
         String choiceType = toolChoice == null || toolChoice.isNull()
                 ? "auto"
@@ -920,7 +933,12 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         if (tools != null && tools.isArray() && !tools.isEmpty()) {
             ArrayNode bedrockTools = json.arrayNode();
+            Set<String> exposedToolNames = new HashSet<>();
             for (JsonNode tool : tools) {
+                String toolName = tool.path("name").asText("");
+                if (!isToolAvailableInCurrentState(toolName, toolState)) {
+                    continue;
+                }
                 String type = tool.path("type").asText("custom");
                 if (type.startsWith("tool_search_tool")) {
                     // Converse cannot run Anthropic's server-side tool search.
@@ -939,7 +957,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 }
                 ObjectNode toolWrapper = json.objectNode();
                 ObjectNode toolSpec = json.objectNode();
-                toolSpec.put("name", tool.path("name").asText(""));
+                toolSpec.put("name", toolName);
                 String description = tool.path("description").asText("");
                 if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
                     description = description + (description.isBlank() ? "" : "\n\n")
@@ -960,17 +978,85 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 }
                 toolWrapper.set("toolSpec", toolSpec);
                 bedrockTools.add(toolWrapper);
+                exposedToolNames.add(toolName);
                 if (hasEphemeralCacheControl(tool)) {
                     bedrockTools.add(cachePointBlock(tool.get("cache_control")));
                 }
             }
+            if (exposedToolNames.isEmpty()) {
+                return toolConfig;
+            }
             toolConfig.set("tools", bedrockTools);
+            ObjectNode mappedChoice = toBedrockToolChoice(toolChoice, exposedToolNames);
+            if (!mappedChoice.isEmpty()) {
+                toolConfig.set("toolChoice", mappedChoice);
+            }
+            return toolConfig;
         }
-        ObjectNode mappedChoice = toBedrockToolChoice(toolChoice);
+        ObjectNode mappedChoice = toBedrockToolChoice(toolChoice, Set.of());
         if (!mappedChoice.isEmpty()) {
             toolConfig.set("toolChoice", mappedChoice);
         }
         return toolConfig;
+    }
+
+    private ClaudeCodeToolState inferClaudeCodeToolState(JsonNode messages) {
+        if (messages == null || !messages.isArray()) {
+            return ClaudeCodeToolState.unknown();
+        }
+        Map<String, String> toolUses = new HashMap<>();
+        ClaudeCodePlanState planState = ClaudeCodePlanState.UNKNOWN;
+        String lastCompletedTool = "";
+        boolean lastToolSucceeded = false;
+        for (JsonNode message : messages) {
+            JsonNode content = message.get("content");
+            if (content == null || !content.isArray()) {
+                continue;
+            }
+            for (JsonNode block : content) {
+                if ("tool_use".equals(block.path("type").asText(""))) {
+                    String name = block.path("name").asText("");
+                    toolUses.put(block.path("id").asText(""), name);
+                    continue;
+                }
+                if (!"tool_result".equals(block.path("type").asText(""))) {
+                    continue;
+                }
+                String completedTool = toolUses.get(block.path("tool_use_id").asText(""));
+                if (completedTool == null) {
+                    continue;
+                }
+                boolean failed = block.path("is_error").asBoolean(false);
+                lastCompletedTool = completedTool;
+                lastToolSucceeded = !failed;
+                if (!failed && (ENTER_PLAN_MODE_TOOL.equals(completedTool) || EXIT_PLAN_MODE_TOOL.equals(completedTool))) {
+                    planState = ENTER_PLAN_MODE_TOOL.equals(completedTool)
+                            ? ClaudeCodePlanState.ACTIVE
+                            : ClaudeCodePlanState.INACTIVE;
+                } else if (failed && EXIT_PLAN_MODE_TOOL.equals(completedTool)
+                        && firstTextFromClaudeContent(block.get("content")).contains("not in plan mode")) {
+                    planState = ClaudeCodePlanState.INACTIVE;
+                }
+            }
+        }
+        boolean suppressAskUserQuestion = lastToolSucceeded && ASK_USER_QUESTION_TOOL.equals(lastCompletedTool);
+        return new ClaudeCodeToolState(planState, suppressAskUserQuestion);
+    }
+
+    private boolean isToolAvailableInCurrentState(
+            String toolName,
+            ClaudeCodeToolState state
+    ) {
+        if (state.suppressAskUserQuestion() && ASK_USER_QUESTION_TOOL.equals(toolName)) {
+            return false;
+        }
+        if (state.planState() == ClaudeCodePlanState.ACTIVE) {
+            return !ENTER_PLAN_MODE_TOOL.equals(toolName);
+        }
+        if (state.planState() == ClaudeCodePlanState.INACTIVE) {
+            return !EXIT_PLAN_MODE_TOOL.equals(toolName);
+        }
+        return true;
     }
 
     private boolean hasOnlyDirectAllowedCallers(JsonNode allowedCallers) {
@@ -986,7 +1072,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return true;
     }
 
-    private ObjectNode toBedrockToolChoice(JsonNode toolChoice) {
+    private ObjectNode toBedrockToolChoice(JsonNode toolChoice, Set<String> exposedToolNames) {
         ObjectNode mappedChoice = json.objectNode();
         if (toolChoice == null || toolChoice.isNull()) {
             return mappedChoice;
@@ -997,13 +1083,33 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         String type = toolChoice.path("type").asText("auto");
         if ("tool".equals(type)) {
+            String name = toolChoice.path("name").asText("");
+            if (!exposedToolNames.contains(name)) {
+                mappedChoice.set("auto", json.objectNode());
+                return mappedChoice;
+            }
             ObjectNode tool = json.objectNode();
-            tool.put("name", toolChoice.path("name").asText(""));
+            tool.put("name", name);
             mappedChoice.set("tool", tool);
             return mappedChoice;
         }
         putTextualToolChoice(mappedChoice, type);
         return mappedChoice;
+    }
+
+    private enum ClaudeCodePlanState {
+        UNKNOWN,
+        ACTIVE,
+        INACTIVE
+    }
+
+    private record ClaudeCodeToolState(
+            ClaudeCodePlanState planState,
+            boolean suppressAskUserQuestion
+    ) {
+        private static ClaudeCodeToolState unknown() {
+            return new ClaudeCodeToolState(ClaudeCodePlanState.UNKNOWN, false);
+        }
     }
 
     private void putTextualToolChoice(ObjectNode mappedChoice, String type) {

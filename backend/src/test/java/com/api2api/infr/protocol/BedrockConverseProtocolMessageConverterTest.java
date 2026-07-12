@@ -66,6 +66,124 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_marksToolResultSuccessful_when_claudeOmitsIsError() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"tool_use","id":"question_1","name":"AskUserQuestion","input":{}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"question_1","content":"仅位置移动"}]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/1/content/0/toolResult/status").asText()).isEqualTo("success");
+    }
+
+    @Test
+    void test_hidesAskUserQuestionForNextTurn_when_answerWasSuccessful() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,
+                 "tools":[
+                   {"name":"AskUserQuestion","input_schema":{"type":"object"}},
+                   {"name":"ExitPlanMode","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"tool_use","id":"question_1","name":"AskUserQuestion","input":{}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"question_1","content":"仅位置移动"}]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools").findValuesAsText("name"))
+                .containsExactly("ExitPlanMode");
+    }
+
+    @Test
+    void test_hidesExitPlanMode_when_planWasAlreadyApproved() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,
+                 "tools":[
+                   {"name":"AskUserQuestion","input_schema":{"type":"object"}},
+                   {"name":"EnterPlanMode","input_schema":{"type":"object"}},
+                   {"name":"ExitPlanMode","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"tool_use","id":"exit_1","name":"ExitPlanMode","input":{}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"exit_1","content":"User has approved your plan."}]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools").findValuesAsText("name"))
+                .containsExactlyInAnyOrder("AskUserQuestion", "EnterPlanMode");
+    }
+
+    @Test
+    void test_exposesExitPlanMode_when_planWasEnteredAgain() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,
+                 "tools":[
+                   {"name":"EnterPlanMode","input_schema":{"type":"object"}},
+                   {"name":"ExitPlanMode","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"tool_use","id":"exit_1","name":"ExitPlanMode","input":{}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"exit_1","content":"User approved."}]},
+                   {"role":"assistant","content":[{"type":"tool_use","id":"enter_2","name":"EnterPlanMode","input":{}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"enter_2","content":"Entered plan mode."}]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools").findValuesAsText("name"))
+                .containsExactly("ExitPlanMode");
+    }
+
+    @Test
     void shouldNotInventBedrockMaxTokensWhenClaudeThinkingHasNoMaxTokens() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,

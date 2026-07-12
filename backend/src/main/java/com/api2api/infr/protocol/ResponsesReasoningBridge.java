@@ -1,8 +1,11 @@
 package com.api2api.infr.protocol;
 
+import com.api2api.domain.protocol.model.ProtocolConversionException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Optional;
 
@@ -33,8 +36,8 @@ final class ResponsesReasoningBridge {
             state.put("encrypted_content", encryptedContent);
             return Optional.of(SIGNATURE_PREFIX + Base64.getUrlEncoder().withoutPadding()
                     .encodeToString(objectMapper.writeValueAsBytes(state)));
-        } catch (Exception ignored) {
-            return Optional.empty();
+        } catch (JsonProcessingException exception) {
+            throw new ProtocolConversionException("RESPONSES_REASONING_STATE_ENCODING_FAILED", exception);
         }
     }
 
@@ -49,8 +52,8 @@ final class ResponsesReasoningBridge {
                 return Optional.empty();
             }
             return Optional.of(state);
-        } catch (Exception ignored) {
-            return Optional.empty();
+        } catch (IOException | IllegalArgumentException exception) {
+            throw new ProtocolConversionException("RESPONSES_REASONING_STATE_DECODING_FAILED", exception);
         }
     }
 
@@ -67,8 +70,8 @@ final class ResponsesReasoningBridge {
         try {
             return Optional.of(ITEM_SIGNATURE_PREFIX + Base64.getUrlEncoder().withoutPadding()
                     .encodeToString(objectMapper.writeValueAsBytes(item)));
-        } catch (Exception ignored) {
-            return Optional.empty();
+        } catch (JsonProcessingException exception) {
+            throw new ProtocolConversionException("RESPONSES_OUTPUT_ITEM_STATE_ENCODING_FAILED", exception);
         }
     }
 
@@ -83,8 +86,8 @@ final class ResponsesReasoningBridge {
                 return Optional.empty();
             }
             return Optional.of(item);
-        } catch (Exception ignored) {
-            return Optional.empty();
+        } catch (IOException | IllegalArgumentException exception) {
+            throw new ProtocolConversionException("RESPONSES_OUTPUT_ITEM_STATE_DECODING_FAILED", exception);
         }
     }
 }

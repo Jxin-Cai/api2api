@@ -20,9 +20,10 @@ public class OpenAIResponsesUsageExtractor implements UnifiedUsageExtractor {
             return UnifiedTokenUsage.unknown();
         }
         long cacheReadTokens = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
+        long cacheWriteTokens = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
         long rawInputTokens = usage.path("input_tokens").asLong(0);
-        long inputTokens = Math.max(0, rawInputTokens - cacheReadTokens);
+        long inputTokens = Math.max(0, rawInputTokens - cacheReadTokens - cacheWriteTokens);
         long outputTokens = usage.path("output_tokens").asLong(0);
-        return UnifiedTokenUsage.known(inputTokens, outputTokens, 0, cacheReadTokens);
+        return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
     }
 }

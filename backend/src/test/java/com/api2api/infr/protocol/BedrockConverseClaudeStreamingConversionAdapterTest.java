@@ -327,6 +327,297 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .hasMessageContaining("malformed_tool_use");
     }
 
+    @Test
+    void test_emitsClaudeToolUse_when_responsesStreamsCustomToolCall() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_item.added","output_index":0,"item":{"type":"custom_tool_call","call_id":"custom_1","name":"apply_patch"}}
+
+                data: {"type":"response.custom_tool_call_input.delta","output_index":0,"delta":"*** Begin Patch"}
+
+                data: {"type":"response.custom_tool_call_input.done","output_index":0,"input":"*** Begin Patch"}
+
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"custom_tool_call","call_id":"custom_1","name":"apply_patch","input":"*** Begin Patch"}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode toolStart = events.stream()
+                .filter(node -> "tool_use".equals(node.at("/content_block/type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(toolStart.at("/content_block/id").asText())
+                .startsWith("toolu_api2api_custom_");
+        JsonNode inputDelta = events.stream()
+                .filter(node -> "input_json_delta".equals(node.at("/delta/type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(objectMapper.readTree(inputDelta.at("/delta/partial_json").asText()).path("input").asText())
+                .isEqualTo("*** Begin Patch");
+    }
+
+    @Test
+    void test_removesEmptyPages_when_responsesStreamsReadArguments() throws Exception {
+        // Arrange
+        String arguments = "{\"file_path\":\"README.md\",\"pages\":\"\"}";
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_item.added","output_index":0,"item":{"type":"function_call","call_id":"call_1","name":"Read"}}
+
+                data: {"type":"response.function_call_arguments.delta","output_index":0,"delta":"{\\\"file_path\\\":\\\"README.md\\\","}
+
+                data: {"type":"response.function_call_arguments.delta","output_index":0,"delta":"\\\"pages\\\":\\\"\\\"}"}
+
+                data: {"type":"response.function_call_arguments.done","output_index":0,"arguments":%s}
+
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"function_call","call_id":"call_1","name":"Read","arguments":%s}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """.formatted(
+                        objectMapper.writeValueAsString(arguments),
+                        objectMapper.writeValueAsString(arguments)
+                );
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<String> partialJson = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "input_json_delta".equals(node.at("/delta/type").asText()))
+                .map(node -> node.at("/delta/partial_json").asText())
+                .toList();
+        assertThat(partialJson).containsExactly("{\"file_path\":\"README.md\"}");
+    }
+
+    @Test
+    void test_emitsOpaqueThinkingState_when_responsesStreamsCompaction() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"compaction","id":"cmp_1","encrypted_content":"encrypted"}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        assertThat(events.stream().anyMatch(node -> "Context compacted."
+                .equals(node.at("/delta/thinking").asText()))).isTrue();
+        assertThat(events.stream().anyMatch(node -> node.at("/delta/signature").asText()
+                .startsWith(ResponsesReasoningBridge.ITEM_SIGNATURE_PREFIX))).isTrue();
+        JsonNode messageDelta = events.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(messageDelta.at("/delta/stop_reason").asText()).isEqualTo("pause_turn");
+    }
+
+    @Test
+    void test_linksProgramCallerToServerTool_when_responsesStreamsProgrammaticCall() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"program","id":"prog_1","call_id":"call_prog_1","code":"await tools.Read({});","fingerprint":"opaque"}}
+
+                data: {"type":"response.output_item.added","output_index":1,"item":{"type":"function_call","call_id":"call_1","name":"Read","caller":{"type":"program","caller_id":"call_prog_1"}}}
+
+                data: {"type":"response.function_call_arguments.done","output_index":1,"arguments":"{}"}
+
+                data: {"type":"response.output_item.done","output_index":1,"item":{"type":"function_call","call_id":"call_1","name":"Read","arguments":"{}","caller":{"type":"program","caller_id":"call_prog_1"}}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode serverTool = events.stream()
+                .filter(node -> "server_tool_use".equals(node.at("/content_block/type").asText()))
+                .findFirst()
+                .orElseThrow();
+        JsonNode clientTool = events.stream()
+                .filter(node -> "tool_use".equals(node.at("/content_block/type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(clientTool.at("/content_block/caller/type").asText())
+                .isEqualTo("code_execution_20260120");
+        assertThat(clientTool.at("/content_block/caller/tool_id").asText())
+                .isEqualTo(serverTool.at("/content_block/id").asText());
+    }
+
+    @Test
+    void test_mapsCacheWriteUsage_when_responsesStreamCompletes() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":20,"output_tokens":2,"input_tokens_details":{"cached_tokens":3,"cache_write_tokens":4}}}}
+
+                data: [DONE]
+
+                """;
+
+        // Act
+        UnifiedTokenUsage usage = adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                new ByteArrayOutputStream()
+        );
+
+        // Assert
+        assertThat(usage.inputTokens()).isEqualTo(13);
+        assertThat(usage.cacheCreationInputTokens()).isEqualTo(4);
+        assertThat(usage.cacheReadInputTokens()).isEqualTo(3);
+        assertThat(usage.totalTokens()).isEqualTo(22);
+    }
+
+    @Test
+    void test_emitsCompletedText_when_responsesOnlySendsDoneEvent() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_text.done","output_index":0,"text":"fallback text"}
+
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"message"}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        assertThat(dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .anyMatch(node -> "fallback text".equals(node.at("/delta/text").asText())))
+                .isTrue();
+    }
+
+    @Test
+    void test_recoversOutputItems_when_responsesOnlySendsCompletedEnvelope() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.completed","response":{"id":"resp_1","status":"completed","output":[{"type":"message","role":"assistant","content":[{"type":"output_text","text":"completed envelope text"}]}],"usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        assertThat(dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .anyMatch(node -> "completed envelope text".equals(node.at("/delta/text").asText())))
+                .isTrue();
+    }
+
+    @Test
+    void test_throwsEofException_when_responsesStreamEndsBeforeTerminalEvent() {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_text.delta","output_index":0,"delta":"partial"}
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act / Assert
+        assertThatThrownBy(() -> adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        )).isInstanceOf(java.io.EOFException.class)
+                .hasMessageContaining("before a terminal response event");
+        assertThat(downstream.toString(StandardCharsets.UTF_8))
+                .doesNotContain("event: message_delta")
+                .doesNotContain("event: message_stop");
+    }
+
+    @Test
+    void test_throwsIOException_when_responsesStreamReportsFailure() {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.failed","response":{"status":"failed","error":{"message":"sandbox unavailable"}}}
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act / Assert
+        assertThatThrownBy(() -> adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        )).isInstanceOf(java.io.IOException.class)
+                .hasMessageContaining("sandbox unavailable");
+        assertThat(downstream.toString(StandardCharsets.UTF_8))
+                .doesNotContain("event: message_delta")
+                .doesNotContain("event: message_stop");
+    }
+
     private GatewayStreamingConversionContext context(
             ProtocolType upstreamProtocol,
             ProtocolType clientProtocol

@@ -3,6 +3,7 @@ package com.api2api.infr.protocol;
 import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,8 +18,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,6 +31,8 @@ import org.springframework.stereotype.Component;
 public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayStreamingConversionPort {
 
     private static final int EVENT_STREAM_OVERHEAD_BYTES = 16;
+    private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = "Thinking...";
+    private static final String RESPONSES_COMPACTION_PLACEHOLDER = "Context compacted.";
 
     private final ObjectMapper objectMapper;
 
@@ -400,6 +405,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                 handleResponsesSseEvent(objectMapper.readTree(data), state, clientBody);
             }
         }
+        if (!state.terminalEventSeen) {
+            throw new EOFException("OpenAI Responses stream ended before a terminal response event");
+        }
         finishResponsesToClaude(state, clientBody);
         clientBody.flush();
         return state.usage == null ? UnifiedTokenUsage.unknown() : state.usage;
@@ -410,55 +418,418 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         int outputIndex = event.path("output_index").asInt(0);
         switch (type) {
             case "response.output_text.delta" -> {
+                state.responseOutputSeen = true;
+                state.finalMessageSeen = true;
                 ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
                 writeClaudeContentDelta(outputIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
+                state.textDeltaIndexes.add(outputIndex);
             }
-            case "response.reasoning_summary_text.delta" -> {
+            case "response.reasoning_summary_text.delta", "response.reasoning_text.delta" -> {
                 ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
                 writeClaudeContentDelta(outputIndex, "thinking_delta", "thinking", event.path("delta").asText(""), state, clientBody);
+                state.thinkingDeltaIndexes.add(outputIndex);
             }
             case "response.refusal.delta" -> {
+                state.responseOutputSeen = true;
+                state.finalMessageSeen = true;
                 ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
                 writeClaudeContentDelta(outputIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
+                state.textDeltaIndexes.add(outputIndex);
                 state.stopReason = "refusal";
             }
             case "response.output_item.added" -> {
                 JsonNode item = event.path("item");
-                if ("function_call".equals(item.path("type").asText())) {
-                    ensureClaudeBlockStarted(outputIndex, "tool_use", item.path("call_id").asText(item.path("id").asText("")),
-                            item.path("name").asText(""), state, clientBody);
-                    state.toolCallSeen = true;
-                }
-            }
-            case "response.function_call_arguments.delta" -> {
-                ensureClaudeBlockStarted(outputIndex, "tool_use", event.path("call_id").asText(event.path("item_id").asText("")),
-                        event.path("name").asText(""), state, clientBody);
-                writeClaudeContentDelta(outputIndex, "input_json_delta", "partial_json", event.path("delta").asText(""), state, clientBody);
-                state.toolCallSeen = true;
-            }
-            case "response.output_item.done" -> {
-                JsonNode item = event.path("item");
                 String itemType = item.path("type").asText("");
-                if ("reasoning".equals(itemType)) {
+                markResponsesOutputItem(itemType, state);
+                if (ResponsesToolCallBridge.isToolCall(itemType)) {
+                    rememberResponsesToolCall(outputIndex, item, state);
+                    ensureClaudeBlockStarted(
+                            outputIndex,
+                            "tool_use",
+                            ResponsesToolCallBridge.toClaudeToolUseId(item),
+                            item.path("name").asText(""),
+                            item.get("caller"),
+                            state,
+                            clientBody
+                    );
+                    state.toolCallSeen = true;
+                } else if ("reasoning".equals(itemType)) {
                     ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                    String signature = ResponsesReasoningBridge.encode(objectMapper, item)
-                            .orElseThrow(() -> new IOException("OpenAI Responses reasoning item is missing encrypted state"));
-                    writeClaudeContentDelta(outputIndex, "signature_delta", "signature", signature, state, clientBody);
-                } else if (!"function_call".equals(itemType) && !"message".equals(itemType)
-                        && !itemType.isBlank()) {
-                    ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                    String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
-                            .orElseThrow(() -> new IOException("OpenAI Responses output item is missing state"));
-                    writeClaudeContentDelta(outputIndex, "signature_delta", "signature", signature, state, clientBody);
                 }
-                stopClaudeBlock(outputIndex, state, clientBody);
             }
-            case "response.completed", "response.incomplete", "response.failed" -> recordResponsesCompletion(event.path("response"), state);
+            case "response.function_call_arguments.delta", "response.custom_tool_call_input.delta" ->
+                    handleResponsesToolInputDelta(event, outputIndex, state, clientBody);
+            case "response.function_call_arguments.done", "response.custom_tool_call_input.done" ->
+                    handleResponsesToolInputDone(event, outputIndex, state, clientBody);
+            case "response.output_text.done" -> writeResponsesTextFallback(
+                    outputIndex, event.path("text").asText(""), false, state, clientBody);
+            case "response.refusal.done" -> writeResponsesTextFallback(
+                    outputIndex,
+                    event.path("refusal").asText(event.path("text").asText("")),
+                    true,
+                    state,
+                    clientBody
+            );
+            case "response.content_part.done" -> handleResponsesContentPartDone(
+                    event.path("part"), outputIndex, state, clientBody);
+            case "response.reasoning_summary_text.done", "response.reasoning_text.done" ->
+                    writeResponsesThinkingFallback(
+                            outputIndex, event.path("text").asText(""), state, clientBody);
+            case "response.reasoning_summary_part.added", "response.reasoning_summary_part.done" -> {
+                JsonNode part = event.path("part");
+                if ("summary_text".equals(part.path("type").asText(""))) {
+                    writeResponsesThinkingFallback(
+                            outputIndex, part.path("text").asText(""), state, clientBody);
+                }
+            }
+            case "response.output_item.done" -> handleResponsesOutputItemDone(
+                    event.path("item"), outputIndex, state, clientBody);
+            case "response.completed", "response.done", "response.incomplete" ->
+                    recordResponsesCompletion(event.path("response"), state, clientBody);
+            case "response.failed", "response.cancelled", "response.canceled" ->
+                    throw responsesStreamFailure(event);
             case "error", "response.error" -> throw new IOException("OpenAI Responses stream failed: "
                     + event.path("error").path("message").asText(event.path("message").asText("unknown error")));
             default -> {
             }
         }
+    }
+
+    private void rememberResponsesToolCall(int outputIndex, JsonNode item, ResponsesStreamState state) {
+        state.toolNames.put(outputIndex, item.path("name").asText(""));
+    }
+
+    private void markResponsesOutputItem(String itemType, ResponsesStreamState state) {
+        if (itemType == null || itemType.isBlank()) {
+            return;
+        }
+        state.responseOutputSeen = true;
+        if ("message".equals(itemType)) {
+            state.finalMessageSeen = true;
+        }
+    }
+
+    private void handleResponsesToolInputDelta(
+            JsonNode event,
+            int outputIndex,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        boolean custom = "response.custom_tool_call_input.delta".equals(event.path("type").asText(""));
+        String name = event.path("name").asText(state.toolNames.getOrDefault(outputIndex, ""));
+        String callId = event.path("call_id").asText(event.path("item_id").asText(""));
+        ObjectNode item = responsesToolItem(custom, callId, name);
+        rememberResponsesToolCall(outputIndex, item, state);
+        String delta = event.path("delta").asText("");
+        state.toolInputBuffers.computeIfAbsent(outputIndex, ignored -> new StringBuilder()).append(delta);
+        state.toolCallSeen = true;
+        if (name.isBlank()) {
+            return;
+        }
+        ensureClaudeBlockStarted(
+                outputIndex,
+                "tool_use",
+                ResponsesToolCallBridge.toClaudeToolUseId(item),
+                name,
+                event.get("caller"),
+                state,
+                clientBody
+        );
+        if (!custom && !name.isBlank() && !"Read".equals(name) && !delta.isEmpty()) {
+            writeClaudeContentDelta(
+                    outputIndex, "input_json_delta", "partial_json", delta, state, clientBody);
+            state.toolInputDeltaIndexes.add(outputIndex);
+        }
+    }
+
+    private void handleResponsesToolInputDone(
+            JsonNode event,
+            int outputIndex,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        boolean custom = event.path("type").asText("").contains("custom_tool_call");
+        String name = event.path("name").asText(state.toolNames.getOrDefault(outputIndex, ""));
+        String callId = event.path("call_id").asText(event.path("item_id").asText(""));
+        ObjectNode item = responsesToolItem(custom, callId, name);
+        rememberResponsesToolCall(outputIndex, item, state);
+        ensureClaudeBlockStarted(
+                outputIndex,
+                "tool_use",
+                ResponsesToolCallBridge.toClaudeToolUseId(item),
+                name,
+                event.get("caller"),
+                state,
+                clientBody
+        );
+        String rawInput = custom
+                ? event.path("input").asText("")
+                : event.path("arguments").asText("");
+        emitCompletedResponsesToolInput(outputIndex, name, rawInput, custom, state, clientBody);
+    }
+
+    private void emitCompletedResponsesToolInput(
+            int outputIndex,
+            String name,
+            String rawInput,
+            boolean custom,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        if (state.toolInputCompletedIndexes.contains(outputIndex)) {
+            return;
+        }
+        String buffered = state.toolInputBuffers.getOrDefault(outputIndex, new StringBuilder()).toString();
+        String completeInput = rawInput == null || rawInput.isBlank() ? buffered : rawInput;
+        try {
+            String sanitized = ResponsesToolCallBridge.toClaudeToolInputJson(
+                    objectMapper, name, completeInput, custom);
+            if (custom || "Read".equals(name) || !state.toolInputDeltaIndexes.contains(outputIndex)) {
+                writeClaudeContentDelta(
+                        outputIndex, "input_json_delta", "partial_json", sanitized, state, clientBody);
+            }
+        } catch (ProtocolConversionException exception) {
+            throw new IOException("OpenAI Responses tool input cannot be converted to Claude", exception);
+        }
+        state.toolInputCompletedIndexes.add(outputIndex);
+    }
+
+    private ObjectNode responsesToolItem(boolean custom, String callId, String name) {
+        ObjectNode item = objectNode();
+        item.put("type", custom ? "custom_tool_call" : "function_call");
+        item.put("call_id", callId);
+        item.put("name", name);
+        return item;
+    }
+
+    private void handleResponsesContentPartDone(
+            JsonNode part,
+            int outputIndex,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        String partType = part.path("type").asText("");
+        if ("output_text".equals(partType)) {
+            writeResponsesTextFallback(outputIndex, part.path("text").asText(""), false, state, clientBody);
+        } else if ("refusal".equals(partType)) {
+            writeResponsesTextFallback(
+                    outputIndex,
+                    part.path("refusal").asText(part.path("text").asText("")),
+                    true,
+                    state,
+                    clientBody
+            );
+        }
+    }
+
+    private void writeResponsesTextFallback(
+            int outputIndex,
+            String text,
+            boolean refusal,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        state.responseOutputSeen = true;
+        state.finalMessageSeen = true;
+        if (text == null || text.isEmpty() || state.textDeltaIndexes.contains(outputIndex)) {
+            if (refusal) {
+                state.stopReason = "refusal";
+            }
+            return;
+        }
+        ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
+        writeClaudeContentDelta(outputIndex, "text_delta", "text", text, state, clientBody);
+        state.textDeltaIndexes.add(outputIndex);
+        if (refusal) {
+            state.stopReason = "refusal";
+        }
+    }
+
+    private void writeResponsesThinkingFallback(
+            int outputIndex,
+            String thinking,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        if (thinking == null || thinking.isEmpty() || state.thinkingDeltaIndexes.contains(outputIndex)) {
+            return;
+        }
+        ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+        writeClaudeContentDelta(
+                outputIndex, "thinking_delta", "thinking", thinking, state, clientBody);
+        state.thinkingDeltaIndexes.add(outputIndex);
+    }
+
+    private void handleResponsesOutputItemDone(
+            JsonNode item,
+            int outputIndex,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        String itemType = item.path("type").asText("");
+        markResponsesOutputItem(itemType, state);
+        state.completedOutputIndexes.add(outputIndex);
+        try {
+            if (ResponsesToolCallBridge.isToolCall(itemType)) {
+                rememberResponsesToolCall(outputIndex, item, state);
+                ensureClaudeBlockStarted(
+                        outputIndex,
+                        "tool_use",
+                        ResponsesToolCallBridge.toClaudeToolUseId(item),
+                        item.path("name").asText(""),
+                        item.get("caller"),
+                        state,
+                        clientBody
+                );
+                String rawInput = "custom_tool_call".equals(itemType)
+                        ? item.path("input").asText("")
+                        : item.path("arguments").asText("");
+                emitCompletedResponsesToolInput(
+                        outputIndex,
+                        item.path("name").asText(""),
+                        rawInput,
+                        "custom_tool_call".equals(itemType),
+                        state,
+                        clientBody
+                );
+                state.toolCallSeen = true;
+            } else if ("reasoning".equals(itemType)) {
+                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                writeResponsesThinkingFallback(
+                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
+                String signature = ResponsesReasoningBridge.encode(objectMapper, item)
+                        .orElseThrow(() -> new IOException(
+                                "OpenAI Responses reasoning item is missing encrypted state"));
+                writeClaudeContentDelta(
+                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+            } else if ("compaction".equals(itemType)) {
+                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                writeResponsesThinkingFallback(
+                        outputIndex, RESPONSES_COMPACTION_PLACEHOLDER, state, clientBody);
+                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                        .orElseThrow(() -> new IOException(
+                                "OpenAI Responses compaction item is missing state"));
+                writeClaudeContentDelta(
+                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+            } else if ("program".equals(itemType)) {
+                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                writeResponsesThinkingFallback(
+                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
+                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                        .orElseThrow(() -> new IOException(
+                                "OpenAI Responses program item is missing state"));
+                writeClaudeContentDelta(
+                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                stopClaudeBlock(outputIndex, state, clientBody);
+                writeClaudeProgramServerTool(item, state, clientBody);
+                return;
+            } else if ("program_output".equals(itemType)) {
+                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                writeResponsesThinkingFallback(
+                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
+                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                        .orElseThrow(() -> new IOException(
+                                "OpenAI Responses program output item is missing state"));
+                writeClaudeContentDelta(
+                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                stopClaudeBlock(outputIndex, state, clientBody);
+                writeClaudeProgramResult(item, state, clientBody);
+                return;
+            } else if (!"message".equals(itemType) && !itemType.isBlank()) {
+                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                writeResponsesThinkingFallback(
+                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
+                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                        .orElseThrow(() -> new IOException(
+                                "OpenAI Responses output item is missing state"));
+                writeClaudeContentDelta(
+                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+            }
+        } catch (ProtocolConversionException exception) {
+            throw new IOException("OpenAI Responses output item cannot be converted to Claude", exception);
+        }
+        stopClaudeBlock(outputIndex, state, clientBody);
+    }
+
+    private void writeClaudeProgramServerTool(
+            JsonNode item,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        int index = state.nextAuxiliaryClaudeIndex();
+        String toolId = ResponsesProgrammaticToolBridge.toClaudeProgramToolId(
+                item.path("call_id").asText(""));
+        ObjectNode contentBlock = objectNode();
+        contentBlock.put("type", "server_tool_use");
+        contentBlock.put("id", toolId);
+        contentBlock.put("name", "code_execution");
+        contentBlock.set("input", objectNode());
+        writeClaudeAuxiliaryBlockStart(index, contentBlock, clientBody);
+
+        ObjectNode input = objectNode();
+        input.put("code", item.path("code").asText(""));
+        ObjectNode delta = objectNode();
+        delta.put("type", "input_json_delta");
+        delta.put("partial_json", objectMapper.writeValueAsString(input));
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_delta");
+        event.put("index", index);
+        event.set("delta", delta);
+        writeSse(clientBody, "content_block_delta", event);
+        writeClaudeAuxiliaryBlockStop(index, clientBody);
+    }
+
+    private void writeClaudeProgramResult(
+            JsonNode item,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        int index = state.nextAuxiliaryClaudeIndex();
+        boolean completed = "completed".equals(item.path("status").asText(""));
+        ObjectNode contentBlock = objectNode();
+        contentBlock.put("type", "code_execution_tool_result");
+        contentBlock.put(
+                "tool_use_id",
+                ResponsesProgrammaticToolBridge.toClaudeProgramToolId(
+                        item.path("call_id").asText(""))
+        );
+        ObjectNode result = objectNode();
+        result.put("type", "code_execution_result");
+        result.put("stdout", item.path("result").asText(""));
+        result.put("stderr", completed ? "" : "Program did not complete.");
+        result.put("return_code", completed ? 0 : 1);
+        result.set("content", objectMapper.createArrayNode());
+        contentBlock.set("content", result);
+        writeClaudeAuxiliaryBlockStart(index, contentBlock, clientBody);
+        writeClaudeAuxiliaryBlockStop(index, clientBody);
+    }
+
+    private void writeClaudeAuxiliaryBlockStart(
+            int index,
+            ObjectNode contentBlock,
+            OutputStream clientBody
+    ) throws IOException {
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_start");
+        event.put("index", index);
+        event.set("content_block", contentBlock);
+        writeSse(clientBody, "content_block_start", event);
+    }
+
+    private void writeClaudeAuxiliaryBlockStop(int index, OutputStream clientBody) throws IOException {
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_stop");
+        event.put("index", index);
+        writeSse(clientBody, "content_block_stop", event);
+    }
+
+    private IOException responsesStreamFailure(JsonNode event) {
+        JsonNode response = event.path("response");
+        String message = response.path("error").path("message").asText("");
+        if (message.isBlank()) {
+            message = event.path("error").path("message").asText(event.path("message").asText("unknown error"));
+        }
+        return new IOException("OpenAI Responses stream failed: " + message);
     }
 
     private void writeClaudeMessageStart(OutputStream clientBody, ResponsesStreamState state) throws IOException {
@@ -480,6 +851,18 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     private void ensureClaudeBlockStarted(int index, String type, String id, String name,
                                           ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        ensureClaudeBlockStarted(index, type, id, name, null, state, clientBody);
+    }
+
+    private void ensureClaudeBlockStarted(
+            int index,
+            String type,
+            String id,
+            String name,
+            JsonNode caller,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
         int claudeIndex = state.claudeIndexFor(index);
         if (state.blockTypes.containsKey(claudeIndex)) {
             return;
@@ -494,6 +877,15 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             block.put("id", id == null ? "" : id);
             block.put("name", name == null ? "" : name);
             block.set("input", objectNode());
+            try {
+                ObjectNode claudeCaller = ResponsesProgrammaticToolBridge.toClaudeCaller(
+                        objectMapper, caller);
+                if (claudeCaller != null) {
+                    block.set("caller", claudeCaller);
+                }
+            } catch (ProtocolConversionException exception) {
+                throw new IOException("OpenAI Responses tool caller cannot be converted to Claude", exception);
+            }
         }
         ObjectNode event = objectNode();
         event.put("type", "content_block_start");
@@ -530,22 +922,64 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         state.stoppedBlocks.put(claudeIndex, true);
     }
 
-    private void recordResponsesCompletion(JsonNode response, ResponsesStreamState state) {
+    private void recordResponsesCompletion(
+            JsonNode response,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        String status = response.path("status").asText("");
+        if ("failed".equals(status) || "cancelled".equals(status) || "canceled".equals(status)) {
+            String message = response.path("error").path("message").asText("unknown error");
+            throw new IOException("OpenAI Responses stream failed: " + message);
+        }
         JsonNode usage = response.path("usage");
         if (!usage.isMissingNode() && !usage.isNull()) {
             long input = usage.path("input_tokens").asLong(0);
             long output = usage.path("output_tokens").asLong(0);
             long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
-            state.usage = UnifiedTokenUsage.known(Math.max(0, input - cached), output, 0, cached);
+            long cacheWrite = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
+            state.usage = UnifiedTokenUsage.known(
+                    Math.max(0, input - cached - cacheWrite), output, cacheWrite, cached);
         }
-        if ("incomplete".equals(response.path("status").asText())
+        JsonNode output = response.path("output");
+        if (output.isArray()) {
+            for (int outputIndex = 0; outputIndex < output.size(); outputIndex++) {
+                JsonNode item = output.get(outputIndex);
+                markResponsesOutputItem(item.path("type").asText(""), state);
+                if (!state.completedOutputIndexes.contains(outputIndex)) {
+                    handleResponsesCompletionFallbackItem(item, outputIndex, state, clientBody);
+                }
+            }
+        }
+        if ("incomplete".equals(status)
                 && "max_output_tokens".equals(response.path("incomplete_details").path("reason").asText())) {
             state.stopReason = "max_tokens";
-        } else if ("failed".equals(response.path("status").asText())
-                || "cancelled".equals(response.path("status").asText())
-                || "content_filter".equals(response.path("incomplete_details").path("reason").asText())) {
+        } else if ("content_filter".equals(response.path("incomplete_details").path("reason").asText())) {
             state.stopReason = "refusal";
+        } else if (state.responseOutputSeen && !state.finalMessageSeen && !state.toolCallSeen) {
+            state.stopReason = "pause_turn";
         }
+        state.terminalEventSeen = true;
+    }
+
+    private void handleResponsesCompletionFallbackItem(
+            JsonNode item,
+            int outputIndex,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        if (!"message".equals(item.path("type").asText(""))) {
+            handleResponsesOutputItemDone(item, outputIndex, state, clientBody);
+            return;
+        }
+        JsonNode content = item.path("content");
+        if (content.isArray()) {
+            for (JsonNode part : content) {
+                handleResponsesContentPartDone(part, outputIndex, state, clientBody);
+            }
+        }
+        state.completedOutputIndexes.add(outputIndex);
+        stopClaudeBlock(outputIndex, state, clientBody);
     }
 
     private void throwIfModeledException(BedrockEvent event, JsonNode payload) throws IOException {
@@ -739,12 +1173,22 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         private final String clientModel;
         private boolean messageStarted;
         private boolean toolCallSeen;
+        private boolean terminalEventSeen;
+        private boolean responseOutputSeen;
+        private boolean finalMessageSeen;
         private String stopReason = "end_turn";
         private UnifiedTokenUsage usage;
         private int nextClaudeIndex;
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
         private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
+        private final Map<Integer, String> toolNames = new HashMap<>();
+        private final Map<Integer, StringBuilder> toolInputBuffers = new HashMap<>();
+        private final Set<Integer> toolInputDeltaIndexes = new HashSet<>();
+        private final Set<Integer> toolInputCompletedIndexes = new HashSet<>();
+        private final Set<Integer> textDeltaIndexes = new HashSet<>();
+        private final Set<Integer> thinkingDeltaIndexes = new HashSet<>();
+        private final Set<Integer> completedOutputIndexes = new HashSet<>();
 
         private ResponsesStreamState(String clientModel) {
             this.clientModel = clientModel;
@@ -758,6 +1202,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             int assigned = nextClaudeIndex++;
             claudeIndexes.put(responseOutputIndex, assigned);
             return assigned;
+        }
+
+        private int nextAuxiliaryClaudeIndex() {
+            return nextClaudeIndex++;
         }
     }
 }

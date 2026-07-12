@@ -5,9 +5,12 @@ import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.ProviderStreamingResponse;
+import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -71,6 +74,13 @@ public class GatewayStreamingResponseMapper {
                 }
                 outputStream.flush();
             } catch (IOException exception) {
+                if (streamingInvocation.requiresProtocolConversion()) {
+                    writeProtocolConversionError(
+                            outputStream,
+                            streamingInvocation.invocation().requestProtocol(),
+                            exception
+                    );
+                }
                 gatewayInvocationApplicationService.completeStreamingFailure(
                         streamingInvocation,
                         new UncheckedIOException(exception)
@@ -84,6 +94,35 @@ public class GatewayStreamingResponseMapper {
         };
 
         return responseBody;
+    }
+
+    private void writeProtocolConversionError(
+            OutputStream outputStream,
+            ProtocolType clientProtocol,
+            IOException conversionFailure
+    ) {
+        String event = switch (clientProtocol) {
+            case CLAUDE_MESSAGES -> """
+                    event: error
+                    data: {"type":"error","error":{"type":"api_error","message":"Upstream stream ended before a terminal event"}}
+
+                    """;
+            case OPENAI_RESPONSES -> """
+                    event: error
+                    data: {"type":"error","message":"Upstream stream ended before a terminal event"}
+
+                    """;
+            default -> "";
+        };
+        if (event.isEmpty()) {
+            return;
+        }
+        try {
+            outputStream.write(event.getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+        } catch (IOException errorWriteFailure) {
+            conversionFailure.addSuppressed(errorWriteFailure);
+        }
     }
 
     private void applyHeaders(GatewayStreamingInvocation streamingInvocation, HttpServletResponse response) {

@@ -6,7 +6,13 @@ import com.api2api.domain.protocol.model.ProtocolConversionRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.HexFormat;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +24,12 @@ class ProtocolConverterConfiguration {
     private static final Set<String> CLAUDE_RESPONSES_REQUEST_FIELDS = Set.of(
             "model", "messages", "max_tokens", "system", "stream", "temperature", "top_p", "top_k",
             "stop_sequences", "metadata", "service_tier", "speed", "thinking", "reasoning", "tool_choice",
-            "tools", "cache_control", "output_config", "context_management", "container", "mcp_servers"
+            "tools", "cache_control", "output_config", "context_management", "container", "mcp_servers",
+            "inference_geo", "diagnostics"
     );
+
+    private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = "Thinking...";
+    private static final String RESPONSES_COMPACTION_PLACEHOLDER = "Context compacted.";
 
     @Bean
     ProtocolMessageConverter claudeMessagesToOpenAIResponsesRequest(ProtocolJsonSupport json, SseEventTransformer sseEventTransformer) {
@@ -227,15 +237,19 @@ class ProtocolConverterConfiguration {
             if (source.path("max_tokens").isNumber() && source.path("max_tokens").asInt() == 0) {
                 throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_ONLY_REQUEST_NOT_SUPPORTED");
             }
+            String model = source.path("model").asText("");
             ObjectNode target = json.objectNode();
             copyIfPresent(source, target, "model");
             copyIfPresent(source, target, "stream");
             copyIfPresent(source, target, "max_tokens", "max_output_tokens");
-            if (!isReasoningModel(source.path("model").asText(""))) {
+            if (!isReasoningModel(model)) {
                 copyIfPresent(source, target, "temperature");
                 copyIfPresent(source, target, "top_p");
             }
             copyIfPresent(source, target, "metadata");
+            if (isReasoningModel(model)) {
+                target.put("prompt_cache_key", responsesPromptCacheKey(source, model));
+            }
             if (source.hasNonNull("service_tier")) {
                 target.put("service_tier", "standard_only".equals(source.path("service_tier").asText()) ? "default" : "auto");
             }
@@ -265,14 +279,15 @@ class ProtocolConverterConfiguration {
                 target.set("text", text);
             }
             ArrayNode input = json.arrayNode();
-            input.addAll(claudeSystemToResponsesInput(source.get("system")));
-            input.addAll(claudeMessagesToResponsesInput(source.get("messages")));
+            input.addAll(claudeSystemToResponsesInput(source.get("system"), model));
+            input.addAll(claudeMessagesToResponsesInput(source.get("messages"), model));
+            applyTopLevelCacheControl(input, source.get("cache_control"), model);
             target.set("input", input);
             ArrayNode mappedTools = claudeToolsToResponses(
                     source.get("tools"),
                     source.get("mcp_servers"),
                     source.get("container"),
-                    source.path("model").asText("")
+                    model
             );
             if (!mappedTools.isEmpty()) {
                 target.set("tools", mappedTools);
@@ -289,10 +304,16 @@ class ProtocolConverterConfiguration {
             }
             ObjectNode reasoning = responsesReasoningConfig(source);
             if (!reasoning.isEmpty()) {
-                if (!isReasoningModel(source.path("model").asText(""))) {
+                if (!isReasoningModel(model)) {
                     throw new ProtocolConversionException("CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_REASONING");
                 }
                 target.set("reasoning", reasoning);
+            }
+            if (supportsExplicitCacheBreakpoints(model) && containsResponsesCacheBreakpoint(input)) {
+                ObjectNode options = json.objectNode();
+                options.put("mode", "explicit");
+                options.put("ttl", "30m");
+                target.set("prompt_cache_options", options);
             }
             return target;
         }
@@ -317,9 +338,15 @@ class ProtocolConverterConfiguration {
             if (outputConfig != null && outputConfig.isObject() && outputConfig.hasNonNull("task_budget")) {
                 throw new ProtocolConversionException("CLAUDE_RESPONSES_TASK_BUDGET_NOT_SUPPORTED");
             }
+            if (source.hasNonNull("inference_geo")) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_INFERENCE_GEO_NOT_SUPPORTED");
+            }
+            if (source.hasNonNull("diagnostics")) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_DIAGNOSTICS_NOT_SUPPORTED");
+            }
         }
 
-        private ArrayNode claudeSystemToResponsesInput(JsonNode system) {
+        private ArrayNode claudeSystemToResponsesInput(JsonNode system, String model) {
             ArrayNode input = json.arrayNode();
             if (system == null || system.isNull()) {
                 return input;
@@ -330,7 +357,7 @@ class ProtocolConverterConfiguration {
             } else if (system.isArray()) {
                 for (JsonNode block : system) {
                     if ("text".equals(block.path("type").asText(""))) {
-                        addClaudeTextPart(content, block.path("text").asText(""), "input_text");
+                        addClaudeTextPart(content, block.path("text").asText(""), "input_text", block, model);
                     }
                 }
             }
@@ -344,11 +371,12 @@ class ProtocolConverterConfiguration {
             return input;
         }
 
-        private ArrayNode claudeMessagesToResponsesInput(JsonNode messages) {
+        private ArrayNode claudeMessagesToResponsesInput(JsonNode messages, String model) {
             ArrayNode input = json.arrayNode();
             if (messages == null || !messages.isArray()) {
                 return input;
             }
+            Map<String, JsonNode> toolCallers = collectClaudeToolCallers(messages);
             for (JsonNode message : messages) {
                 String role = message.path("role").asText("user");
                 JsonNode content = message.get("content");
@@ -374,34 +402,55 @@ class ProtocolConverterConfiguration {
                         : null;
                 for (JsonNode block : content) {
                     switch (block.path("type").asText("")) {
-                        case "text" -> addClaudeTextPart(messageContent, block.path("text").asText(""), "assistant".equals(role) ? "output_text" : "input_text");
-                        case "image" -> addClaudeImagePart(messageContent, block);
-                        case "document" -> addClaudeDocumentPart(messageContent, block);
-                        case "search_result" -> addClaudeSearchResultPart(messageContent, block, "assistant".equals(role) ? "output_text" : "input_text");
+                        case "text" -> addClaudeTextPart(messageContent, block.path("text").asText(""),
+                                "assistant".equals(role) ? "output_text" : "input_text", block, model);
+                        case "image" -> addClaudeImagePart(messageContent, block, model);
+                        case "document" -> addClaudeDocumentPart(messageContent, block, model);
+                        case "search_result" -> addClaudeSearchResultPart(messageContent, block,
+                                "assistant".equals(role) ? "output_text" : "input_text", model);
                         case "tool_use" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
                             input.add(claudeToolUseToResponses(block));
                         }
                         case "tool_result" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
-                            input.add(claudeToolResultToResponses(block));
+                            input.add(claudeToolResultToResponses(block, toolCallers, model));
                         }
-                        case "mcp_tool_use", "mcp_tool_result", "server_tool_use", "web_search_tool_result",
-                             "web_fetch_tool_result", "code_execution_tool_result", "bash_code_execution_tool_result",
+                        case "server_tool_use" -> {
+                            if (!ResponsesProgrammaticToolBridge.isSyntheticProgramToolId(
+                                    block.path("id").asText(""))) {
+                                throw new ProtocolConversionException(
+                                        "CLAUDE_RESPONSES_SERVER_TOOL_HISTORY_NOT_LOSSLESS: server_tool_use");
+                            }
+                        }
+                        case "code_execution_tool_result" -> {
+                            if (!ResponsesProgrammaticToolBridge.isSyntheticProgramToolId(
+                                    block.path("tool_use_id").asText(""))) {
+                                throw new ProtocolConversionException(
+                                        "CLAUDE_RESPONSES_SERVER_TOOL_HISTORY_NOT_LOSSLESS: code_execution_tool_result");
+                            }
+                        }
+                        case "mcp_tool_use", "mcp_tool_result", "web_search_tool_result",
+                             "web_fetch_tool_result", "bash_code_execution_tool_result",
                              "text_editor_code_execution_tool_result", "tool_search_tool_result" ->
                                 throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_TOOL_HISTORY_NOT_LOSSLESS: "
                                         + block.path("type").asText(""));
                         case "thinking" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
-                            input.add(claudeThinkingToResponses(block));
+                            ObjectNode mappedThinking = claudeThinkingToResponses(block);
+                            if ("compaction".equals(mappedThinking.path("type").asText(""))) {
+                                input.removeAll();
+                            }
+                            input.add(mappedThinking);
                         }
                         case "compaction" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
+                            input.removeAll();
                             input.add(claudeCompactionToResponses(block));
                         }
                         case "mid_conv_system" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
-                            input.addAll(claudeSystemToResponsesInput(block.get("content")));
+                            input.addAll(claudeSystemToResponsesInput(block.get("content"), model));
                         }
                         case "redacted_thinking" -> throw new ProtocolConversionException("CLAUDE_RESPONSES_REDACTED_THINKING_NOT_SUPPORTED");
                         default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_CONTENT_BLOCK: " + block.path("type").asText(""));
@@ -422,6 +471,27 @@ class ProtocolConverterConfiguration {
                 }
             }
             return false;
+        }
+
+        private Map<String, JsonNode> collectClaudeToolCallers(JsonNode messages) {
+            Map<String, JsonNode> callers = new HashMap<>();
+            for (JsonNode message : messages) {
+                JsonNode content = message.get("content");
+                if (content == null || !content.isArray()) {
+                    continue;
+                }
+                for (JsonNode block : content) {
+                    if (!"tool_use".equals(block.path("type").asText(""))
+                            || !block.hasNonNull("caller")) {
+                        continue;
+                    }
+                    String toolUseId = block.path("id").asText("");
+                    if (!toolUseId.isBlank()) {
+                        callers.put(toolUseId, block.get("caller").deepCopy());
+                    }
+                }
+            }
+            return Map.copyOf(callers);
         }
 
         private void flushResponsesMessage(ArrayNode input, String role, ArrayNode content, String assistantPhase) {
@@ -449,7 +519,25 @@ class ProtocolConverterConfiguration {
             content.add(text);
         }
 
+        private void addClaudeTextPart(
+                ArrayNode content,
+                String value,
+                String type,
+                JsonNode source,
+                String model
+        ) {
+            int previousSize = content.size();
+            addClaudeTextPart(content, value, type);
+            if (content.size() > previousSize) {
+                applyResponsesCacheBreakpoint((ObjectNode) content.get(content.size() - 1), source, model);
+            }
+        }
+
         private void addClaudeImagePart(ArrayNode content, JsonNode block) {
+            addClaudeImagePart(content, block, null);
+        }
+
+        private void addClaudeImagePart(ArrayNode content, JsonNode block, String model) {
             JsonNode source = block.get("source");
             if (source == null || source.isNull()) {
                 return;
@@ -468,10 +556,15 @@ class ProtocolConverterConfiguration {
                 image.put("image_url", "data:" + mediaType + ";base64," + data);
             }
             image.put("detail", "auto");
+            applyResponsesCacheBreakpoint(image, block, model);
             content.add(image);
         }
 
         private void addClaudeDocumentPart(ArrayNode content, JsonNode block) {
+            addClaudeDocumentPart(content, block, null);
+        }
+
+        private void addClaudeDocumentPart(ArrayNode content, JsonNode block, String model) {
             JsonNode source = block.path("source");
             ObjectNode file = json.objectNode();
             file.put("type", "input_file");
@@ -487,13 +580,142 @@ class ProtocolConverterConfiguration {
             if (block.hasNonNull("title")) {
                 file.put("filename", block.path("title").asText());
             }
+            applyResponsesCacheBreakpoint(file, block, model);
             content.add(file);
         }
 
-        private void addClaudeSearchResultPart(ArrayNode content, JsonNode block, String textType) {
+        private void addClaudeSearchResultPart(ArrayNode content, JsonNode block, String textType, String model) {
             String text = "Source: " + block.path("source").asText("") + "\nTitle: "
                     + block.path("title").asText("") + "\n" + extractOpenAiContentText(block.get("content"));
-            addClaudeTextPart(content, text, textType);
+            addClaudeTextPart(content, text, textType, block, model);
+        }
+
+        private void applyResponsesCacheBreakpoint(ObjectNode target, JsonNode source, String model) {
+            JsonNode cacheControl = source == null ? null : source.get("cache_control");
+            if (cacheControl == null || cacheControl.isNull()) {
+                return;
+            }
+            validateClaudeCacheControl(cacheControl);
+            if (!supportsExplicitCacheBreakpoints(model) || !isResponsesCacheablePart(target)) {
+                return;
+            }
+            ObjectNode breakpoint = json.objectNode();
+            breakpoint.put("mode", "explicit");
+            target.set("prompt_cache_breakpoint", breakpoint);
+        }
+
+        private void applyTopLevelCacheControl(ArrayNode input, JsonNode cacheControl, String model) {
+            if (cacheControl == null || cacheControl.isNull()) {
+                return;
+            }
+            validateClaudeCacheControl(cacheControl);
+            if (!supportsExplicitCacheBreakpoints(model)) {
+                return;
+            }
+            ObjectNode target = lastResponsesCacheablePart(input);
+            if (target == null) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_BREAKPOINT_TARGET_NOT_FOUND");
+            }
+            ObjectNode breakpoint = json.objectNode();
+            breakpoint.put("mode", "explicit");
+            target.set("prompt_cache_breakpoint", breakpoint);
+        }
+
+        private ObjectNode lastResponsesCacheablePart(ArrayNode input) {
+            ObjectNode result = null;
+            for (JsonNode item : input) {
+                JsonNode content = item.get("content");
+                if (content != null && content.isArray()) {
+                    for (JsonNode part : content) {
+                        if (isResponsesCacheablePart(part)) {
+                            result = (ObjectNode) part;
+                        }
+                    }
+                }
+                JsonNode output = item.get("output");
+                if (output != null && output.isArray()) {
+                    for (JsonNode part : output) {
+                        if (isResponsesCacheablePart(part)) {
+                            result = (ObjectNode) part;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        private boolean isResponsesCacheablePart(JsonNode part) {
+            if (part == null || !part.isObject()) {
+                return false;
+            }
+            return switch (part.path("type").asText("")) {
+                case "input_text", "input_image", "input_file" -> true;
+                default -> false;
+            };
+        }
+
+        private void validateClaudeCacheControl(JsonNode cacheControl) {
+            if (!cacheControl.isObject()
+                    || !"ephemeral".equals(cacheControl.path("type").asText(""))) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_INVALID_CACHE_CONTROL");
+            }
+            String ttl = cacheControl.path("ttl").asText("");
+            if (!ttl.isBlank() && !"5m".equals(ttl) && !"1h".equals(ttl)) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_CACHE_TTL: " + ttl);
+            }
+        }
+
+        private boolean containsResponsesCacheBreakpoint(ArrayNode input) {
+            for (JsonNode item : input) {
+                JsonNode content = item.get("content");
+                if (containsResponsesCacheBreakpointPart(content)) {
+                    return true;
+                }
+                JsonNode output = item.get("output");
+                if (containsResponsesCacheBreakpointPart(output)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private boolean containsResponsesCacheBreakpointPart(JsonNode parts) {
+            if (parts == null || !parts.isArray()) {
+                return false;
+            }
+            for (JsonNode part : parts) {
+                if (part.has("prompt_cache_breakpoint")) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private String responsesPromptCacheKey(JsonNode source, String model) {
+            String userId = source.path("metadata").path("user_id").asText("");
+            String stableIdentity = userId.isBlank()
+                    ? source.path("system") + "\n" + source.path("tools") + "\n" + firstClaudeUserContent(source.path("messages"))
+                    : userId;
+            String seed = model + "\n" + stableIdentity;
+            try {
+                byte[] digest = MessageDigest.getInstance("SHA-256")
+                        .digest(seed.getBytes(StandardCharsets.UTF_8));
+                return "api2api-claude-" + HexFormat.of().formatHex(digest, 0, 16);
+            } catch (NoSuchAlgorithmException exception) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_PROMPT_CACHE_KEY_HASH_FAILED", exception);
+            }
+        }
+
+        private String firstClaudeUserContent(JsonNode messages) {
+            if (messages == null || !messages.isArray()) {
+                return "";
+            }
+            for (JsonNode message : messages) {
+                if ("user".equals(message.path("role").asText(""))) {
+                    return message.path("content").toString();
+                }
+            }
+            return "";
         }
 
         private ObjectNode claudeThinkingToResponses(JsonNode block) {
@@ -521,36 +743,62 @@ class ProtocolConverterConfiguration {
         }
 
         private ObjectNode claudeCompactionToResponses(JsonNode block) {
-            String encryptedContent = block.path("encrypted_content").asText("");
-            if (encryptedContent.isBlank()) {
-                throw new ProtocolConversionException("CLAUDE_RESPONSES_COMPACTION_ENCRYPTED_CONTENT_REQUIRED");
+            String summary = block.path("content").asText("");
+            if (summary.isBlank()) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_COMPACTION_CONTENT_REQUIRED");
             }
-            ObjectNode compaction = json.objectNode();
-            compaction.put("type", "compaction");
-            compaction.put("encrypted_content", encryptedContent);
-            return compaction;
+            ObjectNode message = json.objectNode();
+            message.put("type", "message");
+            message.put("role", "assistant");
+            message.put("phase", "commentary");
+            ArrayNode content = json.arrayNode();
+            addClaudeTextPart(content, summary, "output_text");
+            message.set("content", content);
+            return message;
         }
 
         private ObjectNode claudeToolUseToResponses(JsonNode block) {
-            ObjectNode call = json.objectNode();
-            call.put("type", "function_call");
-            call.put("call_id", block.path("id").asText(""));
-            call.put("name", block.path("name").asText(""));
-            JsonNode arguments = block.get("input");
-            call.put("arguments", arguments == null || arguments.isNull() ? "{}" : arguments.toString());
+            ObjectNode call = ResponsesToolCallBridge.toResponsesToolCall(json.objectMapper(), block);
+            ObjectNode caller = ResponsesProgrammaticToolBridge.toResponsesCaller(
+                    json.objectMapper(), block.get("caller"));
+            if (caller != null) {
+                call.set("caller", caller);
+            }
             return call;
         }
 
-        private ObjectNode claudeToolResultToResponses(JsonNode block) {
+        private ObjectNode claudeToolResultToResponses(
+                JsonNode block,
+                Map<String, JsonNode> toolCallers,
+                String model
+        ) {
             ObjectNode result = json.objectNode();
-            result.put("type", "function_call_output");
-            result.put("call_id", block.path("tool_use_id").asText(""));
-            result.set("output", claudeToolResultOutputToResponses(block.get("content")));
-            result.put("status", block.path("is_error").asBoolean(false) ? "incomplete" : "completed");
+            String toolUseId = block.path("tool_use_id").asText("");
+            boolean custom = ResponsesToolCallBridge.isCustomClaudeToolUseId(toolUseId);
+            result.put("type", custom ? "custom_tool_call_output" : "function_call_output");
+            result.put("call_id", ResponsesToolCallBridge.toResponsesCallId(toolUseId));
+            ObjectNode caller = ResponsesProgrammaticToolBridge.toResponsesCaller(
+                    json.objectMapper(), toolCallers.get(toolUseId));
+            JsonNode output = caller == null
+                    ? claudeToolResultOutputToResponses(block.get("content"), model)
+                    : claudeProgrammaticToolResultToResponses(block.get("content"));
+            if (output.isArray()) {
+                ObjectNode cacheablePart = lastResponsesCacheableContentPart((ArrayNode) output);
+                if (cacheablePart != null) {
+                    applyResponsesCacheBreakpoint(cacheablePart, block, model);
+                }
+            }
+            result.set("output", output);
+            if (!custom) {
+                result.put("status", block.path("is_error").asBoolean(false) ? "incomplete" : "completed");
+            }
+            if (caller != null) {
+                result.set("caller", caller);
+            }
             return result;
         }
 
-        private JsonNode claudeToolResultOutputToResponses(JsonNode content) {
+        private JsonNode claudeToolResultOutputToResponses(JsonNode content, String model) {
             if (content == null || content.isNull() || content.isTextual()) {
                 return json.valueToTree(content == null ? "" : content.asText(""));
             }
@@ -565,14 +813,44 @@ class ProtocolConverterConfiguration {
                         ObjectNode text = json.objectNode();
                         text.put("type", "input_text");
                         text.put("text", block.path("text").asText(""));
+                        applyResponsesCacheBreakpoint(text, block, model);
                         output.add(text);
                     }
-                    case "image" -> addClaudeImagePart(output, block);
-                    case "document" -> addClaudeDocumentPart(output, block);
+                    case "image" -> addClaudeImagePart(output, block, model);
+                    case "document" -> addClaudeDocumentPart(output, block, model);
                     default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_TOOL_RESULT_CONTENT: " + type);
                 }
             }
             return output.isEmpty() ? json.valueToTree("") : output;
+        }
+
+        private JsonNode claudeProgrammaticToolResultToResponses(JsonNode content) {
+            if (content == null || content.isNull() || content.isTextual()) {
+                return json.valueToTree(content == null ? "" : content.asText(""));
+            }
+            if (!content.isArray()) {
+                throw new ProtocolConversionException(
+                        "CLAUDE_RESPONSES_PROGRAMMATIC_TOOL_RESULT_MUST_BE_TEXT");
+            }
+            StringBuilder text = new StringBuilder();
+            for (JsonNode block : content) {
+                if (!"text".equals(block.path("type").asText(""))) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_RESPONSES_PROGRAMMATIC_TOOL_RESULT_MUST_BE_TEXT");
+                }
+                text.append(block.path("text").asText(""));
+            }
+            return json.valueToTree(text.toString());
+        }
+
+        private ObjectNode lastResponsesCacheableContentPart(ArrayNode parts) {
+            ObjectNode result = null;
+            for (JsonNode part : parts) {
+                if (isResponsesCacheablePart(part)) {
+                    result = (ObjectNode) part;
+                }
+            }
+            return result;
         }
 
         private JsonNode claudeToolChoiceToResponses(JsonNode toolChoice) {
@@ -665,6 +943,7 @@ class ProtocolConverterConfiguration {
         ) {
             ArrayNode mappedTools = json.arrayNode();
             boolean toolSearchRequired = false;
+            boolean programmaticToolCallingRequired = false;
             if (tools != null && tools.isArray()) {
                 for (JsonNode tool : tools) {
                     String type = tool.path("type").asText("custom");
@@ -708,13 +987,16 @@ class ProtocolConverterConfiguration {
                     if (!"custom".equals(type) && !type.isBlank()) {
                         throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_TOOL_NOT_SUPPORTED: " + type);
                     }
-                    if (!hasOnlyDirectAllowedCallers(tool.get("allowed_callers"))) {
-                        throw new ProtocolConversionException("CLAUDE_RESPONSES_ADVANCED_TOOL_FIELDS_NOT_SUPPORTED: "
-                                + tool.path("name").asText("unnamed"));
-                    }
                     ObjectNode mapped = json.objectNode();
                     mapped.put("type", "function");
                     mapped.put("name", tool.path("name").asText(""));
+                    ResponsesProgrammaticToolBridge.AllowedCallersMapping allowedCallers =
+                            ResponsesProgrammaticToolBridge.toResponsesAllowedCallers(
+                                    json.objectMapper(), tool.get("allowed_callers"));
+                    if (allowedCallers.values() != null) {
+                        mapped.set("allowed_callers", allowedCallers.values());
+                    }
+                    programmaticToolCallingRequired |= allowedCallers.programmatic();
                     String description = tool.path("description").asText("");
                     if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
                         description = description + (description.isBlank() ? "" : "\n\n")
@@ -774,20 +1056,14 @@ class ProtocolConverterConfiguration {
                 }
                 mappedTools.insert(0, json.objectNode().put("type", "tool_search"));
             }
-            return mappedTools;
-        }
-
-        private boolean hasOnlyDirectAllowedCallers(JsonNode allowedCallers) {
-            if (allowedCallers == null || allowedCallers.isNull() || !allowedCallers.isArray()
-                    || allowedCallers.isEmpty()) {
-                return true;
-            }
-            for (JsonNode caller : allowedCallers) {
-                if (!"direct".equals(caller.asText(""))) {
-                    return false;
+            if (programmaticToolCallingRequired) {
+                if (!supportsResponsesProgrammaticToolCalling(model)) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_PROGRAMMATIC_TOOL_CALLING");
                 }
+                mappedTools.insert(0, json.objectNode().put("type", "programmatic_tool_calling"));
             }
-            return true;
+            return mappedTools;
         }
 
         private boolean mcpDeferred(JsonNode tools, String serverName) {
@@ -897,6 +1173,14 @@ class ProtocolConverterConfiguration {
         }
 
         private boolean supportsPersistedReasoning(String model) {
+            return gpt5MinorVersion(model) >= 6;
+        }
+
+        private boolean supportsExplicitCacheBreakpoints(String model) {
+            return gpt5MinorVersion(model) >= 6;
+        }
+
+        private boolean supportsResponsesProgrammaticToolCalling(String model) {
             return gpt5MinorVersion(model) >= 6;
         }
 
@@ -1119,12 +1403,20 @@ class ProtocolConverterConfiguration {
         }
 
         private ObjectNode responsesResponseToClaude(JsonNode source) {
+            throwIfResponsesFailed(source);
             ObjectNode target = json.objectNode();
             target.put("id", source.path("id").asText("msg_api2api"));
             target.put("type", "message");
             target.put("role", "assistant");
             target.put("model", source.path("model").asText(""));
             ArrayNode content = responsesOutputToClaudeContent(source.get("output"));
+            String outputText = source.path("output_text").asText("");
+            if (!outputText.isBlank() && !hasNonEmptyClaudeText(content)) {
+                ObjectNode text = json.objectNode();
+                text.put("type", "text");
+                text.put("text", outputText);
+                content.add(text);
+            }
             if (content.isEmpty()) {
                 ObjectNode text = json.objectNode();
                 text.put("type", "text");
@@ -1135,6 +1427,16 @@ class ProtocolConverterConfiguration {
             target.put("stop_reason", responsesStopReason(source));
             target.set("usage", claudeUsageFromResponses(source.path("usage")));
             return target;
+        }
+
+        private boolean hasNonEmptyClaudeText(ArrayNode content) {
+            for (JsonNode block : content) {
+                if ("text".equals(block.path("type").asText(""))
+                        && !block.path("text").asText("").isBlank()) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private ArrayNode responsesOutputToClaudeContent(JsonNode output) {
@@ -1163,13 +1465,17 @@ class ProtocolConverterConfiguration {
                     }
                     continue;
                 }
-                if ("function_call".equals(type)) {
+                if (ResponsesToolCallBridge.isToolCall(type)) {
                     ObjectNode toolUse = json.objectNode();
                     toolUse.put("type", "tool_use");
-                    toolUse.put("id", item.path("call_id").asText(item.path("id").asText("")));
+                    toolUse.put("id", ResponsesToolCallBridge.toClaudeToolUseId(item));
                     toolUse.put("name", item.path("name").asText(""));
-                    String arguments = item.path("arguments").asText("{}");
-                    toolUse.set("input", json.parse(arguments.isBlank() ? "{}" : arguments, "OpenAI Responses function arguments"));
+                    toolUse.set("input", ResponsesToolCallBridge.toClaudeToolInput(json.objectMapper(), item));
+                    ObjectNode caller = ResponsesProgrammaticToolBridge.toClaudeCaller(
+                            json.objectMapper(), item.get("caller"));
+                    if (caller != null) {
+                        toolUse.set("caller", caller);
+                    }
                     content.add(toolUse);
                     continue;
                 }
@@ -1178,14 +1484,20 @@ class ProtocolConverterConfiguration {
                     continue;
                 }
                 if ("compaction".equals(type)) {
-                    ObjectNode compaction = json.objectNode();
-                    compaction.put("type", "compaction");
-                    compaction.putNull("content");
-                    compaction.put("encrypted_content", item.path("encrypted_content").asText(""));
-                    content.add(compaction);
+                    content.add(responsesOpaqueItemToClaude(item, RESPONSES_COMPACTION_PLACEHOLDER));
                     continue;
                 }
-                content.add(responsesOpaqueItemToClaude(item));
+                if ("program".equals(type)) {
+                    content.add(responsesOpaqueItemToClaude(item, RESPONSES_OPAQUE_STATE_PLACEHOLDER));
+                    content.add(responsesProgramToClaudeServerTool(item));
+                    continue;
+                }
+                if ("program_output".equals(type)) {
+                    content.add(responsesOpaqueItemToClaude(item, RESPONSES_OPAQUE_STATE_PLACEHOLDER));
+                    content.add(responsesProgramOutputToClaudeResult(item));
+                    continue;
+                }
+                content.add(responsesOpaqueItemToClaude(item, RESPONSES_OPAQUE_STATE_PLACEHOLDER));
             }
             return content;
         }
@@ -1202,29 +1514,65 @@ class ProtocolConverterConfiguration {
             }
             ObjectNode thinking = json.objectNode();
             thinking.put("type", "thinking");
-            thinking.put("thinking", summaryText.toString());
+            thinking.put("thinking", summaryText.isEmpty()
+                    ? RESPONSES_OPAQUE_STATE_PLACEHOLDER
+                    : summaryText.toString());
             String signature = ResponsesReasoningBridge.encode(json.objectMapper(), item)
                     .orElseThrow(() -> new ProtocolConversionException("RESPONSES_CLAUDE_REASONING_STATE_MISSING"));
             thinking.put("signature", signature);
             return thinking;
         }
 
-        private ObjectNode responsesOpaqueItemToClaude(JsonNode item) {
+        private ObjectNode responsesOpaqueItemToClaude(JsonNode item, String placeholder) {
             ObjectNode thinking = json.objectNode();
             thinking.put("type", "thinking");
-            thinking.put("thinking", "");
+            thinking.put("thinking", placeholder);
             String signature = ResponsesReasoningBridge.encodeItem(json.objectMapper(), item)
                     .orElseThrow(() -> new ProtocolConversionException("RESPONSES_CLAUDE_OUTPUT_ITEM_STATE_MISSING"));
             thinking.put("signature", signature);
             return thinking;
         }
 
+        private ObjectNode responsesProgramToClaudeServerTool(JsonNode item) {
+            String callId = item.path("call_id").asText("");
+            ObjectNode serverToolUse = json.objectNode();
+            serverToolUse.put("type", "server_tool_use");
+            serverToolUse.put("id", ResponsesProgrammaticToolBridge.toClaudeProgramToolId(callId));
+            serverToolUse.put("name", "code_execution");
+            ObjectNode input = json.objectNode();
+            input.put("code", item.path("code").asText(""));
+            serverToolUse.set("input", input);
+            return serverToolUse;
+        }
+
+        private ObjectNode responsesProgramOutputToClaudeResult(JsonNode item) {
+            String callId = item.path("call_id").asText("");
+            boolean completed = "completed".equals(item.path("status").asText(""));
+            ObjectNode toolResult = json.objectNode();
+            toolResult.put("type", "code_execution_tool_result");
+            toolResult.put("tool_use_id", ResponsesProgrammaticToolBridge.toClaudeProgramToolId(callId));
+            ObjectNode result = json.objectNode();
+            result.put("type", "code_execution_result");
+            result.put("stdout", item.path("result").asText(""));
+            result.put("stderr", completed ? "" : "Program did not complete.");
+            result.put("return_code", completed ? 0 : 1);
+            result.set("content", json.arrayNode());
+            toolResult.set("content", result);
+            return toolResult;
+        }
+
         private String responsesStopReason(JsonNode source) {
             JsonNode output = source.get("output");
+            boolean hasOutputItem = false;
+            boolean hasFinalMessage = false;
             if (output != null && output.isArray()) {
                 for (JsonNode item : output) {
-                    if ("function_call".equals(item.path("type").asText())) {
+                    hasOutputItem = true;
+                    if (ResponsesToolCallBridge.isToolCall(item.path("type").asText())) {
                         return "tool_use";
+                    }
+                    if ("message".equals(item.path("type").asText(""))) {
+                        hasFinalMessage = true;
                     }
                 }
             }
@@ -1237,7 +1585,22 @@ class ProtocolConverterConfiguration {
                     || "content_filter".equals(source.path("incomplete_details").path("reason").asText())) {
                 return "refusal";
             }
+            if (hasOutputItem && !hasFinalMessage) {
+                return "pause_turn";
+            }
             return "end_turn";
+        }
+
+        private void throwIfResponsesFailed(JsonNode source) {
+            String status = source.path("status").asText("");
+            if (!"failed".equals(status) && !"cancelled".equals(status) && !"canceled".equals(status)) {
+                return;
+            }
+            String message = source.path("error").path("message").asText("");
+            if (message.isBlank()) {
+                message = source.path("error").asText("upstream response failed");
+            }
+            throw new ProtocolConversionException("RESPONSES_CLAUDE_RESPONSE_FAILED: " + message);
         }
 
         private ArrayNode outputMessage(String value) {
@@ -1326,9 +1689,11 @@ class ProtocolConverterConfiguration {
         private ObjectNode claudeUsageFromResponses(JsonNode usage) {
             ObjectNode target = json.objectNode();
             long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
-            target.put("input_tokens", Math.max(0, usage.path("input_tokens").asLong(0) - cached));
+            long cacheWrite = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
+            target.put("input_tokens", Math.max(0,
+                    usage.path("input_tokens").asLong(0) - cached - cacheWrite));
             target.put("output_tokens", usage.path("output_tokens").asLong(0));
-            target.put("cache_creation_input_tokens", 0);
+            target.put("cache_creation_input_tokens", cacheWrite);
             target.put("cache_read_input_tokens", cached);
             return target;
         }
