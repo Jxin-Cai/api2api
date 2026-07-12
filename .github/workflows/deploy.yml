@@ -244,5 +244,36 @@ jobs:
 
           docker compose --env-file .env -p "$compose_project_name" config --quiet
           docker compose --env-file .env -p "$compose_project_name" up -d --build --remove-orphans
+
+          for service in postgres backend frontend; do
+            container_id="$(docker compose --env-file .env -p "$compose_project_name" ps -q "$service")"
+            test -n "$container_id"
+            attached_networks="$(docker inspect \
+              --format '{{range $name, $_ := .NetworkSettings.Networks}}{{$name}} {{end}}' \
+              "$container_id")"
+            case " $attached_networks " in
+              *" shared-backend-network "*)
+                echo "Service $service is still attached to the legacy shared network" >&2
+                exit 1
+                ;;
+            esac
+          done
+
+          proxy_ready=false
+          for attempt in $(seq 1 30); do
+            if docker compose --env-file .env -p "$compose_project_name" exec -T frontend \
+              sh -c "wget -S -O /dev/null http://127.0.0.1/api/auth/current-user 2>&1 | grep -q 'HTTP/1.1 401'"; then
+              proxy_ready=true
+              break
+            fi
+            sleep 2
+          done
+
+          if [[ "$proxy_ready" != true ]]; then
+            echo "Frontend-to-backend authentication smoke check failed" >&2
+            docker compose --env-file .env -p "$compose_project_name" logs --tail=100 backend frontend
+            exit 1
+          fi
+
           docker compose --env-file .env -p "$compose_project_name" ps
           REMOTE

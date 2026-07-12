@@ -60,7 +60,7 @@ Docker 镜像版本由 `docker-compose.yml`、`backend/Dockerfile` 与 `frontend
 - 管理接口：`http://localhost:8989/api/*`
 - 网关协议接口：`http://localhost:8989/v1/*`
 
-后端 `8080` 与 PostgreSQL `5432` 不再直接暴露到宿主机，仅在 Docker 网络内访问。三个服务默认加入 Docker 网络 `shared-backend-network`。后端容器会读取根目录 `.env`，因此渠道密钥引用（例如 `OPENAI_API_KEY`）也可以通过 `.env` 注入；管理台中配置的供应商密钥 `keyRef` 必须与环境变量名一致。
+后端 `8080` 与 PostgreSQL `5432` 不再直接暴露到宿主机，仅在 Docker 网络内访问。三个服务默认加入当前 Compose 项目私有的 `api2api` 网络，避免多套部署之间的 `backend`、`postgres` 服务名发生 DNS 冲突。后端容器会读取根目录 `.env`，因此渠道密钥引用（例如 `OPENAI_API_KEY`）也可以通过 `.env` 注入；管理台中配置的供应商密钥 `keyRef` 必须与环境变量名一致。
 
 前端容器会将以下路径代理到后端：
 
