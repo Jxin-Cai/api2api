@@ -17,8 +17,12 @@ import java.util.Set;
 final class ResponsesProgrammaticToolBridge {
 
     private static final String CLAUDE_DIRECT_CALLER = "direct";
-    private static final String CLAUDE_CODE_EXECUTION_CALLER_PREFIX = "code_execution_";
-    private static final String CLAUDE_CODE_EXECUTION_CALLER = "code_execution_20260120";
+    private static final Set<String> CLAUDE_CODE_EXECUTION_CALLERS = Set.of(
+            "code_execution_20250825",
+            "code_execution_20260120",
+            "code_execution_20260521"
+    );
+    private static final String CLAUDE_CURRENT_CODE_EXECUTION_CALLER = "code_execution_20260521";
     private static final String OPENAI_DIRECT_CALLER = "direct";
     private static final String OPENAI_PROGRAMMATIC_CALLER = "programmatic";
     private static final String OPENAI_PROGRAM_CALLER_TYPE = "program";
@@ -42,7 +46,7 @@ final class ResponsesProgrammaticToolBridge {
             String value = caller.asText("");
             if (CLAUDE_DIRECT_CALLER.equals(value)) {
                 mappedValues.add(OPENAI_DIRECT_CALLER);
-            } else if (value.startsWith(CLAUDE_CODE_EXECUTION_CALLER_PREFIX)) {
+            } else if (isClaudeCodeExecutionCaller(value)) {
                 mappedValues.add(OPENAI_PROGRAMMATIC_CALLER);
             } else {
                 throw new ProtocolConversionException(
@@ -62,7 +66,7 @@ final class ResponsesProgrammaticToolBridge {
         if (CLAUDE_DIRECT_CALLER.equals(type)) {
             return null;
         }
-        if (!type.startsWith(CLAUDE_CODE_EXECUTION_CALLER_PREFIX)) {
+        if (!isClaudeCodeExecutionCaller(type)) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_TOOL_CALLER: " + type);
         }
         String toolId = claudeCaller.path("tool_id").asText("");
@@ -91,7 +95,7 @@ final class ResponsesProgrammaticToolBridge {
             throw new ProtocolConversionException("RESPONSES_CLAUDE_PROGRAM_CALLER_ID_REQUIRED");
         }
         ObjectNode caller = objectMapper.createObjectNode();
-        caller.put("type", CLAUDE_CODE_EXECUTION_CALLER);
+        caller.put("type", CLAUDE_CURRENT_CODE_EXECUTION_CALLER);
         caller.put("tool_id", toClaudeProgramToolId(callerId));
         return caller;
     }
@@ -107,6 +111,10 @@ final class ResponsesProgrammaticToolBridge {
 
     static boolean isSyntheticProgramToolId(String toolId) {
         return toolId != null && toolId.startsWith(CLAUDE_PROGRAM_TOOL_ID_PREFIX);
+    }
+
+    private static boolean isClaudeCodeExecutionCaller(String caller) {
+        return CLAUDE_CODE_EXECUTION_CALLERS.contains(caller);
     }
 
     private static String decodeProgramCallerId(String toolId) {

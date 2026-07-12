@@ -516,7 +516,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         ArrayNode pending = json.arrayNode();
         for (JsonNode block : content) {
-            if (!"mid_conv_system".equals(block.path("type").asText(""))) {
+            String type = block.path("type").asText("");
+            if ("fallback".equals(type)) {
+                continue;
+            }
+            if (!"mid_conv_system".equals(type)) {
                 pending.add(block);
                 continue;
             }
@@ -528,7 +532,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             if (systemContent == null || (!systemContent.isArray() && !systemContent.isTextual())) {
                 throw new ProtocolConversionException("CLAUDE_BEDROCK_INVALID_MID_CONVERSATION_SYSTEM_CONTENT");
             }
-            addOrMergeBedrockMessage(messages, toBedrockMessage("system", systemContent));
+            ObjectNode systemMessage = toBedrockMessage("system", systemContent);
+            if (hasEphemeralCacheControl(block)) {
+                ((ArrayNode) systemMessage.path("content")).add(cachePointBlock(block.get("cache_control")));
+            }
+            addOrMergeBedrockMessage(messages, systemMessage);
         }
         if (!pending.isEmpty()) {
             addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending));

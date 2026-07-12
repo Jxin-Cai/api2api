@@ -43,7 +43,7 @@ client tool result 会始终显式写入 Converse `status=success|error`。`AskU
 | 工具选择 | `tool_choice`、`disable_parallel_tool_use` | `tool_choice`、`parallel_tool_calls` | `auto/any/tool/none` 和并行开关映射 |
 | 普通工具调用 | `tool_use{id,name,input}` | `function_call{call_id,name,arguments}` | 双向映射；`tool_result` → `function_call_output`，error → `status=incomplete` |
 | free-form 工具 | Claude 无独立块，仍表现为 `tool_use` | `custom_tool_call{input}` | 用版本化 tool id 区分；非 JSON input 包装为 `{"input":"..."}`，结果恢复为 `custom_tool_call_output` |
-| Programmatic tool calling | `allowed_callers=[direct,code_execution_*]`、`caller` | `allowed_callers=[direct,programmatic]`、`programmatic_tool_calling`、`caller.type=program` | GPT-5.6+ 映射；`caller_id` 通过合成 code-execution tool id 可逆回传；按 Claude 规范响应 caller 固定标记 `code_execution_20260120` |
+| Programmatic tool calling | `allowed_callers=[direct,code_execution_*]`、`caller` | `allowed_callers=[direct,programmatic]`、`programmatic_tool_calling`、`caller.type=program` | GPT-5.6+ 映射；已支持 `code_execution_20250825`、`20260120`、`20260521`；`caller_id` 通过合成 code-execution tool id 可逆回传，响应采用当前 `code_execution_20260521` 标记 |
 | 推理强度 | `thinking`、`output_config.effort` | `reasoning.effort/summary/context` | manual budget 近似为档位；GPT-5.6+ 支持 `max` 和 `context=all_turns` |
 | 推理连续性 | `thinking{signature}` | `reasoning{id,encrypted_content}` | 用版本化 signature 双向封装；缺失加密状态会明确失败，不假装成功 |
 | 上下文压缩 | `context_management compact_*`、`compaction` block | `context_management[{type:compaction}]`、encrypted compaction item | OpenAI encrypted item 用 opaque thinking signature 回传，并在下一轮删除其前方历史；仅有压缩状态而无 final message 时返回 `pause_turn`；Claude readable summary 转成压缩后的 assistant summary |
@@ -57,6 +57,8 @@ client tool result 会始终显式写入 Converse `status=success|error`。`AskU
 | 流式终止 | Claude content/message SSE | Responses typed SSE | 支持 delta 与 done fallback、reasoning/custom tool；无 final message 的可回放状态 → `pause_turn`；failed/提前 EOF 明确报错，不能伪造成 `end_turn` |
 
 Responses 的 `reasoning`、`program`、`program_output`、web search、code interpreter、MCP 等 provider-hosted item，在 Claude 没有完全同构的内容块。服务把原始 item 封装进带版本前缀的 Claude thinking signature；Claude Code 下一轮回传后恢复为原始 Responses input item。对于 `program`/`program_output`，还会额外生成配对的 Claude `server_tool_use(code_execution)` / `code_execution_tool_result`，使 `caller.tool_id` 有真实可见的对应块；opaque signature 负责保留 OpenAI 的 JavaScript fingerprint 和完整回放状态。其他托管工具的完整内部事件仍不会原生展示在 Claude Code UI。
+
+`mid_conv_system` 会按原消息位置转换为 Responses developer item，外层和内部 text block 的 cache breakpoint 都会保留。Claude beta 的 `fallback` 回放块按官方定义不会进入提示词，Responses 和 Bedrock Converse 路径都会兼容接收并省略它；`fallbacks` 模型链本身没有 Responses/Converse 等价物，仍会明确失败，不能伪造为同一模型路由策略。
 
 `Read` 工具有一个专门兼容处理：如果 Responses/Codex 输出 `pages: ""`，非流式和流式转换都会删除该字段，避免 Claude Code 因空页码参数拒绝执行。
 

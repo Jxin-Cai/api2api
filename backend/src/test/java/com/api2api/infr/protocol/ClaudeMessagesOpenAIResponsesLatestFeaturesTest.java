@@ -65,7 +65,7 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
         assertThat(claude.at("/content/1/id").asText())
                 .isEqualTo(claude.at("/content/2/caller/tool_id").asText());
         assertThat(claude.at("/content/2/caller/type").asText())
-                .isEqualTo("code_execution_20260120");
+                .isEqualTo("code_execution_20260521");
         String requestBody = """
                 {
                   "model":"gpt-5.6",

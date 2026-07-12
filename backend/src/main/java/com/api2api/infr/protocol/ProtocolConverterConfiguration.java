@@ -371,6 +371,12 @@ class ProtocolConverterConfiguration {
             return input;
         }
 
+        private ArrayNode claudeMidConversationSystemToResponsesInput(JsonNode block, String model) {
+            ArrayNode input = claudeSystemToResponsesInput(block.get("content"), model);
+            applyTopLevelCacheControl(input, block.get("cache_control"), model);
+            return input;
+        }
+
         private ArrayNode claudeMessagesToResponsesInput(JsonNode messages, String model) {
             ArrayNode input = json.arrayNode();
             if (messages == null || !messages.isArray()) {
@@ -450,7 +456,10 @@ class ProtocolConverterConfiguration {
                         }
                         case "mid_conv_system" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
-                            input.addAll(claudeSystemToResponsesInput(block.get("content"), model));
+                            input.addAll(claudeMidConversationSystemToResponsesInput(block, model));
+                        }
+                        case "fallback" -> {
+                            // Claude fallback replay blocks are not rendered into the prompt.
                         }
                         case "redacted_thinking" -> throw new ProtocolConversionException("CLAUDE_RESPONSES_REDACTED_THINKING_NOT_SUPPORTED");
                         default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_CONTENT_BLOCK: " + block.path("type").asText(""));
