@@ -209,28 +209,6 @@ public final class UsageRecord {
         return Objects.requireNonNull(viewerRole, "Viewer role must not be null") == UserRole.ADMIN;
     }
 
-    public UsageRecord redactForUserPortal() {
-        return new UsageRecord(
-                id,
-                requestId,
-                userAccountId,
-                apiCredentialId,
-                requestedModel,
-                upstreamModel,
-                requestProtocol,
-                upstreamProtocol,
-                null,
-                status,
-                tokenUsage,
-                streaming,
-                startedAt,
-                endedAt,
-                duration,
-                errorDiagnostic == null ? null : errorDiagnostic.redactChannelDetails(),
-                createdAt
-        );
-    }
-
     public void assertAppendOnly() {
         // This aggregate intentionally exposes no mutator. Repositories must persist it with append-only semantics.
     }

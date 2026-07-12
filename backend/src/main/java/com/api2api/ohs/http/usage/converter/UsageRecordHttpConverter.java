@@ -64,7 +64,9 @@ public abstract class UsageRecordHttpConverter {
 
     public UsageRecordPageResponse toPageResponse(PagedUsageRecordViews pagedRecords, boolean adminView) {
         return UsageRecordPageResponse.builder()
-                .records(pagedRecords.getRecords().stream().map(this::toRecordResponse).toList())
+                .records(pagedRecords.getRecords().stream()
+                        .map(view -> toRecordResponse(view, adminView))
+                        .toList())
                 .page(pagedRecords.getPage())
                 .size(pagedRecords.getSize())
                 .totalElements(pagedRecords.getTotalElements())
@@ -74,11 +76,12 @@ public abstract class UsageRecordHttpConverter {
                 .build();
     }
 
-    protected UsageRecordResponse toRecordResponse(UsageRecordView view) {
+    protected UsageRecordResponse toRecordResponse(UsageRecordView view, boolean adminView) {
         UsageRecordResponse response = toRecordResponse(view.getRecord());
         response.setUsername(view.getUsername());
         response.setApiCredentialName(view.getApiCredentialName());
-        response.setProviderChannelName(view.getProviderChannelName());
+        response.setProviderChannelId(adminView ? response.getProviderChannelId() : null);
+        response.setProviderChannelName(adminView ? view.getProviderChannelName() : null);
         return response;
     }
 

@@ -14,7 +14,6 @@ import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.usage.model.PageRequestSpec;
 import com.api2api.domain.usage.model.PagedUsageRecords;
-import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
@@ -99,18 +98,7 @@ public class DashboardApplicationService {
                 null,
                 timeRange
         );
-        PagedUsageRecords page = usageRecordRepository.query(filter, pageRequest);
-        List<UsageRecord> redactedRecords = page.getRecords().stream()
-                .map(UsageRecord::redactForUserPortal)
-                .toList();
-
-        return PagedUsageRecords.of(
-                redactedRecords,
-                page.getPage(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getFilteredTokenTotal()
-        );
+        return usageRecordRepository.query(filter, pageRequest);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

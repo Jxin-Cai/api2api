@@ -66,17 +66,7 @@ public class UsageQueryApplicationService {
                 timeRange
         );
         PagedUsageRecords page = usageRecordRepository.query(filter, pageRequest);
-        List<UsageRecord> redactedRecords = page.getRecords().stream()
-                .map(UsageRecord::redactForUserPortal)
-                .toList();
-
-        return PagedUsageRecordViews.of(toViews(redactedRecords, false), PagedUsageRecords.of(
-                redactedRecords,
-                page.getPage(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getFilteredTokenTotal()
-        ));
+        return PagedUsageRecordViews.of(toViews(page.getRecords(), false), page);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
