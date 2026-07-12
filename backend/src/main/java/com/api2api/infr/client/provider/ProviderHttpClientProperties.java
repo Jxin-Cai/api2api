@@ -18,6 +18,9 @@ public class ProviderHttpClientProperties {
     private boolean allowInsecureHosts = true;
     private Duration upstreamReadTimeout = Duration.ofSeconds(120);
     private Duration streamingFirstByteTimeout = Duration.ofSeconds(30);
+    private Duration streamingIdleTimeout = Duration.ofSeconds(120);
+    private int streamingMaxRetries = 2;
+    private Duration streamingRetryBackoff = Duration.ofMillis(200);
     private String upstreamHostOverride = "";
     private String modelsPath = "/models";
     private String claudeMessagesPath = "/v1/messages";
@@ -96,6 +99,33 @@ public class ProviderHttpClientProperties {
 
     public void setStreamingFirstByteTimeout(Duration streamingFirstByteTimeout) {
         this.streamingFirstByteTimeout = positiveDuration(streamingFirstByteTimeout, "Streaming first byte timeout must be positive");
+    }
+
+    public Duration getStreamingIdleTimeout() {
+        return streamingIdleTimeout;
+    }
+
+    public void setStreamingIdleTimeout(Duration streamingIdleTimeout) {
+        this.streamingIdleTimeout = positiveDuration(streamingIdleTimeout, "Streaming idle timeout must be positive");
+    }
+
+    public int getStreamingMaxRetries() {
+        return streamingMaxRetries;
+    }
+
+    public void setStreamingMaxRetries(int streamingMaxRetries) {
+        if (streamingMaxRetries < 0) {
+            throw new IllegalArgumentException("Streaming max retries must not be negative");
+        }
+        this.streamingMaxRetries = streamingMaxRetries;
+    }
+
+    public Duration getStreamingRetryBackoff() {
+        return streamingRetryBackoff;
+    }
+
+    public void setStreamingRetryBackoff(Duration streamingRetryBackoff) {
+        this.streamingRetryBackoff = positiveDuration(streamingRetryBackoff, "Streaming retry backoff must be positive");
     }
 
     public String getUpstreamHostOverride() {

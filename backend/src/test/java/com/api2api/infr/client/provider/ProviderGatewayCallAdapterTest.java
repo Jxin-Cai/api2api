@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -120,6 +121,25 @@ class ProviderGatewayCallAdapterTest {
         assertThat(exception.retryable()).isTrue();
     }
 
+    @Test
+    void test_retriesStreamingRequest_when_enterpriseUpstreamTemporarilyRateLimits() throws IOException {
+        // Arrange
+        AtomicInteger requests = new AtomicInteger();
+        server = serverThatRateLimitsOnce(requests);
+        ProviderGatewayCallAdapter adapter = adapterWithStreamingRetryBackoff();
+
+        // Act
+        ProviderStreamingResponse response = adapter.openStream(
+                candidate(ProtocolType.OPENAI_RESPONSES),
+                "{}",
+                Map.of()
+        );
+
+        // Assert
+        assertThat(requests.get()).isEqualTo(2);
+        response.close();
+    }
+
     private HttpServer server(int status, String contentType, String body) throws IOException {
         HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         httpServer.createContext("/v1/responses", exchange -> {
@@ -135,9 +155,38 @@ class ProviderGatewayCallAdapterTest {
         return httpServer;
     }
 
+    private HttpServer serverThatRateLimitsOnce(AtomicInteger requests) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext("/v1/responses", exchange -> {
+            int requestNumber = requests.incrementAndGet();
+            int status = requestNumber == 1 ? 429 : 200;
+            String body = requestNumber == 1 ? "{\"error\":\"busy\"}" : "data: ready\n\n";
+            byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", requestNumber == 1
+                    ? "application/json"
+                    : "text/event-stream");
+            exchange.sendResponseHeaders(status, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
     private ProviderGatewayCallAdapter adapter() {
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         properties.setAllowInsecureHosts(true);
+        return adapter(properties);
+    }
+
+    private ProviderGatewayCallAdapter adapterWithStreamingRetryBackoff() {
+        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+        properties.setAllowInsecureHosts(true);
+        properties.setStreamingRetryBackoff(java.time.Duration.ofMillis(1));
+        return adapter(properties);
+    }
+
+    private ProviderGatewayCallAdapter adapter(ProviderHttpClientProperties properties) {
         ProviderSecretProperties secretProperties = new ProviderSecretProperties();
         secretProperties.setKeys(Map.of("provider-key", "provider-secret"));
         ProviderChannelRepository repo = new FixedProviderChannelRepository(channel());

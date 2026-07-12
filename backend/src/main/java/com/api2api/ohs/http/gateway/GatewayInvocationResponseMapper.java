@@ -10,6 +10,8 @@ import com.api2api.domain.gateway.model.InvocationError;
 import com.api2api.domain.gateway.model.InvocationErrorType;
 import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.protocol.model.ConversionResult;
+import com.api2api.domain.routing.model.RouteFailure;
+import com.api2api.domain.routing.model.RouteFailureType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -191,14 +193,22 @@ public class GatewayInvocationResponseMapper {
         }
 
         ProtocolType requestProtocol = invocation.requestProtocol();
-        HttpStatus httpStatus = mapErrorToHttpStatus(error.errorType());
+        HttpStatus httpStatus = mapErrorToHttpStatus(error);
         String errorBody = buildProtocolErrorBody(requestProtocol, error);
 
         return GatewayRawResponse.of(errorBody, httpStatus.value(), MediaType.APPLICATION_JSON);
     }
 
-    private HttpStatus mapErrorToHttpStatus(InvocationErrorType errorType) {
-        return switch (errorType) {
+    private HttpStatus mapErrorToHttpStatus(InvocationError error) {
+        if (error.errorType() == InvocationErrorType.UPSTREAM_FAILED) {
+            return switch (latestRouteFailureType(error)) {
+                case RATE_LIMITED -> HttpStatus.TOO_MANY_REQUESTS;
+                case TIMEOUT -> HttpStatus.GATEWAY_TIMEOUT;
+                case CHANNEL_UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE;
+                default -> HttpStatus.BAD_GATEWAY;
+            };
+        }
+        return switch (error.errorType()) {
             case AUTHENTICATION_FAILED, MODEL_NOT_ALLOWED -> HttpStatus.UNAUTHORIZED;
             case QUOTA_EXHAUSTED -> HttpStatus.TOO_MANY_REQUESTS;
             case NO_AVAILABLE_CHANNEL -> HttpStatus.SERVICE_UNAVAILABLE;
@@ -228,7 +238,10 @@ public class GatewayInvocationResponseMapper {
                 case MODEL_NOT_ALLOWED -> "permission_error";
                 case QUOTA_EXHAUSTED -> "rate_limit_error";
                 case CONVERSION_FAILED -> "invalid_request_error";
-                case NO_AVAILABLE_CHANNEL, UPSTREAM_FAILED -> "api_error";
+                case NO_AVAILABLE_CHANNEL -> "api_error";
+                case UPSTREAM_FAILED -> latestRouteFailureType(error) == RouteFailureType.RATE_LIMITED
+                        ? "rate_limit_error"
+                        : "api_error";
             });
             innerError.put("message", error.message());
             errorNode.set("error", innerError);
@@ -243,7 +256,7 @@ public class GatewayInvocationResponseMapper {
             ObjectNode errorNode = objectMapper.createObjectNode();
             ObjectNode innerError = objectMapper.createObjectNode();
             innerError.put("message", error.message());
-            innerError.put("type", mapErrorTypeToOpenAIType(error.errorType()));
+            innerError.put("type", mapErrorTypeToOpenAIType(error));
             innerError.putNull("param");
             innerError.putNull("code");
             errorNode.set("error", innerError);
@@ -253,14 +266,24 @@ public class GatewayInvocationResponseMapper {
         }
     }
 
-    private String mapErrorTypeToOpenAIType(InvocationErrorType errorType) {
-        return switch (errorType) {
+    private String mapErrorTypeToOpenAIType(InvocationError error) {
+        return switch (error.errorType()) {
             case AUTHENTICATION_FAILED, MODEL_NOT_ALLOWED -> "invalid_request_error";
             case QUOTA_EXHAUSTED -> "rate_limit_error";
             case NO_AVAILABLE_CHANNEL -> "service_unavailable";
             case CONVERSION_FAILED -> "invalid_request_error";
-            case UPSTREAM_FAILED -> "api_error";
+            case UPSTREAM_FAILED -> latestRouteFailureType(error) == RouteFailureType.RATE_LIMITED
+                    ? "rate_limit_error"
+                    : "api_error";
         };
+    }
+
+    private RouteFailureType latestRouteFailureType(InvocationError error) {
+        List<RouteFailure> failures = error.failures();
+        if (failures.isEmpty()) {
+            return RouteFailureType.UPSTREAM_ERROR;
+        }
+        return failures.get(failures.size() - 1).failureType();
     }
 
     private String buildFallbackErrorBody(InvocationError error) {

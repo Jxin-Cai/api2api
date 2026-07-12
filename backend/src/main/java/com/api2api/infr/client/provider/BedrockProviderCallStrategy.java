@@ -116,7 +116,11 @@ class BedrockProviderCallStrategy implements ProviderCallStrategy {
                     candidate.upstreamProtocol(),
                     statusCode,
                     response.headers().map(),
-                    response.body()
+                    new StreamingIdleTimeoutInputStream(
+                            response.body(),
+                            properties.getStreamingFirstByteTimeout(),
+                            properties.getStreamingIdleTimeout()
+                    )
             );
         } catch (HttpTimeoutException e) {
             throw new UpstreamGatewayException(RouteFailureType.TIMEOUT, null, true, elapsedSince(startedAt), "Bedrock streaming timed out");

@@ -21,9 +21,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
 
     private final ProviderChannelRepository providerChannelRepository;
@@ -90,6 +92,26 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             String upstreamRequestBody,
             Map<String, List<String>> incomingHeaders
     ) {
+        int attempt = 0;
+        while (true) {
+            try {
+                return openStreamOnce(candidate, upstreamRequestBody, incomingHeaders);
+            } catch (UpstreamGatewayException failure) {
+                if (shouldRetryStream(attempt, failure)) {
+                    waitBeforeStreamRetry(candidate, attempt, failure);
+                    attempt++;
+                    continue;
+                }
+                throw failure;
+            }
+        }
+    }
+
+    private ProviderStreamingResponse openStreamOnce(
+            RouteCandidate candidate,
+            String upstreamRequestBody,
+            Map<String, List<String>> incomingHeaders
+    ) {
         HttpRequest request = buildRequest(candidate, upstreamRequestBody, true, incomingHeaders);
         Instant startedAt = Instant.now();
         try {
@@ -104,15 +126,69 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     candidate.upstreamProtocol(),
                     statusCode,
                     response.headers().map(),
-                    response.body()
+                    withStreamingTimeout(response.body())
             );
-        } catch (HttpTimeoutException e) {
-            throw new UpstreamGatewayException(RouteFailureType.TIMEOUT, null, true, elapsedSince(startedAt), "Upstream request timed out");
-        } catch (IOException e) {
-            throw new UpstreamGatewayException(RouteFailureType.CHANNEL_UNAVAILABLE, null, true, elapsedSince(startedAt), "Upstream connection failed");
-        } catch (InterruptedException e) {
+        } catch (HttpTimeoutException exception) {
+            throw new UpstreamGatewayException(
+                    RouteFailureType.TIMEOUT,
+                    null,
+                    true,
+                    elapsedSince(startedAt),
+                    "Upstream streaming response headers timed out"
+            );
+        } catch (IOException exception) {
+            throw new UpstreamGatewayException(
+                    RouteFailureType.CHANNEL_UNAVAILABLE,
+                    null,
+                    true,
+                    elapsedSince(startedAt),
+                    "Upstream streaming connection failed"
+            );
+        } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
-            throw new UpstreamGatewayException(RouteFailureType.UPSTREAM_ERROR, null, false, elapsedSince(startedAt), "Upstream call interrupted");
+            throw new UpstreamGatewayException(
+                    RouteFailureType.UPSTREAM_ERROR,
+                    null,
+                    false,
+                    elapsedSince(startedAt),
+                    "Upstream streaming call interrupted"
+            );
+        }
+    }
+
+    private boolean shouldRetryStream(int attempt, UpstreamGatewayException failure) {
+        return failure.retryable()
+                && failure.failureType() != RouteFailureType.UPSTREAM_ERROR
+                && attempt < properties.getStreamingMaxRetries();
+    }
+
+    private void waitBeforeStreamRetry(
+            RouteCandidate candidate,
+            int attempt,
+            UpstreamGatewayException failure
+    ) {
+        long multiplier = 1L << Math.min(attempt, 10);
+        long delayMillis = Math.multiplyExact(properties.getStreamingRetryBackoff().toMillis(), multiplier);
+        log.warn(
+                "Retrying upstream stream before response body, channelId: {}, upstreamProtocol: {}, "
+                        + "statusCode: {}, failureType: {}, retryAttempt: {}",
+                candidate.providerChannelId().value(),
+                candidate.upstreamProtocol(),
+                failure.statusCode(),
+                failure.failureType(),
+                attempt + 1
+        );
+        try {
+            Thread.sleep(delayMillis);
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new UpstreamGatewayException(
+                    RouteFailureType.UPSTREAM_ERROR,
+                    failure.statusCode(),
+                    false,
+                    failure.elapsedMillis(),
+                    "Upstream streaming retry interrupted"
+            );
         }
     }
 
@@ -188,6 +264,14 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
 
     private Duration readTimeout(boolean streaming) {
         return streaming ? properties.getStreamingFirstByteTimeout() : properties.getUpstreamReadTimeout();
+    }
+
+    private InputStream withStreamingTimeout(InputStream body) {
+        return new StreamingIdleTimeoutInputStream(
+                body,
+                properties.getStreamingFirstByteTimeout(),
+                properties.getStreamingIdleTimeout()
+        );
     }
 
     private String readErrorBody(InputStream body) {
