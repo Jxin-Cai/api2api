@@ -88,6 +88,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
     private ObjectNode claudeRequestToBedrock(JsonNode source) {
         validateClaudeRequestFields(source);
+        if (source.path("max_tokens").isNumber() && source.path("max_tokens").asInt() == 0) {
+            throw new ProtocolConversionException("CLAUDE_BEDROCK_CACHE_ONLY_REQUEST_NOT_SUPPORTED_BY_CONVERSE");
+        }
         ObjectNode target = json.objectNode();
 
         // Claude Code 2.1.87+ sends context_management by default when thinking
@@ -919,15 +922,31 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             ArrayNode bedrockTools = json.arrayNode();
             for (JsonNode tool : tools) {
                 String type = tool.path("type").asText("custom");
+                if (type.startsWith("tool_search_tool")) {
+                    // Converse cannot run Anthropic's server-side tool search.
+                    // Deferred custom tools are expanded below as ordinary
+                    // tool specs so their functional capability is retained.
+                    continue;
+                }
                 if (!"custom".equals(type) && !type.isBlank()) {
                     throw new ProtocolConversionException("CLAUDE_BEDROCK_SERVER_TOOL_NOT_SUPPORTED_BY_CONVERSE: " + type);
+                }
+                if (!hasOnlyDirectAllowedCallers(tool.get("allowed_callers"))) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_BEDROCK_PROGRAMMATIC_TOOL_CALLING_NOT_SUPPORTED_BY_CONVERSE: "
+                                    + tool.path("name").asText("unnamed")
+                    );
                 }
                 ObjectNode toolWrapper = json.objectNode();
                 ObjectNode toolSpec = json.objectNode();
                 toolSpec.put("name", tool.path("name").asText(""));
-                JsonNode description = tool.get("description");
-                if (description != null && description.isTextual()) {
-                    toolSpec.put("description", description.asText());
+                String description = tool.path("description").asText("");
+                if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
+                    description = description + (description.isBlank() ? "" : "\n\n")
+                            + "Input examples: " + tool.path("input_examples");
+                }
+                if (!description.isBlank()) {
+                    toolSpec.put("description", description);
                 }
                 ObjectNode inputSchema = json.objectNode();
                 JsonNode schema = tool.get("input_schema");
@@ -952,6 +971,19 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             toolConfig.set("toolChoice", mappedChoice);
         }
         return toolConfig;
+    }
+
+    private boolean hasOnlyDirectAllowedCallers(JsonNode allowedCallers) {
+        if (allowedCallers == null || allowedCallers.isNull() || !allowedCallers.isArray()
+                || allowedCallers.isEmpty()) {
+            return true;
+        }
+        for (JsonNode caller : allowedCallers) {
+            if (!"direct".equals(caller.asText(""))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private ObjectNode toBedrockToolChoice(JsonNode toolChoice) {
@@ -1098,7 +1130,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             case "tool_use" -> "tool_use";
             case "model_context_window_exceeded" -> "model_context_window_exceeded";
             case "content_filtered", "guardrail_intervened" -> "refusal";
-            default -> "end_turn";
+            case "malformed_model_output", "malformed_tool_use" ->
+                    throw new ProtocolConversionException("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: " + stopReason);
+            default -> throw new ProtocolConversionException("BEDROCK_CONVERSE_UNSUPPORTED_STOP_REASON: " + stopReason);
         };
     }
 

@@ -9,6 +9,7 @@ import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
 class ClaudeMessagesOpenAIResponsesConversionTest {
@@ -321,5 +322,119 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThat(roundTripped.at("/input/0/type").asText()).isEqualTo("web_search_call");
         assertThat(roundTripped.at("/input/0/id").asText()).isEqualTo("ws_1");
         assertThat(roundTripped.at("/input/0/action/query").asText()).isEqualTo("docs");
+    }
+
+    @Test
+    void test_preservesCommentaryPhase_when_assistantTextPrecedesToolUse() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,"messages":[{"role":"assistant","content":[
+                  {"type":"text","text":"I will inspect the repository first."},
+                  {"type":"tool_use","id":"call_1","name":"Read","input":{"path":"README.md"}}
+                ]}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/input/0/phase").asText()).isEqualTo("commentary");
+    }
+
+    @Test
+    void test_mapsDeferredFunctionAndToolSearch_when_targetIsGpt54OrLater() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,"tools":[
+                  {"type":"tool_search_tool_regex_20251119","name":"tool_search_tool_regex"},
+                  {"name":"Read","description":"Read a file","input_schema":{"type":"object"},
+                   "input_examples":[{"path":"README.md"}],"defer_loading":true,
+                   "eager_input_streaming":true,"allowed_callers":["direct"]}
+                ],"messages":[{"role":"user","content":"inspect"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/tools/0/type").asText()).isEqualTo("tool_search");
+        assertThat(mapped.at("/tools/1/defer_loading").asBoolean()).isTrue();
+        assertThat(mapped.at("/tools/1/description").asText()).contains("README.md");
+    }
+
+    @Test
+    void test_mapsMaxEffortAndAllTurnsContext_when_encryptedReasoningIsReplayed() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ObjectNode reasoningItem = objectMapper.createObjectNode();
+        reasoningItem.put("type", "reasoning");
+        reasoningItem.put("id", "rs_1");
+        reasoningItem.put("encrypted_content", "encrypted");
+        String signature = ResponsesReasoningBridge.encode(objectMapper, reasoningItem).orElseThrow();
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "output_config":{"effort":"max"},"messages":[{"role":"assistant","content":[
+                   {"type":"thinking","thinking":"summary","signature":"%s"}
+                 ]}]}
+                """.formatted(signature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("max");
+        assertThat(mapped.at("/reasoning/context").asText()).isEqualTo("all_turns");
+    }
+
+    @Test
+    void test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "output_config":{"effort":"max"},"messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("xhigh");
+    }
+
+    @Test
+    void test_rejectsCacheOnlyRequest_when_responsesCannotMatchClaudeWarmupSemantics() {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":0,
+                 "messages":[{"role":"user","content":"warm cache"}]}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)))
+                .hasMessageContaining("CLAUDE_RESPONSES_CACHE_ONLY_REQUEST_NOT_SUPPORTED");
     }
 }

@@ -24,16 +24,14 @@ public interface GatewayStreamingConversionPort {
      * Converts upstream streaming bytes to client-compatible streaming bytes.
      * Implementations must not close either stream; ownership remains with the caller.
      *
-     * @param upstreamProtocol protocol returned by the provider stream
-     * @param clientProtocol protocol expected by the gateway client
+     * @param context protocols and client-facing model for the converted stream
      * @param upstreamBody upstream response body
      * @param clientBody client response body
      * @return token usage extracted from stream metadata, or unknown when unavailable
      * @throws IOException when stream reading or writing fails
      */
     UnifiedTokenUsage transform(
-            ProtocolType upstreamProtocol,
-            ProtocolType clientProtocol,
+            GatewayStreamingConversionContext context,
             InputStream upstreamBody,
             OutputStream clientBody
     ) throws IOException;

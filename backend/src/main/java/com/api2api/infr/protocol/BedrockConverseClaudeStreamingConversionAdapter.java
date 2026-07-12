@@ -1,5 +1,6 @@
 package com.api2api.infr.protocol;
 
+import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
@@ -44,23 +45,28 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     @Override
     public UnifiedTokenUsage transform(
-            ProtocolType upstreamProtocol,
-            ProtocolType clientProtocol,
+            GatewayStreamingConversionContext context,
             InputStream upstreamBody,
             OutputStream clientBody
     ) throws IOException {
+        Objects.requireNonNull(context, "Streaming conversion context must not be null");
+        ProtocolType upstreamProtocol = context.upstreamProtocol();
+        ProtocolType clientProtocol = context.clientProtocol();
         if (!supports(upstreamProtocol, clientProtocol)) {
             return UnifiedTokenUsage.unknown();
         }
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
-            return transformResponsesToClaude(upstreamBody, clientBody);
+            return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
         }
-        StreamState state = new StreamState(clientProtocol);
+        StreamState state = new StreamState(clientProtocol, context.clientModel().value());
         BedrockEvent event;
         while ((event = readEvent(upstreamBody)) != null) {
             JsonNode payload = objectMapper.readTree(event.payload());
             throwIfModeledException(event, payload);
             handleEvent(event.eventType(), payload, state, clientBody);
+        }
+        if (!state.upstreamMessageStopped) {
+            throw new EOFException("Bedrock Converse stream ended before messageStop");
         }
         writeTerminalEventIfNecessary(state, clientBody);
         clientBody.flush();
@@ -106,7 +112,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         response.put("id", "resp_api2api_bedrock_stream");
         response.put("object", "response");
         response.put("created_at", 0);
-        response.put("model", "bedrock");
+        response.put("model", state.clientModel);
         response.put("status", "in_progress");
         response.set("output", objectMapper.createArrayNode());
         ObjectNode event = objectNode();
@@ -144,6 +150,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     private void writeResponsesCompleted(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         state.stopReason = payload.path("stopReason").asText("end_turn");
+        state.upstreamMessageStopped = true;
     }
 
     private void recordResponsesUsage(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
@@ -161,7 +168,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             response.put("id", "resp_api2api_bedrock_stream");
             response.put("object", "response");
             response.put("created_at", 0);
-            response.put("model", "bedrock");
+            response.put("model", state.clientModel);
             response.put("status", "completed");
             response.set("output", objectMapper.createArrayNode());
             if (state.usage != null && state.usage.usageKnown()) {
@@ -204,7 +211,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         message.put("id", "msg_api2api_bedrock_stream");
         message.put("type", "message");
         message.put("role", "assistant");
-        message.put("model", "bedrock");
+        message.put("model", state.clientModel);
         message.set("content", objectMapper.createArrayNode());
         message.putNull("stop_reason");
         message.putNull("stop_sequence");
@@ -345,6 +352,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     private void writeMessageStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         state.stopReason = mapBedrockStopToClaudeStop(payload.path("stopReason").asText("end_turn"));
+        state.upstreamMessageStopped = true;
         JsonNode stopSequence = payload.path("additionalModelResponseFields").get("stop_sequence");
         if (stopSequence != null && stopSequence.isTextual()) {
             state.stopSequence = stopSequence.asText();
@@ -354,7 +362,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     private void writeMetadata(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         UnifiedTokenUsage usage = extractUsage(payload.path("usage"));
         state.usage = usage;
-        writeTerminalEventIfNecessary(state, clientBody);
+        if (state.upstreamMessageStopped) {
+            writeTerminalEventIfNecessary(state, clientBody);
+        }
     }
 
     private ObjectNode claudeUsage(UnifiedTokenUsage usage) {
@@ -370,8 +380,12 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         return usageNode;
     }
 
-    private UnifiedTokenUsage transformResponsesToClaude(InputStream upstreamBody, OutputStream clientBody) throws IOException {
-        ResponsesStreamState state = new ResponsesStreamState();
+    private UnifiedTokenUsage transformResponsesToClaude(
+            String clientModel,
+            InputStream upstreamBody,
+            OutputStream clientBody
+    ) throws IOException {
+        ResponsesStreamState state = new ResponsesStreamState(clientModel);
         writeClaudeMessageStart(clientBody, state);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(upstreamBody, StandardCharsets.UTF_8))) {
             String line;
@@ -452,7 +466,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         message.put("id", "msg_api2api_responses_stream");
         message.put("type", "message");
         message.put("role", "assistant");
-        message.put("model", "responses");
+        message.put("model", state.clientModel);
         message.set("content", objectMapper.createArrayNode());
         message.putNull("stop_reason");
         message.putNull("stop_sequence");
@@ -587,12 +601,17 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         return reasoningContent.has("text") || reasoningContent.has("signature") ? reasoningContent : null;
     }
 
-    private String mapBedrockStopToClaudeStop(String stopReason) {
+    private String mapBedrockStopToClaudeStop(String stopReason) throws IOException {
         return switch (stopReason) {
+            case "end_turn" -> "end_turn";
             case "max_tokens" -> "max_tokens";
             case "tool_use" -> "tool_use";
             case "stop_sequence" -> "stop_sequence";
-            default -> "end_turn";
+            case "model_context_window_exceeded" -> "model_context_window_exceeded";
+            case "guardrail_intervened", "content_filtered" -> "refusal";
+            case "malformed_model_output", "malformed_tool_use" ->
+                    throw new IOException("Bedrock Converse stopped with invalid model output: " + stopReason);
+            default -> throw new IOException("Unsupported Bedrock Converse stop reason: " + stopReason);
         };
     }
 
@@ -700,20 +719,24 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
 
     private static final class StreamState {
         private final ProtocolType clientProtocol;
+        private final String clientModel;
         private boolean messageStarted;
         private boolean messageStopped;
+        private boolean upstreamMessageStopped;
         private String stopReason = "end_turn";
         private String stopSequence;
         private UnifiedTokenUsage usage;
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
 
-        private StreamState(ProtocolType clientProtocol) {
+        private StreamState(ProtocolType clientProtocol, String clientModel) {
             this.clientProtocol = clientProtocol;
+            this.clientModel = clientModel;
         }
     }
 
     private static final class ResponsesStreamState {
+        private final String clientModel;
         private boolean messageStarted;
         private boolean toolCallSeen;
         private String stopReason = "end_turn";
@@ -722,6 +745,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
         private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
+
+        private ResponsesStreamState(String clientModel) {
+            this.clientModel = clientModel;
+        }
 
         private int claudeIndexFor(int responseOutputIndex) {
             Integer existing = claudeIndexes.get(responseOutputIndex);

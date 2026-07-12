@@ -1,6 +1,7 @@
 package com.api2api.ohs.http.gateway;
 
 import com.api2api.application.gateway.GatewayInvocationApplicationService;
+import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.ProviderStreamingResponse;
@@ -55,9 +56,13 @@ public class GatewayStreamingResponseMapper {
             UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
             try (ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse()) {
                 if (streamingInvocation.requiresProtocolConversion()) {
-                    usage = streamingConversionPort.transform(
+                    GatewayStreamingConversionContext conversionContext = GatewayStreamingConversionContext.of(
                             providerResponse.protocol(),
                             streamingInvocation.invocation().requestProtocol(),
+                            streamingInvocation.candidate().requestedModel()
+                    );
+                    usage = streamingConversionPort.transform(
+                            conversionContext,
                             providerResponse.body(),
                             outputStream
                     );

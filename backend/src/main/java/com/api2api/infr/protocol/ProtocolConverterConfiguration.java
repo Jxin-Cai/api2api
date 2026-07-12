@@ -224,6 +224,9 @@ class ProtocolConverterConfiguration {
 
         private ObjectNode claudeRequestToResponses(JsonNode source) {
             validateClaudeResponsesRequest(source);
+            if (source.path("max_tokens").isNumber() && source.path("max_tokens").asInt() == 0) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_ONLY_REQUEST_NOT_SUPPORTED");
+            }
             ObjectNode target = json.objectNode();
             copyIfPresent(source, target, "model");
             copyIfPresent(source, target, "stream");
@@ -265,7 +268,12 @@ class ProtocolConverterConfiguration {
             input.addAll(claudeSystemToResponsesInput(source.get("system")));
             input.addAll(claudeMessagesToResponsesInput(source.get("messages")));
             target.set("input", input);
-            ArrayNode mappedTools = claudeToolsToResponses(source.get("tools"), source.get("mcp_servers"), source.get("container"));
+            ArrayNode mappedTools = claudeToolsToResponses(
+                    source.get("tools"),
+                    source.get("mcp_servers"),
+                    source.get("container"),
+                    source.path("model").asText("")
+            );
             if (!mappedTools.isEmpty()) {
                 target.set("tools", mappedTools);
             }
@@ -348,6 +356,9 @@ class ProtocolConverterConfiguration {
                     ObjectNode mapped = json.objectNode();
                     mapped.put("type", "message");
                     mapped.put("role", role);
+                    if ("assistant".equals(role)) {
+                        mapped.put("phase", "final_answer");
+                    }
                     ArrayNode parts = json.arrayNode();
                     addClaudeTextPart(parts, content == null ? "" : content.asText(""), "assistant".equals(role) ? "output_text" : "input_text");
                     mapped.set("content", parts);
@@ -358,6 +369,9 @@ class ProtocolConverterConfiguration {
                     throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_CONTENT_MUST_BE_TEXT_OR_ARRAY");
                 }
                 ArrayNode messageContent = json.arrayNode();
+                String assistantPhase = "assistant".equals(role)
+                        ? (containsClaudeToolUse(content) ? "commentary" : "final_answer")
+                        : null;
                 for (JsonNode block : content) {
                     switch (block.path("type").asText("")) {
                         case "text" -> addClaudeTextPart(messageContent, block.path("text").asText(""), "assistant".equals(role) ? "output_text" : "input_text");
@@ -365,11 +379,11 @@ class ProtocolConverterConfiguration {
                         case "document" -> addClaudeDocumentPart(messageContent, block);
                         case "search_result" -> addClaudeSearchResultPart(messageContent, block, "assistant".equals(role) ? "output_text" : "input_text");
                         case "tool_use" -> {
-                            flushResponsesMessage(input, role, messageContent);
+                            flushResponsesMessage(input, role, messageContent, assistantPhase);
                             input.add(claudeToolUseToResponses(block));
                         }
                         case "tool_result" -> {
-                            flushResponsesMessage(input, role, messageContent);
+                            flushResponsesMessage(input, role, messageContent, assistantPhase);
                             input.add(claudeToolResultToResponses(block));
                         }
                         case "mcp_tool_use", "mcp_tool_result", "server_tool_use", "web_search_tool_result",
@@ -378,33 +392,48 @@ class ProtocolConverterConfiguration {
                                 throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_TOOL_HISTORY_NOT_LOSSLESS: "
                                         + block.path("type").asText(""));
                         case "thinking" -> {
-                            flushResponsesMessage(input, role, messageContent);
+                            flushResponsesMessage(input, role, messageContent, assistantPhase);
                             input.add(claudeThinkingToResponses(block));
                         }
                         case "compaction" -> {
-                            flushResponsesMessage(input, role, messageContent);
+                            flushResponsesMessage(input, role, messageContent, assistantPhase);
                             input.add(claudeCompactionToResponses(block));
                         }
                         case "mid_conv_system" -> {
-                            flushResponsesMessage(input, role, messageContent);
+                            flushResponsesMessage(input, role, messageContent, assistantPhase);
                             input.addAll(claudeSystemToResponsesInput(block.get("content")));
                         }
                         case "redacted_thinking" -> throw new ProtocolConversionException("CLAUDE_RESPONSES_REDACTED_THINKING_NOT_SUPPORTED");
                         default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_CONTENT_BLOCK: " + block.path("type").asText(""));
                     }
                 }
-                flushResponsesMessage(input, role, messageContent);
+                flushResponsesMessage(input, role, messageContent, assistantPhase);
             }
             return input;
         }
 
-        private void flushResponsesMessage(ArrayNode input, String role, ArrayNode content) {
+        private boolean containsClaudeToolUse(JsonNode content) {
+            if (content == null || !content.isArray()) {
+                return false;
+            }
+            for (JsonNode block : content) {
+                if ("tool_use".equals(block.path("type").asText(""))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void flushResponsesMessage(ArrayNode input, String role, ArrayNode content, String assistantPhase) {
             if (content.isEmpty()) {
                 return;
             }
             ObjectNode mapped = json.objectNode();
             mapped.put("type", "message");
             mapped.put("role", role);
+            if (assistantPhase != null) {
+                mapped.put("phase", assistantPhase);
+            }
             mapped.set("content", content.deepCopy());
             input.add(mapped);
             content.removeAll();
@@ -570,7 +599,10 @@ class ProtocolConverterConfiguration {
                 String effort = switch (outputConfig.path("effort").asText("medium")) {
                     case "low" -> "low";
                     case "high" -> "high";
-                    case "xhigh", "max" -> "xhigh";
+                    case "xhigh" -> "xhigh";
+                    case "max" -> supportsMaxReasoningEffort(source.path("model").asText(""))
+                            ? "max"
+                            : "xhigh";
                     default -> "medium";
                 };
                 reasoning.put("effort", effort);
@@ -586,10 +618,33 @@ class ProtocolConverterConfiguration {
                     reasoning.put("effort", reasoningEffortFromBudget(thinking.path("budget_tokens").asInt(0)));
                 }
             }
+            if (containsResponsesReasoningState(source.get("messages"))
+                    && supportsPersistedReasoning(source.path("model").asText(""))) {
+                reasoning.put("context", "all_turns");
+            }
             if (!reasoning.isEmpty()) {
                 reasoning.put("summary", "auto");
             }
             return reasoning;
+        }
+
+        private boolean containsResponsesReasoningState(JsonNode messages) {
+            if (messages == null || !messages.isArray()) {
+                return false;
+            }
+            for (JsonNode message : messages) {
+                JsonNode content = message.get("content");
+                if (content == null || !content.isArray()) {
+                    continue;
+                }
+                for (JsonNode block : content) {
+                    if ("thinking".equals(block.path("type").asText(""))
+                            && block.path("signature").asText("").startsWith(ResponsesReasoningBridge.SIGNATURE_PREFIX)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private String reasoningEffortFromBudget(int budgetTokens) {
@@ -602,12 +657,22 @@ class ProtocolConverterConfiguration {
             return "medium";
         }
 
-        private ArrayNode claudeToolsToResponses(JsonNode tools, JsonNode mcpServers, JsonNode container) {
+        private ArrayNode claudeToolsToResponses(
+                JsonNode tools,
+                JsonNode mcpServers,
+                JsonNode container,
+                String model
+        ) {
             ArrayNode mappedTools = json.arrayNode();
+            boolean toolSearchRequired = false;
             if (tools != null && tools.isArray()) {
                 for (JsonNode tool : tools) {
                     String type = tool.path("type").asText("custom");
                     if ("mcp_toolset".equals(type)) {
+                        continue;
+                    }
+                    if (type.startsWith("tool_search_tool")) {
+                        toolSearchRequired = true;
                         continue;
                     }
                     if (type.startsWith("web_search")) {
@@ -643,16 +708,21 @@ class ProtocolConverterConfiguration {
                     if (!"custom".equals(type) && !type.isBlank()) {
                         throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_TOOL_NOT_SUPPORTED: " + type);
                     }
-                    if (tool.path("defer_loading").asBoolean(false)
-                            || tool.hasNonNull("eager_input_streaming")
-                            || (tool.path("allowed_callers").isArray() && !tool.path("allowed_callers").isEmpty())) {
+                    if (!hasOnlyDirectAllowedCallers(tool.get("allowed_callers"))) {
                         throw new ProtocolConversionException("CLAUDE_RESPONSES_ADVANCED_TOOL_FIELDS_NOT_SUPPORTED: "
                                 + tool.path("name").asText("unnamed"));
                     }
                     ObjectNode mapped = json.objectNode();
                     mapped.put("type", "function");
                     mapped.put("name", tool.path("name").asText(""));
-                    copyIfPresent(tool, mapped, "description");
+                    String description = tool.path("description").asText("");
+                    if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
+                        description = description + (description.isBlank() ? "" : "\n\n")
+                                + "Input examples: " + tool.path("input_examples");
+                    }
+                    if (!description.isBlank()) {
+                        mapped.put("description", description);
+                    }
                     JsonNode schema = tool.get("input_schema");
                     ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
                             ? json.objectNode()
@@ -665,6 +735,10 @@ class ProtocolConverterConfiguration {
                     }
                     mapped.set("parameters", parameters);
                     mapped.put("strict", tool.path("strict").asBoolean(false));
+                    if (tool.path("defer_loading").asBoolean(false)) {
+                        mapped.put("defer_loading", true);
+                        toolSearchRequired = true;
+                    }
                     mappedTools.add(mapped);
                 }
             }
@@ -686,11 +760,47 @@ class ProtocolConverterConfiguration {
                     if (allowedTools != null) {
                         mapped.set("allowed_tools", allowedTools);
                     }
+                    if (mcpDeferred(tools, name)) {
+                        mapped.put("defer_loading", true);
+                        toolSearchRequired = true;
+                    }
                     mapped.put("require_approval", "never");
                     mappedTools.add(mapped);
                 }
             }
+            if (toolSearchRequired) {
+                if (!supportsResponsesToolSearch(model)) {
+                    throw new ProtocolConversionException("CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_TOOL_SEARCH");
+                }
+                mappedTools.insert(0, json.objectNode().put("type", "tool_search"));
+            }
             return mappedTools;
+        }
+
+        private boolean hasOnlyDirectAllowedCallers(JsonNode allowedCallers) {
+            if (allowedCallers == null || allowedCallers.isNull() || !allowedCallers.isArray()
+                    || allowedCallers.isEmpty()) {
+                return true;
+            }
+            for (JsonNode caller : allowedCallers) {
+                if (!"direct".equals(caller.asText(""))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean mcpDeferred(JsonNode tools, String serverName) {
+            if (tools == null || !tools.isArray()) {
+                return false;
+            }
+            for (JsonNode tool : tools) {
+                if ("mcp_toolset".equals(tool.path("type").asText(""))
+                        && serverName.equals(tool.path("mcp_server_name").asText(""))) {
+                    return tool.path("defer_loading").asBoolean(false);
+                }
+            }
+            return false;
         }
 
         private ArrayNode mcpAllowedTools(JsonNode tools, String serverName) {
@@ -776,8 +886,45 @@ class ProtocolConverterConfiguration {
         }
 
         private boolean isNoopClearThinkingContextEdit(JsonNode edit) {
-            return "clear_thinking_20251015".equals(edit.path("type").asText(""))
-                    && "all".equals(edit.path("keep").asText(""));
+            JsonNode keep = edit.get("keep");
+            boolean keepAll = keep != null && ((keep.isTextual() && "all".equals(keep.asText()))
+                    || (keep.isObject() && "all".equals(keep.path("type").asText(""))));
+            return "clear_thinking_20251015".equals(edit.path("type").asText("")) && keepAll;
+        }
+
+        private boolean supportsResponsesToolSearch(String model) {
+            return gpt5MinorVersion(model) >= 4;
+        }
+
+        private boolean supportsPersistedReasoning(String model) {
+            return gpt5MinorVersion(model) >= 6;
+        }
+
+        private boolean supportsMaxReasoningEffort(String model) {
+            return gpt5MinorVersion(model) >= 6;
+        }
+
+        private int gpt5MinorVersion(String model) {
+            if (model == null) {
+                return -1;
+            }
+            String normalized = model.toLowerCase();
+            if (!normalized.startsWith("gpt-5.")) {
+                return -1;
+            }
+            int start = "gpt-5.".length();
+            int end = start;
+            while (end < normalized.length() && Character.isDigit(normalized.charAt(end))) {
+                end++;
+            }
+            if (end == start) {
+                return -1;
+            }
+            try {
+                return Integer.parseInt(normalized.substring(start, end));
+            } catch (NumberFormatException exception) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_INVALID_TARGET_MODEL_VERSION: " + model, exception);
+            }
         }
 
         private boolean isReasoningModel(String model) {

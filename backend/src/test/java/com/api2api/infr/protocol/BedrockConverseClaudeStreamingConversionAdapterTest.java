@@ -3,6 +3,8 @@ package com.api2api.infr.protocol;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.api2api.application.gateway.GatewayStreamingConversionContext;
+import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -35,8 +37,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
         UnifiedTokenUsage usage = adapter.transform(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolType.CLAUDE_MESSAGES,
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
                 new ByteArrayInputStream(upstream.toByteArray()),
                 downstream
         );
@@ -71,8 +72,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
         adapter.transform(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolType.CLAUDE_MESSAGES,
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
                 new ByteArrayInputStream(upstream.toByteArray()),
                 downstream
         );
@@ -126,8 +126,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
         UnifiedTokenUsage usage = adapter.transform(
-                ProtocolType.OPENAI_RESPONSES,
-                ProtocolType.CLAUDE_MESSAGES,
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
                 new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
                 downstream
         );
@@ -159,8 +158,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
         UnifiedTokenUsage usage = adapter.transform(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolType.OPENAI_RESPONSES,
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES),
                 new ByteArrayInputStream(upstream.toByteArray()),
                 downstream
         );
@@ -181,8 +179,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         writeEvent(upstream, "validationException", "{\"message\":\"invalid thinking field\"}");
 
         assertThatThrownBy(() -> adapter.transform(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolType.CLAUDE_MESSAGES,
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
                 new ByteArrayInputStream(upstream.toByteArray()),
                 new ByteArrayOutputStream()
         )).isInstanceOf(java.io.IOException.class)
@@ -197,8 +194,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         writeModeledException(upstream, "validationException", "{\"message\":\"invalid thinking field\"}");
 
         assertThatThrownBy(() -> adapter.transform(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolType.CLAUDE_MESSAGES,
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
                 new ByteArrayInputStream(upstream.toByteArray()),
                 downstream
         )).isInstanceOf(java.io.IOException.class)
@@ -214,8 +210,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         writeModeledException(upstream, "throttlingException", "{\"message\":\"rate limited\"}");
 
         assertThatThrownBy(() -> adapter.transform(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolType.OPENAI_RESPONSES,
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES),
                 new ByteArrayInputStream(upstream.toByteArray()),
                 downstream
         )).isInstanceOf(java.io.IOException.class)
@@ -224,6 +219,126 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         assertThat(downstream.toString(StandardCharsets.UTF_8))
                 .doesNotContain("event: response.completed")
                 .doesNotContain("data: [DONE]");
+    }
+
+    @Test
+    void test_preservesRequestedModel_when_streamingBedrockResponse() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"end_turn\"}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        JsonNode messageStart = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "message_start".equals(node.path("type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(messageStart.at("/message/model").asText()).isEqualTo("claude-opus-4.6");
+    }
+
+    @Test
+    void test_throwsIOException_when_streamEndsBeforeMessageStop() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":0,\"delta\":{\"text\":\"partial plan\"}}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act / Assert
+        assertThatThrownBy(() -> adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        )).isInstanceOf(java.io.EOFException.class)
+                .hasMessageContaining("before messageStop");
+        assertThat(downstream.toString(StandardCharsets.UTF_8))
+                .doesNotContain("event: message_delta")
+                .doesNotContain("event: message_stop");
+    }
+
+    @Test
+    void test_mapsRefusal_when_bedrockContentIsFiltered() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"content_filtered\"}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        JsonNode messageDelta = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(messageDelta.at("/delta/stop_reason").asText()).isEqualTo("refusal");
+    }
+
+    @Test
+    void test_mapsContextWindowStop_when_bedrockContextWindowIsExceeded() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"model_context_window_exceeded\"}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        JsonNode messageDelta = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(messageDelta.at("/delta/stop_reason").asText())
+                .isEqualTo("model_context_window_exceeded");
+    }
+
+    @Test
+    void test_throwsIOException_when_bedrockToolUseIsMalformed() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"malformed_tool_use\"}");
+
+        // Act / Assert
+        assertThatThrownBy(() -> adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                new ByteArrayOutputStream()
+        )).isInstanceOf(java.io.IOException.class)
+                .hasMessageContaining("malformed_tool_use");
+    }
+
+    private GatewayStreamingConversionContext context(
+            ProtocolType upstreamProtocol,
+            ProtocolType clientProtocol
+    ) {
+        String requestedModel = clientProtocol == ProtocolType.CLAUDE_MESSAGES
+                ? "claude-opus-4.6"
+                : "gpt-5.5";
+        return GatewayStreamingConversionContext.of(
+                upstreamProtocol,
+                clientProtocol,
+                ModelName.of(requestedModel)
+        );
     }
 
     private List<JsonNode> dataEvents(String sse) throws Exception {

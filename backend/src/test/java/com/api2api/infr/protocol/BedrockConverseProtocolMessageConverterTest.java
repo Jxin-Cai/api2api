@@ -169,6 +169,54 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_expandsDeferredTools_when_toolSearchIsUnavailableInConverse() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-8","max_tokens":1024,"tools":[
+                  {"type":"tool_search_tool_regex_20251119","name":"tool_search_tool_regex"},
+                  {"name":"Read","description":"Read a file","input_schema":{"type":"object"},
+                   "input_examples":[{"path":"README.md"}],"defer_loading":true,
+                   "eager_input_streaming":true,"allowed_callers":["direct"]}
+                ],"messages":[{"role":"user","content":"inspect"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.path("toolConfig").path("tools")).hasSize(1);
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/name").asText()).isEqualTo("Read");
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/description").asText()).contains("README.md");
+    }
+
+    @Test
+    void test_rejectsProgrammaticCaller_when_converseCannotPreserveCallerRestriction() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-8","max_tokens":1024,"tools":[
+                  {"name":"query_database","input_schema":{"type":"object"},
+                   "allowed_callers":["code_execution_20260120"]}
+                ],"messages":[{"role":"user","content":"inspect"}]}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        )).hasMessageContaining("CLAUDE_BEDROCK_PROGRAMMATIC_TOOL_CALLING_NOT_SUPPORTED_BY_CONVERSE");
+    }
+
+    @Test
     void shouldMapAdaptiveEffortStructuredOutputMultimodalContentAndMidConversationSystem() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
@@ -342,5 +390,46 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.at("/content/0/data").asText()).isEqualTo("cmVkYWN0ZWQ=");
         assertThat(mapped.path("stop_reason").asText()).isEqualTo("stop_sequence");
         assertThat(mapped.path("stop_sequence").asText()).isEqualTo("<END>");
+    }
+
+    @Test
+    void test_rejectsCacheOnlyRequest_when_converseCannotWarmClaudePromptCache() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":0,
+                 "messages":[{"role":"user","content":"warm cache"}]}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)))
+                .hasMessageContaining("CLAUDE_BEDROCK_CACHE_ONLY_REQUEST_NOT_SUPPORTED_BY_CONVERSE");
+    }
+
+    @Test
+    void test_throwsConversionException_when_bedrockToolUseIsMalformed() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[]}},
+                  "stopReason":"malformed_tool_use",
+                  "usage":{"inputTokens":1,"outputTokens":1}
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        )).hasMessageContaining("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: malformed_tool_use");
     }
 }
