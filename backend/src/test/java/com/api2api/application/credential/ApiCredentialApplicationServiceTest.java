@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
@@ -24,6 +26,39 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class ApiCredentialApplicationServiceTest {
+
+    @Test
+    void test_soft_deletes_credential_when_owner_requests_deletion() {
+        // Arrange
+        UserAccountRepository userAccountRepository = mock(UserAccountRepository.class);
+        ApiCredentialRepository apiCredentialRepository = mock(ApiCredentialRepository.class);
+        UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
+        ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
+        UserAccount userAccount = mock(UserAccount.class);
+        ApiCredential credential = mock(ApiCredential.class);
+        UserAccountId userAccountId = UserAccountId.of(1L);
+        ApiCredentialId credentialId = ApiCredentialId.of(2L);
+        Instant now = Instant.parse("2026-07-13T12:00:00Z");
+        when(userAccountRepository.findById(userAccountId)).thenReturn(Optional.of(userAccount));
+        when(apiCredentialRepository.findById(credentialId)).thenReturn(Optional.of(credential));
+        ApiCredentialApplicationService service = new ApiCredentialApplicationService(
+                userAccountRepository,
+                apiCredentialRepository,
+                usageRecordRepository,
+                apiKeyMaterialProtector,
+                Clock.fixed(now, ZoneOffset.UTC)
+        );
+        DeleteApiCredentialCommand command = DeleteApiCredentialCommand.builder()
+                .ownerUserId(userAccountId)
+                .apiCredentialId(credentialId)
+                .build();
+
+        // Act
+        service.deleteCredential(command);
+
+        // Assert
+        verify(apiCredentialRepository).softDeleteById(credentialId, now);
+    }
 
     @Test
     void test_returns_accumulated_and_today_tokens_when_listing_credentials() {

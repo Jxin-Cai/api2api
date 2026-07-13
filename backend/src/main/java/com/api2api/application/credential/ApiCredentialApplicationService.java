@@ -5,6 +5,7 @@ import com.api2api.application.credential.command.AuthenticateApiCredentialComma
 import com.api2api.application.credential.command.ChangeApiCredentialStatusCommand;
 import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
+import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
 import com.api2api.application.credential.command.RevealApiCredentialSecretCommand;
 import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
@@ -159,6 +160,15 @@ public class ApiCredentialApplicationService {
         apiCredential.enable(now());
         apiCredentialRepository.save(apiCredential);
         return apiCredential;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteCredential(DeleteApiCredentialCommand command) {
+        assertUserPortal(command.getOwnerUserId());
+        ApiCredential apiCredential = loadCredential(command.getApiCredentialId());
+
+        apiCredential.assertOwnedBy(command.getOwnerUserId());
+        apiCredentialRepository.softDeleteById(command.getApiCredentialId(), now());
     }
 
     @Transactional(rollbackFor = Exception.class)

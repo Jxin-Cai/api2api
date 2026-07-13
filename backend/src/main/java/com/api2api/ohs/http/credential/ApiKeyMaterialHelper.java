@@ -7,9 +7,8 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Helper for generating plaintext API keys, hashes, and previews.
@@ -18,10 +17,8 @@ import java.util.Objects;
 @Component
 public class ApiKeyMaterialHelper {
 
-    private static final int KEY_ENTROPY_BYTES = 32;
-    private static final String KEY_PREFIX = "api2api_";
+    private static final String KEY_PREFIX = "sk-";
     private static final int PREVIEW_VISIBLE_LENGTH = 8;
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     /**
      * Holds generated key materials together to ensure consistency.
@@ -62,10 +59,7 @@ public class ApiKeyMaterialHelper {
     }
 
     private String generatePlaintextKey() {
-        byte[] randomBytes = new byte[KEY_ENTROPY_BYTES];
-        SECURE_RANDOM.nextBytes(randomBytes);
-        String encodedRandom = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
-        return KEY_PREFIX + encodedRandom;
+        return KEY_PREFIX + UUID.randomUUID();
     }
 
     public ApiKeyHash hashKey(String plaintextKey) {

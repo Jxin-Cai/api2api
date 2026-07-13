@@ -121,3 +121,7 @@ export async function disableApiCredential(credentialId: string): Promise<ApiRes
   const response = await apiClient.patch<ApiCredentialBackendResponse>(credentialPath(credentialId, '/disable'));
   return { ...response, data: normalizeCredential(response.data) };
 }
+
+export async function deleteApiCredential(credentialId: string): Promise<ApiResponse<void>> {
+  return apiClient.delete<void>(credentialPath(credentialId, ''));
+}

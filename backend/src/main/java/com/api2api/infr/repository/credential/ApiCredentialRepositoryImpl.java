@@ -8,6 +8,7 @@ import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.repository.credential.converter.ApiCredentialPersistenceConverter;
 import com.api2api.infr.repository.credential.mapper.ApiCredentialMapper;
 import com.api2api.infr.repository.credential.po.ApiCredentialPO;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -56,5 +57,12 @@ public class ApiCredentialRepositoryImpl implements ApiCredentialRepository {
         return mapper.selectByOwnerUserId(ownerUserId.getValue()).stream()
                 .map(converter::toDomain)
                 .toList();
+    }
+
+    @Override
+    public void softDeleteById(ApiCredentialId id, Instant deletedAt) {
+        Objects.requireNonNull(id, "ApiCredentialId must not be null");
+        Objects.requireNonNull(deletedAt, "Deleted time must not be null");
+        mapper.softDeleteById(id.value(), deletedAt);
     }
 }

@@ -5,6 +5,7 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.user.model.UserAccountId;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,4 +50,12 @@ public interface ApiCredentialRepository {
      * @return API credentials owned by the user in stable created-at descending order
      */
     List<ApiCredential> findByOwnerUserId(UserAccountId ownerUserId);
+
+    /**
+     * Soft deletes an API credential so it can no longer authenticate while preserving historical usage records.
+     *
+     * @param id API credential id
+     * @param deletedAt deletion time
+     */
+    void softDeleteById(ApiCredentialId id, Instant deletedAt);
 }

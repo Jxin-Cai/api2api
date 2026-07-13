@@ -89,6 +89,20 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
                 Map.of("ownerUserId", ownerUserId), rowMapper);
     }
 
+    @Override
+    public int softDeleteById(Long id, Instant updatedAt) {
+        return jdbcTemplate.update("""
+                UPDATE api_credentials
+                SET deleted = TRUE,
+                    status = 'DISABLED',
+                    updated_at = :updatedTime
+                WHERE id = :id
+                  AND deleted = FALSE
+                """, new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("updatedTime", timestamp(updatedAt)));
+    }
+
     private MapSqlParameterSource params(ApiCredentialPO po) {
         return new MapSqlParameterSource()
                 .addValue("id", po.getId())

@@ -4,6 +4,7 @@ import com.api2api.application.credential.ApiCredentialApplicationService;
 import com.api2api.application.credential.command.ChangeApiCredentialStatusCommand;
 import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
+import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
 import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
@@ -33,6 +34,7 @@ import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -189,5 +191,19 @@ public class ApiCredentialController {
                 ownerUserId, apiCredentialId);
         ApiCredential credential = apiCredentialApplicationService.enableCredential(command);
         return ApiResponse.success(apiCredentialHttpConverter.toResponse(credential));
+    }
+
+    @DeleteMapping("/{api-credential-id}")
+    public ApiResponse<Void> deleteCredential(
+            @PathVariable("api-credential-id") Long credentialId,
+            HttpServletRequest request
+    ) {
+        UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
+        DeleteApiCredentialCommand command = DeleteApiCredentialCommand.builder()
+                .ownerUserId(ownerUserId)
+                .apiCredentialId(ApiCredentialId.of(credentialId))
+                .build();
+        apiCredentialApplicationService.deleteCredential(command);
+        return ApiResponse.success();
     }
 }

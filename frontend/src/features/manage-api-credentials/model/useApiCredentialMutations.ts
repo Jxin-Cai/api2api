@@ -4,6 +4,7 @@ import {
   API_CREDENTIALS_QUERY_KEY,
   changeApiCredentialTokenLimit,
   createApiCredential,
+  deleteApiCredential,
   disableApiCredential,
   enableApiCredential,
   renameApiCredential,
@@ -26,6 +27,7 @@ export interface UseApiCredentialMutationsResult {
   revealMutation: UseMutationResult<RevealApiCredentialSecretResponse, Error, string>;
   enableMutation: UseMutationResult<ApiCredentialResponse, Error, string>;
   disableMutation: UseMutationResult<ApiCredentialResponse, Error, string>;
+  deleteMutation: UseMutationResult<void, Error, string>;
 }
 
 export function useApiCredentialMutations(): UseApiCredentialMutationsResult {
@@ -42,5 +44,11 @@ export function useApiCredentialMutations(): UseApiCredentialMutationsResult {
     revealMutation: useMutation({ mutationFn: async (id: string): Promise<RevealApiCredentialSecretResponse> => (await revealApiCredentialSecret(id)).data }),
     enableMutation: useMutation({ mutationFn: async (id: string): Promise<ApiCredentialResponse> => (await enableApiCredential(id)).data, onSuccess: invalidate }),
     disableMutation: useMutation({ mutationFn: async (id: string): Promise<ApiCredentialResponse> => (await disableApiCredential(id)).data, onSuccess: invalidate }),
+    deleteMutation: useMutation({
+      mutationFn: async (id: string): Promise<void> => {
+        await deleteApiCredential(id);
+      },
+      onSuccess: invalidate,
+    }),
   };
 }

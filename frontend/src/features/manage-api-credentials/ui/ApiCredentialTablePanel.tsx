@@ -24,7 +24,7 @@ function isEnabled(credential: ApiCredentialResponse): boolean {
 
 export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTablePanelProps) {
   const { credentials, query } = useApiCredentials();
-  const { enableMutation, disableMutation, revealMutation } = useApiCredentialMutations();
+  const { enableMutation, disableMutation, revealMutation, deleteMutation } = useApiCredentialMutations();
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
   const [editing, setEditing] = useState<ApiCredentialResponse | null>(null);
@@ -57,6 +57,15 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     }
     await enableMutation.mutateAsync(credential.id);
     message.success('API Key 已启用');
+  }
+
+  async function handleDelete(credential: ApiCredentialResponse): Promise<void> {
+    try {
+      await deleteMutation.mutateAsync(credential.id);
+      message.success('API Key 已删除');
+    } catch (error: unknown) {
+      message.error(error instanceof Error ? error.message : '删除 API Key 失败');
+    }
   }
 
   function handleCreated(_: CreateApiCredentialResponse): void {
@@ -132,6 +141,22 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
           >
             <Button size="small" danger={isEnabled(credential)} loading={enableMutation.isPending || disableMutation.isPending}>
               {isEnabled(credential) ? '禁用' : '启用'}
+            </Button>
+          </Popconfirm>
+          <Popconfirm
+            title="确认删除该 API Key？"
+            description="删除后该 Key 将立即失效且无法恢复，历史使用记录不受影响。"
+            okText="确认删除"
+            cancelText="取消"
+            okButtonProps={{ danger: true }}
+            onConfirm={(): Promise<void> => handleDelete(credential)}
+          >
+            <Button
+              size="small"
+              danger
+              loading={deleteMutation.isPending && deleteMutation.variables === credential.id}
+            >
+              删除
             </Button>
           </Popconfirm>
         </Space>
