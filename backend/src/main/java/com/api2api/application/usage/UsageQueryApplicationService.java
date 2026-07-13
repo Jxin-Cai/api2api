@@ -119,7 +119,7 @@ public class UsageQueryApplicationService {
             return null;
         }
         return apiCredentialRepository.findById(record.getApiCredentialId())
-                .map(credential -> credential.getName().getValue())
+                .map(credential -> credential.getKeyPreview().getValue())
                 .orElse(null);
     }
 
