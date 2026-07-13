@@ -5,15 +5,16 @@ import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProvid
 import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
 import type { ApiErrorShape } from '@shared/api';
 import { PROTOCOL_OPTIONS, UPSTREAM_PROTOCOL_OPTIONS, formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
-import type { AdminFormMode } from '@shared/types/admin';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
 import type { ProviderChannelFormState } from '../model/types';
+
+type ProviderChannelFormMode = 'create' | 'edit' | 'copy';
 
 interface ProviderChannelFormDrawerProps {
   /** 打开状态 */
   open: boolean;
   /** 表单模式 */
-  mode: AdminFormMode;
+  mode: ProviderChannelFormMode;
   /** 编辑渠道 */
   channel?: ProviderChannelResponse | null;
   /** 关闭回调 */
@@ -103,17 +104,17 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
   const saving = createMutation.isPending || updateMutation.isPending;
   const selectedProtocols = Form.useWatch('supportedProtocols', form) ?? [];
   const protocolMappings = Form.useWatch('protocolMappings', form) ?? [];
-  const existingModels = channel?.supportedModels ?? [];
+  const existingModels = mode === 'edit' ? channel?.supportedModels ?? [] : [];
 
   useEffect(() => {
     if (!open) {
       return;
     }
     setModelsDirty(false);
-    if (channel && mode === 'edit') {
+    if (channel && mode !== 'create') {
       const supportedProtocols = deriveSupportedProtocols(channel);
       form.setFieldsValue({
-        name: channel.name,
+        name: mode === 'copy' ? `${channel.name} - 副本` : channel.name,
         host: channel.host,
         keyRef: '',
         modelsPath: channel.modelsPath ?? DEFAULT_MODELS_PATH,
@@ -123,6 +124,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       });
       setPreviewModels(channel.supportedModels ?? []);
       setSelectedModelIds((channel.supportedModels ?? []).filter((model) => model.status === 'ENABLED').map((model) => model.id));
+      setModelsDirty(mode === 'copy');
       return;
     }
     form.setFieldsValue(DEFAULT_FORM);
@@ -261,7 +263,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
       if (mode === 'edit' && !body.keyRef) {
         delete (body as Partial<typeof body>).keyRef;
       }
-      const response = mode === 'create'
+      const response = mode !== 'edit'
         ? await createMutation.mutateAsync(body as ProviderChannelFormState)
         : await updateMutation.mutateAsync({ id: channel?.id ?? 0, body });
       let latestChannel: ProviderChannelResponse | null = null;
@@ -389,7 +391,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
 
   return (
     <Modal
-      title={mode === 'create' ? '新建渠道' : '编辑渠道'}
+      title={mode === 'create' ? '新建渠道' : mode === 'copy' ? '复制渠道' : '编辑渠道'}
       open={open}
       onCancel={onClose}
       onOk={() => form.submit()}
@@ -413,8 +415,12 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         <Form.Item
           name="keyRef"
           label="渠道 Key"
-          rules={mode === 'create' ? [{ required: true, message: '请输入渠道 Key' }] : []}
-          extra={mode === 'edit' ? `留空则保存和预览均沿用当前 Key；输入新 Key 才会替换。当前：${channel?.keyMasked ?? channel?.keyRef ?? '已配置'}` : '真实 API Key 将由后端保存，接口响应会脱敏'}
+          rules={mode !== 'edit' ? [{ required: true, message: '请输入渠道 Key' }] : []}
+          extra={mode === 'edit'
+            ? `留空则保存和预览均沿用当前 Key；输入新 Key 才会替换。当前：${channel?.keyMasked ?? channel?.keyRef ?? '已配置'}`
+            : mode === 'copy'
+              ? '已复制渠道配置和选用模型；出于安全考虑，渠道 Key 不会被复制，请重新输入。'
+              : '真实 API Key 将由后端保存，接口响应会脱敏'}
         >
           <Input.Password placeholder={mode === 'edit' ? '留空沿用已保存 Key' : '请输入供应商 API Key'} autoComplete="new-password" />
         </Form.Item>
