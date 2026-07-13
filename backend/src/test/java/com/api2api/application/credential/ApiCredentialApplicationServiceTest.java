@@ -20,6 +20,7 @@ import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.time.Clock;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -88,7 +89,7 @@ class ApiCredentialApplicationServiceTest {
     }
 
     @Test
-    void test_returns_accumulated_and_today_tokens_when_listing_credentials() {
+    void test_returns_actual_and_total_tokens_when_listing_credentials() {
         // Arrange
         UserAccountRepository userAccountRepository = mock(UserAccountRepository.class);
         ApiCredentialRepository apiCredentialRepository = mock(ApiCredentialRepository.class);
@@ -106,7 +107,8 @@ class ApiCredentialApplicationServiceTest {
         when(apiCredentialRepository.findByOwnerUserId(userAccountId)).thenReturn(List.of(credential));
         when(credential.getId()).thenReturn(credentialId);
         when(usageRecordRepository.sumTotalTokensByApiCredential(credentialId)).thenReturn(120L);
-        when(usageRecordRepository.sumTokens(any())).thenReturn(UsageTokenBreakdown.known(7, 3, 0, 0));
+        when(usageRecordRepository.sumActualTokensByApiCredential(credentialId)).thenReturn(new BigDecimal("156.25"));
+        when(usageRecordRepository.sumTokens(any())).thenReturn(UsageTokenBreakdown.known(7, 3, 2, 1));
         ApiCredentialApplicationService service = new ApiCredentialApplicationService(
                 userAccountRepository,
                 apiCredentialRepository,
@@ -120,7 +122,12 @@ class ApiCredentialApplicationServiceTest {
 
         // Assert
         assertThat(views)
-                .extracting(ApiCredentialUsageView::consumedTokens, ApiCredentialUsageView::todayConsumedTokens)
-                .containsExactly(tuple(120L, 10L));
+                .extracting(
+                        ApiCredentialUsageView::consumedTokens,
+                        ApiCredentialUsageView::totalTokens,
+                        ApiCredentialUsageView::todayConsumedTokens,
+                        ApiCredentialUsageView::todayTotalTokens
+                )
+                .containsExactly(tuple(new BigDecimal("156.25"), 120L, new BigDecimal("24.60"), 13L));
     }
 }

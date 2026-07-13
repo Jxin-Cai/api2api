@@ -269,21 +269,41 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldRejectContextManagementStrategiesThatConverseCannotExecute() {
+    void test_acceptsCompactContextManagement_when_clientSideCompactionEnabled() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolConversionDirection.REQUEST, sseEventTransformer
         );
         String body = """
                 {"model":"claude-opus-4-6","max_tokens":8192,
-                 "context_management":{"edits":[{"type":"compact_20260112"}]},
+                 "context_management":{"edits":[{"type":"compact_20260112","trigger":{"value":80000}}]},
+                 "messages":[{"role":"user","content":"continue"}]}
+                """;
+
+        var result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("messages")).isNotEmpty();
+    }
+
+    @Test
+    void test_rejectsUnsupportedContextManagement_when_typeIsNotCompactOrClearThinking() {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4-6","max_tokens":8192,
+                 "context_management":{"edits":[{"type":"clear_tool_uses"}]},
                  "messages":[{"role":"user","content":"continue"}]}
                 """;
 
         assertThatThrownBy(() -> converter.convert(
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, false, false)
-        )).hasMessageContaining("CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: compact_20260112");
+        )).hasMessageContaining("CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: clear_tool_uses");
     }
 
     @Test

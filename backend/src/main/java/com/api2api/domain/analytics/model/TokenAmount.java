@@ -1,5 +1,6 @@
 package com.api2api.domain.analytics.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -9,37 +10,42 @@ public final class TokenAmount {
 
     private static final double MILLION = 1_000_000.0d;
 
-    private final long tokens;
+    private final BigDecimal tokens;
 
-    private TokenAmount(long tokens) {
-        if (tokens < 0) {
+    private TokenAmount(BigDecimal tokens) {
+        BigDecimal nonNullTokens = Objects.requireNonNull(tokens, "Token amount must not be null");
+        if (nonNullTokens.signum() < 0) {
             throw new IllegalArgumentException("Token amount must be greater than or equal to 0");
         }
-        this.tokens = tokens;
+        this.tokens = nonNullTokens.stripTrailingZeros();
     }
 
     public static TokenAmount of(long tokens) {
+        return new TokenAmount(BigDecimal.valueOf(tokens));
+    }
+
+    public static TokenAmount of(BigDecimal tokens) {
         return new TokenAmount(tokens);
     }
 
     public static TokenAmount zero() {
-        return new TokenAmount(0);
+        return new TokenAmount(BigDecimal.ZERO);
     }
 
     public double toMillions() {
-        return tokens / MILLION;
+        return tokens.doubleValue() / MILLION;
     }
 
     public TokenAmount plus(TokenAmount other) {
         TokenAmount nonNullOther = Objects.requireNonNull(other, "Other token amount must not be null");
-        return new TokenAmount(Math.addExact(tokens, nonNullOther.tokens));
+        return new TokenAmount(tokens.add(nonNullOther.tokens));
     }
 
-    public long tokens() {
+    public BigDecimal tokens() {
         return tokens;
     }
 
-    public long getTokens() {
+    public BigDecimal getTokens() {
         return tokens;
     }
 
@@ -51,7 +57,7 @@ public final class TokenAmount {
         if (!(o instanceof TokenAmount that)) {
             return false;
         }
-        return tokens == that.tokens;
+        return tokens.compareTo(that.tokens) == 0;
     }
 
     @Override

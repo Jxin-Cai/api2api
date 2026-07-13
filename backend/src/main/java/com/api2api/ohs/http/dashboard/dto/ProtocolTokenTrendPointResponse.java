@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 /**
  * Protocol token trend bucket for admin dashboard.
@@ -19,5 +20,5 @@ public class ProtocolTokenTrendPointResponse {
     private Instant bucketStart;
     private Instant bucketEnd;
     private ProtocolType protocol;
-    private long totalTokens;
+    private BigDecimal totalTokens;
 }

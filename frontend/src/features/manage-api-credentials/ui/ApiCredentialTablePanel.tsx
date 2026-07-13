@@ -43,10 +43,12 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
 
   const tokenSummary = useMemo(() => credentials.reduce(
     (summary, credential) => ({
-      totalTokens: summary.totalTokens + (credential.consumedTokens ?? 0),
-      todayTokens: summary.todayTokens + (credential.todayConsumedTokens ?? 0),
+      actualTokens: summary.actualTokens + (credential.consumedTokens ?? 0),
+      totalTokens: summary.totalTokens + (credential.totalTokens ?? 0),
+      todayActualTokens: summary.todayActualTokens + (credential.todayConsumedTokens ?? 0),
+      todayTotalTokens: summary.todayTotalTokens + (credential.todayTotalTokens ?? 0),
     }),
-    { totalTokens: 0, todayTokens: 0 }
+    { actualTokens: 0, totalTokens: 0, todayActualTokens: 0, todayTotalTokens: 0 }
   ), [credentials]);
 
   async function handleToggleStatus(credential: ApiCredentialResponse): Promise<void> {
@@ -95,7 +97,8 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     if (credential.tokenLimit === 0) {
       return (
         <Space direction="vertical" size={0}>
-          <Typography.Text>{formatTokenMillions(consumedTokens)} / 不限</Typography.Text>
+          <Typography.Text>实际 {formatTokenMillions(consumedTokens)} / 不限</Typography.Text>
+          <Typography.Text type="secondary">总 Token {formatTokenMillions(credential.totalTokens ?? 0)}</Typography.Text>
           <Typography.Text type="secondary">剩余不限</Typography.Text>
         </Space>
       );
@@ -103,7 +106,8 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     const percent = credential.tokenLimit > 0 ? Math.min(100, Math.round((consumedTokens / credential.tokenLimit) * 100)) : 0;
     return (
       <Space direction="vertical" size={0} style={{ minWidth: 160 }}>
-        <Typography.Text>{formatTokenMillions(consumedTokens)} / {formatTokenMillions(credential.tokenLimit)}</Typography.Text>
+        <Typography.Text>实际 {formatTokenMillions(consumedTokens)} / {formatTokenMillions(credential.tokenLimit)}</Typography.Text>
+        <Typography.Text type="secondary">总 Token {formatTokenMillions(credential.totalTokens ?? 0)}</Typography.Text>
         <Progress percent={percent} size="small" status={percent >= 100 ? 'exception' : 'normal'} />
         <Typography.Text type="secondary">剩余 {formatTokenMillions(credential.remainingTokens)}</Typography.Text>
       </Space>
@@ -119,10 +123,15 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       title: '今日 Token',
       dataIndex: 'todayConsumedTokens',
       key: 'todayConsumedTokens',
-      render: (tokens?: number): ReactElement => (
-        <Typography.Text className="mono-number" title={String(tokens ?? 0)}>
-          {formatTokenMillions(tokens ?? 0)}
-        </Typography.Text>
+      render: (tokens: number | undefined, credential: ApiCredentialResponse): ReactElement => (
+        <Space direction="vertical" size={0}>
+          <Typography.Text className="mono-number" title={String(tokens ?? 0)}>
+            实际 {formatTokenMillions(tokens ?? 0)}
+          </Typography.Text>
+          <Typography.Text type="secondary" className="mono-number" title={String(credential.todayTotalTokens ?? 0)}>
+            总计 {formatTokenMillions(credential.todayTotalTokens ?? 0)}
+          </Typography.Text>
+        </Space>
       ),
     },
     { title: '状态', dataIndex: 'status', key: 'status', render: (status: string): ReactElement => <ApiCredentialStatusTag status={status} /> },
@@ -173,8 +182,10 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       <Space direction="vertical" style={{ width: '100%' }} size={20}>
         <DashboardSummaryGrid>
           <MetricCard title="API Key 总数" value={credentials.length} loading={query.isLoading} />
-          <MetricCard title="Token 总用量" value={formatTokenMillions(tokenSummary.totalTokens)} rawValue={tokenSummary.totalTokens} loading={query.isLoading} />
-          <MetricCard title="今日 Token" value={formatTokenMillions(tokenSummary.todayTokens)} rawValue={tokenSummary.todayTokens} loading={query.isLoading} />
+          <MetricCard title="实际 Token 总用量" value={formatTokenMillions(tokenSummary.actualTokens)} rawValue={tokenSummary.actualTokens} loading={query.isLoading} />
+          <MetricCard title="总 Token 总用量" value={formatTokenMillions(tokenSummary.totalTokens)} rawValue={tokenSummary.totalTokens} loading={query.isLoading} />
+          <MetricCard title="今日实际 Token" value={formatTokenMillions(tokenSummary.todayActualTokens)} rawValue={tokenSummary.todayActualTokens} loading={query.isLoading} />
+          <MetricCard title="今日总 Token" value={formatTokenMillions(tokenSummary.todayTotalTokens)} rawValue={tokenSummary.todayTotalTokens} loading={query.isLoading} />
         </DashboardSummaryGrid>
         <Card>
           <Space direction="vertical" style={{ width: '100%' }} size={16}>

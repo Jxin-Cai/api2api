@@ -8,6 +8,7 @@ import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.routing.model.RoutePlan;
 import java.time.Instant;
+import java.math.BigDecimal;
 
 /**
  * Domain service contract for advancing a gateway invocation through authentication,
@@ -18,7 +19,7 @@ public interface GatewayInvocationService {
     GatewayInvocation authenticate(
             GatewayInvocation invocation,
             ApiCredential credential,
-            long currentConsumedTokens,
+            BigDecimal currentConsumedTokens,
             Instant now
     );
 

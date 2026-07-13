@@ -11,7 +11,7 @@ import java.util.Objects;
 public final class UserTokenRanking {
 
     public static final Comparator<UserTokenRanking> STABLE_TOKEN_DESC_USER_ASC =
-            Comparator.comparingLong((UserTokenRanking ranking) -> ranking.totalTokens.tokens()).reversed()
+            Comparator.comparing((UserTokenRanking ranking) -> ranking.totalTokens.tokens()).reversed()
                     .thenComparing(ranking -> ranking.userAccountId.getValue());
 
     private final int rank;

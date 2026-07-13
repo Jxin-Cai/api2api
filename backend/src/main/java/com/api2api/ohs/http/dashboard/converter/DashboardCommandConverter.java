@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class DashboardCommandConverter {
 
     private static final int DEFAULT_RECENT_CALLS_PAGE = 1;
-    private static final int DEFAULT_RECENT_CALLS_SIZE = 50;
+    private static final int DEFAULT_RECENT_CALLS_SIZE = 20;
 
     @NonNull
     private final DashboardTimeWindowHelper timeWindowHelper;

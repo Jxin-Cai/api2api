@@ -3,6 +3,7 @@ package com.api2api.ohs.http.usage.dto;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.usage.model.UsageRecordStatus;
 import java.time.Instant;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class UsageRecordResponse {
     private long cacheCreationInputTokens;
     private long cacheReadInputTokens;
     private long totalTokens;
+    private BigDecimal actualTokens;
     private boolean usageKnown;
     private boolean streaming;
     private String errorType;

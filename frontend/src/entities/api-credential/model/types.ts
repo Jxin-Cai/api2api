@@ -6,7 +6,9 @@ export interface ApiCredentialResponse {
   modelWhitelist: string[];
   tokenLimit: number;
   consumedTokens?: number;
+  totalTokens?: number;
   todayConsumedTokens?: number;
+  todayTotalTokens?: number;
   remainingTokens?: number | null;
   keyPreview?: string;
   lastUsedAt?: string | number;

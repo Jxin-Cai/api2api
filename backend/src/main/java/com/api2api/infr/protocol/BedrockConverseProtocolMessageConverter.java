@@ -99,15 +99,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         ObjectNode target = json.objectNode();
 
-        // Claude Code 2.1.87+ sends context_management by default when thinking
-        // is enabled (normally clear_thinking_20251015 with keep=all). Bedrock
-        // Converse has no context_management request field, and AWS explicitly
-        // documents compaction as InvokeModel-only. The validator only accepts
-        // Claude Code's keep=all no-op form; after that it is safe to omit this
-        // optional hint from the Converse payload.
+        int compactThreshold = extractCompactThreshold(source.get("context_management"));
 
         ArrayNode bedrockMessages = json.arrayNode();
         JsonNode messages = source.get("messages");
+        if (compactThreshold > 0 && messages != null && messages.isArray()) {
+            messages = compactMessagesClientSide(messages, compactThreshold);
+        }
         if (messages != null && messages.isArray()) {
             for (JsonNode msg : messages) {
                 String role = msg.path("role").asText("user");
@@ -482,31 +480,94 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (toolChoice != null && toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
             throw new ProtocolConversionException("CLAUDE_BEDROCK_DISABLE_PARALLEL_TOOL_USE_NOT_SUPPORTED_BY_CONVERSE");
         }
-        validateClaudeContextManagementForConverse(source.get("context_management"));
     }
 
-    private void validateClaudeContextManagementForConverse(JsonNode contextManagement) {
+    private int extractCompactThreshold(JsonNode contextManagement) {
         if (contextManagement == null || contextManagement.isNull()) {
-            return;
+            return -1;
         }
         JsonNode edits = contextManagement.path("edits");
         if (!contextManagement.isObject() || !edits.isArray()) {
             throw new ProtocolConversionException("CLAUDE_BEDROCK_INVALID_CONTEXT_MANAGEMENT");
         }
+        int threshold = -1;
         for (JsonNode edit : edits) {
             String type = edit.path("type").asText("");
-            JsonNode keep = edit.get("keep");
-            boolean keepAll = keep != null && (
-                    (keep.isTextual() && "all".equals(keep.asText()))
-                            || (keep.isObject() && "all".equals(keep.path("type").asText("")))
+            if ("clear_thinking_20251015".equals(type)) {
+                continue;
+            }
+            if (type.startsWith("compact_")) {
+                threshold = edit.path("trigger").path("value").asInt(80000);
+                continue;
+            }
+            throw new ProtocolConversionException(
+                    "CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: "
+                            + (type.isBlank() ? "unknown" : type)
             );
-            if (!"clear_thinking_20251015".equals(type) || !keepAll) {
-                throw new ProtocolConversionException(
-                        "CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: "
-                                + (type.isBlank() ? "unknown" : type)
-                );
+        }
+        return threshold;
+    }
+
+    private JsonNode compactMessagesClientSide(JsonNode messages, int tokenThreshold) {
+        long estimated = estimateTokens(messages);
+        long limit = (long) (tokenThreshold * 0.8);
+        if (estimated <= limit) {
+            return messages;
+        }
+        ArrayNode compacted = json.arrayNode();
+        int total = messages.size();
+        int keepRecent = Math.min(6, total);
+        for (int i = 0; i < total; i++) {
+            JsonNode msg = messages.get(i);
+            if (i < total - keepRecent && "assistant".equals(msg.path("role").asText(""))) {
+                compacted.add(stripThinkingFromMessage(msg));
+            } else {
+                compacted.add(msg);
             }
         }
+        if (estimateTokens(compacted) <= limit) {
+            return compacted;
+        }
+        ArrayNode truncated = json.arrayNode();
+        for (int i = Math.max(0, compacted.size() - keepRecent); i < compacted.size(); i++) {
+            truncated.add(compacted.get(i));
+        }
+        return truncated;
+    }
+
+    private long estimateTokens(JsonNode node) {
+        return node.toString().length() / 4L;
+    }
+
+    private JsonNode stripThinkingFromMessage(JsonNode msg) {
+        JsonNode content = msg.get("content");
+        if (content == null || !content.isArray()) {
+            return msg;
+        }
+        boolean hasThinking = false;
+        for (JsonNode block : content) {
+            String type = block.path("type").asText("");
+            if ("thinking".equals(type) || "redacted_thinking".equals(type) || "reasoning".equals(type)) {
+                hasThinking = true;
+                break;
+            }
+        }
+        if (!hasThinking) {
+            return msg;
+        }
+        ObjectNode copy = msg.deepCopy();
+        ArrayNode filtered = json.arrayNode();
+        for (JsonNode block : copy.get("content")) {
+            String type = block.path("type").asText("");
+            if (!"thinking".equals(type) && !"redacted_thinking".equals(type) && !"reasoning".equals(type)) {
+                filtered.add(block);
+            }
+        }
+        if (filtered.isEmpty()) {
+            filtered.add(json.objectNode().put("type", "text").put("text", ""));
+        }
+        copy.set("content", filtered);
+        return copy;
     }
 
     private void appendClaudeMessage(ArrayNode messages, String role, JsonNode content) {
@@ -517,7 +578,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         ArrayNode pending = json.arrayNode();
         for (JsonNode block : content) {
             String type = block.path("type").asText("");
-            if ("fallback".equals(type)) {
+            if ("fallback".equals(type) || "compaction".equals(type)) {
                 continue;
             }
             if (!"mid_conv_system".equals(type)) {
@@ -703,7 +764,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                          "text_editor_code_execution_tool_result", "tool_search_tool_result" -> contentBlocks.add(toBedrockToolResult(item));
                     case "thinking", "reasoning" -> contentBlocks.add(toBedrockReasoningContent(item));
                     case "redacted_thinking" -> contentBlocks.add(toBedrockRedactedReasoningContent(item));
-                    case "compaction" -> throw new ProtocolConversionException("CLAUDE_BEDROCK_COMPACTION_NOT_SUPPORTED_BY_CONVERSE");
+                    case "compaction" -> { continue; }
                     default -> throw new ProtocolConversionException("CLAUDE_BEDROCK_UNSUPPORTED_CONTENT_BLOCK: " + type);
                 }
                 if (blockMapped && hasEphemeralCacheControl(item)) {

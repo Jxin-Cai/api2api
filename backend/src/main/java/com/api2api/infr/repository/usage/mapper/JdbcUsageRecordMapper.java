@@ -6,6 +6,7 @@ import com.api2api.infr.repository.usage.po.UsageTokenSummaryPO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class JdbcUsageRecordMapper implements UsageRecordMapper {
+
+    private static final String ACTUAL_TOKENS_SQL = "input_tokens::numeric + output_tokens::numeric * 5 + cache_read_input_tokens::numeric * 0.1 + cache_creation_input_tokens::numeric * 1.25";
 
     private static final String COLUMNS = "id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, error_type, error_message, route_failures_json, created_at, updated_at, deleted";
 
@@ -117,6 +120,17 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
                 WHERE api_credential_id = :apiCredentialId AND deleted = FALSE
                 """, Map.of("apiCredentialId", apiCredentialId), Long.class);
         return total == null ? 0 : total;
+    }
+
+    @Override
+    public BigDecimal sumActualTokensByApiCredential(Long apiCredentialId) {
+        BigDecimal total = jdbcTemplate.queryForObject(
+                "SELECT COALESCE(SUM(" + ACTUAL_TOKENS_SQL + "), 0) FROM usage_records "
+                        + "WHERE api_credential_id = :apiCredentialId AND deleted = FALSE",
+                Map.of("apiCredentialId", apiCredentialId),
+                BigDecimal.class
+        );
+        return total == null ? BigDecimal.ZERO : total;
     }
 
     @Override

@@ -71,7 +71,7 @@ public abstract class UsageRecordHttpConverter {
                 .size(pagedRecords.getSize())
                 .totalElements(pagedRecords.getTotalElements())
                 .totalPages(pagedRecords.totalPages())
-                .filteredTotalTokens(pagedRecords.getFilteredTokenTotal().getTotalTokens())
+                .filteredTotalTokens(pagedRecords.getFilteredTokenTotal().getActualTokens())
                 .adminView(adminView)
                 .build();
     }
@@ -97,6 +97,7 @@ public abstract class UsageRecordHttpConverter {
     @Mapping(target = "cacheCreationInputTokens", source = "tokenUsage.cacheCreationInputTokens")
     @Mapping(target = "cacheReadInputTokens", source = "tokenUsage.cacheReadInputTokens")
     @Mapping(target = "totalTokens", source = "tokenUsage.totalTokens")
+    @Mapping(target = "actualTokens", source = "tokenUsage.actualTokens")
     @Mapping(target = "usageKnown", source = "tokenUsage.usageKnown")
     @Mapping(target = "errorType", expression = "java(errorTypeValue(record))")
     @Mapping(target = "errorMessage", expression = "java(errorMessageValue(record))")

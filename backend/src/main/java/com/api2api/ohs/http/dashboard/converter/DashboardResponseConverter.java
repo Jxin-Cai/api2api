@@ -60,8 +60,15 @@ public abstract class DashboardResponseConverter {
     protected abstract TokenAmountResponse toTokenAmountResponse(TokenAmount tokenAmount);
 
     @Mapping(target = "id", source = "id.value")
+    @Mapping(target = "apiCredentialId", source = "apiCredentialId.value")
     @Mapping(target = "requestedModel", expression = "java(record.getRequestedModel().value())")
-    @Mapping(target = "totalTokens", expression = "java(record.totalTokens())")
+    @Mapping(target = "inputTokens", source = "tokenUsage.inputTokens")
+    @Mapping(target = "outputTokens", source = "tokenUsage.outputTokens")
+    @Mapping(target = "cacheCreationInputTokens", source = "tokenUsage.cacheCreationInputTokens")
+    @Mapping(target = "cacheReadInputTokens", source = "tokenUsage.cacheReadInputTokens")
+    @Mapping(target = "totalTokens", source = "tokenUsage.totalTokens")
+    @Mapping(target = "actualTokens", source = "tokenUsage.actualTokens")
+    @Mapping(target = "usageKnown", source = "tokenUsage.usageKnown")
     protected abstract FrontDashboardRecentCallResponse toRecentCallResponse(UsageRecord record);
 
     protected abstract ProtocolRequestRateResponse toProtocolRequestRateResponse(ProtocolRequestRate rate);

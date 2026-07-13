@@ -2,6 +2,7 @@ package com.api2api.ohs.http.credential.dto;
 
 import com.api2api.domain.credential.model.ApiCredentialStatus;
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +24,11 @@ public class ApiCredentialResponse {
     private String keyPreview;
     private List<String> modelWhitelist;
     private long tokenLimit;
-    private long consumedTokens;
-    private long todayConsumedTokens;
-    private Long remainingTokens;
+    private BigDecimal consumedTokens;
+    private long totalTokens;
+    private BigDecimal todayConsumedTokens;
+    private long todayTotalTokens;
+    private BigDecimal remainingTokens;
     private ApiCredentialStatus status;
     private Instant lastUsedAt;
     private Instant createdAt;

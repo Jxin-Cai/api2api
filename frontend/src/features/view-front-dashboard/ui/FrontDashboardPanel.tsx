@@ -11,7 +11,7 @@ import type { FrontDashboardPanelProps } from '../model/types';
 
 export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   const navigate = useNavigate();
-  const query = useFrontDashboardMetrics({ zoneId, recentCallsPage: 1, recentCallsSize: 50 });
+  const query = useFrontDashboardMetrics({ zoneId, recentCallsPage: 1, recentCallsSize: 20 });
   const data = query.data;
 
   if (query.isError) {
@@ -34,7 +34,8 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
           scope="front"
           records={data?.recentCalls ?? []}
           loading={query.isLoading}
-          pagination={{ page: 1, pageSize: 50, total: data?.recentCalls?.length ?? 0 }}
+          pagination={{ page: 1, pageSize: 20, total: data?.recentCalls?.length ?? 0 }}
+          showSizeChanger={false}
           onPageChange={(): void => undefined}
         />
         {data?.recentCalls?.length === 0 ? <Typography.Text type="secondary">暂无最近调用数据</Typography.Text> : null}

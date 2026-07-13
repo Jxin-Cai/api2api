@@ -3,6 +3,7 @@ package com.api2api.domain.credential.model;
 import com.api2api.domain.user.model.UserAccountId;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -143,6 +144,17 @@ public final class ApiCredential {
         this.updatedAt = now;
     }
 
+    public void changeTokenLimit(TokenLimit tokenLimit, BigDecimal currentConsumedTokens, Instant now) {
+        Objects.requireNonNull(tokenLimit, "Token limit must not be null");
+        validateConsumedTokens(currentConsumedTokens);
+        Objects.requireNonNull(now, "Current time must not be null");
+        if (this.tokenLimit.equals(tokenLimit)) {
+            return;
+        }
+        this.tokenLimit = tokenLimit;
+        this.updatedAt = now;
+    }
+
     public void disable(Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
         if (this.status == ApiCredentialStatus.DISABLED) {
@@ -196,6 +208,17 @@ public final class ApiCredential {
         }
     }
 
+    public boolean isQuotaExhausted(BigDecimal currentConsumedTokens) {
+        validateConsumedTokens(currentConsumedTokens);
+        return this.tokenLimit.isExceededBy(currentConsumedTokens);
+    }
+
+    public void assertQuotaAvailable(BigDecimal currentConsumedTokens) {
+        if (isQuotaExhausted(currentConsumedTokens)) {
+            throw new IllegalStateException("TOKEN_QUOTA_EXHAUSTED: API credential token quota is exhausted");
+        }
+    }
+
     public TokenConsumptionDecision evaluateConsumption(long currentConsumedTokens, TokenUsageDelta delta) {
         validateConsumedTokens(currentConsumedTokens);
         Objects.requireNonNull(delta, "Token usage delta must not be null");
@@ -229,6 +252,13 @@ public final class ApiCredential {
 
     private static void validateConsumedTokens(long currentConsumedTokens) {
         if (currentConsumedTokens < 0) {
+            throw new IllegalArgumentException("Current consumed tokens must not be negative");
+        }
+    }
+
+    private static void validateConsumedTokens(BigDecimal currentConsumedTokens) {
+        BigDecimal nonNullConsumedTokens = Objects.requireNonNull(currentConsumedTokens, "Current consumed tokens must not be null");
+        if (nonNullConsumedTokens.signum() < 0) {
             throw new IllegalArgumentException("Current consumed tokens must not be negative");
         }
     }

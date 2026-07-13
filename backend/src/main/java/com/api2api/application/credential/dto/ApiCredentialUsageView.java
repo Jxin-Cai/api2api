@@ -1,66 +1,91 @@
 package com.api2api.application.credential.dto;
 
 import com.api2api.domain.credential.model.ApiCredential;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public final class ApiCredentialUsageView {
 
     private final ApiCredential credential;
-    private final long consumedTokens;
-    private final long todayConsumedTokens;
+    private final BigDecimal consumedTokens;
+    private final long totalTokens;
+    private final BigDecimal todayConsumedTokens;
+    private final long todayTotalTokens;
 
-    private ApiCredentialUsageView(ApiCredential credential, long consumedTokens, long todayConsumedTokens) {
-        if (consumedTokens < 0) {
+    private ApiCredentialUsageView(ApiCredential credential, BigDecimal consumedTokens, long totalTokens, BigDecimal todayConsumedTokens, long todayTotalTokens) {
+        BigDecimal nonNullConsumedTokens = Objects.requireNonNull(consumedTokens, "Consumed tokens must not be null");
+        BigDecimal nonNullTodayConsumedTokens = Objects.requireNonNull(todayConsumedTokens, "Today consumed tokens must not be null");
+        if (nonNullConsumedTokens.signum() < 0) {
             throw new IllegalArgumentException("Consumed tokens must not be negative");
         }
-        if (todayConsumedTokens < 0) {
+        if (totalTokens < 0 || todayTotalTokens < 0 || nonNullTodayConsumedTokens.signum() < 0) {
             throw new IllegalArgumentException("Today consumed tokens must not be negative");
         }
         this.credential = Objects.requireNonNull(credential, "API credential must not be null");
-        this.consumedTokens = consumedTokens;
-        this.todayConsumedTokens = todayConsumedTokens;
+        this.consumedTokens = nonNullConsumedTokens;
+        this.totalTokens = totalTokens;
+        this.todayConsumedTokens = nonNullTodayConsumedTokens;
+        this.todayTotalTokens = todayTotalTokens;
     }
 
     public static ApiCredentialUsageView of(
             ApiCredential credential,
-            long consumedTokens,
-            long todayConsumedTokens
+            BigDecimal consumedTokens,
+            long totalTokens,
+            BigDecimal todayConsumedTokens,
+            long todayTotalTokens
     ) {
-        return new ApiCredentialUsageView(credential, consumedTokens, todayConsumedTokens);
+        return new ApiCredentialUsageView(credential, consumedTokens, totalTokens, todayConsumedTokens, todayTotalTokens);
     }
 
     public ApiCredential credential() {
         return credential;
     }
 
-    public long consumedTokens() {
+    public BigDecimal consumedTokens() {
         return consumedTokens;
     }
 
-    public long todayConsumedTokens() {
+    public long totalTokens() {
+        return totalTokens;
+    }
+
+    public BigDecimal todayConsumedTokens() {
         return todayConsumedTokens;
     }
 
-    public Long remainingTokens() {
+    public long todayTotalTokens() {
+        return todayTotalTokens;
+    }
+
+    public BigDecimal remainingTokens() {
         if (credential.getTokenLimit().isUnlimited()) {
             return null;
         }
-        return Math.max(0, credential.getTokenLimit().getValue() - consumedTokens);
+        return BigDecimal.valueOf(credential.getTokenLimit().getValue()).subtract(consumedTokens).max(BigDecimal.ZERO);
     }
 
     public ApiCredential getCredential() {
         return credential;
     }
 
-    public long getConsumedTokens() {
+    public BigDecimal getConsumedTokens() {
         return consumedTokens;
     }
 
-    public long getTodayConsumedTokens() {
+    public long getTotalTokens() {
+        return totalTokens;
+    }
+
+    public BigDecimal getTodayConsumedTokens() {
         return todayConsumedTokens;
     }
 
-    public Long getRemainingTokens() {
+    public long getTodayTotalTokens() {
+        return todayTotalTokens;
+    }
+
+    public BigDecimal getRemainingTokens() {
         return remainingTokens();
     }
 }

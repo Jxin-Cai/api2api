@@ -18,6 +18,7 @@ import com.api2api.domain.user.model.Username;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -37,6 +38,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepository {
 
+    private static final String ACTUAL_TOKENS_SQL = "input_tokens::numeric + output_tokens::numeric * 5 + cache_read_input_tokens::numeric * 0.1 + cache_creation_input_tokens::numeric * 1.25";
+
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -44,28 +47,24 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     public TokenAmount sumUserTotalTokens(UserAccountId userAccountId, AnalyticsTimeWindow window) {
         Objects.requireNonNull(userAccountId, "User account id must not be null");
         Objects.requireNonNull(window, "Analytics time window must not be null");
-        Long total = jdbcTemplate.queryForObject("""
-                SELECT COALESCE(SUM(total_tokens), 0)
-                FROM usage_records
-                WHERE deleted = FALSE
-                  AND user_account_id = :userAccountId
-                  AND started_at >= :startTime
-                  AND started_at < :endTime
-                """, windowParams(window).addValue("userAccountId", userAccountId.getValue()), Long.class);
-        return TokenAmount.of(total == null ? 0 : total);
+        String sql = "SELECT COALESCE(SUM(" + ACTUAL_TOKENS_SQL + "), 0) FROM usage_records "
+                + "WHERE deleted = FALSE AND user_account_id = :userAccountId "
+                + "AND started_at >= :startTime AND started_at < :endTime";
+        BigDecimal total = jdbcTemplate.queryForObject(
+                sql,
+                windowParams(window).addValue("userAccountId", userAccountId.getValue()),
+                BigDecimal.class
+        );
+        return TokenAmount.of(total == null ? BigDecimal.ZERO : total);
     }
 
     @Override
     public TokenAmount sumPlatformTotalTokens(AnalyticsTimeWindow window) {
         Objects.requireNonNull(window, "Analytics time window must not be null");
-        Long total = jdbcTemplate.queryForObject("""
-                SELECT COALESCE(SUM(total_tokens), 0)
-                FROM usage_records
-                WHERE deleted = FALSE
-                  AND started_at >= :startTime
-                  AND started_at < :endTime
-                """, windowParams(window), Long.class);
-        return TokenAmount.of(total == null ? 0 : total);
+        String sql = "SELECT COALESCE(SUM(" + ACTUAL_TOKENS_SQL + "), 0) FROM usage_records "
+                + "WHERE deleted = FALSE AND started_at >= :startTime AND started_at < :endTime";
+        BigDecimal total = jdbcTemplate.queryForObject(sql, windowParams(window), BigDecimal.class);
+        return TokenAmount.of(total == null ? BigDecimal.ZERO : total);
     }
 
     @Override
@@ -99,7 +98,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         List<UserTokenRow> rows = jdbcTemplate.query("""
                 SELECT u.id AS user_account_id,
                        u.username AS username,
-                       COALESCE(SUM(r.total_tokens), 0) AS total_tokens
+                       COALESCE(SUM(r.input_tokens::numeric + r.output_tokens::numeric * 5 + r.cache_read_input_tokens::numeric * 0.1 + r.cache_creation_input_tokens::numeric * 1.25), 0) AS total_tokens
                 FROM usage_records r
                 JOIN user_accounts u ON u.id = r.user_account_id
                 WHERE r.deleted = FALSE
@@ -112,7 +111,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 """, params, (rs, rowNum) -> new UserTokenRow(
                 rs.getLong("user_account_id"),
                 rs.getString("username"),
-                rs.getLong("total_tokens")
+                rs.getBigDecimal("total_tokens")
         ));
         List<UserTokenRanking> rankings = new ArrayList<>();
         for (int index = 0; index < rows.size(); index++) {
@@ -132,27 +131,24 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         Objects.requireNonNull(window, "Analytics time window must not be null");
         AnalyticsGranularity.requireSupported(granularity);
         List<Bucket> buckets = buckets(window, granularity);
-        Map<ProtocolBucketKey, Long> totals = new LinkedHashMap<>();
-        jdbcTemplate.query("""
-                SELECT request_protocol, started_at, total_tokens
-                FROM usage_records
-                WHERE deleted = FALSE
-                  AND started_at >= :startTime
-                  AND started_at < :endTime
-                """, windowParams(window), rs -> {
+        Map<ProtocolBucketKey, BigDecimal> totals = new LinkedHashMap<>();
+        String sql = "SELECT request_protocol, started_at, " + ACTUAL_TOKENS_SQL + " AS actual_tokens "
+                + "FROM usage_records WHERE deleted = FALSE "
+                + "AND started_at >= :startTime AND started_at < :endTime";
+        jdbcTemplate.query(sql, windowParams(window), rs -> {
             ProtocolType protocol = ProtocolType.valueOf(rs.getString("request_protocol"));
             Instant startedAt = instant(rs, "started_at");
             Bucket bucket = findBucket(buckets, startedAt);
             if (bucket != null) {
                 ProtocolBucketKey key = new ProtocolBucketKey(protocol, bucket.start());
-                totals.merge(key, rs.getLong("total_tokens"), Long::sum);
+                totals.merge(key, rs.getBigDecimal("actual_tokens"), BigDecimal::add);
             }
         });
         List<ProtocolTokenTrendPoint> points = new ArrayList<>();
         for (Bucket bucket : buckets) {
             for (ProtocolType protocol : ProtocolType.values()) {
-                long total = totals.getOrDefault(new ProtocolBucketKey(protocol, bucket.start()), 0L);
-                points.add(total == 0
+                BigDecimal total = totals.getOrDefault(new ProtocolBucketKey(protocol, bucket.start()), BigDecimal.ZERO);
+                points.add(total.signum() == 0
                         ? ProtocolTokenTrendPoint.zero(bucket.start(), bucket.end(), protocol)
                         : ProtocolTokenTrendPoint.of(bucket.start(), bucket.end(), protocol, TokenAmount.of(total)));
             }
@@ -170,7 +166,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 SELECT r.provider_channel_id,
                        COALESCE(c.name, 'Unknown Channel') AS provider_channel_name,
                        r.started_at,
-                       r.total_tokens
+                       r.input_tokens::numeric + r.output_tokens::numeric * 5 + r.cache_read_input_tokens::numeric * 0.1 + r.cache_creation_input_tokens::numeric * 1.25 AS actual_tokens
                 FROM usage_records r
                 LEFT JOIN provider_channels c ON c.id = r.provider_channel_id
                 WHERE r.deleted = FALSE
@@ -183,7 +179,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
             if (bucket != null) {
                 long channelId = rs.getLong("provider_channel_id");
                 String channelName = rs.getString("provider_channel_name");
-                long totalTokens = rs.getLong("total_tokens");
+                BigDecimal totalTokens = rs.getBigDecimal("actual_tokens");
                 ChannelBucketKey key = new ChannelBucketKey(channelId, bucket.start());
                 totals.compute(key, (ignored, existing) -> existing == null
                         ? new ChannelBucketTotal(channelId, channelName, bucket.start(), bucket.end(), totalTokens)
@@ -196,7 +192,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                         total.bucketEnd(),
                         ProviderChannelId.of(total.providerChannelId()),
                         ProviderChannelName.of(total.providerChannelName()),
-                        TokenAmount.of(total.totalTokens())
+                        TokenAmount.of(total.actualTokens())
                 ))
                 .toList();
     }
@@ -311,7 +307,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     private record ChannelBucketKey(long providerChannelId, Instant bucketStart) {
     }
 
-    private record UserTokenRow(long userAccountId, String username, long totalTokens) {
+    private record UserTokenRow(long userAccountId, String username, BigDecimal totalTokens) {
     }
 
     private record ChannelBucketTotal(
@@ -319,10 +315,10 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
             String providerChannelName,
             Instant bucketStart,
             Instant bucketEnd,
-            long totalTokens
+            BigDecimal actualTokens
     ) {
-        private ChannelBucketTotal plus(long tokens) {
-            return new ChannelBucketTotal(providerChannelId, providerChannelName, bucketStart, bucketEnd, totalTokens + tokens);
+        private ChannelBucketTotal plus(BigDecimal tokens) {
+            return new ChannelBucketTotal(providerChannelId, providerChannelName, bucketStart, bucketEnd, actualTokens.add(tokens));
         }
     }
 }

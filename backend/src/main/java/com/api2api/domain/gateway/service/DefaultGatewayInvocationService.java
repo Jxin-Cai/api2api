@@ -9,6 +9,7 @@ import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.routing.model.RoutePlan;
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.Objects;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class DefaultGatewayInvocationService implements GatewayInvocationService
     public GatewayInvocation authenticate(
             GatewayInvocation invocation,
             ApiCredential credential,
-            long currentConsumedTokens,
+            BigDecimal currentConsumedTokens,
             Instant now
     ) {
         Objects.requireNonNull(invocation, "Gateway invocation must not be null");

@@ -32,6 +32,7 @@ import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.usage.model.UsageRecordId;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
 import java.time.Clock;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -413,8 +414,8 @@ public class GatewayInvocationApplicationService {
                 .orElseThrow(() -> new BusinessException("API_CREDENTIAL_INVALID"));
         credential.assertUsable();
         credential.assertModelAllowed(command.getRequestedCredentialModel());
-        long currentConsumedTokens = usageRecordRepository.sumTotalTokensByApiCredential(credential.getId());
-        if (currentConsumedTokens < 0) {
+        BigDecimal currentConsumedTokens = usageRecordRepository.sumActualTokensByApiCredential(credential.getId());
+        if (currentConsumedTokens.signum() < 0) {
             throw new BusinessException("INVALID_TOKEN_TOTAL");
         }
         credential.assertQuotaAvailable(currentConsumedTokens);

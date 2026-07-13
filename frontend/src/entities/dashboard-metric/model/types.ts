@@ -1,4 +1,4 @@
-import type { UsageRecordResponse } from '@shared/api/contracts';
+import type { UsageRecordBackendResponse, UsageRecordResponse } from '@shared/api/contracts';
 import type { UsagePageSize } from '@shared/types/table';
 
 export interface TokenAmountResponse {
@@ -42,20 +42,12 @@ export interface DashboardProtocolRequestRateResponse {
   requestsPerMinute: number;
 }
 
-export interface FrontDashboardRecentCallBackendResponse {
-  id: string | number;
-  requestedModel?: string;
-  requestProtocol?: string;
-  status?: string;
-  totalTokens?: number;
-  startedAt?: string | number;
-  endedAt?: string | number;
-}
+export type FrontDashboardRecentCallBackendResponse = UsageRecordBackendResponse;
 
 export interface GetFrontDashboardRequest {
   zoneId?: string;
   recentCallsPage?: number;
-  recentCallsSize?: UsagePageSize;
+  recentCallsSize?: 20 | UsagePageSize;
 }
 
 export interface GetAdminDashboardRequest {

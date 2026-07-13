@@ -1,6 +1,7 @@
 package com.api2api.ohs.http.usage.dto;
 
 import java.util.List;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,6 @@ public class UsageRecordPageResponse {
     private int size;
     private long totalElements;
     private long totalPages;
-    private long filteredTotalTokens;
+    private BigDecimal filteredTotalTokens;
     private boolean adminView;
 }

@@ -19,6 +19,7 @@ export interface UsageRecordBackendResponse {
   cacheCreationInputTokens?: number;
   cacheReadInputTokens?: number;
   totalTokens?: number;
+  actualTokens?: number;
   usageKnown?: boolean;
   streaming?: boolean;
   errorType?: string;
@@ -48,6 +49,7 @@ export interface UsageRecordResponse {
   model: string;
   protocolType: string;
   tokens: number;
+  totalTokens: number;
   inputTokens?: number;
   outputTokens?: number;
   cacheCreationInputTokens?: number;
@@ -69,4 +71,41 @@ export interface UsageTokenSummaryResponse {
 export interface UsageRecordPageResponse extends PageResponse<UsageRecordResponse> {
   totalTokens: number;
   summary?: UsageTokenSummaryResponse;
+}
+
+function toStringValue(value: string | number | undefined): string | undefined {
+  return value === undefined || value === null ? undefined : String(value);
+}
+
+function buildUsageDiagnostic(record: UsageRecordBackendResponse): string | undefined {
+  if (record.diagnostic) {
+    return record.diagnostic;
+  }
+  const parts = [record.errorType, record.errorMessage].filter(Boolean);
+  return parts.length > 0 ? parts.join(': ') : undefined;
+}
+
+/** Normalizes usage rows shared by the usage page and dashboard recent calls. */
+export function toUsageRecordResponse(record: UsageRecordBackendResponse): UsageRecordResponse {
+  return {
+    id: String(record.id),
+    apiCredentialId: toStringValue(record.apiCredentialId),
+    apiCredentialName: record.apiCredentialName,
+    userId: toStringValue(record.userAccountId),
+    username: record.username,
+    model: record.requestedModel ?? '-',
+    protocolType: record.requestProtocol ?? '-',
+    tokens: record.actualTokens ?? record.totalTokens ?? 0,
+    totalTokens: record.totalTokens ?? 0,
+    inputTokens: record.inputTokens,
+    outputTokens: record.outputTokens,
+    cacheCreationInputTokens: record.cacheCreationInputTokens,
+    cacheReadInputTokens: record.cacheReadInputTokens,
+    usageKnown: record.usageKnown,
+    status: record.status,
+    providerChannelId: toStringValue(record.providerChannelId),
+    providerChannelName: record.providerChannelName,
+    diagnostic: buildUsageDiagnostic(record),
+    createdAt: record.createdAt ?? record.startedAt ?? '-',
+  };
 }

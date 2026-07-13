@@ -16,14 +16,15 @@ export function normalizeUsagePageSize(value: string | number | null | undefined
 }
 
 export function buildTablePagination(
-  pagination: TablePaginationState,
-  onChange: (page: number, pageSize: UsagePageSize) => void
+  pagination: Omit<TablePaginationState, 'pageSize'> & { pageSize: number },
+  onChange: (page: number, pageSize: UsagePageSize) => void,
+  showSizeChanger = true
 ): TablePaginationConfig {
   return {
     current: pagination.page,
     pageSize: pagination.pageSize,
     total: pagination.total,
-    showSizeChanger: true,
+    showSizeChanger,
     pageSizeOptions: USAGE_PAGE_SIZE_OPTIONS.map(String),
     showTotal: (total: number): string => `共 ${total} 条`,
     onChange: (page: number, pageSize: number): void => {

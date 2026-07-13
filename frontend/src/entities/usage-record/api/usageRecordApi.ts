@@ -1,5 +1,5 @@
 import { apiClient, type ApiResponse, type QueryParams } from '@shared/api';
-import type { UsageRecordBackendPageResponse, UsageRecordBackendResponse } from '@shared/api/contracts';
+import { toUsageRecordResponse, type UsageRecordBackendPageResponse } from '@shared/api/contracts';
 import type { UsagePageSize } from '@shared/types/table';
 
 import type {
@@ -7,7 +7,6 @@ import type {
   QueryMyUsageRecordsRequest,
   QueryUsageRecordsRequest,
   UsageRecordPageResponse,
-  UsageRecordResponse,
 } from '../model/types';
 
 type BackendUsageQueryParams = QueryParams & {
@@ -61,41 +60,6 @@ function toBackendParams(params: QueryUsageRecordsRequest): BackendUsageQueryPar
   };
 }
 
-function toStringValue(value: string | number | undefined): string | undefined {
-  return value === undefined || value === null ? undefined : String(value);
-}
-
-function buildDiagnostic(record: UsageRecordBackendResponse): string | undefined {
-  if (record.diagnostic) {
-    return record.diagnostic;
-  }
-  const parts = [record.errorType, record.errorMessage].filter(Boolean);
-  return parts.length > 0 ? parts.join(': ') : undefined;
-}
-
-function toFrontendRecord(record: UsageRecordBackendResponse): UsageRecordResponse {
-  return {
-    id: String(record.id),
-    apiCredentialId: toStringValue(record.apiCredentialId),
-    apiCredentialName: record.apiCredentialName,
-    userId: toStringValue(record.userAccountId),
-    username: record.username,
-    model: record.requestedModel ?? '-',
-    protocolType: record.requestProtocol ?? '-',
-    tokens: record.totalTokens ?? 0,
-    inputTokens: record.inputTokens,
-    outputTokens: record.outputTokens,
-    cacheCreationInputTokens: record.cacheCreationInputTokens,
-    cacheReadInputTokens: record.cacheReadInputTokens,
-    usageKnown: record.usageKnown,
-    status: record.status,
-    providerChannelId: toStringValue(record.providerChannelId),
-    providerChannelName: record.providerChannelName,
-    diagnostic: buildDiagnostic(record),
-    createdAt: record.createdAt ?? record.startedAt ?? '-',
-  };
-}
-
 function toFrontendPage(response: UsageRecordBackendPageResponse): UsageRecordPageResponse {
   const records = Array.isArray(response?.records) ? response.records : [];
   const page = Number.isFinite(response?.page) ? response.page : 1;
@@ -103,7 +67,7 @@ function toFrontendPage(response: UsageRecordBackendPageResponse): UsageRecordPa
   const totalElements = Number.isFinite(response?.totalElements) ? response.totalElements : records.length;
   const filteredTotalTokens = Number.isFinite(response?.filteredTotalTokens) ? response.filteredTotalTokens : 0;
   return {
-    records: records.map(toFrontendRecord),
+    records: records.map(toUsageRecordResponse),
     page,
     pageSize: size,
     total: totalElements,

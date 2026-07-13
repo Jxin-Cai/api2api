@@ -1,5 +1,6 @@
 package com.api2api.domain.credential.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -33,6 +34,14 @@ public final class TokenLimit {
             throw new IllegalArgumentException("Consumed tokens must not be negative");
         }
         return !isUnlimited() && consumedTokens >= value;
+    }
+
+    public boolean isExceededBy(BigDecimal consumedTokens) {
+        BigDecimal nonNullConsumedTokens = Objects.requireNonNull(consumedTokens, "Consumed tokens must not be null");
+        if (nonNullConsumedTokens.signum() < 0) {
+            throw new IllegalArgumentException("Consumed tokens must not be negative");
+        }
+        return !isUnlimited() && nonNullConsumedTokens.compareTo(BigDecimal.valueOf(value)) >= 0;
     }
 
     public long value() {

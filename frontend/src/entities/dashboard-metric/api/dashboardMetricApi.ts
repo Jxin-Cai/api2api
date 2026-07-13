@@ -1,30 +1,14 @@
 import { apiClient, type ApiResponse, type QueryParams } from '@shared/api';
+import { toUsageRecordResponse } from '@shared/api/contracts';
 
 import type {
   AdminDashboardResponse,
   FrontDashboardBackendResponse,
-  FrontDashboardRecentCallBackendResponse,
   FrontDashboardResponse,
   GetAdminDashboardRequest,
   GetFrontDashboardRequest,
   TokenAmountResponse,
 } from '../model/types';
-
-function toStringValue(value: string | number | undefined): string | undefined {
-  return value === undefined || value === null ? undefined : String(value);
-}
-
-function toRecentCallRecord(record: FrontDashboardRecentCallBackendResponse) {
-  return {
-    id: String(record.id),
-    model: record.requestedModel ?? '-',
-    protocolType: record.requestProtocol ?? '-',
-    tokens: record.totalTokens ?? 0,
-    status: record.status,
-    createdAt: record.startedAt ?? record.endedAt ?? '-',
-    apiCredentialId: toStringValue(undefined),
-  };
-}
 
 function toTokenAmount(value: TokenAmountResponse | number | undefined): TokenAmountResponse {
   const tokens = typeof value === 'number' ? value : value?.tokens;
@@ -42,7 +26,7 @@ function toFrontDashboard(response: FrontDashboardBackendResponse): FrontDashboa
     todayTokens: toTokenAmount(response?.todayTokens),
     monthTokens: toTokenAmount(response?.monthTokens),
     apiKeyCount: Number.isFinite(response?.apiKeyCount) ? response.apiKeyCount : 0,
-    recentCalls: Array.isArray(response?.recentCalls) ? response.recentCalls.map(toRecentCallRecord) : [],
+    recentCalls: Array.isArray(response?.recentCalls) ? response.recentCalls.map(toUsageRecordResponse) : [],
   };
 }
 

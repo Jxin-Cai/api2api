@@ -9,6 +9,7 @@ import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageRecordId;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import java.util.Optional;
+import java.math.BigDecimal;
 
 public interface UsageRecordRepository {
 
@@ -63,6 +64,9 @@ public interface UsageRecordRepository {
      * @return accumulated total tokens
      */
     long sumTotalTokensByApiCredential(ApiCredentialId apiCredentialId);
+
+    /** Returns weighted tokens used by quota and statistical accounting. */
+    BigDecimal sumActualTokensByApiCredential(ApiCredentialId apiCredentialId);
 
     /**
      * Sums token details using exactly the same filter and role-based visibility rules as {@link #query}.

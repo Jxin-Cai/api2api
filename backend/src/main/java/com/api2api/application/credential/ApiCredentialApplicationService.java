@@ -16,6 +16,7 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.usage.model.UsageRecordFilter;
+import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
 import com.api2api.domain.user.model.AccessScope;
@@ -23,6 +24,7 @@ import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.nio.charset.StandardCharsets;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
@@ -84,12 +86,23 @@ public class ApiCredentialApplicationService {
             UsageTimeRange todayTimeRange
     ) {
         return listMyCredentials(ownerUserId).stream()
-                .map(credential -> ApiCredentialUsageView.of(
-                        credential,
-                        currentConsumedTokens(credential.getId()),
-                        todayConsumedTokens(ownerUserId, credential.getId(), todayTimeRange)
-                ))
+                .map(credential -> usageView(ownerUserId, credential, todayTimeRange))
                 .toList();
+    }
+
+    private ApiCredentialUsageView usageView(
+            UserAccountId ownerUserId,
+            ApiCredential credential,
+            UsageTimeRange todayTimeRange
+    ) {
+        UsageTokenBreakdown todayTokens = todayTokenBreakdown(ownerUserId, credential.getId(), todayTimeRange);
+        return ApiCredentialUsageView.of(
+                credential,
+                currentConsumedTokens(credential.getId()),
+                usageRecordRepository.sumTotalTokensByApiCredential(credential.getId()),
+                todayTokens.actualTokens(),
+                todayTokens.totalTokens()
+        );
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -135,7 +148,7 @@ public class ApiCredentialApplicationService {
         ApiCredential apiCredential = loadCredential(command.getApiCredentialId());
 
         apiCredential.assertOwnedBy(command.getOwnerUserId());
-        long currentConsumedTokens = currentConsumedTokens(command.getApiCredentialId());
+        BigDecimal currentConsumedTokens = currentConsumedTokens(command.getApiCredentialId());
         apiCredential.changeTokenLimit(command.getTokenLimit(), currentConsumedTokens, now());
         apiCredentialRepository.save(apiCredential);
         return apiCredential;
@@ -179,7 +192,7 @@ public class ApiCredentialApplicationService {
 
         apiCredential.assertUsable();
         apiCredential.assertModelAllowed(command.getRequestedModel());
-        long currentConsumedTokens = currentConsumedTokens(apiCredential.getId());
+        BigDecimal currentConsumedTokens = currentConsumedTokens(apiCredential.getId());
         apiCredential.assertQuotaAvailable(currentConsumedTokens);
         apiCredential.markUsed(now());
         apiCredentialRepository.save(apiCredential);
@@ -205,15 +218,15 @@ public class ApiCredentialApplicationService {
                 .orElseThrow(() -> new BusinessException("API_CREDENTIAL_NOT_FOUND"));
     }
 
-    private long currentConsumedTokens(ApiCredentialId apiCredentialId) {
-        long currentConsumedTokens = usageRecordRepository.sumTotalTokensByApiCredential(apiCredentialId);
-        if (currentConsumedTokens < 0) {
+    private BigDecimal currentConsumedTokens(ApiCredentialId apiCredentialId) {
+        BigDecimal currentConsumedTokens = usageRecordRepository.sumActualTokensByApiCredential(apiCredentialId);
+        if (currentConsumedTokens.signum() < 0) {
             throw new BusinessException("INVALID_TOKEN_TOTAL");
         }
         return currentConsumedTokens;
     }
 
-    private long todayConsumedTokens(
+    private UsageTokenBreakdown todayTokenBreakdown(
             UserAccountId ownerUserId,
             ApiCredentialId apiCredentialId,
             UsageTimeRange todayTimeRange
@@ -225,11 +238,11 @@ public class ApiCredentialApplicationService {
                 null,
                 todayTimeRange
         );
-        long todayConsumedTokens = usageRecordRepository.sumTokens(filter).totalTokens();
-        if (todayConsumedTokens < 0) {
+        UsageTokenBreakdown todayTokens = usageRecordRepository.sumTokens(filter);
+        if (todayTokens.actualTokens().signum() < 0) {
             throw new BusinessException("INVALID_TOKEN_TOTAL");
         }
-        return todayConsumedTokens;
+        return todayTokens;
     }
 
     private String sha256Hex(String value) {

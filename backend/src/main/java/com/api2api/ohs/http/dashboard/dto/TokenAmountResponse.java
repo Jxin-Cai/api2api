@@ -1,5 +1,6 @@
 package com.api2api.ohs.http.dashboard.dto;
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TokenAmountResponse {
 
-    private long tokens;
+    private BigDecimal tokens;
     private double millions;
 }

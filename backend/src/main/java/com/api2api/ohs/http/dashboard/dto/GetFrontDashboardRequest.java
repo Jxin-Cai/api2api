@@ -21,7 +21,7 @@ public class GetFrontDashboardRequest {
     @Min(1)
     private Integer recentCallsPage;
 
-    @Min(50)
+    @Min(20)
     @Max(200)
     private Integer recentCallsSize;
 }

@@ -1,12 +1,17 @@
 package com.api2api.domain.usage.model;
 
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  * Immutable token usage breakdown captured from an upstream invocation result.
  */
 public final class UsageTokenBreakdown {
+
+    private static final BigDecimal OUTPUT_TOKEN_WEIGHT = new BigDecimal("5");
+    private static final BigDecimal CACHE_READ_TOKEN_WEIGHT = new BigDecimal("0.1");
+    private static final BigDecimal CACHE_CREATION_TOKEN_WEIGHT = new BigDecimal("1.25");
 
     private final long inputTokens;
     private final long outputTokens;
@@ -135,6 +140,16 @@ public final class UsageTokenBreakdown {
         return totalTokens;
     }
 
+    /**
+     * Returns the weighted token amount used by quotas and statistics.
+     */
+    public BigDecimal actualTokens() {
+        return BigDecimal.valueOf(inputTokens)
+                .add(BigDecimal.valueOf(outputTokens).multiply(OUTPUT_TOKEN_WEIGHT))
+                .add(BigDecimal.valueOf(cacheReadInputTokens).multiply(CACHE_READ_TOKEN_WEIGHT))
+                .add(BigDecimal.valueOf(cacheCreationInputTokens).multiply(CACHE_CREATION_TOKEN_WEIGHT));
+    }
+
     public boolean usageKnown() {
         return usageKnown;
     }
@@ -157,6 +172,10 @@ public final class UsageTokenBreakdown {
 
     public long getTotalTokens() {
         return totalTokens;
+    }
+
+    public BigDecimal getActualTokens() {
+        return actualTokens();
     }
 
     public boolean isUsageKnown() {

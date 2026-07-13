@@ -4,7 +4,7 @@ import { useState, type ReactElement } from 'react';
 
 import { formatDateTime, formatTokenThousands } from '@shared/lib/formatters';
 import { buildTablePagination, USAGE_EMPTY_TEXT } from '@shared/lib/table';
-import type { TablePaginationState, UsagePageSize } from '@shared/types/table';
+import type { UsagePageSize } from '@shared/types/table';
 
 import type { UsageRecordResponse, UsageScope } from '../model/types';
 import { UsageRecordStatusTag } from './UsageRecordStatusTag';
@@ -17,12 +17,14 @@ interface UsageRecordTableProps {
   /** 是否加载中 */
   loading?: boolean;
   /** 分页状态 */
-  pagination: TablePaginationState;
+  pagination: { page: number; pageSize: number; total: number };
+  /** 是否允许切换每页条数 */
+  showSizeChanger?: boolean;
   /** 分页变化回调 */
   onPageChange: (page: number, pageSize: UsagePageSize) => void;
 }
 
-export function UsageRecordTable({ records, scope, loading = false, pagination, onPageChange }: UsageRecordTableProps) {
+export function UsageRecordTable({ records, scope, loading = false, pagination, showSizeChanger = true, onPageChange }: UsageRecordTableProps) {
   const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
   const columns: ColumnsType<UsageRecordResponse> = [
@@ -34,7 +36,8 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
     { title: '输出 Token', dataIndex: 'outputTokens', key: 'outputTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
     { title: '缓存创建输入', dataIndex: 'cacheCreationInputTokens', key: 'cacheCreationInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
     { title: '缓存命中输入', dataIndex: 'cacheReadInputTokens', key: 'cacheReadInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
-    { title: '总 Token', dataIndex: 'tokens', key: 'tokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '实际 Token', dataIndex: 'tokens', key: 'tokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '总 Token', dataIndex: 'totalTokens', key: 'totalTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
     { title: '状态', dataIndex: 'status', key: 'status', width: 120, render: (value: string | undefined): ReactElement => <UsageRecordStatusTag status={value ?? 'SUCCESS'} /> },
   ];
 
@@ -51,8 +54,8 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
       columns={columns}
       dataSource={records}
       locale={{ emptyText: <Empty description={USAGE_EMPTY_TEXT} /> }}
-      pagination={buildTablePagination(pagination, onPageChange)}
-      scroll={{ x: scope === 'admin' ? 1500 : 1260 }}
+      pagination={buildTablePagination(pagination, onPageChange, showSizeChanger)}
+      scroll={{ x: scope === 'admin' ? 1620 : 1380 }}
       expandable={scope === 'admin' ? {
         expandedRowKeys,
         onExpandedRowsChange: (keys: readonly React.Key[]): void => setExpandedRowKeys([...keys]),

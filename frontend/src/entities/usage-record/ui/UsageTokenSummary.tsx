@@ -1,6 +1,6 @@
 import { Card, Skeleton, Space, Statistic, Typography } from 'antd';
 
-import { formatTokenThousands } from '@shared/lib/formatters';
+import { formatTokenMillions, formatTokenThousands } from '@shared/lib/formatters';
 import type { UsageScope } from '../model/types';
 
 interface UsageTokenSummaryProps {
@@ -15,6 +15,13 @@ interface UsageTokenSummaryProps {
 }
 
 export function UsageTokenSummary({ totalTokens, recordCount = 0, scope, loading = false }: UsageTokenSummaryProps) {
+  const formattedTokens = scope === 'front'
+    ? formatTokenMillions(totalTokens)
+    : formatTokenThousands(totalTokens);
+  const formattedRecordCount = scope === 'front'
+    ? formatTokenThousands(recordCount)
+    : String(recordCount);
+
   return (
     <Card size="small" styles={{ body: { background: 'linear-gradient(90deg, #f0f7ff, #ffffff)' } }}>
       {loading ? (
@@ -22,10 +29,10 @@ export function UsageTokenSummary({ totalTokens, recordCount = 0, scope, loading
       ) : (
         <Space size={32} wrap>
           <Statistic
-            title={scope === 'admin' ? '全平台过滤后 Token' : '个人过滤后 Token'}
-            value={formatTokenThousands(totalTokens)}
+            title={scope === 'admin' ? '全平台过滤后实际 Token' : '个人过滤后实际 Token'}
+            value={formattedTokens}
           />
-          <Typography.Text type="secondary">记录总数：{recordCount}</Typography.Text>
+          <Typography.Text type="secondary">记录总数：{formattedRecordCount}</Typography.Text>
         </Space>
       )}
     </Card>

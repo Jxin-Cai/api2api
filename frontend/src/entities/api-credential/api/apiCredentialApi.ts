@@ -24,7 +24,9 @@ interface ApiCredentialBackendResponse {
   modelWhitelist?: string[];
   tokenLimit?: number;
   consumedTokens?: number;
+  totalTokens?: number;
   todayConsumedTokens?: number;
+  todayTotalTokens?: number;
   remainingTokens?: number | null;
   keyPreview?: string;
   lastUsedAt?: string | number;
@@ -40,7 +42,9 @@ function normalizeCredential(raw: ApiCredentialBackendResponse): ApiCredentialRe
     modelWhitelist: raw.modelWhitelist ?? [],
     tokenLimit: Number(raw.tokenLimit ?? 0),
     consumedTokens: Number(raw.consumedTokens ?? 0),
+    totalTokens: Number(raw.totalTokens ?? 0),
     todayConsumedTokens: Number(raw.todayConsumedTokens ?? 0),
+    todayTotalTokens: Number(raw.todayTotalTokens ?? 0),
     remainingTokens: raw.remainingTokens ?? null,
     keyPreview: raw.keyPreview,
     lastUsedAt: raw.lastUsedAt,

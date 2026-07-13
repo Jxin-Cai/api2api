@@ -14,6 +14,7 @@ import com.api2api.infr.repository.usage.mapper.UsageRecordMapper;
 import com.api2api.infr.repository.usage.po.UsageRecordQueryPO;
 import java.util.Objects;
 import java.util.Optional;
+import java.math.BigDecimal;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -61,6 +62,12 @@ public class UsageRecordRepositoryImpl implements UsageRecordRepository {
     public long sumTotalTokensByApiCredential(ApiCredentialId apiCredentialId) {
         Objects.requireNonNull(apiCredentialId, "ApiCredentialId must not be null");
         return mapper.sumTotalTokensByApiCredential(apiCredentialId.value());
+    }
+
+    @Override
+    public BigDecimal sumActualTokensByApiCredential(ApiCredentialId apiCredentialId) {
+        Objects.requireNonNull(apiCredentialId, "ApiCredentialId must not be null");
+        return mapper.sumActualTokensByApiCredential(apiCredentialId.value());
     }
 
     @Override
