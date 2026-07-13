@@ -41,7 +41,7 @@ client tool result 会始终显式写入 Converse `status=success|error`。`AskU
 | 客户端工具 | `tools[].name/input_schema/strict` | function `name/parameters/strict` | 名称和 JSON Schema 保留；`input_examples` 追加到 description |
 | 延迟工具 | `tool_search_tool_*`、`defer_loading` | `tool_search`、`defer_loading` | GPT-5.4+ 原生映射；MCP deferred tool 同样保留 |
 | 工具选择 | `tool_choice`、`disable_parallel_tool_use` | `tool_choice`、`parallel_tool_calls` | `auto/any/tool/none` 和并行开关映射 |
-| 普通工具调用 | `tool_use{id,name,input}` | `function_call{call_id,name,arguments}` | 双向映射；`tool_result` → `function_call_output`，error → `status=incomplete` |
+| 普通工具调用 | `tool_use{id,name,input}` | `function_call{call_id,name,arguments}` | 双向映射；`tool_result` → `function_call_output`，执行成功或失败均由 `output` 文本表达，不把已返回的失败结果误标成未完成 |
 | free-form 工具 | Claude 无独立块，仍表现为 `tool_use` | `custom_tool_call{input}` | 用版本化 tool id 区分；非 JSON input 包装为 `{"input":"..."}`，结果恢复为 `custom_tool_call_output` |
 | Programmatic tool calling | `allowed_callers=[direct,code_execution_*]`、`caller` | `allowed_callers=[direct,programmatic]`、`programmatic_tool_calling`、`caller.type=program` | GPT-5.6+ 映射；已支持 `code_execution_20250825`、`20260120`、`20260521`；`caller_id` 通过合成 code-execution tool id 可逆回传，响应采用当前 `code_execution_20260521` 标记 |
 | 推理强度 | `thinking`、`output_config.effort` | `reasoning.effort/summary/context` | manual budget 近似为档位；GPT-5.6+ 支持 `max` 和 `context=all_turns` |

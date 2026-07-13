@@ -56,6 +56,39 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_omitsCompletionStatus_when_claudeToolResultReportsError() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"gpt-5.5",
+                  "max_tokens":256,
+                  "messages":[
+                    {"role":"assistant","content":[{
+                      "type":"tool_use","id":"call_1","name":"Bash","input":{"command":"git commit"}
+                    }]},
+                    {"role":"user","content":[{
+                      "type":"tool_result","tool_use_id":"call_1","is_error":true,
+                      "content":"Exit code 1: nothing to commit"
+                    }]}
+                  ]
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        );
+
+        // Assert
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.at("/input/1").has("status")).isFalse();
+    }
+
+    @Test
     void shouldAcceptClaudeCodeNoopClearThinkingContextManagementForResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()

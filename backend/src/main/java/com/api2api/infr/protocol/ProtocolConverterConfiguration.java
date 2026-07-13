@@ -824,9 +824,6 @@ class ProtocolConverterConfiguration {
                 }
             }
             result.set("output", output);
-            if (!custom) {
-                result.put("status", block.path("is_error").asBoolean(false) ? "incomplete" : "completed");
-            }
             if (caller != null) {
                 result.set("caller", caller);
             }
