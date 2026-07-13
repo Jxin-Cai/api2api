@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MetricCard, useFrontDashboardMetrics } from '@entities/dashboard-metric';
 import { UsageRecordTable } from '@entities/usage-record';
 import { ROUTE_PATHS } from '@shared/config/constants';
-import { formatTokenThousands } from '@shared/lib/formatters';
+import { formatTokenMillions } from '@shared/lib/formatters';
 import { buildAppUsageQuery } from '@shared/lib/usageQuery';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
 import type { FrontDashboardPanelProps } from '../model/types';
@@ -21,8 +21,8 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   return (
     <Space direction="vertical" size={20} style={{ width: '100%' }}>
       <DashboardSummaryGrid>
-        <MetricCard title="今日 Token" value={formatTokenThousands(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={query.isLoading} />
-        <MetricCard title="近 30 日 Token" value={formatTokenThousands(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="今日 Token" value={formatTokenMillions(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="近 30 日 Token" value={formatTokenMillions(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="API Key 数量" value={data?.apiKeyCount ?? 0} loading={query.isLoading} />
       </DashboardSummaryGrid>
       <Card

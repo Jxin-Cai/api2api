@@ -19,10 +19,30 @@ public class ClaudeMessagesUsageExtractor implements UnifiedUsageExtractor {
         if (usage.isMissingNode() || usage.isNull()) {
             return UnifiedTokenUsage.unknown();
         }
-        long inputTokens = usage.path("input_tokens").asLong(0);
-        long outputTokens = usage.path("output_tokens").asLong(0);
-        long cacheCreationInputTokens = usage.path("cache_creation_input_tokens").asLong(0);
-        long cacheReadInputTokens = usage.path("cache_read_input_tokens").asLong(0);
+        long inputTokens = firstPositiveLong(usage.get("input_tokens"), usage.get("prompt_tokens"));
+        long outputTokens = firstPositiveLong(usage.get("output_tokens"), usage.get("completion_tokens"));
+        long cacheCreationInputTokens = firstPositiveLong(usage.get("cache_creation_input_tokens"));
+        if (cacheCreationInputTokens == 0) {
+            cacheCreationInputTokens = sumCacheCreationDetails(usage.path("cache_creation"));
+        }
+        long cacheReadInputTokens = firstPositiveLong(
+                usage.get("cache_read_input_tokens"),
+                usage.get("cached_tokens")
+        );
         return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheCreationInputTokens, cacheReadInputTokens);
+    }
+
+    private static long sumCacheCreationDetails(JsonNode cacheCreation) {
+        return Math.max(0, cacheCreation.path("ephemeral_5m_input_tokens").asLong(0)
+                + cacheCreation.path("ephemeral_1h_input_tokens").asLong(0));
+    }
+
+    private static long firstPositiveLong(JsonNode... values) {
+        for (JsonNode value : values) {
+            if (value != null && !value.isNull() && !value.isMissingNode() && value.asLong(0) > 0) {
+                return value.asLong();
+            }
+        }
+        return 0;
     }
 }
