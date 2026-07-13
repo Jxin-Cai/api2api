@@ -1,18 +1,24 @@
 package com.api2api.ohs.http.gateway;
 
+import com.api2api.application.credential.ApiCredentialApplicationService;
 import com.api2api.application.gateway.GatewayInvocationApplicationService;
 import com.api2api.application.gateway.GatewayInvocationOutcome;
 import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.credential.model.ApiCredential;
+import com.api2api.domain.credential.model.ApiKeyHash;
+import com.api2api.domain.credential.model.ModelName;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -26,6 +32,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class GatewayProtocolController {
+
+    private static final String MODEL_OBJECT_TYPE = "model";
+    private static final String MODEL_LIST_OBJECT_TYPE = "list";
+    private static final String MODEL_OWNER = "api2api";
+
+    @NonNull
+    private final ApiCredentialApplicationService apiCredentialApplicationService;
+
+    @NonNull
+    private final GatewayApiKeyHashHelper apiKeyHashHelper;
 
     @NonNull
     private final GatewayInvocationApplicationService gatewayInvocationApplicationService;
@@ -41,6 +57,27 @@ public class GatewayProtocolController {
 
     @NonNull
     private final ObjectMapper objectMapper;
+
+    @GetMapping({"/v1/model", "/v1/models"})
+    public GatewayModelListResponse listModels(
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey
+    ) {
+        ApiKeyHash keyHash = apiKeyHashHelper.hashGatewayApiKey(authorization, apiKey);
+        ApiCredential credential = apiCredentialApplicationService.authenticateForModelListing(keyHash);
+        long createdAt = credential.getCreatedAt().getEpochSecond();
+        List<GatewayModelResponse> models = credential.getModelWhitelist().models().stream()
+                .map(ModelName::value)
+                .sorted()
+                .map(model -> new GatewayModelResponse(
+                        model,
+                        MODEL_OBJECT_TYPE,
+                        createdAt,
+                        MODEL_OWNER
+                ))
+                .toList();
+        return new GatewayModelListResponse(MODEL_LIST_OBJECT_TYPE, models);
+    }
 
     @PostMapping("/v1/messages")
     public Object claudeMessages(

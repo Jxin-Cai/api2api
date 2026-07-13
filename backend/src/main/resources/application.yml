@@ -12,6 +12,15 @@ spring:
     enabled: true
     locations: classpath:db/migration
 
+server:
+  servlet:
+    session:
+      timeout: ${API2API_LOGIN_SESSION_TIMEOUT:30d}
+      cookie:
+        max-age: ${API2API_LOGIN_COOKIE_MAX_AGE:30d}
+        http-only: true
+        same-site: lax
+
 api2api:
   bootstrap-admin:
     username: ${ADMIN_USERNAME:admin}

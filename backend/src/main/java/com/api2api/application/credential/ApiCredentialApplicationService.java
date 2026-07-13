@@ -13,6 +13,7 @@ import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTimeRange;
@@ -182,6 +183,14 @@ public class ApiCredentialApplicationService {
         apiCredential.assertQuotaAvailable(currentConsumedTokens);
         apiCredential.markUsed(now());
         apiCredentialRepository.save(apiCredential);
+        return apiCredential;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public ApiCredential authenticateForModelListing(ApiKeyHash keyHash) {
+        ApiCredential apiCredential = apiCredentialRepository.findByKeyHash(keyHash)
+                .orElseThrow(() -> new BusinessException("API_CREDENTIAL_INVALID"));
+        apiCredential.assertUsable();
         return apiCredential;
     }
 
