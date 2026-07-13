@@ -24,6 +24,7 @@ public class ApiCredentialResponse {
     private List<String> modelWhitelist;
     private long tokenLimit;
     private long consumedTokens;
+    private long todayConsumedTokens;
     private Long remainingTokens;
     private ApiCredentialStatus status;
     private Instant lastUsedAt;

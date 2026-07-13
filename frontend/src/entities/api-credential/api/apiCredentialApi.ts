@@ -24,6 +24,7 @@ interface ApiCredentialBackendResponse {
   modelWhitelist?: string[];
   tokenLimit?: number;
   consumedTokens?: number;
+  todayConsumedTokens?: number;
   remainingTokens?: number | null;
   keyPreview?: string;
   lastUsedAt?: string | number;
@@ -39,6 +40,7 @@ function normalizeCredential(raw: ApiCredentialBackendResponse): ApiCredentialRe
     modelWhitelist: raw.modelWhitelist ?? [],
     tokenLimit: Number(raw.tokenLimit ?? 0),
     consumedTokens: Number(raw.consumedTokens ?? 0),
+    todayConsumedTokens: Number(raw.todayConsumedTokens ?? 0),
     remainingTokens: raw.remainingTokens ?? null,
     keyPreview: raw.keyPreview,
     lastUsedAt: raw.lastUsedAt,
@@ -53,7 +55,8 @@ function credentialPath(credentialId: string, suffix: string): string {
 }
 
 export async function listApiCredentials(): Promise<ApiResponse<ApiCredentialListResponse>> {
-  const response = await apiClient.get<{ credentials: ApiCredentialBackendResponse[] }>('/api/api-credentials');
+  const zoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const response = await apiClient.get<{ credentials: ApiCredentialBackendResponse[] }>('/api/api-credentials', { zoneId });
   return {
     ...response,
     data: { credentials: (response.data.credentials ?? []).map(normalizeCredential) },

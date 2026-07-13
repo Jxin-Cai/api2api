@@ -10,6 +10,7 @@ import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.ohs.http.ApiResponse;
 import com.api2api.ohs.http.CurrentUserContextResolver;
@@ -25,6 +26,7 @@ import com.api2api.ohs.http.credential.dto.CreateApiCredentialResponse;
 import com.api2api.ohs.http.credential.dto.RenameApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.ReplaceModelWhitelistRequest;
 import com.api2api.ohs.http.credential.dto.RevealApiCredentialSecretResponse;
+import com.api2api.ohs.http.dashboard.DashboardTimeWindowHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -38,6 +40,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -67,10 +70,23 @@ public class ApiCredentialController {
     @NonNull
     private final ApiKeyMaterialProtector apiKeyMaterialProtector;
 
+    @NonNull
+    private final DashboardTimeWindowHelper timeWindowHelper;
+
     @GetMapping
-    public ApiResponse<ApiCredentialListResponse> listMyCredentials(HttpServletRequest request) {
+    public ApiResponse<ApiCredentialListResponse> listMyCredentials(
+            @RequestParam(required = false) String zoneId,
+            HttpServletRequest request
+    ) {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
-        List<ApiCredentialUsageView> credentials = apiCredentialApplicationService.listMyCredentialUsageViews(ownerUserId);
+        UsageTimeRange todayTimeRange = UsageTimeRange.of(
+                timeWindowHelper.getTodayStartInclusive(zoneId),
+                timeWindowHelper.getTodayEndExclusive(zoneId)
+        );
+        List<ApiCredentialUsageView> credentials = apiCredentialApplicationService.listMyCredentialUsageViews(
+                ownerUserId,
+                todayTimeRange
+        );
         return ApiResponse.success(apiCredentialHttpConverter.toUsageListResponse(credentials));
     }
 

@@ -3,8 +3,9 @@ import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
 import { ApiCredentialStatusTag, ApiKeySecretBlock, useApiCredentials, type ApiCredentialResponse, type CreateApiCredentialResponse, type RevealApiCredentialSecretResponse } from '@entities/api-credential';
+import { MetricCard } from '@entities/dashboard-metric';
 import { formatTokenMillions } from '@shared/lib/formatters';
-import { PageState } from '@shared/ui';
+import { DashboardSummaryGrid, PageState } from '@shared/ui';
 
 import { useApiCredentialMutations } from '../model/useApiCredentialMutations';
 import { ApiCredentialCreateModal } from './ApiCredentialCreateModal';
@@ -39,6 +40,14 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       credential.name.toLowerCase().includes(keyword) || credential.id.toLowerCase().includes(keyword)
     );
   }, [credentials, search]);
+
+  const tokenSummary = useMemo(() => credentials.reduce(
+    (summary, credential) => ({
+      totalTokens: summary.totalTokens + (credential.consumedTokens ?? 0),
+      todayTokens: summary.todayTokens + (credential.todayConsumedTokens ?? 0),
+    }),
+    { totalTokens: 0, todayTokens: 0 }
+  ), [credentials]);
 
   async function handleToggleStatus(credential: ApiCredentialResponse): Promise<void> {
     if (isEnabled(credential)) {
@@ -96,7 +105,17 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     { title: '名称', dataIndex: 'name', key: 'name' },
     { title: 'ID', dataIndex: 'id', key: 'id', ellipsis: true },
     { title: '模型白名单', dataIndex: 'modelWhitelist', key: 'modelWhitelist', render: (models: string[]): string => models.length ? models.join(', ') : '未配置' },
-    { title: 'Token 用量', key: 'tokenUsage', render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
+    { title: '累计 Token / 限额', key: 'tokenUsage', render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
+    {
+      title: '今日 Token',
+      dataIndex: 'todayConsumedTokens',
+      key: 'todayConsumedTokens',
+      render: (tokens?: number): ReactElement => (
+        <Typography.Text className="mono-number" title={String(tokens ?? 0)}>
+          {formatTokenMillions(tokens ?? 0)}
+        </Typography.Text>
+      ),
+    },
     { title: '状态', dataIndex: 'status', key: 'status', render: (status: string): ReactElement => <ApiCredentialStatusTag status={status} /> },
     {
       title: '操作',
@@ -125,18 +144,27 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
   }
 
   return (
-    <Card>
-      <Space direction="vertical" style={{ width: '100%' }} size={16}>
-        <ApiCredentialToolbar search={search} onSearchChange={setSearch} onCreateClick={(): void => setCreateOpen(true)} onRefresh={(): void => { query.refetch().catch((): void => undefined); }} loading={query.isFetching} />
-        <Table<ApiCredentialResponse>
-          rowKey="id"
-          columns={columns}
-          dataSource={filteredCredentials}
-          loading={query.isLoading}
-          scroll={{ x: 900 }}
-          locale={{ emptyText: <Empty description="暂无 API Key，请先创建" /> }}
-          pagination={false}
-        />
+    <>
+      <Space direction="vertical" style={{ width: '100%' }} size={20}>
+        <DashboardSummaryGrid>
+          <MetricCard title="API Key 总数" value={credentials.length} loading={query.isLoading} />
+          <MetricCard title="Token 总用量" value={formatTokenMillions(tokenSummary.totalTokens)} rawValue={tokenSummary.totalTokens} loading={query.isLoading} />
+          <MetricCard title="今日 Token" value={formatTokenMillions(tokenSummary.todayTokens)} rawValue={tokenSummary.todayTokens} loading={query.isLoading} />
+        </DashboardSummaryGrid>
+        <Card>
+          <Space direction="vertical" style={{ width: '100%' }} size={16}>
+            <ApiCredentialToolbar search={search} onSearchChange={setSearch} onCreateClick={(): void => setCreateOpen(true)} onRefresh={(): void => { query.refetch().catch((): void => undefined); }} loading={query.isFetching} />
+            <Table<ApiCredentialResponse>
+              rowKey="id"
+              columns={columns}
+              dataSource={filteredCredentials}
+              loading={query.isLoading}
+              scroll={{ x: 1040 }}
+              locale={{ emptyText: <Empty description="暂无 API Key，请先创建" /> }}
+              pagination={false}
+            />
+          </Space>
+        </Card>
       </Space>
       <ApiCredentialCreateModal open={createOpen} onClose={(): void => setCreateOpen(false)} onCreated={handleCreated} modelOptions={modelOptions} />
       <ApiCredentialEditDrawer open={Boolean(editing)} credential={editing} onClose={(): void => setEditing(null)} onUpdated={(credential): void => setEditing(credential)} modelOptions={modelOptions} />
@@ -154,6 +182,6 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
           warningMessage="完整 API Key 已临时显示。复制后请妥善保管，关闭窗口后页面不会保留明文。"
         />
       </Modal>
-    </Card>
+    </>
   );
 }

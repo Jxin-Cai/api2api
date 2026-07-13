@@ -13,6 +13,8 @@ import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
+import com.api2api.domain.usage.model.UsageRecordFilter;
+import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
 import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
@@ -75,11 +77,15 @@ public class ApiCredentialApplicationService {
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<ApiCredentialUsageView> listMyCredentialUsageViews(UserAccountId ownerUserId) {
+    public List<ApiCredentialUsageView> listMyCredentialUsageViews(
+            UserAccountId ownerUserId,
+            UsageTimeRange todayTimeRange
+    ) {
         return listMyCredentials(ownerUserId).stream()
                 .map(credential -> ApiCredentialUsageView.of(
                         credential,
-                        currentConsumedTokens(credential.getId())
+                        currentConsumedTokens(credential.getId()),
+                        todayConsumedTokens(ownerUserId, credential.getId(), todayTimeRange)
                 ))
                 .toList();
     }
@@ -186,6 +192,25 @@ public class ApiCredentialApplicationService {
             throw new BusinessException("INVALID_TOKEN_TOTAL");
         }
         return currentConsumedTokens;
+    }
+
+    private long todayConsumedTokens(
+            UserAccountId ownerUserId,
+            ApiCredentialId apiCredentialId,
+            UsageTimeRange todayTimeRange
+    ) {
+        UsageRecordFilter filter = UsageRecordFilter.forUserPortal(
+                ownerUserId,
+                apiCredentialId,
+                null,
+                null,
+                todayTimeRange
+        );
+        long todayConsumedTokens = usageRecordRepository.sumTokens(filter).totalTokens();
+        if (todayConsumedTokens < 0) {
+            throw new BusinessException("INVALID_TOKEN_TOTAL");
+        }
+        return todayConsumedTokens;
     }
 
     private String sha256Hex(String value) {
