@@ -21,6 +21,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class ProtocolConverterConfiguration {
 
+    private static final boolean RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED = false;
+
     private static final Set<String> CLAUDE_RESPONSES_REQUEST_FIELDS = Set.of(
             "model", "messages", "max_tokens", "system", "stream", "temperature", "top_p", "top_k",
             "stop_sequences", "metadata", "service_tier", "speed", "thinking", "reasoning", "tool_choice",
@@ -310,7 +312,7 @@ class ProtocolConverterConfiguration {
                 }
                 target.set("reasoning", reasoning);
             }
-            if (supportsExplicitCacheBreakpoints(model) && containsResponsesCacheBreakpoint(input)) {
+            if (RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED && containsResponsesCacheBreakpoint(input)) {
                 ObjectNode options = json.objectNode();
                 options.put("mode", "explicit");
                 options.put("ttl", "30m");
@@ -629,7 +631,7 @@ class ProtocolConverterConfiguration {
                 return;
             }
             validateClaudeCacheControl(cacheControl);
-            if (!supportsExplicitCacheBreakpoints(model) || !isResponsesCacheablePart(target)) {
+            if (!RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED || !isResponsesCacheablePart(target)) {
                 return;
             }
             ObjectNode breakpoint = json.objectNode();
@@ -642,7 +644,7 @@ class ProtocolConverterConfiguration {
                 return;
             }
             validateClaudeCacheControl(cacheControl);
-            if (!supportsExplicitCacheBreakpoints(model)) {
+            if (!RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED) {
                 return;
             }
             ObjectNode target = lastResponsesCacheablePart(input);
@@ -1206,10 +1208,6 @@ class ProtocolConverterConfiguration {
         }
 
         private boolean supportsPersistedReasoning(String model) {
-            return gpt5MinorVersion(model) >= 6;
-        }
-
-        private boolean supportsExplicitCacheBreakpoints(String model) {
             return gpt5MinorVersion(model) >= 6;
         }
 

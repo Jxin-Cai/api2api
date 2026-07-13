@@ -90,7 +90,7 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
     }
 
     @Test
-    void test_mapsExplicitCacheBreakpoints_when_targetIsGpt56() throws Exception {
+    void test_omitsExperimentalCacheBreakpoints_when_targetIsGpt56() throws Exception {
         // Arrange
         String body = """
                 {
@@ -107,12 +107,9 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
         JsonNode mapped = convertRequest(body, false);
 
         // Assert
-        assertThat(mapped.at("/input/0/content/0/prompt_cache_breakpoint/mode").asText())
-                .isEqualTo("explicit");
-        assertThat(mapped.at("/input/1/content/0/prompt_cache_breakpoint/mode").asText())
-                .isEqualTo("explicit");
-        assertThat(mapped.path("prompt_cache_options").toString())
-                .isEqualTo("{\"mode\":\"explicit\",\"ttl\":\"30m\"}");
+        assertThat(mapped.at("/input/0/content/0/prompt_cache_breakpoint").isMissingNode()).isTrue();
+        assertThat(mapped.at("/input/1/content/0/prompt_cache_breakpoint").isMissingNode()).isTrue();
+        assertThat(mapped.path("prompt_cache_options").isMissingNode()).isTrue();
     }
 
     @Test
