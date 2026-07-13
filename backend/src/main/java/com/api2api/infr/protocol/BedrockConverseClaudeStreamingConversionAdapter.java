@@ -33,6 +33,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     private static final int EVENT_STREAM_OVERHEAD_BYTES = 16;
     private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = "Thinking...";
     private static final String RESPONSES_COMPACTION_PLACEHOLDER = "Context compacted.";
+    private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = "Conversation compacted.";
 
     private final ObjectMapper objectMapper;
 
@@ -455,6 +456,8 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                     state.toolCallSeen = true;
                 } else if ("reasoning".equals(itemType)) {
                     ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                } else if (isResponsesCompactionType(itemType)) {
+                    state.addedCompactionItems.put(outputIndex, item.deepCopy());
                 }
             }
             case "response.function_call_arguments.delta", "response.custom_tool_call_input.delta" ->
@@ -667,6 +670,12 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             OutputStream clientBody
     ) throws IOException {
         String itemType = item.path("type").asText("");
+        if (isResponsesCompactionType(itemType) && state.completedOutputIndexes.contains(outputIndex)) {
+            return;
+        }
+        if (isResponsesCompactionType(itemType)) {
+            state.addedCompactionItems.remove(outputIndex);
+        }
         markResponsesOutputItem(itemType, state);
         state.completedOutputIndexes.add(outputIndex);
         try {
@@ -702,15 +711,19 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                                 "OpenAI Responses reasoning item is missing encrypted state"));
                 writeClaudeContentDelta(
                         outputIndex, "signature_delta", "signature", signature, state, clientBody);
-            } else if ("compaction".equals(itemType)) {
+            } else if (isResponsesCompactionType(itemType)) {
+                ObjectNode normalizedItem = (ObjectNode) item.deepCopy();
+                normalizedItem.put("type", "compaction");
                 ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
                 writeResponsesThinkingFallback(
                         outputIndex, RESPONSES_COMPACTION_PLACEHOLDER, state, clientBody);
-                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, normalizedItem)
                         .orElseThrow(() -> new IOException(
                                 "OpenAI Responses compaction item is missing state"));
                 writeClaudeContentDelta(
                         outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                stopClaudeBlock(outputIndex, state, clientBody);
+                writeClaudeAuxiliaryText(compactionVisibleText(item), state, clientBody);
             } else if ("program".equals(itemType)) {
                 ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
                 writeResponsesThinkingFallback(
@@ -749,6 +762,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             throw new IOException("OpenAI Responses output item cannot be converted to Claude", exception);
         }
         stopClaudeBlock(outputIndex, state, clientBody);
+    }
+
+    private boolean isResponsesCompactionType(String type) {
+        return "compaction".equals(type) || "compaction_summary".equals(type);
     }
 
     private void writeClaudeProgramServerTool(
@@ -814,6 +831,40 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         event.put("index", index);
         event.set("content_block", contentBlock);
         writeSse(clientBody, "content_block_start", event);
+    }
+
+    private void writeClaudeAuxiliaryText(
+            String text,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        int index = state.nextAuxiliaryClaudeIndex();
+        ObjectNode contentBlock = objectNode();
+        contentBlock.put("type", "text");
+        contentBlock.put("text", "");
+        writeClaudeAuxiliaryBlockStart(index, contentBlock, clientBody);
+        ObjectNode delta = objectNode();
+        delta.put("type", "text_delta");
+        delta.put("text", text);
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_delta");
+        event.put("index", index);
+        event.set("delta", delta);
+        writeSse(clientBody, "content_block_delta", event);
+        writeClaudeAuxiliaryBlockStop(index, clientBody);
+    }
+
+    private String compactionVisibleText(JsonNode item) {
+        JsonNode summary = item.path("summary");
+        if (summary.isArray()) {
+            for (JsonNode part : summary) {
+                String text = part.path("text").asText("");
+                if ("summary_text".equals(part.path("type").asText("")) && !text.isBlank()) {
+                    return text;
+                }
+            }
+        }
+        return RESPONSES_COMPACTION_VISIBLE_TEXT;
     }
 
     private void writeClaudeAuxiliaryBlockStop(int index, OutputStream clientBody) throws IOException {
@@ -944,6 +995,11 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                 if (!state.completedOutputIndexes.contains(outputIndex)) {
                     handleResponsesCompletionFallbackItem(item, outputIndex, state, clientBody);
                 }
+            }
+        }
+        for (Map.Entry<Integer, JsonNode> entry : new HashMap<>(state.addedCompactionItems).entrySet()) {
+            if (!state.completedOutputIndexes.contains(entry.getKey())) {
+                handleResponsesOutputItemDone(entry.getValue(), entry.getKey(), state, clientBody);
             }
         }
         if ("incomplete".equals(status)
@@ -1179,6 +1235,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
         private final Map<Integer, String> toolNames = new HashMap<>();
         private final Map<Integer, StringBuilder> toolInputBuffers = new HashMap<>();
+        private final Map<Integer, JsonNode> addedCompactionItems = new HashMap<>();
         private final Set<Integer> toolInputDeltaIndexes = new HashSet<>();
         private final Set<Integer> toolInputCompletedIndexes = new HashSet<>();
         private final Set<Integer> textDeltaIndexes = new HashSet<>();

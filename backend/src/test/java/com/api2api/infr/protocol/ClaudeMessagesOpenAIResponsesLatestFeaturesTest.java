@@ -197,6 +197,10 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
 
         // Assert
         assertThat(claude.path("stop_reason").asText()).isEqualTo("pause_turn");
+        assertThat(claude.path("content")).anySatisfy(block -> {
+            assertThat(block.path("type").asText()).isEqualTo("text");
+            assertThat(block.path("text").asText()).isEqualTo("Conversation compacted.");
+        });
     }
 
     @Test

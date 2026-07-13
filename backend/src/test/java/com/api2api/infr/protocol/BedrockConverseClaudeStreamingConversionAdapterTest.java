@@ -439,6 +439,8 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
         assertThat(events.stream().anyMatch(node -> "Context compacted."
                 .equals(node.at("/delta/thinking").asText()))).isTrue();
+        assertThat(events.stream().anyMatch(node -> "Conversation compacted."
+                .equals(node.at("/delta/text").asText()))).isTrue();
         assertThat(events.stream().anyMatch(node -> node.at("/delta/signature").asText()
                 .startsWith(ResponsesReasoningBridge.ITEM_SIGNATURE_PREFIX))).isTrue();
         JsonNode messageDelta = events.stream()
@@ -446,6 +448,33 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .findFirst()
                 .orElseThrow();
         assertThat(messageDelta.at("/delta/stop_reason").asText()).isEqualTo("pause_turn");
+    }
+
+    @Test
+    void test_emitsVisibleCompactText_when_compactionAliasOnlyAppearsInAddedEvent() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_item.added","output_index":0,"item":{"type":"compaction_summary","id":"cmp_1","encrypted_content":"encrypted"}}
+
+                data: {"type":"response.completed","response":{"status":"completed","output":[],"usage":{"input_tokens":1,"output_tokens":1}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        assertThat(dataEvents(downstream.toString(StandardCharsets.UTF_8))).anySatisfy(event ->
+                assertThat(event.at("/delta/text").asText()).isEqualTo("Conversation compacted."));
     }
 
     @Test

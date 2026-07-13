@@ -30,6 +30,7 @@ class ProtocolConverterConfiguration {
 
     private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = "Thinking...";
     private static final String RESPONSES_COMPACTION_PLACEHOLDER = "Context compacted.";
+    private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = "Conversation compacted.";
 
     @Bean
     ProtocolMessageConverter claudeMessagesToOpenAIResponsesRequest(ProtocolJsonSupport json, SseEventTransformer sseEventTransformer) {
@@ -403,13 +404,19 @@ class ProtocolConverterConfiguration {
                     throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_CONTENT_MUST_BE_TEXT_OR_ARRAY");
                 }
                 ArrayNode messageContent = json.arrayNode();
+                boolean containsCompactionState = containsClaudeCompactionState(content);
                 String assistantPhase = "assistant".equals(role)
                         ? (containsClaudeToolUse(content) ? "commentary" : "final_answer")
                         : null;
                 for (JsonNode block : content) {
                     switch (block.path("type").asText("")) {
-                        case "text" -> addClaudeTextPart(messageContent, block.path("text").asText(""),
-                                "assistant".equals(role) ? "output_text" : "input_text", block, model);
+                        case "text" -> {
+                            String text = block.path("text").asText("");
+                            if (!(containsCompactionState && RESPONSES_COMPACTION_VISIBLE_TEXT.equals(text))) {
+                                addClaudeTextPart(messageContent, text,
+                                        "assistant".equals(role) ? "output_text" : "input_text", block, model);
+                            }
+                        }
                         case "image" -> addClaudeImagePart(messageContent, block, model);
                         case "document" -> addClaudeDocumentPart(messageContent, block, model);
                         case "search_result" -> addClaudeSearchResultPart(messageContent, block,
@@ -468,6 +475,23 @@ class ProtocolConverterConfiguration {
                 flushResponsesMessage(input, role, messageContent, assistantPhase);
             }
             return input;
+        }
+
+        private boolean containsClaudeCompactionState(JsonNode content) {
+            if (content == null || !content.isArray()) {
+                return false;
+            }
+            for (JsonNode block : content) {
+                if (!"thinking".equals(block.path("type").asText(""))) {
+                    continue;
+                }
+                JsonNode item = ResponsesReasoningBridge.decodeItem(
+                        json.objectMapper(), block.path("signature").asText("")).orElse(null);
+                if (item != null && isResponsesCompactionType(item.path("type").asText(""))) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private boolean containsClaudeToolUse(JsonNode content) {
@@ -1426,6 +1450,15 @@ class ProtocolConverterConfiguration {
                 text.put("text", outputText);
                 content.add(text);
             }
+            if (!hasNonEmptyClaudeText(content)) {
+                String compactionText = responsesCompactionVisibleText(source.get("output"));
+                if (!compactionText.isBlank()) {
+                    ObjectNode text = json.objectNode();
+                    text.put("type", "text");
+                    text.put("text", compactionText);
+                    content.add(text);
+                }
+            }
             if (content.isEmpty()) {
                 ObjectNode text = json.objectNode();
                 text.put("type", "text");
@@ -1446,6 +1479,28 @@ class ProtocolConverterConfiguration {
                 }
             }
             return false;
+        }
+
+        private String responsesCompactionVisibleText(JsonNode output) {
+            if (output == null || !output.isArray()) {
+                return "";
+            }
+            for (JsonNode item : output) {
+                if (!isResponsesCompactionType(item.path("type").asText(""))) {
+                    continue;
+                }
+                JsonNode summary = item.path("summary");
+                if (summary.isArray()) {
+                    for (JsonNode part : summary) {
+                        String text = part.path("text").asText("");
+                        if ("summary_text".equals(part.path("type").asText("")) && !text.isBlank()) {
+                            return text;
+                        }
+                    }
+                }
+                return RESPONSES_COMPACTION_VISIBLE_TEXT;
+            }
+            return "";
         }
 
         private ArrayNode responsesOutputToClaudeContent(JsonNode output) {
@@ -1492,8 +1547,10 @@ class ProtocolConverterConfiguration {
                     content.add(responsesReasoningToClaude(item));
                     continue;
                 }
-                if ("compaction".equals(type)) {
-                    content.add(responsesOpaqueItemToClaude(item, RESPONSES_COMPACTION_PLACEHOLDER));
+                if (isResponsesCompactionType(type)) {
+                    ObjectNode normalizedItem = (ObjectNode) item.deepCopy();
+                    normalizedItem.put("type", "compaction");
+                    content.add(responsesOpaqueItemToClaude(normalizedItem, RESPONSES_COMPACTION_PLACEHOLDER));
                     continue;
                 }
                 if ("program".equals(type)) {
@@ -1509,6 +1566,10 @@ class ProtocolConverterConfiguration {
                 content.add(responsesOpaqueItemToClaude(item, RESPONSES_OPAQUE_STATE_PLACEHOLDER));
             }
             return content;
+        }
+
+        private boolean isResponsesCompactionType(String type) {
+            return "compaction".equals(type) || "compaction_summary".equals(type);
         }
 
         private ObjectNode responsesReasoningToClaude(JsonNode item) {
