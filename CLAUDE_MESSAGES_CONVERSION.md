@@ -102,7 +102,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 
 路由选定渠道后，会先把 Claude 请求中的模型改写为实际上游模型，再进行协议转换；Bedrock 模型只写入 Converse URI，不写进请求 JSON。返回客户端时，非流式响应和流式 `message_start` 都恢复为客户端请求的模型名。跨协议上游错误会转换为正确的 Claude error envelope，并尽量保留 HTTP 状态和上游错误消息。流式异常事件、`malformed_model_output` / `malformed_tool_use`，以及未收到 Bedrock `messageStop` 的提前 EOF 都会明确失败；即使部分 SSE 已经写出，网关也会追加协议对应的 `error` 事件，避免 Claude Code 把连接关闭误判为正常 `end_turn`。
 
-企业上游在并发子 Agent 场景返回 429 时，网关会在尚未输出任何流数据前进行有限退避重试；重试仍失败时向 Claude Code 保留 HTTP 429 和 `rate_limit_error`，不再统一伪装为 502。流式连接同时具有真实的首 body 数据超时和数据间 idle timeout，避免后台 Agent 永久停在最后一个 `tool_result`。相关参数可通过 `API2API_STREAMING_FIRST_BYTE_TIMEOUT`、`API2API_STREAMING_IDLE_TIMEOUT`、`API2API_STREAMING_MAX_RETRIES` 和 `API2API_STREAMING_RETRY_BACKOFF` 调整。
+企业上游在并发子 Agent 场景返回 429 时，网关会在尚未输出任何流数据前进行有限退避重试；重试仍失败时向 Claude Code 保留 HTTP 429 和 `rate_limit_error`，不再统一伪装为 502。流式连接同时具有真实的首 body 数据超时和数据间 idle timeout，避免后台 Agent 永久停在最后一个 `tool_result`。上游首包、流间空闲和 Servlet 异步响应默认分别允许 2 分钟、10 分钟和 15 分钟，Nginx `/v1/` 代理读写超时为 20 分钟，避免长 thinking 或计划生成被容器默认的 30 秒异步超时截断，并为上游超时后的 SSE `error` 留出传输窗口。相关参数可通过 `API2API_GATEWAY_ASYNC_TIMEOUT`、`API2API_UPSTREAM_READ_TIMEOUT`、`API2API_STREAMING_FIRST_BYTE_TIMEOUT`、`API2API_STREAMING_IDLE_TIMEOUT`、`API2API_STREAMING_MAX_RETRIES` 和 `API2API_STREAMING_RETRY_BACKOFF` 调整。
 
 ## 官方协议依据
 

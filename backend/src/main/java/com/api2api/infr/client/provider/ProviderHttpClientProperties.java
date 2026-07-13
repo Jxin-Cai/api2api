@@ -12,13 +12,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "api2api.provider-http")
 public class ProviderHttpClientProperties {
 
+    private static final Duration DEFAULT_UPSTREAM_READ_TIMEOUT = Duration.ofMinutes(10);
+    private static final Duration DEFAULT_STREAMING_FIRST_BYTE_TIMEOUT = Duration.ofMinutes(2);
+    private static final Duration DEFAULT_STREAMING_IDLE_TIMEOUT = Duration.ofMinutes(10);
+
     private Duration connectTimeout = Duration.ofSeconds(2);
     private Duration modelsReadTimeout = Duration.ofSeconds(10);
     private int modelsMaxRetries = 1;
     private boolean allowInsecureHosts = true;
-    private Duration upstreamReadTimeout = Duration.ofSeconds(120);
-    private Duration streamingFirstByteTimeout = Duration.ofSeconds(30);
-    private Duration streamingIdleTimeout = Duration.ofSeconds(120);
+    private Duration upstreamReadTimeout = DEFAULT_UPSTREAM_READ_TIMEOUT;
+    private Duration streamingFirstByteTimeout = DEFAULT_STREAMING_FIRST_BYTE_TIMEOUT;
+    private Duration streamingIdleTimeout = DEFAULT_STREAMING_IDLE_TIMEOUT;
     private int streamingMaxRetries = 2;
     private Duration streamingRetryBackoff = Duration.ofMillis(200);
     private String upstreamHostOverride = "";

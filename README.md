@@ -96,6 +96,10 @@ Docker 镜像版本由 `docker-compose.yml`、`backend/Dockerfile` 与 `frontend
 | `FRONTEND_PORT` | `8989` | 对外暴露的前端端口 |
 | `COMPOSE_PROJECT_NAME` | `api2api` | Compose 项目名，固定 volume/network 名称 |
 | `SSH_KNOWN_HOSTS` | `187.124.157.143 ssh-ed25519 ...` | 已确认的服务器 SSH host key |
+| `API2API_GATEWAY_ASYNC_TIMEOUT` | `15m` | Spring/Tomcat 单次异步流式响应最长时间 |
+| `API2API_UPSTREAM_READ_TIMEOUT` | `10m` | 非流式上游请求读取超时 |
+| `API2API_STREAMING_FIRST_BYTE_TIMEOUT` | `2m` | 流式上游首个响应数据等待时间 |
+| `API2API_STREAMING_IDLE_TIMEOUT` | `10m` | 流式上游连续无数据的最长等待时间 |
 
 `SSH_KNOWN_HOSTS` 应在可信环境中获取并确认后再保存，例如：
 

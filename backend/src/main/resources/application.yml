@@ -1,6 +1,9 @@
 spring:
   application:
     name: api2api
+  mvc:
+    async:
+      request-timeout: ${API2API_GATEWAY_ASYNC_TIMEOUT:15m}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/api2api}
     username: ${SPRING_DATASOURCE_USERNAME:api2api}
@@ -23,9 +26,9 @@ api2api:
     models-max-retries: 1
     upstream-host-override: ${API2API_UPSTREAM_HOST_OVERRIDE:${APP_UPSTREAM_HOST_OVERRIDE:}}
     allow-insecure-hosts: ${API2API_PROVIDER_HTTP_ALLOW_INSECURE_HOSTS:true}
-    upstream-read-timeout: ${API2API_UPSTREAM_READ_TIMEOUT:120s}
-    streaming-first-byte-timeout: ${API2API_STREAMING_FIRST_BYTE_TIMEOUT:30s}
-    streaming-idle-timeout: ${API2API_STREAMING_IDLE_TIMEOUT:120s}
+    upstream-read-timeout: ${API2API_UPSTREAM_READ_TIMEOUT:10m}
+    streaming-first-byte-timeout: ${API2API_STREAMING_FIRST_BYTE_TIMEOUT:2m}
+    streaming-idle-timeout: ${API2API_STREAMING_IDLE_TIMEOUT:10m}
     streaming-max-retries: ${API2API_STREAMING_MAX_RETRIES:2}
     streaming-retry-backoff: ${API2API_STREAMING_RETRY_BACKOFF:200ms}
   provider-secrets:

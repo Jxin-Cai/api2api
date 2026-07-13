@@ -16,6 +16,8 @@ import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.gateway.model.GatewayInvocation;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.usage.model.UsageRecordId;
+import com.api2api.infr.protocol.StreamingPassthroughUsageExtractor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -55,7 +57,11 @@ class GatewayStreamingResponseMapperTest {
             );
             throw new EOFException("Bedrock Converse stream ended before messageStop");
         });
-        GatewayStreamingResponseMapper mapper = new GatewayStreamingResponseMapper(applicationService, conversionPort);
+        GatewayStreamingResponseMapper mapper = new GatewayStreamingResponseMapper(
+                applicationService,
+                conversionPort,
+                new StreamingPassthroughUsageExtractor(new ObjectMapper())
+        );
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
         // Act / Assert
