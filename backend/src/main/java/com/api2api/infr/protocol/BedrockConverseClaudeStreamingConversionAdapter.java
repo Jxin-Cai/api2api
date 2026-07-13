@@ -404,6 +404,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                     continue;
                 }
                 handleResponsesSseEvent(objectMapper.readTree(data), state, clientBody);
+                if (state.terminalEventSeen) {
+                    break;
+                }
             }
         }
         if (!state.terminalEventSeen) {

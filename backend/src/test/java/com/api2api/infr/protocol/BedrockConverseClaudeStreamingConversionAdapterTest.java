@@ -149,6 +149,31 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
     }
 
     @Test
+    void test_stopsReadingUpstream_when_responsesTerminalEventIsReceived() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"type":"response.output_text.delta","output_index":0,"delta":"done"}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":7,"output_tokens":1}}}
+
+                data: {malformed-event-after-terminal}
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        assertThat(downstream.toString(StandardCharsets.UTF_8)).contains("event: message_stop");
+        assertThat(usage.totalTokens()).isEqualTo(8);
+    }
+
+    @Test
     void shouldConvertBedrockEventStreamToOpenAIResponsesSseAndExtractUsage() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
