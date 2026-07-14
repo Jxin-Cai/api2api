@@ -8,7 +8,7 @@ import java.util.Set;
  */
 public final class PageRequestSpec {
 
-    private static final Set<Integer> ALLOWED_SIZES = Set.of(50, 100, 200);
+    private static final Set<Integer> ALLOWED_SIZES = Set.of(20, 50, 100, 200);
 
     private final int page;
     private final int size;
@@ -18,7 +18,7 @@ public final class PageRequestSpec {
             throw new IllegalArgumentException("Page number must be greater than or equal to 1");
         }
         if (!ALLOWED_SIZES.contains(size)) {
-            throw new IllegalArgumentException("Page size must be one of 50, 100 or 200");
+            throw new IllegalArgumentException("Page size must be one of 20, 50, 100 or 200");
         }
         this.page = page;
         this.size = size;
