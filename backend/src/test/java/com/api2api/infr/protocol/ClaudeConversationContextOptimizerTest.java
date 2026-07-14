@@ -41,6 +41,35 @@ class ClaudeConversationContextOptimizerTest {
     }
 
     @Test
+    void test_clearsAllThinking_when_compactionIsRequested() throws Exception {
+        // Arrange
+        JsonNode messages = objectMapper.readTree("""
+                [
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"provider state","signature":"opaque-signature"},
+                    {"type":"text","text":"visible answer"}
+                  ]},
+                  {"role":"assistant","content":[
+                    {"type":"redacted_thinking","data":"opaque-redacted-state"}
+                  ]},
+                  {"role":"user","content":"continue"}
+                ]
+                """);
+        JsonNode policy = objectMapper.readTree("""
+                {"edits":[{"type":"compact_20260112","trigger":{"value":80000}}]}
+                """);
+
+        // Act
+        JsonNode optimized = ClaudeConversationContextOptimizer.optimize(messages, policy);
+
+        // Assert
+        assertThat(optimized.toString()).doesNotContain("opaque-signature", "opaque-redacted-state");
+        assertThat(optimized.at("/0/content/0/text").asText()).isEqualTo("visible answer");
+        assertThat(optimized.at("/1/content/0/text").asText())
+                .isEqualTo("[Thinking cleared by context management]");
+    }
+
+    @Test
     void test_clearsOldToolResult_when_toolUseThresholdExceeded() throws Exception {
         // Arrange
         JsonNode messages = toolHistory("Read", "Read");

@@ -35,6 +35,7 @@ final class ClaudeConversationContextOptimizer {
     }
 
     static JsonNode optimize(JsonNode messages, JsonNode contextManagement) {
+        messages = sanitizeCompactionHistory(messages, contextManagement);
         RepeatedToolCall repeatedToolCall = detectRepeatedSuccessfulToolCall(messages);
         failWhenRepeatedSuccessfulToolCallDetected(repeatedToolCall);
         if (messages == null || !messages.isArray()) {
@@ -84,6 +85,41 @@ final class ClaudeConversationContextOptimizer {
             applyDefaultToolResultSafetyPolicy(optimized);
         }
         return optimized;
+    }
+
+    static JsonNode sanitizeCompactionHistory(JsonNode messages, JsonNode contextManagement) {
+        if (!hasCompactionEdit(contextManagement) || messages == null || !messages.isArray()) {
+            return messages;
+        }
+        ArrayNode sanitized = null;
+        for (int index = 0; index < messages.size(); index++) {
+            JsonNode message = messages.get(index);
+            if (!"assistant".equals(message.path("role").asText(""))
+                    || !containsThinking(message.path("content"))) {
+                continue;
+            }
+            if (sanitized == null) {
+                sanitized = ((ArrayNode) messages).deepCopy();
+            }
+            stripThinking((ObjectNode) sanitized.get(index));
+        }
+        return sanitized == null ? messages : sanitized;
+    }
+
+    private static boolean hasCompactionEdit(JsonNode contextManagement) {
+        if (contextManagement == null || contextManagement.isNull()) {
+            return false;
+        }
+        JsonNode edits = contextManagement.isArray() ? contextManagement : contextManagement.path("edits");
+        if (!edits.isArray()) {
+            return false;
+        }
+        for (JsonNode edit : edits) {
+            if (edit.path("type").asText("").startsWith("compact_")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static ArrayNode applyDefaultToolResultSafetyPolicy(ArrayNode messages) {
