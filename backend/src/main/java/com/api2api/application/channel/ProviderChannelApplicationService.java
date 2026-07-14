@@ -2,6 +2,7 @@ package com.api2api.application.channel;
 
 import com.api2api.application.BusinessException;
 import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
+import com.api2api.application.channel.command.ChangeChannelModelStatusCommand;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.ChannelModelUpsertItemCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
@@ -104,6 +105,26 @@ public class ProviderChannelApplicationService {
         ProviderChannel channel = loadChannel(command.getProviderChannelId());
 
         channel.disable(now());
+        providerChannelRepository.save(channel);
+        return channel;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public ProviderChannel enableChannelModel(ChangeChannelModelStatusCommand command) {
+        assertAdmin(command.getOperatorUserId());
+        ProviderChannel channel = loadChannel(command.getProviderChannelId());
+
+        channel.enableModel(command.getChannelModelSupportId(), now());
+        providerChannelRepository.save(channel);
+        return channel;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public ProviderChannel disableChannelModel(ChangeChannelModelStatusCommand command) {
+        assertAdmin(command.getOperatorUserId());
+        ProviderChannel channel = loadChannel(command.getProviderChannelId());
+
+        channel.disableModel(command.getChannelModelSupportId(), now());
         providerChannelRepository.save(channel);
         return channel;
     }

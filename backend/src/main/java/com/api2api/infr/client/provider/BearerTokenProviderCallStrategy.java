@@ -210,6 +210,15 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     "Provider channel is not enabled for routing"
             );
         }
+        if (!channel.supportsModel(candidate.requestedModel(), candidate.upstreamProtocol())) {
+            throw new UpstreamGatewayException(
+                    RouteFailureType.CHANNEL_UNAVAILABLE,
+                    null,
+                    true,
+                    0,
+                    "Model is not enabled for routing"
+            );
+        }
         String secret = providerSecretResolver.resolve(channel.keyRef());
         String path = resolveUpstreamPath(candidate, streaming);
         URI uri = OutboundUriGuard.verify(

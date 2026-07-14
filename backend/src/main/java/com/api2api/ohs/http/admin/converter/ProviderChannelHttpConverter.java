@@ -1,6 +1,7 @@
 package com.api2api.ohs.http.admin.converter;
 
 import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
+import com.api2api.application.channel.command.ChangeChannelModelStatusCommand;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.ChannelModelUpsertItemCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
@@ -94,6 +95,18 @@ public interface ProviderChannelHttpConverter {
         return ChangeProviderChannelStatusCommand.builder()
                 .operatorUserId(operatorUserId)
                 .providerChannelId(providerChannelId)
+                .build();
+    }
+
+    default ChangeChannelModelStatusCommand toChangeModelStatusCommand(
+            UserAccountId operatorUserId,
+            ProviderChannelId providerChannelId,
+            ChannelModelSupportId channelModelSupportId
+    ) {
+        return ChangeChannelModelStatusCommand.builder()
+                .operatorUserId(operatorUserId)
+                .providerChannelId(providerChannelId)
+                .channelModelSupportId(channelModelSupportId)
                 .build();
     }
 

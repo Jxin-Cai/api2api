@@ -1,6 +1,7 @@
 package com.api2api.ohs.http.admin;
 
 import com.api2api.application.channel.ProviderChannelApplicationService;
+import com.api2api.application.channel.command.ChangeChannelModelStatusCommand;
 import com.api2api.application.channel.command.ChangeProviderChannelStatusCommand;
 import com.api2api.application.channel.command.CreateProviderChannelCommand;
 import com.api2api.application.channel.command.BatchUpsertChannelModelsCommand;
@@ -224,6 +225,38 @@ public class AdminProviderChannelController {
                 ProviderChannelId.of(providerChannelId)
         );
         ProviderChannel channel = providerChannelApplicationService.upsertChannelModels(command);
+        return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
+    }
+
+    @PatchMapping("/{provider-channel-id}/models/{channel-model-support-id}/enable")
+    public ApiResponse<ProviderChannelResponse> enableChannelModel(
+            @PathVariable("provider-channel-id") Long providerChannelId,
+            @PathVariable("channel-model-support-id") Long channelModelSupportId,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        ChangeChannelModelStatusCommand command = providerChannelHttpConverter.toChangeModelStatusCommand(
+                operatorUserId,
+                ProviderChannelId.of(providerChannelId),
+                ChannelModelSupportId.of(channelModelSupportId)
+        );
+        ProviderChannel channel = providerChannelApplicationService.enableChannelModel(command);
+        return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
+    }
+
+    @PatchMapping("/{provider-channel-id}/models/{channel-model-support-id}/disable")
+    public ApiResponse<ProviderChannelResponse> disableChannelModel(
+            @PathVariable("provider-channel-id") Long providerChannelId,
+            @PathVariable("channel-model-support-id") Long channelModelSupportId,
+            HttpServletRequest request
+    ) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        ChangeChannelModelStatusCommand command = providerChannelHttpConverter.toChangeModelStatusCommand(
+                operatorUserId,
+                ProviderChannelId.of(providerChannelId),
+                ChannelModelSupportId.of(channelModelSupportId)
+        );
+        ProviderChannel channel = providerChannelApplicationService.disableChannelModel(command);
         return ApiResponse.success(providerChannelHttpConverter.toResponse(channel));
     }
 

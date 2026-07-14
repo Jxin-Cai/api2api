@@ -228,6 +228,29 @@ public class ProviderChannel {
         this.updatedAt = now;
     }
 
+    public void enableModel(ChannelModelSupportId modelId, Instant now) {
+        Objects.requireNonNull(modelId, "Channel model support id must not be null");
+        Objects.requireNonNull(now, "Current time must not be null");
+        ChannelModelSupport model = findModelById(modelId);
+        model.enable(now);
+        this.updatedAt = now;
+    }
+
+    public void disableModel(ChannelModelSupportId modelId, Instant now) {
+        Objects.requireNonNull(modelId, "Channel model support id must not be null");
+        Objects.requireNonNull(now, "Current time must not be null");
+        ChannelModelSupport model = findModelById(modelId);
+        model.disable(now);
+        this.updatedAt = now;
+    }
+
+    private ChannelModelSupport findModelById(ChannelModelSupportId modelId) {
+        return supportedModels.stream()
+                .filter(m -> m.id().equals(modelId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Channel model support not found: " + modelId.value()));
+    }
+
     public void removeModel(ModelName requestedModel, ProtocolType upstreamProtocol, Instant now) {
         Objects.requireNonNull(requestedModel, "Requested model must not be null");
         Objects.requireNonNull(upstreamProtocol, "Upstream protocol must not be null");
