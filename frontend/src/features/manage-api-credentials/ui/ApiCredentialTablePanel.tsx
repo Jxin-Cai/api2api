@@ -1,16 +1,18 @@
-import { Button, Card, Empty, Modal, Popconfirm, Progress, Space, Table, Typography, message } from 'antd';
+import { CopyOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { App, Button, Card, Dropdown, Empty, Modal, Progress, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
 import { ApiCredentialStatusTag, ApiKeySecretBlock, useApiCredentials, type ApiCredentialResponse, type CreateApiCredentialResponse, type RevealApiCredentialSecretResponse } from '@entities/api-credential';
 import { MetricCard } from '@entities/dashboard-metric';
 import { formatTokenMillions } from '@shared/lib/formatters';
-import { DashboardSummaryGrid, PageState } from '@shared/ui';
+import { PageState } from '@shared/ui';
 
 import { useApiCredentialMutations } from '../model/useApiCredentialMutations';
 import { ApiCredentialCreateModal } from './ApiCredentialCreateModal';
 import { ApiCredentialEditDrawer } from './ApiCredentialEditDrawer';
 import { ApiCredentialToolbar } from './ApiCredentialToolbar';
+import './ApiCredentialTablePanel.css';
 
 interface ApiCredentialTablePanelProps {
   /** 创建或编辑可选模型 */
@@ -23,6 +25,7 @@ function isEnabled(credential: ApiCredentialResponse): boolean {
 }
 
 export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTablePanelProps) {
+  const { message, modal } = App.useApp();
   const { credentials, query } = useApiCredentials();
   const { enableMutation, disableMutation, revealMutation, deleteMutation } = useApiCredentialMutations();
   const [search, setSearch] = useState('');
@@ -70,12 +73,35 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     }
   }
 
+  function confirmToggleStatus(credential: ApiCredentialResponse): void {
+    const enabled = isEnabled(credential);
+    modal.confirm({
+      title: enabled ? '禁用此 API Key？' : '启用此 API Key？',
+      content: enabled ? '禁用后，使用此密钥的网关请求将立即失败。' : '启用后，此密钥可以继续发起网关请求。',
+      okText: enabled ? '确认禁用' : '确认启用',
+      cancelText: '取消',
+      okButtonProps: enabled ? { danger: true } : undefined,
+      onOk: (): Promise<void> => handleToggleStatus(credential),
+    });
+  }
+
+  function confirmDelete(credential: ApiCredentialResponse): void {
+    modal.confirm({
+      title: '永久删除此 API Key？',
+      content: '密钥将立即失效且无法恢复，历史使用记录仍会保留。',
+      okText: '永久删除',
+      cancelText: '取消',
+      okButtonProps: { danger: true },
+      onOk: (): Promise<void> => handleDelete(credential),
+    });
+  }
+
   function handleCreated(_: CreateApiCredentialResponse): void {
     query.refetch().catch((): void => undefined);
   }
 
   function handleReveal(credential: ApiCredentialResponse): void {
-    Modal.confirm({
+    modal.confirm({
       title: '复制完整 API Key？',
       content: '完整 API Key 将短暂显示，请确认当前环境安全，复制后请妥善保管。',
       okText: '继续复制',
@@ -115,10 +141,32 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
   }
 
   const columns: ColumnsType<ApiCredentialResponse> = [
-    { title: '名称', dataIndex: 'name', key: 'name' },
-    { title: 'ID', dataIndex: 'id', key: 'id', ellipsis: true },
-    { title: '模型白名单', dataIndex: 'modelWhitelist', key: 'modelWhitelist', render: (models: string[]): string => models.length ? models.join(', ') : '未配置' },
-    { title: '累计 Token / 限额', key: 'tokenUsage', render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
+    {
+      title: '密钥',
+      key: 'credential',
+      width: 250,
+      render: (_: unknown, credential: ApiCredentialResponse): ReactElement => (
+        <div className="api-credential-identity">
+          <Typography.Text strong>{credential.name}</Typography.Text>
+          <Typography.Text className="api-credential-identity__id" copyable={{ text: credential.id }}>
+            {credential.id}
+          </Typography.Text>
+        </div>
+      ),
+    },
+    {
+      title: '允许的模型',
+      dataIndex: 'modelWhitelist',
+      key: 'modelWhitelist',
+      width: 250,
+      render: (models: string[]): ReactElement => (
+        <div className="api-credential-models">
+          {models.length ? models.slice(0, 2).map((model) => <Tag key={model}>{model}</Tag>) : <Typography.Text type="secondary">未配置</Typography.Text>}
+          {models.length > 2 ? <Tooltip title={models.slice(2).join(', ')}><Tag>+{models.length - 2}</Tag></Tooltip> : null}
+        </div>
+      ),
+    },
+    { title: '累计用量 / 限额', key: 'tokenUsage', width: 220, render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
     {
       title: '今日 Token',
       dataIndex: 'todayConsumedTokens',
@@ -136,38 +184,32 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     },
     { title: '状态', dataIndex: 'status', key: 'status', render: (status: string): ReactElement => <ApiCredentialStatusTag status={status} /> },
     {
-      title: '操作',
+      title: '',
       key: 'actions',
       fixed: 'right',
+      width: 150,
+      align: 'right',
       render: (_: unknown, credential: ApiCredentialResponse): ReactElement => (
-        <Space>
-          <Button size="small" onClick={(): void => setEditing(credential)}>编辑</Button>
-          <Button size="small" onClick={(): void => handleReveal(credential)} loading={revealMutation.isPending}>查看并复制 Key</Button>
-          <Popconfirm
-            title={isEnabled(credential) ? '确认禁用该 API Key？' : '确认启用该 API Key？'}
-            description={isEnabled(credential) ? '禁用后使用该 key 的调用将失败。' : '启用后该 key 可继续调用。'}
-            onConfirm={(): Promise<void> => handleToggleStatus(credential)}
+        <Space size={4} className="api-credential-actions">
+          <Tooltip title="复制完整 Key">
+            <Button aria-label={`复制 ${credential.name} 的完整 Key`} type="text" icon={<CopyOutlined />} onClick={(): void => handleReveal(credential)} loading={revealMutation.isPending} />
+          </Tooltip>
+          <Tooltip title="编辑">
+            <Button aria-label={`编辑 ${credential.name}`} type="text" icon={<EditOutlined />} onClick={(): void => setEditing(credential)} />
+          </Tooltip>
+          <Dropdown
+            trigger={['click']}
+            menu={{
+              items: [
+                { key: 'toggle', label: isEnabled(credential) ? '禁用密钥' : '启用密钥', danger: isEnabled(credential) },
+                { type: 'divider' },
+                { key: 'delete', label: '永久删除', danger: true },
+              ],
+              onClick: ({ key }): void => key === 'delete' ? confirmDelete(credential) : confirmToggleStatus(credential),
+            }}
           >
-            <Button size="small" danger={isEnabled(credential)} loading={enableMutation.isPending || disableMutation.isPending}>
-              {isEnabled(credential) ? '禁用' : '启用'}
-            </Button>
-          </Popconfirm>
-          <Popconfirm
-            title="确认删除该 API Key？"
-            description="删除后该 Key 将立即失效且无法恢复，历史使用记录不受影响。"
-            okText="确认删除"
-            cancelText="取消"
-            okButtonProps={{ danger: true }}
-            onConfirm={(): Promise<void> => handleDelete(credential)}
-          >
-            <Button
-              size="small"
-              danger
-              loading={deleteMutation.isPending && deleteMutation.variables === credential.id}
-            >
-              删除
-            </Button>
-          </Popconfirm>
+            <Button aria-label={`${credential.name} 更多操作`} type="text" icon={<EllipsisOutlined />} />
+          </Dropdown>
         </Space>
       ),
     },
@@ -179,15 +221,15 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
 
   return (
     <>
-      <Space direction="vertical" style={{ width: '100%' }} size={20}>
-        <DashboardSummaryGrid>
+      <Space direction="vertical" className="api-credential-panel" size={20}>
+        <div className="api-credential-summary">
           <MetricCard title="API Key 总数" value={credentials.length} loading={query.isLoading} />
           <MetricCard title="实际 Token 总用量" value={formatTokenMillions(tokenSummary.actualTokens)} rawValue={tokenSummary.actualTokens} loading={query.isLoading} />
           <MetricCard title="总 Token 总用量" value={formatTokenMillions(tokenSummary.totalTokens)} rawValue={tokenSummary.totalTokens} loading={query.isLoading} />
           <MetricCard title="今日实际 Token" value={formatTokenMillions(tokenSummary.todayActualTokens)} rawValue={tokenSummary.todayActualTokens} loading={query.isLoading} />
           <MetricCard title="今日总 Token" value={formatTokenMillions(tokenSummary.todayTotalTokens)} rawValue={tokenSummary.todayTotalTokens} loading={query.isLoading} />
-        </DashboardSummaryGrid>
-        <Card>
+        </div>
+        <Card className="api-credential-table-card">
           <Space direction="vertical" style={{ width: '100%' }} size={16}>
             <ApiCredentialToolbar search={search} onSearchChange={setSearch} onCreateClick={(): void => setCreateOpen(true)} onRefresh={(): void => { query.refetch().catch((): void => undefined); }} loading={query.isFetching} />
             <Table<ApiCredentialResponse>
@@ -195,9 +237,10 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
               columns={columns}
               dataSource={filteredCredentials}
               loading={query.isLoading}
-              scroll={{ x: 1040 }}
+              scroll={{ x: 1140 }}
               locale={{ emptyText: <Empty description="暂无 API Key，请先创建" /> }}
               pagination={false}
+              rowClassName="api-credential-table__row"
             />
           </Space>
         </Card>
@@ -209,7 +252,7 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
         open={Boolean(revealedSecret)}
         onCancel={(): void => { setRevealedSecret(null); setRevealedCredentialName(undefined); }}
         footer={<Button type="primary" onClick={(): void => { setRevealedSecret(null); setRevealedCredentialName(undefined); }}>关闭</Button>}
-        destroyOnClose
+        destroyOnHidden
       >
         <ApiKeySecretBlock
           plainApiKey={revealedSecret?.plainApiKey ?? ''}

@@ -143,9 +143,9 @@ public abstract class ApiCredentialHttpConverter {
     @Mapping(target = "keyPreview", source = "keyPreview.value")
     @Mapping(target = "modelWhitelist", expression = "java(toModelWhitelistResponse(credential.getModelWhitelist()))")
     @Mapping(target = "tokenLimit", source = "tokenLimit.value")
-    @Mapping(target = "consumedTokens", constant = "0L")
+    @Mapping(target = "consumedTokens", constant = "0")
     @Mapping(target = "totalTokens", constant = "0L")
-    @Mapping(target = "todayConsumedTokens", constant = "0L")
+    @Mapping(target = "todayConsumedTokens", constant = "0")
     @Mapping(target = "todayTotalTokens", constant = "0L")
     @Mapping(target = "remainingTokens", ignore = true)
     public abstract ApiCredentialResponse toResponse(ApiCredential credential);

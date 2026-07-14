@@ -1,4 +1,4 @@
-import { Alert, Button, Space, Typography, message, notification } from 'antd';
+import { Alert, App, Button, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { copyText } from '@shared/lib';
@@ -17,6 +17,7 @@ interface ApiKeySecretBlockProps {
 }
 
 export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskAfterCopy = false, warningMessage = '请立即保存 API Key，关闭后页面将不再保留明文。' }: ApiKeySecretBlockProps) {
+  const { message, notification } = App.useApp();
   const [copied, setCopied] = useState(false);
   const [masked, setMasked] = useState(false);
 

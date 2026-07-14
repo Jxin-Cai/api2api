@@ -6,8 +6,11 @@ export default function ApiKeysPage() {
   const { modelOptions } = useProviderModels();
 
   return (
-    <div className="app-page">
-      <PageHeader title="API Key 管理" />
+    <div className="app-page api-keys-page">
+      <PageHeader
+        title="API Keys"
+        description="创建和管理用于网关请求的访问凭证。"
+      />
       <ApiCredentialTablePanel modelOptions={modelOptions} />
     </div>
   );

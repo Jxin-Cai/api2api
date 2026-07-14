@@ -1,4 +1,4 @@
-import { Alert, Button, Descriptions, Drawer, Input, InputNumber, Select, Space, Tabs, message } from 'antd';
+import { Alert, App, Button, Descriptions, Drawer, Input, InputNumber, Select, Space, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ApiCredentialStatusTag, type ApiCredentialResponse } from '@entities/api-credential';
@@ -20,6 +20,7 @@ interface ApiCredentialEditDrawerProps {
 }
 
 export function ApiCredentialEditDrawer({ open, credential, onClose, modelOptions = [], onUpdated }: ApiCredentialEditDrawerProps) {
+  const { message } = App.useApp();
   const { renameMutation, whitelistMutation, limitMutation } = useApiCredentialMutations();
   const [activeSection, setActiveSection] = useState<ApiCredentialEditSection>('name');
   const [nameDraft, setNameDraft] = useState('');
@@ -65,7 +66,7 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, modelOption
   }
 
   return (
-    <Drawer title="编辑 API Key" open={open} onClose={onClose} width={520} destroyOnClose>
+    <Drawer title="编辑 API Key" open={open} onClose={onClose} width={520} destroyOnHidden>
       {!credential ? (
         <Alert type="info" showIcon message="请选择要编辑的 API Key" />
       ) : (

@@ -10,11 +10,12 @@ interface PageHeaderProps {
 }
 
 /** 统一页面页头 */
-export function PageHeader({ title, extra }: PageHeaderProps) {
+export function PageHeader({ title, description, extra }: PageHeaderProps) {
   return (
     <div className="app-page__head">
       <div>
         <h1 className="app-page__title">{title}</h1>
+        {description ? <p className="app-page__subtitle">{description}</p> : null}
       </div>
       {extra ? <div>{extra}</div> : null}
     </div>

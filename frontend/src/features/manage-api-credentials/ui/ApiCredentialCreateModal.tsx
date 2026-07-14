@@ -1,4 +1,4 @@
-import { Alert, Button, Checkbox, Form, Input, InputNumber, Modal, Result, Select, Space } from 'antd';
+import { Alert, App, Button, Checkbox, Form, Input, InputNumber, Modal, Result, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ApiKeySecretBlock, type CreateApiCredentialRequest, type CreateApiCredentialResponse } from '@entities/api-credential';
@@ -19,6 +19,7 @@ interface ApiCredentialCreateModalProps {
 const INITIAL_FORM: CreateApiCredentialRequest = { name: '', modelWhitelist: [], tokenLimit: 0 };
 
 export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOptions = [] }: ApiCredentialCreateModalProps) {
+  const { modal } = App.useApp();
   const { createMutation } = useApiCredentialMutations();
   const [form, setForm] = useState<CreateApiCredentialRequest>(INITIAL_FORM);
   const [createdResult, setCreatedResult] = useState<CreateApiCredentialResponse | null>(null);
@@ -34,7 +35,7 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOption
 
   function handleClose(): void {
     if (createdResult?.plainApiKey && !saveConfirmed) {
-      Modal.confirm({
+      modal.confirm({
         title: '确认已保存明文 API Key？',
         content: '关闭后页面将不再保留明文 key，请确认已复制并安全保存。后续仍可在列表中通过“复制 Key”重新获取。',
         okText: '已保存，关闭',
@@ -65,7 +66,7 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOption
       onCancel={handleClose}
       width={560}
       footer={createdResult ? <Button type="primary" onClick={handleClose} disabled={Boolean(createdResult.plainApiKey) && !saveConfirmed}>关闭</Button> : null}
-      destroyOnClose
+      destroyOnHidden
     >
       {createdResult ? (
         <Space direction="vertical" style={{ width: '100%' }} size={16}>

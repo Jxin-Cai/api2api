@@ -5,29 +5,29 @@ import type { ThemeMode } from '@shared/config/stores/useThemeStore';
 const FONT_FAMILY =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif';
 
-/** 暖灰色板（与 tokens.css 对齐） */
+/** Codex-inspired neutral palette aligned with tokens.css. */
 const PALETTE = {
   light: {
-    primary: '#8b8680',
-    bgPage: '#faf9f5',
-    bgSurface: '#fffdf9',
-    bgElevated: '#f0eee8',
-    textBase: '#2d2a26',
-    textSecondary: '#6d6760',
-    border: '#e3e1db',
-    siderBg: '#f0eee8',
-    headerBg: 'rgba(255, 253, 249, 0.85)',
+    primary: '#20201f',
+    bgPage: '#f7f7f5',
+    bgSurface: '#ffffff',
+    bgElevated: '#f3f3f1',
+    textBase: '#20201f',
+    textSecondary: '#62625f',
+    border: '#e5e5e2',
+    siderBg: '#191918',
+    headerBg: 'rgba(247, 247, 245, 0.9)',
   },
   dark: {
-    primary: '#9a948e',
-    bgPage: '#151412',
-    bgSurface: '#1d1b18',
-    bgElevated: '#2a2723',
+    primary: '#f0f0ed',
+    bgPage: '#181817',
+    bgSurface: '#20201f',
+    bgElevated: '#252524',
     textBase: '#f6f4f1',
     textSecondary: '#c9c3bb',
-    border: '#3a3530',
-    siderBg: '#1d1b18',
-    headerBg: 'rgba(29, 27, 24, 0.85)',
+    border: '#393937',
+    siderBg: '#191918',
+    headerBg: 'rgba(24, 24, 23, 0.9)',
   },
 } as const;
 
@@ -43,11 +43,12 @@ export function buildAppTheme(mode: ThemeMode): ThemeConfig {
       colorWarning: '#d97706',
       colorError: '#c65746',
       borderRadius: 8,
-      borderRadiusLG: 12,
+      borderRadiusLG: 10,
       fontFamily: FONT_FAMILY,
       colorBgLayout: p.bgPage,
       colorBgContainer: p.bgSurface,
       colorTextBase: p.textBase,
+      colorTextLightSolid: mode === 'dark' ? '#20201f' : '#ffffff',
       colorBorder: p.border,
       colorBorderSecondary: p.border,
       boxShadowTertiary:

@@ -90,17 +90,18 @@ export function AppShell({ portal }: AppShellProps) {
     <Layout className="app-shell">
       {isMobile ? (
         <Drawer
+          className="app-shell__drawer"
           placement="left"
           open={mobileDrawerOpen}
           onClose={(): void => setMobileDrawerOpen(false)}
-          styles={{ body: { padding: 0, background: 'var(--bg-surface)' } }}
+          styles={{ body: { padding: 0, background: '#191918' } }}
           width={276}
         >
           <div className="app-shell__brand app-shell__brand--drawer">
             <span className="app-shell__logo">
               <img className="app-shell__logo-image" src="/logo.png" alt="" aria-hidden="true" />
             </span>
-            <GradientText>意门</GradientText>
+            <GradientText className="app-shell__brand-text" animate={false}>意门</GradientText>
           </div>
           {menu}
         </Drawer>
@@ -118,7 +119,7 @@ export function AppShell({ portal }: AppShellProps) {
             <span className="app-shell__logo">
               <img className="app-shell__logo-image" src="/logo.png" alt="" aria-hidden="true" />
             </span>
-            {!sidebarCollapsed ? <GradientText>意门</GradientText> : null}
+            {!sidebarCollapsed ? <GradientText className="app-shell__brand-text" animate={false}>意门</GradientText> : null}
           </div>
           <div className="app-shell__menu">{menu}</div>
         </Sider>

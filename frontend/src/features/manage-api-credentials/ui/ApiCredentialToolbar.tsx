@@ -1,3 +1,4 @@
+import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Typography } from 'antd';
 
 interface ApiCredentialToolbarProps {
@@ -15,16 +16,24 @@ interface ApiCredentialToolbarProps {
 
 export function ApiCredentialToolbar({ search, onSearchChange, onCreateClick, onRefresh, loading = false }: ApiCredentialToolbarProps) {
   return (
-    <Space style={{ width: '100%', justifyContent: 'space-between' }} wrap>
-      <div>
-        <Typography.Title level={4} style={{ margin: 0 }}>API Key 管理</Typography.Title>
-        <Typography.Text type="secondary">创建、复制、启停和配置 API Key。</Typography.Text>
+    <div className="api-credential-toolbar">
+      <div className="api-credential-toolbar__copy">
+        <Typography.Title level={4} className="api-credential-toolbar__title">凭证</Typography.Title>
+        <Typography.Text type="secondary">管理密钥权限、限额与启用状态</Typography.Text>
       </div>
-      <Space wrap>
-        <Input.Search value={search} onChange={(event): void => onSearchChange(event.target.value)} placeholder="搜索名称或 ID" allowClear style={{ width: 260 }} />
-        <Button onClick={onRefresh} loading={loading}>刷新</Button>
-        <Button type="primary" onClick={onCreateClick}>创建 API Key</Button>
+      <Space wrap className="api-credential-toolbar__actions">
+        <Input
+          aria-label="搜索 API Key"
+          value={search}
+          onChange={(event): void => onSearchChange(event.target.value)}
+          placeholder="搜索名称或 ID"
+          allowClear
+          prefix={<SearchOutlined aria-hidden="true" />}
+          className="api-credential-toolbar__search"
+        />
+        <Button aria-label="刷新 API Key 列表" icon={<ReloadOutlined />} onClick={onRefresh} loading={loading} />
+        <Button type="primary" icon={<PlusOutlined />} onClick={onCreateClick}>新建密钥</Button>
       </Space>
-    </Space>
+    </div>
   );
 }
