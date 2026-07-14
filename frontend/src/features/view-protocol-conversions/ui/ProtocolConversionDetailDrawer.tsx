@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, Button, Card, Descriptions, Drawer, Grid, Popconfirm, Space, Statistic, Tag, Typography } from 'antd';
+import { Alert, Button, Card, Collapse, Descriptions, Drawer, Grid, Popconfirm, Space, Spin, Statistic, Tag, Typography } from 'antd';
 import { CapabilityTags, buildMappingView, type ProtocolConversionMappingResponse, useProtocolConversionDetail, type ProtocolConversionResponse } from '@entities/protocol-conversion';
-import { ProtocolMetadataLink } from '@entities/protocol-metadata';
+import { ProtocolFieldTable, ProtocolMetadataLink, useProtocolMetadataDetail } from '@entities/protocol-metadata';
 import { ProtocolMappingPanel } from '@widgets/protocol-mapping-panel';
 import { formatProtocolDirection } from '@shared/lib/protocols';
 import { PageState } from '@shared/ui';
@@ -88,6 +88,8 @@ export function ProtocolConversionDetailDrawer({ open, definitionId = null, conv
 
           <MappingOverview requestMapping={current.requestMapping} responseMapping={current.responseMapping} />
 
+          <InlineProtocolMetadata sourceProtocol={current.sourceProtocol} targetProtocol={current.targetProtocol} />
+
           <Alert
             type="info"
             showIcon
@@ -125,6 +127,39 @@ function MappingOverview({ requestMapping, responseMapping }: { requestMapping: 
       </Space>
     </Card>
   );
+}
+
+function InlineProtocolMetadata({ sourceProtocol, targetProtocol }: { sourceProtocol: string; targetProtocol: string }) {
+  const sourceQuery = useProtocolMetadataDetail(sourceProtocol);
+  const targetQuery = useProtocolMetadataDetail(targetProtocol);
+  const sourceDetail = sourceQuery.data?.data ?? null;
+  const targetDetail = targetQuery.data?.data ?? null;
+
+  const isLoading = sourceQuery.isLoading || targetQuery.isLoading;
+  if (isLoading) return <Spin size="small" style={{ display: 'block', textAlign: 'center', padding: 12 }} />;
+
+  const items = [];
+  if (sourceDetail) {
+    items.push({
+      key: 'source',
+      label: <Space><Tag color="blue">源协议</Tag><Typography.Text strong>{sourceDetail.displayName}</Typography.Text><Tag>{sourceDetail.apiSpecVersion}</Tag></Space>,
+      children: (
+        <Collapse size="small" items={sourceDetail.sections.map((s) => ({ key: s.section, label: `${s.sectionLabel}（${s.fieldCount} 字段）`, children: <ProtocolFieldTable fields={s.fields} /> }))} />
+      ),
+    });
+  }
+  if (targetDetail) {
+    items.push({
+      key: 'target',
+      label: <Space><Tag color="green">目标协议</Tag><Typography.Text strong>{targetDetail.displayName}</Typography.Text><Tag>{targetDetail.apiSpecVersion}</Tag></Space>,
+      children: (
+        <Collapse size="small" items={targetDetail.sections.map((s) => ({ key: s.section, label: `${s.sectionLabel}（${s.fieldCount} 字段）`, children: <ProtocolFieldTable fields={s.fields} /> }))} />
+      ),
+    });
+  }
+
+  if (items.length === 0) return null;
+  return <Collapse items={items} />;
 }
 
 function formatTimestamp(value: number): string {

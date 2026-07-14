@@ -125,8 +125,22 @@ public class ProtocolConversionDefinitionPersistenceConverter {
         for (int index = 0; index < max; index++) {
             String source = fieldAt(sources, index);
             String target = fieldAt(targets, index);
-            mappings.add(FieldMapping.of(source, target, describeRule(source, target), MappingLossiness.NONE));
+            MappingLossiness lossiness = inferLossiness(source, target, sources.size(), targets.size(), index);
+            mappings.add(FieldMapping.of(source, target, describeRule(source, target, lossiness), lossiness));
         }
+    }
+
+    private MappingLossiness inferLossiness(String source, String target, int sourceCount, int targetCount, int index) {
+        if (sourceCount > targetCount && index >= targetCount) {
+            return MappingLossiness.LOSSY;
+        }
+        if (targetCount > sourceCount && index >= sourceCount) {
+            return MappingLossiness.PARTIAL;
+        }
+        if (source.equals(target)) {
+            return MappingLossiness.NONE;
+        }
+        return MappingLossiness.PARTIAL;
     }
 
     private List<String> splitFieldList(String text) {
@@ -170,11 +184,14 @@ public class ProtocolConversionDefinitionPersistenceConverter {
         };
     }
 
-    private String describeRule(String source, String target) {
+    private String describeRule(String source, String target, MappingLossiness lossiness) {
+        if (lossiness == MappingLossiness.LOSSY) {
+            return source + " → dropped (no equivalent in target protocol)";
+        }
         if (source.equals(target)) {
             return "Direct passthrough";
         }
-        return "Map " + source + " to " + target;
+        return "Restructure " + source + " → " + target;
     }
 
     private String normalizeSummary(String text) {
