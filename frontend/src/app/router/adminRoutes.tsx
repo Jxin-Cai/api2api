@@ -8,6 +8,7 @@ const AdminUsersPage = lazy(() => import('@pages/AdminUsersPage'));
 const AdminChannelsPage = lazy(() => import('@pages/AdminChannelsPage'));
 const AdminModelMappingsPage = lazy(() => import('@pages/AdminModelMappingsPage'));
 const AdminConversionsPage = lazy(() => import('@pages/AdminConversionsPage'));
+const AdminProtocolMetadataPage = lazy(() => import('@pages/AdminProtocolMetadataPage'));
 
 function withAdminGuard(element: ReactElement): ReactElement {
   return (
@@ -24,4 +25,5 @@ export const adminRoutes: RouteObject[] = [
   { path: '/admin/channels', element: withAdminGuard(<AdminChannelsPage />) },
   { path: '/admin/model-mappings', element: withAdminGuard(<AdminModelMappingsPage />) },
   { path: '/admin/conversions', element: withAdminGuard(<AdminConversionsPage />) },
+  { path: '/admin/protocol-metadata', element: withAdminGuard(<AdminProtocolMetadataPage />) },
 ];

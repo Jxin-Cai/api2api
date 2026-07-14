@@ -1,0 +1,31 @@
+{
+  "protocolType": "OPENAI_RESPONSES",
+  "displayName": "OpenAI Responses",
+  "apiSpecVersion": "Responses API v1",
+  "description": "OpenAI Responses API，支持多模态输入、内置工具（web_search、code_interpreter）、推理（reasoning）、流式响应等能力。",
+  "defaultEndpointPath": "/v1/responses",
+  "fields": [
+    {"fieldName": "input", "fieldPath": "input", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "输入内容，支持字符串或消息项数组", "purpose": "承载用户输入和对话历史", "usageContext": "可为纯文本字符串或结构化消息项数组（含 role + content）"},
+    {"fieldName": "instructions", "fieldPath": "instructions", "fieldType": "STRING", "required": false, "section": "MESSAGE", "usageDirection": "INPUT", "description": "系统指令", "purpose": "设定模型行为和约束", "usageContext": "等价于 system prompt"},
+    {"fieldName": "id", "fieldPath": "id", "fieldType": "STRING", "required": true, "section": "MESSAGE", "usageDirection": "OUTPUT", "description": "响应唯一标识符", "purpose": "用于追踪和引用特定响应", "usageContext": "格式为 resp_ 前缀的唯一 ID"},
+    {"fieldName": "object", "fieldPath": "object", "fieldType": "STRING", "required": true, "section": "MESSAGE", "usageDirection": "OUTPUT", "description": "对象类型，固定为 response", "purpose": "标识响应对象类型", "usageContext": "值固定为 \"response\""},
+    {"fieldName": "output", "fieldPath": "output", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "OUTPUT", "description": "输出项数组", "purpose": "承载模型生成的所有输出内容", "usageContext": "包含 message、function_call、reasoning 等类型的输出项"},
+    {"fieldName": "status", "fieldPath": "status", "fieldType": "STRING", "required": true, "section": "MESSAGE", "usageDirection": "OUTPUT", "description": "响应状态：completed、failed、cancelled、incomplete", "purpose": "指示响应是否成功完成", "usageContext": "用于判断是否需要重试或处理错误"},
+    {"fieldName": "model", "fieldPath": "model", "fieldType": "STRING", "required": true, "section": "MODEL", "usageDirection": "INPUT", "description": "模型标识符", "purpose": "指定使用的模型", "usageContext": "如 gpt-4o、o1 等"},
+    {"fieldName": "max_output_tokens", "fieldPath": "max_output_tokens", "fieldType": "INTEGER", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "最大输出 token 数", "purpose": "限制模型生成的最大长度", "usageContext": "不同模型有不同上限"},
+    {"fieldName": "temperature", "fieldPath": "temperature", "fieldType": "FLOAT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "采样温度 (0.0-2.0)", "purpose": "控制输出随机性", "usageContext": "默认 1.0"},
+    {"fieldName": "top_p", "fieldPath": "top_p", "fieldType": "FLOAT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "核采样概率阈值", "purpose": "控制候选 token 的概率分布截断", "usageContext": "与 temperature 配合使用"},
+    {"fieldName": "service_tier", "fieldPath": "service_tier", "fieldType": "STRING", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "服务层级", "purpose": "指定请求的优先级", "usageContext": "如 auto、default 等"},
+    {"fieldName": "model (response)", "fieldPath": "response.model", "fieldType": "STRING", "required": true, "section": "MODEL", "usageDirection": "OUTPUT", "description": "实际使用的模型标识符", "purpose": "确认请求被哪个模型处理", "usageContext": "可能与请求中的 model 不同"},
+    {"fieldName": "tools", "fieldPath": "tools", "fieldType": "ARRAY", "required": false, "section": "TOOL", "usageDirection": "INPUT", "description": "可用工具列表", "purpose": "声明模型可调用的工具", "usageContext": "支持 function 类型工具和内置工具（web_search、code_interpreter、mcp 等）"},
+    {"fieldName": "tool_choice", "fieldPath": "tool_choice", "fieldType": "OBJECT", "required": false, "section": "TOOL", "usageDirection": "INPUT", "description": "工具选择策略", "purpose": "控制模型如何选择工具", "usageContext": "可为 auto、required、none 或指定工具"},
+    {"fieldName": "reasoning", "fieldPath": "reasoning", "fieldType": "OBJECT", "required": false, "section": "REASONING", "usageDirection": "INPUT", "description": "推理配置", "purpose": "启用扩展推理能力", "usageContext": "包含 effort 和 summary 字段"},
+    {"fieldName": "stream", "fieldPath": "stream", "fieldType": "BOOLEAN", "required": false, "section": "STREAMING", "usageDirection": "INPUT", "description": "是否启用流式响应", "purpose": "控制响应是一次性返回还是逐步流式返回", "usageContext": "为 true 时响应以 SSE 事件流形式返回"},
+    {"fieldName": "usage", "fieldPath": "usage", "fieldType": "OBJECT", "required": true, "section": "USAGE", "usageDirection": "OUTPUT", "description": "Token 用量统计", "purpose": "报告请求消耗的 token 数量", "usageContext": "包含 input_tokens、output_tokens、total_tokens"},
+    {"fieldName": "usage.input_tokens", "fieldPath": "usage.input_tokens", "fieldType": "INTEGER", "required": true, "section": "USAGE", "usageDirection": "OUTPUT", "description": "输入 token 数", "purpose": "计算输入消耗", "usageContext": "包含所有输入内容的 token 数"},
+    {"fieldName": "usage.output_tokens", "fieldPath": "usage.output_tokens", "fieldType": "INTEGER", "required": true, "section": "USAGE", "usageDirection": "OUTPUT", "description": "输出 token 数", "purpose": "计算输出消耗", "usageContext": "模型生成的 token 数量"},
+    {"fieldName": "usage.total_tokens", "fieldPath": "usage.total_tokens", "fieldType": "INTEGER", "required": true, "section": "USAGE", "usageDirection": "OUTPUT", "description": "总 token 数", "purpose": "输入 + 输出的总计", "usageContext": "input_tokens + output_tokens"},
+    {"fieldName": "metadata", "fieldPath": "metadata", "fieldType": "OBJECT", "required": false, "section": "METADATA", "usageDirection": "INPUT", "description": "请求元数据", "purpose": "附加不影响模型行为的上下文信息", "usageContext": "键值对形式，可用于追踪"},
+    {"fieldName": "text", "fieldPath": "text", "fieldType": "OBJECT", "required": false, "section": "METADATA", "usageDirection": "INPUT", "description": "文本输出配置", "purpose": "控制文本输出格式", "usageContext": "包含 format 字段（text、json_object、json_schema）"}
+  ]
+}

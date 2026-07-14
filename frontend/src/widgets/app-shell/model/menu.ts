@@ -21,6 +21,7 @@ export const adminMenuItems: AppMenuItem[] = [
   { key: 'admin-channels', label: '供应商渠道', path: ROUTE_PATHS.adminChannels, portal: 'admin' },
   { key: 'admin-model-mappings', label: '模型映射', path: ROUTE_PATHS.adminModelMappings, portal: 'admin' },
   { key: 'admin-conversions', label: '协议转换', path: ROUTE_PATHS.adminConversions, portal: 'admin' },
+  { key: 'admin-protocol-metadata', label: '协议元数据', path: ROUTE_PATHS.adminProtocolMetadata, portal: 'admin' },
 ];
 
 export function getMenuItems(portal: PortalType): AppMenuItem[] {

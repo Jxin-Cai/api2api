@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Descriptions, Drawer, Grid, Popconfirm, Space, Statistic, Tag, Typography } from 'antd';
 import { CapabilityTags, buildMappingView, type ProtocolConversionMappingResponse, useProtocolConversionDetail, type ProtocolConversionResponse } from '@entities/protocol-conversion';
+import { ProtocolMetadataLink } from '@entities/protocol-metadata';
 import { ProtocolMappingPanel } from '@widgets/protocol-mapping-panel';
 import { formatProtocolDirection } from '@shared/lib/protocols';
 import { PageState } from '@shared/ui';
@@ -72,8 +73,12 @@ export function ProtocolConversionDetailDrawer({ open, definitionId = null, conv
               <Descriptions size="small" column={{ xs: 1, sm: 2 }} bordered>
                 <Descriptions.Item label="ID">{current.id}</Descriptions.Item>
                 <Descriptions.Item label="Kind">{current.kind}</Descriptions.Item>
-                <Descriptions.Item label="源协议">{current.sourceProtocol}</Descriptions.Item>
-                <Descriptions.Item label="目标协议">{current.targetProtocol}</Descriptions.Item>
+                <Descriptions.Item label="源协议">
+                  <Space>{current.sourceProtocol}<ProtocolMetadataLink protocolType={current.sourceProtocol} label="字段定义" /></Space>
+                </Descriptions.Item>
+                <Descriptions.Item label="目标协议">
+                  <Space>{current.targetProtocol}<ProtocolMetadataLink protocolType={current.targetProtocol} label="字段定义" /></Space>
+                </Descriptions.Item>
                 {current.createdAt ? <Descriptions.Item label="创建时间">{formatTimestamp(current.createdAt)}</Descriptions.Item> : null}
                 {current.updatedAt ? <Descriptions.Item label="更新时间">{formatTimestamp(current.updatedAt)}</Descriptions.Item> : null}
                 <Descriptions.Item label="能力" span={2}><CapabilityTags capability={current.capability} /></Descriptions.Item>

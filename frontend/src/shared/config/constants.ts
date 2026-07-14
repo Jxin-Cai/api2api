@@ -10,6 +10,7 @@ export const ROUTE_PATHS = {
   adminChannels: '/admin/channels',
   adminModelMappings: '/admin/model-mappings',
   adminConversions: '/admin/conversions',
+  adminProtocolMetadata: '/admin/protocol-metadata',
   adminUsage: '/admin/usage',
 } as const;
 
