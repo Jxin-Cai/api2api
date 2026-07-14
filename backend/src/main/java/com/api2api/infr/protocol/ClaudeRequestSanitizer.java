@@ -6,6 +6,7 @@ import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Objects;
 
@@ -15,9 +16,14 @@ final class ClaudeRequestSanitizer {
     private ClaudeRequestSanitizer() {
     }
 
-    static ProtocolPayload sanitize(ObjectMapper objectMapper, ProtocolPayload payload) {
+    static ProtocolPayload sanitize(
+            ObjectMapper objectMapper,
+            ProtocolPayload payload,
+            ProtocolType targetProtocol
+    ) {
         Objects.requireNonNull(objectMapper, "objectMapper must not be null");
         Objects.requireNonNull(payload, "payload must not be null");
+        Objects.requireNonNull(targetProtocol, "targetProtocol must not be null");
         if (payload.protocol() != ProtocolType.CLAUDE_MESSAGES) {
             return payload;
         }
@@ -29,6 +35,9 @@ final class ClaudeRequestSanitizer {
             JsonNode messages = source.get("messages");
             JsonNode sanitizedMessages = ClaudeConversationContextOptimizer.sanitizeCompactionHistory(
                     messages, source.get("context_management"));
+            if (targetProtocol == ProtocolType.CLAUDE_MESSAGES) {
+                sanitizedMessages = removeResponsesThinkingState(sanitizedMessages);
+            }
             if (sanitizedMessages == messages) {
                 return payload;
             }
@@ -42,5 +51,34 @@ final class ClaudeRequestSanitizer {
         } catch (JsonProcessingException exception) {
             throw new ProtocolConversionException("CLAUDE_REQUEST_SANITIZATION_FAILED", exception);
         }
+    }
+
+    private static JsonNode removeResponsesThinkingState(JsonNode messages) {
+        if (messages == null || !messages.isArray()) {
+            return messages;
+        }
+        ArrayNode sanitized = null;
+        for (int messageIndex = 0; messageIndex < messages.size(); messageIndex++) {
+            JsonNode message = messages.get(messageIndex);
+            if (!"assistant".equals(message.path("role").asText(""))) {
+                continue;
+            }
+            JsonNode content = message.path("content");
+            if (!content.isArray()) {
+                continue;
+            }
+            for (int contentIndex = content.size() - 1; contentIndex >= 0; contentIndex--) {
+                JsonNode block = content.get(contentIndex);
+                if (!"thinking".equals(block.path("type").asText(""))
+                        || !ResponsesReasoningBridge.isResponsesSignature(block.path("signature").asText(""))) {
+                    continue;
+                }
+                if (sanitized == null) {
+                    sanitized = ((ArrayNode) messages).deepCopy();
+                }
+                ((ArrayNode) sanitized.get(messageIndex).path("content")).remove(contentIndex);
+            }
+        }
+        return sanitized == null ? messages : sanitized;
     }
 }

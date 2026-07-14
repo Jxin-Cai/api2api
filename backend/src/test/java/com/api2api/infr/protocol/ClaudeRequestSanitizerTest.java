@@ -30,7 +30,8 @@ class ClaudeRequestSanitizerTest {
                 """, true);
 
         // Act
-        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(objectMapper, payload);
+        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
+                objectMapper, payload, ProtocolType.CLAUDE_MESSAGES);
         JsonNode body = objectMapper.readTree(sanitized.body());
 
         // Assert
@@ -39,16 +40,60 @@ class ClaudeRequestSanitizerTest {
     }
 
     @Test
-    void test_preservesThinkingSignatures_when_requestIsNotCompaction() {
+    void test_removesResponsesThinkingState_when_requestPassesThroughToClaude() throws Exception {
+        // Arrange
+        String signature = ResponsesReasoningBridge.encode(objectMapper, objectMapper.readTree("""
+                {"type":"reasoning","id":"rs_1","encrypted_content":"encrypted"}
+                """)).orElseThrow();
+        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, """
+                {"messages":[{"role":"assistant","content":[
+                  {"type":"thinking","thinking":"summary","signature":"%s"},
+                  {"type":"text","text":"visible answer"}
+                ]}]}
+                """.formatted(signature), false);
+
+        // Act
+        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
+                objectMapper, payload, ProtocolType.CLAUDE_MESSAGES);
+        JsonNode body = objectMapper.readTree(sanitized.body());
+
+        // Assert
+        assertThat(body.at("/messages/0/content/0/type").asText()).isEqualTo("text");
+        assertThat(body.at("/messages/0/content/0/text").asText()).isEqualTo("visible answer");
+    }
+
+    @Test
+    void test_preservesResponsesThinkingState_when_requestTargetsResponses() throws Exception {
+        // Arrange
+        String signature = ResponsesReasoningBridge.encode(objectMapper, objectMapper.readTree("""
+                {"type":"reasoning","id":"rs_1","encrypted_content":"encrypted"}
+                """)).orElseThrow();
+        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, """
+                {"messages":[{"role":"assistant","content":[
+                  {"type":"thinking","thinking":"summary","signature":"%s"}
+                ]}]}
+                """.formatted(signature), false);
+
+        // Act
+        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
+                objectMapper, payload, ProtocolType.OPENAI_RESPONSES);
+
+        // Assert
+        assertThat(sanitized).isSameAs(payload);
+    }
+
+    @Test
+    void test_preservesNativeThinkingState_when_requestPassesThroughToClaude() {
         // Arrange
         ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, """
                 {"messages":[{"role":"assistant","content":[
-                  {"type":"thinking","thinking":"summary","signature":"valid-current-provider-signature"}
+                  {"type":"thinking","thinking":"summary","signature":"native-claude-signature"}
                 ]}]}
                 """, false);
 
         // Act
-        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(objectMapper, payload);
+        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
+                objectMapper, payload, ProtocolType.CLAUDE_MESSAGES);
 
         // Assert
         assertThat(sanitized).isSameAs(payload);

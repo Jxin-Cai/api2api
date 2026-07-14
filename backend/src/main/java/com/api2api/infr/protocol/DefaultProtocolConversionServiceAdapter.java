@@ -42,7 +42,7 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
             ProtocolConversionRequest requirement,
             List<ProtocolConversionDefinition> definitions
     ) {
-        payload = ClaudeRequestSanitizer.sanitize(objectMapper, payload);
+        payload = ClaudeRequestSanitizer.sanitize(objectMapper, payload, targetProtocol);
         ConversionRoute route = resolve(payload.protocol(), targetProtocol, requirement, definitions);
         if (route.passthrough()) {
             return ProtocolConversionResult.passthrough(payload);
