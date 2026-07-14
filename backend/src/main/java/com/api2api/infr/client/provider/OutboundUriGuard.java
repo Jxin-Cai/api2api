@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.util.Objects;
 
 /**
- * Guards outbound provider requests against insecure schemes and SSRF targets
+ * Guards outbound provider requests against unsupported schemes and SSRF targets
  * such as loopback, link-local, private and metadata addresses.
  */
 final class OutboundUriGuard {
@@ -20,8 +20,8 @@ final class OutboundUriGuard {
         if (scheme == null) {
             throw new IllegalArgumentException("Upstream URI scheme must not be null");
         }
-        if (!allowInsecureHosts && !"https".equalsIgnoreCase(scheme)) {
-            throw new IllegalArgumentException("Upstream host must use https");
+        if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
+            throw new IllegalArgumentException("Upstream URI must use http or https");
         }
         String host = uri.getHost();
         if (host == null || host.isBlank()) {
