@@ -33,10 +33,3 @@ export function formatId(value?: string | number | null, visible = 6): string {
   }
   return `${text.slice(0, visible)}...${text.slice(-visible)}`;
 }
-
-export function formatUnknown(value?: string | number | null): string {
-  if (value === undefined || value === null || value === '') {
-    return '-';
-  }
-  return String(value);
-}

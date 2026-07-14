@@ -1,5 +1,4 @@
-import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
-import type { AdminFormMode } from '@shared/types/admin';
+import type { ProtocolMappingRequest } from '@entities/provider-channel';
 
 export interface ProviderChannelFormState {
   name: string;
@@ -10,15 +9,3 @@ export interface ProviderChannelFormState {
   supportedProtocols: string[];
   protocolMappings: ProtocolMappingRequest[];
 }
-
-export interface ProviderChannelSearchState {
-  keyword: string;
-}
-
-export interface ProviderChannelDrawerState {
-  mode: AdminFormMode;
-  channel: ProviderChannelResponse | null;
-  open: boolean;
-}
-
-export type ProviderChannelToggleStatus = 'enable' | 'disable';

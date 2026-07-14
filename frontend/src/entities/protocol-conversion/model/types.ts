@@ -66,9 +66,9 @@ export interface ProtocolConversionResponse {
   updatedAt?: number;
 }
 
+export type ProtocolConversionCapabilityLike = ProtocolConversionCapabilityResponse | ProtocolConversionListItemResponse;
+
 export interface ProtocolConversionDirectionRequest {
   sourceProtocol: string;
   targetProtocol: string;
 }
-
-export type ProtocolConversionCapabilityLike = ProtocolConversionCapabilityResponse | ProtocolConversionListItemResponse;

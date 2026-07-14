@@ -21,6 +21,11 @@ final class ResponsesReasoningBridge {
     private ResponsesReasoningBridge() {
     }
 
+    static boolean isResponsesSignature(String signature) {
+        return signature != null
+                && (signature.startsWith(SIGNATURE_PREFIX) || signature.startsWith(ITEM_SIGNATURE_PREFIX));
+    }
+
     static Optional<String> encode(ObjectMapper objectMapper, JsonNode reasoningItem) {
         if (reasoningItem == null || !reasoningItem.isObject()) {
             return Optional.empty();

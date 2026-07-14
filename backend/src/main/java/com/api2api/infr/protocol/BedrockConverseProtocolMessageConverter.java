@@ -777,7 +777,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                     case "tool_result", "mcp_tool_result", "web_search_tool_result", "web_fetch_tool_result",
                          "code_execution_tool_result", "bash_code_execution_tool_result",
                          "text_editor_code_execution_tool_result", "tool_search_tool_result" -> contentBlocks.add(toBedrockToolResult(item));
-                    case "thinking", "reasoning" -> contentBlocks.add(toBedrockReasoningContent(item));
+                    case "thinking", "reasoning" -> {
+                        if (ResponsesReasoningBridge.isResponsesSignature(item.path("signature").asText(""))) {
+                            blockMapped = false;
+                        } else {
+                            contentBlocks.add(toBedrockReasoningContent(item));
+                        }
+                    }
                     case "redacted_thinking" -> contentBlocks.add(toBedrockRedactedReasoningContent(item));
                     case "compaction" -> { continue; }
                     default -> throw new ProtocolConversionException("CLAUDE_BEDROCK_UNSUPPORTED_CONTENT_BLOCK: " + type);

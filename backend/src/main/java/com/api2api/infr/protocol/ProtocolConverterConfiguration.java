@@ -454,11 +454,12 @@ class ProtocolConverterConfiguration {
                                         + block.path("type").asText(""));
                         case "thinking" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
-                            ObjectNode mappedThinking = claudeThinkingToResponses(block);
-                            if ("compaction".equals(mappedThinking.path("type").asText(""))) {
-                                input.removeAll();
-                            }
-                            input.add(mappedThinking);
+                            claudeThinkingToResponses(block).ifPresent(mappedThinking -> {
+                                if ("compaction".equals(mappedThinking.path("type").asText(""))) {
+                                    input.removeAll();
+                                }
+                                input.add(mappedThinking);
+                            });
                         }
                         case "compaction" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
@@ -755,14 +756,17 @@ class ProtocolConverterConfiguration {
             return "";
         }
 
-        private ObjectNode claudeThinkingToResponses(JsonNode block) {
+        private Optional<ObjectNode> claudeThinkingToResponses(JsonNode block) {
             String signature = block.path("signature").asText("");
             Optional<JsonNode> hostedItem = ResponsesReasoningBridge.decodeItem(json.objectMapper(), signature);
             if (hostedItem.isPresent()) {
-                return (ObjectNode) hostedItem.get();
+                return Optional.of((ObjectNode) hostedItem.get());
             }
-            JsonNode state = ResponsesReasoningBridge.decode(json.objectMapper(), signature)
-                    .orElseThrow(() -> new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_THINKING_SIGNATURE"));
+            Optional<JsonNode> decodedState = ResponsesReasoningBridge.decode(json.objectMapper(), signature);
+            if (decodedState.isEmpty()) {
+                return Optional.empty();
+            }
+            JsonNode state = decodedState.get();
             ObjectNode reasoning = json.objectNode();
             reasoning.put("type", "reasoning");
             reasoning.put("id", state.path("id").asText());
@@ -776,7 +780,7 @@ class ProtocolConverterConfiguration {
                 summary.add(summaryText);
             }
             reasoning.set("summary", summary);
-            return reasoning;
+            return Optional.of(reasoning);
         }
 
         private ObjectNode claudeCompactionToResponses(JsonNode block) {

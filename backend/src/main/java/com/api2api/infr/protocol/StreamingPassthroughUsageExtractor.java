@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.function.BiFunction;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,26 +42,19 @@ public class StreamingPassthroughUsageExtractor {
     }
 
     private UnifiedTokenUsage extractClaudeMessages(InputStream input, OutputStream output) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
-        UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
-        String currentEvent = null;
-        String line;
-        while ((line = reader.readLine()) != null) {
-            output.write(line.getBytes(StandardCharsets.UTF_8));
-            output.write('\n');
-            if (line.startsWith("event:")) {
-                currentEvent = line.substring(6).trim();
-            } else if (line.startsWith("data:") && "message_delta".equals(currentEvent)) {
-                String data = line.substring(5).trim();
-                if (!data.isEmpty() && !"[DONE]".equals(data)) {
-                    usage = tryExtractClaudeUsage(data, usage);
-                }
-            }
-        }
-        return usage;
+        return extractByEvent(input, output, "message_delta", this::tryExtractClaudeUsage);
     }
 
     private UnifiedTokenUsage extractOpenAIResponses(InputStream input, OutputStream output) throws IOException {
+        return extractByEvent(input, output, "response.completed", this::tryExtractOpenAIResponsesUsage);
+    }
+
+    private UnifiedTokenUsage extractByEvent(
+            InputStream input,
+            OutputStream output,
+            String targetEvent,
+            BiFunction<String, UnifiedTokenUsage, UnifiedTokenUsage> extractor
+    ) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
         UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
         String currentEvent = null;
@@ -70,10 +64,10 @@ public class StreamingPassthroughUsageExtractor {
             output.write('\n');
             if (line.startsWith("event:")) {
                 currentEvent = line.substring(6).trim();
-            } else if (line.startsWith("data:") && "response.completed".equals(currentEvent)) {
+            } else if (line.startsWith("data:") && targetEvent.equals(currentEvent)) {
                 String data = line.substring(5).trim();
                 if (!data.isEmpty() && !"[DONE]".equals(data)) {
-                    usage = tryExtractOpenAIResponsesUsage(data, usage);
+                    usage = extractor.apply(data, usage);
                 }
             }
         }
@@ -108,14 +102,14 @@ public class StreamingPassthroughUsageExtractor {
             if (outputTokens <= 0) {
                 return fallback;
             }
-            long inputTokens = firstPositiveLong(usageNode.get("input_tokens"), usageNode.get("prompt_tokens"));
-            long cacheCreation = firstPositiveLong(usageNode.get("cache_creation_input_tokens"));
+            long inputTokens = ClaudeMessagesUsageExtractor.firstPositiveLong(usageNode.get("input_tokens"), usageNode.get("prompt_tokens"));
+            long cacheCreation = ClaudeMessagesUsageExtractor.firstPositiveLong(usageNode.get("cache_creation_input_tokens"));
             if (cacheCreation == 0) {
                 cacheCreation = Math.max(0,
                         usageNode.path("cache_creation").path("ephemeral_5m_input_tokens").asLong(0)
                                 + usageNode.path("cache_creation").path("ephemeral_1h_input_tokens").asLong(0));
             }
-            long cacheRead = firstPositiveLong(
+            long cacheRead = ClaudeMessagesUsageExtractor.firstPositiveLong(
                     usageNode.get("cache_read_input_tokens"),
                     usageNode.get("cached_tokens")
             );
@@ -159,12 +153,4 @@ public class StreamingPassthroughUsageExtractor {
         }
     }
 
-    private static long firstPositiveLong(JsonNode... values) {
-        for (JsonNode value : values) {
-            if (value != null && !value.isNull() && !value.isMissingNode() && value.asLong(0) > 0) {
-                return value.asLong();
-            }
-        }
-        return 0;
-    }
 }

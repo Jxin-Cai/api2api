@@ -25,12 +25,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Service;
 
 /**
  * Domain service that assembles dashboard analytics read models and enforces role-specific visibility rules.
  */
-@Service
 public final class DashboardAnalyticsService {
 
     private static final int DASHBOARD_TOP_USER_LIMIT = 10;

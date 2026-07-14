@@ -470,6 +470,33 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_omitsForeignThinkingState_when_replayingHistoryToResponses() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,"messages":[
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"summary","signature":"bedrock-opaque-signature"},
+                    {"type":"text","text":"visible answer"}
+                  ]},
+                  {"role":"user","content":"continue"}
+                ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/input/0/content/0/text").asText()).isEqualTo("visible answer");
+        assertThat(mapped.at("/input/1/content/0/text").asText()).isEqualTo("continue");
+    }
+
+    @Test
     void test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);

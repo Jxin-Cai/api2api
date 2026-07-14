@@ -1,10 +1,9 @@
 package com.api2api.infr.repository.user.mapper;
 
+import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
+
 import com.api2api.infr.repository.user.po.UserAccountPO;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
@@ -93,8 +92,4 @@ public class JdbcUserAccountMapper implements UserAccountMapper {
                 .addValue("deleted", po.isDeleted());
     }
 
-    private static Instant instant(ResultSet rs, String column) throws SQLException {
-        Timestamp timestamp = rs.getTimestamp(column);
-        return timestamp == null ? null : timestamp.toInstant();
-    }
 }

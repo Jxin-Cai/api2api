@@ -37,7 +37,7 @@ public class ClaudeMessagesUsageExtractor implements UnifiedUsageExtractor {
                 + cacheCreation.path("ephemeral_1h_input_tokens").asLong(0));
     }
 
-    private static long firstPositiveLong(JsonNode... values) {
+    static long firstPositiveLong(JsonNode... values) {
         for (JsonNode value : values) {
             if (value != null && !value.isNull() && !value.isMissingNode() && value.asLong(0) > 0) {
                 return value.asLong();

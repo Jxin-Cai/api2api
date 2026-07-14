@@ -12,6 +12,7 @@ import com.api2api.ohs.http.admin.converter.ProtocolConversionHttpConverter;
 import com.api2api.ohs.http.admin.dto.ProtocolConversionListResponse;
 import com.api2api.ohs.http.admin.dto.ProtocolConversionResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * Admin controller for protocol conversion definitions.
@@ -37,7 +36,7 @@ public class AdminProtocolConversionController {
     private final ProtocolConversionApplicationService protocolConversionApplicationService;
 
     @NonNull
-    private final ProtocolConversionHttpConverter protocolConversionHttpMapper;
+    private final ProtocolConversionHttpConverter protocolConversionHttpConverter;
 
     @NonNull
     private final CurrentUserContextResolver currentUserContextResolver;
@@ -46,7 +45,7 @@ public class AdminProtocolConversionController {
     public ApiResponse<ProtocolConversionListResponse> listDefinitions(HttpServletRequest request) {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         List<ProtocolConversionDefinition> definitions = protocolConversionApplicationService.listDefinitions(operatorUserId);
-        return ApiResponse.success(protocolConversionHttpMapper.toListResponse(definitions));
+        return ApiResponse.success(protocolConversionHttpConverter.toListResponse(definitions));
     }
 
     @GetMapping("/{definition-id}")
@@ -57,7 +56,7 @@ public class AdminProtocolConversionController {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         ProtocolConversionDefinitionId id = ProtocolConversionDefinitionId.of(definitionId);
         ProtocolConversionDefinition definition = protocolConversionApplicationService.getDefinition(operatorUserId, id);
-        return ApiResponse.success(protocolConversionHttpMapper.toResponse(definition));
+        return ApiResponse.success(protocolConversionHttpConverter.toResponse(definition));
     }
 
     @GetMapping("/by-direction")
@@ -67,11 +66,11 @@ public class AdminProtocolConversionController {
             HttpServletRequest request
     ) {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
-        ProtocolType source = protocolConversionHttpMapper.toProtocolType(sourceProtocol);
-        ProtocolType target = protocolConversionHttpMapper.toProtocolType(targetProtocol);
+        ProtocolType source = protocolConversionHttpConverter.toProtocolType(sourceProtocol);
+        ProtocolType target = protocolConversionHttpConverter.toProtocolType(targetProtocol);
         ProtocolConversionDefinition definition = protocolConversionApplicationService.getDefinitionByDirection(
                 operatorUserId, source, target);
-        return ApiResponse.success(protocolConversionHttpMapper.toResponse(definition));
+        return ApiResponse.success(protocolConversionHttpConverter.toResponse(definition));
     }
 
     @PatchMapping("/{definition-id}/enable")
@@ -81,10 +80,10 @@ public class AdminProtocolConversionController {
     ) {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         ProtocolConversionDefinitionId id = ProtocolConversionDefinitionId.of(definitionId);
-        ChangeProtocolConversionStatusCommand command = protocolConversionHttpMapper.toChangeStatusCommand(
+        ChangeProtocolConversionStatusCommand command = protocolConversionHttpConverter.toChangeStatusCommand(
                 operatorUserId, id);
         ProtocolConversionDefinition definition = protocolConversionApplicationService.enableConversion(command);
-        return ApiResponse.success(protocolConversionHttpMapper.toResponse(definition));
+        return ApiResponse.success(protocolConversionHttpConverter.toResponse(definition));
     }
 
     @PatchMapping("/{definition-id}/disable")
@@ -94,9 +93,9 @@ public class AdminProtocolConversionController {
     ) {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         ProtocolConversionDefinitionId id = ProtocolConversionDefinitionId.of(definitionId);
-        ChangeProtocolConversionStatusCommand command = protocolConversionHttpMapper.toChangeStatusCommand(
+        ChangeProtocolConversionStatusCommand command = protocolConversionHttpConverter.toChangeStatusCommand(
                 operatorUserId, id);
         ProtocolConversionDefinition definition = protocolConversionApplicationService.disableConversion(command);
-        return ApiResponse.success(protocolConversionHttpMapper.toResponse(definition));
+        return ApiResponse.success(protocolConversionHttpConverter.toResponse(definition));
     }
 }

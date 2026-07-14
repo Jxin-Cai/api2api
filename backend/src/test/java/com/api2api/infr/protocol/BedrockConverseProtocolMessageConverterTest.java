@@ -9,6 +9,7 @@ import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
 class BedrockConverseProtocolMessageConverterTest {
@@ -587,6 +588,39 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.at("/additionalModelRequestFields/thinking/budget_tokens").asInt()).isEqualTo(4096);
         assertThat(mapped.at("/inferenceConfig/maxTokens").asInt()).isEqualTo(5120);
         assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("Hello");
+    }
+
+    @Test
+    void test_omitsResponsesThinkingState_when_replayingHistoryToBedrock() throws Exception {
+        // Arrange
+        ObjectNode reasoningItem = objectMapper.createObjectNode();
+        reasoningItem.put("type", "reasoning");
+        reasoningItem.put("id", "rs_1");
+        reasoningItem.put("encrypted_content", "encrypted");
+        String signature = ResponsesReasoningBridge.encode(objectMapper, reasoningItem).orElseThrow();
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":1024,"messages":[
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"summary","signature":"%s"},
+                    {"type":"text","text":"visible answer"}
+                  ]},
+                  {"role":"user","content":"continue"}
+                ]}
+                """.formatted(signature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content")).hasSize(1);
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("visible answer");
     }
 
     @Test

@@ -12,9 +12,4 @@ export interface ProtocolDirectionQuery {
   targetProtocol: string;
 }
 
-export interface ProtocolConversionDrawerState {
-  open: boolean;
-  definitionId: string | null;
-}
-
 export type ProtocolConversionActiveTab = 'request' | 'response';

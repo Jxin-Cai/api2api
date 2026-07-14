@@ -8,12 +8,6 @@ export interface UserCreateFormState {
   role: AdminRole;
 }
 
-export interface UserEditState {
-  targetUserId: string;
-  displayNameDraft: string;
-  roleDraft: AdminRole;
-}
-
 export interface UserOperationResultState {
   user: UserAccountResponse | null;
   action: string;

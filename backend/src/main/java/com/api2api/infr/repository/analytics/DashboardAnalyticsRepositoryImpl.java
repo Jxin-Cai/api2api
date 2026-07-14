@@ -1,5 +1,8 @@
 package com.api2api.infr.repository.analytics;
 
+import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
+import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
+
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
@@ -15,9 +18,6 @@ import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.model.Username;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -39,6 +39,14 @@ import org.springframework.stereotype.Repository;
 public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepository {
 
     private static final String ACTUAL_TOKENS_SQL = "input_tokens::numeric + output_tokens::numeric * 5 + cache_read_input_tokens::numeric * 0.1 + cache_creation_input_tokens::numeric * 1.25";
+
+    private static String actualTokensSqlWithPrefix(String prefix) {
+        Objects.requireNonNull(prefix, "Column prefix must not be null");
+        if (prefix.isBlank()) {
+            return ACTUAL_TOKENS_SQL;
+        }
+        return prefix + ACTUAL_TOKENS_SQL.replace(" + ", " + " + prefix);
+    }
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -98,7 +106,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         List<UserTokenRow> rows = jdbcTemplate.query("""
                 SELECT u.id AS user_account_id,
                        u.username AS username,
-                       COALESCE(SUM(r.input_tokens::numeric + r.output_tokens::numeric * 5 + r.cache_read_input_tokens::numeric * 0.1 + r.cache_creation_input_tokens::numeric * 1.25), 0) AS total_tokens
+                       COALESCE(SUM(%s), 0) AS total_tokens
                 FROM usage_records r
                 JOIN user_accounts u ON u.id = r.user_account_id
                 WHERE r.deleted = FALSE
@@ -108,7 +116,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 GROUP BY u.id, u.username
                 ORDER BY total_tokens DESC, u.id ASC
                 LIMIT :limit
-                """, params, (rs, rowNum) -> new UserTokenRow(
+                """.formatted(actualTokensSqlWithPrefix("r.")), params, (rs, rowNum) -> new UserTokenRow(
                 rs.getLong("user_account_id"),
                 rs.getString("username"),
                 rs.getBigDecimal("total_tokens")
@@ -166,14 +174,14 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 SELECT r.provider_channel_id,
                        COALESCE(c.name, 'Unknown Channel') AS provider_channel_name,
                        r.started_at,
-                       r.input_tokens::numeric + r.output_tokens::numeric * 5 + r.cache_read_input_tokens::numeric * 0.1 + r.cache_creation_input_tokens::numeric * 1.25 AS actual_tokens
+                       %s AS actual_tokens
                 FROM usage_records r
                 LEFT JOIN provider_channels c ON c.id = r.provider_channel_id
                 WHERE r.deleted = FALSE
                   AND r.provider_channel_id IS NOT NULL
                   AND r.started_at >= :startTime
                   AND r.started_at < :endTime
-                """, windowParams(window), rs -> {
+                """.formatted(actualTokensSqlWithPrefix("r.")), windowParams(window), rs -> {
             Instant startedAt = instant(rs, "started_at");
             Bucket bucket = findBucket(buckets, startedAt);
             if (bucket != null) {
@@ -289,14 +297,6 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         return null;
     }
 
-    private static Timestamp timestamp(Instant instant) {
-        return instant == null ? null : Timestamp.from(instant);
-    }
-
-    private static Instant instant(ResultSet rs, String column) throws SQLException {
-        Timestamp timestamp = rs.getTimestamp(column);
-        return timestamp == null ? null : timestamp.toInstant();
-    }
 
     private record Bucket(Instant start, Instant end) {
     }

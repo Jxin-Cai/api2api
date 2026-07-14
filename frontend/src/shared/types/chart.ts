@@ -12,11 +12,6 @@ export interface RankItem {
   meta?: string;
 }
 
-export interface ChartSeries<TPoint extends TrendChartPoint = TrendChartPoint> {
-  name: string;
-  points: TPoint[];
-}
-
 export interface MetricTrend {
   value: number;
   direction: 'up' | 'down' | 'flat';

@@ -15,10 +15,3 @@ export interface PageResponse<TItem> {
 export interface TablePaginationState extends PageRequest {
   total: number;
 }
-
-export type TableQueryStatus = 'idle' | 'loading' | 'success' | 'error';
-
-export interface SortState {
-  field?: string;
-  order?: 'ascend' | 'descend';
-}

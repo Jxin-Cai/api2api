@@ -40,8 +40,7 @@ import org.junit.jupiter.api.Test;
 class RoutingPolicyServiceTest {
 
     private static final Instant NOW = Instant.parse("2026-07-01T00:00:00Z");
-    private final RoutingPolicyService service = new RoutingPolicyService() {
-    };
+    private final RoutingPolicyService service = new DefaultRoutingPolicyService();
 
     @Test
     void usesConfiguredUpstreamProtocolForRequestProtocol() {

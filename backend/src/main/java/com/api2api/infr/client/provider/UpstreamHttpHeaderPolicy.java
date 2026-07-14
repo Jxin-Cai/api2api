@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UpstreamHttpHeaderPolicy {
 
-    private static final String MASKED = "***";
-
     @NonNull
     private final ProviderHttpClientProperties properties;
 
@@ -45,31 +43,6 @@ public class UpstreamHttpHeaderPolicy {
         return headers;
     }
 
-    public Map<String, List<String>> sanitizeForDiagnostics(Map<String, List<String>> headers) {
-        Map<String, List<String>> sanitized = new LinkedHashMap<>();
-        if (headers == null) {
-            return sanitized;
-        }
-        headers.forEach((name, values) -> {
-            if (name == null || name.isBlank()) {
-                return;
-            }
-            if (isSensitive(name)) {
-                sanitized.put(name, List.of(MASKED));
-            } else if (values != null) {
-                sanitized.put(name, List.copyOf(values));
-            }
-        });
-        return Map.copyOf(sanitized);
-    }
-
-    public String maskHeaderValue(String headerName, String headerValue) {
-        if (isSensitive(headerName)) {
-            return MASKED;
-        }
-        return headerValue;
-    }
-
     private void addAllowedPassthroughHeaders(Map<String, String> target, Map<String, List<String>> source) {
         if (source == null) {
             return;
@@ -90,17 +63,6 @@ public class UpstreamHttpHeaderPolicy {
                     .findFirst()
                     .ifPresent(value -> target.put(name.trim(), value));
         });
-    }
-
-    private boolean isSensitive(String headerName) {
-        String normalized = normalizeName(headerName);
-        return properties.getHeaderDenylist().contains(normalized)
-                || normalized.contains("token")
-                || normalized.contains("secret")
-                || normalized.contains("key")
-                || normalized.equals("authorization")
-                || normalized.equals("cookie")
-                || normalized.equals("set-cookie");
     }
 
     private static String normalizeName(String name) {

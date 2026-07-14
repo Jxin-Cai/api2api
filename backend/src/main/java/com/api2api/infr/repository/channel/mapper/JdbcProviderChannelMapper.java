@@ -1,11 +1,11 @@
 package com.api2api.infr.repository.channel.mapper;
 
+import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
+import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
+
 import com.api2api.infr.repository.channel.po.ChannelModelSupportPO;
 import com.api2api.infr.repository.channel.po.ChannelProtocolMappingPO;
 import com.api2api.infr.repository.channel.po.ProviderChannelPO;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -247,12 +247,4 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 .addValue("updatedTime", timestamp(po.getUpdatedTime()));
     }
 
-    private static Timestamp timestamp(Instant instant) {
-        return instant == null ? null : Timestamp.from(instant);
-    }
-
-    private static Instant instant(ResultSet rs, String column) throws SQLException {
-        Timestamp timestamp = rs.getTimestamp(column);
-        return timestamp == null ? null : timestamp.toInstant();
-    }
 }

@@ -19,7 +19,7 @@ public class ProviderHttpClientProperties {
     private Duration connectTimeout = Duration.ofSeconds(2);
     private Duration modelsReadTimeout = Duration.ofSeconds(10);
     private int modelsMaxRetries = 1;
-    private boolean allowInsecureHosts = true;
+    private boolean allowInsecureHosts = false;
     private Duration upstreamReadTimeout = DEFAULT_UPSTREAM_READ_TIMEOUT;
     private Duration streamingFirstByteTimeout = DEFAULT_STREAMING_FIRST_BYTE_TIMEOUT;
     private Duration streamingIdleTimeout = DEFAULT_STREAMING_IDLE_TIMEOUT;
