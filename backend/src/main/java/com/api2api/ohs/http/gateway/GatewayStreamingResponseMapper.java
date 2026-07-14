@@ -66,7 +66,9 @@ public class GatewayStreamingResponseMapper {
                     GatewayStreamingConversionContext conversionContext = GatewayStreamingConversionContext.of(
                             providerResponse.protocol(),
                             streamingInvocation.invocation().requestProtocol(),
-                            streamingInvocation.candidate().requestedModel()
+                            streamingInvocation.candidate().requestedModel(),
+                            streamingInvocation.candidate().providerChannelId(),
+                            streamingInvocation.candidate().upstreamModel()
                     );
                     usage = streamingConversionPort.transform(
                             conversionContext,

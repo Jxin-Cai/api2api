@@ -7,15 +7,31 @@ public final class ProtocolConversionRequest {
     private final boolean streaming;
     private final boolean toolCallingRequired;
     private final boolean reasoningRequired;
+    private final ProtocolConversionRouteContext routeContext;
 
-    private ProtocolConversionRequest(boolean streaming, boolean toolCallingRequired, boolean reasoningRequired) {
+    private ProtocolConversionRequest(
+            boolean streaming,
+            boolean toolCallingRequired,
+            boolean reasoningRequired,
+            ProtocolConversionRouteContext routeContext
+    ) {
         this.streaming = streaming;
         this.toolCallingRequired = toolCallingRequired;
         this.reasoningRequired = reasoningRequired;
+        this.routeContext = routeContext;
     }
 
     public static ProtocolConversionRequest of(boolean streaming, boolean toolCallingRequired, boolean reasoningRequired) {
-        return new ProtocolConversionRequest(streaming, toolCallingRequired, reasoningRequired);
+        return new ProtocolConversionRequest(streaming, toolCallingRequired, reasoningRequired, null);
+    }
+
+    public ProtocolConversionRequest forRoute(long providerChannelId, String upstreamModel) {
+        return new ProtocolConversionRequest(
+                streaming,
+                toolCallingRequired,
+                reasoningRequired,
+                new ProtocolConversionRouteContext(providerChannelId, upstreamModel)
+        );
     }
 
     public boolean streaming() {
@@ -28,5 +44,9 @@ public final class ProtocolConversionRequest {
 
     public boolean reasoningRequired() {
         return reasoningRequired;
+    }
+
+    public ProtocolConversionRouteContext routeContext() {
+        return routeContext;
     }
 }

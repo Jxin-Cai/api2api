@@ -4,6 +4,7 @@ import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
+import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,7 +65,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
         }
-        StreamState state = new StreamState(clientProtocol, context.clientModel().value());
+        ProtocolConversionRouteContext routeContext = new ProtocolConversionRouteContext(
+                context.providerChannelId().value(), context.upstreamModel().value());
+        StreamState state = new StreamState(clientProtocol, context.clientModel().value(), routeContext);
         BedrockEvent event;
         while ((event = readEvent(upstreamBody)) != null) {
             JsonNode payload = objectMapper.readTree(event.payload());
@@ -283,14 +286,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             writeSse(clientBody, "content_block_delta", event);
             JsonNode signature = reasoningText.path("signature");
             if (signature.isTextual() && !signature.asText().isBlank()) {
-                ObjectNode signatureEvent = objectNode();
-                signatureEvent.put("type", "content_block_delta");
-                signatureEvent.put("index", index);
-                ObjectNode signatureDelta = objectNode();
-                signatureDelta.put("type", "signature_delta");
-                signatureDelta.put("signature", signature.asText());
-                signatureEvent.set("delta", signatureDelta);
-                writeSse(clientBody, "content_block_delta", signatureEvent);
+                state.reasoningSignatureBuffers
+                        .computeIfAbsent(index, ignored -> new StringBuilder())
+                        .append(signature.asText());
             }
             return;
         }
@@ -348,6 +346,18 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     private void writeContentBlockStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         int index = payload.path("contentBlockIndex").asInt(0);
         if (!state.stoppedBlocks.containsKey(index)) {
+            StringBuilder reasoningSignature = state.reasoningSignatureBuffers.remove(index);
+            if (reasoningSignature != null && !reasoningSignature.isEmpty()) {
+                ObjectNode signatureEvent = objectNode();
+                signatureEvent.put("type", "content_block_delta");
+                signatureEvent.put("index", index);
+                ObjectNode signatureDelta = objectNode();
+                signatureDelta.put("type", "signature_delta");
+                signatureDelta.put("signature", BedrockReasoningBridge.encode(
+                        reasoningSignature.toString(), state.routeContext));
+                signatureEvent.set("delta", signatureDelta);
+                writeSse(clientBody, "content_block_delta", signatureEvent);
+            }
             ObjectNode event = objectNode();
             event.put("type", "content_block_stop");
             event.put("index", index);
@@ -1208,6 +1218,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     private static final class StreamState {
         private final ProtocolType clientProtocol;
         private final String clientModel;
+        private final ProtocolConversionRouteContext routeContext;
         private boolean messageStarted;
         private boolean messageStopped;
         private boolean upstreamMessageStopped;
@@ -1216,10 +1227,16 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         private UnifiedTokenUsage usage;
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
+        private final Map<Integer, StringBuilder> reasoningSignatureBuffers = new HashMap<>();
 
-        private StreamState(ProtocolType clientProtocol, String clientModel) {
+        private StreamState(
+                ProtocolType clientProtocol,
+                String clientModel,
+                ProtocolConversionRouteContext routeContext
+        ) {
             this.clientProtocol = clientProtocol;
             this.clientModel = clientModel;
+            this.routeContext = routeContext;
         }
     }
 

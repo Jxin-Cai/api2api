@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
+import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
@@ -54,6 +56,44 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .allMatch(node -> node.has("delta"))).isTrue();
         assertThat(usage.usageKnown()).isTrue();
         assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
+    @Test
+    void test_wrapsBedrockThinkingSignature_when_streamTargetsClaude() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "contentBlockDelta", """
+                {"contentBlockIndex":0,"delta":{"reasoningContent":{"reasoningText":{
+                  "text":"think","signature":"bedrock-"
+                }}}}
+                """);
+        writeEvent(upstream, "contentBlockDelta", """
+                {"contentBlockIndex":0,"delta":{"reasoningContent":{"reasoningText":{
+                  "text":"","signature":"signature"
+                }}}}
+                """);
+        writeEvent(upstream, "contentBlockStop", "{\"contentBlockIndex\":0}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"end_turn\"}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        String signature = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "signature_delta".equals(node.at("/delta/type").asText()))
+                .map(node -> node.at("/delta/signature").asText())
+                .findFirst()
+                .orElseThrow();
+        assertThat(BedrockReasoningBridge.decode(
+                signature,
+                new ProtocolConversionRouteContext(1L, "anthropic.claude-opus-4-6-v1:0")))
+                .contains("bedrock-signature");
     }
 
     @Test
@@ -682,7 +722,9 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         return GatewayStreamingConversionContext.of(
                 upstreamProtocol,
                 clientProtocol,
-                ModelName.of(requestedModel)
+                ModelName.of(requestedModel),
+                ProviderChannelId.of(1L),
+                ModelName.of("anthropic.claude-opus-4-6-v1:0")
         );
     }
 

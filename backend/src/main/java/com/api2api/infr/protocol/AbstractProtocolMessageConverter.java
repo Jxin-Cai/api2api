@@ -73,12 +73,15 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
             throw new ProtocolConversionException("converter capability does not satisfy request: " + converterName());
         }
         if (payload.streaming() && direction == ProtocolConversionDirection.RESPONSE) {
-            String transformed = sseEventTransformer.transform(payload.body(), data -> convertJsonString(data, true));
+            String transformed = sseEventTransformer.transform(
+                    payload.body(), data -> convertJsonString(data, requirement));
             UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
             return ProtocolConversionResult.of(sourceProtocol, targetProtocol, transformed, false, usage);
         }
         JsonNode source = json.parse(payload.body(), converterName());
-        JsonNode target = direction == ProtocolConversionDirection.REQUEST ? convertRequestJson(source) : convertResponseJson(source);
+        JsonNode target = direction == ProtocolConversionDirection.REQUEST
+                ? convertRequestJson(source, requirement)
+                : convertResponseJson(source, requirement);
         UnifiedTokenUsage usage = null;
         if (direction == ProtocolConversionDirection.RESPONSE) {
             usage = usageExtractor == null ? UnifiedTokenUsage.unknown() : usageExtractor.extract(source);
@@ -86,15 +89,17 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
         return ProtocolConversionResult.of(sourceProtocol, targetProtocol, json.stringify(target, converterName()), false, usage);
     }
 
-    private String convertJsonString(String data, boolean streaming) {
+    private String convertJsonString(String data, ProtocolConversionRequest requirement) {
         JsonNode source = json.parse(data, converterName() + " SSE data");
-        JsonNode target = direction == ProtocolConversionDirection.REQUEST ? convertRequestJson(source) : convertResponseJson(source);
+        JsonNode target = direction == ProtocolConversionDirection.REQUEST
+                ? convertRequestJson(source, requirement)
+                : convertResponseJson(source, requirement);
         return json.stringify(target, converterName() + " SSE data");
     }
 
-    protected abstract JsonNode convertRequestJson(JsonNode source);
+    protected abstract JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement);
 
-    protected abstract JsonNode convertResponseJson(JsonNode source);
+    protected abstract JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement);
 
     protected String converterName() {
         return sourceProtocol + "->" + targetProtocol + " " + direction;

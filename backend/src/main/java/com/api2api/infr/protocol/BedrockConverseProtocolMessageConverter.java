@@ -3,6 +3,7 @@ package com.api2api.infr.protocol;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
+import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -63,9 +65,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     @Override
-    protected JsonNode convertRequestJson(JsonNode source) {
+    protected JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement) {
         if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE) {
-            return claudeRequestToBedrock(source);
+            return claudeRequestToBedrock(source, requirement.routeContext());
         }
         if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS && targetProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE) {
             return chatRequestToBedrock(source);
@@ -77,9 +79,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     @Override
-    protected JsonNode convertResponseJson(JsonNode source) {
+    protected JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement) {
         if (sourceProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
-            return bedrockResponseToClaude(source);
+            return bedrockResponseToClaude(source, requirement.routeContext());
         }
         if (sourceProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
             return bedrockResponseToChat(source);
@@ -92,7 +94,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
     // ==================== Request: Claude Messages -> Bedrock Converse ====================
 
-    private ObjectNode claudeRequestToBedrock(JsonNode source) {
+    private ObjectNode claudeRequestToBedrock(JsonNode source, ProtocolConversionRouteContext routeContext) {
         validateClaudeRequestFields(source);
         if (source.path("max_tokens").isNumber() && source.path("max_tokens").asInt() == 0) {
             throw new ProtocolConversionException("CLAUDE_BEDROCK_CACHE_ONLY_REQUEST_NOT_SUPPORTED_BY_CONVERSE");
@@ -110,7 +112,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (messages != null && messages.isArray()) {
             for (JsonNode msg : messages) {
                 String role = msg.path("role").asText("user");
-                appendClaudeMessage(bedrockMessages, role, msg.get("content"));
+                appendClaudeMessage(bedrockMessages, role, msg.get("content"), routeContext);
             }
         }
         target.set("messages", bedrockMessages);
@@ -332,7 +334,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
     // ==================== Response: Bedrock Converse -> Claude Messages ====================
 
-    private ObjectNode bedrockResponseToClaude(JsonNode source) {
+    private ObjectNode bedrockResponseToClaude(JsonNode source, ProtocolConversionRouteContext routeContext) {
         ObjectNode target = json.objectNode();
         target.put("id", "msg_api2api_bedrock");
         target.put("type", "message");
@@ -343,7 +345,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         JsonNode output = source.path("output").path("message").path("content");
         if (output.isArray()) {
             for (JsonNode block : output) {
-                appendBedrockBlockAsClaudeContent(content, block);
+                appendBedrockBlockAsClaudeContent(content, block, routeContext);
             }
         }
         if (content.isEmpty()) {
@@ -571,9 +573,14 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return copy;
     }
 
-    private void appendClaudeMessage(ArrayNode messages, String role, JsonNode content) {
+    private void appendClaudeMessage(
+            ArrayNode messages,
+            String role,
+            JsonNode content,
+            ProtocolConversionRouteContext routeContext
+    ) {
         if (content == null || !content.isArray()) {
-            addOrMergeBedrockMessage(messages, toBedrockMessage(role, content));
+            addOrMergeBedrockMessage(messages, toBedrockMessage(role, content, routeContext));
             return;
         }
         ArrayNode pending = json.arrayNode();
@@ -587,21 +594,21 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 continue;
             }
             if (!pending.isEmpty()) {
-                addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending));
+                addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending, routeContext));
                 pending = json.arrayNode();
             }
             JsonNode systemContent = block.get("content");
             if (systemContent == null || (!systemContent.isArray() && !systemContent.isTextual())) {
                 throw new ProtocolConversionException("CLAUDE_BEDROCK_INVALID_MID_CONVERSATION_SYSTEM_CONTENT");
             }
-            ObjectNode systemMessage = toBedrockMessage("system", systemContent);
+            ObjectNode systemMessage = toBedrockMessage("system", systemContent, routeContext);
             if (hasEphemeralCacheControl(block)) {
                 ((ArrayNode) systemMessage.path("content")).add(cachePointBlock(block.get("cache_control")));
             }
             addOrMergeBedrockMessage(messages, systemMessage);
         }
         if (!pending.isEmpty()) {
-            addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending));
+            addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending, routeContext));
         }
     }
 
@@ -751,7 +758,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return cachePointBlock;
     }
 
-    private ObjectNode toBedrockMessage(String role, JsonNode claudeContent) {
+    private ObjectNode toBedrockMessage(
+            String role,
+            JsonNode claudeContent,
+            ProtocolConversionRouteContext routeContext
+    ) {
         ObjectNode msg = json.objectNode();
         msg.put("role", switch (role) {
             case "assistant" -> "assistant";
@@ -778,10 +789,12 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                          "code_execution_tool_result", "bash_code_execution_tool_result",
                          "text_editor_code_execution_tool_result", "tool_search_tool_result" -> contentBlocks.add(toBedrockToolResult(item));
                     case "thinking", "reasoning" -> {
-                        if (ResponsesReasoningBridge.isResponsesSignature(item.path("signature").asText(""))) {
+                        Optional<String> bedrockSignature = BedrockReasoningBridge.decode(
+                                item.path("signature").asText(""), routeContext);
+                        if (bedrockSignature.isEmpty()) {
                             blockMapped = false;
                         } else {
-                            contentBlocks.add(toBedrockReasoningContent(item));
+                            contentBlocks.add(toBedrockReasoningContent(item, bedrockSignature.orElseThrow()));
                         }
                     }
                     case "redacted_thinking" -> contentBlocks.add(toBedrockRedactedReasoningContent(item));
@@ -965,15 +978,12 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return block;
     }
 
-    private ObjectNode toBedrockReasoningContent(JsonNode item) {
+    private ObjectNode toBedrockReasoningContent(JsonNode item, String signature) {
         ObjectNode block = json.objectNode();
         ObjectNode reasoningContent = json.objectNode();
         ObjectNode reasoningText = json.objectNode();
         reasoningText.put("text", item.path("thinking").asText(item.path("text").asText("")));
-        JsonNode signature = item.get("signature");
-        if (signature != null && signature.isTextual()) {
-            reasoningText.put("signature", signature.asText());
-        }
+        reasoningText.put("signature", signature);
         reasoningContent.set("reasoningText", reasoningText);
         block.set("reasoningContent", reasoningContent);
         return block;
@@ -1210,7 +1220,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
     }
 
-    private void appendBedrockBlockAsClaudeContent(ArrayNode content, JsonNode block) {
+    private void appendBedrockBlockAsClaudeContent(
+            ArrayNode content,
+            JsonNode block,
+            ProtocolConversionRouteContext routeContext
+    ) {
         if (block.has("text")) {
             ObjectNode textBlock = json.objectNode();
             textBlock.put("type", "text");
@@ -1235,8 +1249,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             thinkingBlock.put("type", "thinking");
             thinkingBlock.put("thinking", reasoningText.path("text").asText(reasoningText.asText("")));
             JsonNode signature = reasoningText.get("signature");
-            if (signature != null && signature.isTextual()) {
-                thinkingBlock.put("signature", signature.asText());
+            if (signature != null && signature.isTextual() && !signature.asText().isBlank()) {
+                thinkingBlock.put("signature", BedrockReasoningBridge.encode(signature.asText(), routeContext));
             }
             content.add(thinkingBlock);
             return;

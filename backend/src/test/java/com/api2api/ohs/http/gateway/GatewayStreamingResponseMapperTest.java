@@ -13,6 +13,7 @@ import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.gateway.model.GatewayInvocation;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.usage.model.UsageRecordId;
@@ -44,6 +45,8 @@ class GatewayStreamingResponseMapperTest {
         when(invocation.requestProtocol()).thenReturn(ProtocolType.CLAUDE_MESSAGES);
         when(candidate.requiresProtocolConversion()).thenReturn(true);
         when(candidate.requestedModel()).thenReturn(ModelName.of("claude-opus-4.6"));
+        when(candidate.providerChannelId()).thenReturn(ProviderChannelId.of(1L));
+        when(candidate.upstreamModel()).thenReturn(ModelName.of("anthropic.claude-opus-4-6-v1:0"));
         GatewayStreamingInvocation streamingInvocation = GatewayStreamingInvocation.opened(
                 invocation,
                 UsageRecordId.of(1L),

@@ -36,7 +36,7 @@ final class ClaudeRequestSanitizer {
             JsonNode sanitizedMessages = ClaudeConversationContextOptimizer.sanitizeCompactionHistory(
                     messages, source.get("context_management"));
             if (targetProtocol == ProtocolType.CLAUDE_MESSAGES) {
-                sanitizedMessages = removeResponsesThinkingState(sanitizedMessages);
+                sanitizedMessages = removeForeignThinkingState(sanitizedMessages);
             }
             if (sanitizedMessages == messages) {
                 return payload;
@@ -53,7 +53,7 @@ final class ClaudeRequestSanitizer {
         }
     }
 
-    private static JsonNode removeResponsesThinkingState(JsonNode messages) {
+    private static JsonNode removeForeignThinkingState(JsonNode messages) {
         if (messages == null || !messages.isArray()) {
             return messages;
         }
@@ -70,7 +70,7 @@ final class ClaudeRequestSanitizer {
             for (int contentIndex = content.size() - 1; contentIndex >= 0; contentIndex--) {
                 JsonNode block = content.get(contentIndex);
                 if (!"thinking".equals(block.path("type").asText(""))
-                        || !ResponsesReasoningBridge.isResponsesSignature(block.path("signature").asText(""))) {
+                        || !isForeignThinkingSignature(block.path("signature").asText(""))) {
                     continue;
                 }
                 if (sanitized == null) {
@@ -80,5 +80,10 @@ final class ClaudeRequestSanitizer {
             }
         }
         return sanitized == null ? messages : sanitized;
+    }
+
+    private static boolean isForeignThinkingSignature(String signature) {
+        return ResponsesReasoningBridge.isResponsesSignature(signature)
+                || BedrockReasoningBridge.isBedrockSignature(signature);
     }
 }

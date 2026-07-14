@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
+import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -624,6 +625,89 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_omitsForeignThinkingSignature_when_claudeHistoryTargetsBedrock() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":1024,"messages":[
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"summary","signature":"native-claude-signature"},
+                    {"type":"text","text":"visible answer"}
+                  ]},
+                  {"role":"user","content":"continue"}
+                ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("visible answer");
+    }
+
+    @Test
+    void test_restoresBedrockThinkingSignature_when_wrappedStateReturns() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":1024,"messages":[
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"think","signature":"%s"},
+                    {"type":"tool_use","id":"toolu_1","name":"Read","input":{}}
+                  ]}
+                ]}
+                """.formatted(BedrockReasoningBridge.encode(
+                        "bedrock-signature", new ProtocolConversionRouteContext(1L, "bedrock-model")));
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, true).forRoute(1L, "bedrock-model")
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/reasoningContent/reasoningText/signature").asText())
+                .isEqualTo("bedrock-signature");
+    }
+
+    @Test
+    void test_omitsBedrockThinkingSignature_when_routeModelChanges() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String previousSignature = BedrockReasoningBridge.encode(
+                "bedrock-signature", new ProtocolConversionRouteContext(1L, "old-bedrock-model"));
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":1024,"messages":[
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"think","signature":"%s"},
+                    {"type":"text","text":"visible answer"}
+                  ]}
+                ]}
+                """.formatted(previousSignature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true).forRoute(2L, "new-bedrock-model")
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("visible answer");
+    }
+
+    @Test
     void shouldMapBedrockToolUseAndReasoningToClaudeResponse() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,
@@ -646,13 +730,16 @@ class BedrockConverseProtocolMessageConverterTest {
 
         ProtocolConversionResult result = converter.convert(
                 ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
-                ProtocolConversionRequest.of(false, true, true)
+                ProtocolConversionRequest.of(false, true, true).forRoute(1L, "bedrock-model")
         );
 
         JsonNode mapped = objectMapper.readTree(result.body());
         assertThat(mapped.at("/content/0/type").asText()).isEqualTo("thinking");
         assertThat(mapped.at("/content/0/thinking").asText()).isEqualTo("think");
-        assertThat(mapped.at("/content/0/signature").asText()).isEqualTo("sig");
+        assertThat(BedrockReasoningBridge.decode(
+                mapped.at("/content/0/signature").asText(),
+                new ProtocolConversionRouteContext(1L, "bedrock-model")))
+                .contains("sig");
         assertThat(mapped.at("/content/1/type").asText()).isEqualTo("tool_use");
         assertThat(mapped.at("/content/1/id").asText()).isEqualTo("toolu_1");
         assertThat(mapped.at("/stop_reason").asText()).isEqualTo("tool_use");

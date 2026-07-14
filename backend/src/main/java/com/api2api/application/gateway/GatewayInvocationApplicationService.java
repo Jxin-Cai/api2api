@@ -353,7 +353,7 @@ public class GatewayInvocationApplicationService {
         ConversionResult requestConversion = protocolConversionService.convertRequest(
                 requestPayload,
                 candidate.upstreamProtocol(),
-                invocation.requirement(),
+                conversionRequirement(invocation, candidate),
                 route.conversionDefinitions()
         );
         GatewayInvocation convertedInvocation = gatewayInvocationService.recordConversion(
@@ -387,7 +387,7 @@ public class GatewayInvocationApplicationService {
         ConversionResult responseConversion = protocolConversionService.convertResponse(
                 upstreamResponsePayload,
                 command.getRequestProtocol(),
-                invocation.requirement(),
+                conversionRequirement(invocation, candidate),
                 route.conversionDefinitions()
         );
         responseConversion = rewriteResponseModel(candidate, responseConversion);
@@ -493,7 +493,7 @@ public class GatewayInvocationApplicationService {
         ConversionResult requestConversion = protocolConversionService.convertRequest(
                 requestPayload,
                 candidate.upstreamProtocol(),
-                invocation.requirement(),
+                conversionRequirement(invocation, candidate),
                 route.conversionDefinitions()
         );
         GatewayInvocation convertedInvocation = gatewayInvocationService.recordConversion(
@@ -574,6 +574,16 @@ public class GatewayInvocationApplicationService {
                 command.getRequestProtocol(),
                 command.getRequestBody(),
                 candidate.upstreamModel()
+        );
+    }
+
+    private ConversionRequirement conversionRequirement(
+            GatewayInvocation invocation,
+            RouteCandidate candidate
+    ) {
+        return invocation.requirement().forRoute(
+                candidate.providerChannelId().value(),
+                candidate.upstreamModel().value()
         );
     }
 

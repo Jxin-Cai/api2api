@@ -176,7 +176,7 @@ class ProtocolConverterConfiguration {
         }
 
         @Override
-        protected JsonNode convertRequestJson(JsonNode source) {
+        protected JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement) {
             if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
                 return claudeRequestToChat(source);
             }
@@ -196,7 +196,7 @@ class ProtocolConverterConfiguration {
         }
 
         @Override
-        protected JsonNode convertResponseJson(JsonNode source) {
+        protected JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement) {
             if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
                 return claudeResponseToChat(source);
             }
