@@ -102,7 +102,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         int compactThreshold = extractCompactThreshold(source.get("context_management"));
 
         ArrayNode bedrockMessages = json.arrayNode();
-        JsonNode messages = source.get("messages");
+        JsonNode messages = ClaudeConversationContextOptimizer.optimize(
+                source.get("messages"), source.get("context_management"));
         if (compactThreshold > 0 && messages != null && messages.isArray()) {
             messages = compactMessagesClientSide(messages, compactThreshold);
         }
@@ -493,7 +494,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         int threshold = -1;
         for (JsonNode edit : edits) {
             String type = edit.path("type").asText("");
-            if ("clear_thinking_20251015".equals(type)) {
+            if ("clear_thinking_20251015".equals(type) || "clear_tool_uses_20250919".equals(type)) {
                 continue;
             }
             if (type.startsWith("compact_")) {
@@ -668,21 +669,35 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (!isEphemeralCacheControl(cacheControl)) {
             return;
         }
-        ObjectNode cachePoint = cachePointBlock(cacheControl);
-        JsonNode messages = target.get("messages");
-        if (messages != null && messages.isArray() && !messages.isEmpty()) {
-            ((ArrayNode) messages.get(messages.size() - 1).path("content")).add(cachePoint);
+        if (countCachePoints(target) >= 4) {
             return;
         }
+        ObjectNode cachePoint = cachePointBlock(cacheControl);
         JsonNode system = target.get("system");
-        if (system != null && system.isArray()) {
+        if (system != null && system.isArray() && !system.isEmpty()) {
             ((ArrayNode) system).add(cachePoint);
             return;
         }
         JsonNode tools = target.path("toolConfig").get("tools");
-        if (tools != null && tools.isArray()) {
+        if (tools != null && tools.isArray() && !tools.isEmpty()) {
             ((ArrayNode) tools).add(cachePoint);
+            return;
         }
+        JsonNode messages = target.get("messages");
+        if (messages != null && messages.isArray() && !messages.isEmpty()) {
+            ((ArrayNode) messages.get(messages.size() - 1).path("content")).add(cachePoint);
+        }
+    }
+
+    private int countCachePoints(JsonNode node) {
+        if (node == null || node.isNull()) {
+            return 0;
+        }
+        int count = node.has("cachePoint") ? 1 : 0;
+        for (JsonNode child : node) {
+            count += countCachePoints(child);
+        }
+        return count;
     }
 
     private ArrayNode claudeSystemToBedrock(JsonNode system) {

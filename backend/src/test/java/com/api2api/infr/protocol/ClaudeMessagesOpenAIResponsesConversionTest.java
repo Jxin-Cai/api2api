@@ -118,7 +118,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldRejectNonNoopClearThinkingContextManagementForResponses() {
+    void test_rejectsInvalidThinkingKeepPolicy_when_keepIsNone() {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -134,7 +134,43 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThatThrownBy(() -> converter.convert(
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, false, false)
-        )).hasMessageContaining("CLAUDE_RESPONSES_CONTEXT_EDIT_NOT_SUPPORTED: clear_thinking_20251015");
+        )).hasMessageContaining("CLAUDE_INVALID_CLEAR_THINKING_KEEP");
+    }
+
+    @Test
+    void test_clearsOldToolResultLocally_when_responsesCannotApplyClaudeContextEditing() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"gpt-5.5",
+                  "max_tokens":1024,
+                  "context_management":{"edits":[{
+                    "type":"clear_tool_uses_20250919",
+                    "trigger":{"type":"tool_uses","value":1},
+                    "keep":{"type":"tool_uses","value":1}
+                  }]},
+                  "messages":[
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-1","name":"Read","input":{"path":"old"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"old result"}]},
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-2","name":"Read","input":{"path":"current"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"current result"}]}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/input/1/output").asText())
+                .isEqualTo("[Tool result cleared by context management]");
+        assertThat(mapped.at("/input/3/output").asText()).isEqualTo("current result");
     }
 
     @Test

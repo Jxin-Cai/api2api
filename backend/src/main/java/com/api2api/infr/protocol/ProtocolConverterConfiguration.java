@@ -281,9 +281,11 @@ class ProtocolConverterConfiguration {
             if (!text.isEmpty()) {
                 target.set("text", text);
             }
+            JsonNode optimizedMessages = ClaudeConversationContextOptimizer.optimize(
+                    source.get("messages"), source.get("context_management"));
             ArrayNode input = json.arrayNode();
             input.addAll(claudeSystemToResponsesInput(source.get("system"), model));
-            input.addAll(claudeMessagesToResponsesInput(source.get("messages"), model));
+            input.addAll(claudeMessagesToResponsesInput(optimizedMessages, model));
             applyTopLevelCacheControl(input, source.get("cache_control"), model);
             target.set("input", input);
             ArrayNode mappedTools = claudeToolsToResponses(
@@ -1172,6 +1174,10 @@ class ProtocolConverterConfiguration {
             ArrayNode converted = json.arrayNode();
             for (JsonNode edit : edits) {
                 if (isNoopClearThinkingContextEdit(edit)) {
+                    continue;
+                }
+                if ("clear_thinking_20251015".equals(edit.path("type").asText(""))
+                        || "clear_tool_uses_20250919".equals(edit.path("type").asText(""))) {
                     continue;
                 }
                 if ("compact_20260112".equals(edit.path("type").asText(""))) {

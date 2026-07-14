@@ -244,6 +244,133 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_mapsClearedToolResultPlaceholder_when_bedrockCannotApplyContextEditing() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":1024,
+                  "context_management":{"edits":[{
+                    "type":"clear_tool_uses_20250919",
+                    "trigger":{"type":"tool_uses","value":1},
+                    "keep":{"type":"tool_uses","value":1}
+                  }]},
+                  "messages":[
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-1","name":"Read","input":{"path":"old"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"old result"}]},
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-2","name":"Read","input":{"path":"current"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"current result"}]}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/1/content/0/toolResult/content/0/text").asText())
+                .isEqualTo("[Tool result cleared by context management]");
+        assertThat(mapped.at("/messages/3/content/0/toolResult/content/0/text").asText())
+                .isEqualTo("current result");
+    }
+
+    @Test
+    void test_rejectsRequestBeforeFourthExecution_when_successfulToolCallRepeatedThreeTimes() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":1024,
+                  "messages":[
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-1","name":"Write","input":{"path":"same"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"success"}]},
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-2","name":"Write","input":{"path":"same"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"success"}]},
+                    {"role":"assistant","content":[{"type":"tool_use","id":"call-3","name":"Write","input":{"path":"same"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-3","content":"success"}]}
+                  ]
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        )).hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL");
+    }
+
+    @Test
+    void test_placesTopLevelCachePointOnStableSystemPrefix_when_systemExists() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":1024,
+                  "cache_control":{"type":"ephemeral"},
+                  "system":"stable instructions",
+                  "messages":[{"role":"user","content":"dynamic turn"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/system/1/cachePoint/type").asText()).isEqualTo("default");
+        assertThat(mapped.at("/messages/0/content/1/cachePoint").isMissingNode()).isTrue();
+    }
+
+    @Test
+    void test_skipsTopLevelCachePoint_when_fourExplicitCheckpointsAlreadyExist() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":1024,
+                  "cache_control":{"type":"ephemeral"},
+                  "system":[
+                    {"type":"text","text":"one","cache_control":{"type":"ephemeral"}},
+                    {"type":"text","text":"two","cache_control":{"type":"ephemeral"}},
+                    {"type":"text","text":"three","cache_control":{"type":"ephemeral"}},
+                    {"type":"text","text":"four","cache_control":{"type":"ephemeral"}}
+                  ],
+                  "messages":[{"role":"user","content":"dynamic turn"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/system").findValues("cachePoint")).hasSize(4);
+    }
+
+    @Test
     void shouldDropClaudeMetadataValuesThatBedrockRequestMetadataRejects() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,

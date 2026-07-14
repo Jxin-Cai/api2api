@@ -18,7 +18,7 @@ client tool result 会始终显式写入 Converse `status=success|error`。`AskU
 - `allowed_callers` 中的 `code_execution_*`，以及响应里的 `caller`。这属于 programmatic tool calling，Anthropic 官方明确说明 Bedrock 不支持；请求会明确失败。仅 `direct` 可无损接受。
 - `tool_choice.disable_parallel_tool_use`。Converse 没有等价开关，请求会明确失败。
 - `output_config.task_budget`。Converse 没有等价字段，请求会明确失败。
-- `context_management`。Claude Code 默认发送的 `clear_thinking_20251015 + keep: "all"` 或 `keep: {"type":"all"}` 会被兼容接收，但不会写入 Converse 请求；该配置本身不删除 thinking，因此语义不变。`clear_tool_uses`、实际清除 thinking、compaction 等其他策略会明确失败。AWS server-side compaction 目前仅支持 InvokeModel，不支持 Converse。
+- `context_management` 没有 Converse 原生字段，因此由网关在转换前执行等价的客户端侧编辑：支持 `clear_thinking_20251015` 的 `keep: all` / 最近 N 个 thinking turns，以及 `clear_tool_uses_20250919` 的 input-token/tool-use trigger、keep、clear-at-least、exclude-tools 和 clear-tool-inputs。旧结果替换为明确占位符，最近工具循环及其 thinking 不被破坏。超过 100,000 估算 input tokens 且客户端未配置 tool-result clearing 时，网关按 Anthropic 默认策略保留最近 3 组工具交互；真正的 server-side compaction 仍不是 Converse 能力，`compact_*` 继续走现有客户端降级路径。
 - URL 图片。Converse 图片块要求字节数据；客户端需发送 base64。
 - citation 的完整结构化元数据。引用文本可以保留，但 Claude 与 Converse 的引用对象并非完全同构。
 - prompt cache 的可移植保障。字段可转换，但具体模型是否支持 1h TTL、可放置的 cache point 数量及最小 token 数由 Bedrock 模型决定；例如不支持 1h 的模型会由 AWS 拒绝。
@@ -46,7 +46,7 @@ client tool result 会始终显式写入 Converse `status=success|error`。`AskU
 | Programmatic tool calling | `allowed_callers=[direct,code_execution_*]`、`caller` | `allowed_callers=[direct,programmatic]`、`programmatic_tool_calling`、`caller.type=program` | GPT-5.6+ 映射；已支持 `code_execution_20250825`、`20260120`、`20260521`；`caller_id` 通过合成 code-execution tool id 可逆回传，响应采用当前 `code_execution_20260521` 标记 |
 | 推理强度 | `thinking`、`output_config.effort` | `reasoning.effort/summary/context` | manual budget 近似为档位；GPT-5.6+ 支持 `max` 和 `context=all_turns` |
 | 推理连续性 | `thinking{signature}` | `reasoning{id,encrypted_content}` | 用版本化 signature 双向封装；缺失加密状态会明确失败，不假装成功 |
-| 上下文压缩 | `context_management compact_*`、`compaction` block | `context_management[{type:compaction}]`、encrypted compaction item | OpenAI encrypted item 用 opaque thinking signature 回传，并在下一轮删除其前方历史；仅有压缩状态而无 final message 时返回 `pause_turn`；Claude readable summary 转成压缩后的 assistant summary |
+| 上下文治理 | `clear_thinking`、`clear_tool_uses`、`compact_*`、`compaction` block | 网关本地编辑 + `context_management[{type:compaction}]`、encrypted compaction item | clear 策略在转换前执行；OpenAI encrypted compaction item 用 opaque thinking signature 回传并删除其前方历史；仅有压缩状态而无 final message 时返回 `pause_turn` |
 | Prompt cache | `cache_control`、5m/1h | `prompt_cache_breakpoint`、`prompt_cache_options`、`prompt_cache_key` | GPT-5.6+ 对 `input_text/image/file` 使用 explicit breakpoint；生成跨 follow-up 稳定 key；OpenAI 当前唯一可配置的是至少 30m |
 | 结构化输出 | `output_config.format` | `text.format` | JSON Schema 缺 name 时补稳定默认名 |
 | Web search | `web_search_*` + domain/location | `web_search` + filters/location | allowed domains 和 location 映射；托管调用状态用 opaque signature 续传 |
@@ -79,7 +79,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - `output_config.task_budget`：Responses 没有等价预算参数，请求明确失败。
 - manual thinking 的精确 `budget_tokens`：只能近似为 OpenAI reasoning effort 档位。
 - cache TTL：Claude 的 5m/1h 统一映射到 OpenAI 当前唯一可配置的至少 30m（实际可能保留更久）；assistant `output_text` 上的显式 cache marker 没有合法 breakpoint 位置，只能依赖相同 `prompt_cache_key` 的隐式缓存。`max_tokens: 0` cache-only 与 Claude cache diagnostics 也没有等价语义，会明确失败。
-- compaction 表示：Claude 原生 compaction 是可读 summary，OpenAI 是不可读 encrypted item，不能伪装为同一内容块；服务保留上下文效果和可重放状态，但 UI 形态不同。compaction instructions、pause，以及其他 clear-tool-use/clear-thinking/memory edits 仍会明确失败。
+- compaction 表示：Claude 原生 compaction 是可读 summary，OpenAI 是不可读 encrypted item，不能伪装为同一内容块；服务保留上下文效果和可重放状态，但 UI 形态不同。`clear_tool_uses_20250919` 和 `clear_thinking_20251015` 由网关本地执行；compaction instructions、pause 及未知 memory edits 仍会明确失败。
 - Programmatic 的 runtime 并非同一个实现：OpenAI 执行 JavaScript program，Claude 原生 code execution 以 Python/bash container 为主。服务会生成可见的 Claude code-execution call/result 并用 opaque signature 精确续传 OpenAI fingerprint，但 container 生命周期、语言/runtime 不能伪装成同一个；GPT-5.5 及更早模型不启用该映射。
 - Programmatic client tool result 在两边都必须是字符串或 text blocks；图片、文档等结果不能交给正在等待的 program，转换器会明确失败。Claude 工具协议没有 OpenAI function `output_schema` 字段，结构化返回格式只能继续依赖工具 description。
 - Responses free-form custom tool 输入只有字符串，而 Claude `tool_use.input` 必须是对象；包装后的工具只有在 Claude Code 确实暴露同名且接受 `input` 字段时才可执行。
@@ -96,7 +96,9 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - 常规编码循环（读写文件、命令执行、Todo/计划、普通 MCP、自定义工具、thinking、结构化输出）两条路径都可工作。
 - Responses GPT-5.4+ 对延迟工具和工具前导语的保真度更高；GPT-5.6+ 还能保留 `max` effort、跨轮 persisted reasoning、显式 cache breakpoint 和 programmatic tool calling。
 - Bedrock Converse 的主要硬上限是没有 Anthropic server tools、tool search、programmatic tool calling 和 server-side context editing。当前实现优先保住“工具可调用”，代价是把 deferred tools 全量展开。
-- 任何无法可靠表达的字段均显式返回 conversion error，不再静默丢弃。Claude Code 的 `clear_thinking + keep all` 是唯一按无操作语义兼容忽略的 context edit。
+- 两条转换路径都有无状态循环保护：相同名称和参数的工具连续成功 2 次时，仅在本次上游请求中追加纠偏提示；连续成功 3 次时转换 fail-closed，阻止第 4 次执行。新的用户指令会重置计数，不影响用户明确要求的重复操作。
+- Bedrock 顶层 cache control 优先落在稳定的 system/tools 前缀，避免每轮只缓存持续增长的动态尾部；单请求最多保留 4 个 Bedrock cache checkpoints。
+- 任何无法可靠表达的字段均显式返回 conversion error，不再静默丢弃；受支持的 clear 策略会先在网关本地执行，`clear_thinking + keep all` 则按无操作语义保留完整 thinking。
 
 ## 模型与错误语义
 
@@ -106,5 +108,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 
 ## 官方协议依据
 
-- Anthropic Messages create、tool reference、programmatic tool calling、compaction、prompt caching：<https://platform.claude.com/docs/en/api/messages/create>、<https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference>、<https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling>、<https://platform.claude.com/docs/en/build-with-claude/compaction>、<https://platform.claude.com/docs/en/build-with-claude/prompt-caching>
+- Anthropic Messages create、tool reference、programmatic tool calling、context editing、compaction、prompt caching：<https://platform.claude.com/docs/en/api/messages/create>、<https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference>、<https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling>、<https://platform.claude.com/docs/en/build-with-claude/context-editing>、<https://platform.claude.com/docs/en/build-with-claude/compaction>、<https://platform.claude.com/docs/en/build-with-claude/prompt-caching>
+- AWS Bedrock Converse prompt caching 与 cache checkpoint 限制：<https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html>
+- OpenAI Agents SDK 的 max turns / tool-loop safety：<https://openai.github.io/openai-agents-python/running_agents/>、<https://openai.github.io/openai-agents-js/guides/agents/>
 - OpenAI Responses programmatic tool calling、prompt caching、compaction、reasoning：<https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling>、<https://developers.openai.com/api/docs/guides/prompt-caching>、<https://developers.openai.com/api/docs/guides/compaction>、<https://developers.openai.com/api/docs/guides/reasoning>
