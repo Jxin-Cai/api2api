@@ -5,11 +5,13 @@ import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 import java.util.function.BiFunction;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class StreamingPassthroughUsageExtractor {
+
+    private static final Set<String> CLAUDE_TERMINAL_EVENTS = Set.of("message_stop", "error");
+    private static final Set<String> RESPONSES_TERMINAL_EVENTS = Set.of(
+            "response.completed",
+            "response.failed",
+            "response.incomplete",
+            "error"
+    );
 
     private final ObjectMapper objectMapper;
 
@@ -42,22 +52,36 @@ public class StreamingPassthroughUsageExtractor {
     }
 
     private UnifiedTokenUsage extractClaudeMessages(InputStream input, OutputStream output) throws IOException {
-        return extractByEvent(input, output, "message_delta", this::tryExtractClaudeUsage);
+        return extractByEvent(
+                input,
+                output,
+                "message_delta",
+                CLAUDE_TERMINAL_EVENTS,
+                this::tryExtractClaudeUsage
+        );
     }
 
     private UnifiedTokenUsage extractOpenAIResponses(InputStream input, OutputStream output) throws IOException {
-        return extractByEvent(input, output, "response.completed", this::tryExtractOpenAIResponsesUsage);
+        return extractByEvent(
+                input,
+                output,
+                "response.completed",
+                RESPONSES_TERMINAL_EVENTS,
+                this::tryExtractOpenAIResponsesUsage
+        );
     }
 
     private UnifiedTokenUsage extractByEvent(
             InputStream input,
             OutputStream output,
             String targetEvent,
+            Set<String> terminalEvents,
             BiFunction<String, UnifiedTokenUsage, UnifiedTokenUsage> extractor
     ) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
         UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
         String currentEvent = null;
+        boolean terminalEventSeen = false;
         String line;
         while ((line = reader.readLine()) != null) {
             output.write(line.getBytes(StandardCharsets.UTF_8));
@@ -69,7 +93,15 @@ public class StreamingPassthroughUsageExtractor {
                 if (!data.isEmpty() && !"[DONE]".equals(data)) {
                     usage = extractor.apply(data, usage);
                 }
+            } else if (line.isEmpty()) {
+                terminalEventSeen |= terminalEvents.contains(currentEvent);
+                output.flush();
+                currentEvent = null;
             }
+        }
+        output.flush();
+        if (!terminalEventSeen) {
+            throw new EOFException("Upstream SSE stream ended before a terminal event");
         }
         return usage;
     }
@@ -77,16 +109,29 @@ public class StreamingPassthroughUsageExtractor {
     private UnifiedTokenUsage extractOpenAIChatCompletions(InputStream input, OutputStream output) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
         UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
+        boolean terminalEventSeen = false;
+        boolean currentEventTerminal = false;
         String line;
         while ((line = reader.readLine()) != null) {
             output.write(line.getBytes(StandardCharsets.UTF_8));
             output.write('\n');
             if (line.startsWith("data:")) {
                 String data = line.substring(5).trim();
-                if (!data.isEmpty() && !"[DONE]".equals(data)) {
+                if ("[DONE]".equals(data)) {
+                    currentEventTerminal = true;
+                } else if (!data.isEmpty()) {
                     usage = tryExtractOpenAIChatCompletionsUsage(data, usage);
                 }
             }
+            if (line.isEmpty()) {
+                terminalEventSeen |= currentEventTerminal;
+                currentEventTerminal = false;
+                output.flush();
+            }
+        }
+        output.flush();
+        if (!terminalEventSeen) {
+            throw new EOFException("Upstream SSE stream ended before a terminal event");
         }
         return usage;
     }
@@ -140,14 +185,16 @@ public class StreamingPassthroughUsageExtractor {
             if (usageNode.isMissingNode() || usageNode.isNull()) {
                 return fallback;
             }
-            long cacheReadTokens = usageNode.path("prompt_tokens_details").path("cached_tokens").asLong(0);
+            JsonNode details = usageNode.path("prompt_tokens_details");
+            long cacheReadTokens = details.path("cached_tokens").asLong(0);
+            long cacheWriteTokens = details.path("cache_write_tokens").asLong(0);
             long promptTokens = usageNode.path("prompt_tokens").asLong(0);
-            long inputTokens = Math.max(0, promptTokens - cacheReadTokens);
+            long inputTokens = Math.max(0, promptTokens - cacheReadTokens - cacheWriteTokens);
             long outputTokens = usageNode.path("completion_tokens").asLong(0);
             if (inputTokens <= 0 && outputTokens <= 0) {
                 return fallback;
             }
-            return UnifiedTokenUsage.known(inputTokens, outputTokens, 0, cacheReadTokens);
+            return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
         } catch (Exception ignored) {
             return fallback;
         }

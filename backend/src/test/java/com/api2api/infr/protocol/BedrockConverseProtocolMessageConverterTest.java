@@ -463,6 +463,102 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_reinforcesWorkflowInvocation_when_skillExpansionRequiresWorkflowInvocation() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,"tool_choice":{"type":"auto"},
+                 "thinking":{"type":"adaptive"},
+                 "tools":[
+                   {"name":"Workflow","description":"Launch a workflow","input_schema":{"type":"object"},
+                    "defer_loading":true},
+                   {"name":"Read","description":"Read a file","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"tool_use","id":"skill_1","name":"Skill",
+                     "input":{"skill":"deep-research"}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"skill_1",
+                     "content":"Launching skill: deep-research"}]},
+                   {"role":"user","content":"Run the \\"deep-research\\" workflow.\\n\\nPhases:\\n- Search\\n\\nInvoke: Workflow({ name: \\"deep-research\\", args: \\"research APIs\\" })"}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.path("system").findValuesAsText("text"))
+                .contains("The latest user message is a Claude Code workflow dispatch instruction. "
+                        + "The workflow has not started merely because the Skill tool returned 'Launching skill'. "
+                        + "Invoke the Workflow tool exactly as requested before claiming that it is running.");
+    }
+
+    @Test
+    void test_keepsAutomaticToolChoice_when_thinkingAndWorkflowInvocationAreRequested() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,
+                 "thinking":{"type":"adaptive"},"tool_choice":{"type":"auto"},
+                 "tools":[
+                   {"name":"Workflow","input_schema":{"type":"object"}},
+                   {"name":"Read","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"user","content":"Run the \\"deep-research\\" workflow.\\n\\nInvoke: Workflow({ name: \\"deep-research\\" })"}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/toolChoice/auto").isObject()).isTrue();
+    }
+
+    @Test
+    void test_requiresCompletionValidation_when_backgroundAgentReportsCompleted() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,
+                 "thinking":{"type":"adaptive"},"tool_choice":{"type":"auto"},
+                 "tools":[
+                   {"name":"SendMessage","input_schema":{"type":"object"}},
+                   {"name":"Read","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"user","content":"<task-notification>\\n<task-id>agent-1</task-id>\\n<status>completed</status>\\n<result>Let me continue verifying the findings.</result>\\n</task-notification>"}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.path("system").findValuesAsText("text"))
+                .contains("A Claude Code task-notification status of 'completed' only means the background agent "
+                        + "stopped. Inspect its result and verify that the requested outcome or artifact was actually "
+                        + "produced. If the result is progress-only or incomplete, resume the same agent with "
+                        + "SendMessage using the task-id; do not report success or duplicate the task in the main agent.");
+    }
+
+    @Test
     void test_rejectsProgrammaticCaller_when_converseCannotPreserveCallerRestriction() {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(

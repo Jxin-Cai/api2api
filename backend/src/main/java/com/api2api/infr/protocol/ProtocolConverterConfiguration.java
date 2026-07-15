@@ -217,22 +217,331 @@ class ProtocolConverterConfiguration {
 
         private ObjectNode claudeRequestToChat(JsonNode source) {
             ObjectNode target = json.objectNode();
-            copyIfPresent(source, target, "model");
-            copyIfPresent(source, target, "max_tokens");
-            copyIfPresent(source, target, "temperature");
-            copyIfPresent(source, target, "top_p");
+            String model = source.path("model").asText("");
+            target.put("model", model);
+            boolean reasoning = isReasoningModel(model);
+
+            if (source.hasNonNull("max_tokens")) {
+                target.put("max_completion_tokens", source.get("max_tokens").asInt());
+            }
+            if (!reasoning) {
+                copyIfPresent(source, target, "temperature");
+                copyIfPresent(source, target, "top_p");
+            }
             copyIfPresent(source, target, "stream");
+            if (source.path("stream").asBoolean(false)) {
+                ObjectNode streamOptions = json.objectNode();
+                streamOptions.put("include_usage", true);
+                target.set("stream_options", streamOptions);
+            }
+            if (source.hasNonNull("stop_sequences")) {
+                target.set("stop", source.get("stop_sequences"));
+            }
+            copyIfPresent(source, target, "service_tier");
+
+            String effort = chatReasoningEffort(source);
+            if (effort != null) {
+                target.put("reasoning_effort", effort);
+            }
+
+            JsonNode metadata = source.get("metadata");
+            if (metadata != null && metadata.hasNonNull("user_id")) {
+                target.put("user", metadata.get("user_id").asText());
+            }
+
+            JsonNode tools = source.get("tools");
+            if (tools != null && tools.isArray() && !tools.isEmpty()) {
+                target.set("tools", claudeToolsToChat(tools));
+                JsonNode toolChoice = source.get("tool_choice");
+                if (toolChoice != null && !toolChoice.isNull()) {
+                    target.set("tool_choice", claudeToolChoiceToChat(toolChoice));
+                    if (toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
+                        target.put("parallel_tool_calls", false);
+                    }
+                }
+            }
+
+            JsonNode outputConfig = source.get("output_config");
+            if (outputConfig != null && outputConfig.isObject()) {
+                JsonNode format = outputConfig.get("format");
+                if (format != null && format.isObject()) {
+                    String formatType = format.path("type").asText("");
+                    if ("json_schema".equals(formatType)) {
+                        ObjectNode responseFormat = json.objectNode();
+                        responseFormat.put("type", "json_schema");
+                        ObjectNode jsonSchema = json.objectNode();
+                        jsonSchema.put("name", format.path("name").asText("response"));
+                        if (format.hasNonNull("schema")) {
+                            jsonSchema.set("schema", format.get("schema"));
+                        }
+                        jsonSchema.put("strict", true);
+                        responseFormat.set("json_schema", jsonSchema);
+                        target.set("response_format", responseFormat);
+                    } else if ("json".equals(formatType)) {
+                        ObjectNode responseFormat = json.objectNode();
+                        responseFormat.put("type", "json_object");
+                        target.set("response_format", responseFormat);
+                    }
+                }
+            }
+
             ArrayNode messages = json.arrayNode();
             JsonNode system = source.get("system");
             if (system != null && !system.isNull()) {
                 ObjectNode systemMessage = json.objectNode();
-                systemMessage.put("role", "system");
+                systemMessage.put("role", reasoning ? "developer" : "system");
                 systemMessage.put("content", system.isTextual() ? system.asText() : extractOpenAiContentText(system));
                 messages.add(systemMessage);
             }
-            messages.addAll(claudeMessagesToOpenAiInput(source.get("messages")));
+            JsonNode optimizedMessages = ClaudeConversationContextOptimizer.optimize(
+                    source.get("messages"), source.get("context_management"));
+            messages.addAll(claudeMessagesToChatMessages(optimizedMessages));
             target.set("messages", messages);
             return target;
+        }
+
+        private String chatReasoningEffort(JsonNode source) {
+            JsonNode outputConfig = source.get("output_config");
+            if (outputConfig != null && outputConfig.hasNonNull("effort")) {
+                String effort = outputConfig.get("effort").asText("high");
+                return switch (effort.toLowerCase()) {
+                    case "max" -> "xhigh";
+                    case "low" -> "low";
+                    case "medium" -> "medium";
+                    default -> "high";
+                };
+            }
+            JsonNode thinking = source.get("thinking");
+            if (thinking == null) thinking = source.get("reasoning");
+            if (thinking != null && thinking.hasNonNull("budget_tokens")) {
+                int budget = thinking.get("budget_tokens").asInt(0);
+                if (budget <= 1024) return "low";
+                if (budget <= 8192) return "medium";
+                return "high";
+            }
+            return null;
+        }
+
+        private ArrayNode claudeToolsToChat(JsonNode tools) {
+            ArrayNode result = json.arrayNode();
+            for (JsonNode tool : tools) {
+                ObjectNode chatTool = json.objectNode();
+                chatTool.put("type", "function");
+                ObjectNode function = json.objectNode();
+                function.put("name", tool.path("name").asText(""));
+                if (tool.hasNonNull("description")) {
+                    function.put("description", tool.get("description").asText(""));
+                }
+                if (tool.hasNonNull("input_schema")) {
+                    function.set("parameters", tool.get("input_schema"));
+                }
+                chatTool.set("function", function);
+                result.add(chatTool);
+            }
+            return result;
+        }
+
+        private JsonNode claudeToolChoiceToChat(JsonNode toolChoice) {
+            String type = toolChoice.isTextual()
+                    ? toolChoice.asText("auto")
+                    : toolChoice.path("type").asText("auto");
+            return switch (type) {
+                case "any" -> json.valueToTree("required");
+                case "none" -> json.valueToTree("none");
+                case "tool" -> {
+                    ObjectNode obj = json.objectNode();
+                    obj.put("type", "function");
+                    ObjectNode fn = json.objectNode();
+                    fn.put("name", toolChoice.path("name").asText(""));
+                    obj.set("function", fn);
+                    yield obj;
+                }
+                default -> json.valueToTree("auto");
+            };
+        }
+
+        private ArrayNode claudeMessagesToChatMessages(JsonNode messages) {
+            ArrayNode result = json.arrayNode();
+            if (messages == null || !messages.isArray()) return result;
+            for (JsonNode message : messages) {
+                String role = message.path("role").asText("user");
+                JsonNode content = message.get("content");
+                if ("assistant".equals(role)) {
+                    result.addAll(convertAssistantMessageToChat(content));
+                } else {
+                    result.addAll(convertUserMessageToChat(content));
+                }
+            }
+            return result;
+        }
+
+        private ArrayNode convertAssistantMessageToChat(JsonNode content) {
+            ArrayNode result = json.arrayNode();
+            if (content == null || content.isNull()) {
+                ObjectNode msg = json.objectNode();
+                msg.put("role", "assistant");
+                msg.putNull("content");
+                result.add(msg);
+                return result;
+            }
+            if (content.isTextual()) {
+                ObjectNode msg = json.objectNode();
+                msg.put("role", "assistant");
+                msg.put("content", content.asText());
+                result.add(msg);
+                return result;
+            }
+            StringBuilder textParts = new StringBuilder();
+            ArrayNode toolCalls = json.arrayNode();
+            for (JsonNode block : content) {
+                String type = block.path("type").asText("");
+                switch (type) {
+                    case "text" -> textParts.append(block.path("text").asText(""));
+                    case "tool_use" -> {
+                        ObjectNode call = json.objectNode();
+                        call.put("id", block.path("id").asText(""));
+                        call.put("type", "function");
+                        ObjectNode fn = json.objectNode();
+                        fn.put("name", block.path("name").asText(""));
+                        fn.put("arguments", block.hasNonNull("input")
+                                ? block.get("input").toString() : "{}");
+                        call.set("function", fn);
+                        toolCalls.add(call);
+                    }
+                    default -> {} // skip thinking, redacted_thinking etc.
+                }
+            }
+            ObjectNode msg = json.objectNode();
+            msg.put("role", "assistant");
+            if (!textParts.isEmpty()) {
+                msg.put("content", textParts.toString());
+            } else {
+                msg.putNull("content");
+            }
+            if (!toolCalls.isEmpty()) {
+                msg.set("tool_calls", toolCalls);
+            }
+            result.add(msg);
+            return result;
+        }
+
+        private ArrayNode convertUserMessageToChat(JsonNode content) {
+            ArrayNode result = json.arrayNode();
+            if (content == null || content.isNull()) {
+                ObjectNode msg = json.objectNode();
+                msg.put("role", "user");
+                msg.put("content", "");
+                result.add(msg);
+                return result;
+            }
+            if (content.isTextual()) {
+                ObjectNode msg = json.objectNode();
+                msg.put("role", "user");
+                msg.put("content", content.asText());
+                result.add(msg);
+                return result;
+            }
+            ArrayNode userParts = json.arrayNode();
+            for (JsonNode block : content) {
+                String type = block.path("type").asText("");
+                switch (type) {
+                    case "text" -> {
+                        ObjectNode part = json.objectNode();
+                        part.put("type", "text");
+                        part.put("text", block.path("text").asText(""));
+                        userParts.add(part);
+                    }
+                    case "image" -> {
+                        ObjectNode part = json.objectNode();
+                        part.put("type", "image_url");
+                        ObjectNode imageUrl = json.objectNode();
+                        JsonNode imgSource = block.get("source");
+                        if (imgSource != null && "base64".equals(imgSource.path("type").asText(""))) {
+                            String mediaType = imgSource.path("media_type").asText("image/png");
+                            String data = imgSource.path("data").asText("");
+                            imageUrl.put("url", "data:" + mediaType + ";base64," + data);
+                        } else if (imgSource != null && "url".equals(imgSource.path("type").asText(""))) {
+                            imageUrl.put("url", imgSource.path("url").asText(""));
+                        }
+                        part.set("image_url", imageUrl);
+                        userParts.add(part);
+                    }
+                    case "tool_result" -> {
+                        if (!userParts.isEmpty()) {
+                            ObjectNode userMsg = json.objectNode();
+                            userMsg.put("role", "user");
+                            userMsg.set("content", userParts.deepCopy());
+                            result.add(userMsg);
+                            userParts.removeAll();
+                        }
+                        ObjectNode toolMsg = json.objectNode();
+                        toolMsg.put("role", "tool");
+                        toolMsg.put("tool_call_id", block.path("tool_use_id").asText(""));
+                        toolMsg.put("content", extractToolResultContent(block));
+                        result.add(toolMsg);
+                        ArrayNode toolResultImages = extractToolResultImages(block);
+                        if (!toolResultImages.isEmpty()) {
+                            ObjectNode imgMsg = json.objectNode();
+                            imgMsg.put("role", "user");
+                            imgMsg.set("content", toolResultImages);
+                            result.add(imgMsg);
+                        }
+                    }
+                    default -> {} // skip thinking etc.
+                }
+            }
+            if (!userParts.isEmpty()) {
+                ObjectNode userMsg = json.objectNode();
+                userMsg.put("role", "user");
+                if (userParts.size() == 1 && "text".equals(userParts.get(0).path("type").asText(""))) {
+                    userMsg.put("content", userParts.get(0).path("text").asText(""));
+                } else {
+                    userMsg.set("content", userParts);
+                }
+                result.add(userMsg);
+            }
+            return result;
+        }
+
+        private String extractToolResultContent(JsonNode toolResult) {
+            JsonNode content = toolResult.get("content");
+            if (content == null || content.isNull()) return "";
+            if (content.isTextual()) return content.asText();
+            if (content.isArray()) {
+                StringBuilder sb = new StringBuilder();
+                for (JsonNode item : content) {
+                    if ("text".equals(item.path("type").asText(""))) {
+                        if (!sb.isEmpty()) sb.append("\n");
+                        sb.append(item.path("text").asText(""));
+                    }
+                }
+                return sb.toString();
+            }
+            return content.toString();
+        }
+
+        private ArrayNode extractToolResultImages(JsonNode toolResult) {
+            ArrayNode images = json.arrayNode();
+            JsonNode content = toolResult.get("content");
+            if (content == null || !content.isArray()) return images;
+            for (JsonNode item : content) {
+                if ("image".equals(item.path("type").asText(""))) {
+                    ObjectNode part = json.objectNode();
+                    part.put("type", "image_url");
+                    ObjectNode imageUrl = json.objectNode();
+                    JsonNode imgSource = item.get("source");
+                    if (imgSource != null && "base64".equals(imgSource.path("type").asText(""))) {
+                        String mediaType = imgSource.path("media_type").asText("image/png");
+                        String data = imgSource.path("data").asText("");
+                        imageUrl.put("url", "data:" + mediaType + ";base64," + data);
+                    } else if (imgSource != null && "url".equals(imgSource.path("type").asText(""))) {
+                        imageUrl.put("url", imgSource.path("url").asText(""));
+                    }
+                    part.set("image_url", imageUrl);
+                    images.add(part);
+                }
+            }
+            return images;
         }
 
         private ObjectNode claudeRequestToResponses(JsonNode source) {
@@ -1370,7 +1679,38 @@ class ProtocolConverterConfiguration {
             choice.put("index", 0);
             ObjectNode message = json.objectNode();
             message.put("role", "assistant");
-            message.put("content", firstTextFromClaudeContent(source.get("content")));
+
+            JsonNode contentBlocks = source.get("content");
+            StringBuilder textContent = new StringBuilder();
+            ArrayNode toolCalls = json.arrayNode();
+            if (contentBlocks != null && contentBlocks.isArray()) {
+                for (JsonNode block : contentBlocks) {
+                    String type = block.path("type").asText("");
+                    switch (type) {
+                        case "text" -> textContent.append(block.path("text").asText(""));
+                        case "tool_use" -> {
+                            ObjectNode call = json.objectNode();
+                            call.put("id", block.path("id").asText(""));
+                            call.put("type", "function");
+                            ObjectNode fn = json.objectNode();
+                            fn.put("name", block.path("name").asText(""));
+                            fn.put("arguments", block.hasNonNull("input")
+                                    ? block.get("input").toString() : "{}");
+                            call.set("function", fn);
+                            toolCalls.add(call);
+                        }
+                        default -> {}
+                    }
+                }
+            }
+            if (!textContent.isEmpty()) {
+                message.put("content", textContent.toString());
+            } else {
+                message.putNull("content");
+            }
+            if (!toolCalls.isEmpty()) {
+                message.set("tool_calls", toolCalls);
+            }
             choice.set("message", message);
             choice.put("finish_reason", mapStopToFinishReason(source.path("stop_reason").asText("end_turn")));
             choices.add(choice);
@@ -1398,10 +1738,47 @@ class ProtocolConverterConfiguration {
             target.put("role", "assistant");
             target.put("model", source.path("model").asText(""));
             ArrayNode content = json.arrayNode();
-            ObjectNode text = json.objectNode();
-            text.put("type", "text");
-            text.put("text", choice.path("message").path("content").asText(""));
-            content.add(text);
+
+            JsonNode msg = choice.path("message");
+            JsonNode reasoning = msg.get("reasoning_content");
+            if (reasoning != null && reasoning.isTextual() && !reasoning.asText().isEmpty()) {
+                ObjectNode thinkingBlock = json.objectNode();
+                thinkingBlock.put("type", "thinking");
+                thinkingBlock.put("thinking", reasoning.asText());
+                content.add(thinkingBlock);
+            }
+
+            String textContent = msg.path("content").asText("");
+            if (!textContent.isEmpty()) {
+                ObjectNode textBlock = json.objectNode();
+                textBlock.put("type", "text");
+                textBlock.put("text", textContent);
+                content.add(textBlock);
+            }
+
+            JsonNode toolCalls = msg.get("tool_calls");
+            if (toolCalls != null && toolCalls.isArray()) {
+                for (JsonNode call : toolCalls) {
+                    ObjectNode toolUseBlock = json.objectNode();
+                    toolUseBlock.put("type", "tool_use");
+                    toolUseBlock.put("id", call.path("id").asText(""));
+                    toolUseBlock.put("name", call.path("function").path("name").asText(""));
+                    String args = call.path("function").path("arguments").asText("{}");
+                    try {
+                        toolUseBlock.set("input", json.objectMapper().readTree(args));
+                    } catch (Exception e) {
+                        toolUseBlock.set("input", json.objectNode());
+                    }
+                    content.add(toolUseBlock);
+                }
+            }
+
+            if (content.isEmpty()) {
+                ObjectNode emptyText = json.objectNode();
+                emptyText.put("type", "text");
+                emptyText.put("text", "");
+                content.add(emptyText);
+            }
             target.set("content", content);
             target.put("stop_reason", mapFinishToStopReason(choice.path("finish_reason").asText("stop")));
             target.set("usage", claudeUsageFromChat(source.path("usage")));
@@ -1704,6 +2081,7 @@ class ProtocolConverterConfiguration {
             target.put("total_tokens", input + output);
             ObjectNode details = json.objectNode();
             details.put("cached_tokens", cacheRead);
+            details.put("cache_write_tokens", cacheCreation);
             target.set("prompt_tokens_details", details);
             return target;
         }
@@ -1725,10 +2103,12 @@ class ProtocolConverterConfiguration {
 
         private ObjectNode claudeUsageFromChat(JsonNode usage) {
             ObjectNode target = json.objectNode();
-            long cached = usage.path("prompt_tokens_details").path("cached_tokens").asLong(0);
-            target.put("input_tokens", Math.max(0, usage.path("prompt_tokens").asLong(0) - cached));
+            JsonNode details = usage.path("prompt_tokens_details");
+            long cached = details.path("cached_tokens").asLong(0);
+            long cacheWrite = details.path("cache_write_tokens").asLong(0);
+            target.put("input_tokens", Math.max(0, usage.path("prompt_tokens").asLong(0) - cached - cacheWrite));
             target.put("output_tokens", usage.path("completion_tokens").asLong(0));
-            target.put("cache_creation_input_tokens", 0);
+            target.put("cache_creation_input_tokens", cacheWrite);
             target.put("cache_read_input_tokens", cached);
             return target;
         }

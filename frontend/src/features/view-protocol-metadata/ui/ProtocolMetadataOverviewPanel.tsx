@@ -1,12 +1,23 @@
-import { useState } from 'react';
 import { Col, Row, Space, Typography } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 import { ProtocolMetadataCard, useProtocolMetadataList } from '@entities/protocol-metadata';
 import { PageState } from '@shared/ui';
 import { ProtocolMetadataDetailPanel } from './ProtocolMetadataDetailPanel';
 
 export function ProtocolMetadataOverviewPanel() {
   const { protocols, isLoading, isError, refetch } = useProtocolMetadataList();
-  const [selectedProtocol, setSelectedProtocol] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedProtocol = searchParams.get('protocol');
+
+  function handleProtocolSelect(protocolType: string): void {
+    const nextParams = new URLSearchParams(searchParams);
+    if (selectedProtocol === protocolType) {
+      nextParams.delete('protocol');
+    } else {
+      nextParams.set('protocol', protocolType);
+    }
+    setSearchParams(nextParams);
+  }
 
   if (isLoading) return <PageState status="loading" />;
   if (isError) return <PageState status="error" onRetry={() => void refetch()} />;
@@ -24,9 +35,7 @@ export function ProtocolMetadataOverviewPanel() {
             <ProtocolMetadataCard
               protocol={protocol}
               selected={selectedProtocol === protocol.protocolType}
-              onClick={() => setSelectedProtocol(
-                selectedProtocol === protocol.protocolType ? null : protocol.protocolType
-              )}
+              onClick={() => handleProtocolSelect(protocol.protocolType)}
             />
           </Col>
         ))}

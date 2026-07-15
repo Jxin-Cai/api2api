@@ -66,6 +66,8 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 
 - 常规编码工具循环：`Read`、`Write`、`Edit`、`Bash`、`Glob`、`Grep`、Todo/Task、plan mode、AskUserQuestion 等都作为普通 function tool 保留名称、schema、调用 id 和结果。
 - 子 Agent/后台任务：本质仍是工具调用与后续 `tool_result`；Responses 的 delta/done、失败和提前断流已按 Claude SSE 终止语义处理，不会把未完成上游流伪装成主 Agent 正常结束。
+- Claude Code Skill 展开消息明确要求 `Invoke: Workflow(...)` 时，Bedrock 路径会追加一次性纠偏指令，避免模型把 `Launching skill` 误认为工作流已经启动；工具选择仍保持 `auto`，以兼容 extended/adaptive thinking 对强制 tool choice 的限制。
+- Claude Code 后台 Agent 的 `<task-notification>` 中，`status=completed` 只表示 Agent 已停止，不保证任务产物完整。Bedrock 路径会要求主 Agent 校验结果；若仅返回过程文本或缺少目标产物，则通过 `SendMessage` 恢复原 Agent，而不是误报完成或在主线程重复执行。
 - adaptive/manual thinking、extended thinking 的摘要展示，以及跨轮 encrypted reasoning 恢复。
 - Claude Code 的 deferred tools/tool search；GPT-5.4+ 不需要像 Converse 那样展开全部工具。
 - Claude programmatic tool calling；GPT-5.6+ 可让 Responses program 调用 Claude Code 暴露的函数，并在结果回传时保留 `caller`。
@@ -96,7 +98,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - 常规编码循环（读写文件、命令执行、Todo/计划、普通 MCP、自定义工具、thinking、结构化输出）两条路径都可工作。
 - Responses GPT-5.4+ 对延迟工具和工具前导语的保真度更高；GPT-5.6+ 还能保留 `max` effort、跨轮 persisted reasoning、显式 cache breakpoint 和 programmatic tool calling。
 - Bedrock Converse 的主要硬上限是没有 Anthropic server tools、tool search、programmatic tool calling 和 server-side context editing。当前实现优先保住“工具可调用”，代价是把 deferred tools 全量展开。
-- 两条转换路径都有无状态循环保护：相同名称和参数的工具连续成功 2 次时，仅在本次上游请求中追加纠偏提示；连续成功 3 次时转换 fail-closed，阻止第 4 次执行。新的用户指令会重置计数，不影响用户明确要求的重复操作。
+- 两条转换路径都有无状态循环保护：相同名称和执行参数的工具连续成功 2 次时，仅在本次上游请求中追加纠偏提示；连续成功 3 次时转换 fail-closed，阻止第 4 次执行。Bash 调用的自然语言 `description` 不属于执行参数，修改描述不会绕过保护。新的用户指令会重置计数，不影响用户明确要求的重复操作。
 - Bedrock 顶层 cache control 优先落在稳定的 system/tools 前缀，避免每轮只缓存持续增长的动态尾部；单请求最多保留 4 个 Bedrock cache checkpoints。
 - 任何无法可靠表达的字段均显式返回 conversion error，不再静默丢弃；受支持的 clear 策略会先在网关本地执行，`clear_thinking + keep all` 则按无操作语义保留完整 thinking。
 

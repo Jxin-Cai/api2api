@@ -9,8 +9,9 @@ import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ModelName;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.api2api.domain.protocolcontract.acl.ExecutableProtocolContract;
+import com.api2api.domain.protocolcontract.model.ParsedGatewayRequest;
+import com.api2api.domain.protocolcontract.model.ProtocolContractViolationException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.NonNull;
@@ -56,7 +57,7 @@ public class GatewayProtocolController {
     private final GatewayStreamingResponseMapper streamingResponseMapper;
 
     @NonNull
-    private final ObjectMapper objectMapper;
+    private final ExecutableProtocolContract protocolContract;
 
     @GetMapping({"/v1/model", "/v1/models"})
     public GatewayModelListResponse listModels(
@@ -90,8 +91,9 @@ public class GatewayProtocolController {
     ) {
         log.info("Received Claude Messages request, X-Request-Id: {}", xRequestId);
 
-        JsonNode root = parseJsonBody(rawBody, ProtocolType.CLAUDE_MESSAGES);
-        ClaudeMessagesGatewayRequest protocolRequest = ClaudeMessagesGatewayRequest.of(rawBody, root);
+        ClaudeMessagesGatewayRequest protocolRequest = ClaudeMessagesGatewayRequest.fromContract(
+                protocolContract.parseRequest(ProtocolType.CLAUDE_MESSAGES, rawBody)
+        );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
@@ -126,8 +128,9 @@ public class GatewayProtocolController {
     ) {
         log.info("Received OpenAI Responses request, X-Request-Id: {}", xRequestId);
 
-        JsonNode root = parseJsonBody(rawBody, ProtocolType.OPENAI_RESPONSES);
-        OpenAIResponsesGatewayRequest protocolRequest = OpenAIResponsesGatewayRequest.of(rawBody, root);
+        OpenAIResponsesGatewayRequest protocolRequest = OpenAIResponsesGatewayRequest.fromContract(
+                protocolContract.parseRequest(ProtocolType.OPENAI_RESPONSES, rawBody)
+        );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
@@ -162,8 +165,9 @@ public class GatewayProtocolController {
     ) {
         log.info("Received OpenAI Chat Completions request, X-Request-Id: {}", xRequestId);
 
-        JsonNode root = parseJsonBody(rawBody, ProtocolType.OPENAI_CHAT_COMPLETIONS);
-        OpenAIChatCompletionsGatewayRequest protocolRequest = OpenAIChatCompletionsGatewayRequest.of(rawBody, root);
+        OpenAIChatCompletionsGatewayRequest protocolRequest = OpenAIChatCompletionsGatewayRequest.fromContract(
+                protocolContract.parseRequest(ProtocolType.OPENAI_CHAT_COMPLETIONS, rawBody)
+        );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
@@ -206,14 +210,11 @@ public class GatewayProtocolController {
         );
     }
 
-    private JsonNode parseJsonBody(String rawBody, ProtocolType protocol) {
-        if (rawBody == null || rawBody.isBlank()) {
-            throw GatewayProtocolException.badRequest(protocol, "Request body must not be empty");
-        }
+    private void validateContractRequest(ProtocolType protocolType, String rawBody) {
         try {
-            return objectMapper.readTree(rawBody);
-        } catch (Exception exception) {
-            throw GatewayProtocolException.badRequest(protocol, "Invalid JSON request body");
+            protocolContract.parseRequest(protocolType, rawBody);
+        } catch (ProtocolContractViolationException exception) {
+            throw GatewayProtocolException.badRequest(protocolType, exception.getMessage());
         }
     }
 }

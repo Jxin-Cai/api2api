@@ -1,76 +1,72 @@
 package com.api2api.infr.repository.protocolmetadata;
 
 import com.api2api.domain.channel.model.ProtocolType;
-import com.api2api.domain.protocolmetadata.model.FieldSection;
-import com.api2api.domain.protocolmetadata.model.FieldType;
 import com.api2api.domain.protocolmetadata.model.ProtocolFieldDefinition;
 import com.api2api.domain.protocolmetadata.model.ProtocolFieldDefinitionId;
 import com.api2api.domain.protocolmetadata.model.ProtocolMetadata;
 import com.api2api.domain.protocolmetadata.model.ProtocolMetadataId;
-import com.api2api.domain.protocolmetadata.model.UsageDirection;
 import com.api2api.domain.protocolmetadata.repository.ProtocolMetadataRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
-import java.io.IOException;
-import java.io.InputStream;
+import com.api2api.infr.protocol.contract.ProtocolContract;
+import com.api2api.infr.protocol.contract.ProtocolContractRegistry;
+import com.api2api.infr.protocol.contract.ProtocolFieldRef;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RequiredArgsConstructor
 public class ProtocolMetadataRepositoryImpl implements ProtocolMetadataRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(ProtocolMetadataRepositoryImpl.class);
-    private static final String CONFIG_PATTERN = "classpath:protocol-metadata/*.json";
+    private static final Instant CONTRACT_EPOCH = Instant.EPOCH;
 
-    @NonNull
-    private final ObjectMapper objectMapper;
-
-    private final Map<ProtocolType, ProtocolMetadata> metadataByType = new LinkedHashMap<>();
+    private final Map<ProtocolType, ProtocolMetadata> metadataByType = new EnumMap<>(ProtocolType.class);
     private final Map<ProtocolMetadataId, ProtocolMetadata> metadataById = new LinkedHashMap<>();
 
-    @PostConstruct
-    void loadFromConfig() {
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        try {
-            Resource[] resources = resolver.getResources(CONFIG_PATTERN);
-            long idCounter = 1;
-            long fieldIdCounter = 1;
-
-            for (Resource resource : resources) {
-                try (InputStream is = resource.getInputStream()) {
-                    Map<String, Object> raw = objectMapper.readValue(is, new TypeReference<>() {});
-                    ProtocolMetadata metadata = parseMetadata(raw, idCounter, fieldIdCounter);
-                    metadataByType.put(metadata.protocolType(), metadata);
-                    metadataById.put(metadata.id(), metadata);
-                    fieldIdCounter += metadata.fieldCount();
-                    idCounter++;
-                    log.info("Loaded protocol metadata: {} ({} fields)", metadata.protocolType(), metadata.fieldCount());
-                } catch (IOException e) {
-                    log.error("Failed to load protocol metadata from {}", resource.getFilename(), e);
-                }
+    public ProtocolMetadataRepositoryImpl(@NonNull ProtocolContractRegistry registry) {
+        long metadataId = 1;
+        long fieldId = 1;
+        for (ProtocolContract contract : registry.contracts()) {
+            List<ProtocolFieldDefinition> definitions = new ArrayList<>();
+            int sortOrder = 1;
+            for (ProtocolFieldRef field : contract.fields()) {
+                definitions.add(ProtocolFieldDefinition.of(
+                        ProtocolFieldDefinitionId.of(fieldId++),
+                        field.fieldName(),
+                        field.path(),
+                        field.type(),
+                        field.required(),
+                        field.section(),
+                        field.direction(),
+                        field.description(),
+                        field.purpose(),
+                        field.usageContext(),
+                        sortOrder++
+                ));
             }
-            log.info("Loaded {} protocol metadata definitions", metadataByType.size());
-        } catch (IOException e) {
-            log.error("Failed to scan protocol metadata config files", e);
+            ProtocolMetadata metadata = ProtocolMetadata.rehydrate(
+                    ProtocolMetadataId.of(metadataId++),
+                    contract.protocolType(),
+                    contract.displayName(),
+                    contract.apiSpecVersion(),
+                    contract.description(),
+                    contract.defaultEndpointPath(),
+                    definitions,
+                    CONTRACT_EPOCH,
+                    CONTRACT_EPOCH
+            );
+            metadataByType.put(contract.protocolType(), metadata);
+            metadataById.put(metadata.id(), metadata);
         }
     }
 
     @Override
     public List<ProtocolMetadata> findAll() {
-        return new ArrayList<>(metadataByType.values());
+        return List.copyOf(metadataByType.values());
     }
 
     @Override
@@ -81,44 +77,5 @@ public class ProtocolMetadataRepositoryImpl implements ProtocolMetadataRepositor
     @Override
     public Optional<ProtocolMetadata> findByProtocolType(ProtocolType protocolType) {
         return Optional.ofNullable(metadataByType.get(protocolType));
-    }
-
-    @SuppressWarnings("unchecked")
-    private ProtocolMetadata parseMetadata(Map<String, Object> raw, long metadataId, long startFieldId) {
-        ProtocolType protocolType = ProtocolType.valueOf((String) raw.get("protocolType"));
-        Instant now = Instant.now();
-
-        List<Map<String, Object>> rawFields = (List<Map<String, Object>>) raw.get("fields");
-        List<ProtocolFieldDefinition> fields = new ArrayList<>();
-        long fieldId = startFieldId;
-        int sortOrder = 1;
-
-        for (Map<String, Object> rawField : rawFields) {
-            fields.add(ProtocolFieldDefinition.of(
-                    ProtocolFieldDefinitionId.of(fieldId++),
-                    (String) rawField.get("fieldName"),
-                    (String) rawField.get("fieldPath"),
-                    FieldType.valueOf((String) rawField.get("fieldType")),
-                    Boolean.TRUE.equals(rawField.get("required")),
-                    FieldSection.valueOf((String) rawField.get("section")),
-                    UsageDirection.valueOf((String) rawField.get("usageDirection")),
-                    (String) rawField.get("description"),
-                    (String) rawField.get("purpose"),
-                    (String) rawField.get("usageContext"),
-                    sortOrder++
-            ));
-        }
-
-        return ProtocolMetadata.rehydrate(
-                ProtocolMetadataId.of(metadataId),
-                protocolType,
-                (String) raw.get("displayName"),
-                (String) raw.get("apiSpecVersion"),
-                (String) raw.get("description"),
-                (String) raw.get("defaultEndpointPath"),
-                fields,
-                now,
-                now
-        );
     }
 }

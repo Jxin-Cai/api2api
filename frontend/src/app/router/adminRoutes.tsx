@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ReactElement } from 'react';
-import type { RouteObject } from 'react-router-dom';
+import { Navigate, useLocation, type RouteObject } from 'react-router-dom';
 
 import { RequireRole } from '@features/route-by-role';
 import { PageState } from '@shared/ui';
@@ -8,7 +8,6 @@ const AdminUsersPage = lazy(() => import('@pages/AdminUsersPage'));
 const AdminChannelsPage = lazy(() => import('@pages/AdminChannelsPage'));
 const AdminModelMappingsPage = lazy(() => import('@pages/AdminModelMappingsPage'));
 const AdminConversionsPage = lazy(() => import('@pages/AdminConversionsPage'));
-const AdminProtocolMetadataPage = lazy(() => import('@pages/AdminProtocolMetadataPage'));
 
 function withAdminGuard(element: ReactElement): ReactElement {
   return (
@@ -20,10 +19,15 @@ function withAdminGuard(element: ReactElement): ReactElement {
   );
 }
 
+function LegacyProtocolMetadataRedirect(): ReactElement {
+  const { search } = useLocation();
+  return <Navigate replace to={`/admin/conversions${search}`} />;
+}
+
 export const adminRoutes: RouteObject[] = [
   { path: '/admin/users', element: withAdminGuard(<AdminUsersPage />) },
   { path: '/admin/channels', element: withAdminGuard(<AdminChannelsPage />) },
   { path: '/admin/model-mappings', element: withAdminGuard(<AdminModelMappingsPage />) },
   { path: '/admin/conversions', element: withAdminGuard(<AdminConversionsPage />) },
-  { path: '/admin/protocol-metadata', element: withAdminGuard(<AdminProtocolMetadataPage />) },
+  { path: '/admin/protocol-metadata', element: withAdminGuard(<LegacyProtocolMetadataRedirect />) },
 ];

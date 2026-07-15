@@ -1,73 +1,43 @@
 package com.api2api.ohs.http.gateway;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.api2api.domain.protocolcontract.model.ParsedGatewayRequest;
 import java.util.Objects;
 
-/**
- * Adapter for a raw OpenAI Chat Completions protocol request.
- */
-public final class OpenAIChatCompletionsGatewayRequest implements GatewayProtocolRequest {
+/** OpenAI Chat wrapper backed by values read through executable contract FieldRefs. */
+final class OpenAIChatCompletionsGatewayRequest implements GatewayProtocolRequest {
 
-    private final String rawBody;
-    private final JsonNode root;
+    private final ParsedGatewayRequest parsedRequest;
 
-    private OpenAIChatCompletionsGatewayRequest(String rawBody, JsonNode root) {
-        this.rawBody = requireRawBody(rawBody);
-        this.root = Objects.requireNonNull(root, "OpenAI Chat Completions request JSON must not be null");
+    private OpenAIChatCompletionsGatewayRequest(ParsedGatewayRequest parsedRequest) {
+        this.parsedRequest = Objects.requireNonNull(parsedRequest, "parsedRequest must not be null");
     }
 
-    public static OpenAIChatCompletionsGatewayRequest of(String rawBody, JsonNode root) {
-        return new OpenAIChatCompletionsGatewayRequest(rawBody, root);
+    static OpenAIChatCompletionsGatewayRequest fromContract(ParsedGatewayRequest parsedRequest) {
+        return new OpenAIChatCompletionsGatewayRequest(parsedRequest);
     }
 
     @Override
     public String rawBody() {
-        return rawBody;
+        return parsedRequest.rawBody();
     }
 
     @Override
     public String model() {
-        JsonNode model = root.get("model");
-        if (model == null || !model.isTextual() || model.asText().isBlank()) {
-            throw new IllegalArgumentException("model is required");
-        }
-        return model.asText();
+        return parsedRequest.model();
     }
 
     @Override
     public boolean streaming() {
-        JsonNode stream = root.get("stream");
-        return stream != null && stream.isBoolean() && stream.asBoolean();
+        return parsedRequest.streaming();
     }
 
     @Override
     public boolean toolCallingRequired() {
-        return presentAndNotEmpty("tools")
-                || presentAndNotEmpty("functions")
-                || presentAndNotEmpty("function_call")
-                || presentAndNotEmpty("tool_choice");
+        return parsedRequest.toolCallingRequired();
     }
 
     @Override
     public boolean reasoningRequired() {
-        return presentAndNotEmpty("reasoning")
-                || presentAndNotEmpty("reasoning_effort")
-                || presentAndNotEmpty("thinking");
-    }
-
-    private boolean presentAndNotEmpty(String fieldName) {
-        JsonNode value = root.get(fieldName);
-        if (value == null || value.isNull()) {
-            return false;
-        }
-        return !value.isArray() || !value.isEmpty();
-    }
-
-    private static String requireRawBody(String rawBody) {
-        String value = Objects.requireNonNull(rawBody, "Raw request body must not be null");
-        if (value.isBlank()) {
-            throw new IllegalArgumentException("Raw request body must not be blank");
-        }
-        return value;
+        return parsedRequest.reasoningRequired();
     }
 }

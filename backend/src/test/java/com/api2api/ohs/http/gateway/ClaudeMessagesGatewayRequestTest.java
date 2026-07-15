@@ -2,12 +2,15 @@ package com.api2api.ohs.http.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.infr.protocol.contract.ProtocolContractRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 class ClaudeMessagesGatewayRequestTest {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ProtocolContractRegistry contractRegistry =
+            new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
     void shouldDetectAdvancedToolAndReasoningRequirementsFromConversationHistory() throws Exception {
@@ -25,7 +28,9 @@ class ClaudeMessagesGatewayRequestTest {
                 }
                 """;
 
-        ClaudeMessagesGatewayRequest request = ClaudeMessagesGatewayRequest.of(body, objectMapper.readTree(body));
+        ClaudeMessagesGatewayRequest request = ClaudeMessagesGatewayRequest.fromContract(
+                contractRegistry.parseRequest(ProtocolType.CLAUDE_MESSAGES, body)
+        );
 
         assertThat(request.toolCallingRequired()).isTrue();
         assertThat(request.reasoningRequired()).isTrue();
@@ -42,7 +47,9 @@ class ClaudeMessagesGatewayRequestTest {
                 }
                 """;
 
-        ClaudeMessagesGatewayRequest request = ClaudeMessagesGatewayRequest.of(body, objectMapper.readTree(body));
+        ClaudeMessagesGatewayRequest request = ClaudeMessagesGatewayRequest.fromContract(
+                contractRegistry.parseRequest(ProtocolType.CLAUDE_MESSAGES, body)
+        );
 
         assertThat(request.reasoningRequired()).isTrue();
     }

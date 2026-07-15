@@ -198,7 +198,8 @@ public class GatewayInvocationApplicationService {
                 "Gateway streaming request failed, requestId: {}, channelId: {}, reason: {}",
                 invocation.requestId().value(),
                 streamingInvocation.candidate().providerChannelId().value(),
-                error.message()
+                error.message(),
+                exception
         );
         appendUsageRecord(streamingInvocation.usageRecordId(), invocation);
     }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Button, Card, Space, Table, message } from 'antd';
+import { Button, Card, Space, Table, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ProtocolConversionRow, useProtocolConversions, type ProtocolConversionListItemResponse, type ProtocolConversionResponse } from '@entities/protocol-conversion';
 import { ProtocolConversionDetailDrawer } from './ProtocolConversionDetailDrawer';
@@ -48,6 +48,10 @@ export function ProtocolConversionTablePanel({ initialFilters = {} }: ProtocolCo
   return (
     <Card>
       <Space direction="vertical" size={16} style={{ width: '100%' }}>
+        <div>
+          <Typography.Title level={5} style={{ marginBottom: 4 }}>转换映射</Typography.Title>
+          <Typography.Text type="secondary">选择协议方向，查看请求与响应字段的详细映射</Typography.Text>
+        </div>
         <ProtocolConversionFilterBar value={filters} protocolOptions={protocolOptions} onChange={setFilters} onReset={() => setFilters({})} onDirectionSearch={(source, target) => void handleDirectionSearch(source, target)} />
         <Table rowKey="id" columns={columns} dataSource={filtered} loading={isLoading} pagination={false} onRow={(record) => ({ onClick: () => setSelectedId(String(record.id)) })} />
         <ProtocolConversionDetailDrawer open={selectedId !== null} definitionId={selectedId} conversion={directionConversion} onClose={() => { setSelectedId(null); setDirectionConversion(null); }} onStatusChanged={(conversion) => setDirectionConversion(conversion)} />

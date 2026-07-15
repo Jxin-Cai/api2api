@@ -1,0 +1,65 @@
+package com.api2api.infr.protocol.contract;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.protocolcontract.model.ParsedGatewayRequest;
+import com.api2api.domain.protocolcontract.model.ProtocolContractViolationException;
+import com.api2api.infr.repository.protocolmetadata.ProtocolMetadataRepositoryImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+class ProtocolContractRegistryTest {
+
+    private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
+
+    @Test
+    void test_registry_contains_executable_shapes_when_four_protocols_are_registered() {
+        assertEquals(4, registry.contracts().size());
+        for (ProtocolContract contract : registry.contracts()) {
+            assertFalse(contract.fields().isEmpty());
+            assertFalse(contract.requestShape().fields().isEmpty());
+            assertFalse(contract.responseShape().fields().isEmpty());
+            assertFalse(contract.streamEventShape().fields().isEmpty());
+        }
+    }
+
+    @Test
+    void test_parseRequest_reads_model_and_stream_through_contract_fields_when_claude_body_is_valid() {
+        String body = """
+                {"model":"claude-3-5-sonnet","max_tokens":32,"stream":true,
+                 "messages":[{"role":"user","content":[{"type":"text","text":"hello"}]}]}
+                """;
+
+        ParsedGatewayRequest parsed = registry.parseRequest(ProtocolType.CLAUDE_MESSAGES, body);
+
+        assertEquals("claude-3-5-sonnet", parsed.model());
+        assertEquals(true, parsed.streaming());
+    }
+
+    @Test
+    void test_parseRequest_rejects_required_model_with_wrong_type_when_claude_body_is_invalid() {
+        String body = """
+                {"model":123,"max_tokens":32,"messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        assertThrows(ProtocolContractViolationException.class,
+                () -> registry.parseRequest(ProtocolType.CLAUDE_MESSAGES, body));
+    }
+
+    @Test
+    void test_metadata_projects_the_same_field_refs_when_registry_is_the_source() {
+        ProtocolMetadataRepositoryImpl repository = new ProtocolMetadataRepositoryImpl(registry);
+
+        for (ProtocolContract contract : registry.contracts()) {
+            var metadata = repository.findByProtocolType(contract.protocolType()).orElseThrow();
+            List<String> contractPaths = contract.fields().stream().map(ProtocolFieldRef::path).toList();
+            List<String> metadataPaths = metadata.fieldDefinitions().stream()
+                    .map(field -> field.fieldPath()).toList();
+            assertEquals(contractPaths, metadataPaths);
+        }
+    }
+}

@@ -133,8 +133,28 @@ class ClaudeConversationContextOptimizerTest {
 
         // Assert
         assertThat(optimized.at("/3/content/1/text").asText())
-                .contains("exact tool call already succeeded twice")
-                .contains("choose the next distinct action");
+                .contains("tool operation already succeeded twice")
+                .contains("execute the next distinct action");
+    }
+
+    @Test
+    void test_rejectsNextModelCall_when_bashCommandRepeatsWithDifferentDescriptions() throws Exception {
+        // Arrange
+        JsonNode messages = objectMapper.readTree("""
+                [
+                  {"role":"assistant","content":[{"type":"tool_use","id":"call-1","name":"Bash","input":{"command":"git status --short","description":"Check status"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":""}]},
+                  {"role":"assistant","content":[{"type":"tool_use","id":"call-2","name":"Bash","input":{"command":"git status --short","description":"Verify clean state"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":""}]},
+                  {"role":"assistant","content":[{"type":"tool_use","id":"call-3","name":"Bash","input":{"command":"git status --short","description":"Check current status before push"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-3","content":""}]}
+                ]
+                """);
+
+        // Act / Assert
+        assertThatThrownBy(() -> ClaudeConversationContextOptimizer.optimize(messages, null))
+                .isInstanceOf(ProtocolConversionException.class)
+                .hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: Bash repeated 3 times");
     }
 
     @Test

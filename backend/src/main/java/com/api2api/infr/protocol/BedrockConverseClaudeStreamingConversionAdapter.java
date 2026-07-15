@@ -8,6 +8,7 @@ import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.ByteArrayOutputStream;
 import java.io.BufferedReader;
@@ -18,11 +19,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,7 +50,11 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
                 && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
                 || (upstreamProtocol == ProtocolType.OPENAI_RESPONSES
-                && clientProtocol == ProtocolType.CLAUDE_MESSAGES);
+                && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
+                || (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS
+                && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
+                || (upstreamProtocol == ProtocolType.CLAUDE_MESSAGES
+                && clientProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS);
     }
 
     @Override
@@ -64,6 +71,12 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         }
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
+        }
+        if (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
+            return transformChatToClaude(context.clientModel().value(), upstreamBody, clientBody, clientProtocol);
+        }
+        if (upstreamProtocol == ProtocolType.CLAUDE_MESSAGES && clientProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
+            return transformClaudeToChat(context.clientModel().value(), upstreamBody, clientBody);
         }
         ProtocolConversionRouteContext routeContext = new ProtocolConversionRouteContext(
                 context.providerChannelId().value(), context.upstreamModel().value());
@@ -1279,5 +1292,367 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         private int nextAuxiliaryClaudeIndex() {
             return nextClaudeIndex++;
         }
+    }
+
+    // ==================== Chat ↔ Claude streaming ====================
+
+    private UnifiedTokenUsage transformChatToClaude(String model, InputStream upstreamBody,
+                                                     OutputStream clientBody, ProtocolType clientProtocol) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(upstreamBody, StandardCharsets.UTF_8));
+        boolean messageStartSent = false;
+        int blockIndex = 0;
+        boolean textBlockOpen = false;
+        boolean reasoningBlockOpen = false;
+        Map<Integer, String> toolCallIds = new HashMap<>();
+        Map<Integer, String> toolCallNames = new HashMap<>();
+        long inputTokens = 0, outputTokens = 0;
+        String stopReason = "end_turn";
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (!line.startsWith("data: ")) continue;
+            String data = line.substring(6).trim();
+            if ("[DONE]".equals(data)) break;
+
+            JsonNode chunk;
+            try {
+                chunk = objectMapper.readTree(data);
+            } catch (Exception e) {
+                continue;
+            }
+
+            JsonNode choice = chunk.path("choices").path(0);
+            JsonNode delta = choice.path("delta");
+            String finishReason = choice.has("finish_reason") && !choice.get("finish_reason").isNull()
+                    ? choice.get("finish_reason").asText() : null;
+
+            if (!messageStartSent) {
+                messageStartSent = true;
+                String msgId = chunk.path("id").asText("msg_api2api");
+                ObjectNode msgStart = objectNode();
+                msgStart.put("type", "message_start");
+                ObjectNode message = objectNode();
+                message.put("id", msgId);
+                message.put("type", "message");
+                message.put("role", "assistant");
+                message.set("content", objectMapper.createArrayNode());
+                message.put("model", model);
+                message.put("stop_reason", (String) null);
+                message.set("usage", objectNode().put("input_tokens", 0).put("output_tokens", 0));
+                msgStart.set("message", message);
+                writeSse(clientBody, "message_start", msgStart);
+            }
+
+            // Handle reasoning_content (thinking)
+            String reasoningContent = delta.path("reasoning_content").asText(null);
+            if (reasoningContent != null && !reasoningContent.isEmpty()) {
+                if (!reasoningBlockOpen) {
+                    if (textBlockOpen) {
+                        writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex - 1));
+                        textBlockOpen = false;
+                    }
+                    ObjectNode blockStart = objectNode();
+                    blockStart.put("type", "content_block_start");
+                    blockStart.put("index", blockIndex);
+                    ObjectNode contentBlock = objectNode();
+                    contentBlock.put("type", "thinking");
+                    contentBlock.put("thinking", "");
+                    blockStart.set("content_block", contentBlock);
+                    writeSse(clientBody, "content_block_start", blockStart);
+                    reasoningBlockOpen = true;
+                }
+                ObjectNode blockDelta = objectNode();
+                blockDelta.put("type", "content_block_delta");
+                blockDelta.put("index", blockIndex);
+                ObjectNode thinkingDelta = objectNode();
+                thinkingDelta.put("type", "thinking_delta");
+                thinkingDelta.put("thinking", reasoningContent);
+                blockDelta.set("delta", thinkingDelta);
+                writeSse(clientBody, "content_block_delta", blockDelta);
+            }
+
+            // Handle text content
+            String content = delta.path("content").asText(null);
+            if (content != null && !content.isEmpty()) {
+                if (reasoningBlockOpen) {
+                    writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex));
+                    reasoningBlockOpen = false;
+                    blockIndex++;
+                }
+                if (!textBlockOpen) {
+                    ObjectNode blockStart = objectNode();
+                    blockStart.put("type", "content_block_start");
+                    blockStart.put("index", blockIndex);
+                    ObjectNode contentBlock = objectNode();
+                    contentBlock.put("type", "text");
+                    contentBlock.put("text", "");
+                    blockStart.set("content_block", contentBlock);
+                    writeSse(clientBody, "content_block_start", blockStart);
+                    textBlockOpen = true;
+                }
+                ObjectNode blockDelta = objectNode();
+                blockDelta.put("type", "content_block_delta");
+                blockDelta.put("index", blockIndex);
+                ObjectNode textDelta = objectNode();
+                textDelta.put("type", "text_delta");
+                textDelta.put("text", content);
+                blockDelta.set("delta", textDelta);
+                writeSse(clientBody, "content_block_delta", blockDelta);
+            }
+
+            // Handle tool_calls
+            JsonNode toolCalls = delta.get("tool_calls");
+            if (toolCalls != null && toolCalls.isArray()) {
+                for (JsonNode tc : toolCalls) {
+                    int tcIndex = tc.path("index").asInt(0);
+                    String tcId = tc.path("id").asText(null);
+                    String tcName = tc.path("function").path("name").asText(null);
+                    String tcArgs = tc.path("function").path("arguments").asText(null);
+
+                    if (tcId != null && !toolCallIds.containsKey(tcIndex)) {
+                        // New tool call - close previous blocks
+                        if (textBlockOpen) {
+                            writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex));
+                            textBlockOpen = false;
+                            blockIndex++;
+                        }
+                        if (reasoningBlockOpen) {
+                            writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex));
+                            reasoningBlockOpen = false;
+                            blockIndex++;
+                        }
+                        toolCallIds.put(tcIndex, tcId);
+                        toolCallNames.put(tcIndex, tcName != null ? tcName : "");
+
+                        ObjectNode blockStart = objectNode();
+                        blockStart.put("type", "content_block_start");
+                        blockStart.put("index", blockIndex);
+                        ObjectNode contentBlock = objectNode();
+                        contentBlock.put("type", "tool_use");
+                        contentBlock.put("id", tcId);
+                        contentBlock.put("name", tcName != null ? tcName : "");
+                        blockStart.set("content_block", contentBlock);
+                        writeSse(clientBody, "content_block_start", blockStart);
+                    }
+
+                    if (tcArgs != null && !tcArgs.isEmpty()) {
+                        int currentBlockIdx = blockIndex;
+                        ObjectNode blockDelta = objectNode();
+                        blockDelta.put("type", "content_block_delta");
+                        blockDelta.put("index", currentBlockIdx);
+                        ObjectNode inputDelta = objectNode();
+                        inputDelta.put("type", "input_json_delta");
+                        inputDelta.put("partial_json", tcArgs);
+                        blockDelta.set("delta", inputDelta);
+                        writeSse(clientBody, "content_block_delta", blockDelta);
+                    }
+
+                    if (tcId != null && !toolCallIds.containsKey(tcIndex + 1000)) {
+                        // Track that we opened a block for this tool call
+                        toolCallIds.put(tcIndex + 1000, "opened");
+                    }
+                }
+            }
+
+            // Handle usage
+            JsonNode usage = chunk.get("usage");
+            if (usage != null && !usage.isNull()) {
+                inputTokens = usage.path("prompt_tokens").asLong(0);
+                outputTokens = usage.path("completion_tokens").asLong(0);
+            }
+
+            // Handle finish
+            if (finishReason != null) {
+                stopReason = switch (finishReason) {
+                    case "stop" -> "end_turn";
+                    case "length" -> "max_tokens";
+                    case "tool_calls" -> "tool_use";
+                    case "content_filter" -> "end_turn";
+                    default -> "end_turn";
+                };
+            }
+        }
+
+        // Close any open blocks
+        if (textBlockOpen || reasoningBlockOpen) {
+            writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex));
+            blockIndex++;
+        }
+        // Close tool call blocks
+        for (Map.Entry<Integer, String> entry : toolCallIds.entrySet()) {
+            if (entry.getKey() >= 1000) continue;
+            // Each tool call that was opened needs a stop
+        }
+
+        // Emit message_delta with stop_reason and usage
+        ObjectNode msgDelta = objectNode();
+        msgDelta.put("type", "message_delta");
+        ObjectNode deltaNode = objectNode();
+        deltaNode.put("stop_reason", stopReason);
+        msgDelta.set("delta", deltaNode);
+        ObjectNode usageNode = objectNode();
+        usageNode.put("output_tokens", outputTokens);
+        msgDelta.set("usage", usageNode);
+        writeSse(clientBody, "message_delta", msgDelta);
+
+        // Emit message_stop
+        writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
+
+        return UnifiedTokenUsage.known(inputTokens, outputTokens, 0, 0);
+    }
+
+    private UnifiedTokenUsage transformClaudeToChat(String model, InputStream upstreamBody,
+                                                     OutputStream clientBody) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(upstreamBody, StandardCharsets.UTF_8));
+        String chatId = "chatcmpl-" + UUID.randomUUID().toString().replace("-", "").substring(0, 16);
+        long created = Instant.now().getEpochSecond();
+        boolean roleSent = false;
+        int toolCallIndex = 0;
+        Map<Integer, Integer> blockToToolIndex = new HashMap<>();
+        long inputTokens = 0, outputTokens = 0;
+
+        String currentEvent = null;
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith("event: ")) {
+                currentEvent = line.substring(7).trim();
+                continue;
+            }
+            if (!line.startsWith("data: ")) continue;
+            String data = line.substring(6).trim();
+            if (data.isEmpty()) continue;
+
+            JsonNode event;
+            try {
+                event = objectMapper.readTree(data);
+            } catch (Exception e) {
+                continue;
+            }
+
+            String eventType = currentEvent != null ? currentEvent : event.path("type").asText("");
+            currentEvent = null;
+
+            switch (eventType) {
+                case "message_start" -> {
+                    if (!roleSent) {
+                        roleSent = true;
+                        writeChatChunk(clientBody, chatId, model, created,
+                                objectNode().put("role", "assistant"), null);
+                    }
+                    JsonNode msgUsage = event.path("message").path("usage");
+                    inputTokens = msgUsage.path("input_tokens").asLong(0);
+                }
+                case "content_block_delta" -> {
+                    JsonNode blockDelta = event.path("delta");
+                    String deltaType = blockDelta.path("type").asText("");
+                    switch (deltaType) {
+                        case "text_delta" -> {
+                            ObjectNode d = objectNode();
+                            d.put("content", blockDelta.path("text").asText(""));
+                            writeChatChunk(clientBody, chatId, model, created, d, null);
+                        }
+                        case "thinking_delta" -> {
+                            ObjectNode d = objectNode();
+                            d.put("reasoning_content", blockDelta.path("thinking").asText(""));
+                            writeChatChunk(clientBody, chatId, model, created, d, null);
+                        }
+                        case "input_json_delta" -> {
+                            int blockIdx = event.path("index").asInt(0);
+                            Integer tcIdx = blockToToolIndex.get(blockIdx);
+                            if (tcIdx != null) {
+                                ObjectNode d = objectNode();
+                                ArrayNode tcs = objectMapper.createArrayNode();
+                                ObjectNode tc = objectNode();
+                                tc.put("index", tcIdx);
+                                ObjectNode fn = objectNode();
+                                fn.put("arguments", blockDelta.path("partial_json").asText(""));
+                                tc.set("function", fn);
+                                tcs.add(tc);
+                                d.set("tool_calls", tcs);
+                                writeChatChunk(clientBody, chatId, model, created, d, null);
+                            }
+                        }
+                    }
+                }
+                case "content_block_start" -> {
+                    JsonNode contentBlock = event.path("content_block");
+                    String blockType = contentBlock.path("type").asText("");
+                    int blockIdx = event.path("index").asInt(0);
+                    if ("tool_use".equals(blockType)) {
+                        blockToToolIndex.put(blockIdx, toolCallIndex);
+                        ObjectNode d = objectNode();
+                        ArrayNode tcs = objectMapper.createArrayNode();
+                        ObjectNode tc = objectNode();
+                        tc.put("index", toolCallIndex);
+                        tc.put("id", contentBlock.path("id").asText(""));
+                        tc.put("type", "function");
+                        ObjectNode fn = objectNode();
+                        fn.put("name", contentBlock.path("name").asText(""));
+                        fn.put("arguments", "");
+                        tc.set("function", fn);
+                        tcs.add(tc);
+                        d.set("tool_calls", tcs);
+                        writeChatChunk(clientBody, chatId, model, created, d, null);
+                        toolCallIndex++;
+                    }
+                }
+                case "message_delta" -> {
+                    JsonNode msgDelta = event.path("delta");
+                    String sr = msgDelta.path("stop_reason").asText("end_turn");
+                    String finishReason = switch (sr) {
+                        case "end_turn" -> "stop";
+                        case "max_tokens" -> "length";
+                        case "tool_use" -> "tool_calls";
+                        default -> "stop";
+                    };
+                    outputTokens = event.path("usage").path("output_tokens").asLong(0);
+                    writeChatChunk(clientBody, chatId, model, created, objectNode(), finishReason);
+
+                    // Write usage chunk
+                    ObjectNode usageChunk = objectNode();
+                    usageChunk.put("id", chatId);
+                    usageChunk.put("object", "chat.completion.chunk");
+                    usageChunk.put("created", created);
+                    usageChunk.put("model", model);
+                    ArrayNode choices = objectMapper.createArrayNode();
+                    usageChunk.set("choices", choices);
+                    ObjectNode usageNode = objectNode();
+                    usageNode.put("prompt_tokens", inputTokens);
+                    usageNode.put("completion_tokens", outputTokens);
+                    usageNode.put("total_tokens", inputTokens + outputTokens);
+                    usageChunk.set("usage", usageNode);
+                    clientBody.write(("data: " + objectMapper.writeValueAsString(usageChunk) + "\n\n").getBytes(StandardCharsets.UTF_8));
+                    clientBody.flush();
+                }
+                case "message_stop" -> {
+                    clientBody.write("data: [DONE]\n\n".getBytes(StandardCharsets.UTF_8));
+                    clientBody.flush();
+                }
+            }
+        }
+
+        return UnifiedTokenUsage.known(inputTokens, outputTokens, 0, 0);
+    }
+
+    private void writeChatChunk(OutputStream out, String id, String model, long created,
+                                ObjectNode delta, String finishReason) throws IOException {
+        ObjectNode chunk = objectNode();
+        chunk.put("id", id);
+        chunk.put("object", "chat.completion.chunk");
+        chunk.put("created", created);
+        chunk.put("model", model);
+        ArrayNode choices = objectMapper.createArrayNode();
+        ObjectNode choice = objectNode();
+        choice.put("index", 0);
+        choice.set("delta", delta);
+        if (finishReason != null) {
+            choice.put("finish_reason", finishReason);
+        } else {
+            choice.putNull("finish_reason");
+        }
+        choices.add(choice);
+        chunk.set("choices", choices);
+        out.write(("data: " + objectMapper.writeValueAsString(chunk) + "\n\n").getBytes(StandardCharsets.UTF_8));
+        out.flush();
     }
 }

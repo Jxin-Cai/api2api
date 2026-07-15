@@ -84,18 +84,19 @@ public class GatewayStreamingResponseMapper {
                 }
                 outputStream.flush();
             } catch (IOException exception) {
-                if (streamingInvocation.requiresProtocolConversion()) {
-                    writeProtocolConversionError(
-                            outputStream,
-                            streamingInvocation.invocation().requestProtocol(),
-                            exception
-                    );
-                }
+                boolean errorEventWritten = writeStreamingError(
+                        outputStream,
+                        streamingInvocation.invocation().requestProtocol(),
+                        exception
+                );
                 gatewayInvocationApplicationService.completeStreamingFailure(
                         streamingInvocation,
                         new UncheckedIOException(exception)
                 );
-                throw exception;
+                if (!errorEventWritten) {
+                    throw exception;
+                }
+                return;
             } catch (RuntimeException exception) {
                 gatewayInvocationApplicationService.completeStreamingFailure(streamingInvocation, exception);
                 throw exception;
@@ -106,10 +107,10 @@ public class GatewayStreamingResponseMapper {
         return responseBody;
     }
 
-    private void writeProtocolConversionError(
+    private boolean writeStreamingError(
             OutputStream outputStream,
             ProtocolType clientProtocol,
-            IOException conversionFailure
+            IOException streamingFailure
     ) {
         String event = switch (clientProtocol) {
             case CLAUDE_MESSAGES -> """
@@ -119,19 +120,27 @@ public class GatewayStreamingResponseMapper {
                     """;
             case OPENAI_RESPONSES -> """
                     event: error
-                    data: {"type":"error","message":"Upstream stream ended before a terminal event"}
+                    data: {"type":"error","code":"upstream_stream_error","message":"Upstream stream ended before a terminal event","param":null}
+
+                    """;
+            case OPENAI_CHAT_COMPLETIONS -> """
+                    data: {"error":{"type":"upstream_stream_error","message":"Upstream stream ended before a terminal event"}}
+
+                    data: [DONE]
 
                     """;
             default -> "";
         };
         if (event.isEmpty()) {
-            return;
+            return false;
         }
         try {
             outputStream.write(event.getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
+            return true;
         } catch (IOException errorWriteFailure) {
-            conversionFailure.addSuppressed(errorWriteFailure);
+            streamingFailure.addSuppressed(errorWriteFailure);
+            return false;
         }
     }
 

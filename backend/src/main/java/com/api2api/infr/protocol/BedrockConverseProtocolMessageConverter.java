@@ -28,6 +28,22 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private static final String ASK_USER_QUESTION_TOOL = "AskUserQuestion";
     private static final String ENTER_PLAN_MODE_TOOL = "EnterPlanMode";
     private static final String EXIT_PLAN_MODE_TOOL = "ExitPlanMode";
+    private static final String WORKFLOW_TOOL = "Workflow";
+    private static final String WORKFLOW_PROMPT_PREFIX = "Run the \"";
+    private static final String WORKFLOW_INVOKE_DIRECTIVE = "Invoke: Workflow(";
+    private static final String SEND_MESSAGE_TOOL = "SendMessage";
+    private static final String TASK_NOTIFICATION_TAG = "<task-notification>";
+    private static final String TASK_COMPLETED_TAG = "<status>completed</status>";
+    private static final String TASK_ID_TAG = "<task-id>";
+    private static final String WORKFLOW_INVOCATION_INSTRUCTION =
+            "The latest user message is a Claude Code workflow dispatch instruction. "
+                    + "The workflow has not started merely because the Skill tool returned 'Launching skill'. "
+                    + "Invoke the Workflow tool exactly as requested before claiming that it is running.";
+    private static final String BACKGROUND_TASK_COMPLETION_INSTRUCTION =
+            "A Claude Code task-notification status of 'completed' only means the background agent stopped. "
+                    + "Inspect its result and verify that the requested outcome or artifact was actually produced. "
+                    + "If the result is progress-only or incomplete, resume the same agent with SendMessage using "
+                    + "the task-id; do not report success or duplicate the task in the main agent.";
 
     BedrockConverseProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -117,12 +133,22 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         target.set("messages", bedrockMessages);
 
+        boolean workflowInvocationRequired = workflowInvocationRequired(source.get("tools"), source.get("messages"));
+        boolean backgroundTaskCompletionRequiresValidation = backgroundTaskCompletionRequiresValidation(
+                source.get("tools"), source.get("messages"));
         JsonNode system = source.get("system");
+        ArrayNode systemBlocks = json.arrayNode();
         if (system != null && !system.isNull()) {
-            ArrayNode systemBlocks = claudeSystemToBedrock(system);
-            if (!systemBlocks.isEmpty()) {
-                target.set("system", systemBlocks);
-            }
+            systemBlocks.addAll(claudeSystemToBedrock(system));
+        }
+        if (workflowInvocationRequired) {
+            systemBlocks.add(textBlock(WORKFLOW_INVOCATION_INSTRUCTION));
+        }
+        if (backgroundTaskCompletionRequiresValidation) {
+            systemBlocks.add(textBlock(BACKGROUND_TASK_COMPLETION_INSTRUCTION));
+        }
+        if (!systemBlocks.isEmpty()) {
+            target.set("system", systemBlocks);
         }
 
         ObjectNode inferenceConfig = json.objectNode();
@@ -1170,6 +1196,53 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             }
         }
         return true;
+    }
+
+    private boolean workflowInvocationRequired(JsonNode tools, JsonNode messages) {
+        return containsToolNamed(tools, WORKFLOW_TOOL) && lastUserMessageRequiresWorkflow(messages);
+    }
+
+    private boolean backgroundTaskCompletionRequiresValidation(JsonNode tools, JsonNode messages) {
+        if (!containsToolNamed(tools, SEND_MESSAGE_TOOL)) {
+            return false;
+        }
+        String text = lastUserMessageText(messages);
+        return text.contains(TASK_NOTIFICATION_TAG)
+                && text.contains(TASK_COMPLETED_TAG)
+                && text.contains(TASK_ID_TAG);
+    }
+
+    private boolean containsToolNamed(JsonNode tools, String expectedName) {
+        if (tools == null || !tools.isArray()) {
+            return false;
+        }
+        for (JsonNode tool : tools) {
+            if (expectedName.equals(tool.path("name").asText(""))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean lastUserMessageRequiresWorkflow(JsonNode messages) {
+        String text = lastUserMessageText(messages).stripLeading();
+        return text.startsWith(WORKFLOW_PROMPT_PREFIX)
+                && text.contains("\" workflow.")
+                && text.contains(WORKFLOW_INVOKE_DIRECTIVE);
+    }
+
+    private String lastUserMessageText(JsonNode messages) {
+        if (messages == null || !messages.isArray()) {
+            return "";
+        }
+        for (int index = messages.size() - 1; index >= 0; index--) {
+            JsonNode message = messages.get(index);
+            if (!"user".equals(message.path("role").asText(""))) {
+                continue;
+            }
+            return firstTextFromClaudeContent(message.get("content"));
+        }
+        return "";
     }
 
     private ObjectNode toBedrockToolChoice(JsonNode toolChoice, Set<String> exposedToolNames) {

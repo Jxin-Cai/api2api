@@ -14,7 +14,7 @@ export function ProtocolMetadataLink({ protocolType, label }: ProtocolMetadataLi
   const displayLabel = label ?? `查看 ${meta.label} 字段定义`;
 
   function handleClick(): void {
-    navigate(`${ROUTE_PATHS.adminProtocolMetadata}?protocol=${encodeURIComponent(protocolType)}`);
+    navigate(`${ROUTE_PATHS.adminConversions}?protocol=${encodeURIComponent(protocolType)}`);
   }
 
   return <Typography.Link onClick={handleClick}>{displayLabel}</Typography.Link>;

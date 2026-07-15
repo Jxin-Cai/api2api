@@ -25,11 +25,14 @@ final class ClaudeConversationContextOptimizer {
     private static final int DEFAULT_TOOL_CLEAR_TRIGGER_TOKENS = 100_000;
     private static final int DEFAULT_TOOL_USES_TO_KEEP = 3;
     private static final int REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT = 3;
+    private static final String BASH_TOOL_NAME = "Bash";
+    private static final String BASH_DESCRIPTION_FIELD = "description";
     private static final String CLEARED_TOOL_RESULT = "[Tool result cleared by context management]";
     private static final String CLEARED_THINKING = "[Thinking cleared by context management]";
     private static final String REPEATED_TOOL_CALL_WARNING =
-            "Gateway safety notice: this exact tool call already succeeded twice. "
-                    + "Do not repeat it; consume the result and choose the next distinct action.";
+            "Gateway safety notice: this tool operation already succeeded twice. "
+                    + "Do not repeat it or merely rephrase its description; consume the result and execute "
+                    + "the next distinct action required by the user.";
 
     private ClaudeConversationContextOptimizer() {
     }
@@ -247,7 +250,8 @@ final class ClaudeConversationContextOptimizer {
                 String type = block.path("type").asText("");
                 if (isToolUse(type)) {
                     String toolName = block.path("name").asText("unknown");
-                    fingerprintsById.put(block.path("id").asText(""), toolName + ":" + digest(block.path("input")));
+                    fingerprintsById.put(
+                            block.path("id").asText(""), toolName + ":" + digest(fingerprintInput(toolName, block)));
                 } else if (isToolResult(type)) {
                     String fingerprint = fingerprintsById.get(block.path("tool_use_id").asText(""));
                     if (fingerprint != null && !block.path("is_error").asBoolean(false)) {
@@ -259,6 +263,16 @@ final class ClaudeConversationContextOptimizer {
             }
         }
         return repeatedTail(successfulFingerprints);
+    }
+
+    private static JsonNode fingerprintInput(String toolName, JsonNode toolUse) {
+        JsonNode input = toolUse.path("input");
+        if (!BASH_TOOL_NAME.equals(toolName) || !input.isObject()) {
+            return input;
+        }
+        ObjectNode executionInput = ((ObjectNode) input).deepCopy();
+        executionInput.remove(BASH_DESCRIPTION_FIELD);
+        return executionInput;
     }
 
     private static RepeatedToolCall repeatedTail(List<String> successfulFingerprints) {

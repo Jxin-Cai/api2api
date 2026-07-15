@@ -1,57 +1,30 @@
 ---
-alwaysApply: false
 paths:
   - "**/backend/application/**"
 ---
-# Application 层（应用层）约束
+# Application 层约束
 
-当你在 `backend/application/` 目录下编写或修改代码时，必须遵守以下规则：
+> 分层通信与依赖方向详见架构层规则。
 
-## 路径结构
+## 核心原则
 
-- `application/{use_case}/` — 每个应用场景一个目录
-- `application/{use_case}/*_application_service` — 应用服务
-- `application/{use_case}/command/` — 输入 DTO（不可变数据对象）
+薄薄一层，只做编排不做计算。一个公有方法对应一个业务用例。
 
 ## 允许
 
 - 编排多个 Domain Service / Repository 完成业务用例
 - 协调多个聚合根之间的交互
 - 管理事务边界
-- 调用基础设施层接口（事件发布、缓存、消息等）
 
 ## 禁止
 
-- 包含业务规则（业务规则属于领域层）
-- 包含复杂计算逻辑
-- 直接操作数据库（必须通过 Repository）
-- 依赖 OHS 层
-- 接触 Request/Response 对象
+- 包含业务规则或复杂计算逻辑。Why：业务规则散落到 Application 层会导致霰弹式修改——一条规则变更需要同时改多个 Service。
+- 直接操作数据库（必须通过 Repository）。Why：绕过 Repository 会使领域模型与持久化耦合，无法替换存储实现。
+- 依赖 OHS 层、接触 Request/Response 对象
+- 返回 Response DTO（由 OHS Assembler 负责转换）
 
-## 核心原则
+## 常见误区
 
-- 薄薄一层，只做编排不做计算
-- 一个公有方法对应一个业务用例
-- 按应用场景（而非聚合）组织，一个 ApplicationService 可编排多个聚合
-
-## Command 对象规范
-
-- 使用不可变数据对象（创建后不可修改）
-- 由 OHS 层将 HTTP/WS 请求转为 Command 传入
-- Command 只包含用例所需的输入数据
-
-## 返回值规范
-
-- 返回领域模型或基本类型
-- 由 OHS 层的 Assembler 负责转为 DTO 输出
-- 禁止返回 Response DTO
-
-## 命名
-
-- 应用服务：`{业务名}ApplicationService`
-- Command 对象：`{操作名}Command`
-
-## 依赖方向
-
-- 可依赖：Domain 层
-- 禁止依赖：OHS 层
+- ❌ 在 ApplicationService 中写 `if order.can_cancel():` 判断逻辑 → 这属于领域规则，应放在 Order 聚合根方法中
+- ✅ ApplicationService 只调用 `order.cancel()`，由领域模型内部校验
+- ❌ ApplicationService 直接返回 `SessionResponse(...)` → 应返回领域模型，OHS 层转 DTO

@@ -10,6 +10,7 @@ import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.credential.model.ModelWhitelist;
+import com.api2api.infr.protocol.contract.ProtocolContractRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.Set;
@@ -38,7 +39,7 @@ class GatewayProtocolControllerTest {
                 mock(GatewayRequestMapper.class),
                 mock(GatewayInvocationResponseMapper.class),
                 mock(GatewayStreamingResponseMapper.class),
-                new ObjectMapper()
+                new ProtocolContractRegistry(new ObjectMapper())
         );
 
         // Act
