@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
 public class ProtocolMetadataHttpConverter {
 
     private static final List<FieldSection> SECTION_ORDER = List.of(
-            FieldSection.MESSAGE, FieldSection.MODEL, FieldSection.TOOL,
-            FieldSection.REASONING, FieldSection.STREAMING, FieldSection.USAGE,
-            FieldSection.METADATA, FieldSection.OTHER
+            FieldSection.MESSAGE, FieldSection.CONTENT_BLOCK, FieldSection.MODEL,
+            FieldSection.TOOL, FieldSection.REASONING, FieldSection.STREAMING,
+            FieldSection.USAGE, FieldSection.METADATA, FieldSection.OTHER
     );
 
     public ProtocolMetadataListResponse toListResponse(List<ProtocolMetadata> metadataList) {
