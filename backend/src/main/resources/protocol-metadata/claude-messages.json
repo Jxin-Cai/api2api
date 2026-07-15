@@ -15,7 +15,7 @@
 
     {"fieldName": "messages", "fieldPath": "messages", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "对话消息列表", "purpose": "承载多轮对话上下文", "usageContext": "数组元素包含 role 和 content，role 为 user/assistant/system"},
     {"fieldName": "messages[].role", "fieldPath": "messages[].role", "fieldType": "ENUM", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "消息角色：user、assistant、system", "purpose": "标识消息来源和类型", "usageContext": "system 仅限 Opus 4.8 中间轮次使用"},
-    {"fieldName": "messages[].content", "fieldPath": "messages[].content", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "消息内容块数组（或纯文本字符串）", "purpose": "承载消息的具体内容", "usageContext": "支持 text/image/document/tool_result/tool_use/thinking 等类型的内容块"},
+    {"fieldName": "messages[].content", "fieldPath": "messages[].content", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "消息内容块数组（或纯文本字符串）", "purpose": "承载消息的具体内容", "usageContext": "支持字符串或内容块数组形式；数组元素支持 text/image/document/tool_result/tool_use/thinking 等类型的内容块"},
     {"fieldName": "system", "fieldPath": "system", "fieldType": "STRING", "required": false, "section": "MESSAGE", "usageDirection": "INPUT", "description": "系统提示词", "purpose": "设定模型的角色、语气和约束", "usageContext": "支持字符串或内容块数组形式，可配合 cache_control 使用"},
 
     {"fieldName": "content[].type (text)", "fieldPath": "content[].type=text", "fieldType": "STRING", "required": true, "section": "CONTENT_BLOCK", "usageDirection": "BOTH", "description": "文本内容块", "purpose": "承载纯文本内容", "usageContext": "包含 text 字段，可附加 cache_control 和 citations"},
