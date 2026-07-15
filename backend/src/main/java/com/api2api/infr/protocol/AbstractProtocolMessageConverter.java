@@ -3,15 +3,19 @@ package com.api2api.infr.protocol;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ContentMappingType;
 import com.api2api.domain.protocol.model.ConversionCapability;
+import com.api2api.domain.protocol.model.FieldMapping;
+import com.api2api.domain.protocol.model.MappingLossiness;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
 import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
+import com.api2api.infr.protocol.conversion.ProtocolConversionProgram;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -79,9 +83,7 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
             return ProtocolConversionResult.of(sourceProtocol, targetProtocol, transformed, false, usage);
         }
         JsonNode source = json.parse(payload.body(), converterName());
-        JsonNode target = direction == ProtocolConversionDirection.REQUEST
-                ? convertRequestJson(source, requirement)
-                : convertResponseJson(source, requirement);
+        JsonNode target = conversionProgram().execute(source, requirement);
         UnifiedTokenUsage usage = null;
         if (direction == ProtocolConversionDirection.RESPONSE) {
             usage = usageExtractor == null ? UnifiedTokenUsage.unknown() : usageExtractor.extract(source);
@@ -91,15 +93,30 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
 
     private String convertJsonString(String data, ProtocolConversionRequest requirement) {
         JsonNode source = json.parse(data, converterName() + " SSE data");
-        JsonNode target = direction == ProtocolConversionDirection.REQUEST
-                ? convertRequestJson(source, requirement)
-                : convertResponseJson(source, requirement);
+        JsonNode target = conversionProgram().execute(source, requirement);
         return json.stringify(target, converterName() + " SSE data");
     }
 
     protected abstract JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement);
 
     protected abstract JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement);
+
+    @Override
+    public ProtocolConversionProgram conversionProgram() {
+        List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(sourceProtocol, targetProtocol, direction)
+                .orElse(List.of(FieldMapping.of(
+                        "payload", "payload", "Executable converter fallback mapping", MappingLossiness.NONE)));
+        return ProtocolConversionProgram.singleRule(
+                sourceProtocol,
+                targetProtocol,
+                direction,
+                converterName(),
+                (source, requirement) -> direction == ProtocolConversionDirection.REQUEST
+                        ? convertRequestJson(source, requirement)
+                        : convertResponseJson(source, requirement),
+                mappings
+        );
+    }
 
     protected String converterName() {
         return sourceProtocol + "->" + targetProtocol + " " + direction;
