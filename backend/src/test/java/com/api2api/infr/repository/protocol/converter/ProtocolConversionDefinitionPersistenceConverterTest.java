@@ -1,44 +1,41 @@
 package com.api2api.infr.repository.protocol.converter;
 
 import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
+import com.api2api.infr.protocol.ProtocolConversionProgramRegistry;
 import com.api2api.infr.repository.protocol.po.ProtocolConversionDefinitionPO;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProtocolConversionDefinitionPersistenceConverterTest {
 
-    private final ProtocolConversionDefinitionPersistenceConverter converter = new ProtocolConversionDefinitionPersistenceConverter();
+    private final ProtocolConversionProgramRegistry registry = new ProtocolConversionProgramRegistry(List.of());
+    private final ProtocolConversionDefinitionPersistenceConverter converter =
+            new ProtocolConversionDefinitionPersistenceConverter(registry);
 
     @Test
-    void toDomainBuildsFieldMappingsFromArrowSummary() {
+    void test_fallbackMapping_when_noConverterRegistered() {
         ProtocolConversionDefinition definition = converter.toDomain(po(
                 "CLAUDE_MESSAGES",
                 "OPENAI_RESPONSES",
-                "Claude messages/model/max_tokens/system -> OpenAI responses input/model/max_output_tokens/instructions",
-                "OpenAI responses output/usage -> Claude messages content/usage"
+                "Claude messages to OpenAI responses request mapping",
+                "OpenAI responses to Claude messages response mapping"
         ));
 
         assertThat(definition.requestMapping().fieldMappings())
-                .extracting(mapping -> mapping.sourceField() + "->" + mapping.targetField())
-                .containsExactly(
-                        "messages->input",
-                        "model->model",
-                        "max_tokens->max_output_tokens",
-                        "system->instructions"
-                );
-        assertThat(definition.responseMapping().fieldMappings())
-                .extracting(mapping -> mapping.sourceField() + "->" + mapping.targetField())
-                .containsExactly(
-                        "output->content",
-                        "usage->usage"
-                );
+                .singleElement()
+                .satisfies(mapping -> {
+                    assertThat(mapping.sourceField()).isEqualTo("payload");
+                    assertThat(mapping.targetField()).isEqualTo("payload");
+                    assertThat(mapping.ruleDescription()).contains("not yet described");
+                });
     }
 
     @Test
-    void toDomainKeepsPayloadFallbackForUnstructuredSummary() {
+    void test_passthroughFallback_when_sameProtocol() {
         ProtocolConversionDefinition definition = converter.toDomain(po(
                 "CLAUDE_MESSAGES",
                 "CLAUDE_MESSAGES",
@@ -51,7 +48,6 @@ class ProtocolConversionDefinitionPersistenceConverterTest {
                 .satisfies(mapping -> {
                     assertThat(mapping.sourceField()).isEqualTo("payload");
                     assertThat(mapping.targetField()).isEqualTo("payload");
-                    assertThat(mapping.ruleDescription()).isEqualTo("Request passthrough");
                 });
     }
 
