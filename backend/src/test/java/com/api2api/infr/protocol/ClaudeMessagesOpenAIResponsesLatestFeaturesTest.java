@@ -17,6 +17,24 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
     private final ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
 
     @Test
+    void test_omitsDirectOnlyAllowedCallers_when_targetIsGpt55() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"gpt-5.5","max_tokens":1024,
+                 "tools":[{"name":"Read","input_schema":{"type":"object"},
+                           "allowed_callers":["direct"]}],
+                 "messages":[{"role":"user","content":"inspect"}]}
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.at("/tools/0/type").asText()).isEqualTo("function");
+        assertThat(mapped.at("/tools/0/allowed_callers").isMissingNode()).isTrue();
+    }
+
+    @Test
     void test_mapsProgrammaticToolCalling_when_claudeToolAllowsCodeExecutionCaller() throws Exception {
         // Arrange
         String body = """

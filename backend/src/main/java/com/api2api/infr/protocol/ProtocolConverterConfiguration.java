@@ -701,7 +701,13 @@ class ProtocolConverterConfiguration {
                 target.put("prompt_cache_key", responsesPromptCacheKey(source, model));
             }
             if (source.hasNonNull("service_tier")) {
-                target.put("service_tier", mapClaudeServiceTierToResponses(source.path("service_tier").asText("")));
+                String mappedServiceTier = mapClaudeServiceTierToResponses(
+                        source.path("service_tier").asText(""));
+                // OpenAI defaults to auto. Omitting that default avoids compatibility
+                // failures in Responses-compatible upstream proxies with older schemas.
+                if (!"auto".equals(mappedServiceTier)) {
+                    target.put("service_tier", mappedServiceTier);
+                }
             }
             JsonNode speed = source.get("speed");
             String speedType = speed != null && speed.isTextual() ? speed.asText() : source.path("speed").path("type").asText("");
@@ -1493,7 +1499,7 @@ class ProtocolConverterConfiguration {
                     ResponsesProgrammaticToolBridge.AllowedCallersMapping allowedCallers =
                             ResponsesProgrammaticToolBridge.toResponsesAllowedCallers(
                                     json.objectMapper(), tool.get("allowed_callers"));
-                    if (allowedCallers.values() != null) {
+                    if (allowedCallers.values() != null && supportsResponsesProgrammaticToolCalling(model)) {
                         mapped.set("allowed_callers", allowedCallers.values());
                     }
                     programmaticToolCallingRequired |= allowedCallers.programmatic();

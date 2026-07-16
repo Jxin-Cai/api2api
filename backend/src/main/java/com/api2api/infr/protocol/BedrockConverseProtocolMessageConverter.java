@@ -882,10 +882,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                         String signature = item.path("signature").asText("");
                         Optional<String> bedrockSignature = BedrockReasoningBridge.decode(signature, routeContext);
                         if (bedrockSignature.isEmpty()) {
-                            if (BedrockReasoningBridge.isBedrockSignature(signature)) {
-                                throw new ProtocolConversionException(
-                                        "CLAUDE_BEDROCK_REASONING_SIGNATURE_ROUTE_MISMATCH");
-                            }
+                            // Bedrock signatures are bound to the originating route and model.
+                            // After failover or a route change the old thinking block cannot be
+                            // replayed, but the visible assistant content remains valid history.
                             blockMapped = false;
                         } else {
                             contentBlocks.add(toBedrockReasoningContent(item, bedrockSignature.orElseThrow()));

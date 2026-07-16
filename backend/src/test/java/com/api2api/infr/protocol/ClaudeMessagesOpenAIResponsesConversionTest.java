@@ -317,6 +317,23 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_omitsDefaultAutoServiceTier_whenConvertingToResponses() throws Exception {
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,"service_tier":"auto",
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        assertThat(mapped.path("service_tier").isMissingNode()).isTrue();
+    }
+
+    @Test
     void test_preservesResponsesToolCallsAndReasoning_whenConvertingToChatResponse() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()

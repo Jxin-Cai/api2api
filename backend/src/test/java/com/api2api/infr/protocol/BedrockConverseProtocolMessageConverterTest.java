@@ -818,7 +818,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void test_rejectsBedrockThinkingSignature_when_routeModelChanges() throws Exception {
+    void test_omitsBedrockThinkingSignature_when_routeModelChanges() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
@@ -835,11 +835,14 @@ class BedrockConverseProtocolMessageConverterTest {
                 ]}
                 """.formatted(previousSignature);
 
-        // Act / Assert
-        assertThatThrownBy(() -> converter.convert(
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, false, true).forRoute(2L, "new-bedrock-model")
-        )).hasMessageContaining("CLAUDE_BEDROCK_REASONING_SIGNATURE_ROUTE_MISMATCH");
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("visible answer");
     }
 
     @Test
