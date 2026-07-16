@@ -2,7 +2,7 @@ import { Col, Row, Space, Typography } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { ProtocolMetadataCard, useProtocolMetadataList } from '@entities/protocol-metadata';
 import { PageState } from '@shared/ui';
-import { ProtocolMetadataDetailPanel } from './ProtocolMetadataDetailPanel';
+import { ProtocolMetadataDetailModal } from './ProtocolMetadataDetailModal';
 
 export function ProtocolMetadataOverviewPanel() {
   const { protocols, isLoading, isError, refetch } = useProtocolMetadataList();
@@ -11,11 +11,13 @@ export function ProtocolMetadataOverviewPanel() {
 
   function handleProtocolSelect(protocolType: string): void {
     const nextParams = new URLSearchParams(searchParams);
-    if (selectedProtocol === protocolType) {
-      nextParams.delete('protocol');
-    } else {
-      nextParams.set('protocol', protocolType);
-    }
+    nextParams.set('protocol', protocolType);
+    setSearchParams(nextParams);
+  }
+
+  function handleModalClose(): void {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('protocol');
     setSearchParams(nextParams);
   }
 
@@ -27,7 +29,7 @@ export function ProtocolMetadataOverviewPanel() {
     <Space direction="vertical" size={24} style={{ width: '100%' }}>
       <div>
         <Typography.Title level={5} style={{ marginBottom: 4 }}>支持的协议</Typography.Title>
-        <Typography.Text type="secondary">点击查看协议的字段定义详情</Typography.Text>
+        <Typography.Text type="secondary">点击协议卡片，在弹窗中查看官方规范与字段定义</Typography.Text>
       </div>
       <Row gutter={[16, 16]}>
         {protocols.map((protocol) => (
@@ -40,7 +42,11 @@ export function ProtocolMetadataOverviewPanel() {
           </Col>
         ))}
       </Row>
-      {selectedProtocol ? <ProtocolMetadataDetailPanel protocolType={selectedProtocol} /> : null}
+      <ProtocolMetadataDetailModal
+        protocolType={selectedProtocol}
+        open={selectedProtocol !== null}
+        onClose={handleModalClose}
+      />
     </Space>
   );
 }

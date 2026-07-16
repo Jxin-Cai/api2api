@@ -15,7 +15,7 @@ final class ProtocolContractDefinitions {
     static List<ProtocolContract> create(ObjectMapper objectMapper) {
         return List.of(
                 new ProtocolContract(
-                        ProtocolType.CLAUDE_MESSAGES, "Claude Messages", "Messages API · Anthropic SDK 0.111.0 · 2026-07-16",
+                        ProtocolType.CLAUDE_MESSAGES, "Claude Messages", "Anthropic API 2023-06-01",
                         "Anthropic Claude Messages API，支持多轮对话、工具调用、推理（adaptive thinking）、流式响应、上下文缓存、代码执行、Web 搜索等能力。", "/v1/messages", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("model", "model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.INPUT, "模型标识符", "指定使用的模型", "如 claude-opus-4-8、claude-sonnet-5 等"),
@@ -128,7 +128,7 @@ final class ProtocolContractDefinitions {
                         )
                 ),
                 new ProtocolContract(
-                        ProtocolType.OPENAI_RESPONSES, "OpenAI Responses", "Responses API · OpenAI SDK 6.47.0 · 2026-07-16",
+                        ProtocolType.OPENAI_RESPONSES, "OpenAI Responses", "OpenAI API v1",
                         "OpenAI Responses API，支持多模态输入、内置工具（web_search、code_interpreter、file_search）、MCP 工具、推理（reasoning）、流式响应等能力。", "/v1/responses", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("input", "input", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.INPUT, "输入内容，支持字符串或消息项数组", "承载用户输入和对话历史", "可为纯文本字符串或结构化消息项数组（含 role + content）"),
@@ -140,10 +140,10 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("output", "output", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "输出项数组", "承载模型生成的所有输出内容", "包含 message、function_call、reasoning 等类型的输出项"),
                         ProtocolFieldRef.of("output[].type", "output[].type", FieldType.STRING, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "输出项类型：message、function_call、reasoning", "区分不同类型的输出内容", "决定输出项的结构和用途"),
                         ProtocolFieldRef.of("status", "status", FieldType.STRING, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "响应状态：completed、failed、cancelled、incomplete", "指示响应是否成功完成", "用于判断是否需要重试或处理错误"),
-                        ProtocolFieldRef.of("output[].message.content", "output[].message.content", FieldType.ARRAY, true, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "消息输出内容块数组", "承载模型生成的文本、引用等内容", "每个块包含 type（output_text）和对应内容"),
-                        ProtocolFieldRef.of("output[].message.content[].type", "output[].message.content[].type", FieldType.STRING, true, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "内容块类型：output_text、refusal", "区分文本输出与拒绝输出", "output_text 包含 text 字段，refusal 包含 refusal 字段"),
-                        ProtocolFieldRef.of("output[].message.content[].text", "output[].message.content[].text", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "文本内容", "模型生成的文本回复", "type=output_text 时存在"),
-                        ProtocolFieldRef.of("output[].message.content[].annotations", "output[].message.content[].annotations", FieldType.ARRAY, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "内容注释列表（引用、链接等）", "提供输出文本的来源引用", "web_search 等工具的引用通过 annotation 附加"),
+                        ProtocolFieldRef.of("output[].content", "output[].content", FieldType.ARRAY, true, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "消息输出内容块数组", "承载模型生成的文本、引用等内容", "type=message 的输出项直接包含 content 数组"),
+                        ProtocolFieldRef.of("output[].content[].type", "output[].content[].type", FieldType.STRING, true, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "内容块类型：output_text、refusal", "区分文本输出与拒绝输出", "output_text 包含 text 字段，refusal 包含 refusal 字段"),
+                        ProtocolFieldRef.of("output[].content[].text", "output[].content[].text", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "文本内容", "模型生成的文本回复", "type=output_text 时存在"),
+                        ProtocolFieldRef.of("output[].content[].annotations", "output[].content[].annotations", FieldType.ARRAY, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "内容注释列表（引用、链接等）", "提供输出文本的来源引用", "web_search 等工具的引用通过 annotation 附加"),
                         ProtocolFieldRef.of("input[].content[].type (input_text)", "input[].content[].type", FieldType.STRING, true, FieldSection.CONTENT_BLOCK, UsageDirection.INPUT, "输入内容块类型：input_text、input_image、input_file", "区分多模态输入类型", "决定内容块的结构"),
                         ProtocolFieldRef.of("input[].content[].text", "input[].content[].text", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.INPUT, "文本输入内容", "纯文本输入", "type=input_text 时使用"),
                         ProtocolFieldRef.of("input[].content[].image_url", "input[].content[].image_url", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.INPUT, "图片 URL 或 base64 数据", "传入图片进行多模态推理", "type=input_image 时使用"),
@@ -153,21 +153,21 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("temperature", "temperature", FieldType.FLOAT, false, FieldSection.MODEL, UsageDirection.INPUT, "采样温度 (0.0-2.0)", "控制输出随机性", "默认 1.0，推理模型不支持修改"),
                         ProtocolFieldRef.of("top_p", "top_p", FieldType.FLOAT, false, FieldSection.MODEL, UsageDirection.INPUT, "核采样概率阈值", "控制候选 token 的概率分布截断", "与 temperature 配合使用"),
                         ProtocolFieldRef.of("service_tier", "service_tier", FieldType.STRING, false, FieldSection.MODEL, UsageDirection.INPUT, "服务层级：auto、default、flex", "指定请求的优先级和延迟容忍度", "flex 层级成本更低但延迟更高"),
-                        ProtocolFieldRef.of("model (response)", "response.model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.OUTPUT, "实际使用的模型标识符", "确认请求被哪个模型处理", "可能与请求中的 model 不同（如别名解析）"),
+                        ProtocolFieldRef.of("model (response)", "model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.OUTPUT, "实际使用的模型标识符", "确认请求被哪个模型处理", "响应对象的顶级 model 字段"),
                         ProtocolFieldRef.of("tools", "tools", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "可用工具列表", "声明模型可调用的工具", "支持 function 类型和内置工具"),
-                        ProtocolFieldRef.of("tools[].type (function)", "tools[].type", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.INPUT, "工具类型：function、web_search_preview、code_interpreter、mcp、file_search", "区分工具类型", "function 为自定义工具，其余为内置工具"),
-                        ProtocolFieldRef.of("tools[].function.name", "tools[].function.name", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.INPUT, "函数名称", "唯一标识自定义工具", "模型在调用时引用此名称"),
-                        ProtocolFieldRef.of("tools[].function.description", "tools[].function.description", FieldType.STRING, false, FieldSection.TOOL, UsageDirection.INPUT, "函数描述", "帮助模型理解何时使用此工具", "描述工具的功能和适用场景"),
-                        ProtocolFieldRef.of("tools[].function.parameters", "tools[].function.parameters", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "函数参数 JSON Schema", "定义工具输入参数结构", "标准 JSON Schema 格式"),
-                        ProtocolFieldRef.of("tools[].function.strict", "tools[].function.strict", FieldType.BOOLEAN, false, FieldSection.TOOL, UsageDirection.INPUT, "是否启用严格模式", "确保模型输出严格匹配 schema", "启用后模型保证输出完全符合参数 schema"),
+                        ProtocolFieldRef.of("tools[].type (function)", "tools[].type", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.INPUT, "工具类型：function、web_search、code_interpreter、mcp、file_search", "区分工具类型", "function 为自定义工具，其余为内置工具"),
+                        ProtocolFieldRef.of("tools[].name", "tools[].name", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.INPUT, "函数名称", "唯一标识自定义工具", "Responses API 的 function 工具字段为扁平结构"),
+                        ProtocolFieldRef.of("tools[].description", "tools[].description", FieldType.STRING, false, FieldSection.TOOL, UsageDirection.INPUT, "函数描述", "帮助模型理解何时使用此工具", "描述工具的功能和适用场景"),
+                        ProtocolFieldRef.of("tools[].parameters", "tools[].parameters", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "函数参数 JSON Schema", "定义工具输入参数结构", "标准 JSON Schema 格式"),
+                        ProtocolFieldRef.of("tools[].strict", "tools[].strict", FieldType.BOOLEAN, false, FieldSection.TOOL, UsageDirection.INPUT, "是否启用严格模式", "确保模型输出严格匹配 schema", "启用后模型保证输出完全符合 parameters schema"),
                         ProtocolFieldRef.of("tool_choice", "tool_choice", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "工具选择策略", "控制模型如何选择工具", "可为 auto、required、none 或指定特定工具"),
                         ProtocolFieldRef.of("output[].function_call.id", "output[].id", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.OUTPUT, "函数调用的唯一标识", "关联工具调用与结果", "用于在后续 input 中提交 function_call_output"),
                         ProtocolFieldRef.of("output[].function_call.name", "output[].name", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.OUTPUT, "被调用的函数名称", "标识模型选择调用的工具", "匹配 tools[].function.name"),
                         ProtocolFieldRef.of("output[].function_call.arguments", "output[].arguments", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.OUTPUT, "函数调用参数（JSON 字符串）", "传递模型生成的工具输入参数", "需解析后传递给实际工具执行"),
-                        ProtocolFieldRef.of("tools[].web_search_preview", "tools[].web_search_preview", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "Web 搜索内置工具配置", "启用模型联网搜索能力", "可配置 search_context_size（low/medium/high）和 user_location"),
-                        ProtocolFieldRef.of("tools[].code_interpreter", "tools[].code_interpreter", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "代码解释器内置工具配置", "启用模型代码执行能力", "可配置 container 和 file_ids"),
-                        ProtocolFieldRef.of("tools[].mcp", "tools[].mcp", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "MCP 服务器工具配置", "连接外部 MCP 服务器工具", "包含 server_label、server_url、allowed_tools 等字段"),
-                        ProtocolFieldRef.of("tools[].file_search", "tools[].file_search", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "文件搜索内置工具配置", "在已上传文件中进行语义搜索", "包含 vector_store_ids 和 ranking_options"),
+                        ProtocolFieldRef.of("tools[].search_context_size", "tools[].search_context_size", FieldType.STRING, false, FieldSection.TOOL, UsageDirection.INPUT, "Web 搜索上下文规模", "配置 Web 搜索返回的上下文量", "type=web_search 时使用"),
+                        ProtocolFieldRef.of("tools[].container", "tools[].container", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "代码解释器容器", "配置代码执行环境", "type=code_interpreter 时使用"),
+                        ProtocolFieldRef.of("tools[].server_label", "tools[].server_label", FieldType.STRING, false, FieldSection.TOOL, UsageDirection.INPUT, "MCP 服务器标签", "标识远程 MCP 服务器", "type=mcp 时使用"),
+                        ProtocolFieldRef.of("tools[].vector_store_ids", "tools[].vector_store_ids", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "向量库 ID 列表", "配置文件搜索的数据源", "type=file_search 时使用"),
                         ProtocolFieldRef.of("reasoning", "reasoning", FieldType.OBJECT, false, FieldSection.REASONING, UsageDirection.INPUT, "推理配置", "启用和配置扩展推理能力", "仅推理模型（o1、o3 等）支持"),
                         ProtocolFieldRef.of("reasoning.effort", "reasoning.effort", FieldType.STRING, false, FieldSection.REASONING, UsageDirection.INPUT, "推理努力程度：low、medium、high", "控制模型在推理上花费的 token 量", "low 更快但浅层，high 更深入但消耗更多 token"),
                         ProtocolFieldRef.of("reasoning.summary", "reasoning.summary", FieldType.STRING, false, FieldSection.REASONING, UsageDirection.INPUT, "推理摘要策略：auto、concise、detailed", "控制是否在输出中包含推理摘要", "启用后输出中包含推理过程的可读摘要"),
@@ -209,7 +209,7 @@ final class ProtocolContractDefinitions {
                         )
                 ),
                 new ProtocolContract(
-                        ProtocolType.OPENAI_CHAT_COMPLETIONS, "OpenAI Chat Completions", "Chat Completions API · OpenAI SDK 6.47.0 · 2026-07-16",
+                        ProtocolType.OPENAI_CHAT_COMPLETIONS, "OpenAI Chat Completions", "OpenAI API v1",
                         "OpenAI Chat Completions API，业界最广泛兼容的 LLM 对话协议，支持工具调用、流式响应、JSON 模式、结构化输出等能力。", "/v1/chat/completions", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("messages", "messages", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.INPUT, "对话消息列表", "承载多轮对话上下文", "数组元素包含 role（system/user/assistant/tool）和 content 字段"),
@@ -244,7 +244,7 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("response_format", "response_format", FieldType.OBJECT, false, FieldSection.MODEL, UsageDirection.INPUT, "响应格式配置", "控制输出格式", "包含 type 字段"),
                         ProtocolFieldRef.of("response_format.type", "response_format.type", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.INPUT, "格式类型：text、json_object、json_schema", "指定输出结构化格式", "json_schema 可强制输出严格遵循 schema"),
                         ProtocolFieldRef.of("response_format.json_schema", "response_format.json_schema", FieldType.OBJECT, false, FieldSection.MODEL, UsageDirection.INPUT, "JSON Schema 定义（结构化输出）", "约束模型输出遵循指定 schema", "包含 name、schema、strict 字段"),
-                        ProtocolFieldRef.of("model (response)", "response.model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.OUTPUT, "实际使用的模型标识符", "确认请求被哪个模型处理", "可能与请求中的 model 不同"),
+                        ProtocolFieldRef.of("model (response)", "model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.OUTPUT, "实际使用的模型标识符", "确认请求被哪个模型处理", "响应对象的顶级 model 字段"),
                         ProtocolFieldRef.of("system_fingerprint", "system_fingerprint", FieldType.STRING, false, FieldSection.MODEL, UsageDirection.OUTPUT, "系统指纹", "标识后端配置版本", "可用于判断输出是否因后端变化而不同"),
                         ProtocolFieldRef.of("tools", "tools", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "可用工具列表", "声明模型可调用的工具", "每个工具包含 type（function）和 function 定义"),
                         ProtocolFieldRef.of("tools[].type", "tools[].type", FieldType.STRING, true, FieldSection.TOOL, UsageDirection.INPUT, "工具类型，固定为 function", "标识工具类型", "目前仅支持 function"),
@@ -290,7 +290,7 @@ final class ProtocolContractDefinitions {
                         )
                 ),
                 new ProtocolContract(
-                        ProtocolType.AWS_BEDROCK_CONVERSE, "AWS Bedrock Converse", "Bedrock Runtime Converse 2023-09-30 · 2026-07-16",
+                        ProtocolType.AWS_BEDROCK_CONVERSE, "AWS Bedrock Converse", "Bedrock Runtime 2023-09-30",
                         "AWS Bedrock Converse API，AWS 统一的多模型对话接口，支持工具调用、推理、流式响应、文档/图片输入、Guardrails 等能力。仅作为上游协议使用。", "/model/{modelId}/converse", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("messages", "messages", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.INPUT, "对话消息列表", "承载多轮对话上下文", "数组元素包含 role（user/assistant）和 content 字段"),

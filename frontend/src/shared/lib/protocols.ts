@@ -30,15 +30,15 @@ export const UPSTREAM_PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolTy
 
 const PROTOCOL_META: Record<string, ProtocolMeta> = {
   CLAUDE_MESSAGES: {
-    label: 'Claude Messages', color: 'orange', verifiedAt: '2026-07-16', referenceVersion: 'Anthropic SDK 0.111.0',
+    label: 'Claude Messages', color: 'orange', verifiedAt: '2026-07-16', referenceVersion: 'Anthropic API 2023-06-01',
     officialSpecUrl: 'https://platform.claude.com/docs/en/api/messages/create',
   },
   OPENAI_RESPONSES: {
-    label: 'OpenAI Responses', color: 'purple', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI SDK 6.47.0',
+    label: 'OpenAI Responses', color: 'purple', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI API v1',
     officialSpecUrl: 'https://developers.openai.com/api/reference/resources/responses/methods/create',
   },
   OPENAI_CHAT_COMPLETIONS: {
-    label: 'OpenAI Chat Completions', color: 'blue', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI SDK 6.47.0',
+    label: 'OpenAI Chat Completions', color: 'blue', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI API v1',
     officialSpecUrl: 'https://developers.openai.com/api/reference/resources/chat',
   },
   AWS_BEDROCK_CONVERSE: {

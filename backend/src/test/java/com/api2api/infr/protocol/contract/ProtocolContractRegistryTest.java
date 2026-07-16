@@ -3,6 +3,7 @@ package com.api2api.infr.protocol.contract;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocolcontract.model.ParsedGatewayRequest;
@@ -75,5 +76,28 @@ class ProtocolContractRegistryTest {
                     .map(field -> field.fieldPath()).toList();
             assertEquals(contractPaths, metadataPaths);
         }
+    }
+
+    @Test
+    void test_reports_official_api_versions_when_four_protocols_are_registered() {
+        assertEquals("Anthropic API 2023-06-01", registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
+        assertEquals("OpenAI API v1", registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
+        assertEquals("OpenAI API v1", registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());
+        assertEquals("Bedrock Runtime 2023-09-30", registry.require(ProtocolType.AWS_BEDROCK_CONVERSE).apiSpecVersion());
+    }
+
+    @Test
+    void test_uses_official_flattened_tool_paths_when_responses_contract_is_registered() {
+        List<String> fieldPaths = registry.require(ProtocolType.OPENAI_RESPONSES).fields().stream()
+                .map(ProtocolFieldRef::path)
+                .toList();
+
+        assertTrue(fieldPaths.containsAll(List.of(
+                "tools[].name",
+                "tools[].description",
+                "tools[].parameters",
+                "tools[].strict"
+        )));
+        assertFalse(fieldPaths.stream().anyMatch(path -> path.startsWith("tools[].function.")));
     }
 }

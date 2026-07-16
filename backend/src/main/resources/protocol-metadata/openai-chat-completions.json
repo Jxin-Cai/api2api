@@ -1,7 +1,7 @@
 {
   "protocolType": "OPENAI_CHAT_COMPLETIONS",
   "displayName": "OpenAI Chat Completions",
-  "apiSpecVersion": "Chat Completions API · OpenAI SDK 6.47.0 · 2026-07-16",
+  "apiSpecVersion": "OpenAI API v1",
   "description": "OpenAI Chat Completions API，业界最广泛兼容的 LLM 对话协议，支持工具调用、流式响应、JSON 模式、结构化输出等能力。",
   "defaultEndpointPath": "/v1/chat/completions",
   "fields": [
@@ -37,7 +37,7 @@
     {"fieldName": "response_format", "fieldPath": "response_format", "fieldType": "OBJECT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "响应格式配置", "purpose": "控制输出格式", "usageContext": "包含 type 字段"},
     {"fieldName": "response_format.type", "fieldPath": "response_format.type", "fieldType": "STRING", "required": true, "section": "MODEL", "usageDirection": "INPUT", "description": "格式类型：text、json_object、json_schema", "purpose": "指定输出结构化格式", "usageContext": "json_schema 可强制输出严格遵循 schema"},
     {"fieldName": "response_format.json_schema", "fieldPath": "response_format.json_schema", "fieldType": "OBJECT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "JSON Schema 定义（结构化输出）", "purpose": "约束模型输出遵循指定 schema", "usageContext": "包含 name、schema、strict 字段"},
-    {"fieldName": "model (response)", "fieldPath": "response.model", "fieldType": "STRING", "required": true, "section": "MODEL", "usageDirection": "OUTPUT", "description": "实际使用的模型标识符", "purpose": "确认请求被哪个模型处理", "usageContext": "可能与请求中的 model 不同"},
+    {"fieldName": "model (response)", "fieldPath": "model", "fieldType": "STRING", "required": true, "section": "MODEL", "usageDirection": "OUTPUT", "description": "实际使用的模型标识符", "purpose": "确认请求被哪个模型处理", "usageContext": "响应对象的顶级 model 字段"},
     {"fieldName": "system_fingerprint", "fieldPath": "system_fingerprint", "fieldType": "STRING", "required": false, "section": "MODEL", "usageDirection": "OUTPUT", "description": "系统指纹", "purpose": "标识后端配置版本", "usageContext": "可用于判断输出是否因后端变化而不同"},
     {"fieldName": "tools", "fieldPath": "tools", "fieldType": "ARRAY", "required": false, "section": "TOOL", "usageDirection": "INPUT", "description": "可用工具列表", "purpose": "声明模型可调用的工具", "usageContext": "每个工具包含 type（function）和 function 定义"},
     {"fieldName": "tools[].type", "fieldPath": "tools[].type", "fieldType": "STRING", "required": true, "section": "TOOL", "usageDirection": "INPUT", "description": "工具类型，固定为 function", "purpose": "标识工具类型", "usageContext": "目前仅支持 function"},

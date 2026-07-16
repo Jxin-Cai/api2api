@@ -1,5 +1,5 @@
 import { ExportOutlined } from '@ant-design/icons';
-import { Alert, Card, Collapse, Descriptions, Space, Spin, Tag, Typography } from 'antd';
+import { Alert, Collapse, Space, Spin, Tag, Typography } from 'antd';
 import { ProtocolFieldTable, useProtocolMetadataDetail } from '@entities/protocol-metadata';
 import { getProtocolMeta } from '@shared/lib/protocols';
 import { PageState } from '@shared/ui';
@@ -18,32 +18,47 @@ export function ProtocolMetadataDetailPanel({ protocolType }: ProtocolMetadataDe
   const protocolMeta = getProtocolMeta(detail.protocolType);
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
-      <Card size="small">
-        <Descriptions size="small" column={{ xs: 1, sm: 2, md: 3 }} bordered>
-          <Descriptions.Item label="协议名称">{detail.displayName}</Descriptions.Item>
-          <Descriptions.Item label="API 规范版本">
-            <Tag color="blue">{detail.apiSpecVersion}</Tag>
-          </Descriptions.Item>
-          <Descriptions.Item label="默认端点">
-            <Typography.Text code>{detail.defaultEndpointPath}</Typography.Text>
-          </Descriptions.Item>
-          <Descriptions.Item label="总字段数">{detail.fieldCount}</Descriptions.Item>
-          <Descriptions.Item label="入参字段">{detail.inputFieldCount}</Descriptions.Item>
-          <Descriptions.Item label="出参字段">{detail.outputFieldCount}</Descriptions.Item>
-          <Descriptions.Item label="描述" span={3}>{detail.description}</Descriptions.Item>
-          <Descriptions.Item label="官方规范" span={2}>
-            {protocolMeta.officialSpecUrl ? (
-              <Typography.Link href={protocolMeta.officialSpecUrl} target="_blank" rel="noreferrer">
-                {protocolMeta.referenceVersion ?? '官方 API Reference'} <ExportOutlined />
-              </Typography.Link>
-            ) : '-'}
-          </Descriptions.Item>
-          <Descriptions.Item label="核验日期">{protocolMeta.verifiedAt ?? '-'}</Descriptions.Item>
-        </Descriptions>
-      </Card>
+    <Space className="protocol-metadata-detail" direction="vertical" size={20}>
+      <header className="protocol-metadata-detail__header">
+        <div className="protocol-metadata-detail__heading">
+          <div>
+            <Typography.Title level={3}>{detail.displayName}</Typography.Title>
+            <Typography.Paragraph type="secondary">{detail.description}</Typography.Paragraph>
+          </div>
+          <Tag className="protocol-metadata-detail__version">{detail.apiSpecVersion}</Tag>
+        </div>
+
+        <dl className="protocol-metadata-detail__facts">
+          <div className="protocol-metadata-detail__fact protocol-metadata-detail__fact--endpoint">
+            <dt>默认端点</dt>
+            <dd><Typography.Text code>{detail.defaultEndpointPath}</Typography.Text></dd>
+          </div>
+          <div className="protocol-metadata-detail__fact">
+            <dt>字段总数</dt>
+            <dd>{detail.fieldCount}</dd>
+          </div>
+          <div className="protocol-metadata-detail__fact">
+            <dt>入参字段</dt>
+            <dd>{detail.inputFieldCount}</dd>
+          </div>
+          <div className="protocol-metadata-detail__fact">
+            <dt>出参字段</dt>
+            <dd>{detail.outputFieldCount}</dd>
+          </div>
+        </dl>
+
+        <div className="protocol-metadata-detail__reference">
+          {protocolMeta.officialSpecUrl ? (
+            <Typography.Link href={protocolMeta.officialSpecUrl} target="_blank" rel="noreferrer">
+              {protocolMeta.referenceVersion ?? '查看官方 API Reference'} <ExportOutlined />
+            </Typography.Link>
+          ) : null}
+          <Typography.Text type="secondary">核验日期 {protocolMeta.verifiedAt ?? '-'}</Typography.Text>
+        </div>
+      </header>
 
       <Alert
+        className="protocol-metadata-detail__notice"
         type="info"
         showIcon
         message="字段来源与运行时支持是两层信息"
@@ -51,6 +66,7 @@ export function ProtocolMetadataDetailPanel({ protocolType }: ProtocolMetadataDe
       />
 
       <Collapse
+        className="protocol-metadata-detail__sections"
         defaultActiveKey={detail.sections.slice(0, 3).map((s) => s.section)}
         items={detail.sections.map((section) => ({
           key: section.section,
