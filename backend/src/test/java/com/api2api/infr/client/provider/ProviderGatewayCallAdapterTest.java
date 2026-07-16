@@ -32,6 +32,8 @@ import com.api2api.domain.protocol.model.MappingLossiness;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinitionId;
 import com.api2api.domain.routing.model.RouteCandidate;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -131,6 +133,25 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
+    void test_usesInvokeEndpointAndMovesClaudeControlsToHeaders_when_nativeBedrockProtocolSelected() throws Exception {
+        AtomicInteger requests = new AtomicInteger();
+        server = bedrockInvokeServer(requests);
+        ProviderGatewayCallAdapter adapter = adapter(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES);
+
+        ProviderGatewayResponse response = adapter.forward(
+                candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES),
+                """
+                        {"anthropic_version":"bedrock-2023-05-31","max_tokens":64,"messages":[],"service_tier":"priority","speed":"fast"}
+                        """,
+                false,
+                Map.of("anthropic-beta", List.of("compact-2026-01-12,tool-search-tool-2025-10-19"))
+        );
+
+        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(requests.get()).isEqualTo(1);
+    }
+
+    @Test
     void openStreamTreatsModelNotFoundAsRetryableForProtocolFallback() throws IOException {
         server = server(404, "application/json", "{\"error\":{\"type\":\"model_not_found\",\"message\":\"not supported by any configured account\"}}");
         ProviderGatewayCallAdapter adapter = adapter();
@@ -212,35 +233,71 @@ class ProviderGatewayCallAdapterTest {
         return httpServer;
     }
 
+    private HttpServer bedrockInvokeServer(AtomicInteger requests) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext("/model/gpt/invoke", exchange -> {
+            requests.incrementAndGet();
+            assertThat(exchange.getRequestHeaders().getFirst("X-Amzn-Bedrock-Service-Tier"))
+                    .isEqualTo("priority");
+            assertThat(exchange.getRequestHeaders().getFirst("X-Amzn-Bedrock-PerformanceConfig-Latency"))
+                    .isEqualTo("optimized");
+            assertThat(exchange.getRequestHeaders().getFirst("anthropic-beta")).isNull();
+            JsonNode body = new ObjectMapper().readTree(exchange.getRequestBody());
+            assertThat(body.has("service_tier")).isFalse();
+            assertThat(body.has("speed")).isFalse();
+            assertThat(body.at("/anthropic_beta/0").asText()).isEqualTo("compact-2026-01-12");
+            assertThat(body.at("/anthropic_beta/1").asText()).isEqualTo("tool-search-tool-2025-10-19");
+            byte[] response = "{\"type\":\"message\",\"content\":[]}".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, response.length);
+            exchange.getResponseBody().write(response);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
     private ProviderGatewayCallAdapter adapter() {
+        return adapter(ProtocolType.AWS_BEDROCK_CONVERSE);
+    }
+
+    private ProviderGatewayCallAdapter adapter(ProtocolType claudeUpstreamProtocol) {
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         properties.setAllowInsecureHosts(true);
-        return adapter(properties);
+        return adapter(properties, claudeUpstreamProtocol);
     }
 
     private ProviderGatewayCallAdapter adapterWithStreamingRetryBackoff() {
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         properties.setAllowInsecureHosts(true);
         properties.setStreamingRetryBackoff(java.time.Duration.ofMillis(1));
-        return adapter(properties);
+        return adapter(properties, ProtocolType.AWS_BEDROCK_CONVERSE);
     }
 
     private ProviderGatewayCallAdapter adapter(ProviderHttpClientProperties properties) {
+        return adapter(properties, ProtocolType.AWS_BEDROCK_CONVERSE);
+    }
+
+    private ProviderGatewayCallAdapter adapter(
+            ProviderHttpClientProperties properties,
+            ProtocolType claudeUpstreamProtocol
+    ) {
         ProviderSecretProperties secretProperties = new ProviderSecretProperties();
         secretProperties.setKeys(Map.of("provider-key", "provider-secret"));
-        ProviderChannelRepository repo = new FixedProviderChannelRepository(channel());
+        ProviderChannelRepository repo = new FixedProviderChannelRepository(channel(claudeUpstreamProtocol));
         ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
         BearerTokenProviderCallStrategy bearerStrategy = new BearerTokenProviderCallStrategy(
                 repo,
                 secretResolver,
                 properties,
                 new UpstreamHttpHeaderPolicy(properties),
-                new UpstreamUrlResolver(properties)
+                new UpstreamUrlResolver(properties),
+                new ObjectMapper()
         );
         return new ProviderGatewayCallAdapter(List.of(bearerStrategy));
     }
 
-    private ProviderChannel channel() {
+    private ProviderChannel channel(ProtocolType claudeUpstreamProtocol) {
         return ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("test"),
@@ -250,11 +307,11 @@ class ProviderGatewayCallAdapterTest {
                 1,
                 Set.of(
                         ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES),
-                        ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE)
+                        ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, claudeUpstreamProtocol)
                 ),
                 List.of(
                         modelSupport(1L, ProtocolType.OPENAI_RESPONSES),
-                        modelSupport(2L, ProtocolType.AWS_BEDROCK_CONVERSE)
+                        modelSupport(2L, claudeUpstreamProtocol)
                 ),
                 ProviderChannelStatus.ENABLED,
                 NOW,

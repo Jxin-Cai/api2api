@@ -85,4 +85,22 @@ class ClaudeMessagesUsageExtractorTest {
         // Assert
         assertThat(usage.outputTokens()).isEqualTo(8L);
     }
+
+    @Test
+    void test_sumsIterationTokens_when_serverCompactionWasTriggered() throws Exception {
+        // Arrange
+        var payload = objectMapper.readTree("""
+                {"usage":{"input_tokens":23000,"output_tokens":1000,"iterations":[
+                  {"type":"compaction","input_tokens":180000,"output_tokens":3500},
+                  {"type":"message","input_tokens":23000,"output_tokens":1000}
+                ]}}
+                """);
+
+        // Act
+        UnifiedTokenUsage usage = extractor.extract(payload);
+
+        // Assert
+        assertThat(usage.inputTokens()).isEqualTo(203000L);
+        assertThat(usage.outputTokens()).isEqualTo(4500L);
+    }
 }

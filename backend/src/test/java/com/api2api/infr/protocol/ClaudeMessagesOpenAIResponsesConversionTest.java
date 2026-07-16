@@ -298,6 +298,53 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_mapsDeprecatedClaudeOutputFormatAndPriorityTier_whenConvertingToResponses() throws Exception {
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,"service_tier":"priority",
+                 "output_format":{"type":"json","schema":{"type":"object"}},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        assertThat(mapped.path("service_tier").asText()).isEqualTo("priority");
+        assertThat(mapped.at("/text/format/type").asText()).isEqualTo("json");
+    }
+
+    @Test
+    void test_preservesResponsesToolCallsAndReasoning_whenConvertingToChatResponse() throws Exception {
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .openAIResponsesToOpenAIChatResponse(
+                        json, new OpenAIResponsesUsageExtractor(), new SseEventTransformer());
+        String body = """
+                {"id":"resp_1","model":"gpt-5.5","status":"completed",
+                 "output":[
+                   {"type":"reasoning","summary":[{"type":"summary_text","text":"inspect first"}]},
+                   {"type":"function_call","call_id":"call_1","name":"Read",
+                    "arguments":"{\\"file_path\\":\\"README.md\\"}"},
+                   {"type":"message","content":[{"type":"output_text","text":"done"}]}
+                 ],"usage":{"input_tokens":3,"output_tokens":2}}
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        assertThat(mapped.at("/choices/0/message/content").asText()).isEqualTo("done");
+        assertThat(mapped.at("/choices/0/message/reasoning_content").asText()).isEqualTo("inspect first");
+        assertThat(mapped.at("/choices/0/message/tool_calls/0/function/name").asText()).isEqualTo("Read");
+        assertThat(mapped.at("/choices/0/message/tool_calls/0/function/arguments").asText())
+                .isEqualTo("{\"file_path\":\"README.md\"}");
+        assertThat(mapped.at("/choices/0/finish_reason").asText()).isEqualTo("tool_calls");
+    }
+
+    @Test
     void shouldPreserveTextAndToolOrderingWithinAssistantContent() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()

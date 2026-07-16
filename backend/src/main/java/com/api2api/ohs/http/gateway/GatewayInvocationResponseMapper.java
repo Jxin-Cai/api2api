@@ -221,7 +221,7 @@ public class GatewayInvocationResponseMapper {
             return switch (protocol) {
                 case CLAUDE_MESSAGES -> buildClaudeErrorBody(error);
                 case OPENAI_RESPONSES, OPENAI_CHAT_COMPLETIONS -> buildOpenAIErrorBody(error);
-                case AWS_BEDROCK_CONVERSE -> buildOpenAIErrorBody(error);
+                case AWS_BEDROCK_CONVERSE, AWS_BEDROCK_CLAUDE_MESSAGES -> buildOpenAIErrorBody(error);
             };
         } catch (Exception exception) {
             return buildFallbackErrorBody(error);

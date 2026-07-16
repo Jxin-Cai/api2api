@@ -26,6 +26,19 @@ class JsonGatewayPayloadModelMappingAdapterTest {
     }
 
     @Test
+    void test_doesNotWriteModelIntoBody_when_bedrockClaudeMessagesUsesModelUri() {
+        String body = "{\"anthropic_version\":\"bedrock-2023-05-31\",\"messages\":[]}";
+
+        String mapped = adapter.rewriteModel(
+                ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
+                body,
+                ModelName.of("anthropic.claude-opus-4-8")
+        );
+
+        assertThat(mapped).isEqualTo(body);
+    }
+
+    @Test
     void shouldRewriteModelForJsonProtocolsThatCarryItInTheBody() throws Exception {
         String mapped = adapter.rewriteModel(
                 ProtocolType.OPENAI_RESPONSES,

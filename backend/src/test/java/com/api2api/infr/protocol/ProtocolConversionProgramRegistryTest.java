@@ -18,8 +18,8 @@ class ProtocolConversionProgramRegistryTest {
     private final ProtocolConversionProgramRegistry registry = new ProtocolConversionProgramRegistry(allConverters);
 
     @Test
-    void test_registryIndexesAllConverters_when_allEighteenRegistered() {
-        assertThat(allConverters).hasSize(18);
+    void test_registryIndexesAllConverters_when_allTwentyRegistered() {
+        assertThat(allConverters).hasSize(20);
     }
 
     @ParameterizedTest(name = "{0}→{1} {2}")
@@ -79,6 +79,44 @@ class ProtocolConversionProgramRegistryTest {
         assertThat(allowedCallers.supported()).isFalse();
     }
 
+    @Test
+    void test_marksDroppedFieldUnmapped_when_targetHasNoEquivalentField() {
+        // Arrange
+        List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.OPENAI_RESPONSES,
+                ProtocolConversionDirection.REQUEST
+        ).orElseThrow();
+
+        // Act
+        FieldMapping topK = mappings.stream()
+                .filter(mapping -> mapping.sourceField().equals("top_k"))
+                .findFirst()
+                .orElseThrow();
+
+        // Assert
+        assertThat(topK.supported()).isFalse();
+    }
+
+    @Test
+    void test_exposesLeafFieldMapping_when_toolDefinitionContainsMultipleFields() {
+        // Arrange
+        List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.OPENAI_RESPONSES,
+                ProtocolConversionDirection.REQUEST
+        ).orElseThrow();
+
+        // Act
+        FieldMapping inputSchema = mappings.stream()
+                .filter(mapping -> mapping.sourceField().equals("tools[].input_schema"))
+                .findFirst()
+                .orElseThrow();
+
+        // Assert
+        assertThat(inputSchema.targetField()).isEqualTo("tools[].parameters");
+    }
+
     static Stream<Arguments> allConverterDirections() {
         return Stream.of(
                 // Generic converters (12)
@@ -100,7 +138,10 @@ class ProtocolConversionProgramRegistryTest {
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
                 Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE),
                 Arguments.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE)
+                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE),
+                // Native Bedrock Claude Messages converters (2)
+                Arguments.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST),
+                Arguments.of(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE)
         );
     }
 

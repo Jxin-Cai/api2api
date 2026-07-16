@@ -1,6 +1,6 @@
 import { Table, Typography, Space, Tag, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { getLossinessMeta } from '../model/mappingView';
+import { getLossinessMeta, getMappingCoverageStatus } from '../model/mappingView';
 import type { ProtocolConversionFieldMappingResponse, ProtocolConversionMappingResponse } from '../model/types';
 import { FieldPathText } from './FieldPathText';
 
@@ -18,26 +18,36 @@ export function FieldMappingTable({ mapping, loading = false }: FieldMappingTabl
 
   const columns: ColumnsType<ProtocolConversionFieldMappingResponse> = [
     {
-      title: '分类',
+      title: '字段分组',
       dataIndex: 'category',
       width: 120,
       render: (value: string | undefined) => value ? <Tag>{value}</Tag> : '-',
     },
     {
-      title: '类型',
-      dataIndex: 'mappingType',
+      title: '映射状态',
+      key: 'coverageStatus',
       width: 120,
-      render: (value: string | undefined) => value ? <Tag color="blue">{value}</Tag> : '-',
+      render: (_value, record) => {
+        const status = getMappingCoverageStatus(record);
+        const meta = status === 'mapped'
+          ? { color: 'success', label: '已映射' }
+          : status === 'partial'
+            ? { color: 'warning', label: '部分映射' }
+            : { color: 'error', label: '未映射' };
+        return <Tag color={meta.color}>{meta.label}</Tag>;
+      },
     },
     {
-      title: 'Source',
+      title: '输入字段',
       dataIndex: 'sourceField',
       render: (_value: string, record) => <FieldPathText value={record.sourcePath || record.sourceField} />,
     },
     {
-      title: 'Target',
+      title: '输出字段',
       dataIndex: 'targetField',
-      render: (_value: string, record) => <FieldPathText value={record.targetPath || record.targetField} />,
+      render: (_value: string, record) => getMappingCoverageStatus(record) === 'unmapped'
+        ? <Typography.Text type="danger">— 无对应字段</Typography.Text>
+        : <FieldPathText value={record.targetPath || record.targetField} />,
     },
     {
       title: '参数',
@@ -46,7 +56,6 @@ export function FieldMappingTable({ mapping, loading = false }: FieldMappingTabl
         <Space direction="vertical" size={2}>
           {record.sourceType || record.targetType ? <Typography.Text type="secondary">{record.sourceType ?? '-'} → {record.targetType ?? '-'}</Typography.Text> : null}
           {record.required !== undefined ? <Tag color={record.required ? 'warning' : 'default'}>{record.required ? '必填' : '可选'}</Tag> : null}
-          {record.supported !== undefined ? <Tag color={record.supported ? 'success' : 'error'}>{record.supported ? '支持' : '不支持'}</Tag> : null}
           {record.defaultValue ? <Typography.Text type="secondary">默认：{record.defaultValue}</Typography.Text> : null}
         </Space>
       ),
@@ -63,7 +72,7 @@ export function FieldMappingTable({ mapping, loading = false }: FieldMappingTabl
       ),
     },
     {
-      title: '损耗',
+      title: '信息损耗',
       dataIndex: 'lossiness',
       render: (value: string) => {
         const meta = getLossinessMeta(value);
@@ -75,7 +84,7 @@ export function FieldMappingTable({ mapping, loading = false }: FieldMappingTabl
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <div>
-        <Typography.Title level={5} style={{ marginBottom: 4 }}>{mapping.title}</Typography.Title>
+        <Typography.Title level={5} style={{ marginBottom: 4 }}>{mapping.direction.toUpperCase() === 'REQUEST' ? '请求字段如何转换' : '响应字段如何转换'}</Typography.Title>
         <Typography.Text type="secondary">{mapping.summary}</Typography.Text>
       </div>
       <Table

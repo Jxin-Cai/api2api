@@ -1,13 +1,14 @@
 import type { ProtocolConversionFieldMappingResponse, ProtocolConversionMappingResponse } from './types';
 
-export type FieldPathSegmentKind = 'property' | 'array' | 'index' | 'wildcard';
+export type FieldPathSegmentKind = 'property' | 'array' | 'index' | 'wildcard' | 'selector';
 
 export interface FieldPathSegment {
   value: string;
   kind: FieldPathSegmentKind;
 }
 
-export type MappingViewType = 'direct' | 'rename' | 'reshape' | 'default' | 'transform' | 'capability' | 'lossy' | 'unknown';
+export type MappingViewType = 'direct' | 'rename' | 'reshape' | 'default' | 'transform' | 'capability' | 'lossy' | 'unmapped' | 'container' | 'unknown';
+export type MappingCoverageStatus = 'mapped' | 'partial' | 'unmapped';
 
 export interface MappingTypeMeta {
   type: MappingViewType;
@@ -43,6 +44,7 @@ export interface MappingViewRow {
   type: MappingViewType;
   typeMeta: MappingTypeMeta;
   lossinessMeta: LossinessMeta;
+  coverageStatus: MappingCoverageStatus;
 }
 
 export interface MappingViewGroup {
@@ -52,6 +54,7 @@ export interface MappingViewGroup {
   rows: MappingViewRow[];
   count: number;
   lossyCount: number;
+  unmappedCount: number;
   types: MappingViewType[];
 }
 
@@ -59,6 +62,9 @@ export interface MappingView {
   groups: MappingViewGroup[];
   totalCount: number;
   lossyCount: number;
+  mappedCount: number;
+  partialCount: number;
+  unmappedCount: number;
 }
 
 interface SemanticGroupMeta {
@@ -108,13 +114,15 @@ const SEMANTIC_GROUPS: SemanticGroupMeta[] = [
 ];
 
 const TYPE_META: Record<MappingViewType, MappingTypeMeta> = {
-  direct: { type: 'direct', label: '直通', color: 'green', lineClassName: 'is-direct' },
-  rename: { type: 'rename', label: '重命名', color: 'blue', lineClassName: 'is-rename' },
-  reshape: { type: 'reshape', label: '结构重组', color: 'purple', lineClassName: 'is-reshape' },
-  default: { type: 'default', label: '默认/补全', color: 'gold', lineClassName: 'is-default' },
-  transform: { type: 'transform', label: '格式转换', color: 'geekblue', lineClassName: 'is-transform' },
-  capability: { type: 'capability', label: '能力字段', color: 'cyan', lineClassName: 'is-capability' },
-  lossy: { type: 'lossy', label: '有损映射', color: 'warning', lineClassName: 'is-lossy' },
+  direct: { type: 'direct', label: '原值保留', color: 'green', lineClassName: 'is-direct' },
+  rename: { type: 'rename', label: '字段改名', color: 'blue', lineClassName: 'is-rename' },
+  reshape: { type: 'reshape', label: '结构调整', color: 'purple', lineClassName: 'is-reshape' },
+  default: { type: 'default', label: '自动补值', color: 'gold', lineClassName: 'is-default' },
+  transform: { type: 'transform', label: '值转换', color: 'geekblue', lineClassName: 'is-transform' },
+  capability: { type: 'capability', label: '能力适配', color: 'cyan', lineClassName: 'is-capability' },
+  lossy: { type: 'lossy', label: '部分保留', color: 'warning', lineClassName: 'is-lossy' },
+  unmapped: { type: 'unmapped', label: '未映射', color: 'error', lineClassName: 'is-unmapped' },
+  container: { type: 'container', label: '结构入口', color: 'default', lineClassName: 'is-container' },
   unknown: { type: 'unknown', label: '规则映射', color: 'default', lineClassName: 'is-unknown' },
 };
 
@@ -140,6 +148,7 @@ function parsePathPart(part: string): FieldPathSegment[] {
   let match: RegExpExecArray | null;
 
   while ((match = matcher.exec(part)) !== null) {
+    const isBracketSegment = match[2] !== undefined;
     const raw = match[1] ?? match[2] ?? '';
     const value = raw.trim();
     if (!value) {
@@ -148,6 +157,8 @@ function parsePathPart(part: string): FieldPathSegment[] {
       segments.push({ value: '*', kind: 'wildcard' });
     } else if (/^\d+$/.test(value)) {
       segments.push({ value: `[${value}]`, kind: 'index' });
+    } else if (isBracketSegment) {
+      segments.push({ value, kind: 'selector' });
     } else {
       segments.push({ value, kind: 'property' });
     }
@@ -172,12 +183,16 @@ export function getLossinessMeta(lossiness: string): LossinessMeta {
 }
 
 export function inferMappingViewType(mapping: ProtocolConversionFieldMappingResponse): MappingViewType {
+  const mappingType = mapping.mappingType?.toUpperCase();
+  const source = mapping.sourceField.trim();
+  const target = mapping.targetField.trim();
+  if (isContainerMapping(source, target, mappingType)) {
+    return 'container';
+  }
   const explicitType = normalizeMappingType(mapping.mappingType);
   if (explicitType) {
     return explicitType;
   }
-  const source = mapping.sourceField.trim();
-  const target = mapping.targetField.trim();
   const rule = mapping.ruleDescription.toLowerCase();
   const combined = `${source} ${target} ${rule}`.toLowerCase();
 
@@ -209,6 +224,23 @@ export function inferMappingViewType(mapping: ProtocolConversionFieldMappingResp
   return 'unknown';
 }
 
+function isContainerMapping(source: string, target: string, mappingType?: string): boolean {
+  if (mappingType?.toUpperCase() !== 'RESHAPE') return false;
+  const isSimplePath = (path: string) => Boolean(path) && !/[.[\]/=]/.test(path);
+  return isSimplePath(source) && isSimplePath(target);
+}
+
+export function getMappingCoverageStatus(mapping: ProtocolConversionFieldMappingResponse): MappingCoverageStatus {
+  const target = (mapping.targetPath || mapping.targetField).trim().toLowerCase();
+  const mappingType = mapping.mappingType?.toUpperCase();
+  if (mapping.supported === false
+    || ['DROP', 'UNSUPPORTED', 'UNMAPPED'].includes(mappingType ?? '')
+    || ['-', '(dropped)', '(unsupported)', '(unmapped)'].includes(target)) {
+    return 'unmapped';
+  }
+  return getLossinessMeta(mapping.lossiness).isLossy ? 'partial' : 'mapped';
+}
+
 export function buildMappingView(mapping: ProtocolConversionMappingResponse): MappingView {
   const groupMap = new Map<string, MappingViewGroup>();
 
@@ -238,6 +270,7 @@ export function buildMappingView(mapping: ProtocolConversionMappingResponse): Ma
       type,
       typeMeta: getMappingTypeMeta(type),
       lossinessMeta: getLossinessMeta(fieldMapping.lossiness),
+      coverageStatus: getMappingCoverageStatus(fieldMapping),
     };
     const groupMeta = inferSemanticGroup(row);
     const existing = groupMap.get(groupMeta.key);
@@ -248,21 +281,27 @@ export function buildMappingView(mapping: ProtocolConversionMappingResponse): Ma
       rows: [],
       count: 0,
       lossyCount: 0,
+      unmappedCount: 0,
       types: [],
     };
 
     group.rows.push(row);
     group.count = group.rows.length;
     group.lossyCount = group.rows.filter((item) => item.lossinessMeta.isLossy).length;
+    group.unmappedCount = group.rows.filter((item) => item.coverageStatus === 'unmapped').length;
     group.types = uniqueTypes(group.rows.map((item) => item.type));
     groupMap.set(group.key, group);
   });
 
   const groups = Array.from(groupMap.values()).sort(sortGroups);
+  const rows = groups.flatMap((group) => group.rows);
   return {
     groups,
-    totalCount: mapping.fieldMappings.length,
-    lossyCount: mapping.fieldMappings.filter((item) => getLossinessMeta(item.lossiness).isLossy).length,
+    totalCount: rows.length,
+    lossyCount: rows.filter((item) => item.lossinessMeta.isLossy).length,
+    mappedCount: rows.filter((item) => item.coverageStatus === 'mapped').length,
+    partialCount: rows.filter((item) => item.coverageStatus === 'partial').length,
+    unmappedCount: rows.filter((item) => item.coverageStatus === 'unmapped').length,
   };
 }
 
@@ -304,6 +343,8 @@ function normalizeMappingType(mappingType?: string): MappingViewType | null {
       return 'transform';
     case 'DROP':
     case 'UNSUPPORTED':
+    case 'UNMAPPED':
+      return 'unmapped';
     case 'LOSSY':
       return 'lossy';
     default:
@@ -329,6 +370,7 @@ function groupFromCategory(category?: string): SemanticGroupMeta | null {
       return SEMANTIC_GROUPS[4];
     case 'MESSAGE':
     case 'CONTENT':
+    case 'CONTENT_BLOCK':
       return SEMANTIC_GROUPS[5];
     case 'METADATA':
       return { key: 'metadata', title: '元数据', description: 'Metadata 与请求上下文相关字段。', keywords: [] };
@@ -340,6 +382,9 @@ function groupFromCategory(category?: string): SemanticGroupMeta | null {
 }
 
 function sortGroups(left: MappingViewGroup, right: MappingViewGroup): number {
+  if (left.unmappedCount !== right.unmappedCount) {
+    return right.unmappedCount - left.unmappedCount;
+  }
   const leftIndex = SEMANTIC_GROUPS.findIndex((group) => group.key === left.key);
   const rightIndex = SEMANTIC_GROUPS.findIndex((group) => group.key === right.key);
   const normalizedLeft = leftIndex === -1 ? Number.MAX_SAFE_INTEGER : leftIndex;

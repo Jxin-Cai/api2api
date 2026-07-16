@@ -23,8 +23,8 @@ export function ProtocolMappingPanel({ conversion, activeTab, onTabChange }: Pro
         value={viewMode}
         onChange={(value) => setViewMode(value as MappingViewMode)}
         options={[
-          { label: '层级视图', value: 'hierarchy' },
-          { label: '表格视图', value: 'table' },
+          { label: '图解视图', value: 'hierarchy' },
+          { label: '紧凑表格', value: 'table' },
         ]}
       />
       <Tabs
@@ -33,12 +33,12 @@ export function ProtocolMappingPanel({ conversion, activeTab, onTabChange }: Pro
         items={[
           {
             key: 'request',
-            label: buildTabLabel('Request Mapping', conversion.requestMapping),
+            label: buildTabLabel('请求转换', conversion.requestMapping),
             children: renderMapping(conversion.requestMapping, viewMode),
           },
           {
             key: 'response',
-            label: buildTabLabel('Response Mapping', conversion.responseMapping),
+            label: buildTabLabel('响应转换', conversion.responseMapping),
             children: renderMapping(conversion.responseMapping, viewMode),
           },
         ]}

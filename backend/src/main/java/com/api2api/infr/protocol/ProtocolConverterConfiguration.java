@@ -3,6 +3,7 @@ package com.api2api.infr.protocol;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -26,7 +27,7 @@ class ProtocolConverterConfiguration {
     private static final Set<String> CLAUDE_RESPONSES_REQUEST_FIELDS = Set.of(
             "model", "messages", "max_tokens", "system", "stream", "temperature", "top_p", "top_k",
             "stop_sequences", "metadata", "service_tier", "speed", "thinking", "reasoning", "tool_choice",
-            "tools", "cache_control", "output_config", "context_management", "container", "mcp_servers",
+            "tools", "cache_control", "output_config", "output_format", "context_management", "container", "mcp_servers",
             "inference_geo", "diagnostics"
     );
 
@@ -126,6 +127,29 @@ class ProtocolConverterConfiguration {
         return bedrockConverter(json, usageExtractor, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer);
     }
 
+    // ==================== Bedrock native Claude Messages converters ====================
+
+    @Bean
+    ProtocolMessageConverter claudeMessagesToBedrockClaudeMessagesRequest(
+            ProtocolJsonSupport json,
+            SseEventTransformer sseEventTransformer
+    ) {
+        return bedrockClaudeMessagesConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer);
+    }
+
+    @Bean
+    ProtocolMessageConverter bedrockClaudeMessagesToClaudeMessagesResponse(
+            ProtocolJsonSupport json,
+            ClaudeMessagesUsageExtractor usageExtractor,
+            SseEventTransformer sseEventTransformer
+    ) {
+        return bedrockClaudeMessagesConverter(
+                json, usageExtractor, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES,
+                ProtocolConversionDirection.RESPONSE, sseEventTransformer);
+    }
+
     private ProtocolMessageConverter bedrockConverter(
             ProtocolJsonSupport json,
             UnifiedUsageExtractor usageExtractor,
@@ -135,6 +159,18 @@ class ProtocolConverterConfiguration {
             SseEventTransformer sseEventTransformer
     ) {
         return new BedrockConverseProtocolMessageConverter(json, usageExtractor, source, target, direction, sseEventTransformer);
+    }
+
+    private ProtocolMessageConverter bedrockClaudeMessagesConverter(
+            ProtocolJsonSupport json,
+            UnifiedUsageExtractor usageExtractor,
+            ProtocolType source,
+            ProtocolType target,
+            ProtocolConversionDirection direction,
+            SseEventTransformer sseEventTransformer
+    ) {
+        return new BedrockClaudeMessagesProtocolMessageConverter(
+                json, usageExtractor, source, target, direction, sseEventTransformer);
     }
 
     private ProtocolMessageConverter converter(
@@ -167,9 +203,22 @@ class ProtocolConverterConfiguration {
                     && targetProtocol() == ProtocolType.OPENAI_RESPONSES) {
                 return super.supports(requirement);
             }
+            if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES
+                    && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
+                // The request converter and the dedicated streaming adapter preserve
+                // Claude tool calls in Chat Completions format.
+                return super.supports(requirement);
+            }
             if (direction() == ProtocolConversionDirection.RESPONSE
                     && sourceProtocol() == ProtocolType.OPENAI_RESPONSES
                     && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
+                return super.supports(requirement);
+            }
+            if (direction() == ProtocolConversionDirection.RESPONSE
+                    && ((sourceProtocol() == ProtocolType.OPENAI_RESPONSES
+                    && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS)
+                    || (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS
+                    && targetProtocol() == ProtocolType.OPENAI_RESPONSES))) {
                 return super.supports(requirement);
             }
             return !requirement.streaming() && !requirement.toolCallingRequired() && super.supports(requirement);
@@ -237,7 +286,13 @@ class ProtocolConverterConfiguration {
             if (source.hasNonNull("stop_sequences")) {
                 target.set("stop", source.get("stop_sequences"));
             }
-            copyIfPresent(source, target, "service_tier");
+            JsonNode serviceTier = source.get("service_tier");
+            if (serviceTier != null && !serviceTier.isNull()) {
+                target.put("service_tier", mapClaudeServiceTierToChat(serviceTier.asText("")));
+            }
+            if (source.path("speed").isTextual() && "fast".equals(source.path("speed").asText())) {
+                target.put("service_tier", "priority");
+            }
 
             String effort = chatReasoningEffort(source);
             if (effort != null) {
@@ -261,9 +316,11 @@ class ProtocolConverterConfiguration {
                 }
             }
 
-            JsonNode outputConfig = source.get("output_config");
+            JsonNode outputConfig = source.hasNonNull("output_config")
+                    ? source.get("output_config")
+                    : source.get("output_format");
             if (outputConfig != null && outputConfig.isObject()) {
-                JsonNode format = outputConfig.get("format");
+                JsonNode format = outputConfig.has("format") ? outputConfig.get("format") : outputConfig;
                 if (format != null && format.isObject()) {
                     String formatType = format.path("type").asText("");
                     if ("json_schema".equals(formatType)) {
@@ -325,20 +382,51 @@ class ProtocolConverterConfiguration {
         private ArrayNode claudeToolsToChat(JsonNode tools) {
             ArrayNode result = json.arrayNode();
             for (JsonNode tool : tools) {
+                String type = tool.path("type").asText("custom");
+                if (!"custom".equals(type) && !type.isBlank()) {
+                    throw new ProtocolConversionException("CLAUDE_CHAT_TOOL_NOT_SUPPORTED: " + type);
+                }
+                String name = tool.path("name").asText("");
+                if (name.isBlank()) {
+                    throw new ProtocolConversionException("CLAUDE_CHAT_TOOL_NAME_REQUIRED");
+                }
                 ObjectNode chatTool = json.objectNode();
                 chatTool.put("type", "function");
                 ObjectNode function = json.objectNode();
-                function.put("name", tool.path("name").asText(""));
+                function.put("name", name);
                 if (tool.hasNonNull("description")) {
                     function.put("description", tool.get("description").asText(""));
                 }
-                if (tool.hasNonNull("input_schema")) {
-                    function.set("parameters", tool.get("input_schema"));
+                JsonNode schema = tool.get("input_schema");
+                ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
+                        ? json.objectNode()
+                        : (ObjectNode) schema.deepCopy();
+                if (!parameters.has("type")) {
+                    parameters.put("type", "object");
+                }
+                if (!parameters.has("properties")) {
+                    parameters.set("properties", json.objectNode());
+                }
+                function.set("parameters", parameters);
+                if (tool.hasNonNull("strict")) {
+                    function.put("strict", tool.path("strict").asBoolean());
                 }
                 chatTool.set("function", function);
                 result.add(chatTool);
             }
             return result;
+        }
+
+        private String mapClaudeServiceTierToChat(String serviceTier) {
+            return switch (serviceTier) {
+                case "standard_only" -> "default";
+                case "priority" -> "priority";
+                case "flex" -> "flex";
+                case "auto" -> "auto";
+                case "batch" -> throw new ProtocolConversionException(
+                        "CLAUDE_CHAT_SERVICE_TIER_NOT_SUPPORTED: batch");
+                default -> "default";
+            };
         }
 
         private JsonNode claudeToolChoiceToChat(JsonNode toolChoice) {
@@ -408,6 +496,9 @@ class ProtocolConverterConfiguration {
                         call.set("function", fn);
                         toolCalls.add(call);
                     }
+                    case "server_tool_use", "mcp_tool_use", "program", "code_execution_tool_use" ->
+                            throw new ProtocolConversionException(
+                                    "CLAUDE_CHAT_SERVER_TOOL_HISTORY_NOT_SUPPORTED: " + type);
                     default -> {} // skip thinking, redacted_thinking etc.
                 }
             }
@@ -466,6 +557,15 @@ class ProtocolConverterConfiguration {
                         part.set("image_url", imageUrl);
                         userParts.add(part);
                     }
+                    case "document" -> appendChatDocumentPart(userParts, block);
+                    case "search_result" -> {
+                        ObjectNode part = json.objectNode();
+                        part.put("type", "text");
+                        part.put("text", "Source: " + block.path("source").asText("")
+                                + "\nTitle: " + block.path("title").asText("")
+                                + "\n" + extractOpenAiContentText(block.get("content")));
+                        userParts.add(part);
+                    }
                     case "tool_result" -> {
                         if (!userParts.isEmpty()) {
                             ObjectNode userMsg = json.objectNode();
@@ -487,6 +587,11 @@ class ProtocolConverterConfiguration {
                             result.add(imgMsg);
                         }
                     }
+                    case "server_tool_result", "mcp_tool_result", "web_search_tool_result",
+                         "web_fetch_tool_result", "code_execution_tool_result",
+                         "bash_code_execution_tool_result", "text_editor_code_execution_tool_result" ->
+                            throw new ProtocolConversionException(
+                                    "CLAUDE_CHAT_SERVER_TOOL_HISTORY_NOT_SUPPORTED: " + type);
                     default -> {} // skip thinking etc.
                 }
             }
@@ -501,6 +606,39 @@ class ProtocolConverterConfiguration {
                 result.add(userMsg);
             }
             return result;
+        }
+
+        private void appendChatDocumentPart(ArrayNode parts, JsonNode block) {
+            JsonNode source = block.path("source");
+            String sourceType = source.path("type").asText("");
+            if ("text".equals(sourceType) || "content".equals(sourceType)) {
+                ObjectNode text = json.objectNode();
+                text.put("type", "text");
+                text.put("text", "text".equals(sourceType)
+                        ? source.path("data").asText("")
+                        : extractOpenAiContentText(source.get("content")));
+                parts.add(text);
+                return;
+            }
+            if ("url".equals(sourceType)) {
+                throw new ProtocolConversionException("CLAUDE_CHAT_DOCUMENT_URL_NOT_SUPPORTED");
+            }
+            ObjectNode part = json.objectNode();
+            part.put("type", "file");
+            ObjectNode file = json.objectNode();
+            if ("file".equals(sourceType)) {
+                file.put("file_id", source.path("file_id").asText(""));
+            } else if ("base64".equals(sourceType)) {
+                file.put("file_data", source.path("data").asText(""));
+            } else {
+                throw new ProtocolConversionException("CLAUDE_CHAT_DOCUMENT_SOURCE_NOT_SUPPORTED: " + sourceType);
+            }
+            String title = block.path("title").asText("");
+            if (!title.isBlank()) {
+                file.put("filename", title);
+            }
+            part.set("file", file);
+            parts.add(part);
         }
 
         private String extractToolResultContent(JsonNode toolResult) {
@@ -563,7 +701,7 @@ class ProtocolConverterConfiguration {
                 target.put("prompt_cache_key", responsesPromptCacheKey(source, model));
             }
             if (source.hasNonNull("service_tier")) {
-                target.put("service_tier", "standard_only".equals(source.path("service_tier").asText()) ? "default" : "auto");
+                target.put("service_tier", mapClaudeServiceTierToResponses(source.path("service_tier").asText("")));
             }
             JsonNode speed = source.get("speed");
             String speedType = speed != null && speed.isTextual() ? speed.asText() : source.path("speed").path("type").asText("");
@@ -580,9 +718,11 @@ class ProtocolConverterConfiguration {
             include.add("reasoning.encrypted_content");
             target.set("include", include);
             ObjectNode text = json.objectNode();
-            JsonNode outputConfig = source.get("output_config");
+            JsonNode outputConfig = source.hasNonNull("output_config")
+                    ? source.get("output_config")
+                    : source.get("output_format");
             if (outputConfig != null && outputConfig.isObject()) {
-                JsonNode format = outputConfig.get("format");
+                JsonNode format = outputConfig.has("format") ? outputConfig.get("format") : outputConfig;
                 if (format != null && !format.isNull()) {
                     text.set("format", ensureResponseTextFormat(format));
                 }
@@ -658,6 +798,19 @@ class ProtocolConverterConfiguration {
             if (source.hasNonNull("diagnostics")) {
                 throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_DIAGNOSTICS_NOT_SUPPORTED");
             }
+        }
+
+        private String mapClaudeServiceTierToResponses(String serviceTier) {
+            return switch (serviceTier) {
+                case "standard_only", "default" -> "default";
+                case "auto" -> "auto";
+                case "priority" -> "priority";
+                case "flex" -> "flex";
+                case "batch" -> throw new ProtocolConversionException(
+                        "CLAUDE_RESPONSES_SERVICE_TIER_NOT_SUPPORTED: batch");
+                default -> throw new ProtocolConversionException(
+                        "CLAUDE_RESPONSES_SERVICE_TIER_NOT_SUPPORTED: " + serviceTier);
+            };
         }
 
         private ArrayNode claudeSystemToResponsesInput(JsonNode system, String model) {
@@ -1766,8 +1919,9 @@ class ProtocolConverterConfiguration {
                     String args = call.path("function").path("arguments").asText("{}");
                     try {
                         toolUseBlock.set("input", json.objectMapper().readTree(args));
-                    } catch (Exception e) {
-                        toolUseBlock.set("input", json.objectNode());
+                    } catch (JsonProcessingException exception) {
+                        throw new ProtocolConversionException(
+                                "OPENAI_CHAT_CLAUDE_INVALID_TOOL_ARGUMENTS", exception);
                     }
                     content.add(toolUseBlock);
                 }
@@ -1792,12 +1946,30 @@ class ProtocolConverterConfiguration {
             target.put("object", "response");
             target.put("created_at", source.path("created").asLong(Instant.now().getEpochSecond()));
             target.put("model", source.path("model").asText(""));
-            target.set("output", outputMessage(choice.path("message").path("content").asText("")));
+            JsonNode message = choice.path("message");
+            ArrayNode output = json.arrayNode();
+            String text = message.path("content").asText("");
+            if (!text.isEmpty()) {
+                output.add(outputMessage(text));
+            }
+            JsonNode toolCalls = message.get("tool_calls");
+            if (toolCalls != null && toolCalls.isArray()) {
+                for (JsonNode call : toolCalls) {
+                    ObjectNode functionCall = json.objectNode();
+                    functionCall.put("type", "function_call");
+                    functionCall.put("call_id", call.path("id").asText(""));
+                    functionCall.put("name", call.path("function").path("name").asText(""));
+                    functionCall.put("arguments", call.path("function").path("arguments").asText("{}"));
+                    output.add(functionCall);
+                }
+            }
+            target.set("output", output);
             target.set("usage", responsesUsageFromChat(source.path("usage")));
             return target;
         }
 
         private ObjectNode responsesResponseToChat(JsonNode source) {
+            throwIfResponsesFailed(source);
             ObjectNode target = json.objectNode();
             target.put("id", source.path("id").asText("chatcmpl-api2api"));
             target.put("object", "chat.completion");
@@ -1808,13 +1980,67 @@ class ProtocolConverterConfiguration {
             choice.put("index", 0);
             ObjectNode message = json.objectNode();
             message.put("role", "assistant");
-            message.put("content", firstOutputText(source.get("output")));
+            StringBuilder text = new StringBuilder();
+            StringBuilder reasoning = new StringBuilder();
+            ArrayNode toolCalls = json.arrayNode();
+            JsonNode output = source.get("output");
+            if (output != null && output.isArray()) {
+                for (JsonNode item : output) {
+                    String type = item.path("type").asText("");
+                    if ("message".equals(type)) {
+                        JsonNode parts = item.get("content");
+                        if (parts != null && parts.isArray()) {
+                            for (JsonNode part : parts) {
+                                if ("output_text".equals(part.path("type").asText(""))) {
+                                    text.append(part.path("text").asText(""));
+                                } else if ("refusal".equals(part.path("type").asText(""))) {
+                                    text.append(part.path("refusal").asText(""));
+                                }
+                            }
+                        }
+                    } else if (ResponsesToolCallBridge.isToolCall(type)) {
+                        ObjectNode call = json.objectNode();
+                        call.put("id", item.path("call_id").asText(item.path("id").asText("")));
+                        call.put("type", "function");
+                        ObjectNode function = json.objectNode();
+                        function.put("name", item.path("name").asText(""));
+                        function.put("arguments", ResponsesToolCallBridge
+                                .toClaudeToolInput(json.objectMapper(), item).toString());
+                        call.set("function", function);
+                        toolCalls.add(call);
+                    } else if ("reasoning".equals(type)) {
+                        JsonNode summary = item.get("summary");
+                        if (summary != null && summary.isArray()) {
+                            for (JsonNode part : summary) {
+                                reasoning.append(part.path("text").asText(""));
+                            }
+                        }
+                    }
+                }
+            }
+            message.put("content", text.toString());
+            if (!reasoning.isEmpty()) {
+                message.put("reasoning_content", reasoning.toString());
+            }
+            if (!toolCalls.isEmpty()) {
+                message.set("tool_calls", toolCalls);
+            }
             choice.set("message", message);
-            choice.put("finish_reason", "stop");
+            choice.put("finish_reason", responsesFinishReasonToChat(source, toolCalls));
             choices.add(choice);
             target.set("choices", choices);
             target.set("usage", chatUsageFromResponses(source.path("usage")));
             return target;
+        }
+
+        private String responsesFinishReasonToChat(JsonNode source, ArrayNode toolCalls) {
+            if (!toolCalls.isEmpty()) {
+                return "tool_calls";
+            }
+            if ("incomplete".equals(source.path("status").asText(""))) {
+                return "length";
+            }
+            return "stop";
         }
 
         private ObjectNode responsesResponseToClaude(JsonNode source) {

@@ -31,7 +31,8 @@ public class JsonGatewayPayloadModelMappingAdapter implements GatewayPayloadMode
         }
         // Bedrock Converse selects the model exclusively through the URI path.
         // A top-level model field is outside the AWS request schema.
-        if (protocol == ProtocolType.AWS_BEDROCK_CONVERSE) {
+        if (protocol == ProtocolType.AWS_BEDROCK_CONVERSE
+                || protocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
             return body;
         }
         try {

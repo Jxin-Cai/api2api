@@ -34,9 +34,14 @@ public class UpstreamHttpHeaderPolicy {
         }
         Map<String, String> headers = new LinkedHashMap<>();
         addAllowedPassthroughHeaders(headers, incomingHeaders);
+        if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
+            headers.entrySet().removeIf(entry -> "anthropic-beta".equalsIgnoreCase(entry.getKey()));
+        }
         headers.put(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken);
         headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.put(HttpHeaders.ACCEPT, streaming ? MediaType.TEXT_EVENT_STREAM_VALUE : MediaType.APPLICATION_JSON_VALUE);
+        headers.put(HttpHeaders.ACCEPT, streaming && protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+                ? "application/vnd.amazon.eventstream"
+                : streaming ? MediaType.TEXT_EVENT_STREAM_VALUE : MediaType.APPLICATION_JSON_VALUE);
         if (protocolType == ProtocolType.CLAUDE_MESSAGES) {
             headers.put("anthropic-version", properties.getAnthropicVersion());
         }

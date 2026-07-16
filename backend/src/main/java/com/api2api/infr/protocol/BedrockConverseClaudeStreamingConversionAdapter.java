@@ -40,15 +40,19 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = "Conversation compacted.";
 
     private final ObjectMapper objectMapper;
+    private final BedrockClaudeMessagesStreamingConversionAdapter bedrockClaudeMessagesAdapter;
 
     public BedrockConverseClaudeStreamingConversionAdapter(ObjectMapper objectMapper) {
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
+        this.bedrockClaudeMessagesAdapter = new BedrockClaudeMessagesStreamingConversionAdapter(objectMapper);
     }
 
     @Override
     public boolean supports(ProtocolType upstreamProtocol, ProtocolType clientProtocol) {
         return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
                 && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
+                || (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+                && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_RESPONSES
                 && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS
@@ -68,6 +72,9 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         ProtocolType clientProtocol = context.clientProtocol();
         if (!supports(upstreamProtocol, clientProtocol)) {
             return UnifiedTokenUsage.unknown();
+        }
+        if (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
+            return bedrockClaudeMessagesAdapter.transform(context, upstreamBody, clientBody);
         }
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
@@ -1059,7 +1066,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         stopClaudeBlock(outputIndex, state, clientBody);
     }
 
-    private void throwIfModeledException(BedrockEvent event, JsonNode payload) throws IOException {
+    static void throwIfModeledException(BedrockEvent event, JsonNode payload) throws IOException {
         if (!"exception".equals(event.messageType())) {
             return;
         }
@@ -1067,7 +1074,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         throw new IOException("Bedrock Converse stream failed: " + exceptionType + streamErrorMessage(payload));
     }
 
-    private String streamErrorMessage(JsonNode payload) {
+    private static String streamErrorMessage(JsonNode payload) {
         String message = payload == null ? "" : payload.path("message").asText("");
         return message.isBlank() ? "" : " - " + message;
     }
@@ -1136,7 +1143,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         return objectMapper.createObjectNode();
     }
 
-    private BedrockEvent readEvent(InputStream inputStream) throws IOException {
+    static BedrockEvent readEvent(InputStream inputStream) throws IOException {
         DataInputStream dataInput = new DataInputStream(inputStream);
         int totalLength;
         try {
@@ -1165,7 +1172,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         );
     }
 
-    private BedrockEventHeaders parseHeaders(byte[] headers) throws IOException {
+    private static BedrockEventHeaders parseHeaders(byte[] headers) throws IOException {
         DataInputStream input = new DataInputStream(new java.io.ByteArrayInputStream(headers));
         String eventType = "";
         String messageType = "";
@@ -1186,7 +1193,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         return new BedrockEventHeaders(eventType, messageType, exceptionType);
     }
 
-    private String readHeaderValue(DataInputStream input, int type) throws IOException {
+    private static String readHeaderValue(DataInputStream input, int type) throws IOException {
         return switch (type) {
             case 0, 1 -> "";
             case 2 -> {
@@ -1225,7 +1232,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     private record BedrockEventHeaders(String eventType, String messageType, String exceptionType) {
     }
 
-    private record BedrockEvent(String eventType, String messageType, String exceptionType, byte[] payload) {
+    static record BedrockEvent(String eventType, String messageType, String exceptionType, byte[] payload) {
     }
 
     private static final class StreamState {
@@ -1304,7 +1311,8 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         boolean textBlockOpen = false;
         boolean reasoningBlockOpen = false;
         Map<Integer, String> toolCallIds = new HashMap<>();
-        Map<Integer, String> toolCallNames = new HashMap<>();
+        Map<Integer, Integer> blockToToolIndex = new HashMap<>();
+        Set<Integer> openToolBlocks = new HashSet<>();
         long inputTokens = 0, outputTokens = 0;
         String stopReason = "end_turn";
 
@@ -1346,6 +1354,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             // Handle reasoning_content (thinking)
             String reasoningContent = delta.path("reasoning_content").asText(null);
             if (reasoningContent != null && !reasoningContent.isEmpty()) {
+                closeOpenClaudeToolBlocks(openToolBlocks, clientBody);
                 if (!reasoningBlockOpen) {
                     if (textBlockOpen) {
                         writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex - 1));
@@ -1374,6 +1383,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             // Handle text content
             String content = delta.path("content").asText(null);
             if (content != null && !content.isEmpty()) {
+                closeOpenClaudeToolBlocks(openToolBlocks, clientBody);
                 if (reasoningBlockOpen) {
                     writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex));
                     reasoningBlockOpen = false;
@@ -1422,11 +1432,13 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                             blockIndex++;
                         }
                         toolCallIds.put(tcIndex, tcId);
-                        toolCallNames.put(tcIndex, tcName != null ? tcName : "");
+                        int toolBlockIndex = blockIndex++;
+                        blockToToolIndex.put(tcIndex, toolBlockIndex);
+                        openToolBlocks.add(toolBlockIndex);
 
                         ObjectNode blockStart = objectNode();
                         blockStart.put("type", "content_block_start");
-                        blockStart.put("index", blockIndex);
+                        blockStart.put("index", toolBlockIndex);
                         ObjectNode contentBlock = objectNode();
                         contentBlock.put("type", "tool_use");
                         contentBlock.put("id", tcId);
@@ -1436,7 +1448,10 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                     }
 
                     if (tcArgs != null && !tcArgs.isEmpty()) {
-                        int currentBlockIdx = blockIndex;
+                        Integer currentBlockIdx = blockToToolIndex.get(tcIndex);
+                        if (currentBlockIdx == null) {
+                            continue;
+                        }
                         ObjectNode blockDelta = objectNode();
                         blockDelta.put("type", "content_block_delta");
                         blockDelta.put("index", currentBlockIdx);
@@ -1447,10 +1462,6 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                         writeSse(clientBody, "content_block_delta", blockDelta);
                     }
 
-                    if (tcId != null && !toolCallIds.containsKey(tcIndex + 1000)) {
-                        // Track that we opened a block for this tool call
-                        toolCallIds.put(tcIndex + 1000, "opened");
-                    }
                 }
             }
 
@@ -1478,11 +1489,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", blockIndex));
             blockIndex++;
         }
-        // Close tool call blocks
-        for (Map.Entry<Integer, String> entry : toolCallIds.entrySet()) {
-            if (entry.getKey() >= 1000) continue;
-            // Each tool call that was opened needs a stop
-        }
+        closeOpenClaudeToolBlocks(openToolBlocks, clientBody);
 
         // Emit message_delta with stop_reason and usage
         ObjectNode msgDelta = objectNode();
@@ -1499,6 +1506,14 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
 
         return UnifiedTokenUsage.known(inputTokens, outputTokens, 0, 0);
+    }
+
+    private void closeOpenClaudeToolBlocks(Set<Integer> openToolBlocks, OutputStream clientBody) throws IOException {
+        for (Integer blockIndex : openToolBlocks.stream().sorted().toList()) {
+            writeSse(clientBody, "content_block_stop",
+                    objectNode().put("type", "content_block_stop").put("index", blockIndex));
+        }
+        openToolBlocks.clear();
     }
 
     private UnifiedTokenUsage transformClaudeToChat(String model, InputStream upstreamBody,

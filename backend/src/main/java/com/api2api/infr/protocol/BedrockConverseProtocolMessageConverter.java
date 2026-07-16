@@ -24,6 +24,9 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             "tools", "cache_control", "output_config", "output_format", "context_management",
             "additionalModelRequestFields"
     );
+    private static final Set<String> BEDROCK_CLAUDE_ADDITIONAL_REQUEST_FIELDS = Set.of(
+            "thinking", "output_config", "top_k"
+    );
     private static final Pattern BEDROCK_REQUEST_METADATA_VALUE_PATTERN = Pattern.compile("[a-zA-Z0-9\\s:_@$#=/+,.\\-]{0,256}");
     private static final String ASK_USER_QUESTION_TOOL = "AskUserQuestion";
     private static final String ENTER_PLAN_MODE_TOOL = "EnterPlanMode";
@@ -44,6 +47,10 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                     + "Inspect its result and verify that the requested outcome or artifact was actually produced. "
                     + "If the result is progress-only or incomplete, resume the same agent with SendMessage using "
                     + "the task-id; do not report success or duplicate the task in the main agent.";
+    private static final String MID_CONVERSATION_SYSTEM_PREFIX =
+            "<claude-mid-conversation-system>\n";
+    private static final String MID_CONVERSATION_SYSTEM_SUFFIX =
+            "\n</claude-mid-conversation-system>";
 
     BedrockConverseProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -112,19 +119,17 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
 
     private ObjectNode claudeRequestToBedrock(JsonNode source, ProtocolConversionRouteContext routeContext) {
         validateClaudeRequestFields(source);
+        validateClaudeToolHistory(source.get("messages"));
         if (source.path("max_tokens").isNumber() && source.path("max_tokens").asInt() == 0) {
             throw new ProtocolConversionException("CLAUDE_BEDROCK_CACHE_ONLY_REQUEST_NOT_SUPPORTED_BY_CONVERSE");
         }
         ObjectNode target = json.objectNode();
 
-        int compactThreshold = extractCompactThreshold(source.get("context_management"));
+        validateContextManagementForConverse(source.get("context_management"));
 
         ArrayNode bedrockMessages = json.arrayNode();
         JsonNode messages = ClaudeConversationContextOptimizer.optimize(
                 source.get("messages"), source.get("context_management"));
-        if (compactThreshold > 0 && messages != null && messages.isArray()) {
-            messages = compactMessagesClientSide(messages, compactThreshold);
-        }
         if (messages != null && messages.isArray()) {
             for (JsonNode msg : messages) {
                 String role = msg.path("role").asText("user");
@@ -187,7 +192,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         ObjectNode additionalFields = json.objectNode();
         JsonNode existingAdditionalFields = source.get("additionalModelRequestFields");
         if (existingAdditionalFields != null && existingAdditionalFields.isObject()) {
-            existingAdditionalFields.fields().forEachRemaining(entry -> additionalFields.set(entry.getKey(), entry.getValue()));
+            existingAdditionalFields.fields().forEachRemaining(entry -> {
+                if (!BEDROCK_CLAUDE_ADDITIONAL_REQUEST_FIELDS.contains(entry.getKey())) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_BEDROCK_UNSUPPORTED_ADDITIONAL_MODEL_REQUEST_FIELD: " + entry.getKey());
+                }
+                additionalFields.set(entry.getKey(), entry.getValue());
+            });
         }
         JsonNode thinking = source.get("thinking");
         JsonNode reasoning = source.get("reasoning");
@@ -206,22 +217,49 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             target.set("additionalModelRequestFields", additionalFields);
         }
 
-        target.set("additionalModelResponseFieldPaths", json.arrayNode().add("/stop_sequence"));
+        target.set("additionalModelResponseFieldPaths", json.arrayNode()
+                .add("/stop_sequence")
+                .add("/context_management")
+                .add("/stop_details"));
         ObjectNode requestMetadata = toBedrockRequestMetadata(source.get("metadata"));
         if (!requestMetadata.isEmpty()) {
             target.set("requestMetadata", requestMetadata);
         }
         if (source.hasNonNull("service_tier")) {
-            target.set("serviceTier", json.objectNode().put("type", "default"));
+            target.set("serviceTier", json.objectNode().put(
+                    "type", mapClaudeServiceTierToBedrock(source.path("service_tier").asText(""))));
         }
         if (source.hasNonNull("speed")) {
             JsonNode speed = source.get("speed");
             String speedType = speed.isTextual() ? speed.asText("standard") : speed.path("type").asText("standard");
-            target.set("performanceConfig", json.objectNode().put("latency", "fast".equals(speedType) ? "optimized" : "standard"));
+            target.set("performanceConfig", json.objectNode().put(
+                    "latency", mapClaudeSpeedToBedrockLatency(speedType)));
         }
         applyTopLevelCacheControl(target, source.get("cache_control"));
 
         return target;
+    }
+
+    private String mapClaudeServiceTierToBedrock(String serviceTier) {
+        return switch (serviceTier) {
+            case "priority" -> "priority";
+            case "flex" -> "flex";
+            case "reserved" -> "reserved";
+            case "standard_only", "auto", "default" -> "default";
+            case "batch" -> throw new ProtocolConversionException(
+                    "CLAUDE_BEDROCK_SERVICE_TIER_NOT_SUPPORTED: batch");
+            default -> throw new ProtocolConversionException(
+                    "CLAUDE_BEDROCK_SERVICE_TIER_NOT_SUPPORTED: " + serviceTier);
+        };
+    }
+
+    private String mapClaudeSpeedToBedrockLatency(String speed) {
+        return switch (speed) {
+            case "fast" -> "optimized";
+            case "standard" -> "standard";
+            default -> throw new ProtocolConversionException(
+                    "CLAUDE_BEDROCK_SPEED_NOT_SUPPORTED: " + speed);
+        };
     }
 
     // ==================== Request: OpenAI Chat -> Bedrock Converse ====================
@@ -392,6 +430,21 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 target.putNull("stop_sequence");
             }
         }
+        JsonNode additionalFields = source.path("additionalModelResponseFields");
+        if (additionalFields.isObject()) {
+            copyResponseField(additionalFields, target, "context_management");
+            copyResponseField(additionalFields, target, "stop_details");
+        }
+        JsonNode serviceTier = source.get("serviceTier");
+        if (serviceTier != null && serviceTier.isObject() && serviceTier.hasNonNull("type")) {
+            target.put("service_tier", serviceTier.path("type").asText());
+        }
+        JsonNode performanceConfig = source.get("performanceConfig");
+        if (performanceConfig != null && performanceConfig.isObject()
+                && performanceConfig.hasNonNull("latency")) {
+            target.put("speed", "optimized".equals(performanceConfig.path("latency").asText())
+                    ? "fast" : "standard");
+        }
 
         ObjectNode usage = json.objectNode();
         JsonNode bedrockUsage = source.path("usage");
@@ -410,6 +463,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         target.set("usage", usage);
 
         return target;
+    }
+
+    private void copyResponseField(JsonNode source, ObjectNode target, String field) {
+        JsonNode value = source.get(field);
+        if (value != null && !value.isNull()) {
+            target.set(field, value.deepCopy());
+        }
     }
 
     // ==================== Response: Bedrock Converse -> OpenAI Chat ====================
@@ -511,92 +571,80 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
     }
 
-    private int extractCompactThreshold(JsonNode contextManagement) {
+    private void validateClaudeToolHistory(JsonNode messages) {
+        if (messages == null || !messages.isArray()) {
+            return;
+        }
+        Set<String> knownToolUseIds = new HashSet<>();
+        Set<String> completedToolUseIds = new HashSet<>();
+        for (JsonNode message : messages) {
+            JsonNode content = message.get("content");
+            if (content == null || !content.isArray()) {
+                continue;
+            }
+            for (JsonNode block : content) {
+                String type = block.path("type").asText("");
+                if ("server_tool_use".equals(type) || (type.endsWith("_tool_result")
+                        && !Set.of("tool_result", "mcp_tool_result").contains(type))) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_BEDROCK_SERVER_TOOL_NOT_SUPPORTED_BY_CONVERSE: " + type);
+                }
+                if ("tool_use".equals(type) || "mcp_tool_use".equals(type)) {
+                    if (!"assistant".equals(message.path("role").asText(""))) {
+                        throw new ProtocolConversionException(
+                                "CLAUDE_BEDROCK_TOOL_USE_REQUIRES_ASSISTANT_ROLE");
+                    }
+                    String id = block.path("id").asText("");
+                    if (id.isBlank()) {
+                        throw new ProtocolConversionException("CLAUDE_BEDROCK_TOOL_USE_ID_REQUIRED");
+                    }
+                    if (!knownToolUseIds.add(id)) {
+                        throw new ProtocolConversionException(
+                                "CLAUDE_BEDROCK_DUPLICATE_TOOL_USE_ID: " + id);
+                    }
+                    continue;
+                }
+                if ("tool_result".equals(type) || "mcp_tool_result".equals(type)) {
+                    if (!"user".equals(message.path("role").asText(""))) {
+                        throw new ProtocolConversionException(
+                                "CLAUDE_BEDROCK_TOOL_RESULT_REQUIRES_USER_ROLE");
+                    }
+                    String id = block.path("tool_use_id").asText("");
+                    if (id.isBlank() || !knownToolUseIds.contains(id)) {
+                        throw new ProtocolConversionException(
+                                "CLAUDE_BEDROCK_TOOL_RESULT_WITHOUT_TOOL_USE: " + id);
+                    }
+                    if (!completedToolUseIds.add(id)) {
+                        throw new ProtocolConversionException(
+                                "CLAUDE_BEDROCK_DUPLICATE_TOOL_RESULT: " + id);
+                    }
+                }
+            }
+        }
+    }
+
+    private void validateContextManagementForConverse(JsonNode contextManagement) {
         if (contextManagement == null || contextManagement.isNull()) {
-            return -1;
+            return;
         }
         JsonNode edits = contextManagement.path("edits");
         if (!contextManagement.isObject() || !edits.isArray()) {
             throw new ProtocolConversionException("CLAUDE_BEDROCK_INVALID_CONTEXT_MANAGEMENT");
         }
-        int threshold = -1;
         for (JsonNode edit : edits) {
             String type = edit.path("type").asText("");
             if ("clear_thinking_20251015".equals(type) || "clear_tool_uses_20250919".equals(type)) {
                 continue;
             }
             if (type.startsWith("compact_")) {
-                threshold = edit.path("trigger").path("value").asInt(80000);
-                continue;
+                throw new ProtocolConversionException(
+                        "CLAUDE_BEDROCK_COMPACTION_REQUIRES_NATIVE_MESSAGES_INVOKE: " + type);
             }
             throw new ProtocolConversionException(
                     "CLAUDE_BEDROCK_CONTEXT_MANAGEMENT_NOT_SUPPORTED_BY_CONVERSE: "
                             + (type.isBlank() ? "unknown" : type)
             );
         }
-        return threshold;
-    }
-
-    private JsonNode compactMessagesClientSide(JsonNode messages, int tokenThreshold) {
-        long estimated = estimateTokens(messages);
-        long limit = (long) (tokenThreshold * 0.8);
-        if (estimated <= limit) {
-            return messages;
-        }
-        ArrayNode compacted = json.arrayNode();
-        int total = messages.size();
-        int keepRecent = Math.min(6, total);
-        for (int i = 0; i < total; i++) {
-            JsonNode msg = messages.get(i);
-            if (i < total - keepRecent && "assistant".equals(msg.path("role").asText(""))) {
-                compacted.add(stripThinkingFromMessage(msg));
-            } else {
-                compacted.add(msg);
-            }
-        }
-        if (estimateTokens(compacted) <= limit) {
-            return compacted;
-        }
-        ArrayNode truncated = json.arrayNode();
-        for (int i = Math.max(0, compacted.size() - keepRecent); i < compacted.size(); i++) {
-            truncated.add(compacted.get(i));
-        }
-        return truncated;
-    }
-
-    private long estimateTokens(JsonNode node) {
-        return node.toString().length() / 4L;
-    }
-
-    private JsonNode stripThinkingFromMessage(JsonNode msg) {
-        JsonNode content = msg.get("content");
-        if (content == null || !content.isArray()) {
-            return msg;
-        }
-        boolean hasThinking = false;
-        for (JsonNode block : content) {
-            String type = block.path("type").asText("");
-            if ("thinking".equals(type) || "redacted_thinking".equals(type) || "reasoning".equals(type)) {
-                hasThinking = true;
-                break;
-            }
-        }
-        if (!hasThinking) {
-            return msg;
-        }
-        ObjectNode copy = msg.deepCopy();
-        ArrayNode filtered = json.arrayNode();
-        for (JsonNode block : copy.get("content")) {
-            String type = block.path("type").asText("");
-            if (!"thinking".equals(type) && !"redacted_thinking".equals(type) && !"reasoning".equals(type)) {
-                filtered.add(block);
-            }
-        }
-        if (filtered.isEmpty()) {
-            filtered.add(json.objectNode().put("type", "text").put("text", ""));
-        }
-        copy.set("content", filtered);
-        return copy;
     }
 
     private void appendClaudeMessage(
@@ -627,10 +675,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             if (systemContent == null || (!systemContent.isArray() && !systemContent.isTextual())) {
                 throw new ProtocolConversionException("CLAUDE_BEDROCK_INVALID_MID_CONVERSATION_SYSTEM_CONTENT");
             }
-            ObjectNode systemMessage = toBedrockMessage("system", systemContent, routeContext);
+            ObjectNode systemMessage = toMidConversationSystemMessage(systemContent);
             if (hasEphemeralCacheControl(block)) {
                 ((ArrayNode) systemMessage.path("content")).add(cachePointBlock(block.get("cache_control")));
             }
+            // Claude combines consecutive turns with the same role. The explicit
+            // delimiter keeps the mid-conversation instruction visible after that
+            // normalization without emitting Converse's unsupported message role.
             addOrMergeBedrockMessage(messages, systemMessage);
         }
         if (!pending.isEmpty()) {
@@ -647,6 +698,16 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             }
         }
         messages.add(message);
+    }
+
+    private ObjectNode toMidConversationSystemMessage(JsonNode content) {
+        ObjectNode message = json.objectNode();
+        message.put("role", "user");
+        ArrayNode blocks = json.arrayNode();
+        String text = firstTextFromClaudeContent(content);
+        blocks.add(textBlock(MID_CONVERSATION_SYSTEM_PREFIX + text + MID_CONVERSATION_SYSTEM_SUFFIX));
+        message.set("content", blocks);
+        return message;
     }
 
     private ObjectNode toBedrockOutputConfig(JsonNode outputConfig) {
@@ -706,14 +767,14 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             return;
         }
         ObjectNode cachePoint = cachePointBlock(cacheControl);
-        JsonNode system = target.get("system");
-        if (system != null && system.isArray() && !system.isEmpty()) {
-            ((ArrayNode) system).add(cachePoint);
-            return;
-        }
         JsonNode tools = target.path("toolConfig").get("tools");
         if (tools != null && tools.isArray() && !tools.isEmpty()) {
             ((ArrayNode) tools).add(cachePoint);
+            return;
+        }
+        JsonNode system = target.get("system");
+        if (system != null && system.isArray() && !system.isEmpty()) {
+            ((ArrayNode) system).add(cachePoint);
             return;
         }
         JsonNode messages = target.get("messages");
@@ -810,14 +871,21 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                     case "image" -> contentBlocks.add(toBedrockImage(item));
                     case "document" -> contentBlocks.add(toBedrockDocument(item));
                     case "search_result" -> contentBlocks.add(toBedrockSearchResult(item));
-                    case "tool_use", "mcp_tool_use", "server_tool_use" -> contentBlocks.add(toBedrockToolUse(item));
-                    case "tool_result", "mcp_tool_result", "web_search_tool_result", "web_fetch_tool_result",
+                    case "tool_use", "mcp_tool_use" -> contentBlocks.add(toBedrockToolUse(item));
+                    case "server_tool_use", "web_search_tool_result", "web_fetch_tool_result",
                          "code_execution_tool_result", "bash_code_execution_tool_result",
-                         "text_editor_code_execution_tool_result", "tool_search_tool_result" -> contentBlocks.add(toBedrockToolResult(item));
+                         "text_editor_code_execution_tool_result", "tool_search_tool_result" ->
+                            throw new ProtocolConversionException(
+                                    "CLAUDE_BEDROCK_SERVER_TOOL_NOT_SUPPORTED_BY_CONVERSE: " + type);
+                    case "tool_result", "mcp_tool_result" -> contentBlocks.add(toBedrockToolResult(item));
                     case "thinking", "reasoning" -> {
-                        Optional<String> bedrockSignature = BedrockReasoningBridge.decode(
-                                item.path("signature").asText(""), routeContext);
+                        String signature = item.path("signature").asText("");
+                        Optional<String> bedrockSignature = BedrockReasoningBridge.decode(signature, routeContext);
                         if (bedrockSignature.isEmpty()) {
+                            if (BedrockReasoningBridge.isBedrockSignature(signature)) {
+                                throw new ProtocolConversionException(
+                                        "CLAUDE_BEDROCK_REASONING_SIGNATURE_ROUTE_MISMATCH");
+                            }
                             blockMapped = false;
                         } else {
                             contentBlocks.add(toBedrockReasoningContent(item, bedrockSignature.orElseThrow()));

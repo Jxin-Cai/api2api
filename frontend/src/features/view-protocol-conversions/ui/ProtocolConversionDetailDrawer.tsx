@@ -71,8 +71,7 @@ export function ProtocolConversionDetailDrawer({ open, definitionId = null, conv
                 </Space>
               </Space>
               <Descriptions size="small" column={{ xs: 1, sm: 2 }} bordered>
-                <Descriptions.Item label="ID">{current.id}</Descriptions.Item>
-                <Descriptions.Item label="Kind">{current.kind}</Descriptions.Item>
+                <Descriptions.Item label="转换类型">{current.kind}</Descriptions.Item>
                 <Descriptions.Item label="源协议">
                   <Space>{current.sourceProtocol}<ProtocolMetadataLink protocolType={current.sourceProtocol} label="字段定义" /></Space>
                 </Descriptions.Item>
@@ -87,16 +86,20 @@ export function ProtocolConversionDetailDrawer({ open, definitionId = null, conv
           </Card>
 
           <MappingOverview requestMapping={current.requestMapping} responseMapping={current.responseMapping} />
-
-          <InlineProtocolMetadata sourceProtocol={current.sourceProtocol} targetProtocol={current.targetProtocol} />
-
           <Alert
             type="info"
             showIcon
-            message="优先展示后端结构化参数映射；缺失结构化元数据时由字段路径、规则说明和损耗标记推断。当前为只读说明，最终转换逻辑以后端转换实现为准。"
+            message="先看下面的字段映射：左边是输入，右边是输出。标记为“未映射”的字段不会出现在目标协议中；“部分映射”表示只能保留部分信息。"
           />
-
           <ProtocolMappingPanel conversion={current} activeTab={activeTab} onTabChange={setActiveTab} />
+
+          <Collapse
+            items={[{
+              key: 'protocol-dictionary',
+              label: '需要查原始字段定义？展开协议字段字典',
+              children: <InlineProtocolMetadata sourceProtocol={current.sourceProtocol} targetProtocol={current.targetProtocol} />,
+            }]}
+          />
         </Space>
       ) : null}
     </Drawer>
@@ -104,13 +107,13 @@ export function ProtocolConversionDetailDrawer({ open, definitionId = null, conv
 }
 
 function StatusTag({ status }: { status: string }) {
-  return <Tag color={status === 'ENABLED' ? 'success' : 'default'}>{status === 'ENABLED' ? `${status} / 已启用` : `${status} / 已禁用`}</Tag>;
+  return <Tag color={status === 'ENABLED' ? 'success' : 'default'}>{status === 'ENABLED' ? '运行中' : '已停用'}</Tag>;
 }
 
 function ImplementationStatusTag({ status }: { status: string }) {
   const color = status === 'IMPLEMENTED' ? 'success' : status === 'PARTIAL' ? 'warning' : 'error';
-  const label = status === 'IMPLEMENTED' ? '已实现' : status === 'PARTIAL' ? '部分实现' : '未实现';
-  return <Tag color={color}>{status} / {label}</Tag>;
+  const label = status === 'IMPLEMENTED' ? '完整实现' : status === 'PARTIAL' ? '部分实现' : '未实现';
+  return <Tag color={color}>{label}</Tag>;
 }
 
 function MappingOverview({ requestMapping, responseMapping }: { requestMapping: ProtocolConversionMappingResponse; responseMapping: ProtocolConversionMappingResponse }) {
@@ -120,10 +123,10 @@ function MappingOverview({ requestMapping, responseMapping }: { requestMapping: 
   return (
     <Card size="small" title="映射概览">
       <Space wrap size={16}>
-        <Statistic title="Request 字段" value={requestView.totalCount} suffix={`/${requestView.groups.length} 组`} />
-        <Statistic title="Request 有损" value={requestView.lossyCount} valueStyle={{ color: requestView.lossyCount > 0 ? 'var(--warning-color)' : 'var(--success-color)' }} />
-        <Statistic title="Response 字段" value={responseView.totalCount} suffix={`/${responseView.groups.length} 组`} />
-        <Statistic title="Response 有损" value={responseView.lossyCount} valueStyle={{ color: responseView.lossyCount > 0 ? 'var(--warning-color)' : 'var(--success-color)' }} />
+        <Statistic title="请求：完整映射" value={requestView.mappedCount} />
+        <Statistic title="请求：部分 / 未映射" value={`${requestView.partialCount} / ${requestView.unmappedCount}`} />
+        <Statistic title="响应：完整映射" value={responseView.mappedCount} />
+        <Statistic title="响应：部分 / 未映射" value={`${responseView.partialCount} / ${responseView.unmappedCount}`} />
       </Space>
     </Card>
   );

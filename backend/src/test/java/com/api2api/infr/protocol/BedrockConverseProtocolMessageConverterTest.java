@@ -418,7 +418,8 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void test_acceptsCompactContextManagement_when_clientSideCompactionEnabled() throws Exception {
+    void test_rejectsCompactContextManagement_when_converseCannotGenerateCompactionSummary() {
+        // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolConversionDirection.REQUEST, sseEventTransformer
@@ -429,12 +430,11 @@ class BedrockConverseProtocolMessageConverterTest {
                  "messages":[{"role":"user","content":"continue"}]}
                 """;
 
-        var result = converter.convert(
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, false, false)
-        );
-        JsonNode mapped = objectMapper.readTree(result.body());
-        assertThat(mapped.path("messages")).isNotEmpty();
+        )).hasMessageContaining("CLAUDE_BEDROCK_COMPACTION_REQUIRES_NATIVE_MESSAGES_INVOKE");
     }
 
     @Test
@@ -643,13 +643,16 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.at("/messages/0/content/1/image/format").asText()).isEqualTo("png");
         assertThat(mapped.at("/messages/0/content/2/document/format").asText()).isEqualTo("txt");
         assertThat(mapped.at("/messages/0/content/3/searchResult/source").asText()).isEqualTo("https://example.com");
-        assertThat(mapped.at("/messages/1/role").asText()).isEqualTo("system");
-        assertThat(mapped.at("/messages/1/content/0/text").asText()).isEqualTo("Use the new constraint");
-        assertThat(mapped.at("/messages/2/role").asText()).isEqualTo("assistant");
+        assertThat(mapped.at("/messages/0/role").asText()).isEqualTo("user");
+        assertThat(mapped.at("/messages/0/content/4/text").asText())
+                .contains("<claude-mid-conversation-system>", "Use the new constraint");
+        assertThat(mapped.at("/messages/1/role").asText()).isEqualTo("assistant");
         assertThat(mapped.at("/serviceTier/type").asText()).isEqualTo("default");
         assertThat(mapped.at("/performanceConfig/latency").asText()).isEqualTo("optimized");
         assertThat(mapped.at("/requestMetadata/user_id").asText()).isEqualTo("user-1");
         assertThat(mapped.at("/additionalModelResponseFieldPaths/0").asText()).isEqualTo("/stop_sequence");
+        assertThat(mapped.at("/additionalModelResponseFieldPaths/1").asText()).isEqualTo("/context_management");
+        assertThat(mapped.at("/additionalModelResponseFieldPaths/2").asText()).isEqualTo("/stop_details");
     }
 
     @Test
@@ -672,6 +675,25 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.path("messages")).hasSize(1);
         assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("one");
         assertThat(mapped.at("/messages/0/content/1/text").asText()).isEqualTo("two");
+    }
+
+    @Test
+    void test_preservesClaudePriorityServiceTier_whenConvertingToBedrock() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4-6","max_tokens":128,"service_tier":"priority",
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        ).body());
+
+        assertThat(mapped.at("/serviceTier/type").asText()).isEqualTo("priority");
     }
 
     @Test
@@ -796,7 +818,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void test_omitsBedrockThinkingSignature_when_routeModelChanges() throws Exception {
+    void test_rejectsBedrockThinkingSignature_when_routeModelChanges() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
@@ -813,14 +835,110 @@ class BedrockConverseProtocolMessageConverterTest {
                 ]}
                 """.formatted(previousSignature);
 
-        // Act
-        JsonNode mapped = objectMapper.readTree(converter.convert(
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, false, true).forRoute(2L, "new-bedrock-model")
+        )).hasMessageContaining("CLAUDE_BEDROCK_REASONING_SIGNATURE_ROUTE_MISMATCH");
+    }
+
+    @Test
+    void test_rejectsServerToolHistory_when_converseCannotExecuteIt() {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,"messages":[
+                  {"role":"assistant","content":[
+                    {"type":"server_tool_use","id":"srv_1","name":"web_search","input":{"query":"x"}}
+                  ]}
+                ]}
+                """;
+
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        )).hasMessageContaining("CLAUDE_BEDROCK_SERVER_TOOL_NOT_SUPPORTED_BY_CONVERSE");
+    }
+
+    @Test
+    void test_rejectsToolResult_when_matchingToolUseIsMissing() {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,"messages":[
+                  {"role":"user","content":[
+                    {"type":"tool_result","tool_use_id":"missing","content":"done"}
+                  ]}
+                ]}
+                """;
+
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        )).hasMessageContaining("CLAUDE_BEDROCK_TOOL_RESULT_WITHOUT_TOOL_USE");
+    }
+
+    @Test
+    void test_placesTopLevelCachePointAfterTools_when_toolsArePresent() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,
+                 "cache_control":{"type":"ephemeral","ttl":"5m"},
+                 "system":"system prompt",
+                 "tools":[{"name":"Read","input_schema":{"type":"object"}}],
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
         ).body());
 
-        // Assert
-        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("visible answer");
+        assertThat(mapped.at("/toolConfig/tools/1/cachePoint/type").asText()).isEqualTo("default");
+        assertThat(mapped.at("/toolConfig/tools/1/cachePoint/ttl").asText()).isEqualTo("5m");
+        assertThat(mapped.at("/system/1").isMissingNode()).isTrue();
+    }
+
+    @Test
+    void test_rejectsUnknownAdditionalModelField_when_fieldCannotBeValidatedForClaude() {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,
+                 "additionalModelRequestFields":{"unknown_feature":true},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("CLAUDE_BEDROCK_UNSUPPORTED_ADDITIONAL_MODEL_REQUEST_FIELD");
+    }
+
+    @Test
+    void test_rejectsUnknownSpeed_when_converseHasNoEquivalentLatencyMode() {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,"speed":"turbo",
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("CLAUDE_BEDROCK_SPEED_NOT_SUPPORTED");
     }
 
     @Test
@@ -892,6 +1010,38 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.at("/content/0/data").asText()).isEqualTo("cmVkYWN0ZWQ=");
         assertThat(mapped.path("stop_reason").asText()).isEqualTo("stop_sequence");
         assertThat(mapped.path("stop_sequence").asText()).isEqualTo("<END>");
+    }
+
+    @Test
+    void test_preservesAdditionalClaudeResponseMetadata_when_bedrockReturnsIt() throws Exception {
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"done"}]}},
+                  "stopReason":"end_turn",
+                  "additionalModelResponseFields":{
+                    "context_management":{"applied_edits":[{"type":"clear_tool_uses_20250919"}]},
+                    "stop_details":{"reason":"completed"}
+                  },
+                  "serviceTier":{"type":"priority"},
+                  "performanceConfig":{"latency":"optimized"},
+                  "usage":{"inputTokens":2,"outputTokens":1}
+                }
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        ).body());
+
+        assertThat(mapped.at("/context_management/applied_edits/0/type").asText())
+                .isEqualTo("clear_tool_uses_20250919");
+        assertThat(mapped.at("/stop_details/reason").asText()).isEqualTo("completed");
+        assertThat(mapped.at("/service_tier").asText()).isEqualTo("priority");
+        assertThat(mapped.at("/speed").asText()).isEqualTo("fast");
     }
 
     @Test
