@@ -199,6 +199,13 @@ public final class ProtocolFieldRef {
                 && context.contains("数组") && value.isArray()) {
             return true;
         }
+        if ((type == FieldType.STRING || type == FieldType.ENUM)
+                && context.contains("对象") && value.isObject()) {
+            return true;
+        }
+        if (type == FieldType.OBJECT && context.contains("字符串") && value.isTextual()) {
+            return true;
+        }
         return type == FieldType.OBJECT && context.contains("可为 auto") && value.isTextual();
     }
 

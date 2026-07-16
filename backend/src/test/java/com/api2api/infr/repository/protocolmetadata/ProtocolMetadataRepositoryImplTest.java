@@ -19,7 +19,7 @@ class ProtocolMetadataRepositoryImplTest {
         // Act
         // Assert
         ProtocolMetadata metadata = repository.findByProtocolType(ProtocolType.CLAUDE_MESSAGES).orElseThrow();
-        assertThat(metadata.fieldCount()).isEqualTo(72);
+        assertThat(metadata.fieldCount()).isEqualTo(107);
     }
 
     @Test
@@ -30,6 +30,20 @@ class ProtocolMetadataRepositoryImplTest {
         // Act
         // Assert
         ProtocolMetadata metadata = repository.findByProtocolType(ProtocolType.CLAUDE_MESSAGES).orElseThrow();
-        assertThat(metadata.fieldsBySection().get(FieldSection.CONTENT_BLOCK)).hasSize(18);
+        assertThat(metadata.fieldsBySection().get(FieldSection.CONTENT_BLOCK)).hasSize(30);
+
+    }
+
+    @Test
+    void test_exposes_claude_code_deferred_tool_field_when_latest_metadata_is_loaded() {
+        // Arrange
+        ProtocolMetadataRepositoryImpl repository = new ProtocolMetadataRepositoryImpl(new ProtocolContractRegistry(new ObjectMapper()));
+
+        // Act
+        ProtocolMetadata metadata = repository.findByProtocolType(ProtocolType.CLAUDE_MESSAGES).orElseThrow();
+
+        // Assert
+        assertThat(metadata.fieldDefinitions())
+                .anySatisfy(field -> assertThat(field.fieldPath()).isEqualTo("tools[].defer_loading"));
     }
 }

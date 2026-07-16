@@ -1,13 +1,13 @@
 {
   "protocolType": "OPENAI_RESPONSES",
   "displayName": "OpenAI Responses",
-  "apiSpecVersion": "Responses API v1 (2025-03)",
+  "apiSpecVersion": "Responses API · OpenAI SDK 6.47.0 · 2026-07-16",
   "description": "OpenAI Responses API，支持多模态输入、内置工具（web_search、code_interpreter、file_search）、MCP 工具、推理（reasoning）、流式响应等能力。",
   "defaultEndpointPath": "/v1/responses",
   "fields": [
     {"fieldName": "input", "fieldPath": "input", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "输入内容，支持字符串或消息项数组", "purpose": "承载用户输入和对话历史", "usageContext": "可为纯文本字符串或结构化消息项数组（含 role + content）"},
     {"fieldName": "input[].role", "fieldPath": "input[].role", "fieldType": "STRING", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "消息角色：user、assistant、system、developer", "purpose": "标识消息发送方", "usageContext": "developer 角色等价于 system 但优先级更高"},
-    {"fieldName": "input[].content", "fieldPath": "input[].content", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "消息内容，支持字符串或内容块数组", "purpose": "承载消息的实际内容", "usageContext": "支持 input_text、input_image、input_file 等内容块类型"},
+    {"fieldName": "input[].content", "fieldPath": "input[].content", "fieldType": "ARRAY", "required": true, "section": "MESSAGE", "usageDirection": "INPUT", "description": "消息内容，支持字符串或内容块数组", "purpose": "承载消息的实际内容", "usageContext": "支持字符串简写，或 input_text、input_image、input_file 等内容块数组"},
     {"fieldName": "instructions", "fieldPath": "instructions", "fieldType": "STRING", "required": false, "section": "MESSAGE", "usageDirection": "INPUT", "description": "系统指令", "purpose": "设定模型行为和约束", "usageContext": "等价于 system prompt，插入在所有 input 之前"},
     {"fieldName": "id", "fieldPath": "id", "fieldType": "STRING", "required": true, "section": "MESSAGE", "usageDirection": "OUTPUT", "description": "响应唯一标识符", "purpose": "用于追踪和引用特定响应", "usageContext": "格式为 resp_ 前缀的唯一 ID"},
     {"fieldName": "object", "fieldPath": "object", "fieldType": "STRING", "required": true, "section": "MESSAGE", "usageDirection": "OUTPUT", "description": "对象类型，固定为 response", "purpose": "标识响应对象类型", "usageContext": "值固定为 \"response\""},

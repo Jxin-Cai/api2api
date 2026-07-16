@@ -1,4 +1,4 @@
-import { Collapse, Empty, Space, Tag, Typography } from 'antd';
+import { Collapse, Empty, Input, Segmented, Space, Tag, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { buildMappingView, getMappingTypeMeta, type MappingViewGroup, type MappingViewRow } from '../model/mappingView';
 import type { ProtocolConversionMappingResponse } from '../model/types';
@@ -13,6 +13,17 @@ interface FieldMappingHierarchyProps {
 
 export function FieldMappingHierarchy({ mapping }: FieldMappingHierarchyProps) {
   const view = useMemo(() => buildMappingView(mapping), [mapping]);
+  const [query, setQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'supported' | 'lossy' | 'unsupported'>('all');
+  const filteredGroups = useMemo(() => view.groups.map((group) => ({
+    ...group,
+    rows: group.rows.filter((row) => matchesRow(row, query, statusFilter)),
+  })).filter((group) => group.rows.length > 0).map((group) => ({
+    ...group,
+    count: group.rows.length,
+    lossyCount: group.rows.filter((row) => row.lossinessMeta.isLossy).length,
+    types: Array.from(new Set(group.rows.map((row) => row.type))),
+  })), [query, statusFilter, view.groups]);
   const defaultActiveKeys = useMemo(() => view.groups
     .filter((group, index) => index < 2 || group.lossyCount > 0)
     .map((group) => group.key), [view.groups]);
@@ -37,19 +48,40 @@ export function FieldMappingHierarchy({ mapping }: FieldMappingHierarchyProps) {
         </div>
       </div>
       <div className="protocol-mapping-hierarchy__actions">
-        <Typography.Link onClick={() => setActiveKeys(view.groups.map((group) => group.key))}>展开全部</Typography.Link>
-        <Typography.Text type="secondary">/</Typography.Text>
-        <Typography.Link onClick={() => setActiveKeys([])}>收起全部</Typography.Link>
+        <Input.Search
+          allowClear
+          aria-label="搜索字段路径或转换规则"
+          placeholder="搜索字段路径、规则或备注"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          style={{ maxWidth: 360 }}
+        />
+        <Segmented
+          aria-label="筛选转换状态"
+          value={statusFilter}
+          onChange={(value) => setStatusFilter(value as typeof statusFilter)}
+          options={[
+            { label: '全部', value: 'all' },
+            { label: '支持', value: 'supported' },
+            { label: '有损', value: 'lossy' },
+            { label: '不支持', value: 'unsupported' },
+          ]}
+        />
+        <span className="protocol-mapping-hierarchy__expand-actions">
+          <Typography.Link onClick={() => setActiveKeys(filteredGroups.map((group) => group.key))}>展开全部</Typography.Link>
+          <Typography.Text type="secondary"> / </Typography.Text>
+          <Typography.Link onClick={() => setActiveKeys([])}>收起全部</Typography.Link>
+        </span>
       </div>
-      <Collapse
+      {filteredGroups.length > 0 ? <Collapse
         activeKey={activeKeys}
         onChange={(keys) => setActiveKeys(Array.isArray(keys) ? keys.map(String) : [String(keys)])}
-        items={view.groups.map((group) => ({
+        items={filteredGroups.map((group) => ({
           key: group.key,
           label: <GroupLabel group={group} />,
           children: <GroupRows rows={group.rows} />,
         }))}
-      />
+      /> : <Empty description="没有符合筛选条件的字段映射" />}
     </Space>
   );
 }
@@ -86,7 +118,7 @@ function MappingRow({ row }: { row: MappingViewRow }) {
     <div className="protocol-mapping-row">
       <div className="protocol-mapping-row__endpoint">
         <span className="protocol-mapping-row__label">Source</span>
-        <FieldPathText value={row.sourceField} />
+        <FieldPathText value={row.sourceField} showDepth />
       </div>
       <div className="protocol-mapping-row__rule" aria-label={`字段 ${row.sourceField} 映射到 ${row.targetField}，规则：${row.ruleDescription}`}>
         <span className={`protocol-mapping-row__line ${row.typeMeta.lineClassName}`} aria-hidden="true" />
@@ -110,8 +142,19 @@ function MappingRow({ row }: { row: MappingViewRow }) {
       </div>
       <div className="protocol-mapping-row__endpoint">
         <span className="protocol-mapping-row__label">Target</span>
-        <FieldPathText value={row.targetField} />
+        <FieldPathText value={row.targetField} showDepth />
       </div>
     </div>
   );
+}
+
+function matchesRow(row: MappingViewRow, query: string, status: 'all' | 'supported' | 'lossy' | 'unsupported'): boolean {
+  const normalizedQuery = query.trim().toLowerCase();
+  const textMatches = !normalizedQuery || [row.sourceField, row.targetField, row.ruleDescription, row.notes]
+    .filter(Boolean).some((value) => value?.toLowerCase().includes(normalizedQuery));
+  if (!textMatches) return false;
+  if (status === 'unsupported') return row.supported === false;
+  if (status === 'lossy') return row.lossinessMeta.isLossy;
+  if (status === 'supported') return row.supported !== false;
+  return true;
 }

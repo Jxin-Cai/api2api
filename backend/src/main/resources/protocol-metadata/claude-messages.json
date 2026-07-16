@@ -1,15 +1,15 @@
 {
   "protocolType": "CLAUDE_MESSAGES",
   "displayName": "Claude Messages",
-  "apiSpecVersion": "Messages API 2024-01-01 (Opus 4.8)",
+  "apiSpecVersion": "Messages API · Anthropic SDK 0.111.0 · 2026-07-16",
   "description": "Anthropic Claude Messages API，支持多轮对话、工具调用、推理（adaptive thinking）、流式响应、上下文缓存、代码执行、Web 搜索等能力。",
   "defaultEndpointPath": "/v1/messages",
   "fields": [
     {"fieldName": "model", "fieldPath": "model", "fieldType": "STRING", "required": true, "section": "MODEL", "usageDirection": "INPUT", "description": "模型标识符", "purpose": "指定使用的模型", "usageContext": "如 claude-opus-4-8、claude-sonnet-5 等"},
     {"fieldName": "max_tokens", "fieldPath": "max_tokens", "fieldType": "INTEGER", "required": true, "section": "MODEL", "usageDirection": "INPUT", "description": "最大输出 token 数", "purpose": "限制模型生成的最大长度", "usageContext": "必填参数，streaming 时最高可设 128000"},
-    {"fieldName": "temperature", "fieldPath": "temperature", "fieldType": "FLOAT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "采样温度 (0.0-1.0)", "purpose": "控制输出随机性", "usageContext": "Opus 4.7+ 不再支持该参数（400 错误）"},
-    {"fieldName": "top_p", "fieldPath": "top_p", "fieldType": "FLOAT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "核采样概率阈值", "purpose": "控制候选 token 的概率分布截断", "usageContext": "Opus 4.7+ 不再支持该参数"},
-    {"fieldName": "top_k", "fieldPath": "top_k", "fieldType": "INTEGER", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "采样时考虑的最大 token 数", "purpose": "限制候选 token 池大小", "usageContext": "Claude 特有参数，Opus 4.7+ 不再支持"},
+    {"fieldName": "temperature", "fieldPath": "temperature", "fieldType": "FLOAT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "采样温度 (0.0-1.0，已废弃)", "purpose": "控制输出随机性", "usageContext": "Opus 4.6 之后模型只兼容值 1.0，其他值返回 400"},
+    {"fieldName": "top_p", "fieldPath": "top_p", "fieldType": "FLOAT", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "核采样概率阈值（已废弃）", "purpose": "控制候选 token 的概率分布截断", "usageContext": "Opus 4.6 之后模型只兼容 >=0.99"},
+    {"fieldName": "top_k", "fieldPath": "top_k", "fieldType": "INTEGER", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "候选 token 数（已废弃）", "purpose": "限制候选 token 池大小", "usageContext": "Opus 4.6 之后模型不接受该字段"},
     {"fieldName": "stop_sequences", "fieldPath": "stop_sequences", "fieldType": "ARRAY", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "自定义停止序列列表", "purpose": "模型遇到这些序列时停止生成", "usageContext": "字符串数组"},
     {"fieldName": "service_tier", "fieldPath": "service_tier", "fieldType": "STRING", "required": false, "section": "MODEL", "usageDirection": "INPUT", "description": "服务层级", "purpose": "指定请求的优先级和 SLA", "usageContext": "如 standard、priority 等"},
 

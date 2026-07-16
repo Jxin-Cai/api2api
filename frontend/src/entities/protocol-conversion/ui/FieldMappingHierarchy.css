@@ -19,6 +19,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.protocol-mapping-hierarchy__expand-actions {
+  white-space: nowrap;
 }
 
 .protocol-mapping-hierarchy__group-label {
@@ -170,6 +176,62 @@
   line-height: 1.7;
 }
 
+.protocol-field-path-wrap,
+.protocol-field-depth {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.protocol-field-depth {
+  width: 100%;
+  padding: 2px 0 0 4px;
+}
+
+.protocol-field-depth__level {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  max-width: calc(100% - 8px);
+}
+
+.protocol-field-depth__level:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 20px;
+  width: 1px;
+  height: 8px;
+  background: var(--border-color);
+}
+
+.protocol-field-depth__index {
+  flex: 0 0 auto;
+  min-width: 24px;
+  color: var(--text-tertiary);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.protocol-field-depth__value {
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.protocol-field-depth__value.is-array,
+.protocol-field-depth__value.is-wildcard,
+.protocol-field-depth__value.is-index {
+  color: var(--primary-color);
+}
+
 .protocol-field-path__segment.is-array,
 .protocol-field-path__segment.is-index,
 .protocol-field-path__segment.is-wildcard,
@@ -178,6 +240,14 @@
 }
 
 @media (max-width: 720px) {
+  .protocol-mapping-hierarchy__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .protocol-mapping-hierarchy__actions .ant-segmented {
+    overflow-x: auto;
+  }
   .protocol-mapping-hierarchy__group-label {
     align-items: flex-start;
     flex-direction: column;

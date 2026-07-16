@@ -2,7 +2,7 @@
 
 本文描述 Claude Code 通过 `/v1/messages` 接入时，服务转换到 AWS Bedrock Converse 或 OpenAI Responses 的行为。原则是：可等价映射就转换；不能可靠映射就明确失败，避免静默丢参数导致能力降级。
 
-审计基线：2026-07-12，本机 Claude Code 2.1.207；对照 Anthropic、AWS Bedrock 与 OpenAI 最新官方协议文档。这里仅评估 Claude Messages → Bedrock Converse 和 Claude Messages → OpenAI Responses，不包含 AWS 上的 Claude Messages/InvokeModel 路径。
+审计基线：2026-07-16，Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0 与 AWS Bedrock Runtime `2023-09-30` service model；对照 Anthropic、AWS Bedrock 与 OpenAI 最新官方协议文档。这里仅评估 Claude Messages → Bedrock Converse 和 Claude Messages → OpenAI Responses，不包含 AWS 上的 Claude Messages/InvokeModel 路径。
 
 ## AWS Bedrock Converse
 

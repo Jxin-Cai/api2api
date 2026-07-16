@@ -51,6 +51,20 @@ class ProtocolContractRegistryTest {
     }
 
     @Test
+    void test_parseRequest_accepts_string_message_content_when_openai_responses_uses_text_shorthand() {
+        String body = """
+                {"model":"gpt-5.5","stream":true,
+                 "input":[{"type":"message","role":"user","content":"Hello, what can you do?"}],
+                 "reasoning":{"effort":"high","summary":"detailed"},
+                 "tools":[],"instructions":null}
+                """;
+
+        ParsedGatewayRequest parsed = registry.parseRequest(ProtocolType.OPENAI_RESPONSES, body);
+
+        assertEquals("gpt-5.5", parsed.model());
+    }
+
+    @Test
     void test_metadata_projects_the_same_field_refs_when_registry_is_the_source() {
         ProtocolMetadataRepositoryImpl repository = new ProtocolMetadataRepositoryImpl(registry);
 

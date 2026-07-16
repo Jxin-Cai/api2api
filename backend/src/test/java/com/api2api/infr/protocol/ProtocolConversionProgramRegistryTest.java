@@ -60,6 +60,25 @@ class ProtocolConversionProgramRegistryTest {
                 .isEmpty();
     }
 
+    @Test
+    void test_marks_programmatic_tool_calling_unsupported_when_target_is_bedrock_converse() {
+        // Arrange
+        List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST
+        ).orElseThrow();
+
+        // Act
+        FieldMapping allowedCallers = mappings.stream()
+                .filter(mapping -> mapping.sourceField().equals("tools[].allowed_callers"))
+                .findFirst()
+                .orElseThrow();
+
+        // Assert
+        assertThat(allowedCallers.supported()).isFalse();
+    }
+
     static Stream<Arguments> allConverterDirections() {
         return Stream.of(
                 // Generic converters (12)

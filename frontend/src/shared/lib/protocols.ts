@@ -3,6 +3,9 @@ export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT
 export interface ProtocolMeta {
   label: string;
   color: string;
+  officialSpecUrl?: string;
+  verifiedAt?: string;
+  referenceVersion?: string;
 }
 
 export interface CapabilityMeta {
@@ -26,10 +29,22 @@ export const UPSTREAM_PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolTy
 ];
 
 const PROTOCOL_META: Record<string, ProtocolMeta> = {
-  CLAUDE_MESSAGES: { label: 'Claude Messages', color: 'orange' },
-  OPENAI_RESPONSES: { label: 'OpenAI Responses', color: 'purple' },
-  OPENAI_CHAT_COMPLETIONS: { label: 'OpenAI Chat Completions', color: 'blue' },
-  AWS_BEDROCK_CONVERSE: { label: 'AWS Bedrock Converse', color: 'green' },
+  CLAUDE_MESSAGES: {
+    label: 'Claude Messages', color: 'orange', verifiedAt: '2026-07-16', referenceVersion: 'Anthropic SDK 0.111.0',
+    officialSpecUrl: 'https://platform.claude.com/docs/en/api/messages/create',
+  },
+  OPENAI_RESPONSES: {
+    label: 'OpenAI Responses', color: 'purple', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI SDK 6.47.0',
+    officialSpecUrl: 'https://developers.openai.com/api/reference/resources/responses/methods/create',
+  },
+  OPENAI_CHAT_COMPLETIONS: {
+    label: 'OpenAI Chat Completions', color: 'blue', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI SDK 6.47.0',
+    officialSpecUrl: 'https://developers.openai.com/api/reference/resources/chat',
+  },
+  AWS_BEDROCK_CONVERSE: {
+    label: 'AWS Bedrock Converse', color: 'green', verifiedAt: '2026-07-16', referenceVersion: 'Bedrock Runtime 2023-09-30',
+    officialSpecUrl: 'https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html',
+  },
   OPENAI_CHAT: { label: 'OpenAI Chat Completions', color: 'blue' },
   'claude-messages': { label: 'Claude Messages', color: 'orange' },
   'openai-responses': { label: 'OpenAI Responses', color: 'purple' },
