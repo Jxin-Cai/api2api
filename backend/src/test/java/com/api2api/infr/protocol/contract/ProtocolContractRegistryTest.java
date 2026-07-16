@@ -98,10 +98,14 @@ class ProtocolContractRegistryTest {
 
     @Test
     void test_reports_official_api_versions_when_four_protocols_are_registered() {
-        assertEquals("Anthropic API 2023-06-01", registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
-        assertEquals("OpenAI API v1", registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
-        assertEquals("OpenAI API v1", registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());
-        assertEquals("Bedrock Runtime 2023-09-30", registry.require(ProtocolType.AWS_BEDROCK_CONVERSE).apiSpecVersion());
+        assertEquals("Anthropic API 2023-06-01 · SDK 0.111.0",
+                registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
+        assertEquals("OpenAI API v1 · SDK 6.47.0",
+                registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
+        assertEquals("OpenAI API v1 · SDK 6.47.0",
+                registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());
+        assertEquals("Bedrock Runtime 2023-09-30 · AWS SDK 2.48.1",
+                registry.require(ProtocolType.AWS_BEDROCK_CONVERSE).apiSpecVersion());
     }
 
     @Test
@@ -117,5 +121,35 @@ class ProtocolContractRegistryTest {
                 "tools[].strict"
         )));
         assertFalse(fieldPaths.stream().anyMatch(path -> path.startsWith("tools[].function.")));
+    }
+
+    @Test
+    void test_exposes_latest_official_fields_when_sdk_schema_snapshots_are_registered() {
+        assertTrue(fieldPaths(ProtocolType.CLAUDE_MESSAGES).containsAll(List.of(
+                "fallback_credit_token",
+                "response.container",
+                "usage.server_tool_use.web_fetch_requests"
+        )));
+        assertTrue(fieldPaths(ProtocolType.OPENAI_RESPONSES).containsAll(List.of(
+                "context_management[].compact_threshold",
+                "moderation.model",
+                "tools[].skills"
+        )));
+        assertTrue(fieldPaths(ProtocolType.OPENAI_CHAT_COMPLETIONS).containsAll(List.of(
+                "messages[].content[].input_audio.data",
+                "prompt_cache_options",
+                "usage.prompt_tokens_details.cache_write_tokens"
+        )));
+        assertTrue(fieldPaths(ProtocolType.AWS_BEDROCK_CONVERSE).containsAll(List.of(
+                "outputConfig.textFormat.structure",
+                "serviceTier.type",
+                "toolConfig.tools[].toolSpec.strict"
+        )));
+    }
+
+    private List<String> fieldPaths(ProtocolType protocolType) {
+        return registry.require(protocolType).fields().stream()
+                .map(ProtocolFieldRef::path)
+                .toList();
     }
 }

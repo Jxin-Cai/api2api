@@ -19,7 +19,7 @@ class ProtocolMetadataRepositoryImplTest {
         // Act
         // Assert
         ProtocolMetadata metadata = repository.findByProtocolType(ProtocolType.CLAUDE_MESSAGES).orElseThrow();
-        assertThat(metadata.fieldCount()).isEqualTo(107);
+        assertThat(metadata.fieldCount()).isEqualTo(114);
     }
 
     @Test
