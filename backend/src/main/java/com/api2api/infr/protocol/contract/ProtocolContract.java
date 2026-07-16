@@ -66,16 +66,31 @@ public final class ProtocolContract {
 
     public ParsedGatewayRequest parseRequest(String rawBody) {
         JsonNode root = parseRequestNode(rawBody);
+        return requestFacts(rawBody, root);
+    }
+
+    /**
+     * Parses a gateway request without walking every metadata leaf path. Large
+     * Claude Code histories can contain thousands of content blocks, and the
+     * exhaustive contract view otherwise traverses those arrays once per field.
+     * Target-specific converters still perform semantic validation.
+     */
+    public ParsedGatewayRequest parseGatewayRequest(String rawBody) {
+        return requestFacts(rawBody, readObject(rawBody, ProtocolShapeKind.REQUEST));
+    }
+
+    private ParsedGatewayRequest requestFacts(String rawBody, JsonNode root) {
         ProtocolFieldRef model = requestShape.requireField("model");
         boolean streaming = optionalField("stream").readBoolean(root, ProtocolShapeKind.REQUEST, false);
+        ContentSignals contentSignals = contentSignals(root);
         boolean toolCalling = present(root, "tools") || present(root, "tool_choice")
                 || present(root, "toolConfig") || present(root, "mcp_servers")
-                || containsContentType(root, TOOL_CONTENT_TYPES);
+                || contentSignals.toolCalling();
         boolean reasoning = present(root, "thinking") || present(root, "reasoning")
                 || present(root, "additionalModelRequestFields.thinking")
                 || present(root, "output_config.effort")
                 || present(root, "reasoning_effort")
-                || containsContentType(root, REASONING_CONTENT_TYPES);
+                || contentSignals.reasoning();
         return new ParsedGatewayRequest(rawBody, model.readText(root, ProtocolShapeKind.REQUEST),
                 streaming, toolCalling, reasoning);
     }
@@ -123,15 +138,30 @@ public final class ProtocolContract {
                 : com.api2api.domain.protocolmetadata.model.FieldType.OBJECT;
     }
 
-    private boolean containsContentType(JsonNode root, Set<String> expectedTypes) {
-        ProtocolFieldRef contentTypes = ProtocolFieldRef.runtime(
-                protocolType == ProtocolType.OPENAI_RESPONSES
-                        ? "input[].content[].type"
-                        : "messages[].content[].type",
-                com.api2api.domain.protocolmetadata.model.FieldType.STRING
-        );
-        return contentTypes.readAll(root, ProtocolShapeKind.REQUEST).stream()
-                .filter(JsonNode::isTextual).map(JsonNode::asText).anyMatch(expectedTypes::contains);
+    private ContentSignals contentSignals(JsonNode root) {
+        JsonNode messages = protocolType == ProtocolType.OPENAI_RESPONSES
+                ? root.path("input")
+                : root.path("messages");
+        if (!messages.isArray()) {
+            return ContentSignals.NONE;
+        }
+        boolean toolCalling = false;
+        boolean reasoning = false;
+        for (JsonNode message : messages) {
+            JsonNode content = message.path("content");
+            if (!content.isArray()) {
+                continue;
+            }
+            for (JsonNode block : content) {
+                String type = block.path("type").asText("");
+                toolCalling |= TOOL_CONTENT_TYPES.contains(type);
+                reasoning |= REASONING_CONTENT_TYPES.contains(type);
+                if (toolCalling && reasoning) {
+                    return ContentSignals.BOTH;
+                }
+            }
+        }
+        return new ContentSignals(toolCalling, reasoning);
     }
 
     private void verifyEveryMetadataFieldIsExecutable() {
@@ -160,4 +190,9 @@ public final class ProtocolContract {
     public ProtocolShape requestShape() { return requestShape; }
     public ProtocolShape responseShape() { return responseShape; }
     public ProtocolShape streamEventShape() { return streamEventShape; }
+
+    private record ContentSignals(boolean toolCalling, boolean reasoning) {
+        private static final ContentSignals NONE = new ContentSignals(false, false);
+        private static final ContentSignals BOTH = new ContentSignals(true, true);
+    }
 }

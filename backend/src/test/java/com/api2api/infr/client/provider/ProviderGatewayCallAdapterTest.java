@@ -6,8 +6,11 @@ import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.application.gateway.UpstreamGatewayException;
 import com.api2api.domain.channel.model.ChannelProtocolMapping;
+import com.api2api.domain.channel.model.ChannelModelSupport;
+import com.api2api.domain.channel.model.ChannelModelSupportId;
 import com.api2api.domain.channel.model.ModelMappingResult;
 import com.api2api.domain.channel.model.ModelName;
+import com.api2api.domain.channel.model.ModelSupportSource;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
@@ -108,6 +111,26 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
+    void test_usesConverseStreamEndpoint_when_claudeStreamRoutesToBedrock() throws IOException {
+        // Arrange
+        AtomicInteger requests = new AtomicInteger();
+        server = bedrockStreamingServer(requests);
+        ProviderGatewayCallAdapter adapter = adapter();
+
+        // Act
+        ProviderStreamingResponse response = adapter.openStream(
+                candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE),
+                "{\"messages\":[]}",
+                Map.of()
+        );
+
+        // Assert
+        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(requests.get()).isEqualTo(1);
+        response.close();
+    }
+
+    @Test
     void openStreamTreatsModelNotFoundAsRetryableForProtocolFallback() throws IOException {
         server = server(404, "application/json", "{\"error\":{\"type\":\"model_not_found\",\"message\":\"not supported by any configured account\"}}");
         ProviderGatewayCallAdapter adapter = adapter();
@@ -172,6 +195,23 @@ class ProviderGatewayCallAdapterTest {
         return httpServer;
     }
 
+    private HttpServer bedrockStreamingServer(AtomicInteger requests) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext("/model/gpt/converse-stream", exchange -> {
+            requests.incrementAndGet();
+            assertThat(exchange.getRequestMethod()).isEqualTo("POST");
+            assertThat(new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8))
+                    .isEqualTo("{\"messages\":[]}");
+            byte[] body = "event-stream".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/vnd.amazon.eventstream");
+            exchange.sendResponseHeaders(200, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
     private ProviderGatewayCallAdapter adapter() {
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         properties.setAllowInsecureHosts(true);
@@ -208,8 +248,14 @@ class ProviderGatewayCallAdapterTest {
                 ProviderKeyRef.of("provider-key"),
                 ProviderModelsPath.DEFAULT,
                 1,
-                Set.of(ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)),
-                List.of(),
+                Set.of(
+                        ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES),
+                        ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE)
+                ),
+                List.of(
+                        modelSupport(1L, ProtocolType.OPENAI_RESPONSES),
+                        modelSupport(2L, ProtocolType.AWS_BEDROCK_CONVERSE)
+                ),
                 ProviderChannelStatus.ENABLED,
                 NOW,
                 NOW
@@ -217,31 +263,53 @@ class ProviderGatewayCallAdapterTest {
     }
 
     private RouteCandidate candidate(ProtocolType protocol) {
+        return candidate(protocol, protocol);
+    }
+
+    private RouteCandidate candidate(ProtocolType clientProtocol, ProtocolType upstreamProtocol) {
         ModelName model = ModelName.of("gpt");
         return RouteCandidate.of(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("test"),
                 model,
                 model,
-                protocol,
-                protocol,
+                clientProtocol,
+                upstreamProtocol,
                 RoutePriority.of(1),
                 1,
                 false,
-                ConversionRoute.of(definition(protocol), protocol, protocol),
+                ConversionRoute.of(definition(clientProtocol, upstreamProtocol), clientProtocol, upstreamProtocol),
                 ModelMappingResult.of(model, model)
         );
     }
 
     private ProtocolConversionDefinition definition(ProtocolType protocol) {
+        return definition(protocol, protocol);
+    }
+
+    private ProtocolConversionDefinition definition(ProtocolType sourceProtocol, ProtocolType targetProtocol) {
         return ProtocolConversionDefinition.create(
                 ProtocolConversionDefinitionId.of(1L),
-                protocol,
-                protocol,
+                sourceProtocol,
+                targetProtocol,
                 ConversionCapability.of(true, true, true, true, true, Set.of(ContentMappingType.TEXT, ContentMappingType.TOOL_CALL)),
                 mapping(MappingDirection.REQUEST),
                 mapping(MappingDirection.RESPONSE),
                 ConversionImplementationStatus.IMPLEMENTED,
+                NOW
+        );
+    }
+
+    private ChannelModelSupport modelSupport(long id, ProtocolType upstreamProtocol) {
+        ModelName model = ModelName.of("gpt");
+        return ChannelModelSupport.create(
+                ChannelModelSupportId.of(id),
+                model,
+                model,
+                upstreamProtocol,
+                RoutePriority.of(1),
+                false,
+                ModelSupportSource.MANUAL,
                 NOW
         );
     }

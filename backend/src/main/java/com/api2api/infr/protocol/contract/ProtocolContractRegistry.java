@@ -31,6 +31,11 @@ public final class ProtocolContractRegistry implements ExecutableProtocolContrac
     }
 
     @Override
+    public ParsedGatewayRequest parseGatewayRequest(ProtocolType protocolType, String rawBody) {
+        return require(protocolType).parseGatewayRequest(rawBody);
+    }
+
+    @Override
     public String buildResponse(ProtocolType protocolType, String rawBody) {
         return require(protocolType).buildResponse(rawBody);
     }

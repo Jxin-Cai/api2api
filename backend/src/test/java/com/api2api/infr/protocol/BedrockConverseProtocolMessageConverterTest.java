@@ -20,6 +20,26 @@ class BedrockConverseProtocolMessageConverterTest {
     private final SseEventTransformer sseEventTransformer = new SseEventTransformer();
 
     @Test
+    void test_reusesConversionProgram_when_converterHandlesMultipleRequests() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json,
+                null,
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST,
+                sseEventTransformer
+        );
+
+        // Act
+        var first = converter.conversionProgram();
+        var second = converter.conversionProgram();
+
+        // Assert
+        assertThat(second).isSameAs(first);
+    }
+
+    @Test
     void shouldMapClaudeToolsThinkingAndToolResultToBedrockRequest() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,

@@ -8,5 +8,11 @@ public interface ExecutableProtocolContract {
 
     ParsedGatewayRequest parseRequest(ProtocolType protocolType, String rawBody);
 
+    /**
+     * Extracts only the request facts needed by the latency-sensitive gateway path.
+     * Detailed leaf validation remains available through {@link #parseRequest}.
+     */
+    ParsedGatewayRequest parseGatewayRequest(ProtocolType protocolType, String rawBody);
+
     String buildResponse(ProtocolType protocolType, String rawBody);
 }

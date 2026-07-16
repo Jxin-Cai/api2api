@@ -92,7 +92,7 @@ public class GatewayProtocolController {
         log.info("Received Claude Messages request, X-Request-Id: {}", xRequestId);
 
         ClaudeMessagesGatewayRequest protocolRequest = ClaudeMessagesGatewayRequest.fromContract(
-                protocolContract.parseRequest(ProtocolType.CLAUDE_MESSAGES, rawBody)
+                protocolContract.parseGatewayRequest(ProtocolType.CLAUDE_MESSAGES, rawBody)
         );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
@@ -129,7 +129,7 @@ public class GatewayProtocolController {
         log.info("Received OpenAI Responses request, X-Request-Id: {}", xRequestId);
 
         OpenAIResponsesGatewayRequest protocolRequest = OpenAIResponsesGatewayRequest.fromContract(
-                protocolContract.parseRequest(ProtocolType.OPENAI_RESPONSES, rawBody)
+                protocolContract.parseGatewayRequest(ProtocolType.OPENAI_RESPONSES, rawBody)
         );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
@@ -166,7 +166,7 @@ public class GatewayProtocolController {
         log.info("Received OpenAI Chat Completions request, X-Request-Id: {}", xRequestId);
 
         OpenAIChatCompletionsGatewayRequest protocolRequest = OpenAIChatCompletionsGatewayRequest.fromContract(
-                protocolContract.parseRequest(ProtocolType.OPENAI_CHAT_COMPLETIONS, rawBody)
+                protocolContract.parseGatewayRequest(ProtocolType.OPENAI_CHAT_COMPLETIONS, rawBody)
         );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,

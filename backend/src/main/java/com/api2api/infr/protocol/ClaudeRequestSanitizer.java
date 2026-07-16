@@ -24,7 +24,8 @@ final class ClaudeRequestSanitizer {
         Objects.requireNonNull(objectMapper, "objectMapper must not be null");
         Objects.requireNonNull(payload, "payload must not be null");
         Objects.requireNonNull(targetProtocol, "targetProtocol must not be null");
-        if (payload.protocol() != ProtocolType.CLAUDE_MESSAGES) {
+        if (payload.protocol() != ProtocolType.CLAUDE_MESSAGES
+                || targetProtocol == ProtocolType.AWS_BEDROCK_CONVERSE) {
             return payload;
         }
         try {

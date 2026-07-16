@@ -27,6 +27,7 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
     private final ProtocolConversionDirection direction;
     private final ConversionCapability capability;
     private final SseEventTransformer sseEventTransformer;
+    private volatile ProtocolConversionProgram cachedConversionProgram;
 
     AbstractProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -103,10 +104,14 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
 
     @Override
     public ProtocolConversionProgram conversionProgram() {
+        ProtocolConversionProgram existing = cachedConversionProgram;
+        if (existing != null) {
+            return existing;
+        }
         List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(sourceProtocol, targetProtocol, direction)
                 .orElse(List.of(FieldMapping.of(
                         "payload", "payload", "Executable converter fallback mapping", MappingLossiness.NONE)));
-        return ProtocolConversionProgram.singleRule(
+        ProtocolConversionProgram created = ProtocolConversionProgram.singleRule(
                 sourceProtocol,
                 targetProtocol,
                 direction,
@@ -116,6 +121,8 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
                         : convertResponseJson(source, requirement),
                 mappings
         );
+        cachedConversionProgram = created;
+        return created;
     }
 
     protected String converterName() {

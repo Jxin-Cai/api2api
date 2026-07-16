@@ -84,6 +84,19 @@ class ClaudeRequestSanitizerTest {
     }
 
     @Test
+    void test_skipsDuplicateSanitization_when_requestTargetsBedrockConverter() {
+        // Arrange
+        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, "not-parsed-here", true);
+
+        // Act
+        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
+                objectMapper, payload, ProtocolType.AWS_BEDROCK_CONVERSE);
+
+        // Assert
+        assertThat(sanitized).isSameAs(payload);
+    }
+
+    @Test
     void test_preservesNativeThinkingState_when_requestPassesThroughToClaude() {
         // Arrange
         ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, """

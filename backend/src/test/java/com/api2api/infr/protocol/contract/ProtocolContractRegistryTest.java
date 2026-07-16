@@ -42,6 +42,24 @@ class ProtocolContractRegistryTest {
     }
 
     @Test
+    void test_parseGatewayRequest_extractsSignalsInOnePass_when_claude_historyContainsMixedContent() {
+        String body = """
+                {"model":"claude-3-5-sonnet","max_tokens":32,"stream":true,
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"thinking","thinking":"work"}]},
+                   {"role":"assistant","content":[{"type":"tool_use","id":"tool-1","name":"Read","input":{}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"tool-1","content":"ok"}]}
+                 ]}
+                """;
+
+        ParsedGatewayRequest parsed = registry.parseGatewayRequest(ProtocolType.CLAUDE_MESSAGES, body);
+
+        assertTrue(parsed.streaming());
+        assertTrue(parsed.toolCallingRequired());
+        assertTrue(parsed.reasoningRequired());
+    }
+
+    @Test
     void test_parseRequest_rejects_required_model_with_wrong_type_when_claude_body_is_invalid() {
         String body = """
                 {"model":123,"max_tokens":32,"messages":[{"role":"user","content":"hello"}]}

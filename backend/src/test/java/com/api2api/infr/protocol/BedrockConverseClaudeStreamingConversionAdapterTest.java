@@ -14,11 +14,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.CRC32;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +62,43 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
                 .allMatch(node -> node.has("delta"))).isTrue();
         assertThat(usage.usageKnown()).isTrue();
         assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
+    @Test
+    void test_flushesClaudeEvent_before_bedrockStreamCompletes() throws Exception {
+        // Arrange
+        try (PipedInputStream upstreamInput = new PipedInputStream();
+             PipedOutputStream upstreamOutput = new PipedOutputStream(upstreamInput)) {
+            FlushAwareOutputStream downstream = new FlushAwareOutputStream();
+            CompletableFuture<UnifiedTokenUsage> conversion = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return adapter.transform(
+                            context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                            upstreamInput,
+                            downstream
+                    );
+                } catch (Exception exception) {
+                    throw new java.util.concurrent.CompletionException(exception);
+                }
+            });
+            ByteArrayOutputStream firstFrame = new ByteArrayOutputStream();
+            writeEvent(firstFrame, "messageStart", "{\"role\":\"assistant\"}");
+
+            // Act
+            upstreamOutput.write(firstFrame.toByteArray());
+            upstreamOutput.flush();
+
+            // Assert
+            assertThat(downstream.awaitFlush()).isTrue();
+            assertThat(downstream.toString(StandardCharsets.UTF_8)).contains("event: message_start");
+            assertThat(conversion).isNotDone();
+
+            ByteArrayOutputStream terminalFrames = new ByteArrayOutputStream();
+            writeEvent(terminalFrames, "messageStop", "{\"stopReason\":\"end_turn\"}");
+            upstreamOutput.write(terminalFrames.toByteArray());
+            upstreamOutput.close();
+            conversion.get(2, TimeUnit.SECONDS);
+        }
     }
 
     @Test
@@ -741,7 +784,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         return events;
     }
 
-    private void writeEvent(ByteArrayOutputStream outputStream, String eventType, String payload) throws Exception {
+    private void writeEvent(OutputStream outputStream, String eventType, String payload) throws Exception {
         Map<String, String> headers = new LinkedHashMap<>();
         headers.put(":event-type", eventType);
         headers.put(":content-type", "application/json");
@@ -749,7 +792,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         writeFrame(outputStream, headers, payload);
     }
 
-    private void writeModeledException(ByteArrayOutputStream outputStream, String exceptionType, String payload) throws Exception {
+    private void writeModeledException(OutputStream outputStream, String exceptionType, String payload) throws Exception {
         Map<String, String> headers = new LinkedHashMap<>();
         headers.put(":content-type", "application/json");
         headers.put(":message-type", "exception");
@@ -757,7 +800,7 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         writeFrame(outputStream, headers, payload);
     }
 
-    private void writeFrame(ByteArrayOutputStream outputStream, Map<String, String> headerValues, String payload) throws Exception {
+    private void writeFrame(OutputStream outputStream, Map<String, String> headerValues, String payload) throws Exception {
         byte[] headers = headers(headerValues);
         byte[] payloadBytes = payload.getBytes(StandardCharsets.UTF_8);
         int totalLength = 16 + headers.length + payloadBytes.length;
@@ -794,5 +837,19 @@ class BedrockConverseClaudeStreamingConversionAdapterTest {
         outputStream.write((valueBytes.length >>> 8) & 0xFF);
         outputStream.write(valueBytes.length & 0xFF);
         outputStream.write(valueBytes);
+    }
+
+    private static final class FlushAwareOutputStream extends ByteArrayOutputStream {
+        private final CountDownLatch flushed = new CountDownLatch(1);
+
+        @Override
+        public void flush() throws java.io.IOException {
+            super.flush();
+            flushed.countDown();
+        }
+
+        private boolean awaitFlush() throws InterruptedException {
+            return flushed.await(2, TimeUnit.SECONDS);
+        }
     }
 }
