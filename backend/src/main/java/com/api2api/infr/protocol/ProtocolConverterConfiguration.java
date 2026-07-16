@@ -316,12 +316,11 @@ class ProtocolConverterConfiguration {
                 }
             }
 
-            JsonNode outputConfig = source.hasNonNull("output_config")
-                    ? source.get("output_config")
-                    : source.get("output_format");
-            if (outputConfig != null && outputConfig.isObject()) {
-                JsonNode format = outputConfig.has("format") ? outputConfig.get("format") : outputConfig;
-                if (format != null && format.isObject()) {
+            JsonNode outputConfig = source.get("output_config");
+            JsonNode format = outputConfig != null && outputConfig.isObject()
+                    ? outputConfig.get("format") : source.get("output_format");
+            if (format != null && !format.isNull()) {
+                if (format.isObject()) {
                     String formatType = format.path("type").asText("");
                     if ("json_schema".equals(formatType)) {
                         ObjectNode responseFormat = json.objectNode();
@@ -724,14 +723,11 @@ class ProtocolConverterConfiguration {
             include.add("reasoning.encrypted_content");
             target.set("include", include);
             ObjectNode text = json.objectNode();
-            JsonNode outputConfig = source.hasNonNull("output_config")
-                    ? source.get("output_config")
-                    : source.get("output_format");
-            if (outputConfig != null && outputConfig.isObject()) {
-                JsonNode format = outputConfig.has("format") ? outputConfig.get("format") : outputConfig;
-                if (format != null && !format.isNull()) {
-                    text.set("format", ensureResponseTextFormat(format));
-                }
+            JsonNode outputConfig = source.get("output_config");
+            JsonNode format = outputConfig != null && outputConfig.isObject()
+                    ? outputConfig.get("format") : source.get("output_format");
+            if (format != null && !format.isNull()) {
+                text.set("format", ensureResponseTextFormat(format));
             }
             if (!text.isEmpty()) {
                 target.set("text", text);
@@ -1623,12 +1619,43 @@ class ProtocolConverterConfiguration {
         }
 
         private JsonNode ensureResponseTextFormat(JsonNode format) {
-            if (!format.isObject() || !"json_schema".equals(format.path("type").asText("")) || format.hasNonNull("name")) {
-                return format;
+            if (format == null || !format.isObject()) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_MUST_BE_OBJECT");
             }
-            ObjectNode copy = (ObjectNode) format.deepCopy();
-            copy.put("name", "json_response");
-            return copy;
+            ObjectNode normalized = (ObjectNode) format.deepCopy();
+            JsonNode nestedSchema = normalized.get("json_schema");
+            if (nestedSchema != null && nestedSchema.isObject()) {
+                normalized = (ObjectNode) nestedSchema.deepCopy();
+            }
+            String type = normalized.path("type").asText("");
+            if (type.isBlank()) {
+                if (normalized.has("schema")) {
+                    normalized.put("type", "json_schema");
+                } else if (normalized.isEmpty()) {
+                    throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_TYPE_REQUIRED");
+                } else {
+                    throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_TYPE_REQUIRED");
+                }
+                type = "json_schema";
+            }
+            if ("json".equals(type)) {
+                normalized.put("type", "json_object");
+                return normalized;
+            }
+            if ("text".equals(type) || "json_object".equals(type)) {
+                return normalized;
+            }
+            if (!"json_schema".equals(type)) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_TYPE_NOT_SUPPORTED: " + type);
+            }
+            if (!normalized.hasNonNull("name")) {
+                normalized.put("name", "json_response");
+            }
+            JsonNode schema = normalized.get("schema");
+            if (schema == null || !schema.isObject()) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_SCHEMA_REQUIRED");
+            }
+            return normalized;
         }
 
         private JsonNode responsesContextManagement(JsonNode source) {

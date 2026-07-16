@@ -313,7 +313,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
                 ProtocolConversionRequest.of(false, false, false)).body());
 
         assertThat(mapped.path("service_tier").asText()).isEqualTo("priority");
-        assertThat(mapped.at("/text/format/type").asText()).isEqualTo("json");
+        assertThat(mapped.at("/text/format/type").asText()).isEqualTo("json_object");
     }
 
     @Test
@@ -331,6 +331,26 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
                 ProtocolConversionRequest.of(false, false, true)).body());
 
         assertThat(mapped.path("service_tier").isMissingNode()).isTrue();
+    }
+
+    @Test
+    void test_normalizesSchemaOnlyOutputFormat_whenConvertingToResponses() throws Exception {
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.5","max_tokens":256,
+                 "output_config":{"format":{"schema":{"type":"object"}}},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        assertThat(mapped.at("/text/format/type").asText()).isEqualTo("json_schema");
+        assertThat(mapped.at("/text/format/name").asText()).isEqualTo("json_response");
+        assertThat(mapped.at("/text/format/schema/type").asText()).isEqualTo("object");
     }
 
     @Test
