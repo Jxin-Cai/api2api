@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Bridges Anthropic Claude Messages to Bedrock InvokeModel without reshaping
- * message, tool, reasoning, cache, or context-management blocks.
+ * Bridges Anthropic Claude Messages to Bedrock InvokeModel. Provider-specific
+ * feature normalization is applied later, after the final upstream model is known.
  */
 final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtocolMessageConverter {
 

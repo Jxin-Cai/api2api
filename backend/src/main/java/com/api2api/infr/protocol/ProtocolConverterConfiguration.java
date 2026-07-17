@@ -1911,9 +1911,79 @@ class ProtocolConverterConfiguration {
             target.put("object", "response");
             target.put("created_at", Instant.now().getEpochSecond());
             target.put("model", source.path("model").asText(""));
-            target.set("output", outputMessage(firstTextFromClaudeContent(source.get("content"))));
+
+            ArrayNode output = json.arrayNode();
+            ArrayNode msgParts = json.arrayNode();
+            JsonNode content = source.get("content");
+
+            if (content != null && content.isArray()) {
+                for (JsonNode block : content) {
+                    String type = block.path("type").asText("");
+                    switch (type) {
+                        case "thinking":
+                            ObjectNode reasoning = json.objectNode();
+                            reasoning.put("type", "reasoning");
+                            reasoning.put("id", "rs_" + source.path("id").asText("").replace("msg_", ""));
+                            String signature = block.path("signature").asText("");
+                            if (!signature.isEmpty()) {
+                                reasoning.put("encrypted_content", signature);
+                            }
+                            String thinking = block.path("thinking").asText("");
+                            if (!thinking.isEmpty()) {
+                                ArrayNode summary = json.arrayNode();
+                                ObjectNode summaryText = json.objectNode();
+                                summaryText.put("type", "summary_text");
+                                summaryText.put("text", thinking);
+                                summary.add(summaryText);
+                                reasoning.set("summary", summary);
+                            }
+                            output.add(reasoning);
+                            break;
+                        case "text":
+                            ObjectNode textPart = json.objectNode();
+                            textPart.put("type", "output_text");
+                            textPart.put("text", block.path("text").asText(""));
+                            textPart.set("annotations", json.arrayNode());
+                            msgParts.add(textPart);
+                            break;
+                        case "tool_use":
+                            ObjectNode functionCall = json.objectNode();
+                            functionCall.put("type", "function_call");
+                            functionCall.put("id", "fc_" + block.path("id").asText("").replace("toolu_", ""));
+                            functionCall.put("call_id", block.path("id").asText(""));
+                            functionCall.put("name", block.path("name").asText(""));
+                            JsonNode input = block.get("input");
+                            functionCall.put("arguments", input != null ? input.toString() : "{}");
+                            functionCall.put("status", "completed");
+                            output.add(functionCall);
+                            break;
+                    }
+                }
+            }
+
+            if (!msgParts.isEmpty()) {
+                ObjectNode messageItem = json.objectNode();
+                messageItem.put("type", "message");
+                messageItem.put("role", "assistant");
+                messageItem.set("content", msgParts);
+                messageItem.put("status", "completed");
+                output.add(messageItem);
+            }
+
+            target.set("output", output);
+            target.put("status", claudeStopReasonToResponsesStatus(source.path("stop_reason").asText("")));
             target.set("usage", responsesUsageFromClaude(source.path("usage")));
             return target;
+        }
+
+        private String claudeStopReasonToResponsesStatus(String stopReason) {
+            return switch (stopReason) {
+                case "end_turn" -> "completed";
+                case "tool_use" -> "completed";
+                case "max_tokens" -> "incomplete";
+                case "stop_sequence" -> "completed";
+                default -> "completed";
+            };
         }
 
         private ObjectNode chatResponseToClaude(JsonNode source) {

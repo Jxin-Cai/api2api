@@ -13,7 +13,6 @@ import com.api2api.domain.routing.model.RouteFailureType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,10 +25,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -43,6 +40,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     private final UpstreamHttpHeaderPolicy headerPolicy;
     private final UpstreamUrlResolver urlResolver;
     private final ObjectMapper objectMapper;
+    private final BedrockClaudeRequestNormalizer bedrockClaudeRequestNormalizer;
     private final HttpClient httpClient;
 
     BearerTokenProviderCallStrategy(
@@ -59,6 +57,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         this.headerPolicy = headerPolicy;
         this.urlResolver = urlResolver;
         this.objectMapper = objectMapper;
+        this.bedrockClaudeRequestNormalizer = new BedrockClaudeRequestNormalizer(objectMapper);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(properties.getConnectTimeout())
                 .version(HttpClient.Version.HTTP_1_1)
@@ -238,7 +237,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                 properties.isAllowInsecureHosts()
         );
         PreparedRequest preparedRequest = prepareRequest(
-                candidate.upstreamProtocol(), upstreamRequestBody, incomingHeaders);
+                candidate.upstreamProtocol(), candidate.upstreamModel().value(), upstreamRequestBody, incomingHeaders);
         Map<String, String> headers = headerPolicy.buildHeaders(
                 candidate.upstreamProtocol(), incomingHeaders, secret, streaming);
         headers.putAll(preparedRequest.headers());
@@ -268,6 +267,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
 
     private PreparedRequest prepareRequest(
             ProtocolType protocol,
+            String upstreamModel,
             String body,
             Map<String, List<String>> incomingHeaders
     ) {
@@ -275,15 +275,14 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             return new PreparedRequest(body, Map.of());
         }
         try {
-            JsonNode parsed = objectMapper.readTree(body);
+            BedrockClaudeRequestNormalizer.NormalizedRequest normalized = bedrockClaudeRequestNormalizer.normalize(
+                    body, upstreamModel, incomingHeaders);
+            JsonNode parsed = objectMapper.readTree(normalized.body());
             if (parsed == null || !parsed.isObject()) {
                 throw new ProtocolConversionException("BEDROCK_INVOKE_REQUEST_MUST_BE_OBJECT");
             }
             ObjectNode request = ((ObjectNode) parsed).deepCopy();
-            if (!request.hasNonNull("anthropic_version")) {
-                request.put("anthropic_version", "bedrock-2023-05-31");
-            }
-            addAnthropicBeta(request, incomingHeaders);
+            logNormalization(upstreamModel, normalized.diagnostics());
 
             Map<String, String> headers = new LinkedHashMap<>();
             JsonNode serviceTier = request.remove("service_tier");
@@ -303,31 +302,35 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         }
     }
 
-    private void addAnthropicBeta(ObjectNode request, Map<String, List<String>> incomingHeaders) {
-        if (request.has("anthropic_beta") || incomingHeaders == null) {
+    private void logNormalization(
+            String upstreamModel,
+            BedrockClaudeRequestNormalizer.Diagnostics diagnostics
+    ) {
+        if (diagnostics.changed()
+                || diagnostics.unmatchedToolResultCount() > 0
+                || diagnostics.repeatedSuccessfulToolCallStreak() >= 3) {
+            log.warn(
+                    "Normalized Bedrock Claude request, upstreamModel: {}, changes: {}, betaFlags: {}, "
+                            + "toolUseCount: {}, toolResultCount: {}, unmatchedToolResultCount: {}, "
+                            + "repeatedSuccessfulToolCallStreak: {}",
+                    upstreamModel,
+                    diagnostics.changes(),
+                    diagnostics.betaFlags(),
+                    diagnostics.toolUseCount(),
+                    diagnostics.toolResultCount(),
+                    diagnostics.unmatchedToolResultCount(),
+                    diagnostics.repeatedSuccessfulToolCallStreak()
+            );
             return;
         }
-        Set<String> betaValues = new LinkedHashSet<>();
-        incomingHeaders.forEach((name, values) -> {
-            if (name == null || !"anthropic-beta".equalsIgnoreCase(name) || values == null) {
-                return;
-            }
-            for (String value : values) {
-                if (value == null) {
-                    continue;
-                }
-                for (String beta : value.split(",")) {
-                    if (!beta.isBlank()) {
-                        betaValues.add(beta.trim());
-                    }
-                }
-            }
-        });
-        if (!betaValues.isEmpty()) {
-            ArrayNode anthropicBeta = objectMapper.createArrayNode();
-            betaValues.forEach(anthropicBeta::add);
-            request.set("anthropic_beta", anthropicBeta);
-        }
+        log.debug(
+                "Prepared Bedrock Claude request, upstreamModel: {}, betaFlags: {}, "
+                        + "toolUseCount: {}, toolResultCount: {}",
+                upstreamModel,
+                diagnostics.betaFlags(),
+                diagnostics.toolUseCount(),
+                diagnostics.toolResultCount()
+        );
     }
 
     private String mapServiceTier(String serviceTier) {

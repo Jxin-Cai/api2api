@@ -263,12 +263,12 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stream", "InvokeModelWithResponseStream operation", "流式标记改为选择 Bedrock 流式操作", MappingLossiness.NONE, "STREAMING", "TRANSFORM"),
                 mapping("messages", "messages", "Anthropic Messages 内容保持原始结构", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
                 mapping("system", "system", "系统提示保持原始结构", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
-                mapping("tools", "tools", "客户端工具、Anthropic 工具和 Tool Search 定义原样保留", MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("tools", "tools", "工具按目标模型规范化；Claude Code custom.defer_loading 提升为 Bedrock defer_loading", MappingLossiness.PARTIAL, "TOOL", "TRANSFORM"),
                 mapping("tool_choice", "tool_choice", "工具选择策略原样保留", MappingLossiness.NONE, "TOOL", "DIRECT"),
-                mapping("thinking", "thinking", "Thinking 配置原样保留", MappingLossiness.NONE, "REASONING", "DIRECT"),
-                mapping("context_management", "context_management", "上下文编辑和 compaction 交由 Bedrock Claude Messages 执行", MappingLossiness.NONE, "METADATA", "DIRECT"),
-                mapping("cache_control", "cache_control", "Claude Prompt Cache 配置原样保留", MappingLossiness.NONE, "METADATA", "DIRECT"),
-                mapping("anthropic-beta header", "anthropic_beta", "Beta 请求头在调用层转换为 Bedrock 请求体数组", MappingLossiness.NONE, "METADATA", "TRANSFORM"),
+                mapping("thinking", "thinking", "Thinking 与 tool_choice 按目标模型能力规范化", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
+                mapping("context_management", "context_management", "仅保留目标模型支持的 clearing 或 compaction 编辑", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
+                mapping("cache_control", "cache_control", "移除 Bedrock 不支持的 scope 和无效/不兼容 ttl", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
+                mapping("anthropic-beta header", "anthropic_beta", "Beta 请求头按 Bedrock 与目标模型能力转换、补齐和过滤", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
                 mapping("service_tier", "X-Amzn-Bedrock-Service-Tier", "Claude 服务等级转换为 Bedrock InvokeModel 请求头", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
                 mapping("speed", "X-Amzn-Bedrock-PerformanceConfig-Latency", "Claude 速度模式转换为 Bedrock 延迟请求头", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM")
         ));
