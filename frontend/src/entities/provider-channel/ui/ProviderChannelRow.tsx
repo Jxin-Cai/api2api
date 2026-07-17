@@ -44,6 +44,7 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
       <Space direction="vertical" size={2}>
         <Space>
           <Typography.Text strong>{channel.name}</Typography.Text>
+          <Typography.Text type="secondary" copyable={{ text: String(channel.id) }}>#{channel.id}</Typography.Text>
           {expanded ? <Badge status="processing" text="模型配置" /> : null}
         </Space>
         <Tooltip title={channel.host}>
