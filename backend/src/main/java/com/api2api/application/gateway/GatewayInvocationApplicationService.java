@@ -632,8 +632,9 @@ public class GatewayInvocationApplicationService {
     ) {
         InvocationError error = InvocationError.of(errorType, failureMessage(decision), decision.failures());
         log.warn(
-                "Gateway request failed, requestId: {}, protocol: {}, requestedModel: {}, streaming: {}, errorType: {}, reason: {}",
+                "Gateway request failed, requestId: {}, channelId: {}, protocol: {}, requestedModel: {}, streaming: {}, errorType: {}, reason: {}",
                 command.getGatewayRequestId().value(),
+                failureChannelId(decision),
                 command.getRequestProtocol(),
                 command.getRequestedModel().value(),
                 command.isStreaming(),
@@ -641,6 +642,15 @@ public class GatewayInvocationApplicationService {
                 error.message()
         );
         return gatewayInvocationService.completeFailure(invocation, error, command.isStreaming(), Instant.now(clock));
+    }
+
+    private String failureChannelId(FailoverDecision decision) {
+        List<RouteFailure> failures = decision.failures();
+        if (failures.isEmpty()) {
+            return "N/A";
+        }
+        RouteFailure latestFailure = failures.get(failures.size() - 1);
+        return String.valueOf(latestFailure.providerChannelId().value());
     }
 
     private String failureMessage(FailoverDecision decision) {
