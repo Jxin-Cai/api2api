@@ -333,6 +333,35 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_rejectsRequestBeforeFourthExecution_when_readIntentStallsAcrossDifferentFiles() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":1024,
+                  "messages":[
+                    {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"runtime.py"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"success"}]},
+                    {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 如何处理它，确认是否覆盖 settings。"},{"type":"tool_use","id":"call-2","name":"Read","input":{"file_path":"client.py"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"success"}]},
+                    {"role":"assistant","content":[{"type":"text","text":"让我直接看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-3","name":"Read","input":{"file_path":"subprocess.py"}}]},
+                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-3","content":"success"}]}
+                  ]
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        )).hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: Read repeated 3 times");
+    }
+
+    @Test
     void test_placesTopLevelCachePointOnStableSystemPrefix_when_systemExists() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
@@ -597,6 +626,128 @@ class BedrockConverseProtocolMessageConverterTest {
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, true, false)
         )).hasMessageContaining("CLAUDE_BEDROCK_PROGRAMMATIC_TOOL_CALLING_NOT_SUPPORTED_BY_CONVERSE");
+    }
+
+    @Test
+    void test_preservesAgentSchemaAndAddsSelectionRule_when_proactiveDelegationIsAllowed() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,"tool_choice":{"type":"auto"},
+                 "tools":[
+                   {"name":"Agent","description":"Launch a new agent for open-ended multi-file investigation.",
+                    "input_schema":{"type":"object","properties":{"description":{"type":"string"},
+                      "prompt":{"type":"string"},"subagent_type":{"type":"string"}},
+                      "required":["description","prompt"]}},
+                   {"name":"Read","description":"Read a known file","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[{"role":"user","content":"Investigate how runtime configuration flows across the codebase."}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/inputSchema/json/properties").fieldNames())
+                .toIterable()
+                .containsExactlyInAnyOrder("description", "prompt", "subagent_type");
+        assertThat(mapped.path("system").findValuesAsText("text"))
+                .anySatisfy(text -> assertThat(text)
+                        .contains("open-ended investigation spanning multiple files")
+                        .contains("invoke the Agent tool"));
+    }
+
+    @Test
+    void test_doesNotAddAgentSelectionRule_when_descriptionRequiresExplicitUserRequest() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,
+                 "tools":[{"name":"Agent","description":"Do not spawn agents unless the user asks.",
+                   "input_schema":{"type":"object","properties":{"prompt":{"type":"string"}}}}],
+                 "messages":[{"role":"user","content":[
+                   {"type":"text","text":"<system-reminder>Available agent types for the Agent tool: Explore</system-reminder>"},
+                   {"type":"text","text":"Inspect RuntimeClient."}
+                 ]}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.path("system").isMissingNode()).isTrue();
+    }
+
+    @Test
+    void test_requiresAgentInvocation_when_userExplicitlyRequestsSubagent() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,
+                 "thinking":{"type":"adaptive"},"tool_choice":{"type":"auto"},
+                 "tools":[{"name":"Agent","description":"Do not spawn agents unless the user asks.",
+                   "input_schema":{"type":"object","properties":{"prompt":{"type":"string"},
+                     "subagent_type":{"type":"string"}}}}],
+                 "messages":[{"role":"user","content":"请使用子 agent 并行调查 runtime 和 SDK 两条链路。"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, true)).body());
+
+        // Assert
+        assertThat(mapped.path("system").findValuesAsText("text"))
+                .anySatisfy(text -> assertThat(text)
+                        .contains("explicitly requested delegation")
+                        .contains("Invoke the Agent tool"));
+    }
+
+    @Test
+    void test_redirectsStalledReadInvestigationToAgent_when_twoSimilarTurnsSucceeded() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,
+                 "tools":[
+                   {"name":"Agent","description":"Launch a new agent for broad investigation.",
+                    "input_schema":{"type":"object","properties":{"prompt":{"type":"string"}}}},
+                   {"name":"Read","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"text","text":"让我看看 runtime 返回 None 后 SDK 是如何处理环境的。"},{"type":"tool_use","id":"r1","name":"Read","input":{"file_path":"runtime.py"}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"r1","content":"result-1"}]},
+                   {"role":"assistant","content":[{"type":"text","text":"让我直接看 runtime 返回 None 后 SDK 是如何处理环境的。"},{"type":"tool_use","id":"r2","name":"Read","input":{"file_path":"client.py"}}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"r2","content":"result-2"}]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.path("system").findValuesAsText("text"))
+                .anySatisfy(text -> assertThat(text)
+                        .contains("already repeated a successful investigation")
+                        .contains("Agent tool"));
     }
 
     @Test

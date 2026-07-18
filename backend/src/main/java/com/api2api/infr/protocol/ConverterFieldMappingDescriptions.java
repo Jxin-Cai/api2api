@@ -305,7 +305,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("temperature", "inferenceConfig.temperature", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
                 mapping("top_p", "inferenceConfig.topP", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
                 mapping("stop_sequences", "inferenceConfig.stopSequences", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("tools", "toolConfig.tools", "工具定义转为 Bedrock toolSpec", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("tools", "toolConfig.tools", "工具定义转为 Bedrock toolSpec；延迟发现和跨工具选择策略需由网关补偿", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
                 mapping("tools[].name", "toolConfig.tools[].toolSpec.name", "工具名称映射为 toolSpec.name", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("tools[].description", "toolConfig.tools[].toolSpec.description", "工具描述映射为 toolSpec.description", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("tools[].input_schema", "toolConfig.tools[].toolSpec.inputSchema", "输入 Schema 映射为 toolSpec.inputSchema", MappingLossiness.NONE, "TOOL", "RESHAPE"),

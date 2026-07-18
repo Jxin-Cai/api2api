@@ -19,12 +19,14 @@ import org.slf4j.LoggerFactory;
 /**
  * Applies Claude context-editing semantics that upstream protocols cannot execute themselves.
  */
-final class ClaudeConversationContextOptimizer {
+public final class ClaudeConversationContextOptimizer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClaudeConversationContextOptimizer.class);
     private static final int DEFAULT_TOOL_CLEAR_TRIGGER_TOKENS = 100_000;
     private static final int DEFAULT_TOOL_USES_TO_KEEP = 3;
     private static final int REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT = 3;
+    private static final int MINIMUM_TOOL_INTENT_LENGTH = 24;
+    private static final double REPEATED_TOOL_INTENT_SIMILARITY = 0.78D;
     private static final String BASH_TOOL_NAME = "Bash";
     private static final String BASH_DESCRIPTION_FIELD = "description";
     private static final String CLEARED_TOOL_RESULT = "[Tool result cleared by context management]";
@@ -39,17 +41,11 @@ final class ClaudeConversationContextOptimizer {
 
     static JsonNode optimize(JsonNode messages, JsonNode contextManagement) {
         messages = sanitizeCompactionHistory(messages, contextManagement);
-        RepeatedToolCall repeatedToolCall = detectRepeatedSuccessfulToolCall(messages);
-        failWhenRepeatedSuccessfulToolCallDetected(repeatedToolCall);
+        JsonNode protectedMessages = protectAgainstRepeatedToolCalls(messages);
         if (messages == null || !messages.isArray()) {
             return messages;
         }
-        ArrayNode optimized = repeatedToolCall.repetitions() == REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT - 1
-                ? ((ArrayNode) messages).deepCopy()
-                : null;
-        if (optimized != null) {
-            appendRepeatedToolCallWarning(optimized);
-        }
+        ArrayNode optimized = protectedMessages == messages ? null : (ArrayNode) protectedMessages;
         if (contextManagement == null || contextManagement.isNull()) {
             if (optimized == null && estimateTokens(messages) <= DEFAULT_TOOL_CLEAR_TRIGGER_TOKENS) {
                 return messages;
@@ -88,6 +84,41 @@ final class ClaudeConversationContextOptimizer {
             applyDefaultToolResultSafetyPolicy(optimized);
         }
         return optimized;
+    }
+
+    /**
+     * Applies provider-independent protection against a model repeating a successful client tool operation.
+     * The returned node is the original instance when no correction is needed and a copy when a warning is added.
+     */
+    public static JsonNode protectAgainstRepeatedToolCalls(JsonNode messages) {
+        RepeatedToolCall repeatedToolCall = detectRepeatedSuccessfulToolCall(messages);
+        failWhenRepeatedSuccessfulToolCallDetected(repeatedToolCall);
+        if (messages == null || !messages.isArray()
+                || repeatedToolCall.repetitions() != REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT - 1) {
+            return messages;
+        }
+        ArrayNode protectedMessages = ((ArrayNode) messages).deepCopy();
+        appendRepeatedToolCallWarning(protectedMessages);
+        return protectedMessages;
+    }
+
+    static boolean hasRepeatedToolCallWarning(JsonNode messages) {
+        if (messages == null || !messages.isArray()) {
+            return false;
+        }
+        for (JsonNode message : messages) {
+            JsonNode content = message.path("content");
+            if (!content.isArray()) {
+                continue;
+            }
+            for (JsonNode block : content) {
+                if ("text".equals(block.path("type").asText(""))
+                        && block.path("text").asText("").contains(REPEATED_TOOL_CALL_WARNING)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     static JsonNode sanitizeCompactionHistory(JsonNode messages, JsonNode contextManagement) {
@@ -235,34 +266,50 @@ final class ClaudeConversationContextOptimizer {
         if (messages == null || !messages.isArray()) {
             return RepeatedToolCall.none();
         }
-        Map<String, String> fingerprintsById = new HashMap<>();
-        List<String> successfulFingerprints = new ArrayList<>();
+        Map<String, SuccessfulToolCall> toolCallsById = new HashMap<>();
+        List<SuccessfulToolCall> successfulToolCalls = new ArrayList<>();
+        int assistantTurn = 0;
         for (JsonNode message : messages) {
             JsonNode content = message.path("content");
             if ("user".equals(message.path("role").asText("")) && containsNewUserInstruction(content)) {
-                fingerprintsById.clear();
-                successfulFingerprints.clear();
+                toolCallsById.clear();
+                successfulToolCalls.clear();
             }
             if (!content.isArray()) {
                 continue;
             }
+            boolean assistantMessage = "assistant".equals(message.path("role").asText(""));
+            if (assistantMessage) {
+                assistantTurn++;
+            }
+            String assistantIntent = assistantMessage
+                    ? assistantToolIntent(content)
+                    : "";
             for (JsonNode block : content) {
                 String type = block.path("type").asText("");
                 if (isToolUse(type)) {
                     String toolName = block.path("name").asText("unknown");
-                    fingerprintsById.put(
-                            block.path("id").asText(""), toolName + ":" + digest(fingerprintInput(toolName, block)));
+                    toolCallsById.put(block.path("id").asText(""), new SuccessfulToolCall(
+                            toolName,
+                            toolName + ":" + digest(fingerprintInput(toolName, block)),
+                            assistantIntent,
+                            assistantTurn
+                    ));
                 } else if (isToolResult(type)) {
-                    String fingerprint = fingerprintsById.get(block.path("tool_use_id").asText(""));
-                    if (fingerprint != null && !block.path("is_error").asBoolean(false)) {
-                        successfulFingerprints.add(fingerprint);
+                    SuccessfulToolCall toolCall = toolCallsById.get(block.path("tool_use_id").asText(""));
+                    if (toolCall != null && !block.path("is_error").asBoolean(false)) {
+                        successfulToolCalls.add(toolCall);
                     } else {
-                        successfulFingerprints.add("");
+                        successfulToolCalls.add(SuccessfulToolCall.none());
                     }
                 }
             }
         }
-        return repeatedTail(successfulFingerprints);
+        RepeatedToolCall exactRepeat = repeatedExactToolCallTail(successfulToolCalls);
+        if (exactRepeat.repetitions() > 1) {
+            return exactRepeat;
+        }
+        return repeatedToolIntentTail(successfulToolCalls);
     }
 
     private static JsonNode fingerprintInput(String toolName, JsonNode toolUse) {
@@ -275,22 +322,85 @@ final class ClaudeConversationContextOptimizer {
         return executionInput;
     }
 
-    private static RepeatedToolCall repeatedTail(List<String> successfulFingerprints) {
-        if (successfulFingerprints.isEmpty()) {
+    private static RepeatedToolCall repeatedExactToolCallTail(List<SuccessfulToolCall> successfulToolCalls) {
+        if (successfulToolCalls.isEmpty()) {
             return RepeatedToolCall.none();
         }
-        String latest = successfulFingerprints.get(successfulFingerprints.size() - 1);
+        SuccessfulToolCall latest = successfulToolCalls.get(successfulToolCalls.size() - 1);
         int repeated = 0;
-        for (int index = successfulFingerprints.size() - 1; index >= 0; index--) {
-            if (!latest.equals(successfulFingerprints.get(index))) {
+        for (int index = successfulToolCalls.size() - 1; index >= 0; index--) {
+            if (!latest.fingerprint().equals(successfulToolCalls.get(index).fingerprint())) {
                 break;
             }
             repeated++;
         }
-        if (latest.isBlank()) {
+        if (latest.fingerprint().isBlank()) {
             return RepeatedToolCall.none();
         }
-        return new RepeatedToolCall(latest.substring(0, latest.indexOf(':')), repeated);
+        return new RepeatedToolCall(latest.toolName(), repeated);
+    }
+
+    private static RepeatedToolCall repeatedToolIntentTail(List<SuccessfulToolCall> successfulToolCalls) {
+        if (successfulToolCalls.isEmpty()) {
+            return RepeatedToolCall.none();
+        }
+        SuccessfulToolCall latest = successfulToolCalls.get(successfulToolCalls.size() - 1);
+        if (latest.intent().length() < MINIMUM_TOOL_INTENT_LENGTH) {
+            return RepeatedToolCall.none();
+        }
+        int repeated = 0;
+        int lastCountedTurn = -1;
+        for (int index = successfulToolCalls.size() - 1; index >= 0; index--) {
+            SuccessfulToolCall candidate = successfulToolCalls.get(index);
+            if (candidate.assistantTurn() == lastCountedTurn) {
+                continue;
+            }
+            if (!latest.toolName().equals(candidate.toolName())
+                    || toolIntentSimilarity(latest.intent(), candidate.intent()) < REPEATED_TOOL_INTENT_SIMILARITY) {
+                break;
+            }
+            repeated++;
+            lastCountedTurn = candidate.assistantTurn();
+        }
+        return new RepeatedToolCall(latest.toolName(), repeated);
+    }
+
+    private static String assistantToolIntent(JsonNode content) {
+        StringBuilder intent = new StringBuilder();
+        for (JsonNode block : content) {
+            if (!"text".equals(block.path("type").asText(""))) {
+                continue;
+            }
+            if (!intent.isEmpty()) {
+                intent.append(' ');
+            }
+            intent.append(block.path("text").asText(""));
+        }
+        return normalizeToolIntent(intent.toString());
+    }
+
+    private static String normalizeToolIntent(String intent) {
+        return intent.toLowerCase(java.util.Locale.ROOT)
+                .replaceAll("[^\\p{L}\\p{N}_]+", "")
+                .strip();
+    }
+
+    private static double toolIntentSimilarity(String left, String right) {
+        Set<String> leftTrigrams = characterNgrams(left, 3);
+        Set<String> rightTrigrams = characterNgrams(right, 3);
+        if (leftTrigrams.isEmpty() || rightTrigrams.isEmpty()) {
+            return 0D;
+        }
+        long overlap = leftTrigrams.stream().filter(rightTrigrams::contains).count();
+        return (double) overlap / Math.min(leftTrigrams.size(), rightTrigrams.size());
+    }
+
+    private static Set<String> characterNgrams(String value, int size) {
+        Set<String> ngrams = new HashSet<>();
+        for (int index = 0; index <= value.length() - size; index++) {
+            ngrams.add(value.substring(index, index + size));
+        }
+        return ngrams;
     }
 
     private static void failWhenRepeatedSuccessfulToolCallDetected(RepeatedToolCall repeatedToolCall) {
@@ -386,6 +496,13 @@ final class ClaudeConversationContextOptimizer {
     }
 
     private record ToolUse(ObjectNode block, String name) {
+    }
+
+    private record SuccessfulToolCall(String toolName, String fingerprint, String intent, int assistantTurn) {
+
+        private static SuccessfulToolCall none() {
+            return new SuccessfulToolCall("", "", "", -1);
+        }
     }
 
     private record ToolInteraction(ObjectNode toolUse, ObjectNode toolResult, String toolName) {

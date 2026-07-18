@@ -196,4 +196,47 @@ class BedrockClaudeRequestNormalizerTest {
         assertThat(normalized.at("/messages/3/content/1/text").asText())
                 .contains("already succeeded twice");
     }
+
+    @Test
+    void test_rejectsNextModelCall_when_sameReadIntentRepeatsWithDifferentFiles() {
+        // Arrange
+        String body = """
+                {"messages":[
+                  {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"r1","name":"Read","input":{"file_path":"runtime.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"r1","content":"one"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 如何处理它，确认是否覆盖 settings。"},{"type":"tool_use","id":"r2","name":"Read","input":{"file_path":"client.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"r2","content":"two"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"让我直接看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"r3","name":"Read","input":{"file_path":"subprocess.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"r3","content":"three"}]}
+                ]}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> normalizer.normalize(
+                body, "anthropic.claude-opus-4-6-v1", Map.of()))
+                .isInstanceOf(ProtocolConversionException.class)
+                .hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: Read repeated 3 times");
+    }
+
+    @Test
+    void test_addsCorrectiveInstruction_when_sameReadIntentRepeatsAcrossTwoTurns() throws Exception {
+        // Arrange
+        String body = """
+                {"messages":[
+                  {"role":"assistant","content":[{"type":"text","text":"让我看看 runtime 返回 None 后 SDK 是如何处理环境的。"},{"type":"tool_use","id":"r1","name":"Read","input":{"file_path":"runtime.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"r1","content":"one"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"让我直接看 runtime 返回 None 后 SDK 是如何处理环境的。"},{"type":"tool_use","id":"r2","name":"Read","input":{"file_path":"client.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"r2","content":"two"}]}
+                ]}
+                """;
+
+        // Act
+        BedrockClaudeRequestNormalizer.NormalizedRequest result = normalizer.normalize(
+                body, "anthropic.claude-opus-4-6-v1", Map.of());
+        JsonNode normalized = objectMapper.readTree(result.body());
+
+        // Assert
+        assertThat(normalized.at("/messages/3/content/1/text").asText())
+                .contains("tool operation already succeeded twice");
+    }
 }

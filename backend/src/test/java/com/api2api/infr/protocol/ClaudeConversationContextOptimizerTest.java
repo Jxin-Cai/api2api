@@ -158,6 +158,93 @@ class ClaudeConversationContextOptimizerTest {
     }
 
     @Test
+    void test_rejectsNextModelCall_when_sameReadIntentRepeatsWithDifferentArguments() throws Exception {
+        // Arrange
+        JsonNode messages = objectMapper.readTree("""
+                [
+                  {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"runtime.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"result-1"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 如何处理它，确认是否覆盖 settings。"},{"type":"tool_use","id":"call-2","name":"Read","input":{"file_path":"client.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"result-2"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"让我直接看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-3","name":"Read","input":{"file_path":"subprocess.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-3","content":"result-3"}]}
+                ]
+                """);
+
+        // Act / Assert
+        assertThatThrownBy(() -> ClaudeConversationContextOptimizer.optimize(messages, null))
+                .isInstanceOf(ProtocolConversionException.class)
+                .hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: Read repeated 3 times");
+    }
+
+    @Test
+    void test_addsCorrectiveInstruction_when_sameReadIntentRepeatsAcrossTwoTurns() throws Exception {
+        // Arrange
+        JsonNode messages = objectMapper.readTree("""
+                [
+                  {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"runtime.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"result-1"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"让我直接看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-2","name":"Read","input":{"file_path":"client.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"result-2"}]}
+                ]
+                """);
+
+        // Act
+        JsonNode optimized = ClaudeConversationContextOptimizer.optimize(messages, null);
+
+        // Assert
+        assertThat(optimized.at("/3/content/1/text").asText())
+                .contains("tool operation already succeeded twice");
+    }
+
+    @Test
+    void test_allowsModelCall_when_multipleReadsRunInSameAssistantTurn() throws Exception {
+        // Arrange
+        JsonNode messages = objectMapper.readTree("""
+                [
+                  {"role":"assistant","content":[
+                    {"type":"text","text":"并行读取三个协议文件，比较各自的工具结果映射实现。"},
+                    {"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"Claude.java"}},
+                    {"type":"tool_use","id":"call-2","name":"Read","input":{"file_path":"Bedrock.java"}},
+                    {"type":"tool_use","id":"call-3","name":"Read","input":{"file_path":"Responses.java"}}
+                  ]},
+                  {"role":"user","content":[
+                    {"type":"tool_result","tool_use_id":"call-1","content":"result-1"},
+                    {"type":"tool_result","tool_use_id":"call-2","content":"result-2"},
+                    {"type":"tool_result","tool_use_id":"call-3","content":"result-3"}
+                  ]}
+                ]
+                """);
+
+        // Act
+        JsonNode optimized = ClaudeConversationContextOptimizer.optimize(messages, null);
+
+        // Assert
+        assertThat(optimized).isSameAs(messages);
+    }
+
+    @Test
+    void test_allowsModelCall_when_readIntentDescribesDistinctInvestigationSteps() throws Exception {
+        // Arrange
+        JsonNode messages = objectMapper.readTree("""
+                [
+                  {"role":"assistant","content":[{"type":"text","text":"先读取入口控制器，确认 HTTP 请求如何解析和校验。"},{"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"Controller.java"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"result-1"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"接着读取协议转换器，核对 tool_result 的字段映射。"},{"type":"tool_use","id":"call-2","name":"Read","input":{"file_path":"Converter.java"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"result-2"}]},
+                  {"role":"assistant","content":[{"type":"text","text":"最后读取流式响应测试，确认终止事件已有回归覆盖。"},{"type":"tool_use","id":"call-3","name":"Read","input":{"file_path":"StreamingTest.java"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-3","content":"result-3"}]}
+                ]
+                """);
+
+        // Act
+        JsonNode optimized = ClaudeConversationContextOptimizer.optimize(messages, null);
+
+        // Assert
+        assertThat(optimized).isSameAs(messages);
+    }
+
+    @Test
     void test_clearsOldToolResultByDefault_when_contextExceedsSafetyThreshold() throws Exception {
         // Arrange
         String largeResult = "x".repeat(410_000);

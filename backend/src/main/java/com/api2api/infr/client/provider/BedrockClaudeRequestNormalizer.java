@@ -1,6 +1,7 @@
 package com.api2api.infr.client.provider;
 
 import com.api2api.domain.protocol.model.ProtocolConversionException;
+import com.api2api.infr.protocol.ClaudeConversationContextOptimizer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,11 +31,6 @@ final class BedrockClaudeRequestNormalizer {
     private static final String BETA_LONG_CONTEXT = "context-1m-2025-08-07";
     private static final String BETA_TOOL_SEARCH = "tool-search-tool-2025-10-19";
     private static final String BETA_TOOL_EXAMPLES = "tool-examples-2025-10-29";
-    private static final int REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT = 3;
-    private static final String REPEATED_TOOL_CALL_WARNING =
-            "Gateway safety notice: this tool operation already succeeded twice. "
-                    + "Do not repeat it or merely rephrase its description; consume the result and execute "
-                    + "the next distinct action required by the user.";
 
     /** AWS-documented InvokeModel beta flags plus current Claude Code Bedrock flags. */
     private static final Set<String> BEDROCK_BETA_FLAGS = Set.of(
@@ -84,7 +80,12 @@ final class BedrockClaudeRequestNormalizer {
             normalizeContextManagement(request, model, diagnostics);
             normalizeBetaFlags(request, incomingHeaders, model, diagnostics);
             inspectToolContinuation(request.path("messages"), diagnostics);
-            protectAgainstRepeatedToolCalls(request.path("messages"), diagnostics);
+            JsonNode protectedMessages = ClaudeConversationContextOptimizer.protectAgainstRepeatedToolCalls(
+                    request.path("messages"));
+            if (protectedMessages != request.path("messages")) {
+                request.set("messages", protectedMessages);
+                diagnostics.changed("tool_loop.corrective_instruction");
+            }
 
             return new NormalizedRequest(
                     objectMapper.writeValueAsString(request),
@@ -310,29 +311,6 @@ final class BedrockClaudeRequestNormalizer {
             input = executionInput;
         }
         return toolName + ":" + input;
-    }
-
-    private void protectAgainstRepeatedToolCalls(JsonNode messages, MutableDiagnostics diagnostics) {
-        int repetitions = diagnostics.repeatedSuccessfulToolCallStreak;
-        if (repetitions >= REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT) {
-            throw new ProtocolConversionException(
-                    "CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: repeated " + repetitions + " times");
-        }
-        if (repetitions != REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT - 1 || !messages.isArray()) {
-            return;
-        }
-        for (int index = messages.size() - 1; index >= 0; index--) {
-            JsonNode message = messages.get(index);
-            if (!"user".equals(message.path("role").asText("")) || !message.path("content").isArray()) {
-                continue;
-            }
-            ObjectNode warning = objectMapper.createObjectNode();
-            warning.put("type", "text");
-            warning.put("text", REPEATED_TOOL_CALL_WARNING);
-            ((ArrayNode) message.path("content")).add(warning);
-            diagnostics.changed("tool_loop.corrective_instruction");
-            return;
-        }
     }
 
     private void visitObjects(JsonNode node, java.util.function.Consumer<ObjectNode> visitor) {
