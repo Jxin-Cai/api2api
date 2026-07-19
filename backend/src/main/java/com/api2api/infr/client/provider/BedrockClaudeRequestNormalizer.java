@@ -79,6 +79,10 @@ final class BedrockClaudeRequestNormalizer {
             normalizeCacheControl(request, model, diagnostics);
             normalizeContextManagement(request, model, diagnostics);
             normalizeBetaFlags(request, incomingHeaders, model, diagnostics);
+            JsonNode messages = request.path("messages");
+            if (messages.isArray()) {
+                request.set("messages", canonicalizeMessageTurns((ArrayNode) messages, diagnostics));
+            }
             inspectToolContinuation(request.path("messages"), diagnostics);
             JsonNode protectedMessages = ClaudeConversationContextOptimizer.protectAgainstRepeatedToolCalls(
                     request.path("messages"));
@@ -138,6 +142,7 @@ final class BedrockClaudeRequestNormalizer {
                     automatic.put("type", "auto");
                     request.set("tool_choice", automatic);
                     diagnostics.changed("thinking.forced_tool_choice");
+                    injectToolUseRequirement(request, choice);
                 }
             }
         }
@@ -300,6 +305,73 @@ final class BedrockClaudeRequestNormalizer {
                 .filter(id -> !toolUseIds.contains(id))
                 .count();
         diagnostics.repeatedSuccessfulToolCallStreak = maximumRepeatedStreak;
+    }
+
+    private ArrayNode canonicalizeMessageTurns(ArrayNode messages, MutableDiagnostics diagnostics) {
+        ArrayNode canonicalized = objectMapper.createArrayNode();
+        ObjectNode current = null;
+        String currentRole = null;
+
+        for (JsonNode message : messages) {
+            String role = message.path("role").asText("");
+            if (current != null && role.equals(currentRole)) {
+                appendContent(current, message.path("content"));
+                diagnostics.changed("messages.canonicalized");
+                continue;
+            }
+
+            current = message.deepCopy();
+            currentRole = role;
+            ensureContentArray(current);
+            canonicalized.add(current);
+        }
+        return canonicalized;
+    }
+
+    private void appendContent(ObjectNode target, JsonNode content) {
+        ArrayNode targetContent = ensureContentArray(target);
+        if (content.isArray()) {
+            content.forEach(block -> targetContent.add(block.deepCopy()));
+        } else if (content.isTextual()) {
+            ObjectNode textBlock = objectMapper.createObjectNode();
+            textBlock.put("type", "text");
+            textBlock.put("text", content.asText());
+            targetContent.add(textBlock);
+        }
+    }
+
+    private ArrayNode ensureContentArray(ObjectNode message) {
+        JsonNode content = message.get("content");
+        if (content != null && content.isArray()) {
+            return (ArrayNode) content;
+        }
+
+        ArrayNode blocks = objectMapper.createArrayNode();
+        if (content != null && content.isTextual()) {
+            ObjectNode textBlock = objectMapper.createObjectNode();
+            textBlock.put("type", "text");
+            textBlock.put("text", content.asText());
+            blocks.add(textBlock);
+        }
+        message.set("content", blocks);
+        return blocks;
+    }
+
+    private void injectToolUseRequirement(ObjectNode request, String originalChoice) {
+        String instruction = "any".equals(originalChoice)
+                ? "[Gateway] You MUST use at least one tool in this response. Do not end your turn without making a tool call."
+                : "[Gateway] You MUST use the specified tool in this response. Do not end your turn without making a tool call.";
+        JsonNode system = request.get("system");
+        if (system == null || system.isNull()) {
+            request.put("system", instruction);
+        } else if (system.isTextual()) {
+            request.put("system", system.asText() + "\\n\\n" + instruction);
+        } else if (system.isArray()) {
+            ObjectNode block = objectMapper.createObjectNode();
+            block.put("type", "text");
+            block.put("text", instruction);
+            ((ArrayNode) system).add(block);
+        }
     }
 
     private String toolFingerprint(JsonNode toolUse) {

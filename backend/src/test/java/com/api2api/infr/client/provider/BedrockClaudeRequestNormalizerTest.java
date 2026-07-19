@@ -239,4 +239,94 @@ class BedrockClaudeRequestNormalizerTest {
         assertThat(normalized.at("/messages/3/content/1/text").asText())
                 .contains("tool operation already succeeded twice");
     }
+
+    @Test
+    void test_mergesConsecutiveAssistantAndUserFragments_whenToolTurnIsSplit() throws Exception {
+        // Arrange
+        String body = """
+                {"messages":[
+                  {"role":"user","content":[{"type":"text","text":"inspect"}]},
+                  {"role":"assistant","content":[{"type":"thinking","thinking":"analyzing","signature":"sig"}]},
+                  {"role":"assistant","content":[{"type":"tool_use","id":"t1","name":"Read","input":{"file_path":"a.java"}}]},
+                  {"role":"assistant","content":[{"type":"tool_use","id":"t2","name":"Read","input":{"file_path":"b.java"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"t1","content":"file a"}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"t2","content":"file b"}]}
+                ]}
+                """;
+
+        // Act
+        JsonNode normalized = objectMapper.readTree(normalizer.normalize(
+                body, "anthropic.claude-opus-4-6-v1", Map.of()).body());
+
+        // Assert
+        JsonNode messages = normalized.path("messages");
+        assertThat(messages).hasSize(3);
+        assertThat(messages.at("/1/role").asText()).isEqualTo("assistant");
+        assertThat(messages.at("/1/content")).hasSize(3);
+        assertThat(messages.at("/2/role").asText()).isEqualTo("user");
+        assertThat(messages.at("/2/content")).hasSize(2);
+    }
+
+    @Test
+    void test_preservesAlternatingMessageTurns_whenRolesAreAlreadyCanonical() throws Exception {
+        // Arrange
+        String body = """
+                {"messages":[
+                  {"role":"user","content":"question"},
+                  {"role":"assistant","content":"answer"},
+                  {"role":"user","content":"follow-up"}
+                ]}
+                """;
+
+        // Act
+        JsonNode normalized = objectMapper.readTree(normalizer.normalize(
+                body, "anthropic.claude-opus-4-6-v1", Map.of()).body());
+
+        // Assert
+        assertThat(normalized.path("messages")).hasSize(3);
+        assertThat(normalized.at("/0/content/0/type").asText()).isEqualTo("text");
+        assertThat(normalized.at("/1/content/0/text").asText()).isEqualTo("answer");
+    }
+
+    @Test
+    void test_injectsToolRequirement_whenThinkingForcesToolChoiceToAuto() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "thinking":{"type":"adaptive"},
+                  "tool_choice":{"type":"any"},
+                  "system":"You are helpful.",
+                  "messages":[{"role":"user","content":"continue"}]
+                }
+                """;
+
+        // Act
+        JsonNode normalized = objectMapper.readTree(normalizer.normalize(
+                body, "anthropic.claude-opus-4-6-v1", Map.of()).body());
+
+        // Assert
+        assertThat(normalized.at("/tool_choice/type").asText()).isEqualTo("auto");
+        assertThat(normalized.path("system").asText())
+                .contains("MUST use at least one tool");
+    }
+
+    @Test
+    void test_doesNotInjectToolRequirement_whenToolChoiceIsAlreadyAutomatic() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "thinking":{"type":"adaptive"},
+                  "tool_choice":{"type":"auto"},
+                  "system":"You are helpful.",
+                  "messages":[{"role":"user","content":"continue"}]
+                }
+                """;
+
+        // Act
+        JsonNode normalized = objectMapper.readTree(normalizer.normalize(
+                body, "anthropic.claude-opus-4-6-v1", Map.of()).body());
+
+        // Assert
+        assertThat(normalized.path("system").asText()).isEqualTo("You are helpful.");
+    }
 }
