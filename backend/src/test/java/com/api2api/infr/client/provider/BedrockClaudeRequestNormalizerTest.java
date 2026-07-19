@@ -284,8 +284,8 @@ class BedrockClaudeRequestNormalizerTest {
 
         // Assert
         assertThat(normalized.path("messages")).hasSize(3);
-        assertThat(normalized.at("/0/content/0/type").asText()).isEqualTo("text");
-        assertThat(normalized.at("/1/content/0/text").asText()).isEqualTo("answer");
+        assertThat(normalized.at("/messages/0/content/0/type").asText()).isEqualTo("text");
+        assertThat(normalized.at("/messages/1/content/0/text").asText()).isEqualTo("answer");
     }
 
     @Test

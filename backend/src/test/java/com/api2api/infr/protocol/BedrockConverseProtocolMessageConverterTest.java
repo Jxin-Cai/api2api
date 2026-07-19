@@ -174,6 +174,68 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_hidesExitPlanMode_when_noPlanStateExistsYet() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,
+                 "tools":[
+                   {"name":"AskUserQuestion","input_schema":{"type":"object"}},
+                   {"name":"EnterPlanMode","input_schema":{"type":"object"}},
+                   {"name":"ExitPlanMode","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[{"role":"user","content":"analyze deeply before implementation"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools").findValuesAsText("name"))
+                .containsExactlyInAnyOrder("AskUserQuestion", "EnterPlanMode");
+    }
+
+    @Test
+    void test_exposesExitPlanMode_when_messagesToolNameUsesSnakeCase() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,
+                 "tools":[
+                   {"name":"enter_plan_mode","input_schema":{"type":"object"}},
+                   {"name":"exit_plan_mode","input_schema":{"type":"object"}}
+                 ],
+                 "messages":[
+                   {"role":"assistant","content":[
+                     {"type":"tool_use","id":"enter_1","name":"enter_plan_mode","input":{}}
+                   ]},
+                   {"role":"user","content":[
+                     {"type":"tool_result","tool_use_id":"enter_1","content":"Entered plan mode."}
+                   ]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools").findValuesAsText("name"))
+                .containsExactly("exit_plan_mode");
+    }
+
+    @Test
     void test_hidesExitPlanMode_when_planWasAlreadyApproved() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
