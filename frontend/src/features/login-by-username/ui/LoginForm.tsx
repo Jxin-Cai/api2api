@@ -2,7 +2,6 @@ import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { App, Button, Form, Input, Typography } from 'antd';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { GradientText } from '@shared/ui';
 import { ROUTE_PATHS } from '@shared/config/constants';
 import { useLoginByUsername } from '../model/useLoginByUsername';
 import type { LoginFormProps, LoginFormValues } from '../model/types';
@@ -38,10 +37,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     <Form<LoginFormValues> className="login-form" layout="vertical" onFinish={handleFinish} requiredMark={false}>
       <div className="login-form__head">
         <Typography.Title level={3} className="login-form__title">
-          登录 <GradientText>意门</GradientText> 控制台
+          欢迎回来
         </Typography.Title>
         <Typography.Paragraph type="secondary" className="login-form__desc">
-          使用管理员账号和密码进入意门管理控制台。
+          使用账号和密码登录意门控制台。
         </Typography.Paragraph>
       </div>
       <Form.Item
@@ -53,7 +52,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           { pattern: /^[a-zA-Z0-9_.-]+$/, message: '仅支持字母、数字、下划线、点和横线' },
         ]}
       >
-        <Input prefix={<UserOutlined />} placeholder="admin / user" autoComplete="username" size="large" />
+        <Input prefix={<UserOutlined />} placeholder="请输入用户名" autoComplete="username" size="large" />
       </Form.Item>
       <Form.Item
         name="password"
