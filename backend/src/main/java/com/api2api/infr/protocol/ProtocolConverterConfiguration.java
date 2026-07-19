@@ -209,6 +209,11 @@ class ProtocolConverterConfiguration {
                 // Claude tool calls in Chat Completions format.
                 return super.supports(requirement);
             }
+            if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS
+                    && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
+                // Chat→Claude fully supports tools, tool_calls, multimodal content.
+                return super.supports(requirement);
+            }
             if (direction() == ProtocolConversionDirection.RESPONSE
                     && sourceProtocol() == ProtocolType.OPENAI_RESPONSES
                     && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
@@ -1760,31 +1765,52 @@ class ProtocolConverterConfiguration {
             ObjectNode target = json.objectNode();
             copyIfPresent(source, target, "model");
             copyIfPresent(source, target, "stream");
-            copyIfPresent(source, target, "max_tokens");
+            // max_completion_tokens → max_tokens (Chat naming convention)
+            if (source.hasNonNull("max_completion_tokens")) {
+                target.put("max_tokens", source.get("max_completion_tokens").asInt());
+            } else {
+                copyIfPresent(source, target, "max_tokens");
+            }
             copyIfPresent(source, target, "temperature");
             copyIfPresent(source, target, "top_p");
+            // stop → stop_sequences
+            if (source.hasNonNull("stop")) {
+                target.set("stop_sequences", source.get("stop"));
+            }
+            // tools → Claude tools format
+            JsonNode tools = source.get("tools");
+            if (tools != null && tools.isArray() && !tools.isEmpty()) {
+                target.set("tools", chatToolDefinitionsToClaude(tools));
+            }
+            // tool_choice + parallel_tool_calls → Claude tool_choice
+            JsonNode toolChoice = source.get("tool_choice");
+            boolean parallelToolCalls = source.path("parallel_tool_calls").asBoolean(true);
+            ObjectNode mappedToolChoice = chatToolChoiceToClaude(toolChoice, parallelToolCalls);
+            if (mappedToolChoice != null && !mappedToolChoice.isEmpty()) {
+                target.set("tool_choice", mappedToolChoice);
+            }
+
             ArrayNode messages = json.arrayNode();
             StringBuilder system = new StringBuilder();
             JsonNode chatMessages = source.get("messages");
             if (chatMessages != null && chatMessages.isArray()) {
                 for (JsonNode message : chatMessages) {
                     String role = message.path("role").asText("user");
-                    String content = message.path("content").asText("");
-                    if ("system".equals(role)) {
+                    if ("system".equals(role) || "developer".equals(role)) {
                         if (!system.isEmpty()) {
                             system.append('\n');
                         }
-                        system.append(content);
+                        system.append(chatContentToSystemText(message.get("content")));
+                        continue;
+                    }
+                    if ("tool".equals(role)) {
+                        // tool role → user message with tool_result content block
+                        messages.add(chatToolMessageToClaude(message));
                         continue;
                     }
                     ObjectNode mapped = json.objectNode();
                     mapped.put("role", "assistant".equals(role) ? "assistant" : "user");
-                    ArrayNode contentItems = json.arrayNode();
-                    ObjectNode text = json.objectNode();
-                    text.put("type", "text");
-                    text.put("text", content);
-                    contentItems.add(text);
-                    mapped.set("content", contentItems);
+                    mapped.set("content", chatMessageContentToClaude(message));
                     messages.add(mapped);
                 }
             }
@@ -1793,6 +1819,234 @@ class ProtocolConverterConfiguration {
             }
             target.set("messages", messages);
             return target;
+        }
+
+        // ---- Chat → Claude helper methods ----
+
+        private ArrayNode chatToolDefinitionsToClaude(JsonNode tools) {
+            ArrayNode result = json.arrayNode();
+            for (JsonNode tool : tools) {
+                if (!"function".equals(tool.path("type").asText("function"))) {
+                    throw new ProtocolConversionException(
+                            "OPENAI_CHAT_CLAUDE_TOOL_TYPE_NOT_SUPPORTED: " + tool.path("type").asText(""));
+                }
+                JsonNode function = tool.path("function");
+                String name = function.path("name").asText("");
+                if (name.isBlank()) {
+                    throw new ProtocolConversionException("OPENAI_CHAT_CLAUDE_TOOL_NAME_REQUIRED");
+                }
+                ObjectNode mapped = json.objectNode();
+                mapped.put("name", name);
+                if (function.hasNonNull("description")) {
+                    mapped.put("description", function.path("description").asText(""));
+                }
+                JsonNode parameters = function.get("parameters");
+                mapped.set("input_schema", parameters == null || parameters.isNull()
+                        ? json.objectNode().put("type", "object") : parameters.deepCopy());
+                if (function.hasNonNull("strict")) {
+                    mapped.put("strict", function.path("strict").asBoolean());
+                }
+                result.add(mapped);
+            }
+            return result;
+        }
+
+        private ObjectNode chatToolChoiceToClaude(JsonNode toolChoice, boolean parallelToolCalls) {
+            ObjectNode mapped = json.objectNode();
+            if (toolChoice == null || toolChoice.isNull()) {
+                if (!parallelToolCalls) {
+                    mapped.put("type", "auto");
+                    mapped.put("disable_parallel_tool_use", true);
+                }
+                return mapped;
+            }
+            if (toolChoice.isTextual()) {
+                String value = toolChoice.asText("auto");
+                mapped.put("type", switch (value) {
+                    case "required" -> "any";
+                    case "none" -> "none";
+                    default -> "auto";
+                });
+            } else if ("function".equals(toolChoice.path("type").asText(""))) {
+                mapped.put("type", "tool");
+                mapped.put("name", toolChoice.path("function").path("name").asText(""));
+            } else {
+                mapped.put("type", "auto");
+            }
+            if (!parallelToolCalls) {
+                mapped.put("disable_parallel_tool_use", true);
+            }
+            return mapped;
+        }
+
+        private String chatContentToSystemText(JsonNode content) {
+            if (content == null || content.isNull()) {
+                return "";
+            }
+            if (content.isTextual()) {
+                return content.asText("");
+            }
+            if (!content.isArray()) {
+                return content.asText("");
+            }
+            StringBuilder text = new StringBuilder();
+            for (JsonNode part : content) {
+                String type = part.path("type").asText("");
+                if ("text".equals(type) || "input_text".equals(type)) {
+                    if (!text.isEmpty()) {
+                        text.append('\n');
+                    }
+                    text.append(part.path("text").asText(""));
+                }
+            }
+            return text.toString();
+        }
+
+        private ArrayNode chatMessageContentToClaude(JsonNode message) {
+            String role = message.path("role").asText("user");
+            ArrayNode content = chatContentBlocksToClaude(message.get("content"));
+            if ("assistant".equals(role)) {
+                // assistant tool_calls → tool_use blocks
+                JsonNode toolCalls = message.get("tool_calls");
+                if (toolCalls != null && toolCalls.isArray()) {
+                    for (JsonNode call : toolCalls) {
+                        if (!"function".equals(call.path("type").asText("function"))) {
+                            throw new ProtocolConversionException(
+                                    "OPENAI_CHAT_CLAUDE_TOOL_CALL_TYPE_NOT_SUPPORTED: " + call.path("type").asText(""));
+                        }
+                        content.add(chatFunctionCallToClaudeToolUse(
+                                call.path("id").asText(""),
+                                call.path("function").path("name").asText(""),
+                                call.path("function").path("arguments").asText("{}")));
+                    }
+                }
+                // legacy function_call field
+                JsonNode functionCall = message.get("function_call");
+                if (functionCall != null && !functionCall.isNull() && !functionCall.isMissingNode()) {
+                    content.add(chatFunctionCallToClaudeToolUse(
+                            functionCall.path("name").asText(""),
+                            functionCall.path("name").asText(""),
+                            functionCall.path("arguments").asText("{}")));
+                }
+            }
+            if (content.isEmpty()) {
+                ObjectNode text = json.objectNode();
+                text.put("type", "text");
+                text.put("text", "");
+                content.add(text);
+            }
+            return content;
+        }
+
+        private ObjectNode chatToolMessageToClaude(JsonNode message) {
+            ObjectNode mapped = json.objectNode();
+            mapped.put("role", "user");
+            ArrayNode content = json.arrayNode();
+            ObjectNode toolResult = json.objectNode();
+            toolResult.put("type", "tool_result");
+            toolResult.put("tool_use_id", message.path("tool_call_id").asText(""));
+            ArrayNode resultContent = chatContentBlocksToClaude(message.get("content"));
+            if (!resultContent.isEmpty()) {
+                toolResult.set("content", resultContent);
+            }
+            content.add(toolResult);
+            mapped.set("content", content);
+            return mapped;
+        }
+
+        private ArrayNode chatContentBlocksToClaude(JsonNode content) {
+            ArrayNode blocks = json.arrayNode();
+            if (content == null || content.isNull()) {
+                return blocks;
+            }
+            if (content.isTextual()) {
+                String text = content.asText("");
+                if (!text.isEmpty()) {
+                    ObjectNode textBlock = json.objectNode();
+                    textBlock.put("type", "text");
+                    textBlock.put("text", text);
+                    blocks.add(textBlock);
+                }
+                return blocks;
+            }
+            if (!content.isArray()) {
+                ObjectNode textBlock = json.objectNode();
+                textBlock.put("type", "text");
+                textBlock.put("text", content.asText(""));
+                blocks.add(textBlock);
+                return blocks;
+            }
+            for (JsonNode part : content) {
+                String type = part.path("type").asText("");
+                switch (type) {
+                    case "text" -> {
+                        ObjectNode textBlock = json.objectNode();
+                        textBlock.put("type", "text");
+                        textBlock.put("text", part.path("text").asText(""));
+                        blocks.add(textBlock);
+                    }
+                    case "image_url" -> blocks.add(chatImageUrlToClaudeImage(
+                            part.path("image_url").path("url").asText("")));
+                    case "file" -> blocks.add(chatFileToClaudeDocument(part.path("file")));
+                    default -> throw new ProtocolConversionException(
+                            "OPENAI_CHAT_CLAUDE_CONTENT_PART_NOT_SUPPORTED: " + type);
+                }
+            }
+            return blocks;
+        }
+
+        private ObjectNode chatImageUrlToClaudeImage(String url) {
+            ObjectNode image = json.objectNode();
+            image.put("type", "image");
+            ObjectNode source = json.objectNode();
+            if (url.startsWith("data:")) {
+                int separator = url.indexOf(";base64,");
+                if (separator < 0) {
+                    throw new ProtocolConversionException("OPENAI_CHAT_CLAUDE_IMAGE_DATA_URI_INVALID");
+                }
+                source.put("type", "base64");
+                source.put("media_type", url.substring("data:".length(), separator));
+                source.put("data", url.substring(separator + ";base64,".length()));
+            } else {
+                source.put("type", "url");
+                source.put("url", url);
+            }
+            image.set("source", source);
+            return image;
+        }
+
+        private ObjectNode chatFileToClaudeDocument(JsonNode file) {
+            ObjectNode document = json.objectNode();
+            document.put("type", "document");
+            ObjectNode source = json.objectNode();
+            if (file.hasNonNull("file_id")) {
+                source.put("type", "file");
+                source.put("file_id", file.path("file_id").asText(""));
+            } else if (file.hasNonNull("file_data")) {
+                source.put("type", "base64");
+                source.put("data", file.path("file_data").asText(""));
+            } else {
+                throw new ProtocolConversionException("OPENAI_CHAT_CLAUDE_FILE_SOURCE_REQUIRED");
+            }
+            document.set("source", source);
+            if (file.hasNonNull("filename")) {
+                document.put("title", file.path("filename").asText(""));
+            }
+            return document;
+        }
+
+        private ObjectNode chatFunctionCallToClaudeToolUse(String id, String name, String arguments) {
+            ObjectNode toolUse = json.objectNode();
+            toolUse.put("type", "tool_use");
+            toolUse.put("id", id);
+            toolUse.put("name", name);
+            try {
+                toolUse.set("input", json.objectMapper().readTree(
+                        arguments == null || arguments.isBlank() ? "{}" : arguments));
+            } catch (JsonProcessingException exception) {
+                throw new ProtocolConversionException("OPENAI_CHAT_CLAUDE_INVALID_TOOL_ARGUMENTS", exception);
+            }
+            return toolUse;
         }
 
         private ObjectNode chatRequestToResponses(JsonNode source) {
@@ -1868,12 +2122,14 @@ class ProtocolConverterConfiguration {
 
             JsonNode contentBlocks = source.get("content");
             StringBuilder textContent = new StringBuilder();
+            StringBuilder thinkingContent = new StringBuilder();
             ArrayNode toolCalls = json.arrayNode();
             if (contentBlocks != null && contentBlocks.isArray()) {
                 for (JsonNode block : contentBlocks) {
                     String type = block.path("type").asText("");
                     switch (type) {
                         case "text" -> textContent.append(block.path("text").asText(""));
+                        case "thinking" -> thinkingContent.append(block.path("thinking").asText(""));
                         case "tool_use" -> {
                             ObjectNode call = json.objectNode();
                             call.put("id", block.path("id").asText(""));
@@ -1894,11 +2150,14 @@ class ProtocolConverterConfiguration {
             } else {
                 message.putNull("content");
             }
+            if (!thinkingContent.isEmpty()) {
+                message.put("reasoning_content", thinkingContent.toString());
+            }
             if (!toolCalls.isEmpty()) {
                 message.set("tool_calls", toolCalls);
             }
             choice.set("message", message);
-            choice.put("finish_reason", mapStopToFinishReason(source.path("stop_reason").asText("end_turn")));
+            choice.put("finish_reason", mapStopToFinishReason(requiredClaudeStopReason(source)));
             choices.add(choice);
             target.set("choices", choices);
             target.set("usage", chatUsageFromClaude(source.path("usage")));
@@ -1971,18 +2230,24 @@ class ProtocolConverterConfiguration {
             }
 
             target.set("output", output);
-            target.put("status", claudeStopReasonToResponsesStatus(source.path("stop_reason").asText("")));
+            target.put("status", claudeStopReasonToResponsesStatus(requiredClaudeStopReason(source)));
             target.set("usage", responsesUsageFromClaude(source.path("usage")));
             return target;
         }
 
+        private String requiredClaudeStopReason(JsonNode source) {
+            JsonNode value = source.get("stop_reason");
+            if (value == null || !value.isTextual() || value.asText().isBlank()) {
+                throw new ProtocolConversionException("CLAUDE_MISSING_STOP_REASON");
+            }
+            return value.asText();
+        }
+
         private String claudeStopReasonToResponsesStatus(String stopReason) {
             return switch (stopReason) {
-                case "end_turn" -> "completed";
-                case "tool_use" -> "completed";
+                case "end_turn", "tool_use", "stop_sequence" -> "completed";
                 case "max_tokens" -> "incomplete";
-                case "stop_sequence" -> "completed";
-                default -> "completed";
+                default -> throw new ProtocolConversionException("CLAUDE_UNSUPPORTED_STOP_REASON: " + stopReason);
             };
         }
 

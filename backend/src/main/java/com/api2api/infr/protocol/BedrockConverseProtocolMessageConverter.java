@@ -57,10 +57,6 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private static final String EXPLICIT_AGENT_REQUEST_INSTRUCTION =
             "The user explicitly requested delegation, a subagent, or parallel agent work. Invoke the %s tool "
                     + "for the delegated work before attempting to reproduce that work with direct tools.";
-    private static final String STALLED_AGENT_INVESTIGATION_INSTRUCTION =
-            "The main agent has already repeated a successful investigation with similar intent. Do not issue "
-                    + "another equivalent direct tool call; synthesize the existing results or delegate the "
-                    + "remaining open-ended investigation with the %s tool.";
     private static final Pattern EXPLICIT_AGENT_REQUEST_PATTERN = Pattern.compile(
             "(?iu)(sub[ -]?agent|\\bagent\\b|delegate|delegation|parallel agent|"
                     + "子\\s*(?:agent|代理)|委派|代理执行|并行(?:调查|分析|处理|执行|agent))");
@@ -147,7 +143,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         validateContextManagementForConverse(source.get("context_management"));
 
         ArrayNode bedrockMessages = json.arrayNode();
-        JsonNode messages = ClaudeConversationContextOptimizer.optimize(
+        JsonNode messages = ClaudeConversationContextOptimizer.applyRequestedContextManagement(
                 source.get("messages"), source.get("context_management"));
         if (messages != null && messages.isArray()) {
             for (JsonNode msg : messages) {
@@ -160,8 +156,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         boolean workflowInvocationRequired = workflowInvocationRequired(source.get("tools"), source.get("messages"));
         boolean backgroundTaskCompletionRequiresValidation = backgroundTaskCompletionRequiresValidation(
                 source.get("tools"), source.get("messages"));
-        String agentSelectionInstruction = agentSelectionInstruction(
-                source.get("tools"), source.get("messages"), messages);
+        String agentSelectionInstruction = agentSelectionInstruction(source.get("tools"), source.get("messages"));
         JsonNode system = source.get("system");
         ArrayNode systemBlocks = json.arrayNode();
         if (system != null && !system.isNull()) {
@@ -444,7 +439,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         target.set("content", content);
 
-        String stopReason = mapBedrockStopToClaudeStop(source.path("stopReason").asText("end_turn"));
+        String stopReason = mapBedrockStopToClaudeStop(requiredBedrockStopReason(source));
         target.put("stop_reason", stopReason);
         if ("stop_sequence".equals(stopReason)) {
             JsonNode stopSequence = source.path("additionalModelResponseFields").get("stop_sequence");
@@ -512,7 +507,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         message.put("role", "assistant");
         message.put("content", extractTextFromBedrockOutput(source));
         choice.set("message", message);
-        choice.put("finish_reason", mapBedrockStopToFinishReason(source.path("stopReason").asText("end_turn")));
+        choice.put("finish_reason", mapBedrockStopToFinishReason(requiredBedrockStopReason(source)));
         choices.add(choice);
         target.set("choices", choices);
 
@@ -542,6 +537,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         target.put("object", "response");
         target.put("created_at", Instant.now().getEpochSecond());
         target.put("model", "bedrock");
+        target.put("status", mapBedrockStopToResponsesStatus(requiredBedrockStopReason(source)));
 
         ArrayNode output = json.arrayNode();
         ObjectNode outputMessage = json.objectNode();
@@ -1315,30 +1311,24 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return false;
     }
 
-    private String agentSelectionInstruction(
-            JsonNode tools,
-            JsonNode originalMessages,
-            JsonNode optimizedMessages
-    ) {
+    private String agentSelectionInstruction(JsonNode tools, JsonNode originalMessages) {
         JsonNode agentTool = findAgentTool(tools);
         if (agentTool == null) {
             return "";
         }
         String toolName = agentTool.path("name").asText(AGENT_TOOL);
         String latestInstruction = CLAUDE_SYSTEM_REMINDER_PATTERN
-                .matcher(lastUserInstructionText(originalMessages))
-                .replaceAll(" ");
+                .matcher(lastUserInstructionText(originalMessages)).replaceAll(" ");
         boolean explicitlyRequested = EXPLICIT_AGENT_REQUEST_PATTERN.matcher(latestInstruction).find();
-        boolean proactiveUseProhibited = agentDescriptionProhibitsProactiveUse(
-                agentTool.path("description").asText(""));
+        String description = agentTool.path("description").asText("").toLowerCase(Locale.ROOT);
+        boolean proactiveUseProhibited = description.contains("do not spawn agents unless the user asks")
+                || description.contains("only use this tool when the user explicitly")
+                || description.contains("only use this tool when the user asks");
         if (proactiveUseProhibited && !explicitlyRequested) {
             return "";
         }
         if (explicitlyRequested) {
             return EXPLICIT_AGENT_REQUEST_INSTRUCTION.formatted(toolName);
-        }
-        if (ClaudeConversationContextOptimizer.hasRepeatedToolCallWarning(optimizedMessages)) {
-            return STALLED_AGENT_INVESTIGATION_INSTRUCTION.formatted(toolName);
         }
         return AGENT_SELECTION_INSTRUCTION.formatted(toolName);
     }
@@ -1353,21 +1343,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 return tool;
             }
             JsonNode schema = tool.hasNonNull("input_schema") ? tool.get("input_schema") : tool.get("inputSchema");
-            if (LEGACY_AGENT_TOOL.equals(name)
-                    && schema != null
+            if (LEGACY_AGENT_TOOL.equals(name) && schema != null
                     && schema.path("properties").has("prompt")
                     && schema.path("properties").has("subagent_type")) {
                 return tool;
             }
         }
         return null;
-    }
-
-    private boolean agentDescriptionProhibitsProactiveUse(String description) {
-        String normalized = description.toLowerCase(Locale.ROOT);
-        return normalized.contains("do not spawn agents unless the user asks")
-                || normalized.contains("only use this tool when the user explicitly")
-                || normalized.contains("only use this tool when the user asks");
     }
 
     private String lastUserInstructionText(JsonNode messages) {
@@ -1386,21 +1368,19 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             if (content.isTextual()) {
                 return content.asText("");
             }
-            if (!content.isArray()) {
-                continue;
-            }
-            StringBuilder instruction = new StringBuilder();
-            for (JsonNode block : content) {
-                if (!"text".equals(block.path("type").asText(""))) {
-                    continue;
+            if (content.isArray()) {
+                StringBuilder instruction = new StringBuilder();
+                for (JsonNode block : content) {
+                    if ("text".equals(block.path("type").asText(""))) {
+                        if (!instruction.isEmpty()) {
+                            instruction.append('\n');
+                        }
+                        instruction.append(block.path("text").asText(""));
+                    }
                 }
                 if (!instruction.isEmpty()) {
-                    instruction.append('\n');
+                    return instruction.toString();
                 }
-                instruction.append(block.path("text").asText(""));
-            }
-            if (!instruction.isEmpty()) {
-                return instruction.toString();
             }
         }
         return "";
@@ -1601,12 +1581,34 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         };
     }
 
+    private String requiredBedrockStopReason(JsonNode source) {
+        JsonNode value = source.get("stopReason");
+        if (value == null || !value.isTextual() || value.asText().isBlank()) {
+            throw new ProtocolConversionException("BEDROCK_CONVERSE_MISSING_STOP_REASON");
+        }
+        return value.asText();
+    }
+
     private String mapBedrockStopToFinishReason(String stopReason) {
         return switch (stopReason) {
             case "end_turn", "stop_sequence" -> "stop";
             case "max_tokens" -> "length";
             case "tool_use" -> "tool_calls";
-            default -> "stop";
+            case "content_filtered", "guardrail_intervened" -> "content_filter";
+            case "malformed_model_output", "malformed_tool_use" ->
+                    throw new ProtocolConversionException("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: " + stopReason);
+            default -> throw new ProtocolConversionException("BEDROCK_CONVERSE_UNSUPPORTED_STOP_REASON: " + stopReason);
+        };
+    }
+
+    private String mapBedrockStopToResponsesStatus(String stopReason) {
+        return switch (stopReason) {
+            case "end_turn", "tool_use", "stop_sequence" -> "completed";
+            case "max_tokens", "model_context_window_exceeded" -> "incomplete";
+            case "content_filtered", "guardrail_intervened" -> "incomplete";
+            case "malformed_model_output", "malformed_tool_use" ->
+                    throw new ProtocolConversionException("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: " + stopReason);
+            default -> throw new ProtocolConversionException("BEDROCK_CONVERSE_UNSUPPORTED_STOP_REASON: " + stopReason);
         };
     }
 }

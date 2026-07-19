@@ -40,13 +40,30 @@ public final class ClaudeConversationContextOptimizer {
     }
 
     static JsonNode optimize(JsonNode messages, JsonNode contextManagement) {
+        return optimize(messages, contextManagement, true);
+    }
+
+    static JsonNode applyRequestedContextManagement(JsonNode messages, JsonNode contextManagement) {
+        return optimize(messages, contextManagement, false);
+    }
+
+    private static JsonNode optimize(
+            JsonNode messages,
+            JsonNode contextManagement,
+            boolean applyGatewaySafetyPolicy
+    ) {
         messages = sanitizeCompactionHistory(messages, contextManagement);
-        JsonNode protectedMessages = protectAgainstRepeatedToolCalls(messages);
+        JsonNode protectedMessages = applyGatewaySafetyPolicy
+                ? protectAgainstRepeatedToolCalls(messages)
+                : messages;
         if (messages == null || !messages.isArray()) {
             return messages;
         }
         ArrayNode optimized = protectedMessages == messages ? null : (ArrayNode) protectedMessages;
         if (contextManagement == null || contextManagement.isNull()) {
+            if (!applyGatewaySafetyPolicy) {
+                return messages;
+            }
             if (optimized == null && estimateTokens(messages) <= DEFAULT_TOOL_CLEAR_TRIGGER_TOKENS) {
                 return messages;
             }
@@ -80,7 +97,7 @@ public final class ClaudeConversationContextOptimizer {
                 }
             }
         }
-        if (!toolClearingConfigured) {
+        if (applyGatewaySafetyPolicy && !toolClearingConfigured) {
             applyDefaultToolResultSafetyPolicy(optimized);
         }
         return optimized;
@@ -208,6 +225,9 @@ public final class ClaudeConversationContextOptimizer {
             default -> throw new ProtocolConversionException("CLAUDE_INVALID_CLEAR_TOOL_USES_TRIGGER");
         };
         if (!triggered) {
+            return;
+        }
+        if (interactions.isEmpty()) {
             return;
         }
 

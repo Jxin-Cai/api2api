@@ -154,13 +154,14 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
 
     protected String mapStopToFinishReason(String stopReason) {
         if (stopReason == null || stopReason.isBlank()) {
-            return "stop";
+            throw new ProtocolConversionException("CLAUDE_MISSING_STOP_REASON");
         }
         return switch (stopReason) {
             case "end_turn", "stop_sequence" -> "stop";
             case "max_tokens" -> "length";
             case "tool_use" -> "tool_calls";
-            default -> stopReason;
+            case "refusal" -> "content_filter";
+            default -> throw new ProtocolConversionException("CLAUDE_UNSUPPORTED_STOP_REASON: " + stopReason);
         };
     }
 

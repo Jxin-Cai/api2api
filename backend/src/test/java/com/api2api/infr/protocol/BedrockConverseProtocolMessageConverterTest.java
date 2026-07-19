@@ -88,6 +88,37 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_preservesToolResultsWithoutImplicitContextMutation_when_historyIsLarge() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String largeResult = "x".repeat(410_000);
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":64,"messages":[
+                  {"role":"assistant","content":[{"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"old.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"%s"}]},
+                  {"role":"assistant","content":[{"type":"tool_use","id":"call-2","name":"Write","input":{"file_path":"new.py"}}]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"updated"}]}
+                ]}
+                """.formatted(largeResult);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/1/content/0/toolResult/toolUseId").asText()).isEqualTo("call-1");
+        assertThat(mapped.at("/messages/1/content/0/toolResult/content/0/text").asText())
+                .isEqualTo(largeResult);
+        assertThat(mapped.at("/messages/3/content/0/toolResult/toolUseId").asText()).isEqualTo("call-2");
+        assertThat(mapped.at("/messages/3/content/0/toolResult/content/0/text").asText()).isEqualTo("updated");
+    }
+
+    @Test
     void test_marksToolResultSuccessful_when_claudeOmitsIsError() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
@@ -304,7 +335,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void test_rejectsRequestBeforeFourthExecution_when_successfulToolCallRepeatedThreeTimes() {
+    void test_preservesRepeatedToolCalls_when_convertingClaudeHistoryToBedrock() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
@@ -325,40 +356,17 @@ class BedrockConverseProtocolMessageConverterTest {
                 }
                 """;
 
-        // Act / Assert
-        assertThatThrownBy(() -> converter.convert(
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, true, false)
-        )).hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL");
-    }
+        ).body());
 
-    @Test
-    void test_rejectsRequestBeforeFourthExecution_when_readIntentStallsAcrossDifferentFiles() {
-        // Arrange
-        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
-                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolConversionDirection.REQUEST, sseEventTransformer
-        );
-        String body = """
-                {
-                  "model":"claude-opus-4.6",
-                  "max_tokens":1024,
-                  "messages":[
-                    {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-1","name":"Read","input":{"file_path":"runtime.py"}}]},
-                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"success"}]},
-                    {"role":"assistant","content":[{"type":"text","text":"让我看看 _build_channel_env 返回 None 后 SDK 如何处理它，确认是否覆盖 settings。"},{"type":"tool_use","id":"call-2","name":"Read","input":{"file_path":"client.py"}}]},
-                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-2","content":"success"}]},
-                    {"role":"assistant","content":[{"type":"text","text":"让我直接看 _build_channel_env 返回 None 后 SDK 是如何处理的。"},{"type":"tool_use","id":"call-3","name":"Read","input":{"file_path":"subprocess.py"}}]},
-                    {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-3","content":"success"}]}
-                  ]
-                }
-                """;
-
-        // Act / Assert
-        assertThatThrownBy(() -> converter.convert(
-                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
-                ProtocolConversionRequest.of(false, true, false)
-        )).hasMessageContaining("CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: Read repeated 3 times");
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/toolUse/toolUseId").asText()).isEqualTo("call-1");
+        assertThat(mapped.at("/messages/2/content/0/toolUse/toolUseId").asText()).isEqualTo("call-2");
+        assertThat(mapped.at("/messages/4/content/0/toolUse/toolUseId").asText()).isEqualTo("call-3");
+        assertThat(mapped.at("/messages/5/content/0/toolResult/content/0/text").asText()).isEqualTo("success");
     }
 
     @Test
@@ -714,40 +722,6 @@ class BedrockConverseProtocolMessageConverterTest {
                 .anySatisfy(text -> assertThat(text)
                         .contains("explicitly requested delegation")
                         .contains("Invoke the Agent tool"));
-    }
-
-    @Test
-    void test_redirectsStalledReadInvestigationToAgent_when_twoSimilarTurnsSucceeded() throws Exception {
-        // Arrange
-        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
-                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolConversionDirection.REQUEST, sseEventTransformer
-        );
-        String body = """
-                {"model":"anthropic.claude-opus-4-6","max_tokens":1024,
-                 "tools":[
-                   {"name":"Agent","description":"Launch a new agent for broad investigation.",
-                    "input_schema":{"type":"object","properties":{"prompt":{"type":"string"}}}},
-                   {"name":"Read","input_schema":{"type":"object"}}
-                 ],
-                 "messages":[
-                   {"role":"assistant","content":[{"type":"text","text":"让我看看 runtime 返回 None 后 SDK 是如何处理环境的。"},{"type":"tool_use","id":"r1","name":"Read","input":{"file_path":"runtime.py"}}]},
-                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"r1","content":"result-1"}]},
-                   {"role":"assistant","content":[{"type":"text","text":"让我直接看 runtime 返回 None 后 SDK 是如何处理环境的。"},{"type":"tool_use","id":"r2","name":"Read","input":{"file_path":"client.py"}}]},
-                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"r2","content":"result-2"}]}
-                 ]}
-                """;
-
-        // Act
-        JsonNode mapped = objectMapper.readTree(converter.convert(
-                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
-                ProtocolConversionRequest.of(false, true, false)).body());
-
-        // Assert
-        assertThat(mapped.path("system").findValuesAsText("text"))
-                .anySatisfy(text -> assertThat(text)
-                        .contains("already repeated a successful investigation")
-                        .contains("Agent tool"));
     }
 
     @Test
@@ -1237,5 +1211,248 @@ class BedrockConverseProtocolMessageConverterTest {
                 ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
                 ProtocolConversionRequest.of(false, true, false)
         )).hasMessageContaining("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: malformed_tool_use");
+    }
+
+    // ==================== Tests: Bedrock Converse -> OpenAI Responses (non-streaming) ====================
+
+    @Test
+    void test_mapsCompletedStatus_when_bedrockResponsesStopReasonIsEndTurn() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"hello"}]}},
+                  "stopReason":"end_turn",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        // Assert
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("status").asText()).isEqualTo("completed");
+        assertThat(mapped.path("object").asText()).isEqualTo("response");
+        assertThat(mapped.at("/output/0/type").asText()).isEqualTo("message");
+    }
+
+    @Test
+    void test_mapsIncompleteStatus_when_bedrockResponsesStopReasonIsMaxTokens() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"partial"}]}},
+                  "stopReason":"max_tokens",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        // Assert
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("status").asText()).isEqualTo("incomplete");
+    }
+
+    @Test
+    void test_mapsIncompleteStatus_when_bedrockResponsesStopReasonIsContentFiltered() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"filtered"}]}},
+                  "stopReason":"content_filtered",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        // Assert
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("status").asText()).isEqualTo("incomplete");
+    }
+
+    @Test
+    void test_throwsConversionException_when_bedrockResponsesStopReasonIsMissing() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"hello"}]}},
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("BEDROCK_CONVERSE_MISSING_STOP_REASON");
+    }
+
+    @Test
+    void test_throwsConversionException_when_bedrockResponsesStopReasonIsEmpty() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"hello"}]}},
+                  "stopReason":"",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("BEDROCK_CONVERSE_MISSING_STOP_REASON");
+    }
+
+    @Test
+    void test_throwsConversionException_when_bedrockResponsesStopReasonIsNonTextual() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"hello"}]}},
+                  "stopReason":123,
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("BEDROCK_CONVERSE_MISSING_STOP_REASON");
+    }
+
+    @Test
+    void test_throwsConversionException_when_bedrockResponsesStopReasonIsUnknown() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"hello"}]}},
+                  "stopReason":"unknown_future_reason",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("BEDROCK_CONVERSE_UNSUPPORTED_STOP_REASON: unknown_future_reason");
+    }
+
+    @Test
+    void test_throwsConversionException_when_bedrockResponsesStopReasonIsNull() {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"hello"}]}},
+                  "stopReason":null,
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        )).hasMessageContaining("BEDROCK_CONVERSE_MISSING_STOP_REASON");
+    }
+
+    @Test
+    void test_mapsCompletedStatus_when_bedrockResponsesStopReasonIsToolUse() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"tool call"}]}},
+                  "stopReason":"tool_use",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        // Assert
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("status").asText()).isEqualTo("completed");
+    }
+
+    @Test
+    void test_mapsCompletedStatus_when_bedrockResponsesStopReasonIsStopSequence() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {
+                  "output":{"message":{"content":[{"text":"done"}]}},
+                  "stopReason":"stop_sequence",
+                  "usage":{"inputTokens":5,"outputTokens":3}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+
+        // Assert
+        JsonNode mapped = objectMapper.readTree(result.body());
+        assertThat(mapped.path("status").asText()).isEqualTo("completed");
     }
 }

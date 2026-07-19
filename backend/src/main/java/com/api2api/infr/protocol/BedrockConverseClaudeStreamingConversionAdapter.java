@@ -178,7 +178,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     }
 
     private void writeResponsesCompleted(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        state.stopReason = payload.path("stopReason").asText("end_turn");
+        state.stopReason = requiredBedrockStopReason(payload);
         state.upstreamMessageStopped = true;
     }
 
@@ -198,7 +198,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             response.put("object", "response");
             response.put("created_at", 0);
             response.put("model", state.clientModel);
-            response.put("status", "completed");
+            response.put("status", mapBedrockStopToResponsesStatus(state.stopReason));
             response.set("output", objectMapper.createArrayNode());
             if (state.usage != null && state.usage.usageKnown()) {
                 ObjectNode usageNode = objectNode();
@@ -387,7 +387,7 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
     }
 
     private void writeMessageStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        state.stopReason = mapBedrockStopToClaudeStop(payload.path("stopReason").asText("end_turn"));
+        state.stopReason = mapBedrockStopToClaudeStop(requiredBedrockStopReason(payload));
         state.upstreamMessageStopped = true;
         JsonNode stopSequence = payload.path("additionalModelResponseFields").get("stop_sequence");
         if (stopSequence != null && stopSequence.isTextual()) {
@@ -1119,6 +1119,14 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
         return reasoningContent.has("text") || reasoningContent.has("signature") ? reasoningContent : null;
     }
 
+    private String requiredBedrockStopReason(JsonNode payload) throws IOException {
+        JsonNode value = payload.get("stopReason");
+        if (value == null || !value.isTextual() || value.asText().isBlank()) {
+            throw new IOException("Bedrock Converse stream missing stopReason");
+        }
+        return value.asText();
+    }
+
     private String mapBedrockStopToClaudeStop(String stopReason) throws IOException {
         return switch (stopReason) {
             case "end_turn" -> "end_turn";
@@ -1127,6 +1135,17 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
             case "stop_sequence" -> "stop_sequence";
             case "model_context_window_exceeded" -> "model_context_window_exceeded";
             case "guardrail_intervened", "content_filtered" -> "refusal";
+            case "malformed_model_output", "malformed_tool_use" ->
+                    throw new IOException("Bedrock Converse stopped with invalid model output: " + stopReason);
+            default -> throw new IOException("Unsupported Bedrock Converse stop reason: " + stopReason);
+        };
+    }
+
+    private String mapBedrockStopToResponsesStatus(String stopReason) throws IOException {
+        return switch (stopReason) {
+            case "end_turn", "tool_use", "stop_sequence" -> "completed";
+            case "max_tokens", "model_context_window_exceeded" -> "incomplete";
+            case "content_filtered", "guardrail_intervened" -> "incomplete";
             case "malformed_model_output", "malformed_tool_use" ->
                     throw new IOException("Bedrock Converse stopped with invalid model output: " + stopReason);
             default -> throw new IOException("Unsupported Bedrock Converse stop reason: " + stopReason);
@@ -1613,12 +1632,17 @@ public class BedrockConverseClaudeStreamingConversionAdapter implements GatewayS
                 }
                 case "message_delta" -> {
                     JsonNode msgDelta = event.path("delta");
-                    String sr = msgDelta.path("stop_reason").asText("end_turn");
+                    JsonNode srNode = msgDelta.get("stop_reason");
+                    if (srNode == null || !srNode.isTextual() || srNode.asText().isBlank()) {
+                        throw new IOException("Claude stream missing stop_reason in message_delta");
+                    }
+                    String sr = srNode.asText();
                     String finishReason = switch (sr) {
-                        case "end_turn" -> "stop";
+                        case "end_turn", "stop_sequence" -> "stop";
                         case "max_tokens" -> "length";
                         case "tool_use" -> "tool_calls";
-                        default -> "stop";
+                        case "refusal" -> "content_filter";
+                        default -> throw new IOException("Unsupported Claude stop_reason in stream: " + sr);
                     };
                     outputTokens = event.path("usage").path("output_tokens").asLong(0);
                     writeChatChunk(clientBody, chatId, model, created, objectNode(), finishReason);
