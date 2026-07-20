@@ -13,30 +13,30 @@ interface ApiCredentialEditDrawerProps {
   credential: ApiCredentialResponse | null;
   /** 关闭 Drawer */
   onClose: () => void;
-  /** 模型白名单选项 */
-  modelOptions?: Array<{ label: string; value: string }>;
+  /** 可绑定的模型分组 */
+  groupOptions?: Array<{ label: string; value: string }>;
   /** 更新成功回调 */
   onUpdated: (credential: ApiCredentialResponse) => void;
 }
 
-export function ApiCredentialEditDrawer({ open, credential, onClose, modelOptions = [], onUpdated }: ApiCredentialEditDrawerProps) {
+export function ApiCredentialEditDrawer({ open, credential, onClose, groupOptions = [], onUpdated }: ApiCredentialEditDrawerProps) {
   const { message } = App.useApp();
-  const { renameMutation, whitelistMutation, limitMutation } = useApiCredentialMutations();
+  const { renameMutation, groupMutation, limitMutation } = useApiCredentialMutations();
   const [activeSection, setActiveSection] = useState<ApiCredentialEditSection>('name');
   const [nameDraft, setNameDraft] = useState('');
-  const [modelWhitelistDraft, setModelWhitelistDraft] = useState<string[]>([]);
+  const [modelGroupIdDraft, setModelGroupIdDraft] = useState('');
   const [tokenLimitDraft, setTokenLimitDraft] = useState(0);
 
   useEffect((): void => {
     if (credential) {
       setNameDraft(credential.name);
-      setModelWhitelistDraft(credential.modelWhitelist);
+      setModelGroupIdDraft(credential.modelGroupId);
       setTokenLimitDraft(credential.tokenLimit);
       setActiveSection('name');
     }
   }, [credential]);
 
-  const submitting = renameMutation.isPending || whitelistMutation.isPending || limitMutation.isPending;
+  const submitting = renameMutation.isPending || groupMutation.isPending || limitMutation.isPending;
 
   async function handleSaveName(): Promise<void> {
     if (!credential || !nameDraft.trim()) {
@@ -47,12 +47,12 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, modelOption
     onUpdated(updated);
   }
 
-  async function handleSaveModels(): Promise<void> {
-    if (!credential) {
+  async function handleSaveGroup(): Promise<void> {
+    if (!credential || !modelGroupIdDraft) {
       return;
     }
-    const updated = await whitelistMutation.mutateAsync({ id: credential.id, params: { modelWhitelist: modelWhitelistDraft } });
-    message.success('模型白名单已更新');
+    const updated = await groupMutation.mutateAsync({ id: credential.id, params: { modelGroupId: modelGroupIdDraft } });
+    message.success('模型分组已更新');
     onUpdated(updated);
   }
 
@@ -76,7 +76,7 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, modelOption
             <Descriptions.Item label="ID">{credential.id}</Descriptions.Item>
             <Descriptions.Item label="状态"><ApiCredentialStatusTag status={credential.status} /></Descriptions.Item>
           </Descriptions>
-          <Alert type="info" showIcon message="名称、白名单和 Token 上限会分别保存。若后端 DTO 字段调整，请以后端契约为准。" />
+          <Alert type="info" showIcon message="Key 的允许模型由所绑定分组统一控制；调整分组白名单会同时影响该组内所有 Key。" />
           <Tabs
             activeKey={activeSection}
             onChange={(key): void => setActiveSection(key as ApiCredentialEditSection)}
@@ -92,12 +92,12 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, modelOption
                 ),
               },
               {
-                key: 'models',
-                label: '模型白名单',
+                key: 'group',
+                label: '模型分组',
                 children: (
                   <Space direction="vertical" style={{ width: '100%' }}>
-                    <Select mode="tags" value={modelWhitelistDraft} onChange={setModelWhitelistDraft} options={modelOptions} disabled={submitting} placeholder="选择或输入模型" />
-                    <Button type="primary" onClick={handleSaveModels} loading={whitelistMutation.isPending}>保存白名单</Button>
+                    <Select value={modelGroupIdDraft || undefined} onChange={setModelGroupIdDraft} options={groupOptions} disabled={submitting} placeholder="选择模型分组" />
+                    <Button type="primary" onClick={handleSaveGroup} loading={groupMutation.isPending} disabled={!modelGroupIdDraft}>保存分组</Button>
                   </Space>
                 ),
               },

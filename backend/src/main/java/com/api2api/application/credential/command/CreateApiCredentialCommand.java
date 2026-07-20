@@ -5,7 +5,7 @@ import com.api2api.domain.credential.model.ApiCredentialName;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ApiKeyPreview;
 import com.api2api.domain.credential.model.EncryptedApiKeyMaterial;
-import com.api2api.domain.credential.model.ModelWhitelist;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.domain.user.model.UserAccountId;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +38,7 @@ public final class CreateApiCredentialCommand {
     private final EncryptedApiKeyMaterial encryptedKeyMaterial;
 
     @NotNull
-    private final ModelWhitelist modelWhitelist;
+    private final ModelGroupId modelGroupId;
 
     @NotNull
     private final TokenLimit tokenLimit;

@@ -108,6 +108,8 @@ public interface ProviderChannelPersistenceConverter {
     @Mapping(target = "preferred", expression = "java(model.preferred())")
     @Mapping(target = "source", expression = "java(model.source().name())")
     @Mapping(target = "status", expression = "java(model.status().name())")
+    @Mapping(target = "rateLimitedAt", expression = "java(model.rateLimitedAt())")
+    @Mapping(target = "rateLimitResetAt", expression = "java(model.rateLimitResetAt())")
     @Mapping(target = "createdTime", expression = "java(model.createdAt())")
     @Mapping(target = "updatedTime", expression = "java(model.updatedAt())")
     ChannelModelSupportPO toModelPO(Long providerChannelId, ChannelModelSupport model);
@@ -121,6 +123,8 @@ public interface ProviderChannelPersistenceConverter {
                 RoutePriority.of(po.getPriority()),
                 po.isPreferred(),
                 ChannelModelStatus.valueOf(po.getStatus()),
+                po.getRateLimitedAt(),
+                po.getRateLimitResetAt(),
                 ModelSupportSource.valueOf(po.getSource()),
                 po.getCreatedTime(),
                 po.getUpdatedTime()

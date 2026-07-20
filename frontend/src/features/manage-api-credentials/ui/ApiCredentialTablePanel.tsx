@@ -15,8 +15,8 @@ import { ApiCredentialToolbar } from './ApiCredentialToolbar';
 import './ApiCredentialTablePanel.css';
 
 interface ApiCredentialTablePanelProps {
-  /** 创建或编辑可选模型 */
-  modelOptions?: Array<{ label: string; value: string }>;
+  /** 创建或编辑时可绑定的模型分组 */
+  groupOptions?: Array<{ label: string; value: string }>;
 }
 
 function isEnabled(credential: ApiCredentialResponse): boolean {
@@ -24,7 +24,7 @@ function isEnabled(credential: ApiCredentialResponse): boolean {
   return status === 'ENABLED' || status === 'ACTIVE';
 }
 
-export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTablePanelProps) {
+export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTablePanelProps) {
   const { message, modal } = App.useApp();
   const { credentials, query } = useApiCredentials();
   const { enableMutation, disableMutation, revealMutation, deleteMutation } = useApiCredentialMutations();
@@ -53,6 +53,11 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
     }),
     { actualTokens: 0, totalTokens: 0, todayActualTokens: 0, todayTotalTokens: 0 }
   ), [credentials]);
+
+  const groupNames = useMemo(
+    () => new Map(groupOptions.map((option) => [option.value, option.label])),
+    [groupOptions]
+  );
 
   async function handleToggleStatus(credential: ApiCredentialResponse): Promise<void> {
     if (isEnabled(credential)) {
@@ -155,13 +160,20 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
       ),
     },
     {
+      title: '模型分组',
+      dataIndex: 'modelGroupId',
+      key: 'modelGroupId',
+      width: 180,
+      render: (groupId: string): ReactElement => <Tag color="blue">{groupNames.get(groupId) ?? groupId}</Tag>,
+    },
+    {
       title: '允许的模型',
       dataIndex: 'modelWhitelist',
       key: 'modelWhitelist',
-      width: 250,
+      width: 230,
       render: (models: string[]): ReactElement => (
         <div className="api-credential-models">
-          {models.length ? models.slice(0, 2).map((model) => <Tag key={model}>{model}</Tag>) : <Typography.Text type="secondary">未配置</Typography.Text>}
+          {models.length ? models.slice(0, 2).map((model) => <Tag key={model}>{model}</Tag>) : <Typography.Text type="secondary">全部禁用</Typography.Text>}
           {models.length > 2 ? <Tooltip title={models.slice(2).join(', ')}><Tag>+{models.length - 2}</Tag></Tooltip> : null}
         </div>
       ),
@@ -237,7 +249,7 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
               columns={columns}
               dataSource={filteredCredentials}
               loading={query.isLoading}
-              scroll={{ x: 1140 }}
+              scroll={{ x: 1320 }}
               locale={{ emptyText: <Empty description="暂无 API Key，请先创建" /> }}
               pagination={false}
               rowClassName="api-credential-table__row"
@@ -245,8 +257,8 @@ export function ApiCredentialTablePanel({ modelOptions = [] }: ApiCredentialTabl
           </Space>
         </Card>
       </Space>
-      <ApiCredentialCreateModal open={createOpen} onClose={(): void => setCreateOpen(false)} onCreated={handleCreated} modelOptions={modelOptions} />
-      <ApiCredentialEditDrawer open={Boolean(editing)} credential={editing} onClose={(): void => setEditing(null)} onUpdated={(credential): void => setEditing(credential)} modelOptions={modelOptions} />
+      <ApiCredentialCreateModal open={createOpen} onClose={(): void => setCreateOpen(false)} onCreated={handleCreated} groupOptions={groupOptions} />
+      <ApiCredentialEditDrawer open={Boolean(editing)} credential={editing} onClose={(): void => setEditing(null)} onUpdated={(credential): void => setEditing(credential)} groupOptions={groupOptions} />
       <Modal
         title="复制 API Key"
         open={Boolean(revealedSecret)}

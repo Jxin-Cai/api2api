@@ -31,9 +31,30 @@ function modelTooltip(models: ChannelModelSupportResponse[]): string {
   return models.map((model) => `${model.requestedModel} → ${model.upstreamModel} (${model.upstreamProtocol}, 排序 ${model.priority})`).join('\n');
 }
 
+function rateLimitedModelTooltip(models: ChannelModelSupportResponse[]): string {
+  return models.map((model) => {
+    const resetAt = model.rateLimitResetAt ? new Date(model.rateLimitResetAt).toLocaleString('zh-CN') : '未知时间';
+    return `${model.requestedModel}（上游 ${model.upstreamModel}）限流至 ${resetAt}`;
+  }).join('\n');
+}
+
+function formatRateLimitResetAt(model: ChannelModelSupportResponse): string {
+  if (!model.rateLimitResetAt) {
+    return '恢复时间未知';
+  }
+  return new Date(model.rateLimitResetAt).toLocaleString('zh-CN', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}
+
 export function ProviderChannelRow({ channel, actions, expanded = false }: ProviderChannelRowProps) {
   const enabledModels = channel.supportedModels.filter((model) => model.status === 'ENABLED');
   const preferredModels = enabledModels.filter((model) => model.preferred);
+  const rateLimitedModels = channel.supportedModels.filter((model) => model.status === 'RATE_LIMITED');
   const mappings = channel.protocolMappings ?? [];
   const modelCountTitle = enabledModels.length === channel.supportedModels.length
     ? `启用模型数量：${enabledModels.length}`
@@ -61,6 +82,18 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
         <Tooltip title={modelTooltip(preferredModels)}>
           <Typography.Text type="secondary">★ 优先模型：{preferredModels.length} 个（{modelSummary(preferredModels)}）</Typography.Text>
         </Tooltip>
+        {rateLimitedModels.length > 0 ? (
+          <Space direction="vertical" size={2}>
+            <Typography.Text type="warning">限流模型（{rateLimitedModels.length}）</Typography.Text>
+            {rateLimitedModels.map((model) => (
+              <Tooltip key={`rate-limit-detail-${model.id}`} title={rateLimitedModelTooltip([model])}>
+                <Typography.Text type="warning">
+                  {model.requestedModel}：预计 {formatRateLimitResetAt(model)} 恢复
+                </Typography.Text>
+              </Tooltip>
+            ))}
+          </Space>
+        ) : null}
       </Space>
       <Space wrap>
         {mappings.length > 0 ? mappings.map((mapping) => (
@@ -73,6 +106,11 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
           <ProtocolTag key={protocol} protocol={protocol} compact />
         ))}
         <Badge count={enabledModels.length} showZero title={modelCountTitle} />
+        {rateLimitedModels.map((model) => (
+          <Tooltip key={`rate-limited-${model.id}`} title={rateLimitedModelTooltip([model])}>
+            <Tag color="warning">{model.requestedModel} · {formatRateLimitResetAt(model)} 恢复</Tag>
+          </Tooltip>
+        ))}
         <ProviderChannelStatusTag status={channel.status} />
         {actions}
       </Space>

@@ -2,6 +2,7 @@ package com.api2api.ohs.http;
 
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.user.model.UserAccountId;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.stereotype.Component;
@@ -28,5 +29,11 @@ public class IdentifierFactory {
         long timestampPart = System.currentTimeMillis() * 1_000L;
         long randomPart = ThreadLocalRandom.current().nextLong(1_000L);
         return ApiCredentialId.of(timestampPart + randomPart);
+    }
+
+    public ModelGroupId newModelGroupId() {
+        long timestampPart = System.currentTimeMillis() * 1_000L;
+        long randomPart = ThreadLocalRandom.current().nextLong(1_000L);
+        return ModelGroupId.of(timestampPart + randomPart);
     }
 }

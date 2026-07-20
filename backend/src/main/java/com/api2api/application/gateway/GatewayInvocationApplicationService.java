@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GatewayInvocationApplicationService {
 
     private static final int MAX_FAILURE_REASON_LENGTH = 1000;
-    private static final Duration RATE_LIMIT_ISOLATION_DURATION = Duration.ofHours(24);
+    private static final Duration MODEL_RATE_LIMIT_ISOLATION_DURATION = Duration.ofHours(24);
 
     @NonNull
     private final ApiCredentialRepository apiCredentialRepository;
@@ -287,7 +287,7 @@ public class GatewayInvocationApplicationService {
             ProviderGatewayResponse upstreamResponse = providerCall.response();
             if (!upstreamResponse.successful()) {
                 RouteFailure routeFailure = toRouteFailure(candidate, upstreamResponse);
-                isolateRateLimitedChannel(routeFailure);
+                isolateRateLimitedModel(candidate, routeFailure);
                 return handleSynchronousRouteFailure(
                         command,
                         invocation,
@@ -316,7 +316,7 @@ public class GatewayInvocationApplicationService {
             );
         } catch (UpstreamGatewayException exception) {
             RouteFailure routeFailure = toRouteFailure(candidate, exception);
-            isolateRateLimitedChannel(routeFailure);
+            isolateRateLimitedModel(candidate, routeFailure);
             return handleSynchronousRouteFailure(
                     command,
                     invocation,
@@ -454,7 +454,7 @@ public class GatewayInvocationApplicationService {
             );
         } catch (UpstreamGatewayException exception) {
             RouteFailure routeFailure = toRouteFailure(candidate, exception);
-            isolateRateLimitedChannel(routeFailure);
+            isolateRateLimitedModel(candidate, routeFailure);
             return handleStreamingRouteFailure(
                     command,
                     invocation,
@@ -670,38 +670,54 @@ public class GatewayInvocationApplicationService {
     }
 
     private RouteFailure toRouteFailure(RouteCandidate candidate, UpstreamGatewayException exception) {
+        String reason = exception.failureType() == RouteFailureType.RATE_LIMITED
+                ? modelRateLimitedReason(candidate, safeReason(exception))
+                : safeReason(exception);
         return RouteFailure.of(
                 candidate.providerChannelId(),
                 exception.failureType(),
-                safeReason(exception),
+                reason,
                 exception.retryable(),
                 Instant.now(clock)
         );
     }
 
     private List<ProviderChannel> routableChannels(Instant now) {
-        providerChannelRepository.restoreRateLimitedBefore(now.minus(RATE_LIMIT_ISOLATION_DURATION), now);
+        providerChannelRepository.restoreModelRateLimitsBefore(now, now);
         return providerChannelRepository.findEnabledForRouting();
     }
 
-    private void isolateRateLimitedChannel(RouteFailure failure) {
+    private void isolateRateLimitedModel(RouteCandidate candidate, RouteFailure failure) {
         if (failure.failureType() != RouteFailureType.RATE_LIMITED) {
             return;
         }
-        providerChannelRepository.markRateLimited(failure.providerChannelId(), failure.occurredAt());
+        Instant resetAt = failure.occurredAt().plus(MODEL_RATE_LIMIT_ISOLATION_DURATION);
+        providerChannelRepository.markModelRateLimited(
+                failure.providerChannelId(),
+                candidate.upstreamModel(),
+                failure.occurredAt(),
+                resetAt
+        );
         log.warn(
-                "Provider channel isolated after upstream rate limit, channelId: {}, isolationHours: {}",
+                "Provider model isolated after upstream rate limit, channelId: {}, requestedModel: {}, upstreamModel: {}, upstreamProtocol: {}, resetAt: {}",
                 failure.providerChannelId().value(),
-                RATE_LIMIT_ISOLATION_DURATION.toHours()
+                candidate.requestedModel().value(),
+                candidate.upstreamModel().value(),
+                candidate.upstreamProtocol(),
+                resetAt
         );
     }
 
     private RouteFailure toRouteFailure(RouteCandidate candidate, ProviderGatewayResponse response) {
         RouteFailureType failureType = routeFailureType(response.statusCode());
+        String reason = statusFailureMessage(response.statusCode(), response.body());
+        if (failureType == RouteFailureType.RATE_LIMITED) {
+            reason = modelRateLimitedReason(candidate, reason);
+        }
         return RouteFailure.of(
                 candidate.providerChannelId(),
                 failureType,
-                statusFailureMessage(response.statusCode(), response.body()),
+                reason,
                 failureType.isRetryableByDefault() || isModelUnavailable(response.statusCode(), response.body()),
                 Instant.now(clock)
         );
@@ -766,10 +782,13 @@ public class GatewayInvocationApplicationService {
     }
 
     private RouteFailure toRouteFailure(RouteCandidate candidate, RouteFailureType failureType, RuntimeException exception) {
+        String reason = failureType == RouteFailureType.RATE_LIMITED
+                ? modelRateLimitedReason(candidate, safeReason(exception))
+                : safeReason(exception);
         return RouteFailure.withDefaultRetryable(
                 candidate.providerChannelId(),
                 failureType,
-                safeReason(exception),
+                reason,
                 Instant.now(clock)
         );
     }
@@ -801,6 +820,13 @@ public class GatewayInvocationApplicationService {
             return trimmed.substring(0, MAX_FAILURE_REASON_LENGTH);
         }
         return trimmed;
+    }
+
+    private String modelRateLimitedReason(RouteCandidate candidate, String reason) {
+        String modelDescription = candidate.requestedModel().equals(candidate.upstreamModel())
+                ? candidate.requestedModel().value()
+                : candidate.requestedModel().value() + " (upstream " + candidate.upstreamModel().value() + ")";
+        return "Model " + modelDescription + " rate limited: " + reason;
     }
 
     private record PreparedRoute(

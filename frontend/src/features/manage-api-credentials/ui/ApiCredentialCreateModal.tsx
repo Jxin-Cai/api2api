@@ -12,13 +12,13 @@ interface ApiCredentialCreateModalProps {
   onClose: () => void;
   /** 创建成功回调 */
   onCreated: (credential: CreateApiCredentialResponse) => void;
-  /** 模型白名单可选项 */
-  modelOptions?: Array<{ label: string; value: string }>;
+  /** 可绑定的模型分组 */
+  groupOptions?: Array<{ label: string; value: string }>;
 }
 
-const INITIAL_FORM: CreateApiCredentialRequest = { name: '', modelWhitelist: [], tokenLimit: 0 };
+const INITIAL_FORM: CreateApiCredentialRequest = { name: '', modelGroupId: '', tokenLimit: 0 };
 
-export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOptions = [] }: ApiCredentialCreateModalProps) {
+export function ApiCredentialCreateModal({ open, onClose, onCreated, groupOptions = [] }: ApiCredentialCreateModalProps) {
   const { modal } = App.useApp();
   const { createMutation } = useApiCredentialMutations();
   const [form, setForm] = useState<CreateApiCredentialRequest>(INITIAL_FORM);
@@ -57,7 +57,7 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOption
     onCreated(result);
   }
 
-  const canSubmit = form.name.trim().length > 0 && form.tokenLimit >= 0;
+  const canSubmit = form.name.trim().length > 0 && Boolean(form.modelGroupId) && form.tokenLimit >= 0;
 
   return (
     <Modal
@@ -81,16 +81,15 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, modelOption
           <Form.Item label="名称" required validateStatus={!form.name.trim() ? 'error' : undefined} help={!form.name.trim() ? '请输入 API Key 名称' : undefined}>
             <Input value={form.name} onChange={(event): void => setForm((current) => ({ ...current, name: event.target.value }))} placeholder="例如：生产环境调用" disabled={createMutation.isPending} />
           </Form.Item>
-          <Form.Item label="模型白名单">
+          <Form.Item label="模型分组" required>
             <Select
-              mode="tags"
-              value={form.modelWhitelist}
-              onChange={(value: string[]): void => setForm((current) => ({ ...current, modelWhitelist: value }))}
-              options={modelOptions}
-              placeholder="选择或输入允许调用的模型"
+              value={form.modelGroupId || undefined}
+              onChange={(value: string): void => setForm((current) => ({ ...current, modelGroupId: value }))}
+              options={groupOptions}
+              placeholder="选择此 Key 使用的模型分组"
               disabled={createMutation.isPending}
             />
-            {modelOptions.length === 0 ? <Alert style={{ marginTop: 8 }} type="info" showIcon message="暂无模型选项，可手动输入模型名。" /> : null}
+            {groupOptions.length === 0 ? <Alert style={{ marginTop: 8 }} type="warning" showIcon message="暂无模型分组，请先在“模型分组”页签中创建。" /> : null}
           </Form.Item>
           <Form.Item label="累计 Token 上限" required>
             <InputNumber min={0} precision={0} value={form.tokenLimit} onChange={(value): void => setForm((current) => ({ ...current, tokenLimit: value ?? 0 }))} style={{ width: '100%' }} disabled={createMutation.isPending} />

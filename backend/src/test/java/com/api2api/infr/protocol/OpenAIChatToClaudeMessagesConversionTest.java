@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
+import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -247,6 +248,108 @@ class OpenAIChatToClaudeMessagesConversionTest {
         assertThat(mapped.at("/tools/0/name").asText()).isEqualTo("test");
     }
 
+    @Test
+    void test_preservesArrayTextContent_when_convertingChatResponseToClaude() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"chatcmpl_1","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":[
+                    {"type":"text","text":"first"},{"type":"text","text":"second"}
+                  ]},"finish_reason":"stop"}],
+                  "usage":{"prompt_tokens":3,"completion_tokens":2}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertResponse(body).body();
+
+        // Assert
+        assertThat(mapped.at("/content/0/text").asText()).isEqualTo("first\n\nsecond");
+    }
+
+    @Test
+    void test_surfacesReasoningAsVisibleText_when_chatResponseHasOnlyReasoning() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"chatcmpl_1","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":null,
+                    "reasoning_content":"reasoned answer"},"finish_reason":"stop"}],
+                  "usage":{"prompt_tokens":3,"completion_tokens":2}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertResponse(body).body();
+
+        // Assert
+        assertThat(mapped.at("/content/1/type").asText()).isEqualTo("text");
+        assertThat(mapped.at("/content/1/text").asText()).isEqualTo("reasoned answer");
+    }
+
+    @Test
+    void test_reportsToolUseStopReason_when_upstreamFinishesToolCallWithStop() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"chatcmpl_1","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":null,"tool_calls":[{
+                    "id":"call_1","type":"function","function":{"name":"Read","arguments":"{}"}
+                  }]},"finish_reason":"stop"}],
+                  "usage":{"prompt_tokens":3,"completion_tokens":2}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertResponse(body).body();
+
+        // Assert
+        assertThat(mapped.path("stop_reason").asText()).isEqualTo("tool_use");
+    }
+
+    @Test
+    void test_mapsRefusalContent_when_chatResponseIsFiltered() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"chatcmpl_1","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":null,
+                    "refusal":"I cannot help with that."},"finish_reason":"content_filter"}],
+                  "usage":{"prompt_tokens":3,"completion_tokens":2}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertResponse(body).body();
+
+        // Assert
+        assertThat(mapped.at("/content/0/text").asText()).isEqualTo("I cannot help with that.");
+        assertThat(mapped.path("stop_reason").asText()).isEqualTo("refusal");
+    }
+
+    @Test
+    void test_preservesCacheUsage_when_chatReportsBothWriteFields() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"chatcmpl_1","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":"done"},"finish_reason":"stop"}],
+                  "usage":{"prompt_tokens":100,"completion_tokens":5,
+                    "prompt_tokens_details":{"cached_tokens":30,"cache_creation_tokens":10,"cache_write_tokens":5}}
+                }
+                """;
+
+        // Act
+        ConvertedResponse result = convertResponse(body);
+
+        // Assert
+        assertThat(result.usage().inputTokens()).isEqualTo(55);
+        assertThat(result.usage().cacheCreationInputTokens()).isEqualTo(15);
+        assertThat(result.usage().cacheReadInputTokens()).isEqualTo(30);
+        assertThat(result.body().at("/usage/cache_creation_input_tokens").asLong()).isEqualTo(15);
+    }
+
     private JsonNode convertRequest(String body, boolean toolCallingRequired) throws Exception {
         ProtocolMessageConverter converter = configuration.openAIChatToClaudeMessagesRequest(
                 json, new SseEventTransformer());
@@ -254,5 +357,22 @@ class OpenAIChatToClaudeMessagesConversionTest {
                 ProtocolPayload.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, body, false),
                 ProtocolConversionRequest.of(false, toolCallingRequired, false)
         ).body());
+    }
+
+    private ConvertedResponse convertResponse(String body) throws Exception {
+        ProtocolMessageConverter converter = configuration.openAIChatToClaudeMessagesResponse(
+                json, new OpenAIChatCompletionsUsageExtractor(), new SseEventTransformer());
+        ProtocolConversionResult result = converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        );
+        return new ConvertedResponse(objectMapper.readTree(result.body()), result);
+    }
+
+    private record ConvertedResponse(JsonNode body, ProtocolConversionResult conversionResult) {
+
+        private com.api2api.domain.protocol.model.UnifiedTokenUsage usage() {
+            return conversionResult.usage().orElseThrow();
+        }
     }
 }

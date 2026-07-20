@@ -24,6 +24,7 @@ public class ApiCredentialPO {
     private String encryptedKeyMaterial;
     private String keyMaterialNonce;
     private int keyMaterialVersion;
+    private Long modelGroupId;
     private String modelWhitelist;
     private long tokenLimit;
     private String status;

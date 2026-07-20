@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class JdbcApiCredentialMapper implements ApiCredentialMapper {
 
-    private static final String COLUMNS = "id, owner_user_id, name, key_hash, key_preview, encrypted_key_material, key_material_nonce, key_material_version, model_whitelist, token_limit, status, last_used_at, created_at, updated_at, deleted";
+    private static final String COLUMNS = "c.id, c.owner_user_id, c.name, c.key_hash, c.key_preview, c.encrypted_key_material, c.key_material_nonce, c.key_material_version, c.model_group_id, g.model_whitelist, c.token_limit, c.status, c.last_used_at, c.created_at, c.updated_at, c.deleted";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -33,6 +33,7 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
             .encryptedKeyMaterial(rs.getString("encrypted_key_material"))
             .keyMaterialNonce(rs.getString("key_material_nonce"))
             .keyMaterialVersion(rs.getInt("key_material_version"))
+            .modelGroupId(rs.getLong("model_group_id"))
             .modelWhitelist(rs.getString("model_whitelist"))
             .tokenLimit(rs.getLong("token_limit"))
             .status(rs.getString("status"))
@@ -45,8 +46,8 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
     @Override
     public int insert(ApiCredentialPO apiCredential) {
         return jdbcTemplate.update("""
-                INSERT INTO api_credentials (id, owner_user_id, name, key_hash, key_preview, encrypted_key_material, key_material_nonce, key_material_version, model_whitelist, token_limit, status, last_used_at, created_at, updated_at, deleted)
-                VALUES (:id, :ownerUserId, :name, :keyHash, :keyPreview, :encryptedKeyMaterial, :keyMaterialNonce, :keyMaterialVersion, :modelWhitelist, :tokenLimit, :status, :lastUsedTime, :createdTime, :updatedTime, :deleted)
+                INSERT INTO api_credentials (id, owner_user_id, name, key_hash, key_preview, encrypted_key_material, key_material_nonce, key_material_version, model_group_id, token_limit, status, last_used_at, created_at, updated_at, deleted)
+                VALUES (:id, :ownerUserId, :name, :keyHash, :keyPreview, :encryptedKeyMaterial, :keyMaterialNonce, :keyMaterialVersion, :modelGroupId, :tokenLimit, :status, :lastUsedTime, :createdTime, :updatedTime, :deleted)
                 """, params(apiCredential));
     }
 
@@ -55,7 +56,7 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
         return jdbcTemplate.update("""
                 UPDATE api_credentials
                 SET name = :name,
-                    model_whitelist = :modelWhitelist,
+                    model_group_id = :modelGroupId,
                     encrypted_key_material = :encryptedKeyMaterial,
                     key_material_nonce = :keyMaterialNonce,
                     key_material_version = :keyMaterialVersion,
@@ -71,21 +72,21 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
     @Override
     public ApiCredentialPO selectById(Long id) {
         return DataAccessUtils.singleResult(jdbcTemplate.query(
-                "SELECT " + COLUMNS + " FROM api_credentials WHERE id = :id AND deleted = FALSE",
+                "SELECT " + COLUMNS + " FROM api_credentials c JOIN model_groups g ON g.id = c.model_group_id AND g.deleted = FALSE WHERE c.id = :id AND c.deleted = FALSE",
                 Map.of("id", id), rowMapper));
     }
 
     @Override
     public ApiCredentialPO selectByKeyHash(String keyHash) {
         return DataAccessUtils.singleResult(jdbcTemplate.query(
-                "SELECT " + COLUMNS + " FROM api_credentials WHERE key_hash = :keyHash AND deleted = FALSE",
+                "SELECT " + COLUMNS + " FROM api_credentials c JOIN model_groups g ON g.id = c.model_group_id AND g.deleted = FALSE WHERE c.key_hash = :keyHash AND c.deleted = FALSE",
                 Map.of("keyHash", keyHash), rowMapper));
     }
 
     @Override
     public List<ApiCredentialPO> selectByOwnerUserId(Long ownerUserId) {
         return jdbcTemplate.query(
-                "SELECT " + COLUMNS + " FROM api_credentials WHERE owner_user_id = :ownerUserId AND deleted = FALSE ORDER BY created_at DESC, id DESC",
+                "SELECT " + COLUMNS + " FROM api_credentials c JOIN model_groups g ON g.id = c.model_group_id AND g.deleted = FALSE WHERE c.owner_user_id = :ownerUserId AND c.deleted = FALSE ORDER BY c.created_at DESC, c.id DESC",
                 Map.of("ownerUserId", ownerUserId), rowMapper);
     }
 
@@ -113,7 +114,7 @@ public class JdbcApiCredentialMapper implements ApiCredentialMapper {
                 .addValue("encryptedKeyMaterial", po.getEncryptedKeyMaterial())
                 .addValue("keyMaterialNonce", po.getKeyMaterialNonce())
                 .addValue("keyMaterialVersion", po.getKeyMaterialVersion())
-                .addValue("modelWhitelist", po.getModelWhitelist())
+                .addValue("modelGroupId", po.getModelGroupId())
                 .addValue("tokenLimit", po.getTokenLimit())
                 .addValue("status", po.getStatus())
                 .addValue("lastUsedTime", timestamp(po.getLastUsedTime()))

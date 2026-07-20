@@ -3,6 +3,7 @@ export type ApiCredentialStatus = 'ENABLED' | 'DISABLED' | 'UNKNOWN' | string;
 export interface ApiCredentialResponse {
   id: string;
   name: string;
+  modelGroupId: string;
   modelWhitelist: string[];
   tokenLimit: number;
   consumedTokens?: number;
@@ -23,7 +24,7 @@ export interface ApiCredentialListResponse {
 
 export interface CreateApiCredentialRequest {
   name: string;
-  modelWhitelist: string[];
+  modelGroupId: string;
   tokenLimit: number;
 }
 
@@ -46,8 +47,8 @@ export interface RenameApiCredentialRequest {
   name: string;
 }
 
-export interface ReplaceModelWhitelistRequest {
-  modelWhitelist: string[];
+export interface ChangeModelGroupRequest {
+  modelGroupId: string;
 }
 
 export interface ChangeTokenLimitRequest {

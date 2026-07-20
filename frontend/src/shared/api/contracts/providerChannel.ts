@@ -8,6 +8,8 @@ export interface ChannelModelSupportResponse {
   priority: number;
   preferred?: boolean;
   status: EnabledStatus | string;
+  rateLimitedAt?: number | null;
+  rateLimitResetAt?: number | null;
   source: ModelSource;
   createdAt?: number;
   updatedAt?: number;

@@ -8,21 +8,21 @@ import {
   disableApiCredential,
   enableApiCredential,
   renameApiCredential,
-  replaceModelWhitelist,
+  changeApiCredentialModelGroup,
   revealApiCredentialSecret,
   type ApiCredentialResponse,
   type ChangeTokenLimitRequest,
   type CreateApiCredentialRequest,
   type CreateApiCredentialResponse,
   type RenameApiCredentialRequest,
-  type ReplaceModelWhitelistRequest,
+  type ChangeModelGroupRequest,
   type RevealApiCredentialSecretResponse,
 } from '@entities/api-credential';
 
 export interface UseApiCredentialMutationsResult {
   createMutation: UseMutationResult<CreateApiCredentialResponse, Error, CreateApiCredentialRequest>;
   renameMutation: UseMutationResult<ApiCredentialResponse, Error, { id: string; params: RenameApiCredentialRequest }>;
-  whitelistMutation: UseMutationResult<ApiCredentialResponse, Error, { id: string; params: ReplaceModelWhitelistRequest }>;
+  groupMutation: UseMutationResult<ApiCredentialResponse, Error, { id: string; params: ChangeModelGroupRequest }>;
   limitMutation: UseMutationResult<ApiCredentialResponse, Error, { id: string; params: ChangeTokenLimitRequest }>;
   revealMutation: UseMutationResult<RevealApiCredentialSecretResponse, Error, string>;
   enableMutation: UseMutationResult<ApiCredentialResponse, Error, string>;
@@ -39,7 +39,7 @@ export function useApiCredentialMutations(): UseApiCredentialMutationsResult {
   return {
     createMutation: useMutation({ mutationFn: async (params: CreateApiCredentialRequest): Promise<CreateApiCredentialResponse> => (await createApiCredential(params)).data, onSuccess: invalidate }),
     renameMutation: useMutation({ mutationFn: async ({ id, params }: { id: string; params: RenameApiCredentialRequest }): Promise<ApiCredentialResponse> => (await renameApiCredential(id, params)).data, onSuccess: invalidate }),
-    whitelistMutation: useMutation({ mutationFn: async ({ id, params }: { id: string; params: ReplaceModelWhitelistRequest }): Promise<ApiCredentialResponse> => (await replaceModelWhitelist(id, params)).data, onSuccess: invalidate }),
+    groupMutation: useMutation({ mutationFn: async ({ id, params }: { id: string; params: ChangeModelGroupRequest }): Promise<ApiCredentialResponse> => (await changeApiCredentialModelGroup(id, params)).data, onSuccess: invalidate }),
     limitMutation: useMutation({ mutationFn: async ({ id, params }: { id: string; params: ChangeTokenLimitRequest }): Promise<ApiCredentialResponse> => (await changeApiCredentialTokenLimit(id, params)).data, onSuccess: invalidate }),
     revealMutation: useMutation({ mutationFn: async (id: string): Promise<RevealApiCredentialSecretResponse> => (await revealApiCredentialSecret(id)).data }),
     enableMutation: useMutation({ mutationFn: async (id: string): Promise<ApiCredentialResponse> => (await enableApiCredential(id)).data, onSuccess: invalidate }),

@@ -407,11 +407,16 @@ class ProviderGatewayCallAdapterTest {
         }
 
         @Override
-        public void markRateLimited(ProviderChannelId id, java.time.Instant isolatedAt) {
+        public void markModelRateLimited(
+                ProviderChannelId id,
+                ModelName upstreamModel,
+                java.time.Instant limitedAt,
+                java.time.Instant resetAt
+        ) {
         }
 
         @Override
-        public int restoreRateLimitedBefore(java.time.Instant cutoff, java.time.Instant restoredAt) {
+        public int restoreModelRateLimitsBefore(java.time.Instant now, java.time.Instant restoredAt) {
             return 0;
         }
 

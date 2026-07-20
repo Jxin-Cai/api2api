@@ -248,10 +248,16 @@ public interface ProviderChannelHttpConverter {
     @Mapping(target = "priority", expression = "java(modelSupport.priority().value())")
     @Mapping(target = "preferred", expression = "java(modelSupport.preferred())")
     @Mapping(target = "status", expression = "java(modelSupport.status().name())")
+    @Mapping(target = "rateLimitedAt", expression = "java(toEpochMilli(modelSupport.rateLimitedAt()))")
+    @Mapping(target = "rateLimitResetAt", expression = "java(toEpochMilli(modelSupport.rateLimitResetAt()))")
     @Mapping(target = "source", expression = "java(modelSupport.source().name())")
     @Mapping(target = "createdAt", expression = "java(modelSupport.createdAt().toEpochMilli())")
     @Mapping(target = "updatedAt", expression = "java(modelSupport.updatedAt().toEpochMilli())")
     ChannelModelSupportResponse toModelSupportResponse(ChannelModelSupport modelSupport);
+
+    default Long toEpochMilli(java.time.Instant value) {
+        return value == null ? null : value.toEpochMilli();
+    }
 
     default List<ChannelModelSupportResponse> toModelSupportResponses(List<ChannelModelSupport> modelSupports) {
         return modelSupports.stream().map(this::toModelSupportResponse).toList();

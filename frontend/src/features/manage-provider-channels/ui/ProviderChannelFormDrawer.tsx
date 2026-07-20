@@ -123,7 +123,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         protocolMappings: normalizeProtocolMappings(supportedProtocols, channel.protocolMappings),
       });
       setPreviewModels(channel.supportedModels ?? []);
-      setSelectedModelIds((channel.supportedModels ?? []).filter((model) => model.status === 'ENABLED').map((model) => model.id));
+      setSelectedModelIds((channel.supportedModels ?? []).filter((model) => model.status !== 'DISABLED').map((model) => model.id));
       setModelsDirty(mode === 'copy');
       return;
     }

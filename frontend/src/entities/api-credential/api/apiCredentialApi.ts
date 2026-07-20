@@ -8,7 +8,7 @@ import type {
   CreateApiCredentialRequest,
   CreateApiCredentialResponse,
   RenameApiCredentialRequest,
-  ReplaceModelWhitelistRequest,
+  ChangeModelGroupRequest,
   RevealApiCredentialSecretResponse,
 } from '../model/types';
 
@@ -21,6 +21,7 @@ interface RevealApiCredentialSecretBackendResponse {
 interface ApiCredentialBackendResponse {
   id: string | number;
   name?: string;
+  modelGroupId?: string | number;
   modelWhitelist?: string[];
   tokenLimit?: number;
   consumedTokens?: number;
@@ -39,6 +40,7 @@ function normalizeCredential(raw: ApiCredentialBackendResponse): ApiCredentialRe
   return {
     id: String(raw.id),
     name: raw.name ?? '',
+    modelGroupId: String(raw.modelGroupId ?? ''),
     modelWhitelist: raw.modelWhitelist ?? [],
     tokenLimit: Number(raw.tokenLimit ?? 0),
     consumedTokens: Number(raw.consumedTokens ?? 0),
@@ -100,11 +102,11 @@ export async function renameApiCredential(
   return { ...response, data: normalizeCredential(response.data) };
 }
 
-export async function replaceModelWhitelist(
+export async function changeApiCredentialModelGroup(
   credentialId: string,
-  params: ReplaceModelWhitelistRequest
+  params: ChangeModelGroupRequest
 ): Promise<ApiResponse<ApiCredentialResponse>> {
-  const response = await apiClient.put<ApiCredentialBackendResponse>(credentialPath(credentialId, '/model-whitelist'), params);
+  const response = await apiClient.put<ApiCredentialBackendResponse>(credentialPath(credentialId, '/model-group'), params);
   return { ...response, data: normalizeCredential(response.data) };
 }
 

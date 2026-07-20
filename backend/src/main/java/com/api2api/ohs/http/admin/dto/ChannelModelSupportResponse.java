@@ -21,6 +21,8 @@ public class ChannelModelSupportResponse {
     private Integer priority;
     private Boolean preferred;
     private String status;
+    private Long rateLimitedAt;
+    private Long rateLimitResetAt;
     private String source;
     private Long createdAt;
     private Long updatedAt;

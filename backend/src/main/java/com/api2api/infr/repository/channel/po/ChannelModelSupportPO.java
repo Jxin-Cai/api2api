@@ -20,6 +20,8 @@ public class ChannelModelSupportPO {
     private boolean preferred;
     private String source;
     private String status;
+    private Instant rateLimitedAt;
+    private Instant rateLimitResetAt;
     private Instant createdTime;
     private Instant updatedTime;
 }

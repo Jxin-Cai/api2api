@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
+import com.api2api.domain.channel.model.ChannelModelStatus;
 import com.api2api.domain.channel.model.ChannelProtocolMapping;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ModelSupportSource;
@@ -229,6 +230,58 @@ class RoutingPolicyServiceTest {
         );
 
         assertThat(plan.candidates()).isEmpty();
+    }
+
+    @Test
+    void test_keepsOtherModelRoutable_when_ChannelModelIsRateLimited() {
+        // Arrange
+        ChannelModelSupport limitedModel = ChannelModelSupport.rehydrate(
+                ChannelModelSupportId.of(1L),
+                ModelName.of("gpt-limited"),
+                ModelName.of("gpt-limited"),
+                ProtocolType.OPENAI_RESPONSES,
+                RoutePriority.of(1),
+                false,
+                ChannelModelStatus.RATE_LIMITED,
+                NOW,
+                NOW.plusSeconds(3600),
+                ModelSupportSource.MANUAL,
+                NOW,
+                NOW
+        );
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("multi-model channel"),
+                ProviderHost.of("https://api.example.com"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)),
+                List.of(
+                        limitedModel,
+                        model(2L, "gpt-available", "gpt-available", ProtocolType.OPENAI_RESPONSES, 1, false)
+                ),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        // Act
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.OPENAI_RESPONSES,
+                        ModelName.of("gpt-available"),
+                        ConversionRequirement.of(false, false, false)
+                ),
+                List.of(channel),
+                List.of(definition(1L, ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)),
+                NOW
+        );
+
+        // Assert
+        assertThat(plan.candidates()).singleElement().satisfies(candidate ->
+                assertThat(candidate.requestedModel()).isEqualTo(ModelName.of("gpt-available"))
+        );
     }
 
     private ChannelModelSupport model(

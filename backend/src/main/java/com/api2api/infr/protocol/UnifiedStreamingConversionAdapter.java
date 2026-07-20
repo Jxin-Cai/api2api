@@ -1323,10 +1323,15 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private boolean textBlockOpen;
         private boolean reasoningBlockOpen;
         private final Map<Integer, String> toolCallIds = new HashMap<>();
+        private final Map<Integer, String> toolCallNames = new HashMap<>();
         private final Map<Integer, Integer> blockToToolIndex = new HashMap<>();
+        private final Map<Integer, StringBuilder> pendingToolArguments = new HashMap<>();
+        private final Set<Integer> announcedToolCalls = new HashSet<>();
         private final Set<Integer> openToolBlocks = new HashSet<>();
         private long inputTokens;
         private long outputTokens;
+        private long cacheCreationInputTokens;
+        private long cacheReadInputTokens;
         private String stopReason = "end_turn";
 
         private ChatToClaudeStreamState(String model) {
@@ -1389,14 +1394,25 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         deltaNode.put("stop_reason", state.stopReason);
         msgDelta.set("delta", deltaNode);
         ObjectNode usageNode = objectNode();
+        usageNode.put("input_tokens", state.inputTokens);
         usageNode.put("output_tokens", state.outputTokens);
+        if (state.cacheCreationInputTokens > 0) {
+            usageNode.put("cache_creation_input_tokens", state.cacheCreationInputTokens);
+        }
+        if (state.cacheReadInputTokens > 0) {
+            usageNode.put("cache_read_input_tokens", state.cacheReadInputTokens);
+        }
         msgDelta.set("usage", usageNode);
         writeSse(clientBody, "message_delta", msgDelta);
 
         // Emit message_stop
         writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
 
-        return UnifiedTokenUsage.known(state.inputTokens, state.outputTokens, 0, 0);
+        return UnifiedTokenUsage.known(
+                state.inputTokens,
+                state.outputTokens,
+                state.cacheCreationInputTokens,
+                state.cacheReadInputTokens);
     }
 
     private void handleChatChunkForClaude(JsonNode chunk, ChatToClaudeStreamState state,
@@ -1429,8 +1445,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             closeOpenClaudeToolBlocks(state.openToolBlocks, clientBody);
             if (!state.reasoningBlockOpen) {
                 if (state.textBlockOpen) {
-                    writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", state.blockIndex - 1));
+                    writeSse(clientBody, "content_block_stop", objectNode()
+                            .put("type", "content_block_stop").put("index", state.blockIndex));
                     state.textBlockOpen = false;
+                    state.blockIndex++;
                 }
                 ObjectNode blockStart = objectNode();
                 blockStart.put("type", "content_block_start");
@@ -1454,6 +1472,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
         // Handle text content
         String content = delta.path("content").asText(null);
+        if ((content == null || content.isEmpty()) && delta.path("refusal").isTextual()) {
+            content = delta.path("refusal").asText("");
+        }
         if (content != null && !content.isEmpty()) {
             closeOpenClaudeToolBlocks(state.openToolBlocks, clientBody);
             if (state.reasoningBlockOpen) {
@@ -1491,69 +1512,113 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 String tcName = tc.path("function").path("name").asText(null);
                 String tcArgs = tc.path("function").path("arguments").asText(null);
 
-                if (tcId != null && !state.toolCallIds.containsKey(tcIndex)) {
-                    // New tool call - close previous blocks
+                if (!state.blockToToolIndex.containsKey(tcIndex)) {
                     if (state.textBlockOpen) {
-                        writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", state.blockIndex));
+                        writeSse(clientBody, "content_block_stop", objectNode()
+                                .put("type", "content_block_stop").put("index", state.blockIndex));
                         state.textBlockOpen = false;
                         state.blockIndex++;
                     }
                     if (state.reasoningBlockOpen) {
-                        writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", state.blockIndex));
+                        writeSse(clientBody, "content_block_stop", objectNode()
+                                .put("type", "content_block_stop").put("index", state.blockIndex));
                         state.reasoningBlockOpen = false;
                         state.blockIndex++;
                     }
-                    state.toolCallIds.put(tcIndex, tcId);
-                    int toolBlockIndex = state.blockIndex++;
-                    state.blockToToolIndex.put(tcIndex, toolBlockIndex);
-                    state.openToolBlocks.add(toolBlockIndex);
+                    state.blockToToolIndex.put(tcIndex, state.blockIndex++);
+                }
 
-                    ObjectNode blockStart = objectNode();
-                    blockStart.put("type", "content_block_start");
-                    blockStart.put("index", toolBlockIndex);
-                    ObjectNode contentBlock = objectNode();
-                    contentBlock.put("type", "tool_use");
-                    contentBlock.put("id", tcId);
-                    contentBlock.put("name", tcName != null ? tcName : "");
-                    blockStart.set("content_block", contentBlock);
-                    writeSse(clientBody, "content_block_start", blockStart);
+                if (tcId != null && !tcId.isBlank()) {
+                    state.toolCallIds.put(tcIndex, tcId);
+                }
+                if (tcName != null && !tcName.isBlank()) {
+                    state.toolCallNames.put(tcIndex, tcName);
+                }
+
+                boolean announced = state.announcedToolCalls.contains(tcIndex);
+                if (!announced && state.toolCallNames.containsKey(tcIndex)) {
+                    announceClaudeToolCall(state, tcIndex, clientBody);
+                    announced = true;
                 }
 
                 if (tcArgs != null && !tcArgs.isEmpty()) {
-                    Integer currentBlockIdx = state.blockToToolIndex.get(tcIndex);
-                    if (currentBlockIdx == null) {
-                        continue;
+                    if (announced) {
+                        writeClaudeToolArgumentsDelta(
+                                state.blockToToolIndex.get(tcIndex), tcArgs, clientBody);
+                    } else {
+                        state.pendingToolArguments
+                                .computeIfAbsent(tcIndex, ignored -> new StringBuilder())
+                                .append(tcArgs);
                     }
-                    ObjectNode blockDelta = objectNode();
-                    blockDelta.put("type", "content_block_delta");
-                    blockDelta.put("index", currentBlockIdx);
-                    ObjectNode inputDelta = objectNode();
-                    inputDelta.put("type", "input_json_delta");
-                    inputDelta.put("partial_json", tcArgs);
-                    blockDelta.set("delta", inputDelta);
-                    writeSse(clientBody, "content_block_delta", blockDelta);
                 }
-
             }
         }
 
         // Handle usage
         JsonNode usage = chunk.get("usage");
         if (usage != null && !usage.isNull()) {
-            state.inputTokens = usage.path("prompt_tokens").asLong(0);
+            JsonNode details = usage.path("prompt_tokens_details");
+            state.cacheReadInputTokens = details.path("cached_tokens").asLong(0);
+            state.cacheCreationInputTokens = details.path("cache_creation_tokens").asLong(0)
+                    + details.path("cache_write_tokens").asLong(0);
+            state.inputTokens = Math.max(0, usage.path("prompt_tokens").asLong(0)
+                    - state.cacheReadInputTokens - state.cacheCreationInputTokens);
             state.outputTokens = usage.path("completion_tokens").asLong(0);
         }
 
         // Handle finish
         if (finishReason != null) {
+            boolean hasToolCalls = !state.announcedToolCalls.isEmpty();
             state.stopReason = switch (finishReason) {
-                case "stop" -> "end_turn";
                 case "length" -> "max_tokens";
-                case "tool_calls" -> "tool_use";
-                case "content_filter" -> "end_turn";
-                default -> "end_turn";
+                case "tool_calls", "function_call" -> "tool_use";
+                case "content_filter" -> "refusal";
+                case "stop" -> hasToolCalls ? "tool_use" : "end_turn";
+                default -> hasToolCalls ? "tool_use" : "end_turn";
             };
         }
+    }
+
+    private void announceClaudeToolCall(
+            ChatToClaudeStreamState state,
+            int toolCallIndex,
+            OutputStream clientBody
+    ) throws IOException {
+        int blockIndex = state.blockToToolIndex.get(toolCallIndex);
+        String toolCallId = state.toolCallIds.computeIfAbsent(
+                toolCallIndex,
+                ignored -> "call_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16));
+        ObjectNode blockStart = objectNode();
+        blockStart.put("type", "content_block_start");
+        blockStart.put("index", blockIndex);
+        ObjectNode contentBlock = objectNode();
+        contentBlock.put("type", "tool_use");
+        contentBlock.put("id", toolCallId);
+        contentBlock.put("name", state.toolCallNames.get(toolCallIndex));
+        blockStart.set("content_block", contentBlock);
+        writeSse(clientBody, "content_block_start", blockStart);
+        state.announcedToolCalls.add(toolCallIndex);
+        state.openToolBlocks.add(blockIndex);
+
+        StringBuilder pendingArguments = state.pendingToolArguments.remove(toolCallIndex);
+        if (pendingArguments != null && !pendingArguments.isEmpty()) {
+            writeClaudeToolArgumentsDelta(blockIndex, pendingArguments.toString(), clientBody);
+        }
+    }
+
+    private void writeClaudeToolArgumentsDelta(
+            int blockIndex,
+            String arguments,
+            OutputStream clientBody
+    ) throws IOException {
+        ObjectNode blockDelta = objectNode();
+        blockDelta.put("type", "content_block_delta");
+        blockDelta.put("index", blockIndex);
+        ObjectNode inputDelta = objectNode();
+        inputDelta.put("type", "input_json_delta");
+        inputDelta.put("partial_json", arguments);
+        blockDelta.set("delta", inputDelta);
+        writeSse(clientBody, "content_block_delta", blockDelta);
     }
 
     private void closeOpenClaudeToolBlocks(Set<Integer> openToolBlocks, OutputStream clientBody) throws IOException {

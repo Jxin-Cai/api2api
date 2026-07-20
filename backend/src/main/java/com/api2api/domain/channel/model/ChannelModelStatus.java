@@ -5,5 +5,6 @@ package com.api2api.domain.channel.model;
  */
 public enum ChannelModelStatus {
     ENABLED,
+    RATE_LIMITED,
     DISABLED
 }

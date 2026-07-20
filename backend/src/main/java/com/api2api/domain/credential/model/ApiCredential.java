@@ -17,6 +17,7 @@ public final class ApiCredential {
     private final ApiKeyHash keyHash;
     private final ApiKeyPreview keyPreview;
     private final EncryptedApiKeyMaterial encryptedKeyMaterial;
+    private ModelGroupId modelGroupId;
     private ModelWhitelist modelWhitelist;
     private TokenLimit tokenLimit;
     private ApiCredentialStatus status;
@@ -31,6 +32,7 @@ public final class ApiCredential {
             ApiKeyHash keyHash,
             ApiKeyPreview keyPreview,
             EncryptedApiKeyMaterial encryptedKeyMaterial,
+            ModelGroupId modelGroupId,
             ModelWhitelist modelWhitelist,
             TokenLimit tokenLimit,
             ApiCredentialStatus status,
@@ -44,6 +46,7 @@ public final class ApiCredential {
         this.keyHash = Objects.requireNonNull(keyHash, "API key hash must not be null");
         this.keyPreview = Objects.requireNonNull(keyPreview, "API key preview must not be null");
         this.encryptedKeyMaterial = Objects.requireNonNull(encryptedKeyMaterial, "Encrypted API key material must not be null");
+        this.modelGroupId = Objects.requireNonNull(modelGroupId, "Model group id must not be null");
         this.modelWhitelist = Objects.requireNonNull(modelWhitelist, "Model whitelist must not be null");
         this.tokenLimit = Objects.requireNonNull(tokenLimit, "Token limit must not be null");
         this.status = Objects.requireNonNull(status, "API credential status must not be null");
@@ -62,6 +65,7 @@ public final class ApiCredential {
             ApiKeyHash keyHash,
             ApiKeyPreview keyPreview,
             EncryptedApiKeyMaterial encryptedKeyMaterial,
+            ModelGroupId modelGroupId,
             ModelWhitelist modelWhitelist,
             TokenLimit tokenLimit,
             Instant now
@@ -74,6 +78,7 @@ public final class ApiCredential {
                 keyHash,
                 keyPreview,
                 encryptedKeyMaterial,
+                modelGroupId,
                 modelWhitelist,
                 tokenLimit,
                 ApiCredentialStatus.ACTIVE,
@@ -90,6 +95,7 @@ public final class ApiCredential {
             ApiKeyHash keyHash,
             ApiKeyPreview keyPreview,
             EncryptedApiKeyMaterial encryptedKeyMaterial,
+            ModelGroupId modelGroupId,
             ModelWhitelist modelWhitelist,
             TokenLimit tokenLimit,
             ApiCredentialStatus status,
@@ -104,6 +110,7 @@ public final class ApiCredential {
                 keyHash,
                 keyPreview,
                 encryptedKeyMaterial,
+                modelGroupId,
                 modelWhitelist,
                 tokenLimit,
                 status,
@@ -123,12 +130,14 @@ public final class ApiCredential {
         this.updatedAt = now;
     }
 
-    public void replaceModelWhitelist(ModelWhitelist whitelist, Instant now) {
-        Objects.requireNonNull(whitelist, "Model whitelist must not be null");
+    public void changeModelGroup(ModelGroupId modelGroupId, ModelWhitelist whitelist, Instant now) {
+        Objects.requireNonNull(modelGroupId, "Model group id must not be null");
+        Objects.requireNonNull(whitelist, "Resolved model whitelist must not be null");
         Objects.requireNonNull(now, "Current time must not be null");
-        if (this.modelWhitelist.equals(whitelist)) {
+        if (this.modelGroupId.equals(modelGroupId)) {
             return;
         }
+        this.modelGroupId = modelGroupId;
         this.modelWhitelist = whitelist;
         this.updatedAt = now;
     }
@@ -289,6 +298,10 @@ public final class ApiCredential {
 
     public ModelWhitelist getModelWhitelist() {
         return modelWhitelist;
+    }
+
+    public ModelGroupId getModelGroupId() {
+        return modelGroupId;
     }
 
     public TokenLimit getTokenLimit() {

@@ -130,8 +130,8 @@ final class ConverterFieldMappingDescriptions {
 
         // ===== Claude Messages → OpenAI Chat Completions =====
         map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "messages", "Claude 消息转为 Chat 消息格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("system", "messages[0] (system/developer)", "系统提示词变为消息列表首项", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages", "messages", "Claude 消息转为 Chat 消息格式，并规整工具调用与结果顺序", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("system", "messages[0] (system/developer)", "系统提示词变为消息列表首项，过滤内部 billing header", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("content[].type=text", "content (string)", "文本内容块转为字符串内容", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
                 mapping("content[].type=image", "content[].type=image_url", "图片块转为 image_url 格式", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
                 mapping("content[].source.media_type", "content[].image_url.url", "作为 data URI 的 MIME 类型部分", MappingLossiness.NONE, "CONTENT_BLOCK", "TRANSFORM"),
@@ -147,7 +147,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("content[].content", "content", "工具结果文本写入 content", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 unmapped("content[].is_error", "Chat Completions 没有独立错误标记", "TOOL"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("max_tokens", "max_completion_tokens", "字段重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
+                mapping("max_tokens", "max_completion_tokens", "字段重命名，正数下限归一为 128", MappingLossiness.PARTIAL, "MODEL", "TRANSFORM"),
                 mapping("temperature", "temperature", "Direct passthrough (reasoning model 时丢弃)", MappingLossiness.NONE, "MODEL", "DIRECT"),
                 mapping("top_p", "top_p", "Direct passthrough (reasoning model 时丢弃)", MappingLossiness.NONE, "MODEL", "DIRECT"),
                 mapping("top_k", "(dropped)", "Chat Completions 不支持 top_k", MappingLossiness.LOSSY, "MODEL", "DROP"),
@@ -182,11 +182,14 @@ final class ConverterFieldMappingDescriptions {
 
         map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("choices[].message.content", "content[].type=text", "文本内容转为 Claude text 块", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("choices[].message.reasoning_content", "content[].type=thinking", "推理内容转为 thinking 块；纯推理响应同时提供可见文本", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
+                mapping("choices[].message.refusal", "content[].type=text", "拒绝说明转为可见文本", MappingLossiness.PARTIAL, "MESSAGE", "RESHAPE"),
                 mapping("choices[].message.tool_calls", "content[].type=tool_use", "tool_calls 转为 tool_use 块", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("choices[].finish_reason", "stop_reason", "完成原因映射为 Claude 停止原因", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
                 mapping("usage.prompt_tokens", "usage.input_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.completion_tokens", "usage.output_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.prompt_tokens_details.cached_tokens", "usage.cache_read_input_tokens", "缓存 token 路径映射", MappingLossiness.NONE, "USAGE", "RENAME"),
+                mapping("usage.prompt_tokens_details.cache_creation_tokens/cache_write_tokens", "usage.cache_creation_input_tokens", "两种缓存写入字段合并", MappingLossiness.NONE, "USAGE", "TRANSFORM"),
                 mapping("id", "id", "响应 ID 透传", MappingLossiness.NONE, "METADATA", "DIRECT"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
         ));

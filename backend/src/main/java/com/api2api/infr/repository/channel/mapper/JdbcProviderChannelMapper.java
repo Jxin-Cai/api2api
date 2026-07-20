@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JdbcProviderChannelMapper implements ProviderChannelMapper {
 
     private static final String CHANNEL_COLUMNS = "id, name, host, key_ref, models_path, route_priority, supported_protocols, status, created_at, updated_at, deleted";
-    private static final String MODEL_COLUMNS = "id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, created_at, updated_at";
+    private static final String MODEL_COLUMNS = "id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, rate_limited_at, rate_limit_reset_at, created_at, updated_at";
     private static final String PROTOCOL_MAPPING_COLUMNS = "provider_channel_id, request_protocol, upstream_protocol, created_at, updated_at";
 
     @NonNull
@@ -53,6 +53,8 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
             .preferred(rs.getBoolean("preferred"))
             .source(rs.getString("source"))
             .status(rs.getString("status"))
+            .rateLimitedAt(instant(rs, "rate_limited_at"))
+            .rateLimitResetAt(instant(rs, "rate_limit_reset_at"))
             .createdTime(instant(rs, "created_at"))
             .updatedTime(instant(rs, "updated_at"))
             .build();
@@ -127,30 +129,41 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
     }
 
     @Override
-    public int markRateLimited(Long id, Instant updatedAt) {
+    public int markModelRateLimited(
+            Long id,
+            String upstreamModel,
+            Instant limitedAt,
+            Instant resetAt
+    ) {
         return jdbcTemplate.update("""
-                UPDATE provider_channels
-                SET status = 'DEGRADED',
+                UPDATE channel_model_supports
+                SET status = 'RATE_LIMITED',
+                    rate_limited_at = :limitedAt,
+                    rate_limit_reset_at = :resetAt,
                     updated_at = :updatedTime
-                WHERE id = :id
-                  AND deleted = FALSE
+                WHERE provider_channel_id = :id
+                  AND upstream_model = :upstreamModel
                   AND status = 'ENABLED'
                 """, new MapSqlParameterSource()
                 .addValue("id", id)
-                .addValue("updatedTime", timestamp(updatedAt)));
+                .addValue("upstreamModel", upstreamModel)
+                .addValue("limitedAt", timestamp(limitedAt))
+                .addValue("resetAt", timestamp(resetAt))
+                .addValue("updatedTime", timestamp(limitedAt)));
     }
 
     @Override
-    public int restoreRateLimitedBefore(Instant cutoff, Instant updatedAt) {
+    public int restoreModelRateLimitsBefore(Instant now, Instant updatedAt) {
         return jdbcTemplate.update("""
-                UPDATE provider_channels
+                UPDATE channel_model_supports
                 SET status = 'ENABLED',
+                    rate_limited_at = NULL,
+                    rate_limit_reset_at = NULL,
                     updated_at = :updatedTime
-                WHERE deleted = FALSE
-                  AND status = 'DEGRADED'
-                  AND updated_at <= :cutoff
+                WHERE status = 'RATE_LIMITED'
+                  AND rate_limit_reset_at <= :now
                 """, new MapSqlParameterSource()
-                .addValue("cutoff", timestamp(cutoff))
+                .addValue("now", timestamp(now))
                 .addValue("updatedTime", timestamp(updatedAt)));
     }
 
@@ -202,8 +215,8 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 Map.of("providerChannelId", providerChannel.getId()));
         for (ChannelModelSupportPO model : providerChannel.getSupportedModels()) {
             jdbcTemplate.update("""
-                    INSERT INTO channel_model_supports (id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, created_at, updated_at)
-                    VALUES (:id, :providerChannelId, :requestedModel, :upstreamModel, :upstreamProtocol, :priority, :preferred, :source, :status, :createdTime, :updatedTime)
+                    INSERT INTO channel_model_supports (id, provider_channel_id, requested_model, upstream_model, upstream_protocol, priority, preferred, source, status, rate_limited_at, rate_limit_reset_at, created_at, updated_at)
+                    VALUES (:id, :providerChannelId, :requestedModel, :upstreamModel, :upstreamProtocol, :priority, :preferred, :source, :status, :rateLimitedAt, :rateLimitResetAt, :createdTime, :updatedTime)
                     """, modelParams(model));
         }
     }
@@ -243,6 +256,8 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
                 .addValue("preferred", po.isPreferred())
                 .addValue("source", po.getSource())
                 .addValue("status", po.getStatus())
+                .addValue("rateLimitedAt", timestamp(po.getRateLimitedAt()))
+                .addValue("rateLimitResetAt", timestamp(po.getRateLimitResetAt()))
                 .addValue("createdTime", timestamp(po.getCreatedTime()))
                 .addValue("updatedTime", timestamp(po.getUpdatedTime()));
     }

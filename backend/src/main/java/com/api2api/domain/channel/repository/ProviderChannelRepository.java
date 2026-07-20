@@ -2,6 +2,7 @@ package com.api2api.domain.channel.repository;
 
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
+import com.api2api.domain.channel.model.ModelName;
 
 import java.time.Instant;
 import java.util.List;
@@ -49,11 +50,16 @@ public interface ProviderChannelRepository {
      */
     List<ProviderChannel> findEnabledForRouting();
 
-    /** Marks a channel as temporarily unavailable after an upstream rate limit response. */
-    void markRateLimited(ProviderChannelId id, Instant isolatedAt);
+    /** Marks only the failed model route as temporarily unavailable after an upstream rate limit response. */
+    void markModelRateLimited(
+            ProviderChannelId id,
+            ModelName upstreamModel,
+            Instant limitedAt,
+            Instant resetAt
+    );
 
-    /** Restores rate-limited channels whose isolation window has elapsed. */
-    int restoreRateLimitedBefore(Instant cutoff, Instant restoredAt);
+    /** Restores model routes whose rate-limit reset time has elapsed. */
+    int restoreModelRateLimitsBefore(Instant now, Instant restoredAt);
 
     /**
      * Soft deletes a provider channel so it disappears from management lists and routing,

@@ -19,10 +19,13 @@ public class OpenAIChatCompletionsUsageExtractor implements UnifiedUsageExtracto
         if (usage.isMissingNode() || usage.isNull()) {
             return UnifiedTokenUsage.unknown();
         }
-        long cacheReadTokens = usage.path("prompt_tokens_details").path("cached_tokens").asLong(0);
+        JsonNode details = usage.path("prompt_tokens_details");
+        long cacheReadTokens = details.path("cached_tokens").asLong(0);
+        long cacheWriteTokens = details.path("cache_creation_tokens").asLong(0)
+                + details.path("cache_write_tokens").asLong(0);
         long promptTokens = usage.path("prompt_tokens").asLong(0);
-        long inputTokens = Math.max(0, promptTokens - cacheReadTokens);
+        long inputTokens = Math.max(0, promptTokens - cacheReadTokens - cacheWriteTokens);
         long outputTokens = usage.path("completion_tokens").asLong(0);
-        return UnifiedTokenUsage.known(inputTokens, outputTokens, 0, cacheReadTokens);
+        return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
     }
 }

@@ -146,6 +146,126 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
+    void test_buffersChatToolArguments_when_toolNameArrivesLate() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"tool_calls":[{"index":0,"id":"call_1","function":{"arguments":"{\\\"path\\\":"}}]},"finish_reason":null}]}
+
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"tool_calls":[{"index":0,"function":{"name":"Read","arguments":"\\\"a\\\"}"}}]},"finish_reason":null}]}
+
+                data: {"id":"chatcmpl_1","choices":[{"delta":{},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":3,"completion_tokens":2}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode toolStart = events.stream()
+                .filter(node -> "tool_use".equals(node.at("/content_block/type").asText()))
+                .findFirst().orElseThrow();
+        assertThat(toolStart.at("/content_block/name").asText()).isEqualTo("Read");
+        assertThat(events.stream()
+                .filter(node -> "input_json_delta".equals(node.at("/delta/type").asText()))
+                .map(node -> node.at("/delta/partial_json").asText())
+                .reduce("", String::concat)).isEqualTo("{\"path\":\"a\"}");
+    }
+
+    @Test
+    void test_reportsToolUseStopReason_when_streamedToolCallFinishesWithStop() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"tool_calls":[{"index":0,"id":"call_1","function":{"name":"Read","arguments":"{}"}}]},"finish_reason":null}]}
+
+                data: {"id":"chatcmpl_1","choices":[{"delta":{},"finish_reason":"stop"}],"usage":{"prompt_tokens":3,"completion_tokens":2}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        assertThat(events.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst().orElseThrow().at("/delta/stop_reason").asText()).isEqualTo("tool_use");
+    }
+
+    @Test
+    void test_preservesChatCacheUsage_when_streamContainsUsageDetails() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"content":"done"},"finish_reason":"stop"}]}
+
+                data: {"id":"chatcmpl_1","choices":[],"usage":{"prompt_tokens":100,"completion_tokens":5,"prompt_tokens_details":{"cached_tokens":30,"cache_creation_tokens":10,"cache_write_tokens":5}}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = adapter.transform(
+                context(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        assertThat(usage.inputTokens()).isEqualTo(55);
+        assertThat(usage.cacheCreationInputTokens()).isEqualTo(15);
+        assertThat(usage.cacheReadInputTokens()).isEqualTo(30);
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode messageDelta = events.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst().orElseThrow();
+        assertThat(messageDelta.at("/usage/cache_creation_input_tokens").asLong()).isEqualTo(15);
+        assertThat(messageDelta.at("/usage/cache_read_input_tokens").asLong()).isEqualTo(30);
+    }
+
+    @Test
+    void test_usesValidBlockIndexes_when_reasoningArrivesAfterText() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"content":"answer"},"finish_reason":null}]}
+
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"reasoning_content":"late reasoning"},"finish_reason":"stop"}],"usage":{"prompt_tokens":3,"completion_tokens":2}}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        assertThat(dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> node.has("index"))
+                .map(node -> node.path("index").asInt())
+                .toList()).allMatch(index -> index >= 0);
+    }
+
+    @Test
     void test_flushesClaudeEvent_before_bedrockStreamCompletes() throws Exception {
         // Arrange
         try (PipedInputStream upstreamInput = new PipedInputStream();

@@ -4,17 +4,20 @@ import com.api2api.application.BusinessException;
 import com.api2api.application.credential.command.AuthenticateApiCredentialCommand;
 import com.api2api.application.credential.command.ChangeApiCredentialStatusCommand;
 import com.api2api.application.credential.command.ChangeTokenLimitCommand;
+import com.api2api.application.credential.command.ChangeModelGroupCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
 import com.api2api.application.credential.command.RevealApiCredentialSecretCommand;
-import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiKeyHash;
+import com.api2api.domain.credential.model.ModelGroup;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
+import com.api2api.domain.credential.repository.ModelGroupRepository;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.usage.model.UsageTimeRange;
@@ -47,6 +50,9 @@ public class ApiCredentialApplicationService {
     private final ApiCredentialRepository apiCredentialRepository;
 
     @NonNull
+    private final ModelGroupRepository modelGroupRepository;
+
+    @NonNull
     private final UsageRecordRepository usageRecordRepository;
 
     @NonNull
@@ -58,6 +64,7 @@ public class ApiCredentialApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public ApiCredential createCredential(CreateApiCredentialCommand command) {
         assertUserPortal(command.getOwnerUserId());
+        ModelGroup modelGroup = loadOwnedModelGroup(command.getModelGroupId(), command.getOwnerUserId());
 
         ApiCredential apiCredential = ApiCredential.create(
                 command.getApiCredentialId(),
@@ -66,7 +73,8 @@ public class ApiCredentialApplicationService {
                 command.getKeyHash(),
                 command.getKeyPreview(),
                 command.getEncryptedKeyMaterial(),
-                command.getModelWhitelist(),
+                modelGroup.getId(),
+                modelGroup.getModelWhitelist(),
                 command.getTokenLimit(),
                 now()
         );
@@ -132,12 +140,12 @@ public class ApiCredentialApplicationService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ApiCredential replaceModelWhitelist(ReplaceModelWhitelistCommand command) {
+    public ApiCredential changeModelGroup(ChangeModelGroupCommand command) {
         assertUserPortal(command.getOwnerUserId());
         ApiCredential apiCredential = loadCredential(command.getApiCredentialId());
-
         apiCredential.assertOwnedBy(command.getOwnerUserId());
-        apiCredential.replaceModelWhitelist(command.getModelWhitelist(), now());
+        ModelGroup modelGroup = loadOwnedModelGroup(command.getModelGroupId(), command.getOwnerUserId());
+        apiCredential.changeModelGroup(modelGroup.getId(), modelGroup.getModelWhitelist(), now());
         apiCredentialRepository.save(apiCredential);
         return apiCredential;
     }
@@ -216,6 +224,14 @@ public class ApiCredentialApplicationService {
     private ApiCredential loadCredential(ApiCredentialId apiCredentialId) {
         return apiCredentialRepository.findById(apiCredentialId)
                 .orElseThrow(() -> new BusinessException("API_CREDENTIAL_NOT_FOUND"));
+    }
+
+    private ModelGroup loadOwnedModelGroup(ModelGroupId modelGroupId,
+                                           UserAccountId ownerUserId) {
+        ModelGroup modelGroup = modelGroupRepository.findById(modelGroupId)
+                .orElseThrow(() -> new BusinessException("MODEL_GROUP_NOT_FOUND"));
+        modelGroup.assertOwnedBy(ownerUserId);
+        return modelGroup;
     }
 
     private BigDecimal currentConsumedTokens(ApiCredentialId apiCredentialId) {

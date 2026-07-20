@@ -1,1 +1,1 @@
-export type ApiCredentialEditSection = 'name' | 'models' | 'limit';
+export type ApiCredentialEditSection = 'name' | 'group' | 'limit';

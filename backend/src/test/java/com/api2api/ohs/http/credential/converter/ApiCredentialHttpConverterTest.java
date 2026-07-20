@@ -9,6 +9,7 @@ import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ApiKeyPreview;
 import com.api2api.domain.credential.model.EncryptedApiKeyMaterial;
 import com.api2api.domain.credential.model.ModelWhitelist;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.ohs.http.credential.dto.ApiCredentialResponse;
@@ -30,6 +31,7 @@ class ApiCredentialHttpConverterTest {
                 ApiKeyHash.of("a".repeat(64)),
                 ApiKeyPreview.of("sk-***"),
                 EncryptedApiKeyMaterial.unavailable(),
+                ModelGroupId.of(3L),
                 ModelWhitelist.empty(),
                 TokenLimit.unlimited(),
                 Instant.parse("2026-07-14T00:00:00Z")

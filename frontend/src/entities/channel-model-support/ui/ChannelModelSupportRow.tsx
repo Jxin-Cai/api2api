@@ -14,6 +14,9 @@ interface ChannelModelSupportRowProps {
 }
 
 export function ChannelModelSupportRow({ model, editing = false, actions }: ChannelModelSupportRowProps) {
+  const statusTag = model.status === 'RATE_LIMITED'
+    ? <Tooltip title={model.rateLimitResetAt ? `预计 ${new Date(model.rateLimitResetAt).toLocaleString('zh-CN')} 自动恢复` : '模型当前被上游限流'}><Tag color="warning">限流：{model.requestedModel}</Tag></Tooltip>
+    : <Tag color={model.status === 'ENABLED' ? 'success' : 'default'}>{model.status}</Tag>;
   return (
     <Space wrap style={{ width: '100%', justifyContent: 'space-between' }}>
       <Space wrap>
@@ -23,7 +26,7 @@ export function ChannelModelSupportRow({ model, editing = false, actions }: Chan
         <ModelPriorityBadge priority={model.priority} />
         {model.preferred ? <Tooltip title="该模型请求会优先尝试此渠道，失败后再回退普通模型"><Tag color="gold">★ 优先模型</Tag></Tooltip> : null}
         <ModelSourceTag source={model.source} />
-        <Tag color={model.status === 'ENABLED' ? 'success' : 'default'}>{model.status}</Tag>
+        {statusTag}
         {editing ? <Tag color="processing">编辑中</Tag> : null}
       </Space>
       {actions}

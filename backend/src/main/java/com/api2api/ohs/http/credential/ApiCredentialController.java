@@ -6,7 +6,7 @@ import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
-import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
+import com.api2api.application.credential.command.ChangeModelGroupCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
@@ -25,7 +25,7 @@ import com.api2api.ohs.http.credential.dto.ChangeTokenLimitRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialResponse;
 import com.api2api.ohs.http.credential.dto.RenameApiCredentialRequest;
-import com.api2api.ohs.http.credential.dto.ReplaceModelWhitelistRequest;
+import com.api2api.ohs.http.credential.dto.ChangeModelGroupRequest;
 import com.api2api.ohs.http.credential.dto.RevealApiCredentialSecretResponse;
 import com.api2api.ohs.http.dashboard.DashboardTimeWindowHelper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -139,17 +139,17 @@ public class ApiCredentialController {
         return ApiResponse.success(apiCredentialHttpConverter.toResponse(credential));
     }
 
-    @PutMapping("/{api-credential-id}/model-whitelist")
-    public ApiResponse<ApiCredentialResponse> replaceModelWhitelist(
+    @PutMapping("/{api-credential-id}/model-group")
+    public ApiResponse<ApiCredentialResponse> changeModelGroup(
             @PathVariable("api-credential-id") Long credentialId,
-            @Valid @RequestBody ReplaceModelWhitelistRequest replaceRequest,
+            @Valid @RequestBody ChangeModelGroupRequest changeRequest,
             HttpServletRequest request
     ) {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
         ApiCredentialId apiCredentialId = ApiCredentialId.of(credentialId);
-        ReplaceModelWhitelistCommand command = apiCredentialHttpConverter.toReplaceWhitelistCommand(
-                replaceRequest, ownerUserId, apiCredentialId);
-        ApiCredential credential = apiCredentialApplicationService.replaceModelWhitelist(command);
+        ChangeModelGroupCommand command = apiCredentialHttpConverter.toChangeModelGroupCommand(
+                changeRequest, ownerUserId, apiCredentialId);
+        ApiCredential credential = apiCredentialApplicationService.changeModelGroup(command);
         return ApiResponse.success(apiCredentialHttpConverter.toResponse(credential));
     }
 

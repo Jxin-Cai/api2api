@@ -22,6 +22,7 @@ public class ApiCredentialResponse {
     private Long ownerUserId;
     private String name;
     private String keyPreview;
+    private Long modelGroupId;
     private List<String> modelWhitelist;
     private long tokenLimit;
     private BigDecimal consumedTokens;

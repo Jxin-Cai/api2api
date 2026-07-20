@@ -15,6 +15,8 @@ public class ChannelModelSupport {
     private RoutePriority priority;
     private boolean preferred;
     private ChannelModelStatus status;
+    private Instant rateLimitedAt;
+    private Instant rateLimitResetAt;
     private final ModelSupportSource source;
     private final Instant createdAt;
     private Instant updatedAt;
@@ -27,6 +29,8 @@ public class ChannelModelSupport {
             RoutePriority priority,
             boolean preferred,
             ChannelModelStatus status,
+            Instant rateLimitedAt,
+            Instant rateLimitResetAt,
             ModelSupportSource source,
             Instant createdAt,
             Instant updatedAt
@@ -38,6 +42,8 @@ public class ChannelModelSupport {
         this.priority = Objects.requireNonNull(priority, "Route priority must not be null");
         this.preferred = preferred;
         this.status = Objects.requireNonNull(status, "Channel model status must not be null");
+        this.rateLimitedAt = rateLimitedAt;
+        this.rateLimitResetAt = rateLimitResetAt;
         this.source = Objects.requireNonNull(source, "Model support source must not be null");
         this.createdAt = Objects.requireNonNull(createdAt, "Created time must not be null");
         this.updatedAt = Objects.requireNonNull(updatedAt, "Updated time must not be null");
@@ -62,6 +68,8 @@ public class ChannelModelSupport {
                 priority,
                 preferred,
                 ChannelModelStatus.ENABLED,
+                null,
+                null,
                 source,
                 now,
                 now
@@ -76,6 +84,8 @@ public class ChannelModelSupport {
             RoutePriority priority,
             boolean preferred,
             ChannelModelStatus status,
+            Instant rateLimitedAt,
+            Instant rateLimitResetAt,
             ModelSupportSource source,
             Instant createdAt,
             Instant updatedAt
@@ -88,6 +98,8 @@ public class ChannelModelSupport {
                 priority,
                 preferred,
                 status,
+                rateLimitedAt,
+                rateLimitResetAt,
                 source,
                 createdAt,
                 updatedAt
@@ -129,6 +141,8 @@ public class ChannelModelSupport {
             return;
         }
         this.status = ChannelModelStatus.DISABLED;
+        this.rateLimitedAt = null;
+        this.rateLimitResetAt = null;
         this.updatedAt = now;
     }
 
@@ -138,6 +152,8 @@ public class ChannelModelSupport {
             return;
         }
         this.status = ChannelModelStatus.ENABLED;
+        this.rateLimitedAt = null;
+        this.rateLimitResetAt = null;
         this.updatedAt = now;
     }
 
@@ -198,6 +214,14 @@ public class ChannelModelSupport {
 
     public ChannelModelStatus status() {
         return status;
+    }
+
+    public Instant rateLimitedAt() {
+        return rateLimitedAt;
+    }
+
+    public Instant rateLimitResetAt() {
+        return rateLimitResetAt;
     }
 
     public ModelSupportSource source() {

@@ -7,14 +7,13 @@ import com.api2api.domain.credential.model.ApiCredentialStatus;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ApiKeyPreview;
 import com.api2api.domain.credential.model.EncryptedApiKeyMaterial;
-import com.api2api.domain.credential.model.ModelName;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.lib.mapping.MapStructConfig;
 import com.api2api.infr.repository.credential.po.ApiCredentialPO;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.api2api.infr.repository.credential.ModelWhitelistTextCodec;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -32,6 +31,7 @@ public interface ApiCredentialPersistenceConverter {
     @Mapping(target = "encryptedKeyMaterial", expression = "java(apiCredential.getEncryptedKeyMaterial().getCiphertext())")
     @Mapping(target = "keyMaterialNonce", expression = "java(apiCredential.getEncryptedKeyMaterial().getNonce())")
     @Mapping(target = "keyMaterialVersion", expression = "java(apiCredential.getEncryptedKeyMaterial().getVersion())")
+    @Mapping(target = "modelGroupId", expression = "java(apiCredential.getModelGroupId().value())")
     @Mapping(target = "modelWhitelist", expression = "java(toModelWhitelistText(apiCredential.getModelWhitelist()))")
     @Mapping(target = "tokenLimit", expression = "java(apiCredential.getTokenLimit().getValue())")
     @Mapping(target = "status", expression = "java(apiCredential.getStatus().name())")
@@ -53,6 +53,7 @@ public interface ApiCredentialPersistenceConverter {
                         po.getKeyMaterialNonce(),
                         po.getKeyMaterialVersion() <= 0 ? 1 : po.getKeyMaterialVersion()
                 ),
+                ModelGroupId.of(po.getModelGroupId()),
                 toModelWhitelist(po.getModelWhitelist()),
                 TokenLimit.of(po.getTokenLimit()),
                 ApiCredentialStatus.valueOf(po.getStatus()),
@@ -63,49 +64,10 @@ public interface ApiCredentialPersistenceConverter {
     }
 
     default String toModelWhitelistText(ModelWhitelist whitelist) {
-        StringBuilder builder = new StringBuilder("[");
-        boolean first = true;
-        for (ModelName model : whitelist.getModels()) {
-            if (!first) {
-                builder.append(',');
-            }
-            builder.append('"').append(escape(model.getValue())).append('"');
-            first = false;
-        }
-        return builder.append(']').toString();
+        return ModelWhitelistTextCodec.encode(whitelist);
     }
 
     default ModelWhitelist toModelWhitelist(String text) {
-        if (text == null || text.isBlank() || "[]".equals(text.trim())) {
-            return ModelWhitelist.empty();
-        }
-        String normalized = text.trim();
-        Set<ModelName> models = new LinkedHashSet<>();
-        if (normalized.startsWith("[") && normalized.endsWith("]")) {
-            String body = normalized.substring(1, normalized.length() - 1).trim();
-            if (!body.isEmpty()) {
-                for (String item : body.split(",")) {
-                    String value = item.trim();
-                    if (value.startsWith("\"") && value.endsWith("\"") && value.length() >= 2) {
-                        value = value.substring(1, value.length() - 1);
-                    }
-                    value = value.replace("\\\"", "\"").replace("\\\\", "\\");
-                    if (!value.isBlank()) {
-                        models.add(ModelName.of(value));
-                    }
-                }
-            }
-        } else {
-            for (String item : normalized.split(",")) {
-                if (!item.isBlank()) {
-                    models.add(ModelName.of(item));
-                }
-            }
-        }
-        return ModelWhitelist.of(models);
-    }
-
-    private String escape(String value) {
-        return value.replace("\\", "\\\\").replace("\"", "\\\"");
+        return ModelWhitelistTextCodec.decode(text);
     }
 }

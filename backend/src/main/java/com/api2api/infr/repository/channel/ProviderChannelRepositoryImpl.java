@@ -2,6 +2,7 @@ package com.api2api.infr.repository.channel;
 
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
+import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.infr.repository.channel.converter.ProviderChannelPersistenceConverter;
 import com.api2api.infr.repository.channel.mapper.ProviderChannelMapper;
@@ -57,17 +58,24 @@ public class ProviderChannelRepositoryImpl implements ProviderChannelRepository 
     }
 
     @Override
-    public void markRateLimited(ProviderChannelId id, Instant isolatedAt) {
+    public void markModelRateLimited(
+            ProviderChannelId id,
+            ModelName upstreamModel,
+            Instant limitedAt,
+            Instant resetAt
+    ) {
         Objects.requireNonNull(id, "ProviderChannelId must not be null");
-        Objects.requireNonNull(isolatedAt, "Isolation time must not be null");
-        mapper.markRateLimited(id.value(), isolatedAt);
+        Objects.requireNonNull(upstreamModel, "Upstream model must not be null");
+        Objects.requireNonNull(limitedAt, "Rate-limit time must not be null");
+        Objects.requireNonNull(resetAt, "Rate-limit reset time must not be null");
+        mapper.markModelRateLimited(id.value(), upstreamModel.value(), limitedAt, resetAt);
     }
 
     @Override
-    public int restoreRateLimitedBefore(Instant cutoff, Instant restoredAt) {
-        Objects.requireNonNull(cutoff, "Rate-limit cutoff must not be null");
+    public int restoreModelRateLimitsBefore(Instant now, Instant restoredAt) {
+        Objects.requireNonNull(now, "Current time must not be null");
         Objects.requireNonNull(restoredAt, "Rate-limit restore time must not be null");
-        return mapper.restoreRateLimitedBefore(cutoff, restoredAt);
+        return mapper.restoreModelRateLimitsBefore(now, restoredAt);
     }
 
     @Override

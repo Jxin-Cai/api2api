@@ -13,6 +13,7 @@ import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
+import com.api2api.domain.credential.repository.ModelGroupRepository;
 import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
@@ -34,6 +35,7 @@ class ApiCredentialApplicationServiceTest {
         // Arrange
         UserAccountRepository userAccountRepository = mock(UserAccountRepository.class);
         ApiCredentialRepository apiCredentialRepository = mock(ApiCredentialRepository.class);
+        ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
         ApiCredential credential = mock(ApiCredential.class);
@@ -42,6 +44,7 @@ class ApiCredentialApplicationServiceTest {
         ApiCredentialApplicationService service = new ApiCredentialApplicationService(
                 userAccountRepository,
                 apiCredentialRepository,
+                modelGroupRepository,
                 usageRecordRepository,
                 apiKeyMaterialProtector,
                 Clock.fixed(Instant.parse("2026-07-13T12:00:00Z"), ZoneOffset.UTC)
@@ -60,6 +63,7 @@ class ApiCredentialApplicationServiceTest {
         // Arrange
         UserAccountRepository userAccountRepository = mock(UserAccountRepository.class);
         ApiCredentialRepository apiCredentialRepository = mock(ApiCredentialRepository.class);
+        ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
         UserAccount userAccount = mock(UserAccount.class);
@@ -72,6 +76,7 @@ class ApiCredentialApplicationServiceTest {
         ApiCredentialApplicationService service = new ApiCredentialApplicationService(
                 userAccountRepository,
                 apiCredentialRepository,
+                modelGroupRepository,
                 usageRecordRepository,
                 apiKeyMaterialProtector,
                 Clock.fixed(now, ZoneOffset.UTC)
@@ -93,6 +98,7 @@ class ApiCredentialApplicationServiceTest {
         // Arrange
         UserAccountRepository userAccountRepository = mock(UserAccountRepository.class);
         ApiCredentialRepository apiCredentialRepository = mock(ApiCredentialRepository.class);
+        ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
         UserAccount userAccount = mock(UserAccount.class);
@@ -112,6 +118,7 @@ class ApiCredentialApplicationServiceTest {
         ApiCredentialApplicationService service = new ApiCredentialApplicationService(
                 userAccountRepository,
                 apiCredentialRepository,
+                modelGroupRepository,
                 usageRecordRepository,
                 apiKeyMaterialProtector,
                 Clock.fixed(Instant.parse("2026-07-13T12:00:00Z"), ZoneOffset.UTC)

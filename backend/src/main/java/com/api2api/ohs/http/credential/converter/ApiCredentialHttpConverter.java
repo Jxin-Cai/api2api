@@ -5,7 +5,7 @@ import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.RevealApiCredentialSecretCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
-import com.api2api.application.credential.command.ReplaceModelWhitelistCommand;
+import com.api2api.application.credential.command.ChangeModelGroupCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
 import com.api2api.domain.credential.model.ApiCredential;
@@ -13,6 +13,7 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiCredentialName;
 import com.api2api.domain.credential.model.EncryptedApiKeyMaterial;
 import com.api2api.domain.credential.model.ModelName;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.domain.user.model.UserAccountId;
@@ -24,7 +25,7 @@ import com.api2api.ohs.http.credential.dto.ChangeTokenLimitRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialResponse;
 import com.api2api.ohs.http.credential.dto.RenameApiCredentialRequest;
-import com.api2api.ohs.http.credential.dto.ReplaceModelWhitelistRequest;
+import com.api2api.ohs.http.credential.dto.ChangeModelGroupRequest;
 import com.api2api.ohs.http.credential.dto.RevealApiCredentialSecretResponse;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -52,7 +53,7 @@ public abstract class ApiCredentialHttpConverter {
                 .keyHash(keyMaterial.getKeyHash())
                 .keyPreview(keyMaterial.getKeyPreview())
                 .encryptedKeyMaterial(encryptedKeyMaterial)
-                .modelWhitelist(toModelWhitelist(request.getModelWhitelist()))
+                .modelGroupId(ModelGroupId.of(request.getModelGroupId()))
                 .tokenLimit(TokenLimit.of(request.getTokenLimit()))
                 .build();
     }
@@ -69,15 +70,15 @@ public abstract class ApiCredentialHttpConverter {
                 .build();
     }
 
-    public ReplaceModelWhitelistCommand toReplaceWhitelistCommand(
-            ReplaceModelWhitelistRequest request,
+    public ChangeModelGroupCommand toChangeModelGroupCommand(
+            ChangeModelGroupRequest request,
             UserAccountId ownerUserId,
             ApiCredentialId apiCredentialId
     ) {
-        return ReplaceModelWhitelistCommand.builder()
+        return ChangeModelGroupCommand.builder()
                 .ownerUserId(ownerUserId)
                 .apiCredentialId(apiCredentialId)
-                .modelWhitelist(toModelWhitelist(request.getModelWhitelist()))
+                .modelGroupId(ModelGroupId.of(request.getModelGroupId()))
                 .build();
     }
 
@@ -141,6 +142,7 @@ public abstract class ApiCredentialHttpConverter {
     @Mapping(target = "ownerUserId", source = "ownerUserId.value")
     @Mapping(target = "name", source = "name.value")
     @Mapping(target = "keyPreview", source = "keyPreview.value")
+    @Mapping(target = "modelGroupId", source = "modelGroupId.value")
     @Mapping(target = "modelWhitelist", expression = "java(toModelWhitelistResponse(credential.getModelWhitelist()))")
     @Mapping(target = "tokenLimit", source = "tokenLimit.value")
     @Mapping(target = "consumedTokens", constant = "0")
@@ -154,6 +156,7 @@ public abstract class ApiCredentialHttpConverter {
     @Mapping(target = "ownerUserId", source = "credential.ownerUserId.value")
     @Mapping(target = "name", source = "credential.name.value")
     @Mapping(target = "keyPreview", source = "credential.keyPreview.value")
+    @Mapping(target = "modelGroupId", source = "credential.modelGroupId.value")
     @Mapping(target = "modelWhitelist", expression = "java(toModelWhitelistResponse(view.getCredential().getModelWhitelist()))")
     @Mapping(target = "tokenLimit", source = "credential.tokenLimit.value")
     @Mapping(target = "status", source = "credential.status")
