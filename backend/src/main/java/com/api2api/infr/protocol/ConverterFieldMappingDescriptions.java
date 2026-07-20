@@ -260,29 +260,6 @@ final class ConverterFieldMappingDescriptions {
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
         ));
 
-        // ===== Claude Messages → AWS Bedrock Converse =====
-        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("model", "modelId (URI param)", "模型标识移动到 Bedrock InvokeModel URI", MappingLossiness.NONE, "MODEL", "TRANSFORM"),
-                mapping("stream", "InvokeModelWithResponseStream operation", "流式标记改为选择 Bedrock 流式操作", MappingLossiness.NONE, "STREAMING", "TRANSFORM"),
-                mapping("messages", "messages", "Anthropic Messages 内容保持原始结构", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
-                mapping("system", "system", "系统提示保持原始结构", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
-                mapping("tools", "tools", "工具按目标模型规范化；Claude Code custom.defer_loading 提升为 Bedrock defer_loading", MappingLossiness.PARTIAL, "TOOL", "TRANSFORM"),
-                mapping("tool_choice", "tool_choice", "工具选择策略原样保留", MappingLossiness.NONE, "TOOL", "DIRECT"),
-                mapping("thinking", "thinking", "Thinking 与 tool_choice 按目标模型能力规范化", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
-                mapping("context_management", "context_management", "仅保留目标模型支持的 clearing 或 compaction 编辑", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                mapping("cache_control", "cache_control", "移除 Bedrock 不支持的 scope 和无效/不兼容 ttl", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                mapping("anthropic-beta header", "anthropic_beta", "Beta 请求头按 Bedrock 与目标模型能力转换、补齐和过滤", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                mapping("service_tier", "X-Amzn-Bedrock-Service-Tier", "Claude 服务等级转换为 Bedrock InvokeModel 请求头", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                mapping("speed", "X-Amzn-Bedrock-PerformanceConfig-Latency", "Claude 速度模式转换为 Bedrock 延迟请求头", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM")
-        ));
-
-        map.put(key(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE), List.of(
-                mapping("payload", "payload", "Bedrock Claude Messages 响应保持 Anthropic 消息结构", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
-                mapping("content", "content", "文本、工具调用、Thinking 和服务端工具块原样保留", MappingLossiness.NONE, "CONTENT_BLOCK", "DIRECT"),
-                mapping("usage", "usage", "输入、输出和缓存 token 用量原样保留", MappingLossiness.NONE, "USAGE", "DIRECT"),
-                mapping("stop_reason", "stop_reason", "Claude 停止原因原样保留", MappingLossiness.NONE, "METADATA", "DIRECT")
-        ));
-
         map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST), List.of(
                 mapping("messages", "messages", "Claude 消息转为 Bedrock Converse 消息格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("messages[].content", "messages[].content", "内容块转为 Bedrock ContentBlock union", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
@@ -324,7 +301,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("cache_control", "cachePoint", "顶级、system、content 与 tools 缓存断点转为 Bedrock cachePoint", MappingLossiness.PARTIAL, "METADATA", "RESHAPE"),
                 mapping("context_management.edits", "gateway local context edit", "支持的 clear 策略由网关在转换前执行", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
                 mapping("speed", "performanceConfig.latency", "fast/standard 映射为 Bedrock 延迟配置", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                unsupported("context_management.edits[type=compact_*]", "Converse 无法生成 Claude compaction 摘要；必须路由到原生 Bedrock Messages Invoke", "METADATA"),
+                unsupported("context_management.edits[type=compact_*]", "Bedrock Converse 无法生成 Claude compaction 摘要", "METADATA"),
                 unsupported("tools[].allowed_callers", "Bedrock Converse 不支持 programmatic tool calling", "TOOL"),
                 unsupported("tool_choice.disable_parallel_tool_use", "Bedrock Converse 没有禁用并行工具的开关", "TOOL"),
                 unsupported("server tools", "Bedrock Converse 只能声明客户端 toolSpec", "TOOL"),

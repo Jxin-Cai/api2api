@@ -1,4 +1,4 @@
-export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT_COMPLETIONS' | 'AWS_BEDROCK_CONVERSE' | 'AWS_BEDROCK_CLAUDE_MESSAGES';
+export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT_COMPLETIONS' | 'AWS_BEDROCK_CONVERSE';
 
 export interface ProtocolMeta {
   label: string;
@@ -26,7 +26,6 @@ export const UPSTREAM_PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolTy
   { label: 'OpenAI Responses', value: 'OPENAI_RESPONSES' },
   { label: 'OpenAI Chat Completions', value: 'OPENAI_CHAT_COMPLETIONS' },
   { label: 'AWS Bedrock Converse', value: 'AWS_BEDROCK_CONVERSE' },
-  { label: 'AWS Bedrock Claude Messages', value: 'AWS_BEDROCK_CLAUDE_MESSAGES' },
 ];
 
 const PROTOCOL_META: Record<string, ProtocolMeta> = {
@@ -45,10 +44,6 @@ const PROTOCOL_META: Record<string, ProtocolMeta> = {
   AWS_BEDROCK_CONVERSE: {
     label: 'AWS Bedrock Converse', color: 'green', verifiedAt: '2026-07-16', referenceVersion: 'Bedrock Runtime 2023-09-30',
     officialSpecUrl: 'https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html',
-  },
-  AWS_BEDROCK_CLAUDE_MESSAGES: {
-    label: 'AWS Bedrock Claude Messages', color: 'cyan', verifiedAt: '2026-07-16', referenceVersion: 'Bedrock InvokeModel · anthropic_version bedrock-2023-05-31',
-    officialSpecUrl: 'https://docs.aws.amazon.com/bedrock/latest/userguide/inference-messages-api.html',
   },
   OPENAI_CHAT: { label: 'OpenAI Chat Completions', color: 'blue' },
   'claude-messages': { label: 'Claude Messages', color: 'orange' },

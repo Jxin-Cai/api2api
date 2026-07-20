@@ -2,7 +2,7 @@
 
 本文描述 Claude Code 通过 `/v1/messages` 接入时，服务转换到 AWS Bedrock Converse 或 OpenAI Responses 的行为。原则是：可等价映射就转换；不能可靠映射就明确失败，避免静默丢参数导致能力降级。
 
-审计基线：2026-07-16，Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0 与 AWS Bedrock Runtime `2023-09-30` service model；对照 Anthropic、AWS Bedrock 与 OpenAI 最新官方协议文档。这里仅评估 Claude Messages → Bedrock Converse 和 Claude Messages → OpenAI Responses，不包含 AWS 上的 Claude Messages/InvokeModel 路径。
+审计基线：2026-07-16，Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0 与 AWS Bedrock Runtime `2023-09-30` service model；对照 Anthropic、AWS Bedrock 与 OpenAI 最新官方协议文档。AWS Bedrock 上游仅支持 Converse。
 
 ## AWS Bedrock Converse
 
@@ -98,7 +98,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - 常规编码循环（读写文件、命令执行、Todo/计划、普通 MCP、自定义工具、thinking、结构化输出）两条路径都可工作。
 - Responses GPT-5.4+ 对延迟工具和工具前导语的保真度更高；GPT-5.6+ 还能保留 `max` effort、跨轮 persisted reasoning、显式 cache breakpoint 和 programmatic tool calling。
 - Bedrock Converse 的主要硬上限是没有 Anthropic server tools、tool search、programmatic tool calling 和 server-side context editing。当前实现优先保住“工具可调用”，代价是把 deferred tools 全量展开。
-- Claude → Bedrock Converse、Bedrock Claude Messages/InvokeModel 和 OpenAI 路径共享同一套无状态循环保护：相同名称和执行参数的工具连续成功 2 次时，仅在本次上游请求中追加纠偏提示；连续成功 3 次时转换 fail-closed，阻止第 4 次执行。对于参数不断变化但 assistant 前导语仍表达高度相似意图的同名工具，也按相同阈值识别停滞循环；没有前导语或明确描述不同调查步骤时不会触发。若 Bedrock Converse 同时提供 Agent，第二次停滞后会明确要求综合已有结果或把剩余开放式调查委派给 Agent。Bash 调用的自然语言 `description` 不属于执行参数，修改描述不会绕过保护。新的用户指令会重置计数，不影响用户明确要求的重复操作。
+- Claude → Bedrock Converse 和 OpenAI 路径共享同一套无状态循环保护：相同名称和执行参数的工具连续成功 2 次时，仅在本次上游请求中追加纠偏提示；连续成功 3 次时转换 fail-closed，阻止第 4 次执行。对于参数不断变化但 assistant 前导语仍表达高度相似意图的同名工具，也按相同阈值识别停滞循环；没有前导语或明确描述不同调查步骤时不会触发。若 Bedrock Converse 同时提供 Agent，第二次停滞后会明确要求综合已有结果或把剩余开放式调查委派给 Agent。Bash 调用的自然语言 `description` 不属于执行参数，修改描述不会绕过保护。新的用户指令会重置计数，不影响用户明确要求的重复操作。
 - Bedrock 顶层 cache control 优先落在稳定的 system/tools 前缀，避免每轮只缓存持续增长的动态尾部；单请求最多保留 4 个 Bedrock cache checkpoints。
 - 任何无法可靠表达的字段均显式返回 conversion error，不再静默丢弃；受支持的 clear 策略会先在网关本地执行，`clear_thinking + keep all` 则按无操作语义保留完整 thinking。
 

@@ -9,8 +9,8 @@ interface ApiCredentialStatusTagProps {
 
 function getStatusMeta(status: string): { color: string; label: string } {
   const normalized = status.toUpperCase();
-  if (normalized === 'ENABLED') {
-    return { color: 'success', label: '已启用' };
+  if (normalized === 'ACTIVE' || normalized === 'ENABLED') {
+    return { color: 'success', label: '已激活' };
   }
   if (normalized === 'DISABLED') {
     return { color: 'default', label: '已禁用' };

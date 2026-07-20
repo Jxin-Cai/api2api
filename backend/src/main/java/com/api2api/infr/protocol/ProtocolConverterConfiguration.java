@@ -99,29 +99,6 @@ class ProtocolConverterConfiguration {
         return bedrockConverter(json, usageExtractor, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer);
     }
 
-    // ==================== Bedrock native Claude Messages converters ====================
-
-    @Bean
-    ProtocolMessageConverter claudeMessagesToBedrockClaudeMessagesRequest(
-            ProtocolJsonSupport json,
-            SseEventTransformer sseEventTransformer
-    ) {
-        return bedrockClaudeMessagesConverter(
-                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
-                ProtocolConversionDirection.REQUEST, sseEventTransformer);
-    }
-
-    @Bean
-    ProtocolMessageConverter bedrockClaudeMessagesToClaudeMessagesResponse(
-            ProtocolJsonSupport json,
-            ClaudeMessagesUsageExtractor usageExtractor,
-            SseEventTransformer sseEventTransformer
-    ) {
-        return bedrockClaudeMessagesConverter(
-                json, usageExtractor, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES,
-                ProtocolConversionDirection.RESPONSE, sseEventTransformer);
-    }
-
     private ProtocolMessageConverter bedrockConverter(
             ProtocolJsonSupport json,
             UnifiedUsageExtractor usageExtractor,
@@ -131,18 +108,6 @@ class ProtocolConverterConfiguration {
             SseEventTransformer sseEventTransformer
     ) {
         return new BedrockConverseProtocolMessageConverter(json, usageExtractor, source, target, direction, sseEventTransformer);
-    }
-
-    private ProtocolMessageConverter bedrockClaudeMessagesConverter(
-            ProtocolJsonSupport json,
-            UnifiedUsageExtractor usageExtractor,
-            ProtocolType source,
-            ProtocolType target,
-            ProtocolConversionDirection direction,
-            SseEventTransformer sseEventTransformer
-    ) {
-        return new BedrockClaudeMessagesProtocolMessageConverter(
-                json, usageExtractor, source, target, direction, sseEventTransformer);
     }
 
     private ProtocolMessageConverter converter(

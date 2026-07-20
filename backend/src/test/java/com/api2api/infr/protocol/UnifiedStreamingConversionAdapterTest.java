@@ -19,7 +19,6 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,42 +62,6 @@ class UnifiedStreamingConversionAdapterTest {
                 .allMatch(node -> node.has("delta"))).isTrue();
         assertThat(usage.usageKnown()).isTrue();
         assertThat(usage.totalTokens()).isEqualTo(5);
-    }
-
-    @Test
-    void test_preservesNativeClaudeEvents_when_bedrockInvokeStreamReturnsChunks() throws Exception {
-        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
-        writeClaudeInvokeChunk(upstream, """
-                {"type":"message_start","message":{"id":"msg_1","type":"message","role":"assistant","content":[],"model":"claude-opus-4.8","stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":9,"output_tokens":0,"cache_read_input_tokens":2}}}
-                """);
-        writeClaudeInvokeChunk(upstream, """
-                {"type":"content_block_start","index":0,"content_block":{"type":"tool_use","id":"toolu_1","name":"Read","input":{}}}
-                """);
-        writeClaudeInvokeChunk(upstream, """
-                {"type":"message_delta","delta":{"stop_reason":"tool_use","stop_sequence":null},"usage":{"output_tokens":3}}
-                """);
-        writeClaudeInvokeChunk(upstream, """
-                {"type":"message_stop"}
-                """);
-        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
-
-        UnifiedTokenUsage usage = adapter.transform(
-                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
-                new ByteArrayInputStream(upstream.toByteArray()),
-                downstream
-        );
-
-        String sse = downstream.toString(StandardCharsets.UTF_8);
-        assertThat(sse).contains(
-                "event: message_start",
-                "event: content_block_start",
-                "\"type\":\"tool_use\"",
-                "event: message_delta",
-                "event: message_stop"
-        );
-        assertThat(usage.inputTokens()).isEqualTo(9);
-        assertThat(usage.outputTokens()).isEqualTo(3);
-        assertThat(usage.cacheReadInputTokens()).isEqualTo(2);
     }
 
     @Test
@@ -991,14 +954,6 @@ class UnifiedStreamingConversionAdapterTest {
         headers.put(":content-type", "application/json");
         headers.put(":message-type", "event");
         writeFrame(outputStream, headers, payload);
-    }
-
-    private void writeClaudeInvokeChunk(OutputStream outputStream, String claudeEvent) throws Exception {
-        String payload = objectMapper.writeValueAsString(Map.of(
-                "bytes", Base64.getEncoder().encodeToString(
-                        claudeEvent.strip().getBytes(StandardCharsets.UTF_8))
-        ));
-        writeEvent(outputStream, "chunk", payload);
     }
 
     private void writeModeledException(OutputStream outputStream, String exceptionType, String payload) throws Exception {

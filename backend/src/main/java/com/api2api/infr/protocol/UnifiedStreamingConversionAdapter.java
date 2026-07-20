@@ -34,14 +34,10 @@ import org.springframework.stereotype.Component;
  * Unified streaming conversion adapter handling all gateway streaming protocol pairs:
  * <ul>
  *   <li>AWS_BEDROCK_CONVERSE -> CLAUDE_MESSAGES / OPENAI_RESPONSES</li>
- *   <li>AWS_BEDROCK_CLAUDE_MESSAGES -> CLAUDE_MESSAGES (delegated via internal sub-adapter)</li>
  *   <li>OPENAI_RESPONSES -> CLAUDE_MESSAGES</li>
  *   <li>OPENAI_CHAT_COMPLETIONS -> CLAUDE_MESSAGES / OPENAI_RESPONSES</li>
  *   <li>CLAUDE_MESSAGES -> OPENAI_CHAT_COMPLETIONS</li>
  * </ul>
- *
- * <p>{@code BedrockClaudeMessagesStreamingConversionAdapter} depends on this class's static
- * {@code readEvent} / {@code parseHeaders} methods for binary frame parsing.</p>
  */
 @Component
 public class UnifiedStreamingConversionAdapter implements GatewayStreamingConversionPort {
@@ -53,19 +49,14 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = "Conversation compacted.";
 
     private final ObjectMapper objectMapper;
-    private final BedrockClaudeMessagesStreamingConversionAdapter bedrockClaudeMessagesAdapter;
-
     public UnifiedStreamingConversionAdapter(ObjectMapper objectMapper) {
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
-        this.bedrockClaudeMessagesAdapter = new BedrockClaudeMessagesStreamingConversionAdapter(objectMapper);
     }
 
     @Override
     public boolean supports(ProtocolType upstreamProtocol, ProtocolType clientProtocol) {
         return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
                 && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
-                || (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
-                && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_RESPONSES
                 && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS
@@ -85,9 +76,6 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         ProtocolType clientProtocol = context.clientProtocol();
         if (!supports(upstreamProtocol, clientProtocol)) {
             return UnifiedTokenUsage.unknown();
-        }
-        if (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
-            return bedrockClaudeMessagesAdapter.transform(context, upstreamBody, clientBody);
         }
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);

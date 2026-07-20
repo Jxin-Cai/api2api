@@ -1,4 +1,4 @@
-export type ApiCredentialStatus = 'ENABLED' | 'DISABLED' | 'UNKNOWN' | string;
+export type ApiCredentialStatus = 'ACTIVE' | 'ENABLED' | 'DISABLED' | 'UNKNOWN' | string;
 
 export interface ApiCredentialResponse {
   id: string;

@@ -7,13 +7,8 @@ import com.api2api.application.gateway.UpstreamGatewayException;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
-import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.routing.model.RouteCandidate;
 import com.api2api.domain.routing.model.RouteFailureType;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -24,7 +19,6 @@ import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +33,6 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     private final ProviderHttpClientProperties properties;
     private final UpstreamHttpHeaderPolicy headerPolicy;
     private final UpstreamUrlResolver urlResolver;
-    private final ObjectMapper objectMapper;
-    private final BedrockClaudeRequestNormalizer bedrockClaudeRequestNormalizer;
     private final HttpClient httpClient;
 
     BearerTokenProviderCallStrategy(
@@ -48,16 +40,13 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             ProviderSecretResolver providerSecretResolver,
             ProviderHttpClientProperties properties,
             UpstreamHttpHeaderPolicy headerPolicy,
-            UpstreamUrlResolver urlResolver,
-            ObjectMapper objectMapper
+            UpstreamUrlResolver urlResolver
     ) {
         this.providerChannelRepository = providerChannelRepository;
         this.providerSecretResolver = providerSecretResolver;
         this.properties = properties;
         this.headerPolicy = headerPolicy;
         this.urlResolver = urlResolver;
-        this.objectMapper = objectMapper;
-        this.bedrockClaudeRequestNormalizer = new BedrockClaudeRequestNormalizer(objectMapper);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(properties.getConnectTimeout())
                 .version(HttpClient.Version.HTTP_1_1)
@@ -236,15 +225,12 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                 URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
                 properties.isAllowInsecureHosts()
         );
-        PreparedRequest preparedRequest = prepareRequest(
-                candidate.upstreamProtocol(), candidate.upstreamModel().value(), upstreamRequestBody, incomingHeaders);
         Map<String, String> headers = headerPolicy.buildHeaders(
                 candidate.upstreamProtocol(), incomingHeaders, secret, streaming);
-        headers.putAll(preparedRequest.headers());
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
                 .timeout(readTimeout(streaming))
-                .POST(HttpRequest.BodyPublishers.ofString(preparedRequest.body()));
+                .POST(HttpRequest.BodyPublishers.ofString(upstreamRequestBody));
         headers.forEach(requestBuilder::header);
         return requestBuilder.build();
     }
@@ -256,99 +242,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     : properties.getBedrockConversePathTemplate();
             return template.replace("{modelId}", candidate.upstreamModel().value());
         }
-        if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
-            String template = streaming
-                    ? properties.getBedrockClaudeMessagesStreamPathTemplate()
-                    : properties.getBedrockClaudeMessagesPathTemplate();
-            return template.replace("{modelId}", candidate.upstreamModel().value());
-        }
         return properties.defaultPathFor(candidate.upstreamProtocol());
-    }
-
-    private PreparedRequest prepareRequest(
-            ProtocolType protocol,
-            String upstreamModel,
-            String body,
-            Map<String, List<String>> incomingHeaders
-    ) {
-        if (protocol != ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
-            return new PreparedRequest(body, Map.of());
-        }
-        try {
-            BedrockClaudeRequestNormalizer.NormalizedRequest normalized = bedrockClaudeRequestNormalizer.normalize(
-                    body, upstreamModel, incomingHeaders);
-            JsonNode parsed = objectMapper.readTree(normalized.body());
-            if (parsed == null || !parsed.isObject()) {
-                throw new ProtocolConversionException("BEDROCK_INVOKE_REQUEST_MUST_BE_OBJECT");
-            }
-            ObjectNode request = ((ObjectNode) parsed).deepCopy();
-            logNormalization(upstreamModel, normalized.diagnostics());
-
-            Map<String, String> headers = new LinkedHashMap<>();
-            JsonNode serviceTier = request.remove("service_tier");
-            if (serviceTier != null && !serviceTier.isNull()) {
-                headers.put("X-Amzn-Bedrock-Service-Tier", mapServiceTier(serviceTier.asText("")));
-            }
-            JsonNode speed = request.remove("speed");
-            if (speed != null && !speed.isNull()) {
-                String value = speed.isTextual() ? speed.asText() : speed.path("type").asText("");
-                headers.put("X-Amzn-Bedrock-PerformanceConfig-Latency", mapSpeed(value));
-            }
-            return new PreparedRequest(objectMapper.writeValueAsString(request), Map.copyOf(headers));
-        } catch (ProtocolConversionException exception) {
-            throw exception;
-        } catch (JsonProcessingException exception) {
-            throw new ProtocolConversionException("BEDROCK_INVOKE_REQUEST_PREPARATION_FAILED", exception);
-        }
-    }
-
-    private void logNormalization(
-            String upstreamModel,
-            BedrockClaudeRequestNormalizer.Diagnostics diagnostics
-    ) {
-        if (diagnostics.changed()
-                || diagnostics.unmatchedToolResultCount() > 0
-                || diagnostics.repeatedSuccessfulToolCallStreak() >= 3) {
-            log.warn(
-                    "Normalized Bedrock Claude request, upstreamModel: {}, changes: {}, betaFlags: {}, "
-                            + "toolUseCount: {}, toolResultCount: {}, unmatchedToolResultCount: {}, "
-                            + "repeatedSuccessfulToolCallStreak: {}",
-                    upstreamModel,
-                    diagnostics.changes(),
-                    diagnostics.betaFlags(),
-                    diagnostics.toolUseCount(),
-                    diagnostics.toolResultCount(),
-                    diagnostics.unmatchedToolResultCount(),
-                    diagnostics.repeatedSuccessfulToolCallStreak()
-            );
-            return;
-        }
-        log.debug(
-                "Prepared Bedrock Claude request, upstreamModel: {}, betaFlags: {}, "
-                        + "toolUseCount: {}, toolResultCount: {}",
-                upstreamModel,
-                diagnostics.betaFlags(),
-                diagnostics.toolUseCount(),
-                diagnostics.toolResultCount()
-        );
-    }
-
-    private String mapServiceTier(String serviceTier) {
-        return switch (serviceTier) {
-            case "standard_only", "auto", "default" -> "default";
-            case "priority", "flex", "reserved" -> serviceTier;
-            default -> throw new ProtocolConversionException(
-                    "BEDROCK_INVOKE_SERVICE_TIER_NOT_SUPPORTED: " + serviceTier);
-        };
-    }
-
-    private String mapSpeed(String speed) {
-        return switch (speed) {
-            case "standard" -> "standard";
-            case "fast" -> "optimized";
-            default -> throw new ProtocolConversionException(
-                    "BEDROCK_INVOKE_SPEED_NOT_SUPPORTED: " + speed);
-        };
     }
 
     private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis, String responseBody) {
@@ -426,6 +320,4 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         return Duration.between(startedAt, Instant.now()).toMillis();
     }
 
-    private record PreparedRequest(String body, Map<String, String> headers) {
-    }
 }

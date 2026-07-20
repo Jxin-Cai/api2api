@@ -18,8 +18,8 @@ class ProtocolConversionProgramRegistryTest {
     private final ProtocolConversionProgramRegistry registry = new ProtocolConversionProgramRegistry(allConverters);
 
     @Test
-    void test_registryIndexesAllConverters_when_allTwentyRegistered() {
-        assertThat(allConverters).hasSize(20);
+    void test_registryIndexesAllConverters_when_allEighteenRegistered() {
+        assertThat(allConverters).hasSize(18);
     }
 
     @ParameterizedTest(name = "{0}→{1} {2}")
@@ -138,10 +138,7 @@ class ProtocolConversionProgramRegistryTest {
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
                 Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE),
                 Arguments.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE),
-                // Native Bedrock Claude Messages converters (2)
-                Arguments.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE)
+                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE)
         );
     }
 
