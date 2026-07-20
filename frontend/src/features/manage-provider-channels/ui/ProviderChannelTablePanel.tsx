@@ -11,6 +11,11 @@ interface ProviderChannelTablePanelProps {
   renderModelsPanel?: (channel: ProviderChannelResponse, onChanged: (channel: ProviderChannelResponse) => void) => ReactNode;
 }
 
+function needsReenable(channel: ProviderChannelResponse): boolean {
+  return channel.status !== 'ENABLED'
+    || channel.supportedModels.some((model) => model.status === 'RATE_LIMITED');
+}
+
 export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannelTablePanelProps) {
   const { channels, isLoading, refetch } = useProviderChannels();
   const { enableMutation, disableMutation, deleteMutation } = useProviderChannelMutations();
@@ -33,7 +38,7 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
     const selectedIds = new Set(selectedChannelIds.map(String));
     return source.filter((channel) => selectedIds.has(String(channel.id)));
   }, [selectedChannelIds, source]);
-  const canBatchEnable = selectedChannels.some((channel) => channel.status !== 'ENABLED');
+  const canBatchEnable = selectedChannels.some(needsReenable);
   const canBatchDisable = selectedChannels.some((channel) => channel.status === 'ENABLED');
 
   function handleChannelChanged(channel: ProviderChannelResponse): void {
@@ -66,7 +71,9 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
   }
 
   async function handleBatchStatus(targetStatus: ProviderChannelStatusFilter): Promise<void> {
-    const targets = selectedChannels.filter((channel) => channel.status !== targetStatus);
+    const targets = selectedChannels.filter((channel) => (
+      targetStatus === 'ENABLED' ? needsReenable(channel) : channel.status !== targetStatus
+    ));
     if (targets.length === 0) {
       return;
     }
@@ -103,9 +110,16 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
             <Button size="small" onClick={() => setDrawer({ open: true, mode: 'copy', channel })}>复制</Button>
             {channel.status === 'ENABLED' ? (
               <Popconfirm title="确认禁用渠道？" onConfirm={() => void handleDisable(channel.id)}><Button size="small" danger loading={disableMutation.isPending}>禁用</Button></Popconfirm>
-            ) : (
-              <Popconfirm title="确认重新启用渠道？" onConfirm={() => void handleEnable(channel.id)}><Button size="small" loading={enableMutation.isPending}>重新启用</Button></Popconfirm>
-            )}
+            ) : null}
+            {needsReenable(channel) ? (
+              <Popconfirm
+                title="确认重新启用渠道？"
+                description="将恢复渠道及其所有限流隔离模型，人工禁用的模型不受影响。"
+                onConfirm={() => void handleEnable(channel.id)}
+              >
+                <Button size="small" loading={enableMutation.isPending}>重新启用</Button>
+              </Popconfirm>
+            ) : null}
             <Popconfirm
               title="确认删除渠道？"
               description="删除后该渠道不再展示且不会参与路由，历史使用记录不受影响。"
@@ -134,7 +148,8 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
         <Space wrap>
           <Typography.Text type="secondary">已选择 {selectedChannelIds.length} 个渠道</Typography.Text>
           <Popconfirm
-            title={`确认重新启用 ${selectedChannels.filter((channel) => channel.status !== 'ENABLED').length} 个渠道？`}
+            title={`确认重新启用 ${selectedChannels.filter(needsReenable).length} 个渠道？`}
+            description="将恢复所选渠道及其所有限流隔离模型，人工禁用的模型不受影响。"
             disabled={!canBatchEnable || batchChanging}
             onConfirm={() => void handleBatchStatus('ENABLED')}
           >

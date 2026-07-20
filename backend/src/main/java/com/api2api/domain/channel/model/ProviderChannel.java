@@ -269,7 +269,14 @@ public class ProviderChannel {
 
     public void enable(Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
-        if (status == ProviderChannelStatus.ENABLED) {
+        boolean restoredRateLimitedModel = false;
+        for (ChannelModelSupport model : supportedModels) {
+            if (model.status() == ChannelModelStatus.RATE_LIMITED) {
+                model.enable(now);
+                restoredRateLimitedModel = true;
+            }
+        }
+        if (status == ProviderChannelStatus.ENABLED && !restoredRateLimitedModel) {
             return;
         }
         this.status = ProviderChannelStatus.ENABLED;
