@@ -17,40 +17,47 @@ interface UsageTokenSummaryProps {
 export function UsageTokenSummary({ totalTokens, recordCount = 0, scope, loading = false }: UsageTokenSummaryProps) {
   const safeTotalTokens = Number.isFinite(totalTokens) ? Math.max(0, totalTokens) : 0;
   const safeRecordCount = Number.isFinite(recordCount) ? Math.max(0, recordCount) : 0;
-  const tokenMillions = safeTotalTokens / 1_000_000;
-  const tokenDecimals = tokenMillions >= 100 ? 1 : tokenMillions >= 1 ? 2 : 3;
-  const formattedTokens = tokenMillions.toLocaleString('zh-CN', {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: tokenDecimals,
-  });
   const formattedExactTokens = safeTotalTokens.toLocaleString('zh-CN');
   const formattedRecordCount = safeRecordCount.toLocaleString('zh-CN');
+  const formattedAverageTokens = (safeRecordCount === 0 ? 0 : Math.round(safeTotalTokens / safeRecordCount)).toLocaleString('zh-CN');
   const scopeLabel = scope === 'admin' ? '全平台' : '个人';
 
   return (
-    <section className="usage-token-summary" aria-label={`${scopeLabel}使用记录汇总`}>
+    <section
+      className="usage-token-summary"
+      aria-label={`${scopeLabel}使用记录汇总`}
+      aria-busy={loading}
+      aria-live="polite"
+    >
       {loading ? (
-        <Skeleton active title={{ width: 120 }} paragraph={{ rows: 1, width: ['62%'] }} />
+        <>
+          <Skeleton className="usage-token-summary__skeleton usage-token-summary__skeleton--primary" active title={{ width: 112 }} paragraph={{ rows: 2, width: ['58%', '36%'] }} />
+          <Skeleton className="usage-token-summary__skeleton" active title={{ width: 80 }} paragraph={{ rows: 2, width: ['42%', '64%'] }} />
+        </>
       ) : (
         <>
           <div className="usage-token-summary__primary">
             <div className="usage-token-summary__heading">
-              <span className="usage-token-summary__label">实际 Token 总量</span>
-              <span className="usage-token-summary__scope">{scopeLabel} · 当前筛选</span>
+              <div>
+                <span className="usage-token-summary__eyebrow">TOKEN USAGE</span>
+                <h2 className="usage-token-summary__label">实际 Token 总量</h2>
+              </div>
+              <span className="usage-token-summary__scope">{scopeLabel} / 当前筛选</span>
             </div>
             <div className="usage-token-summary__value-row mono-number">
-              <strong className="usage-token-summary__value">{formattedTokens}</strong>
-              <span className="usage-token-summary__unit">M</span>
+              <strong className="usage-token-summary__value">{formattedExactTokens}</strong>
+              <span className="usage-token-summary__unit">Token</span>
             </div>
-            <span className="usage-token-summary__exact mono-number">精确值 {formattedExactTokens} Token</span>
+            <span className="usage-token-summary__hint">基于当前筛选结果汇总，不受当前分页影响</span>
           </div>
           <div className="usage-token-summary__secondary">
-            <span className="usage-token-summary__label">记录总数</span>
+            <span className="usage-token-summary__eyebrow">REQUESTS</span>
+            <h2 className="usage-token-summary__label">记录总数</h2>
             <div className="usage-token-summary__count-row mono-number">
               <strong className="usage-token-summary__count">{formattedRecordCount}</strong>
               <span className="usage-token-summary__count-unit">条</span>
             </div>
-            <span className="usage-token-summary__hint">符合当前筛选条件</span>
+            <span className="usage-token-summary__hint mono-number">平均 {formattedAverageTokens} Token / 条</span>
           </div>
         </>
       )}
