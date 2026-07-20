@@ -241,7 +241,7 @@ class BedrockClaudeRequestNormalizerTest {
     }
 
     @Test
-    void test_mergesConsecutiveAssistantAndUserFragments_whenToolTurnIsSplit() throws Exception {
+    void test_mergesConsecutiveAssistantAndUserFragments_when_toolTurnIsSplit() throws Exception {
         // Arrange
         String body = """
                 {"messages":[
@@ -268,7 +268,7 @@ class BedrockClaudeRequestNormalizerTest {
     }
 
     @Test
-    void test_preservesAlternatingMessageTurns_whenRolesAreAlreadyCanonical() throws Exception {
+    void test_preservesAlternatingMessageTurns_when_rolesAreAlreadyCanonical() throws Exception {
         // Arrange
         String body = """
                 {"messages":[
@@ -289,7 +289,7 @@ class BedrockClaudeRequestNormalizerTest {
     }
 
     @Test
-    void test_injectsToolRequirement_whenThinkingForcesToolChoiceToAuto() throws Exception {
+    void test_injectsToolRequirement_when_thinkingForcesToolChoiceToAuto() throws Exception {
         // Arrange
         String body = """
                 {
@@ -311,7 +311,7 @@ class BedrockClaudeRequestNormalizerTest {
     }
 
     @Test
-    void test_doesNotInjectToolRequirement_whenToolChoiceIsAlreadyAutomatic() throws Exception {
+    void test_doesNotInjectToolRequirement_when_toolChoiceIsAlreadyAutomatic() throws Exception {
         // Arrange
         String body = """
                 {

@@ -29,11 +29,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.CRC32;
 import org.junit.jupiter.api.Test;
 
-class BedrockConverseClaudeStreamingConversionAdapterTest {
+class UnifiedStreamingConversionAdapterTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final BedrockConverseClaudeStreamingConversionAdapter adapter =
-            new BedrockConverseClaudeStreamingConversionAdapter(objectMapper);
+    private final UnifiedStreamingConversionAdapter adapter =
+            new UnifiedStreamingConversionAdapter(objectMapper);
 
     @Test
     void shouldConvertBedrockEventStreamToClaudeSseAndExtractUsage() throws Exception {

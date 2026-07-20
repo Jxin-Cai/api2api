@@ -40,7 +40,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldMapClaudeToolsThinkingAndToolResultToBedrockRequest() throws Exception {
+    void test_mapsClaudeToolsThinkingAndToolResult_when_convertingClaudeRequestToBedrock() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,
                 null,
@@ -299,7 +299,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldNotInventBedrockMaxTokensWhenClaudeThinkingHasNoMaxTokens() throws Exception {
+    void test_omitsMaxTokens_when_claudeThinkingHasNoMaxTokens() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,
                 null,
@@ -327,7 +327,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldAcceptClaudeCodeContextManagementHintWithoutSendingUnsupportedConverseField() throws Exception {
+    void test_stripsContextManagementField_when_converseDoesNotSupportIt() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolConversionDirection.REQUEST, sseEventTransformer
@@ -492,7 +492,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldDropClaudeMetadataValuesThatBedrockRequestMetadataRejects() throws Exception {
+    void test_dropsInvalidMetadataValues_when_bedrockRequestMetadataRejects() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolConversionDirection.REQUEST, sseEventTransformer
@@ -787,7 +787,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldMapAdaptiveEffortStructuredOutputMultimodalContentAndMidConversationSystem() throws Exception {
+    void test_mapsAdaptiveEffortAndStructuredOutput_when_multimodalContentWithMidConversationSystem() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolConversionDirection.REQUEST, sseEventTransformer
@@ -843,7 +843,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldMergeConsecutiveRolesWithoutFabricatingMessages() throws Exception {
+    void test_mergesConsecutiveRoles_when_sameRoleAppearsConsecutively() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolConversionDirection.REQUEST, sseEventTransformer
@@ -884,7 +884,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldMapOpenAIResponsesReasoningToBedrockThinking() throws Exception {
+    void test_mapsReasoningToBedrockThinking_when_responsesRequestContainsReasoning() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,
                 null,
@@ -1132,7 +1132,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldMapBedrockToolUseAndReasoningToClaudeResponse() throws Exception {
+    void test_mapsToolUseAndReasoningToClaudeResponse_when_bedrockResponseContainsBoth() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json,
                 new BedrockConverseUsageExtractor(),
@@ -1173,7 +1173,7 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
-    void shouldMapBedrockRedactedReasoningAndExactStopSequenceToClaude() throws Exception {
+    void test_mapsRedactedReasoningAndStopSequence_when_bedrockResponseContainsBoth() throws Exception {
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
                 json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
                 ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE, sseEventTransformer

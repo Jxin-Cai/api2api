@@ -1128,10 +1128,6 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         };
     }
 
-    private ObjectNode toBedrockToolConfig(JsonNode tools, JsonNode toolChoice) {
-        return toBedrockToolConfig(tools, toolChoice, ClaudeCodeToolState.unknown());
-    }
-
     private ObjectNode toBedrockToolConfig(
             JsonNode tools,
             JsonNode toolChoice,
@@ -1213,6 +1209,29 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return toolConfig;
     }
 
+    /**
+     * Infers the current Claude Code plan-mode state by scanning the conversation history.
+     *
+     * <h3>State machine rules:</h3>
+     * <ul>
+     *   <li>A successful EnterPlanMode transitions to ACTIVE</li>
+     *   <li>A successful ExitPlanMode transitions to INACTIVE</li>
+     *   <li>A failed ExitPlanMode containing "not in plan mode" in its result
+     *       also transitions to INACTIVE (client sent exit while already inactive)</li>
+     *   <li>When state is UNKNOWN, a successful AskUserQuestion implies ACTIVE</li>
+     * </ul>
+     *
+     * <h3>Tool name normalization:</h3>
+     * Tool names are compared case-insensitively with underscores/hyphens removed
+     * to accommodate Claude Code clients that use snake_case or kebab-case variants.
+     *
+     * <h3>AskUserQuestion suppression:</h3>
+     * When the most recent completed tool is a successful AskUserQuestion, the tool
+     * is hidden from the next turn to prevent the model from asking again immediately.
+     *
+     * @param messages the full conversation message array (Bedrock format)
+     * @return inferred tool state containing plan-mode and suppression flags
+     */
     private ClaudeCodeToolState inferClaudeCodeToolState(JsonNode messages) {
         if (messages == null || !messages.isArray()) {
             return ClaudeCodeToolState.inactive();
@@ -1586,15 +1605,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     private JsonNode reasoningTextNode(JsonNode block) {
-        JsonNode reasoningContent = block.get("reasoningContent");
-        if (reasoningContent == null || reasoningContent.isNull()) {
-            return null;
-        }
-        JsonNode reasoningText = reasoningContent.get("reasoningText");
-        if (reasoningText != null && !reasoningText.isNull()) {
-            return reasoningText;
-        }
-        return reasoningContent.has("text") || reasoningContent.has("signature") ? reasoningContent : null;
+        return BedrockConverseContentSupport.reasoningTextNode(block);
     }
 
     private String extractTextFromBedrockOutput(JsonNode source) {
@@ -1615,25 +1626,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     private String mapBedrockStopToClaudeStop(String stopReason) {
-        return switch (stopReason) {
-            case "end_turn" -> "end_turn";
-            case "stop_sequence" -> "stop_sequence";
-            case "max_tokens" -> "max_tokens";
-            case "tool_use" -> "tool_use";
-            case "model_context_window_exceeded" -> "model_context_window_exceeded";
-            case "content_filtered", "guardrail_intervened" -> "refusal";
-            case "malformed_model_output", "malformed_tool_use" ->
-                    throw new ProtocolConversionException("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: " + stopReason);
-            default -> throw new ProtocolConversionException("BEDROCK_CONVERSE_UNSUPPORTED_STOP_REASON: " + stopReason);
-        };
+        return BedrockConverseContentSupport.toClaudeStop(stopReason);
     }
 
     private String requiredBedrockStopReason(JsonNode source) {
-        JsonNode value = source.get("stopReason");
-        if (value == null || !value.isTextual() || value.asText().isBlank()) {
-            throw new ProtocolConversionException("BEDROCK_CONVERSE_MISSING_STOP_REASON");
-        }
-        return value.asText();
+        return BedrockConverseContentSupport.requiredStopReason(source);
     }
 
     private String mapBedrockStopToFinishReason(String stopReason) {
@@ -1649,13 +1646,6 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     private String mapBedrockStopToResponsesStatus(String stopReason) {
-        return switch (stopReason) {
-            case "end_turn", "tool_use", "stop_sequence" -> "completed";
-            case "max_tokens", "model_context_window_exceeded" -> "incomplete";
-            case "content_filtered", "guardrail_intervened" -> "incomplete";
-            case "malformed_model_output", "malformed_tool_use" ->
-                    throw new ProtocolConversionException("BEDROCK_CONVERSE_INVALID_MODEL_OUTPUT: " + stopReason);
-            default -> throw new ProtocolConversionException("BEDROCK_CONVERSE_UNSUPPORTED_STOP_REASON: " + stopReason);
-        };
+        return BedrockConverseContentSupport.toResponsesStatus(stopReason);
     }
 }

@@ -42,8 +42,8 @@ final class BedrockClaudeMessagesStreamingConversionAdapter implements GatewaySt
 
         UsageAccumulator usage = new UsageAccumulator();
         boolean terminalEventSeen = false;
-        BedrockConverseClaudeStreamingConversionAdapter.BedrockEvent event;
-        while ((event = BedrockConverseClaudeStreamingConversionAdapter.readEvent(upstreamBody)) != null) {
+        UnifiedStreamingConversionAdapter.BedrockEvent event;
+        while ((event = UnifiedStreamingConversionAdapter.readEvent(upstreamBody)) != null) {
             JsonNode envelope = objectMapper.readTree(event.payload());
             if ("exception".equals(event.messageType())) {
                 String type = event.exceptionType().isBlank() ? "unknownException" : event.exceptionType();
