@@ -60,7 +60,7 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
-    void forwardReturnsRawStatusHeadersAndBodyForSuccessfulResponse() throws IOException {
+    void test_returnsRawStatusHeadersAndBody_when_forwardSucceeds() throws IOException {
         server = server(200, "application/json", "{\"ok\":true}");
         ProviderGatewayCallAdapter adapter = adapter();
 
@@ -77,7 +77,7 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
-    void forwardReturnsRawErrorResponseWithoutThrowing() throws IOException {
+    void test_returnsRawErrorResponse_when_forwardReceivesError() throws IOException {
         server = server(401, "application/json", "{\"error\":\"bad key\"}");
         ProviderGatewayCallAdapter adapter = adapter();
 
@@ -94,7 +94,7 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
-    void openStreamReturnsStatusHeadersAndBody() throws IOException {
+    void test_returnsStatusHeadersAndBody_when_openStreamSucceeds() throws IOException {
         server = server(200, "text/event-stream", "data: hello\n\n");
         ProviderGatewayCallAdapter adapter = adapter();
 
@@ -131,7 +131,7 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
-    void openStreamTreatsModelNotFoundAsRetryableForProtocolFallback() throws IOException {
+    void test_treatsModelNotFoundAsRetryable_when_protocolFallbackIsAvailable() throws IOException {
         server = server(404, "application/json", "{\"error\":{\"type\":\"model_not_found\",\"message\":\"not supported by any configured account\"}}");
         ProviderGatewayCallAdapter adapter = adapter();
 

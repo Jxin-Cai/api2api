@@ -1,8 +1,15 @@
-export function formatTokenMillions(tokens?: number | null): string {
+const TOKENS_PER_MILLION = 1_000_000;
+
+export function formatTokenMillionsValue(tokens?: number | null): string {
   if (tokens === undefined || tokens === null) {
     return '-';
   }
-  return `${(tokens / 1_000_000).toFixed(1)}M`;
+  return (tokens / TOKENS_PER_MILLION).toFixed(1);
+}
+
+export function formatTokenMillions(tokens?: number | null): string {
+  const value = formatTokenMillionsValue(tokens);
+  return value === '-' ? value : `${value}M`;
 }
 
 export function formatTokenThousands(tokens?: number | null, decimals = 1): string {

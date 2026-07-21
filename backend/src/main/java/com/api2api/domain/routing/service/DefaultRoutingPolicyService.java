@@ -185,11 +185,15 @@ public class DefaultRoutingPolicyService implements RoutingPolicyService {
             int routePriority,
             List<RouteCandidate> candidates
     ) {
-        if (loadBalanceCounters.size() > 1000) {
-            loadBalanceCounters.clear();
-        }
         if (candidates.size() <= 1) {
             return candidates;
+        }
+        // Evict all entries when the map grows beyond threshold to prevent unbounded memory usage.
+        // NOTE: During eviction, concurrent threads may insert new entries with fresh counters,
+        // causing a brief load-balance reset. This is acceptable as load balance is best-effort
+        // and the counters are approximate round-robin state, not critical ordering guarantees.
+        if (loadBalanceCounters.size() > 1000) {
+            loadBalanceCounters.keySet().removeIf(k -> true);
         }
         String key = request.requestProtocol().name() + ':'
                 + request.requestedModel().value() + ':'

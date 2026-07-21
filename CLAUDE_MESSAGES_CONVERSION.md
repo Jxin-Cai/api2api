@@ -8,7 +8,7 @@
 
 已映射：system 与 `mid_conv_system`、多轮消息及连续同角色消息、文本/base64 图片/文档、client tool use/result、thinking 与 redacted thinking、`max_tokens`、temperature、top_p、top_k、stop sequences、JSON Schema 输出、adaptive thinking/effort、cache point（含 5m/1h TTL 字段）、metadata、service tier、fast mode、usage、客户端请求模型、精确 stop sequence、过滤/拒绝/上下文窗口停止原因、流式事件和上游错误。
 
-Claude Code 的延迟工具会降级为“完整工具列表”：`tool_search_tool_*` 定义不发送给 Converse，所有 `defer_loading` custom tools 作为普通 Converse `toolSpec` 发送。模型仍可调用这些工具，但失去按需发现带来的上下文节省。`input_examples` 会追加到工具描述；`eager_input_streaming` 不需要专门开关，ConverseStream 本身仍可流式输出工具参数。
+Claude Code 的延迟工具会降级为“完整工具列表”：`tool_search_tool_*` 定义不发送给 Converse，所有 `defer_loading` custom tools 作为普通 Converse `toolSpec` 发送。模型仍可调用这些工具，但失去按需发现带来的上下文节省。`input_examples` 会追加到工具描述；`eager_input_streaming` 不需要专门开关，ConverseStream 本身仍可流式输出工具参数。Claude Code 动态工作流的结构化输出允许 `array`、标量或组合 schema 作为根；Converse 要求工具 schema 根为 `object`，因此转换器会使用保留工具名前缀和 envelope 包装这些 schema，并在同步响应、流式响应及历史回放时做可逆解包。
 
 client tool result 会始终显式写入 Converse `status=success|error`。`AskUserQuestion` 成功返回后的紧邻模型回合会暂时隐藏该工具，要求模型先消费用户答案，避免原问题被立即重复询问。对于 Claude Code 的 `EnterPlanMode` / `ExitPlanMode`，转换器会根据已完成的工具结果恢复当前规划状态，并隐藏当前状态下无效的反向工具，避免计划已获批后模型再次调用 `ExitPlanMode` 形成错误循环。检测到 `Agent`（或具有 `prompt/subagent_type` schema 的旧版 `Task`）时，Bedrock 路径会把“已知目标用直接工具、开放式跨文件调查用 Agent”的跨工具选择规则提升为紧凑 system 指令；若 Agent description 禁止主动委派，则仅在用户明确要求 subagent、委派或并行 Agent 工作时启用。
 

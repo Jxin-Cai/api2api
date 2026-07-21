@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -31,9 +32,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             "inference_geo", "diagnostics"
     );
 
-    private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = "Thinking...";
-    private static final String RESPONSES_COMPACTION_PLACEHOLDER = "Context compacted.";
-    private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = "Conversation compacted.";
+    private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = ResponsesProtocolConstants.OPAQUE_STATE_PLACEHOLDER;
+    private static final String RESPONSES_COMPACTION_PLACEHOLDER = ResponsesProtocolConstants.COMPACTION_PLACEHOLDER;
+    private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = ResponsesProtocolConstants.COMPACTION_VISIBLE_TEXT;
 
     GenericProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -437,27 +438,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                     part.put("text", block.path("text").asText(""));
                     userParts.add(part);
                 }
-                case "image" -> {
-                    JsonNode imgSource = block.get("source");
-                    String url = "";
-                    if (imgSource != null && "base64".equals(imgSource.path("type").asText(""))) {
-                        String mediaType = imgSource.path("media_type").asText("image/png");
-                        String data = imgSource.path("data").asText("");
-                        if (!data.isBlank()) {
-                            url = "data:" + mediaType + ";base64," + data;
-                        }
-                    } else if (imgSource != null && "url".equals(imgSource.path("type").asText(""))) {
-                        url = imgSource.path("url").asText("");
-                    }
-                    if (!url.isBlank()) {
-                        ObjectNode part = json.objectNode();
-                        part.put("type", "image_url");
-                        ObjectNode imageUrl = json.objectNode();
-                        imageUrl.put("url", url);
-                        part.set("image_url", imageUrl);
-                        userParts.add(part);
-                    }
-                }
+                case "image" -> claudeImageSourceToChatImageUrl(block).ifPresent(userParts::add);
                 case "document" -> appendChatDocumentPart(userParts, block);
                 case "search_result" -> {
                     ObjectNode part = json.objectNode();
@@ -566,29 +547,33 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (content == null || !content.isArray()) return images;
         for (JsonNode item : content) {
             if ("image".equals(item.path("type").asText(""))) {
-                ObjectNode part = json.objectNode();
-                part.put("type", "image_url");
-                ObjectNode imageUrl = json.objectNode();
-                JsonNode imgSource = item.get("source");
-                String url = "";
-                if (imgSource != null && "base64".equals(imgSource.path("type").asText(""))) {
-                    String mediaType = imgSource.path("media_type").asText("image/png");
-                    String data = imgSource.path("data").asText("");
-                    if (!data.isBlank()) {
-                        url = "data:" + mediaType + ";base64," + data;
-                    }
-                } else if (imgSource != null && "url".equals(imgSource.path("type").asText(""))) {
-                    url = imgSource.path("url").asText("");
-                }
-                if (url.isBlank()) {
-                    continue;
-                }
-                imageUrl.put("url", url);
-                part.set("image_url", imageUrl);
-                images.add(part);
+                claudeImageSourceToChatImageUrl(item).ifPresent(images::add);
             }
         }
         return images;
+    }
+
+    private Optional<ObjectNode> claudeImageSourceToChatImageUrl(JsonNode imageBlock) {
+        JsonNode imgSource = imageBlock.get("source");
+        String url = "";
+        if (imgSource != null && "base64".equals(imgSource.path("type").asText(""))) {
+            String mediaType = imgSource.path("media_type").asText("image/png");
+            String data = imgSource.path("data").asText("");
+            if (!data.isBlank()) {
+                url = "data:" + mediaType + ";base64," + data;
+            }
+        } else if (imgSource != null && "url".equals(imgSource.path("type").asText(""))) {
+            url = imgSource.path("url").asText("");
+        }
+        if (url.isBlank()) {
+            return Optional.empty();
+        }
+        ObjectNode part = json.objectNode();
+        part.put("type", "image_url");
+        ObjectNode imageUrl = json.objectNode();
+        imageUrl.put("url", url);
+        part.set("image_url", imageUrl);
+        return Optional.of(part);
     }
 
     private ArrayNode normalizeChatToolHistory(ArrayNode messages) {
@@ -1717,16 +1702,32 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
     }
 
+    /**
+     * Reasoning model prefixes that require special protocol handling:
+     * - Disable temperature/top_p parameters (reasoning models manage their own sampling)
+     * - Use "developer" role instead of "system" (provider requirement)
+     * - Generate reasoning configuration block
+     * - Block unsupported protocol conversions (e.g. Claude Responses → non-reasoning)
+     *
+     * Caller impact: used at L125, L651, L656, L720 in this file.
+     * Maintained based on upstream provider documentation.
+     * See: https://platform.openai.com/docs/guides/reasoning
+     *
+     * NOTE: Adding a new reasoning model family requires updating these lists.
+     * Consider externalizing to configuration if the list changes frequently.
+     */
+    private static final List<String> REASONING_MODEL_PREFIXES = List.of(
+            "gpt-5", "o1", "o3", "o4"
+    );
+    private static final List<String> REASONING_MODEL_CONTAINS = List.of("codex");
+
     private boolean isReasoningModel(String model) {
         if (model == null) {
             return false;
         }
         String normalized = model.toLowerCase();
-        return normalized.startsWith("gpt-5")
-                || normalized.startsWith("o1")
-                || normalized.startsWith("o3")
-                || normalized.startsWith("o4")
-                || normalized.contains("codex");
+        return REASONING_MODEL_PREFIXES.stream().anyMatch(normalized::startsWith)
+                || REASONING_MODEL_CONTAINS.stream().anyMatch(normalized::contains);
     }
 
     private ObjectNode chatRequestToClaude(JsonNode source) {
@@ -2696,7 +2697,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private boolean isResponsesCompactionType(String type) {
-        return "compaction".equals(type) || "compaction_summary".equals(type);
+        return ResponsesProtocolConstants.isCompactionType(type);
     }
 
     private ObjectNode responsesReasoningToClaude(JsonNode item) {

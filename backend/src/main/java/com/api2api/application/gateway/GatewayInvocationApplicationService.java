@@ -41,6 +41,7 @@ import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +51,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class GatewayInvocationApplicationService {
 
     private static final int MAX_FAILURE_REASON_LENGTH = 1000;
-    private static final Duration MODEL_RATE_LIMIT_ISOLATION_DURATION = Duration.ofHours(24);
+
+    /**
+     * Duration a model remains isolated from routing after an upstream 429 rate-limit response.
+     * After this period, the model's status is restored to ENABLED by {@code restoreModelRateLimitsBefore}.
+     * Configurable via property {@code api2api.gateway.model-rate-limit-isolation} (ISO-8601 duration, default 24h).
+     */
+    @Value("${api2api.gateway.model-rate-limit-isolation:PT24H}")
+    private Duration modelRateLimitIsolationDuration;
 
     @NonNull
     private final ApiCredentialRepository apiCredentialRepository;
@@ -265,7 +273,7 @@ public class GatewayInvocationApplicationService {
         GatewayInvocation invocation = authenticateAndStartInvocation(command);
         Instant now = Instant.now(clock);
         List<ProtocolConversionDefinition> conversionDefinitions = conversionDefinitionRepository.findAll();
-        List<ProviderChannel> channels = routableChannels(now);
+        List<ProviderChannel> channels = restoreExpiredAndFetchRoutableChannels(now);
         RoutingRequest routingRequest = RoutingRequest.of(
                 command.getRequestProtocol(),
                 command.getRequestedModel(),
@@ -682,7 +690,15 @@ public class GatewayInvocationApplicationService {
         );
     }
 
-    private List<ProviderChannel> routableChannels(Instant now) {
+    /**
+     * Restores any models whose rate-limit isolation period has expired,
+     * then returns all channels currently enabled for routing.
+     *
+     * IMPORTANT: This method performs a database WRITE (UPDATE) as a side effect
+     * before querying. Do not call in read-only transactions or remove without
+     * providing an alternative mechanism for rate-limit recovery.
+     */
+    private List<ProviderChannel> restoreExpiredAndFetchRoutableChannels(Instant now) {
         providerChannelRepository.restoreModelRateLimitsBefore(now, now);
         return providerChannelRepository.findEnabledForRouting();
     }
@@ -691,7 +707,7 @@ public class GatewayInvocationApplicationService {
         if (failure.failureType() != RouteFailureType.RATE_LIMITED) {
             return;
         }
-        Instant resetAt = failure.occurredAt().plus(MODEL_RATE_LIMIT_ISOLATION_DURATION);
+        Instant resetAt = failure.occurredAt().plus(modelRateLimitIsolationDuration);
         providerChannelRepository.markModelRateLimited(
                 failure.providerChannelId(),
                 candidate.upstreamModel(),

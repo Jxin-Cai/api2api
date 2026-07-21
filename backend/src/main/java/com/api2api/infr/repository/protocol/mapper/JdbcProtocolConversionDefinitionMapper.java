@@ -4,7 +4,6 @@ import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
 
 import com.api2api.infr.repository.protocol.po.ProtocolConversionDefinitionPO;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import lombok.NonNull;

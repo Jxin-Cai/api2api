@@ -88,6 +88,92 @@ class BedrockConverseProtocolMessageConverterTest {
     }
 
     @Test
+    void test_wrapsStructuredOutputSchema_when_claudeWorkflowUsesArrayRoot() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,
+                 "tools":[{"name":"StructuredOutput","input_schema":{
+                   "type":"array","items":{"type":"string"}}}],
+                 "tool_choice":{"type":"tool","name":"StructuredOutput"},
+                 "messages":[{"role":"user","content":"Return dimensions"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/name").asText())
+                .isEqualTo("api2api_wrapped_StructuredOutput");
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/inputSchema/json/type").asText())
+                .isEqualTo("object");
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/inputSchema/json/properties/value/type").asText())
+                .isEqualTo("array");
+        assertThat(mapped.at("/toolConfig/toolChoice/tool/name").asText())
+                .isEqualTo("api2api_wrapped_StructuredOutput");
+    }
+
+    @Test
+    void test_wrapsHistoricalToolInput_when_claudeWorkflowUsesArrayRoot() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,
+                 "tools":[{"name":"StructuredOutput","input_schema":{
+                   "type":"array","items":{"type":"string"}}}],
+                 "messages":[
+                   {"role":"assistant","content":[{"type":"tool_use","id":"call-1",
+                     "name":"StructuredOutput","input":["design","dead-code"]}]},
+                   {"role":"user","content":[{"type":"tool_result","tool_use_id":"call-1","content":"ok"}]}
+                 ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/toolUse/name").asText())
+                .isEqualTo("api2api_wrapped_StructuredOutput");
+        assertThat(mapped.at("/messages/0/content/0/toolUse/input/value/0").asText()).isEqualTo("design");
+    }
+
+    @Test
+    void test_usesEmptyObjectSchema_when_claudeToolSchemaIsMissing() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String body = """
+                {"model":"claude-opus-4.8","max_tokens":128,
+                 "tools":[{"name":"NoArguments"}],
+                 "messages":[{"role":"user","content":"Run it"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/toolConfig/tools/0/toolSpec/inputSchema/json/type").asText())
+                .isEqualTo("object");
+    }
+
+    @Test
     void test_preservesToolResultsWithoutImplicitContextMutation_when_historyIsLarge() throws Exception {
         // Arrange
         BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
@@ -1170,6 +1256,32 @@ class BedrockConverseProtocolMessageConverterTest {
         assertThat(mapped.at("/usage/input_tokens").asLong()).isEqualTo(10);
         assertThat(result.usage()).isPresent();
         assertThat(result.usage().orElseThrow().totalTokens()).isEqualTo(18);
+    }
+
+    @Test
+    void test_unwrapsStructuredOutputInput_when_bedrockReturnsAdaptedToolUse() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, new BedrockConverseUsageExtractor(), ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE, sseEventTransformer
+        );
+        String body = """
+                {"output":{"message":{"content":[{"toolUse":{
+                  "toolUseId":"toolu_1","name":"api2api_wrapped_StructuredOutput",
+                  "input":{"value":["design","dead-code"]}}}]}},
+                 "stopReason":"tool_use","usage":{"inputTokens":1,"outputTokens":2}}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CONVERSE, body, false),
+                ProtocolConversionRequest.of(false, true, false).forRoute(1L, "bedrock-model")
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/content/0/name").asText()).isEqualTo("StructuredOutput");
+        assertThat(mapped.at("/content/0/input").isArray()).isTrue();
+        assertThat(mapped.at("/content/0/input/1").asText()).isEqualTo("dead-code");
     }
 
     @Test

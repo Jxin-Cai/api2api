@@ -1,5 +1,7 @@
 import { Skeleton } from 'antd';
 
+import { formatTokenMillionsValue } from '@shared/lib/formatters';
+
 import type { UsageScope } from '../model/types';
 import './UsageTokenSummary.css';
 
@@ -17,7 +19,7 @@ interface UsageTokenSummaryProps {
 export function UsageTokenSummary({ totalTokens, recordCount = 0, scope, loading = false }: UsageTokenSummaryProps) {
   const safeTotalTokens = Number.isFinite(totalTokens) ? Math.max(0, totalTokens) : 0;
   const safeRecordCount = Number.isFinite(recordCount) ? Math.max(0, recordCount) : 0;
-  const formattedExactTokens = safeTotalTokens.toLocaleString('zh-CN');
+  const formattedTotalTokens = formatTokenMillionsValue(safeTotalTokens);
   const formattedRecordCount = safeRecordCount.toLocaleString('zh-CN');
   const formattedAverageTokens = (safeRecordCount === 0 ? 0 : Math.round(safeTotalTokens / safeRecordCount)).toLocaleString('zh-CN');
   const scopeLabel = scope === 'admin' ? '全平台' : '个人';
@@ -45,8 +47,8 @@ export function UsageTokenSummary({ totalTokens, recordCount = 0, scope, loading
               <span className="usage-token-summary__scope">{scopeLabel} / 当前筛选</span>
             </div>
             <div className="usage-token-summary__value-row mono-number">
-              <strong className="usage-token-summary__value">{formattedExactTokens}</strong>
-              <span className="usage-token-summary__unit">Token</span>
+              <strong className="usage-token-summary__value">{formattedTotalTokens}</strong>
+              <span className="usage-token-summary__unit">M</span>
             </div>
             <span className="usage-token-summary__hint">基于当前筛选结果汇总，不受当前分页影响</span>
           </div>

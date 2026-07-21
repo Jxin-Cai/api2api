@@ -1,7 +1,6 @@
 export type AdminId = number | string;
 export type AdminRole = 'ADMIN' | 'USER';
 export type AdminStatus = 'ACTIVE' | 'ENABLED' | 'DISABLED';
-export type AdminFormMode = 'create' | 'edit';
 export type EnabledStatus = 'ENABLED' | 'DISABLED';
 export type ModelSource = 'FETCHED' | 'MANUAL' | string;
 export type ProtocolConversionStatus = 'ENABLED' | 'DISABLED' | string;

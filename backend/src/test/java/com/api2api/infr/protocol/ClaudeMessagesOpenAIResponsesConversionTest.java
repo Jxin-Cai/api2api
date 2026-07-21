@@ -17,7 +17,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void shouldMapStreamingClaudeToolsAndToolResultsToResponsesRequest() throws Exception {
+    void test_mapsStreamingClaudeToolsAndToolResults_when_convertingToResponsesRequest() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -89,7 +89,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldAcceptClaudeCodeNoopClearThinkingContextManagementForResponses() throws Exception {
+    void test_acceptsNoopClearThinkingContextManagement_when_claudeCodeUsesResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -174,7 +174,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldMapNonStreamingResponsesFunctionCallToClaudeToolUse() throws Exception {
+    void test_mapsNonStreamingFunctionCall_when_responsesTargetsClaude() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .openAIResponsesToClaudeMessagesResponse(
@@ -211,7 +211,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldNotForceReasoningOrVerbosityWhenClaudeDidNotRequestThem() throws Exception {
+    void test_doesNotForceReasoningOrVerbosity_when_claudeDidNotRequestThem() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -230,7 +230,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldMapLatestClaudeOutputToolsFilesAndMcpSchemasToResponses() throws Exception {
+    void test_mapsLatestClaudeOutputToolsFilesAndMcpSchemas_when_convertingToResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -276,7 +276,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldMapFastModeAndRejectUnknownClaudeFieldsInsteadOfSilentlyDroppingThem() throws Exception {
+    void test_mapsFastModeAndRejectsUnknownFields_when_claudeRequestContainsUnsupportedFields() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -382,7 +382,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldPreserveTextAndToolOrderingWithinAssistantContent() throws Exception {
+    void test_preservesTextAndToolOrdering_when_assistantContentIsInterleaved() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
@@ -406,7 +406,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldRoundTripEncryptedResponsesReasoningThroughClaudeThinkingSignature() throws Exception {
+    void test_roundTripsEncryptedResponsesReasoning_when_claudeThinkingSignatureIsUsed() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
         ProtocolMessageConverter responseConverter = configuration.openAIResponsesToClaudeMessagesResponse(
@@ -442,7 +442,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void shouldRoundTripProviderHostedToolStateThroughOpaqueClaudeSignature() throws Exception {
+    void test_roundTripsProviderHostedToolState_when_opaqueClaudeSignatureIsUsed() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
         ProtocolMessageConverter responseConverter = configuration.openAIResponsesToClaudeMessagesResponse(

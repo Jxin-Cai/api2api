@@ -9,10 +9,13 @@ import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.api2api.domain.protocol.service.DefaultProtocolConversionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConversionService {
+
+    private static final Logger log = LoggerFactory.getLogger(DefaultProtocolConversionServiceAdapter.class);
 
     private final List<ProtocolMessageConverter> converters;
     private final List<UnifiedUsageExtractor> usageExtractors;
@@ -101,7 +106,9 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
     private JsonNode readJson(String body) {
         try {
             return objectMapper.readTree(body);
-        } catch (Exception exception) {
+        } catch (JsonProcessingException exception) {
+            log.warn("Failed to parse response body for usage extraction, bodyLength: {}, error: {}",
+                    body == null ? 0 : body.length(), exception.getMessage());
             return objectMapper.createObjectNode();
         }
     }

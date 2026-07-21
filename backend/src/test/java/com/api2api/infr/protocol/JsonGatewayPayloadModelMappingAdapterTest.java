@@ -13,7 +13,7 @@ class JsonGatewayPayloadModelMappingAdapterTest {
     private final JsonGatewayPayloadModelMappingAdapter adapter = new JsonGatewayPayloadModelMappingAdapter(objectMapper);
 
     @Test
-    void shouldNotWriteModelIntoBedrockConverseBody() {
+    void test_doesNotWriteModel_when_targetIsBedrockConverse() {
         String body = "{\"messages\":[{\"role\":\"user\",\"content\":[{\"text\":\"hello\"}]}]}";
 
         String mapped = adapter.rewriteModel(
@@ -26,7 +26,7 @@ class JsonGatewayPayloadModelMappingAdapterTest {
     }
 
     @Test
-    void shouldRewriteModelForJsonProtocolsThatCarryItInTheBody() throws Exception {
+    void test_rewritesModel_when_jsonProtocolCarriesModelInBody() throws Exception {
         String mapped = adapter.rewriteModel(
                 ProtocolType.OPENAI_RESPONSES,
                 "{\"model\":\"alias\",\"input\":\"hello\"}",

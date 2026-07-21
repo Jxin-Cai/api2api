@@ -44,7 +44,7 @@ class RoutingPolicyServiceTest {
     private final RoutingPolicyService service = new DefaultRoutingPolicyService();
 
     @Test
-    void usesConfiguredUpstreamProtocolForRequestProtocol() {
+    void test_usesConfiguredUpstreamProtocol_when_requestProtocolHasMapping() {
         ProviderChannel channel = ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("OpenAI channel"),
@@ -84,7 +84,7 @@ class RoutingPolicyServiceTest {
     }
 
     @Test
-    void keepsModelProtocolAsFallbackWhenConfiguredProtocolCannotServeModel() {
+    void test_keepsModelProtocolAsFallback_when_configuredProtocolCannotServeModel() {
         ProviderChannel channel = ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("multi-protocol channel"),
@@ -139,7 +139,7 @@ class RoutingPolicyServiceTest {
     }
 
     @Test
-    void derivesUpstreamProtocolFromModelSupportWhenRequestMappingMissing() {
+    void test_derivesUpstreamProtocolFromModelSupport_when_requestMappingMissing() {
         ProviderChannel channel = ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("OpenAI responses channel"),
@@ -173,7 +173,7 @@ class RoutingPolicyServiceTest {
     }
 
     @Test
-    void doesNotDeriveCandidateWhenConversionCapabilityDoesNotSatisfyRequirement() {
+    void test_doesNotDeriveCandidate_when_conversionCapabilityDoesNotSatisfyRequirement() {
         ProviderChannel channel = ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("OpenAI responses channel"),
@@ -203,7 +203,7 @@ class RoutingPolicyServiceTest {
     }
 
     @Test
-    void doesNotDeriveCandidateWithoutConversionDefinition() {
+    void test_doesNotDeriveCandidate_when_conversionDefinitionMissing() {
         ProviderChannel channel = ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("OpenAI responses channel"),

@@ -35,7 +35,7 @@ class UnifiedStreamingConversionAdapterTest {
             new UnifiedStreamingConversionAdapter(objectMapper);
 
     @Test
-    void shouldConvertBedrockEventStreamToClaudeSseAndExtractUsage() throws Exception {
+    void test_convertsBedrockEventStream_when_targetIsClaudeSse() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
         writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":0,\"delta\":{\"text\":\"OK\"}}");
@@ -304,7 +304,7 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
-    void shouldPreserveWriteToolUseAfterPlanIntroText() throws Exception {
+    void test_preservesWriteToolUse_when_planIntroTextPrecedesIt() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
         writeEvent(upstream, "contentBlockStart", "{\"contentBlockIndex\":0,\"start\":{}}");
@@ -347,7 +347,44 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
-    void shouldConvertOpenAIResponsesSseToClaudeSseWithToolUseAndUsage() throws Exception {
+    void test_unwrapsStructuredOutputInput_when_bedrockStreamsAdaptedToolUse() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
+        writeEvent(upstream, "contentBlockStart", """
+                {"contentBlockIndex":0,"start":{"toolUse":{"toolUseId":"toolu_1",
+                  "name":"api2api_wrapped_StructuredOutput"}}}
+                """);
+        writeEvent(upstream, "contentBlockDelta",
+                "{\"contentBlockIndex\":0,\"delta\":{\"toolUse\":{\"input\":\"{\\\"value\\\":[\\\"design\\\",\"}}}");
+        writeEvent(upstream, "contentBlockDelta",
+                "{\"contentBlockIndex\":0,\"delta\":{\"toolUse\":{\"input\":\"\\\"dead-code\\\"]}\"}}}");
+        writeEvent(upstream, "contentBlockStop", "{\"contentBlockIndex\":0}");
+        writeEvent(upstream, "messageStop", "{\"stopReason\":\"tool_use\"}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode toolStart = events.stream()
+                .filter(node -> "tool_use".equals(node.at("/content_block/type").asText()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(toolStart.at("/content_block/name").asText()).isEqualTo("StructuredOutput");
+        assertThat(events.stream()
+                .filter(node -> "input_json_delta".equals(node.at("/delta/type").asText()))
+                .map(node -> node.at("/delta/partial_json").asText())
+                .toList()).containsExactly("[\"design\",\"dead-code\"]");
+    }
+
+    @Test
+    void test_convertsOpenAIResponsesSse_when_targetIsClaudeSseWithToolUse() throws Exception {
         String upstream = """
                 event: response.created
                 data: {"type":"response.created","response":{"id":"resp_1"}}
@@ -421,7 +458,7 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
-    void shouldConvertBedrockEventStreamToOpenAIResponsesSseAndExtractUsage() throws Exception {
+    void test_convertsBedrockEventStream_when_targetIsOpenAIResponsesSse() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         writeEvent(upstream, "messageStart", "{\"role\":\"assistant\"}");
         writeEvent(upstream, "contentBlockDelta", "{\"contentBlockIndex\":0,\"delta\":{\"text\":\"OK\"}}");
@@ -446,7 +483,7 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
-    void shouldSurfaceBedrockStreamExceptionInsteadOfCompletingSuccessfully() throws Exception {
+    void test_surfacesBedrockStreamException_when_eventStreamContainsError() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         writeEvent(upstream, "validationException", "{\"message\":\"invalid thinking field\"}");
 
@@ -460,7 +497,7 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
-    void shouldSurfaceModeledBedrockExceptionFrame_when_eventTypeIsAbsent() throws Exception {
+    void test_surfacesModeledBedrockExceptionFrame_when_eventTypeIsAbsent() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
         writeModeledException(upstream, "validationException", "{\"message\":\"invalid thinking field\"}");
@@ -476,7 +513,7 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
-    void shouldSurfaceModeledBedrockExceptionFrameForResponses_when_eventTypeIsAbsent() throws Exception {
+    void test_surfacesModeledBedrockExceptionFrameForResponses_when_eventTypeIsAbsent() throws Exception {
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
         writeModeledException(upstream, "throttlingException", "{\"message\":\"rate limited\"}");

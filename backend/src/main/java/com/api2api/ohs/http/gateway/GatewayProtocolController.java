@@ -10,15 +10,12 @@ import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.protocolcontract.acl.ExecutableProtocolContract;
-import com.api2api.domain.protocolcontract.model.ParsedGatewayRequest;
-import com.api2api.domain.protocolcontract.model.ProtocolContractViolationException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -210,11 +207,4 @@ public class GatewayProtocolController {
         );
     }
 
-    private void validateContractRequest(ProtocolType protocolType, String rawBody) {
-        try {
-            protocolContract.parseRequest(protocolType, rawBody);
-        } catch (ProtocolContractViolationException exception) {
-            throw GatewayProtocolException.badRequest(protocolType, exception.getMessage());
-        }
-    }
 }

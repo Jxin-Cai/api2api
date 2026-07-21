@@ -4,6 +4,7 @@ import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
 import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
+import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,37 +32,6 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private static final String ASK_USER_QUESTION_TOOL = "AskUserQuestion";
     private static final String ENTER_PLAN_MODE_TOOL = "EnterPlanMode";
     private static final String EXIT_PLAN_MODE_TOOL = "ExitPlanMode";
-    private static final String WORKFLOW_TOOL = "Workflow";
-    private static final String WORKFLOW_PROMPT_PREFIX = "Run the \"";
-    private static final String WORKFLOW_INVOKE_DIRECTIVE = "Invoke: Workflow(";
-    private static final String SEND_MESSAGE_TOOL = "SendMessage";
-    private static final String AGENT_TOOL = "Agent";
-    private static final String LEGACY_AGENT_TOOL = "Task";
-    private static final String TASK_NOTIFICATION_TAG = "<task-notification>";
-    private static final String TASK_COMPLETED_TAG = "<status>completed</status>";
-    private static final String TASK_ID_TAG = "<task-id>";
-    private static final String WORKFLOW_INVOCATION_INSTRUCTION =
-            "The latest user message is a Claude Code workflow dispatch instruction. "
-                    + "The workflow has not started merely because the Skill tool returned 'Launching skill'. "
-                    + "Invoke the Workflow tool exactly as requested before claiming that it is running.";
-    private static final String BACKGROUND_TASK_COMPLETION_INSTRUCTION =
-            "A Claude Code task-notification status of 'completed' only means the background agent stopped. "
-                    + "Inspect its result and verify that the requested outcome or artifact was actually produced. "
-                    + "If the result is progress-only or incomplete, resume the same agent with SendMessage using "
-                    + "the task-id; do not report success or duplicate the task in the main agent.";
-    private static final String AGENT_SELECTION_INSTRUCTION =
-            "Claude Code tool-selection rule: use direct Read, Glob, Grep, or Bash only when the target is "
-                    + "already known and the operation is local. For open-ended investigation spanning multiple "
-                    + "files, independent verification, or parallelizable work, invoke the %s tool and consume "
-                    + "its result instead of repeatedly performing the same investigation in the main agent.";
-    private static final String EXPLICIT_AGENT_REQUEST_INSTRUCTION =
-            "The user explicitly requested delegation, a subagent, or parallel agent work. Invoke the %s tool "
-                    + "for the delegated work before attempting to reproduce that work with direct tools.";
-    private static final Pattern EXPLICIT_AGENT_REQUEST_PATTERN = Pattern.compile(
-            "(?iu)(sub[ -]?agent|\\bagent\\b|delegate|delegation|parallel agent|"
-                    + "子\\s*(?:agent|代理)|委派|代理执行|并行(?:调查|分析|处理|执行|agent))");
-    private static final Pattern CLAUDE_SYSTEM_REMINDER_PATTERN = Pattern.compile(
-            "(?is)<system-reminder>.*?</system-reminder>");
     private static final String MID_CONVERSATION_SYSTEM_PREFIX =
             "<claude-mid-conversation-system>\n";
     private static final String MID_CONVERSATION_SYSTEM_SUFFIX =
@@ -139,6 +109,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             throw new ProtocolConversionException("CLAUDE_BEDROCK_CACHE_ONLY_REQUEST_NOT_SUPPORTED_BY_CONVERSE");
         }
         ObjectNode target = json.objectNode();
+        Map<String, String> bedrockToolNames = bedrockToolNames(source.get("tools"));
 
         validateContextManagementForConverse(source.get("context_management"));
 
@@ -148,28 +119,27 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (messages != null && messages.isArray()) {
             for (JsonNode msg : messages) {
                 String role = msg.path("role").asText("user");
-                appendClaudeMessage(bedrockMessages, role, msg.get("content"), routeContext);
+                appendClaudeMessage(bedrockMessages, role, msg.get("content"), routeContext, bedrockToolNames);
             }
         }
         target.set("messages", bedrockMessages);
 
-        boolean workflowInvocationRequired = workflowInvocationRequired(source.get("tools"), source.get("messages"));
-        boolean backgroundTaskCompletionRequiresValidation = backgroundTaskCompletionRequiresValidation(
-                source.get("tools"), source.get("messages"));
-        String agentSelectionInstruction = agentSelectionInstruction(source.get("tools"), source.get("messages"));
         JsonNode system = source.get("system");
         ArrayNode systemBlocks = json.arrayNode();
         if (system != null && !system.isNull()) {
             systemBlocks.addAll(claudeSystemToBedrock(system));
         }
-        if (workflowInvocationRequired) {
-            systemBlocks.add(textBlock(WORKFLOW_INVOCATION_INSTRUCTION));
+        JsonNode tools = source.get("tools");
+        JsonNode originalMessages = source.get("messages");
+        if (ClaudeCodeBehaviorPolicyEnricher.workflowInvocationRequired(tools, originalMessages, this::firstTextFromClaudeContent)) {
+            systemBlocks.add(textBlock(ClaudeCodeBehaviorPolicyEnricher.workflowInvocationInstructionText()));
         }
-        if (backgroundTaskCompletionRequiresValidation) {
-            systemBlocks.add(textBlock(BACKGROUND_TASK_COMPLETION_INSTRUCTION));
+        if (ClaudeCodeBehaviorPolicyEnricher.backgroundTaskCompletionRequiresValidation(tools, originalMessages, this::firstTextFromClaudeContent)) {
+            systemBlocks.add(textBlock(ClaudeCodeBehaviorPolicyEnricher.backgroundTaskCompletionInstructionText()));
         }
-        if (!agentSelectionInstruction.isBlank()) {
-            systemBlocks.add(textBlock(agentSelectionInstruction));
+        String agentInstruction = ClaudeCodeBehaviorPolicyEnricher.agentSelectionInstruction(tools, originalMessages);
+        if (!agentInstruction.isBlank()) {
+            systemBlocks.add(textBlock(agentInstruction));
         }
         if (!systemBlocks.isEmpty()) {
             target.set("system", systemBlocks);
@@ -180,14 +150,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (maxTokens != null && !maxTokens.isNull()) {
             inferenceConfig.put("maxTokens", maxTokens.asInt());
         }
-        JsonNode temperature = source.get("temperature");
-        if (temperature != null && !temperature.isNull()) {
-            inferenceConfig.put("temperature", temperature.floatValue());
-        }
-        JsonNode topP = source.get("top_p");
-        if (topP != null && !topP.isNull()) {
-            inferenceConfig.put("topP", topP.floatValue());
-        }
+        applyTemperatureAndTopP(source, inferenceConfig);
         JsonNode stopSequences = source.get("stop_sequences");
         if (stopSequences != null && stopSequences.isArray() && !stopSequences.isEmpty()) {
             inferenceConfig.set("stopSequences", stopSequences);
@@ -203,7 +166,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
 
         ClaudeCodeToolState toolState = inferClaudeCodeToolState(source.get("messages"));
-        ObjectNode toolConfig = toBedrockToolConfig(source.get("tools"), source.get("tool_choice"), toolState);
+        ObjectNode toolConfig = toBedrockToolConfig(
+                source.get("tools"), source.get("tool_choice"), toolState, bedrockToolNames);
         if (!toolConfig.isEmpty()) {
             target.set("toolConfig", toolConfig);
         }
@@ -319,14 +283,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         if (maxTokens != null && !maxTokens.isNull()) {
             inferenceConfig.put("maxTokens", maxTokens.asInt());
         }
-        JsonNode temperature = source.get("temperature");
-        if (temperature != null && !temperature.isNull()) {
-            inferenceConfig.put("temperature", temperature.floatValue());
-        }
-        JsonNode topP = source.get("top_p");
-        if (topP != null && !topP.isNull()) {
-            inferenceConfig.put("topP", topP.floatValue());
-        }
+        applyTemperatureAndTopP(source, inferenceConfig);
         JsonNode stop = source.get("stop");
         if (stop != null && stop.isArray() && !stop.isEmpty()) {
             inferenceConfig.set("stopSequences", stop);
@@ -389,14 +346,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         } else if (reasoningBudgetTokens != null) {
             inferenceConfig.put("maxTokens", reasoningBudgetTokens + 1024);
         }
-        JsonNode temperature = source.get("temperature");
-        if (temperature != null && !temperature.isNull()) {
-            inferenceConfig.put("temperature", temperature.floatValue());
-        }
-        JsonNode topP = source.get("top_p");
-        if (topP != null && !topP.isNull()) {
-            inferenceConfig.put("topP", topP.floatValue());
-        }
+        applyTemperatureAndTopP(source, inferenceConfig);
         if (!inferenceConfig.isEmpty()) {
             target.set("inferenceConfig", inferenceConfig);
         }
@@ -465,19 +415,15 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                     ? "fast" : "standard");
         }
 
+        UnifiedTokenUsage tokenUsage = extractBedrockUsage(source);
         ObjectNode usage = json.objectNode();
-        JsonNode bedrockUsage = source.path("usage");
-        long inputTokens = bedrockUsage.path("inputTokens").asLong(0);
-        long outputTokens = bedrockUsage.path("outputTokens").asLong(0);
-        long cacheRead = bedrockUsage.path("cacheReadInputTokens").asLong(0);
-        long cacheWrite = bedrockUsage.path("cacheWriteInputTokens").asLong(0);
-        usage.put("input_tokens", inputTokens);
-        usage.put("output_tokens", outputTokens);
-        if (cacheRead > 0) {
-            usage.put("cache_read_input_tokens", cacheRead);
+        usage.put("input_tokens", tokenUsage.inputTokens());
+        usage.put("output_tokens", tokenUsage.outputTokens());
+        if (tokenUsage.cacheReadInputTokens() > 0) {
+            usage.put("cache_read_input_tokens", tokenUsage.cacheReadInputTokens());
         }
-        if (cacheWrite > 0) {
-            usage.put("cache_creation_input_tokens", cacheWrite);
+        if (tokenUsage.cacheCreationInputTokens() > 0) {
+            usage.put("cache_creation_input_tokens", tokenUsage.cacheCreationInputTokens());
         }
         target.set("usage", usage);
 
@@ -511,17 +457,14 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         choices.add(choice);
         target.set("choices", choices);
 
+        UnifiedTokenUsage tokenUsage = extractBedrockUsage(source);
         ObjectNode usage = json.objectNode();
-        JsonNode bedrockUsage = source.path("usage");
-        long inputTokens = bedrockUsage.path("inputTokens").asLong(0);
-        long outputTokens = bedrockUsage.path("outputTokens").asLong(0);
-        long cacheRead = bedrockUsage.path("cacheReadInputTokens").asLong(0);
-        usage.put("prompt_tokens", inputTokens);
-        usage.put("completion_tokens", outputTokens);
-        usage.put("total_tokens", inputTokens + outputTokens);
-        if (cacheRead > 0) {
+        usage.put("prompt_tokens", tokenUsage.inputTokens());
+        usage.put("completion_tokens", tokenUsage.outputTokens());
+        usage.put("total_tokens", tokenUsage.inputTokens() + tokenUsage.outputTokens());
+        if (tokenUsage.cacheReadInputTokens() > 0) {
             ObjectNode details = json.objectNode();
-            details.put("cached_tokens", cacheRead);
+            details.put("cached_tokens", tokenUsage.cacheReadInputTokens());
             usage.set("prompt_tokens_details", details);
         }
         target.set("usage", usage);
@@ -552,17 +495,14 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         output.add(outputMessage);
         target.set("output", output);
 
+        UnifiedTokenUsage tokenUsage = extractBedrockUsage(source);
         ObjectNode usage = json.objectNode();
-        JsonNode bedrockUsage = source.path("usage");
-        long inputTokens = bedrockUsage.path("inputTokens").asLong(0);
-        long outputTokens = bedrockUsage.path("outputTokens").asLong(0);
-        long cacheRead = bedrockUsage.path("cacheReadInputTokens").asLong(0);
-        usage.put("input_tokens", inputTokens);
-        usage.put("output_tokens", outputTokens);
-        usage.put("total_tokens", inputTokens + outputTokens);
-        if (cacheRead > 0) {
+        usage.put("input_tokens", tokenUsage.inputTokens());
+        usage.put("output_tokens", tokenUsage.outputTokens());
+        usage.put("total_tokens", tokenUsage.inputTokens() + tokenUsage.outputTokens());
+        if (tokenUsage.cacheReadInputTokens() > 0) {
             ObjectNode details = json.objectNode();
-            details.put("cached_tokens", cacheRead);
+            details.put("cached_tokens", tokenUsage.cacheReadInputTokens());
             usage.set("input_tokens_details", details);
         }
         target.set("usage", usage);
@@ -571,6 +511,44 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     }
 
     // ==================== Helper methods ====================
+
+    private Map<String, String> bedrockToolNames(JsonNode tools) {
+        if (tools == null || !tools.isArray()) {
+            return Map.of();
+        }
+        Map<String, String> names = new HashMap<>();
+        for (JsonNode tool : tools) {
+            String toolName = tool.path("name").asText("");
+            if (toolName.isBlank()) {
+                continue;
+            }
+            JsonNode schema = tool.hasNonNull("input_schema")
+                    ? tool.get("input_schema")
+                    : tool.get("inputSchema");
+            names.put(toolName, BedrockToolSchemaAdapter.toBedrockToolName(toolName, schema));
+        }
+        return Map.copyOf(names);
+    }
+
+    private UnifiedTokenUsage extractBedrockUsage(JsonNode source) {
+        JsonNode usage = source.path("usage");
+        long inputTokens = usage.path("inputTokens").asLong(0);
+        long outputTokens = usage.path("outputTokens").asLong(0);
+        long cacheWrite = usage.path("cacheWriteInputTokens").asLong(0);
+        long cacheRead = usage.path("cacheReadInputTokens").asLong(0);
+        return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWrite, cacheRead);
+    }
+
+    private void applyTemperatureAndTopP(JsonNode source, ObjectNode inferenceConfig) {
+        JsonNode temperature = source.get("temperature");
+        if (temperature != null && !temperature.isNull()) {
+            inferenceConfig.put("temperature", temperature.floatValue());
+        }
+        JsonNode topP = source.get("top_p");
+        if (topP != null && !topP.isNull()) {
+            inferenceConfig.put("topP", topP.floatValue());
+        }
+    }
 
     private void validateClaudeRequestFields(JsonNode source) {
         if (source == null || !source.isObject()) {
@@ -671,10 +649,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             ArrayNode messages,
             String role,
             JsonNode content,
-            ProtocolConversionRouteContext routeContext
+            ProtocolConversionRouteContext routeContext,
+            Map<String, String> bedrockToolNames
     ) {
         if (content == null || !content.isArray()) {
-            addOrMergeBedrockMessage(messages, toBedrockMessage(role, content, routeContext));
+            addOrMergeBedrockMessage(messages, toBedrockMessage(role, content, routeContext, bedrockToolNames));
             return;
         }
         ArrayNode pending = json.arrayNode();
@@ -688,7 +667,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 continue;
             }
             if (!pending.isEmpty()) {
-                addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending, routeContext));
+                addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending, routeContext, bedrockToolNames));
                 pending = json.arrayNode();
             }
             JsonNode systemContent = block.get("content");
@@ -705,7 +684,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             addOrMergeBedrockMessage(messages, systemMessage);
         }
         if (!pending.isEmpty()) {
-            addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending, routeContext));
+            addOrMergeBedrockMessage(messages, toBedrockMessage(role, pending, routeContext, bedrockToolNames));
         }
     }
 
@@ -868,7 +847,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private ObjectNode toBedrockMessage(
             String role,
             JsonNode claudeContent,
-            ProtocolConversionRouteContext routeContext
+            ProtocolConversionRouteContext routeContext,
+            Map<String, String> bedrockToolNames
     ) {
         ObjectNode msg = json.objectNode();
         msg.put("role", switch (role) {
@@ -891,7 +871,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                     case "image" -> contentBlocks.add(toBedrockImage(item));
                     case "document" -> contentBlocks.add(toBedrockDocument(item));
                     case "search_result" -> contentBlocks.add(toBedrockSearchResult(item));
-                    case "tool_use", "mcp_tool_use" -> contentBlocks.add(toBedrockToolUse(item));
+                    case "tool_use", "mcp_tool_use" -> contentBlocks.add(toBedrockToolUse(item, bedrockToolNames));
                     case "server_tool_use", "web_search_tool_result", "web_fetch_tool_result",
                          "code_execution_tool_result", "bash_code_execution_tool_result",
                          "text_editor_code_execution_tool_result", "tool_search_tool_result" ->
@@ -1035,13 +1015,18 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return textBlock;
     }
 
-    private ObjectNode toBedrockToolUse(JsonNode item) {
+    private ObjectNode toBedrockToolUse(JsonNode item, Map<String, String> bedrockToolNames) {
         ObjectNode block = json.objectNode();
         ObjectNode toolUse = json.objectNode();
         toolUse.put("toolUseId", item.path("id").asText(""));
-        toolUse.put("name", item.path("name").asText(""));
+        String claudeToolName = item.path("name").asText("");
+        String bedrockToolName = bedrockToolNames.getOrDefault(claudeToolName, claudeToolName);
+        toolUse.put("name", bedrockToolName);
         JsonNode input = item.get("input");
-        toolUse.set("input", input == null || input.isNull() ? json.objectNode() : input);
+        JsonNode mappedInput = input == null || input.isNull() ? json.objectNode() : input;
+        toolUse.set("input", BedrockToolSchemaAdapter.isAdaptedToolName(bedrockToolName)
+                ? BedrockToolSchemaAdapter.wrapInput(mappedInput)
+                : mappedInput);
         block.set("toolUse", toolUse);
         return block;
     }
@@ -1131,7 +1116,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
     private ObjectNode toBedrockToolConfig(
             JsonNode tools,
             JsonNode toolChoice,
-            ClaudeCodeToolState toolState
+            ClaudeCodeToolState toolState,
+            Map<String, String> bedrockToolNames
     ) {
         ObjectNode toolConfig = json.objectNode();
         String choiceType = toolChoice == null || toolChoice.isNull()
@@ -1166,7 +1152,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 }
                 ObjectNode toolWrapper = json.objectNode();
                 ObjectNode toolSpec = json.objectNode();
-                toolSpec.put("name", toolName);
+                String bedrockToolName = bedrockToolNames.getOrDefault(toolName, toolName);
+                toolSpec.put("name", bedrockToolName);
                 String description = tool.path("description").asText("");
                 if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
                     description = description + (description.isBlank() ? "" : "\n\n")
@@ -1180,14 +1167,14 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 if (schema == null || schema.isNull()) {
                     schema = tool.get("inputSchema");
                 }
-                inputSchema.set("json", schema == null || schema.isNull() ? json.objectNode() : schema);
+                inputSchema.set("json", BedrockToolSchemaAdapter.toBedrockSchema(schema));
                 toolSpec.set("inputSchema", inputSchema);
                 if (tool.hasNonNull("strict")) {
                     toolSpec.put("strict", tool.path("strict").asBoolean());
                 }
                 toolWrapper.set("toolSpec", toolSpec);
                 bedrockTools.add(toolWrapper);
-                exposedToolNames.add(toolName);
+                exposedToolNames.add(bedrockToolName);
                 if (hasEphemeralCacheControl(tool)) {
                     bedrockTools.add(cachePointBlock(tool.get("cache_control")));
                 }
@@ -1196,13 +1183,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
                 return toolConfig;
             }
             toolConfig.set("tools", bedrockTools);
-            ObjectNode mappedChoice = toBedrockToolChoice(toolChoice, exposedToolNames);
+            ObjectNode mappedChoice = toBedrockToolChoice(toolChoice, exposedToolNames, bedrockToolNames);
             if (!mappedChoice.isEmpty()) {
                 toolConfig.set("toolChoice", mappedChoice);
             }
             return toolConfig;
         }
-        ObjectNode mappedChoice = toBedrockToolChoice(toolChoice, Set.of());
+        ObjectNode mappedChoice = toBedrockToolChoice(toolChoice, Set.of(), bedrockToolNames);
         if (!mappedChoice.isEmpty()) {
             toolConfig.set("toolChoice", mappedChoice);
         }
@@ -1469,7 +1456,11 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         return "";
     }
 
-    private ObjectNode toBedrockToolChoice(JsonNode toolChoice, Set<String> exposedToolNames) {
+    private ObjectNode toBedrockToolChoice(
+            JsonNode toolChoice,
+            Set<String> exposedToolNames,
+            Map<String, String> bedrockToolNames
+    ) {
         ObjectNode mappedChoice = json.objectNode();
         if (toolChoice == null || toolChoice.isNull()) {
             return mappedChoice;
@@ -1480,7 +1471,8 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         }
         String type = toolChoice.path("type").asText("auto");
         if ("tool".equals(type)) {
-            String name = toolChoice.path("name").asText("");
+            String claudeName = toolChoice.path("name").asText("");
+            String name = bedrockToolNames.getOrDefault(claudeName, claudeName);
             if (!exposedToolNames.contains(name)) {
                 mappedChoice.set("auto", json.objectNode());
                 return mappedChoice;
@@ -1538,9 +1530,13 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             ObjectNode toolBlock = json.objectNode();
             toolBlock.put("type", "tool_use");
             toolBlock.put("id", toolUse.path("toolUseId").asText(""));
-            toolBlock.put("name", toolUse.path("name").asText(""));
             JsonNode input = toolUse.get("input");
-            toolBlock.set("input", input == null || input.isNull() ? json.objectNode() : input);
+            JsonNode mappedInput = input == null || input.isNull() ? json.objectNode() : input;
+            String bedrockToolName = toolUse.path("name").asText("");
+            toolBlock.put("name", BedrockToolSchemaAdapter.toClaudeToolName(bedrockToolName));
+            toolBlock.set("input", BedrockToolSchemaAdapter.isAdaptedToolName(bedrockToolName)
+                    ? BedrockToolSchemaAdapter.unwrapInput(mappedInput)
+                    : mappedInput);
             content.add(toolBlock);
             return;
         }

@@ -44,9 +44,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     private static final Logger log = LoggerFactory.getLogger(UnifiedStreamingConversionAdapter.class);
     private static final int EVENT_STREAM_OVERHEAD_BYTES = 16;
-    private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = "Thinking...";
-    private static final String RESPONSES_COMPACTION_PLACEHOLDER = "Context compacted.";
-    private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = "Conversation compacted.";
+    private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = ResponsesProtocolConstants.OPAQUE_STATE_PLACEHOLDER;
+    private static final String RESPONSES_COMPACTION_PLACEHOLDER = ResponsesProtocolConstants.COMPACTION_PLACEHOLDER;
+    private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = ResponsesProtocolConstants.COMPACTION_VISIBLE_TEXT;
 
     private final ObjectMapper objectMapper;
     public UnifiedStreamingConversionAdapter(ObjectMapper objectMapper) {
@@ -262,11 +262,15 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         JsonNode start = payload.path("start");
         if (start.has("toolUse")) {
             JsonNode toolUse = start.path("toolUse");
+            String bedrockToolName = toolUse.path("name").asText("");
             ObjectNode contentBlock = objectNode();
             contentBlock.put("type", "tool_use");
             contentBlock.put("id", toolUse.path("toolUseId").asText(""));
-            contentBlock.put("name", toolUse.path("name").asText(""));
+            contentBlock.put("name", BedrockToolSchemaAdapter.toClaudeToolName(bedrockToolName));
             contentBlock.set("input", objectNode());
+            if (BedrockToolSchemaAdapter.isAdaptedToolName(bedrockToolName)) {
+                state.wrappedToolInputBuffers.put(index, new StringBuilder());
+            }
             writeContentBlockStart(index, contentBlock, "tool_use", state, clientBody);
             return;
         }
@@ -319,15 +323,24 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             String partialJson = toolUse.path("input").isTextual()
                     ? toolUse.path("input").asText("")
                     : toolUse.path("input").toString();
-            ObjectNode event = objectNode();
-            event.put("type", "content_block_delta");
-            event.put("index", index);
-            ObjectNode inputDelta = objectNode();
-            inputDelta.put("type", "input_json_delta");
-            inputDelta.put("partial_json", partialJson);
-            event.set("delta", inputDelta);
-            writeSse(clientBody, "content_block_delta", event);
+            StringBuilder wrappedInput = state.wrappedToolInputBuffers.get(index);
+            if (wrappedInput != null) {
+                wrappedInput.append(partialJson);
+                return;
+            }
+            writeClaudeToolInputDelta(index, partialJson, clientBody);
         }
+    }
+
+    private void writeClaudeToolInputDelta(int index, String partialJson, OutputStream clientBody) throws IOException {
+        ObjectNode event = objectNode();
+        event.put("type", "content_block_delta");
+        event.put("index", index);
+        ObjectNode inputDelta = objectNode();
+        inputDelta.put("type", "input_json_delta");
+        inputDelta.put("partial_json", partialJson);
+        event.set("delta", inputDelta);
+        writeSse(clientBody, "content_block_delta", event);
     }
 
     private void ensureContentBlockStarted(int index, String type, StreamState state, OutputStream clientBody) throws IOException {
@@ -367,6 +380,17 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     private void writeContentBlockStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
         int index = payload.path("contentBlockIndex").asInt(0);
         if (!state.stoppedBlocks.containsKey(index)) {
+            StringBuilder wrappedToolInput = state.wrappedToolInputBuffers.remove(index);
+            if (wrappedToolInput != null) {
+                JsonNode wrappedInput;
+                try {
+                    wrappedInput = objectMapper.readTree(wrappedToolInput.toString());
+                    JsonNode unwrappedInput = BedrockToolSchemaAdapter.unwrapInput(wrappedInput);
+                    writeClaudeToolInputDelta(index, objectMapper.writeValueAsString(unwrappedInput), clientBody);
+                } catch (JsonProcessingException | ProtocolConversionException exception) {
+                    throw new IOException("Malformed wrapped Bedrock tool input", exception);
+                }
+            }
             StringBuilder reasoningSignature = state.reasoningSignatureBuffers.remove(index);
             if (reasoningSignature != null && !reasoningSignature.isEmpty()) {
                 ObjectNode signatureEvent = objectNode();
@@ -799,7 +823,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     }
 
     private boolean isResponsesCompactionType(String type) {
-        return "compaction".equals(type) || "compaction_summary".equals(type);
+        return ResponsesProtocolConstants.isCompactionType(type);
     }
 
     private void writeClaudeProgramServerTool(
@@ -1251,6 +1275,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
         private final Map<Integer, StringBuilder> reasoningSignatureBuffers = new HashMap<>();
+        private final Map<Integer, StringBuilder> wrappedToolInputBuffers = new HashMap<>();
 
         private StreamState(
                 ProtocolType clientProtocol,
