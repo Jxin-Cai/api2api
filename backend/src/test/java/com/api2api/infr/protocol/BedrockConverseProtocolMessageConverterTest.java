@@ -1074,6 +1074,9 @@ class BedrockConverseProtocolMessageConverterTest {
                   {"role":"assistant","content":[
                     {"type":"thinking","thinking":"think","signature":"%s"},
                     {"type":"tool_use","id":"toolu_1","name":"Read","input":{}}
+                  ]},
+                  {"role":"user","content":[
+                    {"type":"tool_result","tool_use_id":"toolu_1","content":"result"}
                   ]}
                 ]}
                 """.formatted(BedrockReasoningBridge.encode(
@@ -1088,6 +1091,75 @@ class BedrockConverseProtocolMessageConverterTest {
         // Assert
         assertThat(mapped.at("/messages/0/content/0/reasoningContent/reasoningText/signature").asText())
                 .isEqualTo("bedrock-signature");
+    }
+
+    @Test
+    void test_stripsBedrockThinkingHistory_when_latestUserMessageIsOrdinaryContent() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String signature = BedrockReasoningBridge.encode(
+                "bedrock-signature", new ProtocolConversionRouteContext(1L, "bedrock-model"));
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":1024,"messages":[
+                  {"role":"user","content":"initial request"},
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"private reasoning","signature":"%s"}
+                  ]},
+                  {"role":"assistant","content":[
+                    {"type":"text","text":"visible answer"}
+                  ]},
+                  {"role":"user","content":"continue"}
+                ]}
+                """.formatted(signature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true).forRoute(1L, "bedrock-model")
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/1/content/0/text").asText()).isEqualTo("visible answer");
+        assertThat(mapped.at("/messages").findValues("reasoningContent")).isEmpty();
+    }
+
+    @Test
+    void test_preservesConsecutiveThinkingBlocks_when_latestUserMessageIsToolResult() throws Exception {
+        // Arrange
+        BedrockConverseProtocolMessageConverter converter = new BedrockConverseProtocolMessageConverter(
+                json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolConversionDirection.REQUEST, sseEventTransformer
+        );
+        String signature = BedrockReasoningBridge.encode(
+                "bedrock-signature", new ProtocolConversionRouteContext(1L, "bedrock-model"));
+        String body = """
+                {"model":"claude-opus-4.6","max_tokens":1024,"messages":[
+                  {"role":"user","content":"read file"},
+                  {"role":"assistant","content":[
+                    {"type":"thinking","thinking":"private reasoning","signature":"%s"}
+                  ]},
+                  {"role":"assistant","content":[
+                    {"type":"tool_use","id":"toolu_1","name":"Read","input":{}}
+                  ]},
+                  {"role":"user","content":[
+                    {"type":"tool_result","tool_use_id":"toolu_1","content":"result"}
+                  ]}
+                ]}
+                """.formatted(signature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true).forRoute(1L, "bedrock-model")
+        ).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/1/content/0/reasoningContent/reasoningText/signature").asText())
+                .isEqualTo("bedrock-signature");
+        assertThat(mapped.at("/messages/1/content/1/toolUse/toolUseId").asText()).isEqualTo("toolu_1");
     }
 
     @Test

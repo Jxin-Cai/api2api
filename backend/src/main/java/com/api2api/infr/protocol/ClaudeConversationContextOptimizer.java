@@ -47,6 +47,68 @@ public final class ClaudeConversationContextOptimizer {
         return optimize(messages, contextManagement, false);
     }
 
+    /**
+     * Bedrock protects the thinking blocks from the assistant turn immediately preceding a tool-result
+     * continuation. Those blocks must be replayed byte-for-byte, while thinking from completed turns may be
+     * omitted and can be rejected if it is replayed as though it belonged to the latest assistant response.
+     */
+    static JsonNode retainThinkingForLatestToolContinuation(JsonNode messages) {
+        if (messages == null || !messages.isArray() || messages.isEmpty()) {
+            return messages;
+        }
+
+        Set<Integer> protectedAssistantIndexes = protectedAssistantIndexes(messages);
+        ArrayNode normalized = null;
+        for (int index = messages.size() - 1; index >= 0; index--) {
+            JsonNode message = messages.get(index);
+            if (!"assistant".equals(message.path("role").asText(""))
+                    || protectedAssistantIndexes.contains(index)
+                    || !containsThinking(message.path("content"))) {
+                continue;
+            }
+            if (normalized == null) {
+                normalized = ((ArrayNode) messages).deepCopy();
+            }
+            ObjectNode assistantMessage = (ObjectNode) normalized.get(index);
+            removeThinking(assistantMessage);
+            if (assistantMessage.path("content").isArray() && assistantMessage.path("content").isEmpty()) {
+                normalized.remove(index);
+            }
+        }
+        return normalized == null ? messages : normalized;
+    }
+
+    private static Set<Integer> protectedAssistantIndexes(JsonNode messages) {
+        int trailingUserIndex = messages.size() - 1;
+        JsonNode trailingUser = messages.get(trailingUserIndex);
+        if (!"user".equals(trailingUser.path("role").asText(""))
+                || !containsOnlyToolResults(trailingUser.path("content"))) {
+            return Set.of();
+        }
+
+        Set<Integer> protectedIndexes = new HashSet<>();
+        for (int index = trailingUserIndex - 1; index >= 0; index--) {
+            if (!"assistant".equals(messages.get(index).path("role").asText(""))) {
+                break;
+            }
+            protectedIndexes.add(index);
+        }
+        return protectedIndexes;
+    }
+
+    private static boolean containsOnlyToolResults(JsonNode content) {
+        if (!content.isArray() || content.isEmpty()) {
+            return false;
+        }
+        for (JsonNode block : content) {
+            String type = block.path("type").asText("");
+            if (!"tool_result".equals(type) && !"mcp_tool_result".equals(type)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static JsonNode optimize(
             JsonNode messages,
             JsonNode contextManagement,
@@ -479,6 +541,16 @@ public final class ClaudeConversationContextOptimizer {
         }
         if (filtered.isEmpty()) {
             filtered.add(message.objectNode().put("type", "text").put("text", CLEARED_THINKING));
+        }
+        message.set("content", filtered);
+    }
+
+    private static void removeThinking(ObjectNode message) {
+        ArrayNode filtered = message.arrayNode();
+        for (JsonNode block : message.path("content")) {
+            if (!isThinking(block.path("type").asText(""))) {
+                filtered.add(block);
+            }
         }
         message.set("content", filtered);
     }

@@ -116,6 +116,7 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
         ArrayNode bedrockMessages = json.arrayNode();
         JsonNode messages = ClaudeConversationContextOptimizer.applyRequestedContextManagement(
                 source.get("messages"), source.get("context_management"));
+        messages = ClaudeConversationContextOptimizer.retainThinkingForLatestToolContinuation(messages);
         if (messages != null && messages.isArray()) {
             for (JsonNode msg : messages) {
                 String role = msg.path("role").asText("user");
@@ -1332,128 +1333,6 @@ final class BedrockConverseProtocolMessageConverter extends AbstractProtocolMess
             }
         }
         return true;
-    }
-
-    private boolean workflowInvocationRequired(JsonNode tools, JsonNode messages) {
-        return containsToolNamed(tools, WORKFLOW_TOOL) && lastUserMessageRequiresWorkflow(messages);
-    }
-
-    private boolean backgroundTaskCompletionRequiresValidation(JsonNode tools, JsonNode messages) {
-        if (!containsToolNamed(tools, SEND_MESSAGE_TOOL)) {
-            return false;
-        }
-        String text = lastUserMessageText(messages);
-        return text.contains(TASK_NOTIFICATION_TAG)
-                && text.contains(TASK_COMPLETED_TAG)
-                && text.contains(TASK_ID_TAG);
-    }
-
-    private boolean containsToolNamed(JsonNode tools, String expectedName) {
-        if (tools == null || !tools.isArray()) {
-            return false;
-        }
-        for (JsonNode tool : tools) {
-            if (expectedName.equals(tool.path("name").asText(""))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private String agentSelectionInstruction(JsonNode tools, JsonNode originalMessages) {
-        JsonNode agentTool = findAgentTool(tools);
-        if (agentTool == null) {
-            return "";
-        }
-        String toolName = agentTool.path("name").asText(AGENT_TOOL);
-        String latestInstruction = CLAUDE_SYSTEM_REMINDER_PATTERN
-                .matcher(lastUserInstructionText(originalMessages)).replaceAll(" ");
-        boolean explicitlyRequested = EXPLICIT_AGENT_REQUEST_PATTERN.matcher(latestInstruction).find();
-        String description = agentTool.path("description").asText("").toLowerCase(Locale.ROOT);
-        boolean proactiveUseProhibited = description.contains("do not spawn agents unless the user asks")
-                || description.contains("only use this tool when the user explicitly")
-                || description.contains("only use this tool when the user asks");
-        if (proactiveUseProhibited && !explicitlyRequested) {
-            return "";
-        }
-        if (explicitlyRequested) {
-            return EXPLICIT_AGENT_REQUEST_INSTRUCTION.formatted(toolName);
-        }
-        return AGENT_SELECTION_INSTRUCTION.formatted(toolName);
-    }
-
-    private JsonNode findAgentTool(JsonNode tools) {
-        if (tools == null || !tools.isArray()) {
-            return null;
-        }
-        for (JsonNode tool : tools) {
-            String name = tool.path("name").asText("");
-            if (AGENT_TOOL.equals(name)) {
-                return tool;
-            }
-            JsonNode schema = tool.hasNonNull("input_schema") ? tool.get("input_schema") : tool.get("inputSchema");
-            if (LEGACY_AGENT_TOOL.equals(name) && schema != null
-                    && schema.path("properties").has("prompt")
-                    && schema.path("properties").has("subagent_type")) {
-                return tool;
-            }
-        }
-        return null;
-    }
-
-    private String lastUserInstructionText(JsonNode messages) {
-        if (messages == null || !messages.isArray()) {
-            return "";
-        }
-        for (int index = messages.size() - 1; index >= 0; index--) {
-            JsonNode message = messages.get(index);
-            if (!"user".equals(message.path("role").asText(""))) {
-                continue;
-            }
-            JsonNode content = message.get("content");
-            if (content == null || content.isNull()) {
-                continue;
-            }
-            if (content.isTextual()) {
-                return content.asText("");
-            }
-            if (content.isArray()) {
-                StringBuilder instruction = new StringBuilder();
-                for (JsonNode block : content) {
-                    if ("text".equals(block.path("type").asText(""))) {
-                        if (!instruction.isEmpty()) {
-                            instruction.append('\n');
-                        }
-                        instruction.append(block.path("text").asText(""));
-                    }
-                }
-                if (!instruction.isEmpty()) {
-                    return instruction.toString();
-                }
-            }
-        }
-        return "";
-    }
-
-    private boolean lastUserMessageRequiresWorkflow(JsonNode messages) {
-        String text = lastUserMessageText(messages).stripLeading();
-        return text.startsWith(WORKFLOW_PROMPT_PREFIX)
-                && text.contains("\" workflow.")
-                && text.contains(WORKFLOW_INVOKE_DIRECTIVE);
-    }
-
-    private String lastUserMessageText(JsonNode messages) {
-        if (messages == null || !messages.isArray()) {
-            return "";
-        }
-        for (int index = messages.size() - 1; index >= 0; index--) {
-            JsonNode message = messages.get(index);
-            if (!"user".equals(message.path("role").asText(""))) {
-                continue;
-            }
-            return firstTextFromClaudeContent(message.get("content"));
-        }
-        return "";
     }
 
     private ObjectNode toBedrockToolChoice(
