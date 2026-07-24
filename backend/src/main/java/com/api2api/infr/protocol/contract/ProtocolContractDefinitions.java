@@ -438,6 +438,21 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("serviceTier (response)", "serviceTier", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.OUTPUT, "实际服务层级", "报告请求实际使用的服务层级", "ConverseResponse 字段"),
                         ProtocolFieldRef.of("trace", "trace", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.OUTPUT, "Guardrails 追踪信息", "返回 Guardrail 的评估结果详情", "仅在配置了 guardrailConfig.trace=enabled 时返回")
                         )
+                ),
+                new ProtocolContract(
+                        ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, "AWS Bedrock Claude Messages (InvokeModel)", "Bedrock Runtime InvokeModel · Claude Messages passthrough",
+                        "AWS Bedrock InvokeModel API，以原生 Claude Messages 格式直通 Bedrock，保留 compaction、thinking signature、mid_conv_system、defer_loading、disable_parallel_tool_use 等全部 Claude 原生能力。仅作为上游协议使用。", "/model/{modelId}/invoke", objectMapper,
+                        List.of(
+                        ProtocolFieldRef.of("anthropic_version", "anthropic_version", FieldType.STRING, true, FieldSection.METADATA, UsageDirection.INPUT, "Bedrock Anthropic 版本标识", "固定为 bedrock-2023-05-31", "由转换器自动注入"),
+                        ProtocolFieldRef.of("messages", "messages", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.INPUT, "对话消息列表", "原生 Claude Messages 格式直通", "与 Anthropic Messages API 完全一致"),
+                        ProtocolFieldRef.of("system", "system", FieldType.ARRAY, false, FieldSection.MESSAGE, UsageDirection.INPUT, "系统提示词", "原生 Claude 格式直通", "支持 text block 和 mid_conv_system"),
+                        ProtocolFieldRef.of("tools", "tools", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "工具定义列表", "原生 Claude 格式直通", "支持 defer_loading、tool_search、allowed_callers"),
+                        ProtocolFieldRef.of("thinking", "thinking", FieldType.OBJECT, false, FieldSection.REASONING, UsageDirection.INPUT, "推理配置", "原生 Claude 格式直通", "支持 adaptive/enabled，signature 直接透传"),
+                        ProtocolFieldRef.of("context_management", "context_management", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "上下文管理配置", "原生 Claude 格式直通", "支持 compact_*、clear_thinking、clear_tool_uses"),
+                        ProtocolFieldRef.of("tool_choice", "tool_choice", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "工具选择策略", "原生 Claude 格式直通", "支持 disable_parallel_tool_use"),
+                        ProtocolFieldRef.of("cache_control", "cache_control", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "缓存控制", "原生 Claude 格式直通", "支持 ephemeral 和 TTL"),
+                        ProtocolFieldRef.of("usage", "usage", FieldType.OBJECT, true, FieldSection.METADATA, UsageDirection.OUTPUT, "Token 用量", "原生 Claude 格式", "包含 input_tokens、output_tokens、cache_creation_input_tokens、cache_read_input_tokens")
+                        )
                 )
         );
     }
