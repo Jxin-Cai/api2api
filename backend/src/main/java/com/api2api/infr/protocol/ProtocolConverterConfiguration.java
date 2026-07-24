@@ -99,6 +99,18 @@ class ProtocolConverterConfiguration {
         return bedrockConverter(json, usageExtractor, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE, sseEventTransformer);
     }
 
+    // ==================== Bedrock Claude Messages (InvokeModel) Converters ====================
+
+    @Bean
+    ProtocolMessageConverter claudeMessagesToBedrockClaudeMessagesRequest(ProtocolJsonSupport json, SseEventTransformer sseEventTransformer) {
+        return new BedrockClaudeMessagesProtocolMessageConverter(json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST, sseEventTransformer);
+    }
+
+    @Bean
+    ProtocolMessageConverter bedrockClaudeMessagesToClaudeMessagesResponse(ProtocolJsonSupport json, ClaudeMessagesUsageExtractor usageExtractor, SseEventTransformer sseEventTransformer) {
+        return new BedrockClaudeMessagesProtocolMessageConverter(json, usageExtractor, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE, sseEventTransformer);
+    }
+
     private ProtocolMessageConverter bedrockConverter(
             ProtocolJsonSupport json,
             UnifiedUsageExtractor usageExtractor,

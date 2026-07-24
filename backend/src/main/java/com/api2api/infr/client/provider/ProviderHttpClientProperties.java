@@ -32,6 +32,8 @@ public class ProviderHttpClientProperties {
     private String openaiChatCompletionsPath = "/v1/chat/completions";
     private String bedrockConversePathTemplate = "/model/{modelId}/converse";
     private String bedrockConverseStreamPathTemplate = "/model/{modelId}/converse-stream";
+    private String bedrockClaudeMessagesPathTemplate = "/model/{modelId}/invoke";
+    private String bedrockClaudeMessagesStreamPathTemplate = "/model/{modelId}/invoke-with-response-stream";
     private String anthropicVersion = "2023-06-01";
     private Set<String> passthroughHeaderAllowlist = new LinkedHashSet<>(Set.of(
             "x-request-id",
@@ -194,6 +196,28 @@ public class ProviderHttpClientProperties {
         );
     }
 
+    public String getBedrockClaudeMessagesPathTemplate() {
+        return bedrockClaudeMessagesPathTemplate;
+    }
+
+    public void setBedrockClaudeMessagesPathTemplate(String bedrockClaudeMessagesPathTemplate) {
+        this.bedrockClaudeMessagesPathTemplate = normalizePathTemplate(
+                bedrockClaudeMessagesPathTemplate,
+                "Bedrock Claude Messages path template must start with /"
+        );
+    }
+
+    public String getBedrockClaudeMessagesStreamPathTemplate() {
+        return bedrockClaudeMessagesStreamPathTemplate;
+    }
+
+    public void setBedrockClaudeMessagesStreamPathTemplate(String bedrockClaudeMessagesStreamPathTemplate) {
+        this.bedrockClaudeMessagesStreamPathTemplate = normalizePathTemplate(
+                bedrockClaudeMessagesStreamPathTemplate,
+                "Bedrock Claude Messages stream path template must start with /"
+        );
+    }
+
     public String getAnthropicVersion() {
         return anthropicVersion;
     }
@@ -227,7 +251,7 @@ public class ProviderHttpClientProperties {
             case CLAUDE_MESSAGES -> claudeMessagesPath;
             case OPENAI_RESPONSES -> openaiResponsesPath;
             case OPENAI_CHAT_COMPLETIONS -> openaiChatCompletionsPath;
-            case AWS_BEDROCK_CONVERSE -> null;
+            case AWS_BEDROCK_CONVERSE, AWS_BEDROCK_CLAUDE_MESSAGES -> null;
         };
     }
 

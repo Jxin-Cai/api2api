@@ -242,6 +242,12 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     : properties.getBedrockConversePathTemplate();
             return template.replace("{modelId}", candidate.upstreamModel().value());
         }
+        if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
+            String template = streaming
+                    ? properties.getBedrockClaudeMessagesStreamPathTemplate()
+                    : properties.getBedrockClaudeMessagesPathTemplate();
+            return template.replace("{modelId}", candidate.upstreamModel().value());
+        }
         return properties.defaultPathFor(candidate.upstreamProtocol());
     }
 

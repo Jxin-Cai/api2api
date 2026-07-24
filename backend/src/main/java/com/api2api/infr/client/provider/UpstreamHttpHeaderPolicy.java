@@ -36,7 +36,15 @@ public class UpstreamHttpHeaderPolicy {
         addAllowedPassthroughHeaders(headers, incomingHeaders);
         headers.put(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken);
         headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.put(HttpHeaders.ACCEPT, streaming ? MediaType.TEXT_EVENT_STREAM_VALUE : MediaType.APPLICATION_JSON_VALUE);
+        if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
+            headers.put(HttpHeaders.ACCEPT, streaming
+                    ? "application/vnd.amazon.eventstream"
+                    : MediaType.APPLICATION_JSON_VALUE);
+        } else {
+            headers.put(HttpHeaders.ACCEPT, streaming
+                    ? MediaType.TEXT_EVENT_STREAM_VALUE
+                    : MediaType.APPLICATION_JSON_VALUE);
+        }
         if (protocolType == ProtocolType.CLAUDE_MESSAGES) {
             headers.put("anthropic-version", properties.getAnthropicVersion());
         }

@@ -11,7 +11,8 @@ public enum ProtocolType {
     CLAUDE_MESSAGES("/v1/messages"),
     OPENAI_RESPONSES("/v1/responses"),
     OPENAI_CHAT_COMPLETIONS("/v1/chat/completions"),
-    AWS_BEDROCK_CONVERSE("/model/{modelId}/converse");
+    AWS_BEDROCK_CONVERSE("/model/{modelId}/converse"),
+    AWS_BEDROCK_CLAUDE_MESSAGES("/model/{modelId}/invoke");
 
     private final String defaultEndpointPath;
 
@@ -24,7 +25,7 @@ public enum ProtocolType {
     }
 
     public boolean isClientFacing() {
-        return this != AWS_BEDROCK_CONVERSE;
+        return this != AWS_BEDROCK_CONVERSE && this != AWS_BEDROCK_CLAUDE_MESSAGES;
     }
 
     public String defaultEndpointPath() {
@@ -59,6 +60,9 @@ public enum ProtocolType {
             normalized = "OPENAI_CHAT_COMPLETIONS";
         } else if ("BEDROCK_CONVERSE".equals(normalized)) {
             normalized = "AWS_BEDROCK_CONVERSE";
+        } else if ("BEDROCK_CLAUDE_MESSAGES".equals(normalized)
+                || "BEDROCK_INVOKE_MODEL".equals(normalized)) {
+            normalized = "AWS_BEDROCK_CLAUDE_MESSAGES";
         }
         try {
             return Optional.of(ProtocolType.valueOf(normalized));

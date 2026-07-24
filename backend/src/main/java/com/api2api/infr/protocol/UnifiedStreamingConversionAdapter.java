@@ -57,6 +57,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     public boolean supports(ProtocolType upstreamProtocol, ProtocolType clientProtocol) {
         return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
                 && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
+                || (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+                && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_RESPONSES
                 && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS
@@ -76,6 +78,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         ProtocolType clientProtocol = context.clientProtocol();
         if (!supports(upstreamProtocol, clientProtocol)) {
             return UnifiedTokenUsage.unknown();
+        }
+        if (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
+            return transformBedrockInvokeModelToClaude(upstreamBody, clientBody);
         }
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
@@ -1640,6 +1645,50 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                     objectNode().put("type", "content_block_stop").put("index", blockIndex));
         }
         openToolBlocks.clear();
+    }
+
+    private UnifiedTokenUsage transformBedrockInvokeModelToClaude(
+            InputStream upstreamBody, OutputStream clientBody) throws IOException {
+        UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
+        BedrockEvent event;
+        while ((event = readEvent(upstreamBody)) != null) {
+            if ("exception".equals(event.messageType())) {
+                String errorPayload = new String(event.payload(), StandardCharsets.UTF_8);
+                throw new IOException("Bedrock InvokeModel stream exception ["
+                        + event.exceptionType() + "]: " + errorPayload);
+            }
+            JsonNode chunk = objectMapper.readTree(event.payload());
+            String base64Bytes = chunk.path("bytes").asText("");
+            if (base64Bytes.isEmpty()) {
+                continue;
+            }
+            byte[] sseChunk = java.util.Base64.getDecoder().decode(base64Bytes);
+            clientBody.write(sseChunk);
+            clientBody.flush();
+            String sseText = new String(sseChunk, StandardCharsets.UTF_8);
+            if (sseText.contains("\"type\":\"message_delta\"")) {
+                usage = tryExtractClaudeUsageFromSseChunk(sseText, usage);
+            }
+        }
+        return usage;
+    }
+
+    private UnifiedTokenUsage tryExtractClaudeUsageFromSseChunk(String sseText, UnifiedTokenUsage current) {
+        for (String line : sseText.split("\n")) {
+            if (!line.startsWith("data: ")) {
+                continue;
+            }
+            try {
+                JsonNode data = objectMapper.readTree(line.substring(6));
+                JsonNode usageNode = data.path("usage");
+                if (usageNode.isMissingNode() || !usageNode.isObject()) {
+                    continue;
+                }
+                return ClaudeMessagesUsageExtractor.extractUsageNode(usageNode);
+            } catch (Exception ignored) {
+            }
+        }
+        return current;
     }
 
     private UnifiedTokenUsage transformClaudeToChat(String model, InputStream upstreamBody,
