@@ -26,20 +26,22 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
             );
 
     @Test
-    void test_mapsAnthropicBetaHeaderFeaturesToBody_when_convertingForBedrockInvokeModel() throws Exception {
+    void test_mapsOnlyBedrockSupportedBetaFeatures_when_claudeCodeCallsBedrockInvokeModel() throws Exception {
         // Arrange
         String body = """
                 {
                   "model":"claude-opus-4.6",
                   "max_tokens":128,
-                  "anthropic_beta":["existing-beta"],
                   "messages":[{"role":"user","content":"hello"}]
                 }
                 """;
         ProtocolConversionRequest requirement = ConversionRequirement.of(true, false, false)
                 .withAnthropicBetaFeatures(List.of(
+                        "claude-code-20250219",
+                        "interleaved-thinking-2025-05-14",
+                        "thinking-token-count-2026-05-13",
                         "context-management-2025-06-27",
-                        "existing-beta"
+                        "prompt-caching-scope-2026-01-05"
                 ))
                 .forRoute(1783929967772706L, "claude-opus-4.6")
                 .toProtocolConversionRequest();
@@ -50,7 +52,7 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
         // Assert
         assertThat(mapped.path("anthropic_beta"))
                 .containsExactly(
-                        objectMapper.getNodeFactory().textNode("existing-beta"),
+                        objectMapper.getNodeFactory().textNode("interleaved-thinking-2025-05-14"),
                         objectMapper.getNodeFactory().textNode("context-management-2025-06-27")
                 );
     }

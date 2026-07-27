@@ -13,6 +13,20 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
     private static final String BEDROCK_ANTHROPIC_VERSION = "bedrock-2023-05-31";
     private static final String CONTEXT_MANAGEMENT_BETA = "context-management-2025-06-27";
     private static final String COMPACTION_BETA = "compact-2026-01-12";
+    private static final Set<String> BEDROCK_SUPPORTED_BETA_FEATURES = Set.of(
+            "computer-use-2024-10-22",
+            "computer-use-2025-01-24",
+            "token-efficient-tools-2025-02-19",
+            "interleaved-thinking-2025-05-14",
+            "output-128k-2025-02-19",
+            "dev-full-thinking-2025-05-14",
+            "context-1m-2025-08-07",
+            CONTEXT_MANAGEMENT_BETA,
+            "effort-2025-11-24",
+            "tool-search-tool-2025-10-19",
+            "tool-examples-2025-10-29",
+            COMPACTION_BETA
+    );
 
     BedrockClaudeMessagesProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -81,8 +95,12 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
     }
 
     private void addBetaFeature(Set<String> betaFeatures, String feature) {
-        if (feature != null && !feature.isBlank()) {
-            betaFeatures.add(feature.trim());
+        if (feature == null || feature.isBlank()) {
+            return;
+        }
+        String normalized = feature.trim();
+        if (BEDROCK_SUPPORTED_BETA_FEATURES.contains(normalized)) {
+            betaFeatures.add(normalized);
         }
     }
 
