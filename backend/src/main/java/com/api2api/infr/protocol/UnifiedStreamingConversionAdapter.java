@@ -4,7 +4,6 @@ import com.api2api.application.gateway.GatewayStreamingConversionContext;
 import com.api2api.application.gateway.GatewayStreamingConversionPort;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
-import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +32,7 @@ import org.springframework.stereotype.Component;
 /**
  * Unified streaming conversion adapter handling all gateway streaming protocol pairs:
  * <ul>
- *   <li>AWS_BEDROCK_CONVERSE -> CLAUDE_MESSAGES / OPENAI_RESPONSES</li>
+ *   <li>AWS_BEDROCK_CLAUDE_MESSAGES -> CLAUDE_MESSAGES</li>
  *   <li>OPENAI_RESPONSES -> CLAUDE_MESSAGES</li>
  *   <li>OPENAI_CHAT_COMPLETIONS -> CLAUDE_MESSAGES / OPENAI_RESPONSES</li>
  *   <li>CLAUDE_MESSAGES -> OPENAI_CHAT_COMPLETIONS</li>
@@ -55,9 +54,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     @Override
     public boolean supports(ProtocolType upstreamProtocol, ProtocolType clientProtocol) {
-        return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
-                && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
-                || (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+        return (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
                 && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
                 || (upstreamProtocol == ProtocolType.OPENAI_RESPONSES
                 && clientProtocol == ProtocolType.CLAUDE_MESSAGES)
@@ -92,346 +89,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (upstreamProtocol == ProtocolType.CLAUDE_MESSAGES && clientProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
             return transformClaudeToChat(context.clientModel().value(), upstreamBody, clientBody);
         }
-        ProtocolConversionRouteContext routeContext = new ProtocolConversionRouteContext(
-                context.providerChannelId().value(), context.upstreamModel().value());
-        StreamState state = new StreamState(clientProtocol, context.clientModel().value(), routeContext);
-        BedrockEvent event;
-        while ((event = readEvent(upstreamBody)) != null) {
-            JsonNode payload = objectMapper.readTree(event.payload());
-            throwIfModeledException(event, payload);
-            handleEvent(event.eventType(), payload, state, clientBody);
-        }
-        if (!state.upstreamMessageStopped) {
-            throw new EOFException("Bedrock Converse stream ended before messageStop");
-        }
-        writeTerminalEventIfNecessary(state, clientBody);
-        clientBody.flush();
-        return state.usage == null ? UnifiedTokenUsage.unknown() : state.usage;
-    }
-
-    private void handleEvent(String eventType, JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        if (state.clientProtocol == ProtocolType.OPENAI_RESPONSES) {
-            handleResponsesEvent(eventType, payload, state, clientBody);
-            return;
-        }
-        switch (eventType) {
-            case "messageStart" -> writeMessageStart(state, clientBody);
-            case "contentBlockStart" -> writeContentBlockStart(payload, state, clientBody);
-            case "contentBlockDelta" -> writeContentBlockDelta(payload, state, clientBody);
-            case "contentBlockStop" -> writeContentBlockStop(payload, state, clientBody);
-            case "messageStop" -> writeMessageStop(payload, state, clientBody);
-            case "metadata" -> writeMetadata(payload, state, clientBody);
-            case "internalServerException", "modelStreamErrorException", "validationException",
-                 "throttlingException", "serviceUnavailableException" ->
-                    throw new IOException("Bedrock Converse stream failed: " + eventType + streamErrorMessage(payload));
-            default -> {
-            }
-        }
-    }
-
-    private void handleResponsesEvent(String eventType, JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        switch (eventType) {
-            case "messageStart" -> writeResponsesStarted(state, clientBody);
-            case "contentBlockDelta" -> writeResponsesDelta(payload, state, clientBody);
-            case "messageStop" -> writeResponsesCompleted(payload, state, clientBody);
-            case "metadata" -> recordResponsesUsage(payload, state, clientBody);
-            default -> {
-            }
-        }
-    }
-
-    private void writeResponsesStarted(StreamState state, OutputStream clientBody) throws IOException {
-        if (state.messageStarted) {
-            return;
-        }
-        ObjectNode response = objectNode();
-        response.put("id", "resp_api2api_bedrock_stream");
-        response.put("object", "response");
-        response.put("created_at", 0);
-        response.put("model", state.clientModel);
-        response.put("status", "in_progress");
-        response.set("output", objectMapper.createArrayNode());
-        ObjectNode event = objectNode();
-        event.put("type", "response.created");
-        event.set("response", response);
-        writeSse(clientBody, "response.created", event);
-        state.messageStarted = true;
-    }
-
-    private void writeResponsesDelta(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        JsonNode delta = payload.path("delta");
-        if (delta.has("text")) {
-            writeResponsesStarted(state, clientBody);
-            ObjectNode event = objectNode();
-            event.put("type", "response.output_text.delta");
-            event.put("item_id", "msg_api2api_bedrock_stream");
-            event.put("output_index", 0);
-            event.put("content_index", 0);
-            event.put("delta", delta.path("text").asText(""));
-            writeSse(clientBody, "response.output_text.delta", event);
-            return;
-        }
-        JsonNode reasoningText = reasoningTextNode(delta);
-        if (reasoningText != null && !reasoningText.isMissingNode() && !reasoningText.isNull()) {
-            writeResponsesStarted(state, clientBody);
-            ObjectNode event = objectNode();
-            event.put("type", "response.reasoning_summary_text.delta");
-            event.put("item_id", "rs_api2api_bedrock_stream");
-            event.put("output_index", 0);
-            event.put("summary_index", 0);
-            event.put("delta", reasoningText.path("text").asText(reasoningText.asText("")));
-            writeSse(clientBody, "response.reasoning_summary_text.delta", event);
-        }
-    }
-
-    private void writeResponsesCompleted(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        state.stopReason = requiredBedrockStopReason(payload);
-        state.upstreamMessageStopped = true;
-    }
-
-    private void recordResponsesUsage(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        state.usage = extractUsage(payload.path("usage"));
-        writeTerminalEventIfNecessary(state, clientBody);
-    }
-
-    private void writeTerminalEventIfNecessary(StreamState state, OutputStream clientBody) throws IOException {
-        if (state.messageStopped) {
-            return;
-        }
-        if (state.clientProtocol == ProtocolType.OPENAI_RESPONSES) {
-            writeResponsesStarted(state, clientBody);
-            ObjectNode response = objectNode();
-            response.put("id", "resp_api2api_bedrock_stream");
-            response.put("object", "response");
-            response.put("created_at", 0);
-            response.put("model", state.clientModel);
-            response.put("status", mapBedrockStopToResponsesStatus(state.stopReason));
-            response.set("output", objectMapper.createArrayNode());
-            if (state.usage != null && state.usage.usageKnown()) {
-                ObjectNode usageNode = objectNode();
-                usageNode.put("input_tokens", state.usage.inputTokens());
-                usageNode.put("output_tokens", state.usage.outputTokens());
-                usageNode.put("total_tokens", state.usage.totalTokens());
-                response.set("usage", usageNode);
-            }
-            ObjectNode event = objectNode();
-            event.put("type", "response.completed");
-            event.set("response", response);
-            writeSse(clientBody, "response.completed", event);
-            clientBody.write("data: [DONE]\n\n".getBytes(StandardCharsets.UTF_8));
-        } else {
-            ObjectNode deltaEvent = objectNode();
-            deltaEvent.put("type", "message_delta");
-            ObjectNode delta = objectNode();
-            delta.put("stop_reason", state.stopReason);
-            if (state.stopSequence == null) {
-                delta.putNull("stop_sequence");
-            } else {
-                delta.put("stop_sequence", state.stopSequence);
-            }
-            deltaEvent.set("delta", delta);
-            if (state.usage != null && state.usage.usageKnown()) {
-                deltaEvent.set("usage", claudeUsage(state.usage));
-            }
-            writeSse(clientBody, "message_delta", deltaEvent);
-            writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
-        }
-        state.messageStopped = true;
-    }
-
-    private void writeMessageStart(StreamState state, OutputStream clientBody) throws IOException {
-        if (state.messageStarted) {
-            return;
-        }
-        ObjectNode message = objectNode();
-        message.put("id", "msg_api2api_bedrock_stream");
-        message.put("type", "message");
-        message.put("role", "assistant");
-        message.put("model", state.clientModel);
-        message.set("content", objectMapper.createArrayNode());
-        message.putNull("stop_reason");
-        message.putNull("stop_sequence");
-        ObjectNode usage = objectNode();
-        usage.put("input_tokens", 0);
-        usage.put("output_tokens", 0);
-        message.set("usage", usage);
-
-        ObjectNode event = objectNode();
-        event.put("type", "message_start");
-        event.set("message", message);
-        writeSse(clientBody, "message_start", event);
-        state.messageStarted = true;
-    }
-
-    private void writeContentBlockStart(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        int index = payload.path("contentBlockIndex").asInt(0);
-        JsonNode start = payload.path("start");
-        if (start.has("toolUse")) {
-            JsonNode toolUse = start.path("toolUse");
-            String bedrockToolName = toolUse.path("name").asText("");
-            ObjectNode contentBlock = objectNode();
-            contentBlock.put("type", "tool_use");
-            contentBlock.put("id", toolUse.path("toolUseId").asText(""));
-            contentBlock.put("name", BedrockToolSchemaAdapter.toClaudeToolName(bedrockToolName));
-            contentBlock.set("input", objectNode());
-            if (BedrockToolSchemaAdapter.isAdaptedToolName(bedrockToolName)) {
-                state.wrappedToolInputBuffers.put(index, new StringBuilder());
-            }
-            writeContentBlockStart(index, contentBlock, "tool_use", state, clientBody);
-            return;
-        }
-        JsonNode reasoningContent = start.path("reasoningContent");
-        if (reasoningContent.hasNonNull("redactedContent")) {
-            ObjectNode contentBlock = objectNode();
-            contentBlock.put("type", "redacted_thinking");
-            contentBlock.put("data", reasoningContent.path("redactedContent").asText());
-            writeContentBlockStart(index, contentBlock, "redacted_thinking", state, clientBody);
-        }
-    }
-
-    private void writeContentBlockDelta(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        int index = payload.path("contentBlockIndex").asInt(0);
-        JsonNode delta = payload.path("delta");
-        if (delta.has("text")) {
-            ensureContentBlockStarted(index, "text", state, clientBody);
-            ObjectNode event = objectNode();
-            event.put("type", "content_block_delta");
-            event.put("index", index);
-            ObjectNode textDelta = objectNode();
-            textDelta.put("type", "text_delta");
-            textDelta.put("text", delta.path("text").asText(""));
-            event.set("delta", textDelta);
-            writeSse(clientBody, "content_block_delta", event);
-            return;
-        }
-        JsonNode reasoningText = reasoningTextNode(delta);
-        if (reasoningText != null && !reasoningText.isMissingNode() && !reasoningText.isNull()) {
-            ensureContentBlockStarted(index, "thinking", state, clientBody);
-            ObjectNode event = objectNode();
-            event.put("type", "content_block_delta");
-            event.put("index", index);
-            ObjectNode thinkingDelta = objectNode();
-            thinkingDelta.put("type", "thinking_delta");
-            thinkingDelta.put("thinking", reasoningText.path("text").asText(reasoningText.asText("")));
-            event.set("delta", thinkingDelta);
-            writeSse(clientBody, "content_block_delta", event);
-            JsonNode signature = reasoningText.path("signature");
-            if (signature.isTextual() && !signature.asText().isBlank()) {
-                state.reasoningSignatureBuffers
-                        .computeIfAbsent(index, ignored -> new StringBuilder())
-                        .append(signature.asText());
-            }
-            return;
-        }
-        JsonNode toolUse = delta.path("toolUse");
-        if (!toolUse.isMissingNode()) {
-            ensureContentBlockStarted(index, "tool_use", state, clientBody);
-            String partialJson = toolUse.path("input").isTextual()
-                    ? toolUse.path("input").asText("")
-                    : toolUse.path("input").toString();
-            StringBuilder wrappedInput = state.wrappedToolInputBuffers.get(index);
-            if (wrappedInput != null) {
-                wrappedInput.append(partialJson);
-                return;
-            }
-            writeClaudeToolInputDelta(index, partialJson, clientBody);
-        }
-    }
-
-    private void writeClaudeToolInputDelta(int index, String partialJson, OutputStream clientBody) throws IOException {
-        ObjectNode event = objectNode();
-        event.put("type", "content_block_delta");
-        event.put("index", index);
-        ObjectNode inputDelta = objectNode();
-        inputDelta.put("type", "input_json_delta");
-        inputDelta.put("partial_json", partialJson);
-        event.set("delta", inputDelta);
-        writeSse(clientBody, "content_block_delta", event);
-    }
-
-    private void ensureContentBlockStarted(int index, String type, StreamState state, OutputStream clientBody) throws IOException {
-        if (state.blockTypes.containsKey(index)) {
-            return;
-        }
-        ObjectNode contentBlock = objectNode();
-        contentBlock.put("type", type);
-        if ("text".equals(type)) {
-            contentBlock.put("text", "");
-        } else if ("thinking".equals(type)) {
-            contentBlock.put("thinking", "");
-        } else if ("tool_use".equals(type)) {
-            contentBlock.put("id", "");
-            contentBlock.put("name", "");
-            contentBlock.set("input", objectNode());
-        }
-        writeContentBlockStart(index, contentBlock, type, state, clientBody);
-    }
-
-    private void writeContentBlockStart(
-            int index,
-            ObjectNode contentBlock,
-            String type,
-            StreamState state,
-            OutputStream clientBody
-    ) throws IOException {
-        writeMessageStart(state, clientBody);
-        state.blockTypes.put(index, type);
-        ObjectNode event = objectNode();
-        event.put("type", "content_block_start");
-        event.put("index", index);
-        event.set("content_block", contentBlock);
-        writeSse(clientBody, "content_block_start", event);
-    }
-
-    private void writeContentBlockStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        int index = payload.path("contentBlockIndex").asInt(0);
-        if (!state.stoppedBlocks.containsKey(index)) {
-            StringBuilder wrappedToolInput = state.wrappedToolInputBuffers.remove(index);
-            if (wrappedToolInput != null) {
-                JsonNode wrappedInput;
-                try {
-                    wrappedInput = objectMapper.readTree(wrappedToolInput.toString());
-                    JsonNode unwrappedInput = BedrockToolSchemaAdapter.unwrapInput(wrappedInput);
-                    writeClaudeToolInputDelta(index, objectMapper.writeValueAsString(unwrappedInput), clientBody);
-                } catch (JsonProcessingException | ProtocolConversionException exception) {
-                    throw new IOException("Malformed wrapped Bedrock tool input", exception);
-                }
-            }
-            StringBuilder reasoningSignature = state.reasoningSignatureBuffers.remove(index);
-            if (reasoningSignature != null && !reasoningSignature.isEmpty()) {
-                ObjectNode signatureEvent = objectNode();
-                signatureEvent.put("type", "content_block_delta");
-                signatureEvent.put("index", index);
-                ObjectNode signatureDelta = objectNode();
-                signatureDelta.put("type", "signature_delta");
-                signatureDelta.put("signature", BedrockReasoningBridge.encode(
-                        reasoningSignature.toString(), state.routeContext));
-                signatureEvent.set("delta", signatureDelta);
-                writeSse(clientBody, "content_block_delta", signatureEvent);
-            }
-            ObjectNode event = objectNode();
-            event.put("type", "content_block_stop");
-            event.put("index", index);
-            writeSse(clientBody, "content_block_stop", event);
-            state.stoppedBlocks.put(index, true);
-        }
-    }
-
-    private void writeMessageStop(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        state.stopReason = mapBedrockStopToClaudeStop(requiredBedrockStopReason(payload));
-        state.upstreamMessageStopped = true;
-        JsonNode stopSequence = payload.path("additionalModelResponseFields").get("stop_sequence");
-        if (stopSequence != null && stopSequence.isTextual()) {
-            state.stopSequence = stopSequence.asText();
-        }
-    }
-
-    private void writeMetadata(JsonNode payload, StreamState state, OutputStream clientBody) throws IOException {
-        UnifiedTokenUsage usage = extractUsage(payload.path("usage"));
-        state.usage = usage;
-        if (state.upstreamMessageStopped) {
-            writeTerminalEventIfNecessary(state, clientBody);
-        }
+        return UnifiedTokenUsage.unknown();
     }
 
     private ObjectNode claudeUsage(UnifiedTokenUsage usage) {
@@ -1097,19 +755,6 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         stopClaudeBlock(outputIndex, state, clientBody);
     }
 
-    static void throwIfModeledException(BedrockEvent event, JsonNode payload) throws IOException {
-        if (!"exception".equals(event.messageType())) {
-            return;
-        }
-        String exceptionType = event.exceptionType().isBlank() ? "unknownException" : event.exceptionType();
-        throw new IOException("Bedrock Converse stream failed: " + exceptionType + streamErrorMessage(payload));
-    }
-
-    private static String streamErrorMessage(JsonNode payload) {
-        String message = payload == null ? "" : payload.path("message").asText("");
-        return message.isBlank() ? "" : " - " + message;
-    }
-
     private void finishResponsesToClaude(ResponsesStreamState state, OutputStream clientBody) throws IOException {
         for (Integer index : state.claudeIndexes.keySet()) {
             stopClaudeBlock(index, state, clientBody);
@@ -1125,45 +770,6 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         }
         writeSse(clientBody, "message_delta", event);
         writeSse(clientBody, "message_stop", objectNode().put("type", "message_stop"));
-    }
-
-    private UnifiedTokenUsage extractUsage(JsonNode usage) {
-        if (usage == null || usage.isMissingNode() || usage.isNull()) {
-            return UnifiedTokenUsage.unknown();
-        }
-        long inputTokens = usage.path("inputTokens").asLong(0);
-        long outputTokens = usage.path("outputTokens").asLong(0);
-        long cacheWriteInputTokens = usage.path("cacheWriteInputTokens").asLong(0);
-        long cacheReadInputTokens = usage.path("cacheReadInputTokens").asLong(0);
-        return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteInputTokens, cacheReadInputTokens);
-    }
-
-    private JsonNode reasoningTextNode(JsonNode node) {
-        return BedrockConverseContentSupport.reasoningTextNode(node);
-    }
-
-    private String requiredBedrockStopReason(JsonNode payload) throws IOException {
-        try {
-            return BedrockConverseContentSupport.requiredStopReason(payload);
-        } catch (ProtocolConversionException e) {
-            throw new IOException(e.getMessage(), e);
-        }
-    }
-
-    private String mapBedrockStopToClaudeStop(String stopReason) throws IOException {
-        try {
-            return BedrockConverseContentSupport.toClaudeStop(stopReason);
-        } catch (ProtocolConversionException e) {
-            throw new IOException(e.getMessage(), e);
-        }
-    }
-
-    private String mapBedrockStopToResponsesStatus(String stopReason) throws IOException {
-        try {
-            return BedrockConverseContentSupport.toResponsesStatus(stopReason);
-        } catch (ProtocolConversionException e) {
-            throw new IOException(e.getMessage(), e);
-        }
     }
 
     private void writeSse(OutputStream outputStream, String eventName, JsonNode data) throws IOException {
@@ -1266,32 +872,6 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     }
 
     static record BedrockEvent(String eventType, String messageType, String exceptionType, byte[] payload) {
-    }
-
-    private static final class StreamState {
-        private final ProtocolType clientProtocol;
-        private final String clientModel;
-        private final ProtocolConversionRouteContext routeContext;
-        private boolean messageStarted;
-        private boolean messageStopped;
-        private boolean upstreamMessageStopped;
-        private String stopReason = "end_turn";
-        private String stopSequence;
-        private UnifiedTokenUsage usage;
-        private final Map<Integer, String> blockTypes = new HashMap<>();
-        private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
-        private final Map<Integer, StringBuilder> reasoningSignatureBuffers = new HashMap<>();
-        private final Map<Integer, StringBuilder> wrappedToolInputBuffers = new HashMap<>();
-
-        private StreamState(
-                ProtocolType clientProtocol,
-                String clientModel,
-                ProtocolConversionRouteContext routeContext
-        ) {
-            this.clientProtocol = clientProtocol;
-            this.clientModel = clientModel;
-            this.routeContext = routeContext;
-        }
     }
 
     private static final class ResponsesStreamState {

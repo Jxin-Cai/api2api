@@ -236,12 +236,6 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     }
 
     private String resolveUpstreamPath(RouteCandidate candidate, boolean streaming) {
-        if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CONVERSE) {
-            String template = streaming
-                    ? properties.getBedrockConverseStreamPathTemplate()
-                    : properties.getBedrockConversePathTemplate();
-            return template.replace("{modelId}", candidate.upstreamModel().value());
-        }
         if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
             String template = streaming
                     ? properties.getBedrockClaudeMessagesStreamPathTemplate()

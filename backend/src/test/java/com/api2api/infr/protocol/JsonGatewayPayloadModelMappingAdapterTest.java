@@ -13,11 +13,11 @@ class JsonGatewayPayloadModelMappingAdapterTest {
     private final JsonGatewayPayloadModelMappingAdapter adapter = new JsonGatewayPayloadModelMappingAdapter(objectMapper);
 
     @Test
-    void test_doesNotWriteModel_when_targetIsBedrockConverse() {
+    void test_doesNotWriteModel_when_targetIsBedrockInvokeModel() {
         String body = "{\"messages\":[{\"role\":\"user\",\"content\":[{\"text\":\"hello\"}]}]}";
 
         String mapped = adapter.rewriteModel(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
                 body,
                 ModelName.of("anthropic.claude-opus-4-8")
         );

@@ -25,7 +25,6 @@ final class ClaudeRequestSanitizer {
         Objects.requireNonNull(payload, "payload must not be null");
         Objects.requireNonNull(targetProtocol, "targetProtocol must not be null");
         if (payload.protocol() != ProtocolType.CLAUDE_MESSAGES
-                || targetProtocol == ProtocolType.AWS_BEDROCK_CONVERSE
                 || targetProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
             return payload;
         }
@@ -85,7 +84,6 @@ final class ClaudeRequestSanitizer {
     }
 
     private static boolean isForeignThinkingSignature(String signature) {
-        return ResponsesReasoningBridge.isResponsesSignature(signature)
-                || BedrockReasoningBridge.isBedrockSignature(signature);
+        return ResponsesReasoningBridge.isResponsesSignature(signature);
     }
 }

@@ -30,8 +30,6 @@ public class ProviderHttpClientProperties {
     private String claudeMessagesPath = "/v1/messages";
     private String openaiResponsesPath = "/v1/responses";
     private String openaiChatCompletionsPath = "/v1/chat/completions";
-    private String bedrockConversePathTemplate = "/model/{modelId}/converse";
-    private String bedrockConverseStreamPathTemplate = "/model/{modelId}/converse-stream";
     private String bedrockClaudeMessagesPathTemplate = "/model/{modelId}/invoke";
     private String bedrockClaudeMessagesStreamPathTemplate = "/model/{modelId}/invoke-with-response-stream";
     private String anthropicVersion = "2023-06-01";
@@ -174,28 +172,6 @@ public class ProviderHttpClientProperties {
         this.openaiChatCompletionsPath = normalizePath(openaiChatCompletionsPath, "OpenAI chat completions path must start with /");
     }
 
-    public String getBedrockConversePathTemplate() {
-        return bedrockConversePathTemplate;
-    }
-
-    public void setBedrockConversePathTemplate(String bedrockConversePathTemplate) {
-        this.bedrockConversePathTemplate = normalizePathTemplate(
-                bedrockConversePathTemplate,
-                "Bedrock Converse path template must start with /"
-        );
-    }
-
-    public String getBedrockConverseStreamPathTemplate() {
-        return bedrockConverseStreamPathTemplate;
-    }
-
-    public void setBedrockConverseStreamPathTemplate(String bedrockConverseStreamPathTemplate) {
-        this.bedrockConverseStreamPathTemplate = normalizePathTemplate(
-                bedrockConverseStreamPathTemplate,
-                "Bedrock Converse stream path template must start with /"
-        );
-    }
-
     public String getBedrockClaudeMessagesPathTemplate() {
         return bedrockClaudeMessagesPathTemplate;
     }
@@ -251,7 +227,7 @@ public class ProviderHttpClientProperties {
             case CLAUDE_MESSAGES -> claudeMessagesPath;
             case OPENAI_RESPONSES -> openaiResponsesPath;
             case OPENAI_CHAT_COMPLETIONS -> openaiChatCompletionsPath;
-            case AWS_BEDROCK_CONVERSE, AWS_BEDROCK_CLAUDE_MESSAGES -> null;
+            case AWS_BEDROCK_CLAUDE_MESSAGES -> null;
         };
     }
 

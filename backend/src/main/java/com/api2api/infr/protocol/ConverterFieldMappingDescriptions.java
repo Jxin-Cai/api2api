@@ -11,7 +11,7 @@ import java.util.Optional;
 
 /**
  * Converter 字段映射描述注册表。
- * 与 ProtocolConverterConfiguration/BedrockConverseProtocolMessageConverter 中的执行逻辑共存于同一包，
+ * 与 ProtocolConverterConfiguration 中的执行逻辑共存于同一包，
  * 确保映射描述与实际转换逻辑的同源性。
  */
 final class ConverterFieldMappingDescriptions {
@@ -257,112 +257,6 @@ final class ConverterFieldMappingDescriptions {
                 mapping("usage.input_tokens", "usage.prompt_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.output_tokens", "usage.completion_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("id", "id", "Direct passthrough", MappingLossiness.NONE, "METADATA", "DIRECT"),
-                mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
-        ));
-
-        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "messages", "Claude 消息转为 Bedrock Converse 消息格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("messages[].content", "messages[].content", "内容块转为 Bedrock ContentBlock union", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
-                mapping("system", "system[]", "系统提示词转为 Bedrock system 数组", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("content[].text", "messages[].content[].text", "文本块内容写入 Bedrock text union", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
-                mapping("content[].source.media_type", "messages[].content[].image.format", "MIME 类型转换为 Bedrock 图片格式", MappingLossiness.NONE, "CONTENT_BLOCK", "TRANSFORM"),
-                mapping("content[].source.data", "messages[].content[].image.source.bytes", "base64 图片数据转换为 bytes", MappingLossiness.NONE, "CONTENT_BLOCK", "TRANSFORM"),
-                mapping("content[].source", "messages[].content[].document.source", "文档来源组装为 Bedrock document source", MappingLossiness.PARTIAL, "CONTENT_BLOCK", "RESHAPE"),
-                mapping("content[].title", "messages[].content[].document.name", "文档标题映射为 Bedrock document name", MappingLossiness.PARTIAL, "CONTENT_BLOCK", "RENAME"),
-                mapping("content[].context", "messages[].content[].document.context", "文档上下文写入 Bedrock document", MappingLossiness.PARTIAL, "CONTENT_BLOCK", "RESHAPE"),
-                mapping("content[].id", "messages[].content[].toolUse.toolUseId", "工具调用 ID 映射为 toolUseId", MappingLossiness.NONE, "TOOL", "RENAME"),
-                mapping("content[].name", "messages[].content[].toolUse.name", "工具名称直接映射", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("content[].input", "messages[].content[].toolUse.input", "工具输入对象直接映射", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("content[].tool_use_id", "messages[].content[].toolResult.toolUseId", "关联调用 ID 映射为 toolUseId", MappingLossiness.NONE, "TOOL", "RENAME"),
-                mapping("content[].content", "messages[].content[].toolResult.content", "工具结果内容转换为 Bedrock content", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("content[].is_error", "messages[].content[].toolResult.status", "错误标记转换为 status=error", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
-                mapping("content[].thinking", "messages[].content[].reasoningContent.reasoningText.text", "推理文本封装为 reasoningText", MappingLossiness.NONE, "REASONING", "RESHAPE"),
-                mapping("content[].signature", "messages[].content[].reasoningContent.reasoningText.signature", "推理签名写入 reasoningText.signature", MappingLossiness.NONE, "REASONING", "RESHAPE"),
-                mapping("content[].data", "messages[].content[].reasoningContent.redactedContent", "加密推理数据转为 redactedContent", MappingLossiness.NONE, "REASONING", "RESHAPE"),
-                mapping("content[].type=mid_conv_system", "messages[].content[].text", "使用显式边界标记降级为 user 文本，避免生成非法 Converse system 角色", MappingLossiness.PARTIAL, "MESSAGE", "RESHAPE"),
-                mapping("model", "modelId (URI param)", "模型标识映射为 Bedrock modelId URI", MappingLossiness.NONE, "MODEL", "TRANSFORM"),
-                mapping("max_tokens", "inferenceConfig.maxTokens", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("temperature", "inferenceConfig.temperature", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("top_p", "inferenceConfig.topP", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("stop_sequences", "inferenceConfig.stopSequences", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("tools", "toolConfig.tools", "工具定义转为 Bedrock toolSpec；延迟发现和跨工具选择策略需由网关补偿", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
-                mapping("tools[].name", "toolConfig.tools[].toolSpec.name", "工具名称映射为 toolSpec.name", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("tools[].description", "toolConfig.tools[].toolSpec.description", "工具描述映射为 toolSpec.description", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("tools[].input_schema", "toolConfig.tools[].toolSpec.inputSchema", "输入 Schema 映射为 toolSpec.inputSchema", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("tools[].defer_loading", "toolConfig.tools[].toolSpec", "延迟工具展开为普通 toolSpec，保留可调用性但增加上下文", MappingLossiness.PARTIAL, "TOOL", "TRANSFORM"),
-                mapping("tools[].input_examples", "toolConfig.tools[].toolSpec.description", "输入示例追加到工具描述", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
-                mapping("tool_choice", "toolConfig.toolChoice", "工具选择策略映射", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("thinking", "additionalModelRequestFields.thinking", "推理配置透传", MappingLossiness.NONE, "REASONING", "RENAME"),
-                mapping("output_config.effort", "additionalModelRequestFields.output_config.effort", "推理强度写入 Claude 模型扩展字段", MappingLossiness.NONE, "REASONING", "RESHAPE"),
-                mapping("output_config.format", "outputConfig.textFormat", "JSON Schema 输出映射为 Converse Structured Outputs", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
-                mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT"),
-                mapping("top_k", "additionalModelRequestFields.top_k", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("metadata", "requestMetadata", "满足 Bedrock 字符限制的元数据转为 requestMetadata", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                mapping("cache_control", "cachePoint", "顶级、system、content 与 tools 缓存断点转为 Bedrock cachePoint", MappingLossiness.PARTIAL, "METADATA", "RESHAPE"),
-                mapping("context_management.edits", "gateway local context edit", "支持的 clear 策略由网关在转换前执行", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                mapping("speed", "performanceConfig.latency", "fast/standard 映射为 Bedrock 延迟配置", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
-                unsupported("context_management.edits[type=compact_*]", "Bedrock Converse 无法生成 Claude compaction 摘要", "METADATA"),
-                unsupported("tools[].allowed_callers", "Bedrock Converse 不支持 programmatic tool calling", "TOOL"),
-                unsupported("tool_choice.disable_parallel_tool_use", "Bedrock Converse 没有禁用并行工具的开关", "TOOL"),
-                unsupported("server tools", "Bedrock Converse 只能声明客户端 toolSpec", "TOOL"),
-                unsupported("mcp_servers", "Bedrock Converse 不支持远程 MCP 定义", "TOOL"),
-                unsupported("output_config.task_budget", "Bedrock Converse 无跨上下文任务预算", "REASONING"),
-                unsupported("container", "Bedrock Converse 无等价容器字段", "METADATA"),
-                unsupported("inference_geo", "Bedrock Converse 无请求级推理地域字段", "METADATA"),
-                unsupported("diagnostics", "Bedrock Converse 无 Claude 诊断字段", "METADATA"),
-                unsupported("fallbacks", "Bedrock Converse 无服务端模型回退链", "METADATA")
-        ));
-
-        map.put(key(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE), List.of(
-                mapping("output.message.content", "content", "Bedrock ContentBlock 转为 Claude content 块", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("output.message.content[].toolUse", "content[].type=tool_use", "Bedrock toolUse 转为 Claude tool_use", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("output.message.content[].reasoningContent", "content[].type=thinking", "Bedrock reasoning 转为 Claude thinking", MappingLossiness.NONE, "REASONING", "RESHAPE"),
-                mapping("stopReason", "stop_reason", "停止原因映射", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
-                mapping("usage.inputTokens", "usage.input_tokens", "字段名转换 (camelCase→snake_case)", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("usage.outputTokens", "usage.output_tokens", "字段名转换", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("usage.cacheReadInputTokenCount", "usage.cache_read_input_tokens", "缓存读取 token 映射", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("usage.cacheWriteInputTokenCount", "usage.cache_creation_input_tokens", "缓存写入 token 映射", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("model", "model", "模型标识符透传", MappingLossiness.NONE, "MODEL", "DIRECT")
-        ));
-
-        // ===== OpenAI Chat Completions → AWS Bedrock Converse =====
-        map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "messages", "Chat 消息转为 Bedrock Converse 格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("model", "modelId (URI param)", "模型标识转为 Bedrock modelId", MappingLossiness.NONE, "MODEL", "TRANSFORM"),
-                mapping("max_completion_tokens", "inferenceConfig.maxTokens", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("temperature", "inferenceConfig.temperature", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("top_p", "inferenceConfig.topP", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("stop", "inferenceConfig.stopSequences", "字段和路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("tools", "toolConfig.tools", "Chat function 工具转为 Bedrock toolSpec", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
-        ));
-
-        map.put(key(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE), List.of(
-                mapping("output.message.content[].text", "choices[].message.content", "Bedrock text 转为 Chat content", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("output.message.content[].toolUse", "choices[].message.tool_calls", "Bedrock toolUse 转为 tool_calls", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("stopReason", "choices[].finish_reason", "停止原因映射", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
-                mapping("usage.inputTokens", "usage.prompt_tokens", "字段名转换", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("usage.outputTokens", "usage.completion_tokens", "字段名转换", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
-        ));
-
-        // ===== OpenAI Responses → AWS Bedrock Converse =====
-        map.put(key(ProtocolType.OPENAI_RESPONSES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("input", "messages", "Responses input 转为 Bedrock messages", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("model", "modelId (URI param)", "模型标识转为 Bedrock modelId", MappingLossiness.NONE, "MODEL", "TRANSFORM"),
-                mapping("max_output_tokens", "inferenceConfig.maxTokens", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("temperature", "inferenceConfig.temperature", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("top_p", "inferenceConfig.topP", "路径重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("tools", "toolConfig.tools", "Responses 工具转为 Bedrock toolSpec", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
-        ));
-
-        map.put(key(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE), List.of(
-                mapping("output.message.content[].text", "output[].content (output_text)", "Bedrock text 转为 output_text", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("output.message.content[].toolUse", "output[].type=function_call", "Bedrock toolUse 转为 function_call", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("stopReason", "status", "停止原因转为 Responses status", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
-                mapping("usage.inputTokens", "usage.input_tokens", "字段名转换", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("usage.outputTokens", "usage.output_tokens", "字段名转换", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
         ));
 

@@ -18,8 +18,8 @@ class ProtocolContractRegistryTest {
     private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
-    void test_registry_contains_executable_shapes_when_five_protocols_are_registered() {
-        assertEquals(5, registry.contracts().size());
+    void test_registry_contains_executable_shapes_when_four_protocols_are_registered() {
+        assertEquals(4, registry.contracts().size());
         for (ProtocolContract contract : registry.contracts()) {
             assertFalse(contract.fields().isEmpty());
             assertFalse(contract.requestShape().fields().isEmpty());
@@ -104,8 +104,8 @@ class ProtocolContractRegistryTest {
                 registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
         assertEquals("OpenAI API v1 · SDK 6.47.0",
                 registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());
-        assertEquals("Bedrock Runtime 2023-09-30 · AWS SDK 2.48.1",
-                registry.require(ProtocolType.AWS_BEDROCK_CONVERSE).apiSpecVersion());
+        assertEquals("Bedrock Runtime InvokeModel · Claude Messages passthrough",
+                registry.require(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES).apiSpecVersion());
     }
 
     @Test
@@ -140,10 +140,10 @@ class ProtocolContractRegistryTest {
                 "prompt_cache_options",
                 "usage.prompt_tokens_details.cache_write_tokens"
         )));
-        assertTrue(fieldPaths(ProtocolType.AWS_BEDROCK_CONVERSE).containsAll(List.of(
-                "outputConfig.textFormat.structure",
-                "serviceTier.type",
-                "toolConfig.tools[].toolSpec.strict"
+        assertTrue(fieldPaths(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES).containsAll(List.of(
+                "anthropic_version",
+                "messages",
+                "stream.event"
         )));
     }
 

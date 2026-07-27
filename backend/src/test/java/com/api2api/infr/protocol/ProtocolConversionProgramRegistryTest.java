@@ -18,8 +18,8 @@ class ProtocolConversionProgramRegistryTest {
     private final ProtocolConversionProgramRegistry registry = new ProtocolConversionProgramRegistry(allConverters);
 
     @Test
-    void test_registryIndexesAllConverters_when_allEighteenRegistered() {
-        assertThat(allConverters).hasSize(18);
+    void test_registryIndexesAllConverters_when_allTwelveRegistered() {
+        assertThat(allConverters).hasSize(12);
     }
 
     @ParameterizedTest(name = "{0}→{1} {2}")
@@ -52,31 +52,6 @@ class ProtocolConversionProgramRegistryTest {
             assertThat(mapping.ruleDescription()).as("ruleDescription").isNotBlank();
             assertThat(mapping.lossiness()).as("lossiness").isNotNull();
         }));
-    }
-
-    @Test
-    void test_registryReturnsEmpty_when_noConverterForDirection() {
-        assertThat(registry.describeRequestMappings(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES))
-                .isEmpty();
-    }
-
-    @Test
-    void test_marks_programmatic_tool_calling_unsupported_when_target_is_bedrock_converse() {
-        // Arrange
-        List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(
-                ProtocolType.CLAUDE_MESSAGES,
-                ProtocolType.AWS_BEDROCK_CONVERSE,
-                ProtocolConversionDirection.REQUEST
-        ).orElseThrow();
-
-        // Act
-        FieldMapping allowedCallers = mappings.stream()
-                .filter(mapping -> mapping.sourceField().equals("tools[].allowed_callers"))
-                .findFirst()
-                .orElseThrow();
-
-        // Assert
-        assertThat(allowedCallers.supported()).isFalse();
     }
 
     @Test
@@ -131,14 +106,7 @@ class ProtocolConversionProgramRegistryTest {
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST),
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE),
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE),
-                // Bedrock converters (6)
-                Arguments.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE),
-                Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE),
-                Arguments.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.AWS_BEDROCK_CONVERSE, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE)
+                Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE)
         );
     }
 

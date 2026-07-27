@@ -111,7 +111,7 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
-    void test_usesConverseStreamEndpoint_when_claudeStreamRoutesToBedrock() throws IOException {
+    void test_usesInvokeModelStreamEndpoint_when_claudeStreamRoutesToBedrock() throws IOException {
         // Arrange
         AtomicInteger requests = new AtomicInteger();
         server = bedrockStreamingServer(requests);
@@ -119,7 +119,7 @@ class ProviderGatewayCallAdapterTest {
 
         // Act
         ProviderStreamingResponse response = adapter.openStream(
-                candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CONVERSE),
+                candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES),
                 "{\"messages\":[]}",
                 Map.of()
         );
@@ -197,7 +197,7 @@ class ProviderGatewayCallAdapterTest {
 
     private HttpServer bedrockStreamingServer(AtomicInteger requests) throws IOException {
         HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
-        httpServer.createContext("/model/gpt/converse-stream", exchange -> {
+        httpServer.createContext("/model/gpt/invoke-with-response-stream", exchange -> {
             requests.incrementAndGet();
             assertThat(exchange.getRequestMethod()).isEqualTo("POST");
             assertThat(new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8))
@@ -213,7 +213,7 @@ class ProviderGatewayCallAdapterTest {
     }
 
     private ProviderGatewayCallAdapter adapter() {
-        return adapter(ProtocolType.AWS_BEDROCK_CONVERSE);
+        return adapter(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES);
     }
 
     private ProviderGatewayCallAdapter adapter(ProtocolType claudeUpstreamProtocol) {
@@ -226,11 +226,11 @@ class ProviderGatewayCallAdapterTest {
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         properties.setAllowInsecureHosts(true);
         properties.setStreamingRetryBackoff(java.time.Duration.ofMillis(1));
-        return adapter(properties, ProtocolType.AWS_BEDROCK_CONVERSE);
+        return adapter(properties, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES);
     }
 
     private ProviderGatewayCallAdapter adapter(ProviderHttpClientProperties properties) {
-        return adapter(properties, ProtocolType.AWS_BEDROCK_CONVERSE);
+        return adapter(properties, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES);
     }
 
     private ProviderGatewayCallAdapter adapter(

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolPayload;
-import com.api2api.domain.protocol.model.ProtocolConversionRouteContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -84,13 +83,13 @@ class ClaudeRequestSanitizerTest {
     }
 
     @Test
-    void test_skipsDuplicateSanitization_when_requestTargetsBedrockConverter() {
+    void test_skipsDuplicateSanitization_when_requestTargetsBedrockInvokeModel() {
         // Arrange
         ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, "not-parsed-here", true);
 
         // Act
         ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
-                objectMapper, payload, ProtocolType.AWS_BEDROCK_CONVERSE);
+                objectMapper, payload, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES);
 
         // Assert
         assertThat(sanitized).isSameAs(payload);
@@ -113,23 +112,4 @@ class ClaudeRequestSanitizerTest {
         assertThat(sanitized).isSameAs(payload);
     }
 
-    @Test
-    void test_removesBedrockThinkingState_when_requestPassesThroughToClaude() throws Exception {
-        // Arrange
-        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, """
-                {"messages":[{"role":"assistant","content":[
-                  {"type":"thinking","thinking":"summary","signature":"%s"},
-                  {"type":"text","text":"visible answer"}
-                ]}]}
-                """.formatted(BedrockReasoningBridge.encode(
-                        "bedrock-signature", new ProtocolConversionRouteContext(1L, "bedrock-model"))), false);
-
-        // Act
-        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(
-                objectMapper, payload, ProtocolType.CLAUDE_MESSAGES);
-        JsonNode body = objectMapper.readTree(sanitized.body());
-
-        // Assert
-        assertThat(body.at("/messages/0/content/0/type").asText()).isEqualTo("text");
-    }
 }

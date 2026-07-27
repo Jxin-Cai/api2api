@@ -36,7 +36,7 @@ class GatewayStreamingResponseMapperTest {
         GatewayInvocation invocation = mock(GatewayInvocation.class);
         RouteCandidate candidate = mock(RouteCandidate.class);
         ProviderStreamingResponse providerResponse = ProviderStreamingResponse.of(
-                ProtocolType.AWS_BEDROCK_CONVERSE,
+                ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
                 200,
                 Map.of(),
                 new ByteArrayInputStream(new byte[0])
@@ -57,7 +57,7 @@ class GatewayStreamingResponseMapperTest {
                     "event: content_block_delta\ndata: {\"type\":\"content_block_delta\"}\n\n"
                             .getBytes(StandardCharsets.UTF_8)
             );
-            throw new EOFException("Bedrock Converse stream ended before messageStop");
+            throw new EOFException("Bedrock InvokeModel stream ended before message_stop");
         });
         GatewayStreamingResponseMapper mapper = new GatewayStreamingResponseMapper(
                 applicationService,
