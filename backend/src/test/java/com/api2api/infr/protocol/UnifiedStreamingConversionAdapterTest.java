@@ -65,6 +65,33 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
+    void test_emitsClaudeSse_when_invokeModelFrameContainsNativeClaudeEvent() throws Exception {
+        // Arrange
+        String claudeEvent = """
+                {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"input_tokens":3,"output_tokens":2}}
+                """;
+        String encodedEvent = java.util.Base64.getEncoder()
+                .encodeToString(claudeEvent.getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeEvent(upstream, "chunk", "{\"chunk\":{\"bytes\":\"" + encodedEvent + "\"}}");
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        String sse = downstream.toString(StandardCharsets.UTF_8);
+        assertThat(sse).isEqualTo("event: message_delta\n"
+                + "data: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"end_turn\"},\"usage\":{\"input_tokens\":3,\"output_tokens\":2}}\n\n");
+        assertThat(usage.usageKnown()).isTrue();
+        assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
+    @Test
     void test_closesEachChatToolBlock_when_multipleToolCallsAreStreamedToClaude() throws Exception {
         String upstream = """
                 data: {"id":"chatcmpl_1","choices":[{"delta":{"role":"assistant"},"finish_reason":null}]}

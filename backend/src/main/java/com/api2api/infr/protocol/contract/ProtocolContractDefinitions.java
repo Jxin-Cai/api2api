@@ -451,6 +451,7 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("context_management", "context_management", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "上下文管理配置", "原生 Claude 格式直通", "支持 compact_*、clear_thinking、clear_tool_uses"),
                         ProtocolFieldRef.of("tool_choice", "tool_choice", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "工具选择策略", "原生 Claude 格式直通", "支持 disable_parallel_tool_use"),
                         ProtocolFieldRef.of("cache_control", "cache_control", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "缓存控制", "原生 Claude 格式直通", "支持 ephemeral 和 TTL"),
+                        ProtocolFieldRef.of("stream event", "stream.event", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "Claude SSE 事件", "InvokeModel 二进制事件帧解码后的原生 Claude SSE 事件", "包含 message_start、content_block_delta、message_delta、message_stop 等事件"),
                         ProtocolFieldRef.of("usage", "usage", FieldType.OBJECT, true, FieldSection.METADATA, UsageDirection.OUTPUT, "Token 用量", "原生 Claude 格式", "包含 input_tokens、output_tokens、cache_creation_input_tokens、cache_read_input_tokens")
                         )
                 )

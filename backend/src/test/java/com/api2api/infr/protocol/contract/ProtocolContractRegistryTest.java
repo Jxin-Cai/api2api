@@ -18,8 +18,8 @@ class ProtocolContractRegistryTest {
     private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
-    void test_registry_contains_executable_shapes_when_four_protocols_are_registered() {
-        assertEquals(4, registry.contracts().size());
+    void test_registry_contains_executable_shapes_when_five_protocols_are_registered() {
+        assertEquals(5, registry.contracts().size());
         for (ProtocolContract contract : registry.contracts()) {
             assertFalse(contract.fields().isEmpty());
             assertFalse(contract.requestShape().fields().isEmpty());

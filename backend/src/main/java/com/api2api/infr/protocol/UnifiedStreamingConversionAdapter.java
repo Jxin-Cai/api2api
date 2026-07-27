@@ -1657,38 +1657,31 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 throw new IOException("Bedrock InvokeModel stream exception ["
                         + event.exceptionType() + "]: " + errorPayload);
             }
-            JsonNode chunk = objectMapper.readTree(event.payload());
-            String base64Bytes = chunk.path("bytes").asText("");
+
+            JsonNode payload = objectMapper.readTree(event.payload());
+            String base64Bytes = payload.path("chunk").path("bytes")
+                    .asText(payload.path("bytes").asText(""));
             if (base64Bytes.isEmpty()) {
                 continue;
             }
-            byte[] sseChunk = java.util.Base64.getDecoder().decode(base64Bytes);
-            clientBody.write(sseChunk);
+
+            JsonNode claudeEvent = objectMapper.readTree(java.util.Base64.getDecoder().decode(base64Bytes));
+            String eventType = claudeEvent.path("type").asText("");
+            if (eventType.isBlank()) {
+                throw new IOException("Bedrock InvokeModel stream chunk is missing the Claude event type");
+            }
+
+            String sseEvent = "event: " + eventType + "\n"
+                    + "data: " + objectMapper.writeValueAsString(claudeEvent) + "\n\n";
+            clientBody.write(sseEvent.getBytes(StandardCharsets.UTF_8));
             clientBody.flush();
-            String sseText = new String(sseChunk, StandardCharsets.UTF_8);
-            if (sseText.contains("\"type\":\"message_delta\"")) {
-                usage = tryExtractClaudeUsageFromSseChunk(sseText, usage);
+
+            JsonNode usageNode = claudeEvent.path("usage");
+            if (usageNode.isObject()) {
+                usage = ClaudeMessagesUsageExtractor.extractUsageNode(usageNode);
             }
         }
         return usage;
-    }
-
-    private UnifiedTokenUsage tryExtractClaudeUsageFromSseChunk(String sseText, UnifiedTokenUsage current) {
-        for (String line : sseText.split("\n")) {
-            if (!line.startsWith("data: ")) {
-                continue;
-            }
-            try {
-                JsonNode data = objectMapper.readTree(line.substring(6));
-                JsonNode usageNode = data.path("usage");
-                if (usageNode.isMissingNode() || !usageNode.isObject()) {
-                    continue;
-                }
-                return ClaudeMessagesUsageExtractor.extractUsageNode(usageNode);
-            } catch (Exception ignored) {
-            }
-        }
-        return current;
     }
 
     private UnifiedTokenUsage transformClaudeToChat(String model, InputStream upstreamBody,
