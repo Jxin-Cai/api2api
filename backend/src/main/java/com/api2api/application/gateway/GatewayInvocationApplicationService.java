@@ -35,6 +35,7 @@ import java.time.Clock;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -220,7 +221,7 @@ public class GatewayInvocationApplicationService {
                 command.isStreaming(),
                 command.isToolCallingRequired(),
                 command.isReasoningRequired()
-        );
+        ).withAnthropicBetaFeatures(anthropicBetaFeatures(command.getIncomingHeaders()));
         ApiCredential credential = apiCredentialRepository.findByKeyHash(command.getKeyHash())
                 .orElseThrow(() -> new BusinessException("API_CREDENTIAL_INVALID"));
         credential.assertUsable();
@@ -594,6 +595,20 @@ public class GatewayInvocationApplicationService {
                 candidate.providerChannelId().value(),
                 candidate.upstreamModel().value()
         );
+    }
+
+    private List<String> anthropicBetaFeatures(Map<String, List<String>> incomingHeaders) {
+        if (incomingHeaders == null || incomingHeaders.isEmpty()) {
+            return List.of();
+        }
+        return incomingHeaders.entrySet().stream()
+                .filter(entry -> "anthropic-beta".equalsIgnoreCase(entry.getKey()))
+                .flatMap(entry -> entry.getValue().stream())
+                .flatMap(value -> Arrays.stream(value.split(",")))
+                .map(String::trim)
+                .filter(value -> !value.isEmpty())
+                .distinct()
+                .toList();
     }
 
     private ConversionResult rewriteResponseModel(RouteCandidate candidate, ConversionResult responseConversion) {

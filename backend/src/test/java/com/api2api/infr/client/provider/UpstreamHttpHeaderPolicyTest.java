@@ -50,4 +50,22 @@ class UpstreamHttpHeaderPolicyTest {
         assertThat(headers).containsEntry("anthropic-version", "2023-06-01");
         assertThat(headers).containsEntry("Accept", "text/event-stream");
     }
+
+    @Test
+    void test_omitsAnthropicBetaHeader_when_targetUsesBedrockInvokeModelBody() {
+        // Arrange
+        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+        UpstreamHttpHeaderPolicy policy = new UpstreamHttpHeaderPolicy(properties);
+
+        // Act
+        Map<String, String> headers = policy.buildHeaders(
+                ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
+                Map.of("Anthropic-Beta", List.of("context-management-2025-06-27")),
+                "provider-secret",
+                false
+        );
+
+        // Assert
+        assertThat(headers).doesNotContainKey("Anthropic-Beta");
+    }
 }

@@ -33,7 +33,7 @@ public class UpstreamHttpHeaderPolicy {
             throw new IllegalArgumentException("Bearer token must not be blank");
         }
         Map<String, String> headers = new LinkedHashMap<>();
-        addAllowedPassthroughHeaders(headers, incomingHeaders);
+        addAllowedPassthroughHeaders(headers, incomingHeaders, protocolType);
         headers.put(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken);
         headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
@@ -51,7 +51,11 @@ public class UpstreamHttpHeaderPolicy {
         return headers;
     }
 
-    private void addAllowedPassthroughHeaders(Map<String, String> target, Map<String, List<String>> source) {
+    private void addAllowedPassthroughHeaders(
+            Map<String, String> target,
+            Map<String, List<String>> source,
+            ProtocolType protocolType
+    ) {
         if (source == null) {
             return;
         }
@@ -60,6 +64,10 @@ public class UpstreamHttpHeaderPolicy {
                 return;
             }
             String normalized = normalizeName(name);
+            if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+                    && "anthropic-beta".equals(normalized)) {
+                return;
+            }
             if (properties.getHeaderDenylist().contains(normalized)) {
                 return;
             }
