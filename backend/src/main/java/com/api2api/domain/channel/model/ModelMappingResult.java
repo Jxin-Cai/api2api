@@ -31,10 +31,6 @@ public final class ModelMappingResult {
         return upstreamModel;
     }
 
-    public String mappingChain() {
-        return mappingChain;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

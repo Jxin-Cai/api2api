@@ -228,24 +228,6 @@ public final class ApiCredential {
         }
     }
 
-    public TokenConsumptionDecision evaluateConsumption(long currentConsumedTokens, TokenUsageDelta delta) {
-        validateConsumedTokens(currentConsumedTokens);
-        Objects.requireNonNull(delta, "Token usage delta must not be null");
-        if (isQuotaExhausted(currentConsumedTokens)) {
-            return TokenConsumptionDecision.of(
-                    TokenConsumptionDecision.Result.EXHAUSTED_BEFORE_REQUEST,
-                    currentConsumedTokens,
-                    currentConsumedTokens,
-                    tokenLimit
-            );
-        }
-
-        long consumedAfter = Math.addExact(currentConsumedTokens, delta.totalTokens());
-        TokenConsumptionDecision.Result result = tokenLimit.isExceededBy(consumedAfter)
-                ? TokenConsumptionDecision.Result.EXHAUSTED_AFTER_CONSUMPTION
-                : TokenConsumptionDecision.Result.ACCEPTED;
-        return TokenConsumptionDecision.of(result, currentConsumedTokens, consumedAfter, tokenLimit);
-    }
 
     public void markUsed(Instant usedAt) {
         Objects.requireNonNull(usedAt, "Used time must not be null");

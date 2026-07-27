@@ -8,7 +8,4 @@ public enum ConversionStatus {
     DISABLED,
     NOT_IMPLEMENTED;
 
-    public boolean canBeEnabled() {
-        return this != NOT_IMPLEMENTED;
-    }
 }

@@ -64,10 +64,6 @@ public final class RouteAttempt {
         return candidate;
     }
 
-    public int attemptOrder() {
-        return attemptOrder;
-    }
-
     public Instant startedAt() {
         return startedAt;
     }

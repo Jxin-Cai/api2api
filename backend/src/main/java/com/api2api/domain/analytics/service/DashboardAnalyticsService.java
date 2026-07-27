@@ -10,8 +10,6 @@ import com.api2api.domain.analytics.model.FrontDashboardQuery;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
 import com.api2api.domain.analytics.model.ProtocolTokenTrendPoint;
 import com.api2api.domain.analytics.model.TokenAmount;
-import com.api2api.domain.analytics.model.UsageSummaryMetrics;
-import com.api2api.domain.analytics.model.UsageSummaryQuery;
 import com.api2api.domain.analytics.model.UserTokenRanking;
 import com.api2api.domain.analytics.repository.DashboardAnalyticsRepository;
 import com.api2api.domain.channel.model.ProtocolType;
@@ -106,24 +104,6 @@ public final class DashboardAnalyticsService {
         );
     }
 
-    public UsageSummaryMetrics summarizeUsage(
-            UsageSummaryQuery query,
-            DashboardAnalyticsRepository repository
-    ) {
-        UsageSummaryQuery nonNullQuery = Objects.requireNonNull(query, "Usage summary query must not be null");
-        DashboardAnalyticsRepository nonNullRepository = requireRepository(repository);
-
-        UsageTokenBreakdown filteredTokenTotal = Objects.requireNonNull(
-                nonNullRepository.sumUsageTokens(nonNullQuery.filter()),
-                "Usage summary filtered token total must not be null"
-        );
-        long totalRecords = nonNullRepository.countUsageRecords(nonNullQuery.filter());
-        if (totalRecords < 0) {
-            throw new IllegalArgumentException("Usage summary total records must be greater than or equal to 0");
-        }
-
-        return UsageSummaryMetrics.of(filteredTokenTotal, totalRecords);
-    }
 
     private static DashboardAnalyticsRepository requireRepository(DashboardAnalyticsRepository repository) {
         return Objects.requireNonNull(repository, "Dashboard analytics repository must not be null");

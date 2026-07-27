@@ -1,6 +1,5 @@
 package com.api2api.domain.routing.model;
 
-import com.api2api.domain.channel.model.ProviderChannelId;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -34,18 +33,6 @@ public final class RoutePlan {
             throw new IllegalStateException("No route candidate is available for requested model");
         }
         return candidates.get(0);
-    }
-
-    public RoutePlan withoutCandidate(ProviderChannelId channelId, RouteFailure failure) {
-        Objects.requireNonNull(channelId, "Provider channel id must not be null");
-        Objects.requireNonNull(failure, "Route failure must not be null");
-        if (!failure.providerChannelId().equals(channelId)) {
-            throw new IllegalArgumentException("Failure channel must match removed channel");
-        }
-        List<RouteCandidate> remainingCandidates = candidates.stream()
-                .filter(candidate -> !candidate.providerChannelId().equals(channelId))
-                .toList();
-        return new RoutePlan(routingRequest, remainingCandidates, createdAt);
     }
 
     public RoutingRequest routingRequest() {

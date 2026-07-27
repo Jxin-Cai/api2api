@@ -138,41 +138,6 @@ public class ProtocolConversionDefinition {
         touch(now);
     }
 
-    public void markNotImplemented(Instant now) {
-        this.status = ConversionStatus.NOT_IMPLEMENTED;
-        this.implementationStatus = ConversionImplementationStatus.NOT_IMPLEMENTED;
-        touch(now);
-    }
-
-    public void updateMetadata(
-            ConversionCapability capability,
-            MappingDocument requestMapping,
-            MappingDocument responseMapping,
-            ConversionImplementationStatus implementationStatus,
-            Instant now
-    ) {
-        this.capability = Objects.requireNonNull(capability, "capability must not be null");
-        this.requestMapping = requireDirection(requestMapping, MappingDirection.REQUEST, "requestMapping");
-        this.responseMapping = requireDirection(responseMapping, MappingDirection.RESPONSE, "responseMapping");
-        this.implementationStatus = Objects.requireNonNull(implementationStatus, "implementationStatus must not be null");
-        if (implementationStatus == ConversionImplementationStatus.NOT_IMPLEMENTED) {
-            this.status = ConversionStatus.NOT_IMPLEMENTED;
-        }
-        touch(now);
-    }
-
-    public void updateMetadata(
-            ConversionCapability capability,
-            MappingMetadata requestMapping,
-            MappingMetadata responseMapping,
-            ConversionImplementationStatus implementationStatus,
-            Instant now
-    ) {
-        Objects.requireNonNull(requestMapping, "requestMapping must not be null");
-        Objects.requireNonNull(responseMapping, "responseMapping must not be null");
-        updateMetadata(capability, requestMapping.toDocument(), responseMapping.toDocument(), implementationStatus, now);
-    }
-
     public boolean isPassthrough() {
         return kind == ConversionKind.PASSTHROUGH;
     }
@@ -191,21 +156,6 @@ public class ProtocolConversionDefinition {
 
     public boolean supportsToolCalling() {
         return capability.supportsToolCalling();
-    }
-
-    public void assertUsableFor(ProtocolConversionRequest request) {
-        Objects.requireNonNull(request, "request must not be null");
-        if (!isEnabledForRouting()) {
-            throw new ProtocolConversionException("protocol conversion definition is not enabled for routing");
-        }
-        if (!capability.satisfies(request)) {
-            throw new ProtocolConversionException("protocol conversion capability does not satisfy request requirement");
-        }
-    }
-
-    public void assertUsableFor(ConversionRequirement requirement) {
-        Objects.requireNonNull(requirement, "requirement must not be null");
-        assertUsableFor(requirement.toProtocolConversionRequest());
     }
 
     public boolean matches(ProtocolType sourceProtocol, ProtocolType targetProtocol) {

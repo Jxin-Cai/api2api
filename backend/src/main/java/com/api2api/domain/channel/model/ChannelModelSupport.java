@@ -106,35 +106,6 @@ public class ChannelModelSupport {
         );
     }
 
-    public void changePriority(RoutePriority priority, Instant now) {
-        Objects.requireNonNull(priority, "Route priority must not be null");
-        Objects.requireNonNull(now, "Current time must not be null");
-        if (this.priority.equals(priority)) {
-            return;
-        }
-        this.priority = priority;
-        this.updatedAt = now;
-    }
-
-    public void changePreferred(boolean preferred, Instant now) {
-        Objects.requireNonNull(now, "Current time must not be null");
-        if (this.preferred == preferred) {
-            return;
-        }
-        this.preferred = preferred;
-        this.updatedAt = now;
-    }
-
-    public void remapTo(ModelName upstreamModel, Instant now) {
-        Objects.requireNonNull(upstreamModel, "Upstream model must not be null");
-        Objects.requireNonNull(now, "Current time must not be null");
-        if (this.upstreamModel.equals(upstreamModel)) {
-            return;
-        }
-        this.upstreamModel = upstreamModel;
-        this.updatedAt = now;
-    }
-
     public void disable(Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
         if (status == ChannelModelStatus.DISABLED) {
@@ -161,14 +132,6 @@ public class ChannelModelSupport {
         return status == ChannelModelStatus.ENABLED
                 && this.requestedModel.equals(requestedModel)
                 && this.upstreamProtocol == upstreamProtocol;
-    }
-
-    public boolean hasModelMapping() {
-        return !upstreamModel.equals(requestedModel);
-    }
-
-    public ModelMappingResult toModelMappingResult() {
-        return ModelMappingResult.of(requestedModel, upstreamModel);
     }
 
     boolean hasSameCombinationAs(ChannelModelSupport other) {

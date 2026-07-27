@@ -103,9 +103,6 @@ public final class ProtocolContract {
         return responseShape.parse(readObject(rawBody, ProtocolShapeKind.RESPONSE));
     }
 
-    public JsonNode parseStreamEvent(String rawBody) {
-        return streamEventShape.parse(readObject(rawBody, ProtocolShapeKind.STREAM_EVENT));
-    }
 
     public String buildResponse(String rawBody) {
         parseResponse(rawBody);

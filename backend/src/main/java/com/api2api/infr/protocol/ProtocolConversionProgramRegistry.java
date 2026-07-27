@@ -42,9 +42,6 @@ public final class ProtocolConversionProgramRegistry {
                 .map(ProtocolConversionProgram::fieldMappings);
     }
 
-    public boolean hasConverter(ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {
-        return findProgram(source, target, direction).isPresent();
-    }
 
     public Optional<ProtocolConversionProgram> findProgram(
             ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {

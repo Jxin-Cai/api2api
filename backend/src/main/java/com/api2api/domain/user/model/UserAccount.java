@@ -150,15 +150,6 @@ public final class UserAccount {
         }
     }
 
-    public boolean canViewUsageOf(UserAccountId targetUserId) {
-        Objects.requireNonNull(targetUserId, "Target user account id must not be null");
-        return isAdmin() || this.id.equals(targetUserId);
-    }
-
-    public boolean canViewProviderChannelInfo() {
-        return isAdmin();
-    }
-
     public UserAccountId getId() {
         return id;
     }

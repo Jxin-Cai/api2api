@@ -246,40 +246,17 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     }
 
     private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis, String responseBody) {
-        RouteFailureType failureType;
+        RouteFailureType failureType = UpstreamFailureClassifier.fromHttpStatus(statusCode);
         boolean retryable;
-        if (statusCode == 401 || statusCode == 403) {
-            failureType = RouteFailureType.AUTHORIZATION_ERROR;
+        if (failureType == RouteFailureType.AUTHORIZATION_ERROR) {
             retryable = false;
-        } else if (statusCode == 429) {
-            failureType = RouteFailureType.RATE_LIMITED;
-            retryable = true;
-        } else if (statusCode >= 500) {
-            failureType = RouteFailureType.CHANNEL_UNAVAILABLE;
-            retryable = true;
+        } else if (failureType == RouteFailureType.UPSTREAM_ERROR) {
+            retryable = UpstreamFailureClassifier.isModelUnavailable(statusCode, responseBody);
         } else {
-            failureType = RouteFailureType.UPSTREAM_ERROR;
-            retryable = isModelUnavailable(statusCode, responseBody);
+            retryable = true;
         }
-        String message = "Upstream returned HTTP " + statusCode;
-        if (responseBody != null && !responseBody.isBlank()) {
-            String compact = responseBody.replaceAll("\\s+", " ").trim();
-            if (compact.length() > 500) {
-                compact = compact.substring(0, 500) + "...";
-            }
-            message += ": " + compact;
-        }
+        String message = UpstreamFailureClassifier.compactErrorMessage("Upstream", statusCode, responseBody);
         return new UpstreamGatewayException(failureType, statusCode, retryable, elapsedMillis, message);
-    }
-
-    private boolean isModelUnavailable(int statusCode, String responseBody) {
-        if (statusCode != 404 || responseBody == null) {
-            return false;
-        }
-        String normalized = responseBody.toLowerCase(java.util.Locale.ROOT);
-        return normalized.contains("model_not_found")
-                || normalized.contains("model not found")
-                || normalized.contains("not supported by any configured account");
     }
 
     private Duration readTimeout(boolean streaming) {

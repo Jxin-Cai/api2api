@@ -7,7 +7,6 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.model.UserRole;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Immutable filter used to query usage records with role-based visibility constraints.
@@ -82,38 +81,6 @@ public final class UsageRecordFilter {
                 timeRange,
                 UserRole.USER
         );
-    }
-
-    public boolean isUserPortalView() {
-        return viewerRole == UserRole.USER;
-    }
-
-    public boolean isAdminView() {
-        return viewerRole == UserRole.ADMIN;
-    }
-
-    public boolean canFilterProviderChannel() {
-        return viewerRole == UserRole.ADMIN;
-    }
-
-    public Optional<UserAccountId> userAccountIdOption() {
-        return Optional.ofNullable(userAccountId);
-    }
-
-    public Optional<ApiCredentialId> apiCredentialIdOption() {
-        return Optional.ofNullable(apiCredentialId);
-    }
-
-    public Optional<ModelName> requestedModelOption() {
-        return Optional.ofNullable(requestedModel);
-    }
-
-    public Optional<ProviderChannelId> providerChannelIdOption() {
-        return Optional.ofNullable(providerChannelId);
-    }
-
-    public Optional<ProtocolType> requestProtocolOption() {
-        return Optional.ofNullable(requestProtocol);
     }
 
     public UserAccountId userAccountId() {

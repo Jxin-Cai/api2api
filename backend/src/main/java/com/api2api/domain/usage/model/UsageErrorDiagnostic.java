@@ -35,10 +35,6 @@ public final class UsageErrorDiagnostic {
         return new UsageErrorDiagnostic(nonNullError.errorType(), nonNullError.message(), nonNullError.failures());
     }
 
-    public UsageErrorDiagnostic redactChannelDetails() {
-        return new UsageErrorDiagnostic(errorType, message, List.of());
-    }
-
     private static String normalizeMessage(String message) {
         if (message == null) {
             throw new IllegalArgumentException("Usage error message must not be null");

@@ -9,7 +9,6 @@ import com.api2api.domain.gateway.model.GatewayInvocationResult;
 import com.api2api.domain.gateway.model.GatewayRequestId;
 import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.user.model.UserAccountId;
-import com.api2api.domain.user.model.UserRole;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -199,18 +198,6 @@ public final class UsageRecord {
 
     public boolean isFailed() {
         return status == UsageRecordStatus.FAILED;
-    }
-
-    public boolean hasKnownUsage() {
-        return tokenUsage.usageKnown();
-    }
-
-    public boolean visibleProviderChannelFor(UserRole viewerRole) {
-        return Objects.requireNonNull(viewerRole, "Viewer role must not be null") == UserRole.ADMIN;
-    }
-
-    public void assertAppendOnly() {
-        // This aggregate intentionally exposes no mutator. Repositories must persist it with append-only semantics.
     }
 
     public UsageRecordId id() {

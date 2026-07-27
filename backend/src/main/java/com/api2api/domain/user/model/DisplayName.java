@@ -21,10 +21,6 @@ public final class DisplayName {
         return new DisplayName(value);
     }
 
-    public DisplayName renameTo(String value) {
-        return new DisplayName(value);
-    }
-
     private static String normalize(String value) {
         if (value == null) {
             throw new IllegalArgumentException("Display name must not be null");

@@ -138,10 +138,6 @@ public final class RouteCandidate {
         return conversionRoute;
     }
 
-    public ModelMappingResult modelMappingResult() {
-        return modelMappingResult;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

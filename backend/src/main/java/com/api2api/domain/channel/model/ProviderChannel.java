@@ -187,10 +187,6 @@ public class ProviderChannel {
         this.updatedAt = now;
     }
 
-    public void replaceSupportedProtocols(Set<ProtocolType> protocols, Instant now) {
-        replaceProtocolMappings(identityMappings(protocols), now);
-    }
-
     public void replaceProtocolMappings(Set<ChannelProtocolMapping> mappings, Instant now) {
         Objects.requireNonNull(now, "Current time must not be null");
         Set<ChannelProtocolMapping> normalizedMappings = normalizeProtocolMappings(mappings);
@@ -292,26 +288,8 @@ public class ProviderChannel {
         this.updatedAt = now;
     }
 
-    public void markDegraded(Instant now) {
-        Objects.requireNonNull(now, "Current time must not be null");
-        if (status == ProviderChannelStatus.DEGRADED) {
-            return;
-        }
-        this.status = ProviderChannelStatus.DEGRADED;
-        this.updatedAt = now;
-    }
-
     public boolean isEnabledForRouting() {
         return status == ProviderChannelStatus.ENABLED;
-    }
-
-    public boolean supportsProtocol(ProtocolType protocol) {
-        return supportsRequestProtocol(protocol);
-    }
-
-    public boolean supportsRequestProtocol(ProtocolType protocol) {
-        Objects.requireNonNull(protocol, "Protocol must not be null");
-        return supportedProtocols().contains(protocol);
     }
 
     public boolean supportsUpstreamProtocol(ProtocolType protocol) {
@@ -356,12 +334,6 @@ public class ProviderChannel {
                 .filter(modelSupport -> supportsUpstreamProtocol(modelSupport.upstreamProtocol()))
                 .sorted(modelOrdering())
                 .toList();
-    }
-
-    public RoutePriority priorityFor(ModelName requestedModel, ProtocolType upstreamProtocol) {
-        return findModelSupport(requestedModel, upstreamProtocol)
-                .map(ChannelModelSupport::priority)
-                .orElseThrow(() -> new IllegalStateException("Provider channel does not support requested model and protocol"));
     }
 
     private Optional<Integer> findSameCombinationIndex(ChannelModelSupport modelSupport, List<ChannelModelSupport> modelSupports) {

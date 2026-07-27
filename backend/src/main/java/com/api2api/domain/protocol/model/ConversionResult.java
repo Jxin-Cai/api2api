@@ -27,9 +27,6 @@ public final class ConversionResult {
         return new ConversionResult(result);
     }
 
-    public ProtocolConversionResult toProtocolConversionResult() {
-        return result;
-    }
 
     public ProtocolType sourceProtocol() {
         return result.sourceProtocol();

@@ -755,13 +755,7 @@ public class GatewayInvocationApplicationService {
     }
 
     private boolean isModelUnavailable(int statusCode, String responseBody) {
-        if (statusCode != 404 || responseBody == null) {
-            return false;
-        }
-        String normalized = responseBody.toLowerCase(java.util.Locale.ROOT);
-        return normalized.contains("model_not_found")
-                || normalized.contains("model not found")
-                || normalized.contains("not supported by any configured account");
+        return RouteFailureType.isModelUnavailableResponse(statusCode, responseBody);
     }
 
     private void logRouteAttempt(InvokeGatewayCommand command, RouteCandidate candidate) {
@@ -787,17 +781,10 @@ public class GatewayInvocationApplicationService {
     }
 
     private RouteFailureType routeFailureType(int statusCode) {
-        if (statusCode == 401 || statusCode == 403) {
-            return RouteFailureType.AUTHORIZATION_ERROR;
-        }
-        if (statusCode == 429) {
-            return RouteFailureType.RATE_LIMITED;
-        }
-        if (statusCode >= 500) {
-            return RouteFailureType.CHANNEL_UNAVAILABLE;
-        }
-        return RouteFailureType.UPSTREAM_ERROR;
+        return RouteFailureType.fromHttpStatus(statusCode);
     }
+
+    private static final int MAX_ERROR_BODY_LENGTH = 500;
 
     private String statusFailureMessage(int statusCode, String responseBody) {
         String message = "Upstream returned HTTP " + statusCode;
@@ -805,9 +792,8 @@ public class GatewayInvocationApplicationService {
             return message;
         }
         String compactBody = responseBody.replaceAll("\\s+", " ").trim();
-        int maxBodyLength = 500;
-        if (compactBody.length() > maxBodyLength) {
-            compactBody = compactBody.substring(0, maxBodyLength) + "...";
+        if (compactBody.length() > MAX_ERROR_BODY_LENGTH) {
+            compactBody = compactBody.substring(0, MAX_ERROR_BODY_LENGTH) + "...";
         }
         return message + ": " + compactBody;
     }
