@@ -143,6 +143,10 @@ jobs:
             -p "$DEPLOY_PORT"
             -o BatchMode=yes
             -o IdentitiesOnly=yes
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=4
+            -o ServerAliveInterval=30
+            -o ServerAliveCountMax=3
             -o StrictHostKeyChecking=yes
             -o UserKnownHostsFile=~/.ssh/known_hosts
           )
@@ -177,6 +181,10 @@ jobs:
             -p "$DEPLOY_PORT"
             -o BatchMode=yes
             -o IdentitiesOnly=yes
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=4
+            -o ServerAliveInterval=30
+            -o ServerAliveCountMax=3
             -o StrictHostKeyChecking=yes
             -o UserKnownHostsFile=~/.ssh/known_hosts
           )
@@ -186,6 +194,10 @@ jobs:
             -P "$DEPLOY_PORT"
             -o BatchMode=yes
             -o IdentitiesOnly=yes
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=4
+            -o ServerAliveInterval=30
+            -o ServerAliveCountMax=3
             -o StrictHostKeyChecking=yes
             -o UserKnownHostsFile=~/.ssh/known_hosts
           )
@@ -217,6 +229,10 @@ jobs:
             -p "$DEPLOY_PORT"
             -o BatchMode=yes
             -o IdentitiesOnly=yes
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=4
+            -o ServerAliveInterval=30
+            -o ServerAliveCountMax=3
             -o StrictHostKeyChecking=yes
             -o UserKnownHostsFile=~/.ssh/known_hosts
           )
