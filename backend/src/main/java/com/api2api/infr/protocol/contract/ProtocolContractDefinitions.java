@@ -441,16 +441,19 @@ final class ProtocolContractDefinitions {
                 ),
                 new ProtocolContract(
                         ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, "AWS Bedrock Claude Messages (InvokeModel)", "Bedrock Runtime InvokeModel · Claude Messages passthrough",
-                        "AWS Bedrock InvokeModel API，以原生 Claude Messages 格式直通 Bedrock，保留 compaction、thinking signature、mid_conv_system、defer_loading、disable_parallel_tool_use 等全部 Claude 原生能力。仅作为上游协议使用。", "/model/{modelId}/invoke", objectMapper,
+                        "AWS Bedrock InvokeModel API，以 Bedrock 支持的原生 Claude Messages 子集调用模型。模型能力及 beta 标志受 Bedrock 和具体模型共同约束；Claude Platform 托管能力不会直接透传。仅作为上游协议使用。", "/model/{modelId}/invoke", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("anthropic_version", "anthropic_version", FieldType.STRING, true, FieldSection.METADATA, UsageDirection.INPUT, "Bedrock Anthropic 版本标识", "固定为 bedrock-2023-05-31", "由转换器自动注入"),
-                        ProtocolFieldRef.of("messages", "messages", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.INPUT, "对话消息列表", "原生 Claude Messages 格式直通", "与 Anthropic Messages API 完全一致"),
-                        ProtocolFieldRef.of("system", "system", FieldType.ARRAY, false, FieldSection.MESSAGE, UsageDirection.INPUT, "系统提示词", "原生 Claude 格式直通", "支持 text block 和 mid_conv_system"),
-                        ProtocolFieldRef.of("tools", "tools", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "工具定义列表", "原生 Claude 格式直通", "支持 defer_loading、tool_search、allowed_callers"),
+                        ProtocolFieldRef.of("anthropic_beta", "anthropic_beta", FieldType.ARRAY, false, FieldSection.METADATA, UsageDirection.INPUT, "Bedrock beta 标志", "只保留 Bedrock 官方支持的 beta 标志", "Claude Platform 专用标志会被过滤"),
+                        ProtocolFieldRef.of("max_tokens", "max_tokens", FieldType.INTEGER, true, FieldSection.MODEL, UsageDirection.INPUT, "最大输出 token 数", "限制模型最多生成的 token 数", "原生 Claude 字段"),
+                        ProtocolFieldRef.of("messages", "messages", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.INPUT, "对话消息列表", "Bedrock 支持的 Claude Messages 内容块直通", "图片和文档仅接受内联 base64 来源；URL、file_id 会在转换阶段拒绝"),
+                        ProtocolFieldRef.of("system", "system", FieldType.ARRAY, false, FieldSection.MESSAGE, UsageDirection.INPUT, "系统提示词", "Bedrock 支持的文本系统提示词直通", "中途 system 消息取决于模型支持"),
+                        ProtocolFieldRef.of("tools", "tools", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "工具定义列表", "已登记的 Bedrock 客户端工具、memory 与 tool search 工具直通", "工具类型自动补齐所需 beta；未知托管工具会在转换阶段拒绝"),
                         ProtocolFieldRef.of("thinking", "thinking", FieldType.OBJECT, false, FieldSection.REASONING, UsageDirection.INPUT, "推理配置", "原生 Claude 格式直通", "支持 adaptive/enabled，signature 直接透传"),
                         ProtocolFieldRef.of("context_management", "context_management", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "上下文管理配置", "原生 Claude 格式直通", "支持 compact_*、clear_thinking、clear_tool_uses"),
-                        ProtocolFieldRef.of("tool_choice", "tool_choice", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "工具选择策略", "原生 Claude 格式直通", "支持 disable_parallel_tool_use"),
+                        ProtocolFieldRef.of("tool_choice", "tool_choice", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "工具选择策略", "Bedrock 支持的 any、auto、tool 策略直通", "附加控制字段取决于模型支持"),
                         ProtocolFieldRef.of("cache_control", "cache_control", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "缓存控制", "原生 Claude 格式直通", "支持 ephemeral 和 TTL"),
+                        ProtocolFieldRef.of("fallback_credit_token", "fallback_credit_token", FieldType.STRING, false, FieldSection.METADATA, UsageDirection.INPUT, "拒绝回退信用 token", "配合 fallback-credit-2026-06-09 beta 直通", "仅支持符合条件的源模型与回退模型"),
                         ProtocolFieldRef.of("stream event", "stream.event", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "Claude SSE 事件", "InvokeModel 二进制事件帧解码后的原生 Claude SSE 事件", "包含 message_start、content_block_delta、message_delta、message_stop 等事件"),
                         ProtocolFieldRef.of("usage", "usage", FieldType.OBJECT, true, FieldSection.METADATA, UsageDirection.OUTPUT, "Token 用量", "原生 Claude 格式", "包含 input_tokens、output_tokens、cache_creation_input_tokens、cache_read_input_tokens")
                         )

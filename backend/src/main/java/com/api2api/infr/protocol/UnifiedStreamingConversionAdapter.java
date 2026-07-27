@@ -80,7 +80,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             return UnifiedTokenUsage.unknown();
         }
         if (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
-            return transformBedrockInvokeModelToClaude(upstreamBody, clientBody);
+            return transformBedrockInvokeModelToClaude(
+                    context.clientModel().value(), upstreamBody, clientBody);
         }
         if (upstreamProtocol == ProtocolType.OPENAI_RESPONSES) {
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
@@ -1648,8 +1649,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     }
 
     private UnifiedTokenUsage transformBedrockInvokeModelToClaude(
-            InputStream upstreamBody, OutputStream clientBody) throws IOException {
-        UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
+            String clientModel, InputStream upstreamBody, OutputStream clientBody) throws IOException {
+        ObjectNode accumulatedUsage = objectNode();
+        boolean messageStopped = false;
+        boolean terminalErrorReceived = false;
         BedrockEvent event;
         while ((event = readEvent(upstreamBody)) != null) {
             if ("exception".equals(event.messageType())) {
@@ -1670,18 +1673,37 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             if (eventType.isBlank()) {
                 throw new IOException("Bedrock InvokeModel stream chunk is missing the Claude event type");
             }
+            if (claudeEvent instanceof ObjectNode claudeObject) {
+                BedrockClaudeMessagesResponseSanitizer.removeProviderExtensions(claudeObject);
+                if ("message_start".equals(eventType)
+                        && claudeObject.path("message") instanceof ObjectNode message) {
+                    message.put("model", clientModel);
+                    mergeUsage(accumulatedUsage, message.path("usage"));
+                }
+            }
+            mergeUsage(accumulatedUsage, claudeEvent.path("usage"));
+            messageStopped = messageStopped || "message_stop".equals(eventType);
+            terminalErrorReceived = terminalErrorReceived || "error".equals(eventType);
 
             String sseEvent = "event: " + eventType + "\n"
                     + "data: " + objectMapper.writeValueAsString(claudeEvent) + "\n\n";
             clientBody.write(sseEvent.getBytes(StandardCharsets.UTF_8));
             clientBody.flush();
-
-            JsonNode usageNode = claudeEvent.path("usage");
-            if (usageNode.isObject()) {
-                usage = ClaudeMessagesUsageExtractor.extractUsageNode(usageNode);
-            }
         }
-        return usage;
+        if (!messageStopped && !terminalErrorReceived) {
+            throw new IOException("Bedrock InvokeModel stream ended before the Claude message_stop event");
+        }
+        return accumulatedUsage.isEmpty()
+                ? UnifiedTokenUsage.unknown()
+                : ClaudeMessagesUsageExtractor.extractUsageNode(accumulatedUsage);
+    }
+
+    private void mergeUsage(ObjectNode accumulatedUsage, JsonNode usage) {
+        if (!usage.isObject()) {
+            return;
+        }
+        usage.fields().forEachRemaining(entry ->
+                accumulatedUsage.set(entry.getKey(), entry.getValue().deepCopy()));
     }
 
     private UnifiedTokenUsage transformClaudeToChat(String model, InputStream upstreamBody,

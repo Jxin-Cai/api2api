@@ -1,6 +1,7 @@
 package com.api2api.infr.protocol;
 
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -13,9 +14,19 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
     private static final String BEDROCK_ANTHROPIC_VERSION = "bedrock-2023-05-31";
     private static final String CONTEXT_MANAGEMENT_BETA = "context-management-2025-06-27";
     private static final String COMPACTION_BETA = "compact-2026-01-12";
+    private static final String FALLBACK_CREDIT_BETA = "fallback-credit-2026-06-09";
+    private static final Set<String> UNSUPPORTED_CLAUDE_PLATFORM_FIELDS = Set.of(
+            "container",
+            "diagnostics",
+            "fallbacks",
+            "inference_geo",
+            "mcp_servers"
+    );
     private static final Set<String> BEDROCK_SUPPORTED_BETA_FEATURES = Set.of(
             "computer-use-2024-10-22",
             "computer-use-2025-01-24",
+            "computer-use-2025-11-24",
+            "fine-grained-tool-streaming-2025-05-14",
             "token-efficient-tools-2025-02-19",
             "interleaved-thinking-2025-05-14",
             "output-128k-2025-02-19",
@@ -25,7 +36,8 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
             "effort-2025-11-24",
             "tool-search-tool-2025-10-19",
             "tool-examples-2025-10-29",
-            COMPACTION_BETA
+            COMPACTION_BETA,
+            FALLBACK_CREDIT_BETA
     );
 
     BedrockClaudeMessagesProtocolMessageConverter(
@@ -41,11 +53,14 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
 
     @Override
     protected JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement) {
+        rejectUnsupportedClaudePlatformFields(source);
+        Set<String> requiredBetaFeatures =
+                BedrockClaudeMessagesRequestValidator.validateAndCollectRequiredBetaFeatures(source);
         ObjectNode target = source.deepCopy();
         target.remove("model");
         target.remove("stream");
         target.put("anthropic_version", BEDROCK_ANTHROPIC_VERSION);
-        mergeAnthropicBetaFeatures(target, requirement);
+        mergeAnthropicBetaFeatures(target, requirement, requiredBetaFeatures);
 
         JsonNode messages = target.get("messages");
         JsonNode protectedMessages = ClaudeConversationContextOptimizer.protectAgainstRepeatedToolCalls(messages);
@@ -56,13 +71,27 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
         return target;
     }
 
-    private void mergeAnthropicBetaFeatures(ObjectNode target, ProtocolConversionRequest requirement) {
+    private void rejectUnsupportedClaudePlatformFields(JsonNode source) {
+        for (String field : UNSUPPORTED_CLAUDE_PLATFORM_FIELDS) {
+            if (source.hasNonNull(field)) {
+                throw new ProtocolConversionException(
+                        "Claude Messages field '" + field + "' has no Bedrock InvokeModel equivalent");
+            }
+        }
+    }
+
+    private void mergeAnthropicBetaFeatures(
+            ObjectNode target,
+            ProtocolConversionRequest requirement,
+            Set<String> requiredBetaFeatures
+    ) {
         Set<String> betaFeatures = new LinkedHashSet<>();
         JsonNode existingFeatures = target.get("anthropic_beta");
         if (existingFeatures != null && existingFeatures.isArray()) {
             existingFeatures.forEach(feature -> addBetaFeature(betaFeatures, feature.asText("")));
         }
         requirement.anthropicBetaFeatures().forEach(feature -> addBetaFeature(betaFeatures, feature));
+        requiredBetaFeatures.forEach(feature -> addBetaFeature(betaFeatures, feature));
         addContextManagementBetaFeatures(betaFeatures, target.get("context_management"));
         if (betaFeatures.isEmpty()) {
             target.remove("anthropic_beta");
@@ -106,6 +135,8 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
 
     @Override
     protected JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement) {
-        return source.deepCopy();
+        JsonNode target = source.deepCopy();
+        BedrockClaudeMessagesResponseSanitizer.removeProviderExtensions(target);
+        return target;
     }
 }

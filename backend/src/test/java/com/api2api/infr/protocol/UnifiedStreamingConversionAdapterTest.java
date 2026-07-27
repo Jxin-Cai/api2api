@@ -67,13 +67,15 @@ class UnifiedStreamingConversionAdapterTest {
     @Test
     void test_emitsClaudeSse_when_invokeModelFrameContainsNativeClaudeEvent() throws Exception {
         // Arrange
-        String claudeEvent = """
+        String messageDelta = """
                 {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"input_tokens":3,"output_tokens":2}}
                 """;
-        String encodedEvent = java.util.Base64.getEncoder()
-                .encodeToString(claudeEvent.getBytes(StandardCharsets.UTF_8));
+        String messageStop = """
+                {"type":"message_stop"}
+                """;
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();
-        writeEvent(upstream, "chunk", "{\"chunk\":{\"bytes\":\"" + encodedEvent + "\"}}");
+        writeClaudeInvokeModelEvent(upstream, messageDelta);
+        writeClaudeInvokeModelEvent(upstream, messageStop);
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
         // Act
@@ -85,10 +87,100 @@ class UnifiedStreamingConversionAdapterTest {
 
         // Assert
         String sse = downstream.toString(StandardCharsets.UTF_8);
-        assertThat(sse).isEqualTo("event: message_delta\n"
+        assertThat(sse).contains("event: message_delta\n"
                 + "data: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"end_turn\"},\"usage\":{\"input_tokens\":3,\"output_tokens\":2}}\n\n");
         assertThat(usage.usageKnown()).isTrue();
         assertThat(usage.totalTokens()).isEqualTo(5);
+    }
+
+    @Test
+    void test_restoresClientModel_when_invokeModelStartsMessage() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_start","message":{"id":"msg_1","model":"claude-opus-4-6","usage":{"input_tokens":3,"output_tokens":0}}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_stop"}
+                """);
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        JsonNode messageStart = dataEvents(downstream.toString(StandardCharsets.UTF_8)).get(0);
+        assertThat(messageStart.at("/message/model").asText()).isEqualTo("claude-opus-4.6");
+    }
+
+    @Test
+    void test_combinesUsage_when_invokeModelSplitsInputAndOutputUsage() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_start","message":{"usage":{"input_tokens":10,"cache_read_input_tokens":4,"output_tokens":0}}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"output_tokens":3}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_stop"}
+                """);
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        assertThat(usage.inputTokens()).isEqualTo(10);
+        assertThat(usage.outputTokens()).isEqualTo(3);
+        assertThat(usage.cacheReadInputTokens()).isEqualTo(4);
+    }
+
+    @Test
+    void test_removesBedrockExtensions_when_invokeModelReturnsProviderMetadata() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_stop","amazon-bedrock-invocationMetrics":{"inputTokenCount":3}}
+                """);
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        assertThat(downstream.toString(StandardCharsets.UTF_8))
+                .doesNotContain("amazon-bedrock-invocationMetrics");
+    }
+
+    @Test
+    void test_failsClosed_when_invokeModelStreamEndsBeforeMessageStop() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"output_tokens":2}}
+                """);
+
+        // Act / Assert
+        assertThatThrownBy(() -> adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                new ByteArrayOutputStream()
+        )).isInstanceOf(java.io.IOException.class)
+                .hasMessageContaining("message_stop");
     }
 
     @Test
@@ -997,6 +1089,12 @@ class UnifiedStreamingConversionAdapterTest {
                 ProviderChannelId.of(1L),
                 ModelName.of("anthropic.claude-opus-4-6-v1:0")
         );
+    }
+
+    private void writeClaudeInvokeModelEvent(OutputStream upstream, String event) throws Exception {
+        String encodedEvent = java.util.Base64.getEncoder()
+                .encodeToString(event.getBytes(StandardCharsets.UTF_8));
+        writeEvent(upstream, "chunk", "{\"chunk\":{\"bytes\":\"" + encodedEvent + "\"}}");
     }
 
     private List<JsonNode> dataEvents(String sse) throws Exception {
