@@ -11,8 +11,9 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react&logoColor=1F2328)](https://react.dev/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker_Compose-ready-2496ED.svg?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
-[快速开始](#快速开始)&ensp;|&ensp;[网关调用](#网关调用)&ensp;|&ensp;[协议转换说明](./CLAUDE_MESSAGES_CONVERSION.md)&ensp;|&ensp;[参与贡献](#参与贡献)
+[快速开始](#快速开始)&ensp;|&ensp;[网关调用](#网关调用)&ensp;|&ensp;[协议转换说明](./CLAUDE_MESSAGES_CONVERSION.md)&ensp;|&ensp;[许可证](./LICENSE)&ensp;|&ensp;[参与贡献](#参与贡献)
 
 </div>
 
@@ -370,4 +371,6 @@ docker compose --env-file .env -p api2api ps
 
 ## 许可证
 
-本仓库目前尚未发布开源许可证。在正式添加 `LICENSE` 文件前，代码默认保留全部权利；如需使用、分发或集成，请先联系项目维护者。
+本项目采用 [Apache License 2.0](./LICENSE)。
+
+Copyright 2026 jxin

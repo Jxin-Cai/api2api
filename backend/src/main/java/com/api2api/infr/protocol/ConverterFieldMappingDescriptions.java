@@ -89,7 +89,7 @@ final class ConverterFieldMappingDescriptions {
                 unsupported("fallbacks", "Responses 无等价的按拒绝原因服务端模型链", "MODEL")
         ));
 
-        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE), List.of(
+        map.put(key(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("output[].content (text)", "content[].type=text", "输出文本转为 Claude text 内容块", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("output[].type=function_call", "content[].type=tool_use", "function_call 转为 tool_use 块", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("output[].type=reasoning", "content[].type=thinking", "推理输出转为 thinking 块", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
@@ -116,7 +116,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
         ));
 
-        map.put(key(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE), List.of(
+        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("content[].type=text", "output[].content (output_text)", "文本块转为 output_text", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("content[].type=tool_use", "output[].type=function_call", "tool_use 转为 function_call", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("content[].type=thinking", "output[].type=reasoning", "thinking 块转为 reasoning 项", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
@@ -180,7 +180,7 @@ final class ConverterFieldMappingDescriptions {
                 unsupported("fallbacks", "Chat Completions 没有服务端模型回退链", "METADATA")
         ));
 
-        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE), List.of(
+        map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("choices[].message.content", "content[].type=text", "文本内容转为 Claude text 块", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("choices[].message.reasoning_content", "content[].type=thinking", "推理内容转为 thinking 块；纯推理响应同时提供可见文本", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
                 mapping("choices[].message.refusal", "content[].type=text", "拒绝说明转为可见文本", MappingLossiness.PARTIAL, "MESSAGE", "RESHAPE"),
@@ -208,7 +208,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
         ));
 
-        map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE), List.of(
+        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("content[].type=text", "choices[].message.content", "文本块拼接为 content 字符串", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("content[].type=tool_use", "choices[].message.tool_calls", "tool_use 块转为 tool_calls", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("stop_reason", "choices[].finish_reason", "停止原因转为 Chat finish_reason", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
@@ -229,7 +229,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
         ));
 
-        map.put(key(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE), List.of(
+        map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("choices[].message.content", "output[].content (output_text)", "文本内容转为 output_text", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("choices[].message.tool_calls", "output[].type=function_call", "tool_calls 转为 function_call 项", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("choices[].finish_reason", "status", "finish_reason 转为 Responses status", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
@@ -250,7 +250,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
         ));
 
-        map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE), List.of(
+        map.put(key(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.RESPONSE), List.of(
                 mapping("output[].content (output_text)", "choices[].message.content", "output_text 转为 content 字符串", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("output[].type=function_call", "choices[].message.tool_calls", "function_call 项转为 tool_calls", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("status", "choices[].finish_reason", "status 转为 finish_reason", MappingLossiness.NONE, "MESSAGE", "TRANSFORM"),
@@ -258,6 +258,131 @@ final class ConverterFieldMappingDescriptions {
                 mapping("usage.output_tokens", "usage.completion_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("id", "id", "Direct passthrough", MappingLossiness.NONE, "METADATA", "DIRECT"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
+        ));
+
+        // ===== Claude Messages → AWS Bedrock Claude Messages =====
+        map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
+                ProtocolConversionDirection.REQUEST), List.of(
+                detailedMapping("model", "URI path {modelId}",
+                        "模型由已选路由的 upstreamModel 写入 InvokeModel URI，JSON body 中删除 model",
+                        MappingLossiness.NONE, "MODEL", "TRANSFORM", "string", "path parameter",
+                        null, "路由选定后", "Bedrock InvokeModel 不从请求体读取模型"),
+                detailedMapping("stream", "InvokeModel endpoint",
+                        "stream=true 选择 invoke-with-response-stream；否则选择 invoke；JSON body 中删除 stream",
+                        MappingLossiness.NONE, "STREAMING", "TRANSFORM", "boolean", "endpoint",
+                        null, null, "流式响应随后由 AWS event stream 解码为 Claude SSE"),
+                detailedMapping("(injected)", "anthropic_version",
+                        "固定注入 Bedrock Claude Messages 协议版本",
+                        MappingLossiness.NONE, "METADATA", "DEFAULT", null, "string",
+                        "bedrock-2023-05-31", null, null),
+                detailedMapping("anthropic-beta header / anthropic_beta", "anthropic_beta",
+                        "合并请求体、入口 header 和字段能力自动要求的 beta；去重并仅保留 Bedrock allowlist",
+                        MappingLossiness.PARTIAL, "METADATA", "FILTER", "string[]", "string[]",
+                        null, null, "Claude Platform 专用或未知 beta 不会发送给 Bedrock"),
+                mapping("messages", "messages",
+                        "Claude Messages 内容块保持原结构；图片和文档来源在发送前按 Bedrock 约束校验",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("messages[].role", "messages[].role", "角色原样保留",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("messages[].content[].type=text", "messages[].content[].type=text",
+                        "文本内容块原样保留", MappingLossiness.NONE, "CONTENT_BLOCK", "DIRECT"),
+                mapping("messages[].content[].type=image", "messages[].content[].type=image",
+                        "仅 base64 jpeg/png/webp/gif 图片原样保留", MappingLossiness.NONE,
+                        "CONTENT_BLOCK", "DIRECT"),
+                unsupported("messages[].content[].source.type=url|file",
+                        "Bedrock InvokeModel 图片和文档来源只接受内联 base64", "CONTENT_BLOCK"),
+                mapping("messages[].content[].type=document", "messages[].content[].type=document",
+                        "带非空 media_type 的 base64 文档原样保留", MappingLossiness.NONE,
+                        "CONTENT_BLOCK", "DIRECT"),
+                mapping("messages[].content[].type=tool_use", "messages[].content[].type=tool_use",
+                        "工具调用 ID、名称和输入对象原样保留", MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("messages[].content[].type=tool_result", "messages[].content[].type=tool_result",
+                        "工具结果及其嵌套内容块原样保留", MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("system", "system", "系统提示内容原样保留",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("max_tokens", "max_tokens", "最大输出 token 数原样保留",
+                        MappingLossiness.NONE, "MODEL", "DIRECT"),
+                mapping("temperature", "temperature", "采样温度原样保留",
+                        MappingLossiness.NONE, "MODEL", "DIRECT"),
+                mapping("top_p", "top_p", "核采样参数原样保留",
+                        MappingLossiness.NONE, "MODEL", "DIRECT"),
+                mapping("top_k", "top_k", "候选 token 数原样保留",
+                        MappingLossiness.NONE, "MODEL", "DIRECT"),
+                mapping("stop_sequences", "stop_sequences", "停止序列原样保留",
+                        MappingLossiness.NONE, "MODEL", "DIRECT"),
+                mapping("tools", "tools",
+                        "支持的自定义工具、memory 和 tool search 定义原样保留，并校验名称、Schema 与类型",
+                        MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("tools[].input_examples", "tools[].input_examples",
+                        "自定义工具输入示例原样保留，并自动要求 tool-examples beta",
+                        MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("tools[].defer_loading", "tools[].defer_loading",
+                        "延迟工具原样保留；至少保留一个立即加载工具，并自动要求 tool-search beta",
+                        MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("tools[].eager_input_streaming", "tools[].eager_input_streaming",
+                        "细粒度工具输入流配置原样保留，并自动要求对应 beta",
+                        MappingLossiness.NONE, "TOOL", "DIRECT"),
+                unsupported("tools[].allowed_callers",
+                        "Bedrock InvokeModel 不支持 Claude Platform allowed_callers", "TOOL"),
+                mapping("tool_choice", "tool_choice", "工具选择策略原样保留",
+                        MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("thinking", "thinking", "扩展思考配置原样保留",
+                        MappingLossiness.NONE, "REASONING", "DIRECT"),
+                mapping("output_config", "output_config",
+                        "输出配置原样保留；存在 effort 时自动要求 effort beta",
+                        MappingLossiness.NONE, "REASONING", "DIRECT"),
+                mapping("context_management", "context_management",
+                        "上下文编辑配置原样保留，并按 edit 类型自动补齐 context-management 或 compaction beta",
+                        MappingLossiness.NONE, "METADATA", "DIRECT"),
+                mapping("cache_control", "cache_control", "顶层缓存控制原样保留",
+                        MappingLossiness.NONE, "METADATA", "DIRECT"),
+                mapping("fallback_credit_token", "fallback_credit_token",
+                        "回退信用 token 原样保留；仅在对应 beta 获准时发送",
+                        MappingLossiness.NONE, "METADATA", "DIRECT"),
+                mapping("metadata", "metadata", "请求元数据原样保留",
+                        MappingLossiness.NONE, "METADATA", "DIRECT"),
+                mapping("service_tier", "service_tier", "服务层级原样保留",
+                        MappingLossiness.NONE, "METADATA", "DIRECT"),
+                unsupported("container", "Claude Platform 容器没有 Bedrock InvokeModel 等价能力", "METADATA"),
+                unsupported("diagnostics", "Claude Platform 诊断能力没有 Bedrock InvokeModel 等价能力", "METADATA"),
+                unsupported("fallbacks", "Claude Platform 服务端回退链没有 Bedrock InvokeModel 等价能力", "MODEL"),
+                unsupported("inference_geo", "Claude Platform 推理地域字段没有 Bedrock InvokeModel 等价能力", "METADATA"),
+                unsupported("mcp_servers", "Claude Platform 托管 MCP 没有 Bedrock InvokeModel 等价能力", "TOOL")
+        ));
+
+        // ===== AWS Bedrock Claude Messages → Claude Messages =====
+        map.put(key(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES,
+                ProtocolConversionDirection.RESPONSE), List.of(
+                mapping("type", "type", "原生 Claude 响应类型原样保留",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("id", "id", "消息 ID 原样保留",
+                        MappingLossiness.NONE, "METADATA", "DIRECT"),
+                mapping("role", "role", "响应角色原样保留",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("model", "model", "响应模型标识原样保留",
+                        MappingLossiness.NONE, "MODEL", "DIRECT"),
+                mapping("content", "content", "原生 Claude 文本、工具和思考内容块原样保留",
+                        MappingLossiness.NONE, "CONTENT_BLOCK", "DIRECT"),
+                mapping("stop_reason", "stop_reason", "停止原因原样保留",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("stop_sequence", "stop_sequence", "命中的停止序列原样保留",
+                        MappingLossiness.NONE, "MESSAGE", "DIRECT"),
+                mapping("usage.input_tokens", "usage.input_tokens", "输入 token 数原样保留",
+                        MappingLossiness.NONE, "USAGE", "DIRECT"),
+                mapping("usage.output_tokens", "usage.output_tokens", "输出 token 数原样保留",
+                        MappingLossiness.NONE, "USAGE", "DIRECT"),
+                mapping("usage.cache_creation_input_tokens", "usage.cache_creation_input_tokens",
+                        "缓存写入 token 数原样保留", MappingLossiness.NONE, "USAGE", "DIRECT"),
+                mapping("usage.cache_read_input_tokens", "usage.cache_read_input_tokens",
+                        "缓存读取 token 数原样保留", MappingLossiness.NONE, "USAGE", "DIRECT"),
+                detailedMapping("amazon-bedrock-* (top-level)", "(removed)",
+                        "删除 Bedrock 响应信封顶层扩展；内容块及工具输入中的同名前缀字段不受影响",
+                        MappingLossiness.NONE, "METADATA", "DROP", null, null,
+                        null, "仅响应根对象", "提供商信封字段不属于 Claude Messages 响应"),
+                detailedMapping("AWS application/vnd.amazon.eventstream", "Claude SSE events",
+                        "解码 Bedrock 二进制事件帧并输出 message_start、content_block_*、message_delta 和 message_stop",
+                        MappingLossiness.NONE, "STREAMING", "TRANSFORM", "AWS event stream", "text/event-stream",
+                        null, "stream=true", "事件内的原生 Claude JSON 继续应用上述响应清理")
         ));
 
         REGISTRY = Collections.unmodifiableMap(map);
@@ -277,6 +402,25 @@ final class ConverterFieldMappingDescriptions {
         boolean supported = !"DROP".equals(mappingType) && !"UNSUPPORTED".equals(mappingType);
         return FieldMapping.detailed(sourceField, targetField, rule, lossiness, category, mappingType,
                 sourceField, targetField, null, null, null, supported, null, null, null);
+    }
+
+    private static FieldMapping detailedMapping(
+            String sourceField,
+            String targetField,
+            String rule,
+            MappingLossiness lossiness,
+            String category,
+            String mappingType,
+            String sourceType,
+            String targetType,
+            String defaultValue,
+            String condition,
+            String notes
+    ) {
+        boolean supported = !"DROP".equals(mappingType) && !"UNSUPPORTED".equals(mappingType);
+        return FieldMapping.detailed(sourceField, targetField, rule, lossiness, category, mappingType,
+                sourceField, targetField, sourceType, targetType, null, supported,
+                defaultValue, condition, notes);
     }
 
     private static FieldMapping unmapped(String sourceField, String reason, String category) {

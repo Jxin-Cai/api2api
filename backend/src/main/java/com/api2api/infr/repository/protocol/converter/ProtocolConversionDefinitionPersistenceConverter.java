@@ -57,9 +57,9 @@ public class ProtocolConversionDefinitionPersistenceConverter {
                 .orElse(List.of());
 
         MappingDocument requestMapping = buildMappingDocument(
-                MappingDirection.REQUEST, requestMappings, po.getRequestMappingJson());
+                MappingDirection.REQUEST, requestMappings, po.getRequestMappingJson(), source == target);
         MappingDocument responseMapping = buildMappingDocument(
-                MappingDirection.RESPONSE, responseMappings, po.getResponseMappingJson());
+                MappingDirection.RESPONSE, responseMappings, po.getResponseMappingJson(), source == target);
 
         return ProtocolConversionDefinition.rehydrate(
                 ProtocolConversionDefinitionId.of(po.getId()),
@@ -76,19 +76,44 @@ public class ProtocolConversionDefinitionPersistenceConverter {
     }
 
     private MappingDocument buildMappingDocument(
-            MappingDirection direction, List<FieldMapping> programMappings, String summaryText) {
+            MappingDirection direction,
+            List<FieldMapping> programMappings,
+            String summaryText,
+            boolean passthrough
+    ) {
         String summary = normalizeSummary(summaryText);
         String title = direction == MappingDirection.REQUEST ? "Request mapping" : "Response mapping";
 
         if (!programMappings.isEmpty()) {
             return MappingDocument.of(direction, title, summary, programMappings);
         }
-        return MappingDocument.of(direction, title, summary, fallbackMappings());
+        return MappingDocument.of(direction, title, summary,
+                passthrough ? passthroughMappings() : unavailableMappings());
     }
 
-    private List<FieldMapping> fallbackMappings() {
+    private List<FieldMapping> passthroughMappings() {
         return List.of(FieldMapping.of("payload", "payload",
-                "Converter registered but field mappings not yet described", MappingLossiness.NONE));
+                "Same-protocol payload passthrough", MappingLossiness.NONE));
+    }
+
+    private List<FieldMapping> unavailableMappings() {
+        return List.of(FieldMapping.detailed(
+                "(unavailable)",
+                "(unavailable)",
+                "No executable conversion program is registered for this mapping direction",
+                MappingLossiness.LOSSY,
+                "METADATA",
+                "UNSUPPORTED",
+                null,
+                null,
+                null,
+                null,
+                null,
+                false,
+                null,
+                null,
+                "This is an explicit observability state, not a payload-to-payload fallback."
+        ));
     }
 
     private ConversionCapability toCapability(ProtocolConversionDefinitionPO po) {

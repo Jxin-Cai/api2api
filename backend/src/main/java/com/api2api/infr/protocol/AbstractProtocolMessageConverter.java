@@ -4,7 +4,6 @@ import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ContentMappingType;
 import com.api2api.domain.protocol.model.ConversionCapability;
 import com.api2api.domain.protocol.model.FieldMapping;
-import com.api2api.domain.protocol.model.MappingLossiness;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
 import com.api2api.domain.protocol.model.ProtocolConversionRequest;
 import com.api2api.domain.protocol.model.ProtocolConversionResult;
@@ -109,8 +108,8 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
             return existing;
         }
         List<FieldMapping> mappings = ConverterFieldMappingDescriptions.lookup(sourceProtocol, targetProtocol, direction)
-                .orElse(List.of(FieldMapping.of(
-                        "payload", "payload", "Executable converter fallback mapping", MappingLossiness.NONE)));
+                .orElseThrow(() -> new IllegalStateException(
+                        "Executable converter is missing observable field mappings: " + converterName()));
         ProtocolConversionProgram created = ProtocolConversionProgram.singleRule(
                 sourceProtocol,
                 targetProtocol,

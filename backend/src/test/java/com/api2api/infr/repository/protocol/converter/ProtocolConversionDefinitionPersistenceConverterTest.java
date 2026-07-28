@@ -28,9 +28,10 @@ class ProtocolConversionDefinitionPersistenceConverterTest {
         assertThat(definition.requestMapping().fieldMappings())
                 .singleElement()
                 .satisfies(mapping -> {
-                    assertThat(mapping.sourceField()).isEqualTo("payload");
-                    assertThat(mapping.targetField()).isEqualTo("payload");
-                    assertThat(mapping.ruleDescription()).contains("not yet described");
+                    assertThat(mapping.sourceField()).isEqualTo("(unavailable)");
+                    assertThat(mapping.targetField()).isEqualTo("(unavailable)");
+                    assertThat(mapping.supported()).isFalse();
+                    assertThat(mapping.ruleDescription()).contains("No executable conversion program");
                 });
     }
 

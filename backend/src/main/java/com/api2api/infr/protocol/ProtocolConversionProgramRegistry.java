@@ -38,7 +38,9 @@ public final class ProtocolConversionProgramRegistry {
     }
 
     public Optional<List<FieldMapping>> describeResponseMappings(ProtocolType source, ProtocolType target) {
-        return findProgram(source, target, ProtocolConversionDirection.RESPONSE)
+        // A conversion definition is route-oriented: request travels source -> target,
+        // while the upstream response travels target -> source.
+        return findProgram(target, source, ProtocolConversionDirection.RESPONSE)
                 .map(ProtocolConversionProgram::fieldMappings);
     }
 

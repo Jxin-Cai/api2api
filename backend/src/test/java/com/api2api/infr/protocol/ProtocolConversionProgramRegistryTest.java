@@ -18,8 +18,8 @@ class ProtocolConversionProgramRegistryTest {
     private final ProtocolConversionProgramRegistry registry = new ProtocolConversionProgramRegistry(allConverters);
 
     @Test
-    void test_registryIndexesAllConverters_when_allTwelveRegistered() {
-        assertThat(allConverters).hasSize(12);
+    void test_registryIndexesAllConverters_when_allFourteenRegistered() {
+        assertThat(allConverters).hasSize(14);
     }
 
     @ParameterizedTest(name = "{0}→{1} {2}")
@@ -27,14 +27,18 @@ class ProtocolConversionProgramRegistryTest {
     void test_converterHasNonEmptyFieldMappings_when_registeredInRegistry(
             ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {
 
-        var mappings = direction == ProtocolConversionDirection.REQUEST
-                ? registry.describeRequestMappings(source, target)
-                : registry.describeResponseMappings(source, target);
+        var mappings = registry.findProgram(source, target, direction)
+                .map(com.api2api.infr.protocol.conversion.ProtocolConversionProgram::fieldMappings);
 
         assertThat(mappings)
-                .as("%s→%s %s should have field mapping descriptions (same-source invariant)", source, target, direction)
+                .as("%s→%s %s executable converter must expose its own field mappings", source, target, direction)
                 .isPresent()
-                .hasValueSatisfying(list -> assertThat(list).isNotEmpty());
+                .hasValueSatisfying(list -> {
+                    assertThat(list).isNotEmpty();
+                    assertThat(list)
+                            .noneMatch(mapping -> mapping.sourceField().equals("payload")
+                                    && mapping.targetField().equals("payload"));
+                });
     }
 
     @ParameterizedTest(name = "{0}→{1} {2}")
@@ -42,9 +46,8 @@ class ProtocolConversionProgramRegistryTest {
     void test_everyMappingHasRequiredFields_when_descriptionProvided(
             ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {
 
-        var mappings = direction == ProtocolConversionDirection.REQUEST
-                ? registry.describeRequestMappings(source, target)
-                : registry.describeResponseMappings(source, target);
+        var mappings = registry.findProgram(source, target, direction)
+                .map(com.api2api.infr.protocol.conversion.ProtocolConversionProgram::fieldMappings);
 
         mappings.ifPresent(list -> list.forEach(mapping -> {
             assertThat(mapping.sourceField()).as("sourceField").isNotBlank();
@@ -92,6 +95,41 @@ class ProtocolConversionProgramRegistryTest {
         assertThat(inputSchema.targetField()).isEqualTo("tools[].parameters");
     }
 
+    @Test
+    void test_exposesRoundTripMappings_when_claudeRoutesToBedrockMessages() {
+        // Arrange / Act
+        List<FieldMapping> requestMappings = registry.describeRequestMappings(
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+        ).orElseThrow();
+        List<FieldMapping> responseMappings = registry.describeResponseMappings(
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+        ).orElseThrow();
+
+        // Assert
+        assertThat(requestMappings)
+                .anyMatch(mapping -> mapping.sourceField().equals("model")
+                        && mapping.targetField().equals("URI path {modelId}"));
+        assertThat(responseMappings)
+                .anyMatch(mapping -> mapping.sourceField().equals("AWS application/vnd.amazon.eventstream")
+                        && mapping.targetField().equals("Claude SSE events"));
+    }
+
+    @Test
+    void test_usesReverseExecutableDirection_when_describingRouteResponse() {
+        // Arrange / Act
+        List<FieldMapping> responseMappings = registry.describeResponseMappings(
+                ProtocolType.CLAUDE_MESSAGES,
+                ProtocolType.OPENAI_RESPONSES
+        ).orElseThrow();
+
+        // Assert
+        assertThat(responseMappings)
+                .anyMatch(mapping -> mapping.sourceField().equals("output[].content (text)")
+                        && mapping.targetField().equals("content[].type=text"));
+    }
+
     static Stream<Arguments> allConverterDirections() {
         return Stream.of(
                 // Generic converters (12)
@@ -106,7 +144,10 @@ class ProtocolConversionProgramRegistryTest {
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST),
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE),
                 Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST),
-                Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE)
+                Arguments.of(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE),
+                // Bedrock Claude Messages converters (2)
+                Arguments.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST),
+                Arguments.of(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.RESPONSE)
         );
     }
 

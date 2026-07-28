@@ -61,13 +61,6 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
         target.remove("stream");
         target.put("anthropic_version", BEDROCK_ANTHROPIC_VERSION);
         mergeAnthropicBetaFeatures(target, requirement, requiredBetaFeatures);
-
-        JsonNode messages = target.get("messages");
-        JsonNode protectedMessages = ClaudeConversationContextOptimizer.protectAgainstRepeatedToolCalls(messages);
-        if (protectedMessages != messages) {
-            target.set("messages", protectedMessages);
-        }
-
         return target;
     }
 

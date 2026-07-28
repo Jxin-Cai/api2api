@@ -176,6 +176,103 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
     }
 
     @Test
+    void test_preservesNestedProviderPrefixedFields_when_responseContainsToolInput() throws Exception {
+        // Arrange
+        BedrockClaudeMessagesProtocolMessageConverter responseConverter =
+                new BedrockClaudeMessagesProtocolMessageConverter(
+                        new ProtocolJsonSupport(objectMapper),
+                        new ClaudeMessagesUsageExtractor(),
+                        ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ProtocolConversionDirection.RESPONSE,
+                        new SseEventTransformer()
+                );
+        String body = """
+                {
+                  "type":"message",
+                  "content":[{
+                    "type":"tool_use",
+                    "id":"toolu_1",
+                    "name":"inspect_payload",
+                    "input":{"amazon-bedrock-customer-field":"must-survive"}
+                  }],
+                  "amazon-bedrock-guardrailAction":"NONE",
+                  "usage":{"input_tokens":1,"output_tokens":1}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = responseConverter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)
+        );
+        JsonNode mapped = objectMapper.readTree(result.body());
+
+        // Assert
+        assertThat(mapped.at("/content/0/input/amazon-bedrock-customer-field").asText())
+                .isEqualTo("must-survive");
+    }
+
+    @Test
+    void test_preservesConversationVerbatim_when_historyContainsRepeatedSuccessfulToolCalls() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[
+                    {"role":"assistant","content":[{
+                      "type":"tool_use","id":"toolu_1","name":"Read","input":{"file_path":"README.md"}
+                    }]},
+                    {"role":"user","content":[{
+                      "type":"tool_result","tool_use_id":"toolu_1","content":"first"
+                    }]},
+                    {"role":"assistant","content":[{
+                      "type":"tool_use","id":"toolu_2","name":"Read","input":{"file_path":"README.md"}
+                    }]},
+                    {"role":"user","content":[{
+                      "type":"tool_result","tool_use_id":"toolu_2","content":"second"
+                    }]}
+                  ]
+                }
+                """;
+        JsonNode sourceMessages = objectMapper.readTree(body).path("messages");
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, false, false));
+
+        // Assert
+        assertThat(mapped.path("messages")).isEqualTo(sourceMessages);
+    }
+
+    @Test
+    void test_ignoresToolInputObjects_when_theyResembleMediaContentBlocks() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{
+                    "role":"assistant",
+                    "content":[{
+                      "type":"tool_use",
+                      "id":"toolu_1",
+                      "name":"store_record",
+                      "input":{"type":"image","source":{"type":"business-record"}}
+                    }]
+                  }]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, false, false));
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/input/source/type").asText())
+                .isEqualTo("business-record");
+    }
+
+    @Test
     void test_preservesBase64Image_when_requestUsesBedrockSupportedSource() throws Exception {
         // Arrange
         String body = """
@@ -295,6 +392,26 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
     }
 
     @Test
+    void test_addsEffortBeta_when_outputConfigUsesEffort() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"analyze this"}],
+                  "output_config":{"effort":"high"}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, false, false));
+
+        // Assert
+        assertThat(mapped.at("/anthropic_beta/0").asText())
+                .isEqualTo("effort-2025-11-24");
+    }
+
+    @Test
     void test_addsToolSearchBeta_when_requestUsesDeferredTools() throws Exception {
         // Arrange
         String body = """
@@ -352,6 +469,90 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
         // Act / Assert
         assertThatThrownBy(() -> convert(body, ProtocolConversionRequest.of(false, false, false)))
                 .hasMessageContaining("at least one tool with defer_loading=false");
+    }
+
+    @Test
+    void test_rejectsDuplicateToolName_when_toolsReuseName() {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"hello"}],
+                  "tools":[
+                    {"name":"lookup","input_schema":{"type":"object"}},
+                    {"name":"lookup","input_schema":{"type":"object"}}
+                  ]
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> convert(body, ProtocolConversionRequest.of(false, false, false)))
+                .hasMessageContaining("tool names must be unique")
+                .hasMessageContaining("lookup");
+    }
+
+    @Test
+    void test_rejectsNonBooleanToolOption_when_deferLoadingIsString() {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"hello"}],
+                  "tools":[{
+                    "name":"lookup",
+                    "input_schema":{"type":"object"},
+                    "defer_loading":"true"
+                  }]
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> convert(body, ProtocolConversionRequest.of(false, false, false)))
+                .hasMessageContaining("defer_loading")
+                .hasMessageContaining("boolean");
+    }
+
+    @Test
+    void test_rejectsInputExamples_when_valueIsNotArray() {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"hello"}],
+                  "tools":[{
+                    "name":"lookup",
+                    "input_schema":{"type":"object"},
+                    "input_examples":{"query":"weather"}
+                  }]
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> convert(body, ProtocolConversionRequest.of(false, false, false)))
+                .hasMessageContaining("input_examples must be an array");
+    }
+
+    @Test
+    void test_rejectsCustomTool_when_inputSchemaIsNotObjectSchema() {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"hello"}],
+                  "tools":[{
+                    "name":"lookup",
+                    "input_schema":{"type":"string"}
+                  }]
+                }
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> convert(body, ProtocolConversionRequest.of(false, false, false)))
+                .hasMessageContaining("input_schema.type must be 'object'");
     }
 
     private JsonNode convert(String body, ProtocolConversionRequest requirement) throws Exception {

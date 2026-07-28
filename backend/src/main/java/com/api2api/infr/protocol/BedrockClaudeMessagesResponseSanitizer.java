@@ -13,25 +13,17 @@ final class BedrockClaudeMessagesResponseSanitizer {
     }
 
     static void removeProviderExtensions(JsonNode node) {
-        if (node == null) {
+        // Bedrock documents these as response-envelope fields. Nested objects belong to Claude
+        // content blocks (for example tool input) and must remain byte-for-byte equivalent.
+        if (!(node instanceof ObjectNode object)) {
             return;
         }
-        if (node.isObject()) {
-            ObjectNode object = (ObjectNode) node;
-            List<String> providerFields = new ArrayList<>();
-            object.fieldNames().forEachRemaining(field -> {
-                if (field.startsWith(BEDROCK_EXTENSION_PREFIX)) {
-                    providerFields.add(field);
-                }
-            });
-            providerFields.forEach(object::remove);
-            object.elements().forEachRemaining(
-                    BedrockClaudeMessagesResponseSanitizer::removeProviderExtensions);
-            return;
-        }
-        if (node.isArray()) {
-            node.elements().forEachRemaining(
-                    BedrockClaudeMessagesResponseSanitizer::removeProviderExtensions);
-        }
+        List<String> providerFields = new ArrayList<>();
+        object.fieldNames().forEachRemaining(field -> {
+            if (field.startsWith(BEDROCK_EXTENSION_PREFIX)) {
+                providerFields.add(field);
+            }
+        });
+        providerFields.forEach(object::remove);
     }
 }
