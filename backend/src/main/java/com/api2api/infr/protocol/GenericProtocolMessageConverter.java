@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 final class GenericProtocolMessageConverter extends AbstractProtocolMessageConverter {
 
@@ -36,6 +37,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private static final String RESPONSES_COMPACTION_PLACEHOLDER = ResponsesProtocolConstants.COMPACTION_PLACEHOLDER;
     private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = ResponsesProtocolConstants.COMPACTION_VISIBLE_TEXT;
 
+    private final Function<JsonNode, JsonNode> requestConverter;
+    private final Function<JsonNode, JsonNode> responseConverter;
+    private final boolean fullStreamingSupport;
+
     GenericProtocolMessageConverter(
             ProtocolJsonSupport json,
             UnifiedUsageExtractor usageExtractor,
@@ -45,35 +50,43 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             SseEventTransformer sseEventTransformer
     ) {
         super(json, usageExtractor, sourceProtocol, targetProtocol, direction, sseEventTransformer);
+        this.requestConverter = resolveRequestConverter(sourceProtocol, targetProtocol);
+        this.responseConverter = resolveResponseConverter(sourceProtocol, targetProtocol);
+        this.fullStreamingSupport = isFullStreamingPair(sourceProtocol, targetProtocol, direction);
+    }
+
+    private Function<JsonNode, JsonNode> resolveRequestConverter(ProtocolType source, ProtocolType target) {
+        if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return this::claudeRequestToChat;
+        if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_RESPONSES) return this::claudeRequestToResponses;
+        if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.CLAUDE_MESSAGES) return this::chatRequestToClaude;
+        if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.OPENAI_RESPONSES) return this::chatRequestToResponses;
+        if (source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return this::responsesRequestToChat;
+        return this::responsesRequestToClaude;
+    }
+
+    private Function<JsonNode, JsonNode> resolveResponseConverter(ProtocolType source, ProtocolType target) {
+        if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return this::claudeResponseToChat;
+        if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_RESPONSES) return this::claudeResponseToResponses;
+        if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.CLAUDE_MESSAGES) return this::chatResponseToClaude;
+        if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.OPENAI_RESPONSES) return this::chatResponseToResponses;
+        if (source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return this::responsesResponseToChat;
+        return this::responsesResponseToClaude;
+    }
+
+    private static boolean isFullStreamingPair(ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {
+        if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_RESPONSES) return true;
+        if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return true;
+        if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.CLAUDE_MESSAGES) return true;
+        if (direction == ProtocolConversionDirection.RESPONSE && source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.CLAUDE_MESSAGES) return true;
+        if (direction == ProtocolConversionDirection.RESPONSE
+                && ((source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS)
+                || (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.OPENAI_RESPONSES))) return true;
+        return false;
     }
 
     @Override
     public boolean supports(ProtocolConversionRequest requirement) {
-        if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES
-                && targetProtocol() == ProtocolType.OPENAI_RESPONSES) {
-            return super.supports(requirement);
-        }
-        if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES
-                && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
-            // The request converter and the dedicated streaming adapter preserve
-            // Claude tool calls in Chat Completions format.
-            return super.supports(requirement);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS
-                && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
-            // Chat→Claude fully supports tools, tool_calls, multimodal content.
-            return super.supports(requirement);
-        }
-        if (direction() == ProtocolConversionDirection.RESPONSE
-                && sourceProtocol() == ProtocolType.OPENAI_RESPONSES
-                && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
-            return super.supports(requirement);
-        }
-        if (direction() == ProtocolConversionDirection.RESPONSE
-                && ((sourceProtocol() == ProtocolType.OPENAI_RESPONSES
-                && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS)
-                || (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS
-                && targetProtocol() == ProtocolType.OPENAI_RESPONSES))) {
+        if (fullStreamingSupport) {
             return super.supports(requirement);
         }
         return !requirement.streaming() && !requirement.toolCallingRequired() && super.supports(requirement);
@@ -81,42 +94,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     @Override
     protected JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement) {
-        if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
-            return claudeRequestToChat(source);
-        }
-        if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.OPENAI_RESPONSES) {
-            return claudeRequestToResponses(source);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
-            return chatRequestToClaude(source);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS && targetProtocol() == ProtocolType.OPENAI_RESPONSES) {
-            return chatRequestToResponses(source);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_RESPONSES && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
-            return responsesRequestToChat(source);
-        }
-        return responsesRequestToClaude(source);
+        return requestConverter.apply(source);
     }
 
     @Override
     protected JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement) {
-        if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
-            return claudeResponseToChat(source);
-        }
-        if (sourceProtocol() == ProtocolType.CLAUDE_MESSAGES && targetProtocol() == ProtocolType.OPENAI_RESPONSES) {
-            return claudeResponseToResponses(source);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS && targetProtocol() == ProtocolType.CLAUDE_MESSAGES) {
-            return chatResponseToClaude(source);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS && targetProtocol() == ProtocolType.OPENAI_RESPONSES) {
-            return chatResponseToResponses(source);
-        }
-        if (sourceProtocol() == ProtocolType.OPENAI_RESPONSES && targetProtocol() == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
-            return responsesResponseToChat(source);
-        }
-        return responsesResponseToClaude(source);
+        return responseConverter.apply(source);
     }
 
     private ObjectNode claudeRequestToChat(JsonNode source) {
