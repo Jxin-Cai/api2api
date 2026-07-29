@@ -28,7 +28,7 @@ class ClaudeMessagesGatewayRequestTest {
                 }
                 """;
 
-        ClaudeMessagesGatewayRequest request = ClaudeMessagesGatewayRequest.fromContract(
+        ContractBackedGatewayRequest request = ContractBackedGatewayRequest.fromContract(
                 contractRegistry.parseRequest(ProtocolType.CLAUDE_MESSAGES, body)
         );
 
@@ -47,7 +47,7 @@ class ClaudeMessagesGatewayRequestTest {
                 }
                 """;
 
-        ClaudeMessagesGatewayRequest request = ClaudeMessagesGatewayRequest.fromContract(
+        ContractBackedGatewayRequest request = ContractBackedGatewayRequest.fromContract(
                 contractRegistry.parseRequest(ProtocolType.CLAUDE_MESSAGES, body)
         );
 

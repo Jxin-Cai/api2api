@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +70,9 @@ public class GatewayInvocationResponseMapper {
         return GatewayRawResponse.of(
                 providerResponse.body(),
                 providerResponse.statusCode(),
-                contentTypeOf(providerResponse.headers(), providerResponse.streaming()),
+                GatewayResponseHeaderFilter.extractContentType(
+                        providerResponse.headers(),
+                        providerResponse.streaming() ? MediaType.TEXT_EVENT_STREAM : MediaType.APPLICATION_JSON),
                 providerResponse.headers()
         );
     }
@@ -148,22 +149,6 @@ public class GatewayInvocationResponseMapper {
         } catch (Exception exception) {
             return "{\"error\":{\"message\":\"Upstream request failed\",\"type\":\"api_error\"}}";
         }
-    }
-
-    private MediaType contentTypeOf(Map<String, List<String>> headers, boolean streaming) {
-        if (headers != null) {
-            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                if (entry.getKey() != null
-                        && entry.getKey().equalsIgnoreCase("content-type")
-                        && entry.getValue() != null
-                        && !entry.getValue().isEmpty()
-                        && entry.getValue().get(0) != null
-                        && !entry.getValue().get(0).isBlank()) {
-                    return MediaType.parseMediaType(entry.getValue().get(0));
-                }
-            }
-        }
-        return streaming ? MediaType.TEXT_EVENT_STREAM : MediaType.APPLICATION_JSON;
     }
 
     private GatewayRawResponse mapSuccessResponse(GatewayInvocation invocation) {

@@ -3,17 +3,17 @@ package com.api2api.ohs.http.gateway;
 import com.api2api.domain.protocolcontract.model.ParsedGatewayRequest;
 import java.util.Objects;
 
-/** OpenAI Responses wrapper backed by values read through executable contract FieldRefs. */
-final class OpenAIResponsesGatewayRequest implements GatewayProtocolRequest {
+/** Protocol-agnostic gateway request backed by contract-parsed values. */
+final class ContractBackedGatewayRequest implements GatewayProtocolRequest {
 
     private final ParsedGatewayRequest parsedRequest;
 
-    private OpenAIResponsesGatewayRequest(ParsedGatewayRequest parsedRequest) {
+    private ContractBackedGatewayRequest(ParsedGatewayRequest parsedRequest) {
         this.parsedRequest = Objects.requireNonNull(parsedRequest, "parsedRequest must not be null");
     }
 
-    static OpenAIResponsesGatewayRequest fromContract(ParsedGatewayRequest parsedRequest) {
-        return new OpenAIResponsesGatewayRequest(parsedRequest);
+    static ContractBackedGatewayRequest fromContract(ParsedGatewayRequest parsedRequest) {
+        return new ContractBackedGatewayRequest(parsedRequest);
     }
 
     @Override

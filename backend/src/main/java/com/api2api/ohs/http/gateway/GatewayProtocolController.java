@@ -86,32 +86,7 @@ public class GatewayProtocolController {
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletResponse httpResponse
     ) {
-        log.info("Received Claude Messages request, X-Request-Id: {}", xRequestId);
-
-        ClaudeMessagesGatewayRequest protocolRequest = ClaudeMessagesGatewayRequest.fromContract(
-                protocolContract.parseGatewayRequest(ProtocolType.CLAUDE_MESSAGES, rawBody)
-        );
-        InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
-                protocolRequest,
-                authorization,
-                apiKey,
-                xRequestId,
-                ProtocolType.CLAUDE_MESSAGES,
-                headers
-        );
-        logAcceptedRequest(command, xRequestId);
-
-        if (command.isStreaming()) {
-            return stream(command, httpResponse);
-        }
-
-        GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
-        GatewayRawResponse rawResponse = responseMapper.toRawResponse(outcome);
-
-        log.info("Claude Messages request completed, requestId: {}, status: {}",
-                outcome.invocation().requestId().value(), outcome.invocation().result().status());
-
-        return rawResponse.toResponseEntity();
+        return invokeProtocol(ProtocolType.CLAUDE_MESSAGES, rawBody, authorization, apiKey, xRequestId, headers, httpResponse);
     }
 
     @PostMapping("/v1/responses")
@@ -123,32 +98,7 @@ public class GatewayProtocolController {
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletResponse httpResponse
     ) {
-        log.info("Received OpenAI Responses request, X-Request-Id: {}", xRequestId);
-
-        OpenAIResponsesGatewayRequest protocolRequest = OpenAIResponsesGatewayRequest.fromContract(
-                protocolContract.parseGatewayRequest(ProtocolType.OPENAI_RESPONSES, rawBody)
-        );
-        InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
-                protocolRequest,
-                authorization,
-                apiKey,
-                xRequestId,
-                ProtocolType.OPENAI_RESPONSES,
-                headers
-        );
-        logAcceptedRequest(command, xRequestId);
-
-        if (command.isStreaming()) {
-            return stream(command, httpResponse);
-        }
-
-        GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
-        GatewayRawResponse rawResponse = responseMapper.toRawResponse(outcome);
-
-        log.info("OpenAI Responses request completed, requestId: {}, status: {}",
-                outcome.invocation().requestId().value(), outcome.invocation().result().status());
-
-        return rawResponse.toResponseEntity();
+        return invokeProtocol(ProtocolType.OPENAI_RESPONSES, rawBody, authorization, apiKey, xRequestId, headers, httpResponse);
     }
 
     @PostMapping("/v1/chat/completions")
@@ -160,17 +110,29 @@ public class GatewayProtocolController {
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletResponse httpResponse
     ) {
-        log.info("Received OpenAI Chat Completions request, X-Request-Id: {}", xRequestId);
+        return invokeProtocol(ProtocolType.OPENAI_CHAT_COMPLETIONS, rawBody, authorization, apiKey, xRequestId, headers, httpResponse);
+    }
 
-        OpenAIChatCompletionsGatewayRequest protocolRequest = OpenAIChatCompletionsGatewayRequest.fromContract(
-                protocolContract.parseGatewayRequest(ProtocolType.OPENAI_CHAT_COMPLETIONS, rawBody)
+    private Object invokeProtocol(
+            ProtocolType protocol,
+            String rawBody,
+            String authorization,
+            String apiKey,
+            String xRequestId,
+            HttpHeaders headers,
+            HttpServletResponse httpResponse
+    ) {
+        log.info("Received {} request, X-Request-Id: {}", protocol, xRequestId);
+
+        GatewayProtocolRequest protocolRequest = ContractBackedGatewayRequest.fromContract(
+                protocolContract.parseGatewayRequest(protocol, rawBody)
         );
         InvokeGatewayCommand command = gatewayRequestMapper.toCommand(
                 protocolRequest,
                 authorization,
                 apiKey,
                 xRequestId,
-                ProtocolType.OPENAI_CHAT_COMPLETIONS,
+                protocol,
                 headers
         );
         logAcceptedRequest(command, xRequestId);
@@ -182,8 +144,8 @@ public class GatewayProtocolController {
         GatewayInvocationOutcome outcome = gatewayInvocationApplicationService.invokeOutcome(command);
         GatewayRawResponse rawResponse = responseMapper.toRawResponse(outcome);
 
-        log.info("OpenAI Chat Completions request completed, requestId: {}, status: {}",
-                outcome.invocation().requestId().value(), outcome.invocation().result().status());
+        log.info("{} request completed, requestId: {}, status: {}",
+                protocol, outcome.invocation().requestId().value(), outcome.invocation().result().status());
 
         return rawResponse.toResponseEntity();
     }

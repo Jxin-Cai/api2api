@@ -12,10 +12,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
@@ -31,19 +27,6 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 @Component
 @RequiredArgsConstructor
 public class GatewayStreamingResponseMapper {
-
-    private static final Set<String> FILTERED_RESPONSE_HEADERS = Set.of(
-            "connection",
-            "content-length",
-            "keep-alive",
-            "proxy-authenticate",
-            "proxy-authorization",
-            "set-cookie",
-            "te",
-            "trailer",
-            "transfer-encoding",
-            "upgrade"
-    );
 
     @NonNull
     private final GatewayInvocationApplicationService gatewayInvocationApplicationService;
@@ -149,7 +132,7 @@ public class GatewayStreamingResponseMapper {
         response.setStatus(providerResponse.statusCode());
         if (!streamingInvocation.requiresProtocolConversion() && providerResponse.headers() != null) {
             providerResponse.headers().forEach((name, values) -> {
-                if (shouldForwardHeader(name) && values != null) {
+                if (GatewayResponseHeaderFilter.shouldForward(name) && values != null) {
                     values.stream()
                             .filter(value -> value != null && !value.isBlank())
                             .forEach(value -> response.addHeader(name, value));
@@ -158,35 +141,11 @@ public class GatewayStreamingResponseMapper {
         }
         MediaType contentType = streamingInvocation.requiresProtocolConversion()
                 ? MediaType.TEXT_EVENT_STREAM
-                : contentTypeOf(providerResponse.headers());
+                : GatewayResponseHeaderFilter.extractContentType(providerResponse.headers(), MediaType.TEXT_EVENT_STREAM);
         response.setContentType(contentType.toString());
         response.setHeader(HttpHeaders.CACHE_CONTROL, CacheControl.noCache().getHeaderValue());
         response.setHeader(HttpHeaders.CONNECTION, "keep-alive");
         response.setHeader("X-Accel-Buffering", "no");
     }
 
-    private MediaType contentTypeOf(Map<String, List<String>> upstreamHeaders) {
-        if (upstreamHeaders != null) {
-            for (Map.Entry<String, List<String>> entry : upstreamHeaders.entrySet()) {
-                if (entry.getKey() != null
-                        && entry.getKey().equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)
-                        && entry.getValue() != null
-                        && !entry.getValue().isEmpty()
-                        && entry.getValue().get(0) != null
-                        && !entry.getValue().get(0).isBlank()) {
-                    return MediaType.parseMediaType(entry.getValue().get(0));
-                }
-            }
-        }
-        return MediaType.TEXT_EVENT_STREAM;
-    }
-
-    private boolean shouldForwardHeader(String name) {
-        if (name == null || name.isBlank()) {
-            return false;
-        }
-        String normalized = name.trim().toLowerCase(Locale.ROOT);
-        return !FILTERED_RESPONSE_HEADERS.contains(normalized)
-                && !normalized.equals(HttpHeaders.CONTENT_TYPE.toLowerCase(Locale.ROOT));
-    }
 }

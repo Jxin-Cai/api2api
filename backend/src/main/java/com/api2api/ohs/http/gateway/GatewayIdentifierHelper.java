@@ -5,7 +5,6 @@ import com.api2api.domain.gateway.model.GatewayRequestId;
 import com.api2api.domain.usage.model.UsageRecordId;
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.stereotype.Component;
@@ -40,7 +39,8 @@ public class GatewayIdentifierHelper {
     private long nextPositiveLong() {
         long epochMilli = Instant.now().toEpochMilli();
         long sequence = SEQUENCE.updateAndGet(current -> current == Long.MAX_VALUE ? 1L : current + 1L);
-        long value = Objects.hash(epochMilli, sequence) & Long.MAX_VALUE;
-        return value == 0L ? sequence : value;
+        // 44 bits for millis (covers ~557 years) + 20 bits for sequence (1M per ms)
+        long value = ((epochMilli & 0xFFF_FFFF_FFFFL) << 20) | (sequence & 0xF_FFFFL);
+        return value == 0L ? 1L : value;
     }
 }

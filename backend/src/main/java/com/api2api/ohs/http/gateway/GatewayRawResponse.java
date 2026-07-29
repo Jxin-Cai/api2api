@@ -1,10 +1,8 @@
 package com.api2api.ohs.http.gateway;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +11,6 @@ import org.springframework.http.ResponseEntity;
  * Raw protocol response returned to external SDKs without management API wrapping.
  */
 public final class GatewayRawResponse {
-
-    private static final Set<String> FILTERED_RESPONSE_HEADERS = Set.of(
-            "connection",
-            "content-length",
-            "keep-alive",
-            "proxy-authenticate",
-            "proxy-authorization",
-            "set-cookie",
-            "te",
-            "trailer",
-            "transfer-encoding",
-            "upgrade"
-    );
 
     private final String body;
     private final int statusCode;
@@ -58,7 +43,7 @@ public final class GatewayRawResponse {
     public ResponseEntity<String> toResponseEntity() {
         HttpHeaders responseHeaders = new HttpHeaders();
         headers.forEach((name, values) -> {
-            if (shouldForwardHeader(name)) {
+            if (GatewayResponseHeaderFilter.shouldForward(name)) {
                 responseHeaders.put(name, List.copyOf(values));
             }
         });
@@ -80,15 +65,6 @@ public final class GatewayRawResponse {
                         entry -> List.copyOf(entry.getValue()),
                         (left, right) -> left
                 ));
-    }
-
-    private static boolean shouldForwardHeader(String name) {
-        if (name == null || name.isBlank()) {
-            return false;
-        }
-        String normalized = name.trim().toLowerCase(Locale.ROOT);
-        return !FILTERED_RESPONSE_HEADERS.contains(normalized)
-                && !normalized.equals(HttpHeaders.CONTENT_TYPE.toLowerCase(Locale.ROOT));
     }
 
     public String body() {
