@@ -9,7 +9,7 @@ import com.api2api.domain.analytics.model.TokenAmount;
 import com.api2api.domain.analytics.model.UserTokenRanking;
 import com.api2api.domain.usage.model.PagedUsageRecords;
 import com.api2api.domain.usage.model.UsageRecord;
-import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.dashboard.dto.AdminDashboardResponse;
 import com.api2api.ohs.http.dashboard.dto.ChannelTokenTrendPointResponse;
 import com.api2api.ohs.http.dashboard.dto.FrontDashboardRecentCallResponse;

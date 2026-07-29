@@ -17,7 +17,7 @@ import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.domain.user.model.UserAccountId;
-import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.credential.ApiKeyMaterialHelper.ApiKeyMaterial;
 import com.api2api.ohs.http.credential.dto.ApiCredentialListResponse;
 import com.api2api.ohs.http.credential.dto.ApiCredentialResponse;

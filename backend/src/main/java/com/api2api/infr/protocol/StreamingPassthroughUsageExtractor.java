@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * 在 streaming 直接透传（不需要协议转换）时，边透传 SSE 流边解析 usage 信息。
  */
 @Component
-public class StreamingPassthroughUsageExtractor {
+public class StreamingPassthroughUsageExtractor implements com.api2api.application.gateway.StreamingPassthroughPort {
 
     private static final Logger log = LoggerFactory.getLogger(StreamingPassthroughUsageExtractor.class);
     private static final Set<String> CLAUDE_TERMINAL_EVENTS = Set.of("message_stop", "error");

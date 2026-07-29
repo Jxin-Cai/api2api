@@ -8,7 +8,7 @@ import com.api2api.domain.protocol.model.MappingDocument;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinitionId;
 import com.api2api.domain.user.model.UserAccountId;
-import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.admin.dto.ProtocolConversionCapabilityResponse;
 import com.api2api.ohs.http.admin.dto.ProtocolConversionFieldMappingResponse;
 import com.api2api.ohs.http.admin.dto.ProtocolConversionListItemResponse;

@@ -8,7 +8,7 @@ import com.api2api.domain.user.model.DisplayName;
 import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.model.Username;
-import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.admin.dto.AdminChangeUserDisplayNameRequest;
 import com.api2api.ohs.http.admin.dto.AdminChangeUserRoleRequest;
 import com.api2api.ohs.http.admin.dto.AdminCreateUserRequest;

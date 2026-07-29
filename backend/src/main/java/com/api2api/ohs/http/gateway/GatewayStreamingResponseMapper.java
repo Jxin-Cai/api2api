@@ -7,7 +7,7 @@ import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
-import com.api2api.infr.protocol.StreamingPassthroughUsageExtractor;
+import com.api2api.application.gateway.StreamingPassthroughPort;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -52,7 +52,7 @@ public class GatewayStreamingResponseMapper {
     private final GatewayStreamingConversionPort streamingConversionPort;
 
     @NonNull
-    private final StreamingPassthroughUsageExtractor streamingPassthroughUsageExtractor;
+    private final StreamingPassthroughPort streamingPassthroughPort;
 
     public StreamingResponseBody toResponseBody(
             GatewayStreamingInvocation streamingInvocation,
@@ -76,7 +76,7 @@ public class GatewayStreamingResponseMapper {
                             outputStream
                     );
                 } else {
-                    usage = streamingPassthroughUsageExtractor.transferAndExtract(
+                    usage = streamingPassthroughPort.transferAndExtract(
                             providerResponse.body(),
                             outputStream,
                             providerResponse.protocol()

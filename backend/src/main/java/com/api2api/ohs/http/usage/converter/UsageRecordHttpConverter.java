@@ -10,7 +10,7 @@ import com.api2api.application.usage.dto.PagedUsageRecordViews;
 import com.api2api.application.usage.dto.UsageRecordView;
 import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.user.model.UserAccountId;
-import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.usage.dto.QueryAdminUsageRecordsRequest;
 import com.api2api.ohs.http.usage.dto.QueryMyUsageRecordsRequest;
 import com.api2api.ohs.http.usage.dto.UsageRecordPageResponse;

@@ -25,7 +25,7 @@ import com.api2api.domain.channel.model.ProviderKeyRef;
 import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.model.RoutePriority;
 import com.api2api.domain.user.model.UserAccountId;
-import com.api2api.infr.lib.mapping.MapStructConfig;
+import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.admin.dto.AdminBatchUpsertChannelModelItemRequest;
 import com.api2api.ohs.http.admin.dto.AdminBatchUpsertChannelModelsRequest;
 import com.api2api.ohs.http.admin.dto.AdminCreateProviderChannelRequest;
