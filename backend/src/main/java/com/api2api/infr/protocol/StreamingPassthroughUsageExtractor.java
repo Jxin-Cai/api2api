@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.function.BiFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StreamingPassthroughUsageExtractor {
 
+    private static final Logger log = LoggerFactory.getLogger(StreamingPassthroughUsageExtractor.class);
     private static final Set<String> CLAUDE_TERMINAL_EVENTS = Set.of("message_stop", "error");
     private static final Set<String> RESPONSES_TERMINAL_EVENTS = Set.of(
             "response.completed",
@@ -159,7 +162,10 @@ public class StreamingPassthroughUsageExtractor {
                     usageNode.get("cached_tokens")
             );
             return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheCreation, cacheRead);
-        } catch (Exception ignored) {
+        } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
+            return fallback;
+        } catch (Exception unexpected) {
+            log.debug("Unexpected error extracting usage from streaming data", unexpected);
             return fallback;
         }
     }
@@ -173,7 +179,10 @@ public class StreamingPassthroughUsageExtractor {
                 return fallback;
             }
             return OpenAIResponsesUsageExtractor.extractUsage(usageNode);
-        } catch (Exception ignored) {
+        } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
+            return fallback;
+        } catch (Exception unexpected) {
+            log.debug("Unexpected error extracting usage from streaming data", unexpected);
             return fallback;
         }
     }
@@ -195,7 +204,10 @@ public class StreamingPassthroughUsageExtractor {
                 return fallback;
             }
             return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
-        } catch (Exception ignored) {
+        } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
+            return fallback;
+        } catch (Exception unexpected) {
+            log.debug("Unexpected error extracting usage from streaming data", unexpected);
             return fallback;
         }
     }
