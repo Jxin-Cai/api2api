@@ -2884,14 +2884,16 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
     }
 
-    private ObjectNode toChatUsage(RawTokenUsage raw) {
+    private ObjectNode toChatUsage(RawTokenUsage raw, boolean includeCacheWrite) {
         ObjectNode target = json.objectNode();
         target.put("prompt_tokens", raw.input());
         target.put("completion_tokens", raw.output());
         target.put("total_tokens", raw.input() + raw.output());
         ObjectNode details = json.objectNode();
         details.put("cached_tokens", raw.cacheRead());
-        details.put("cache_write_tokens", raw.cacheWrite());
+        if (includeCacheWrite) {
+            details.put("cache_write_tokens", raw.cacheWrite());
+        }
         target.set("prompt_tokens_details", details);
         return target;
     }
@@ -2917,7 +2919,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private ObjectNode chatUsageFromClaude(JsonNode usage) {
-        return toChatUsage(RawTokenUsage.fromClaude(usage));
+        return toChatUsage(RawTokenUsage.fromClaude(usage), true);
     }
 
     private ObjectNode responsesUsageFromClaude(JsonNode usage) {
@@ -2933,7 +2935,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private ObjectNode chatUsageFromResponses(JsonNode usage) {
-        return toChatUsage(RawTokenUsage.fromResponses(usage));
+        return toChatUsage(RawTokenUsage.fromResponses(usage), false);
     }
 
     private ObjectNode claudeUsageFromResponses(JsonNode usage) {
