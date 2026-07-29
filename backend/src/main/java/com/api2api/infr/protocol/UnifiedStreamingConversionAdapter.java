@@ -436,54 +436,54 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             } else if (isResponsesCompactionType(itemType)) {
                 ObjectNode normalizedItem = (ObjectNode) item.deepCopy();
                 normalizedItem.put("type", "compaction");
-                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                writeResponsesThinkingFallback(
-                        outputIndex, RESPONSES_COMPACTION_PLACEHOLDER, state, clientBody);
-                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, normalizedItem)
-                        .orElseThrow(() -> new IOException(
-                                "OpenAI Responses compaction item is missing state"));
-                writeClaudeContentDelta(
-                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                writeOpaqueThinkingBlock(outputIndex, normalizedItem,
+                        RESPONSES_COMPACTION_PLACEHOLDER,
+                        "OpenAI Responses compaction item is missing state",
+                        state, clientBody);
                 stopClaudeBlock(outputIndex, state, clientBody);
                 writeClaudeAuxiliaryText(compactionVisibleText(item), state, clientBody);
             } else if ("program".equals(itemType)) {
-                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                writeResponsesThinkingFallback(
-                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
-                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
-                        .orElseThrow(() -> new IOException(
-                                "OpenAI Responses program item is missing state"));
-                writeClaudeContentDelta(
-                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                writeOpaqueThinkingBlock(outputIndex, item,
+                        RESPONSES_OPAQUE_STATE_PLACEHOLDER,
+                        "OpenAI Responses program item is missing state",
+                        state, clientBody);
                 stopClaudeBlock(outputIndex, state, clientBody);
                 writeClaudeProgramServerTool(item, state, clientBody);
                 return;
             } else if ("program_output".equals(itemType)) {
-                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                writeResponsesThinkingFallback(
-                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
-                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
-                        .orElseThrow(() -> new IOException(
-                                "OpenAI Responses program output item is missing state"));
-                writeClaudeContentDelta(
-                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                writeOpaqueThinkingBlock(outputIndex, item,
+                        RESPONSES_OPAQUE_STATE_PLACEHOLDER,
+                        "OpenAI Responses program output item is missing state",
+                        state, clientBody);
                 stopClaudeBlock(outputIndex, state, clientBody);
                 writeClaudeProgramResult(item, state, clientBody);
                 return;
             } else if (!"message".equals(itemType) && !itemType.isBlank()) {
-                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                writeResponsesThinkingFallback(
-                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
-                String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
-                        .orElseThrow(() -> new IOException(
-                                "OpenAI Responses output item is missing state"));
-                writeClaudeContentDelta(
-                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                writeOpaqueThinkingBlock(outputIndex, item,
+                        RESPONSES_OPAQUE_STATE_PLACEHOLDER,
+                        "OpenAI Responses output item is missing state",
+                        state, clientBody);
             }
         } catch (ProtocolConversionException exception) {
             throw new IOException("OpenAI Responses output item cannot be converted to Claude", exception);
         }
         stopClaudeBlock(outputIndex, state, clientBody);
+    }
+
+    private void writeOpaqueThinkingBlock(
+            int outputIndex,
+            JsonNode item,
+            String placeholder,
+            String errorMessage,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+        writeResponsesThinkingFallback(outputIndex, placeholder, state, clientBody);
+        String signature = ResponsesReasoningBridge.encodeItem(objectMapper, item)
+                .orElseThrow(() -> new IOException(errorMessage));
+        writeClaudeContentDelta(
+                outputIndex, "signature_delta", "signature", signature, state, clientBody);
     }
 
     private boolean isResponsesCompactionType(String type) {
@@ -1038,7 +1038,15 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             writeSse(clientBody, "message_start", msgStart);
         }
 
-        // Handle reasoning_content (thinking)
+        handleChatReasoningDelta(delta, state, clientBody);
+        handleChatTextDelta(delta, state, clientBody);
+        handleChatToolCallsDelta(delta, state, clientBody);
+        handleChatUsageUpdate(chunk, state);
+        mapChatFinishReason(finishReason, state);
+    }
+
+    private void handleChatReasoningDelta(JsonNode delta, ChatToClaudeStreamState state,
+                                          OutputStream clientBody) throws IOException {
         String reasoningContent = delta.path("reasoning_content").asText(null);
         if (reasoningContent != null && !reasoningContent.isEmpty()) {
             closeOpenClaudeToolBlocks(state.openToolBlocks, clientBody);
@@ -1068,8 +1076,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             blockDelta.set("delta", thinkingDelta);
             writeSse(clientBody, "content_block_delta", blockDelta);
         }
+    }
 
-        // Handle text content
+    private void handleChatTextDelta(JsonNode delta, ChatToClaudeStreamState state,
+                                     OutputStream clientBody) throws IOException {
         String content = delta.path("content").asText(null);
         if ((content == null || content.isEmpty()) && delta.path("refusal").isTextual()) {
             content = delta.path("refusal").asText("");
@@ -1101,8 +1111,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             blockDelta.set("delta", textDelta);
             writeSse(clientBody, "content_block_delta", blockDelta);
         }
+    }
 
-        // Handle tool_calls
+    private void handleChatToolCallsDelta(JsonNode delta, ChatToClaudeStreamState state,
+                                          OutputStream clientBody) throws IOException {
         JsonNode toolCalls = delta.get("tool_calls");
         if (toolCalls != null && toolCalls.isArray()) {
             for (JsonNode tc : toolCalls) {
@@ -1152,8 +1164,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 }
             }
         }
+    }
 
-        // Handle usage
+    private void handleChatUsageUpdate(JsonNode chunk, ChatToClaudeStreamState state) {
         JsonNode usage = chunk.get("usage");
         if (usage != null && !usage.isNull()) {
             JsonNode details = usage.path("prompt_tokens_details");
@@ -1164,8 +1177,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                     - state.cacheReadInputTokens - state.cacheCreationInputTokens);
             state.outputTokens = usage.path("completion_tokens").asLong(0);
         }
+    }
 
-        // Handle finish
+    private void mapChatFinishReason(String finishReason, ChatToClaudeStreamState state) {
         if (finishReason != null) {
             boolean hasToolCalls = !state.announcedToolCalls.isEmpty();
             state.stopReason = switch (finishReason) {
