@@ -2873,87 +2873,87 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return output;
     }
 
-    private ObjectNode chatUsageFromClaude(JsonNode usage) {
+    private record RawTokenUsage(long input, long output, long cacheRead, long cacheWrite) {
+        static RawTokenUsage fromClaude(JsonNode usage) {
+            long cacheCreation = usage.path("cache_creation_input_tokens").asLong(0);
+            long cacheRead = usage.path("cache_read_input_tokens").asLong(0);
+            long input = usage.path("input_tokens").asLong(0) + cacheCreation + cacheRead;
+            long output = usage.path("output_tokens").asLong(0);
+            return new RawTokenUsage(input, output, cacheRead, cacheCreation);
+        }
+
+        static RawTokenUsage fromChat(JsonNode usage) {
+            JsonNode details = usage.path("prompt_tokens_details");
+            long cached = details.path("cached_tokens").asLong(0);
+            long cacheWrite = details.path("cache_creation_tokens").asLong(0)
+                    + details.path("cache_write_tokens").asLong(0);
+            long input = usage.path("prompt_tokens").asLong(0);
+            long output = usage.path("completion_tokens").asLong(0);
+            return new RawTokenUsage(input, output, cached, cacheWrite);
+        }
+
+        static RawTokenUsage fromResponses(JsonNode usage) {
+            long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
+            long cacheWrite = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
+            long input = usage.path("input_tokens").asLong(0);
+            long output = usage.path("output_tokens").asLong(0);
+            return new RawTokenUsage(input, output, cached, cacheWrite);
+        }
+    }
+
+    private ObjectNode toChatUsage(RawTokenUsage raw) {
         ObjectNode target = json.objectNode();
-        long cacheCreation = usage.path("cache_creation_input_tokens").asLong(0);
-        long cacheRead = usage.path("cache_read_input_tokens").asLong(0);
-        long input = usage.path("input_tokens").asLong(0) + cacheCreation + cacheRead;
-        long output = usage.path("output_tokens").asLong(0);
-        target.put("prompt_tokens", input);
-        target.put("completion_tokens", output);
-        target.put("total_tokens", input + output);
+        target.put("prompt_tokens", raw.input());
+        target.put("completion_tokens", raw.output());
+        target.put("total_tokens", raw.input() + raw.output());
         ObjectNode details = json.objectNode();
-        details.put("cached_tokens", cacheRead);
-        details.put("cache_write_tokens", cacheCreation);
+        details.put("cached_tokens", raw.cacheRead());
+        details.put("cache_write_tokens", raw.cacheWrite());
         target.set("prompt_tokens_details", details);
         return target;
+    }
+
+    private ObjectNode toResponsesUsage(RawTokenUsage raw) {
+        ObjectNode target = json.objectNode();
+        target.put("input_tokens", raw.input());
+        target.put("output_tokens", raw.output());
+        target.put("total_tokens", raw.input() + raw.output());
+        ObjectNode details = json.objectNode();
+        details.put("cached_tokens", raw.cacheRead());
+        target.set("input_tokens_details", details);
+        return target;
+    }
+
+    private ObjectNode toClaudeUsage(RawTokenUsage raw) {
+        ObjectNode target = json.objectNode();
+        target.put("input_tokens", Math.max(0, raw.input() - raw.cacheRead() - raw.cacheWrite()));
+        target.put("output_tokens", raw.output());
+        target.put("cache_creation_input_tokens", raw.cacheWrite());
+        target.put("cache_read_input_tokens", raw.cacheRead());
+        return target;
+    }
+
+    private ObjectNode chatUsageFromClaude(JsonNode usage) {
+        return toChatUsage(RawTokenUsage.fromClaude(usage));
     }
 
     private ObjectNode responsesUsageFromClaude(JsonNode usage) {
-        ObjectNode target = json.objectNode();
-        long cacheCreation = usage.path("cache_creation_input_tokens").asLong(0);
-        long cacheRead = usage.path("cache_read_input_tokens").asLong(0);
-        long input = usage.path("input_tokens").asLong(0) + cacheCreation + cacheRead;
-        long output = usage.path("output_tokens").asLong(0);
-        target.put("input_tokens", input);
-        target.put("output_tokens", output);
-        target.put("total_tokens", input + output);
-        ObjectNode details = json.objectNode();
-        details.put("cached_tokens", cacheRead);
-        target.set("input_tokens_details", details);
-        return target;
+        return toResponsesUsage(RawTokenUsage.fromClaude(usage));
     }
 
     private ObjectNode claudeUsageFromChat(JsonNode usage) {
-        ObjectNode target = json.objectNode();
-        JsonNode details = usage.path("prompt_tokens_details");
-        long cached = details.path("cached_tokens").asLong(0);
-        long cacheWrite = details.path("cache_creation_tokens").asLong(0)
-                + details.path("cache_write_tokens").asLong(0);
-        target.put("input_tokens", Math.max(0, usage.path("prompt_tokens").asLong(0) - cached - cacheWrite));
-        target.put("output_tokens", usage.path("completion_tokens").asLong(0));
-        target.put("cache_creation_input_tokens", cacheWrite);
-        target.put("cache_read_input_tokens", cached);
-        return target;
+        return toClaudeUsage(RawTokenUsage.fromChat(usage));
     }
 
     private ObjectNode responsesUsageFromChat(JsonNode usage) {
-        ObjectNode target = json.objectNode();
-        long cached = usage.path("prompt_tokens_details").path("cached_tokens").asLong(0);
-        long input = usage.path("prompt_tokens").asLong(0);
-        long output = usage.path("completion_tokens").asLong(0);
-        target.put("input_tokens", input);
-        target.put("output_tokens", output);
-        target.put("total_tokens", input + output);
-        ObjectNode details = json.objectNode();
-        details.put("cached_tokens", cached);
-        target.set("input_tokens_details", details);
-        return target;
+        return toResponsesUsage(RawTokenUsage.fromChat(usage));
     }
 
     private ObjectNode chatUsageFromResponses(JsonNode usage) {
-        ObjectNode target = json.objectNode();
-        long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
-        long input = usage.path("input_tokens").asLong(0);
-        long output = usage.path("output_tokens").asLong(0);
-        target.put("prompt_tokens", input);
-        target.put("completion_tokens", output);
-        target.put("total_tokens", input + output);
-        ObjectNode details = json.objectNode();
-        details.put("cached_tokens", cached);
-        target.set("prompt_tokens_details", details);
-        return target;
+        return toChatUsage(RawTokenUsage.fromResponses(usage));
     }
 
     private ObjectNode claudeUsageFromResponses(JsonNode usage) {
-        ObjectNode target = json.objectNode();
-        long cached = usage.path("input_tokens_details").path("cached_tokens").asLong(0);
-        long cacheWrite = usage.path("input_tokens_details").path("cache_write_tokens").asLong(0);
-        target.put("input_tokens", Math.max(0,
-                usage.path("input_tokens").asLong(0) - cached - cacheWrite));
-        target.put("output_tokens", usage.path("output_tokens").asLong(0));
-        target.put("cache_creation_input_tokens", cacheWrite);
-        target.put("cache_read_input_tokens", cached);
-        return target;
+        return toClaudeUsage(RawTokenUsage.fromResponses(usage));
     }
 }
