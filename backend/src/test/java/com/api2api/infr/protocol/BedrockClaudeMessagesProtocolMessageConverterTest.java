@@ -412,6 +412,38 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
     }
 
     @Test
+    void test_removesThinkingDisplay_when_claudeCodeCallsBedrockInvokeModel() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-sonnet-4-6",
+                  "max_tokens":32000,
+                  "messages":[{"role":"user","content":"Return structured output"}],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "description":"Return the final response in the requested structured format.",
+                    "input_schema":{
+                      "type":"object",
+                      "properties":{"answer":{"type":"string"}},
+                      "required":["answer"],
+                      "additionalProperties":false
+                    }
+                  }],
+                  "thinking":{"type":"adaptive","display":"omitted"},
+                  "output_config":{"effort":"high"},
+                  "stream":true
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(true, true, true));
+
+        // Assert
+        assertThat(mapped.at("/thinking/type").asText()).isEqualTo("adaptive");
+        assertThat(mapped.path("thinking").has("display")).isFalse();
+    }
+
+    @Test
     void test_addsToolSearchBeta_when_requestUsesDeferredTools() throws Exception {
         // Arrange
         String body = """

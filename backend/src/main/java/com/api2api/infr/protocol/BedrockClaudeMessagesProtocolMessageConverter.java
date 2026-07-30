@@ -59,9 +59,17 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
         ObjectNode target = source.deepCopy();
         target.remove("model");
         target.remove("stream");
+        removeUnsupportedThinkingFields(target);
         target.put("anthropic_version", BEDROCK_ANTHROPIC_VERSION);
         mergeAnthropicBetaFeatures(target, requirement, requiredBetaFeatures);
         return target;
+    }
+
+    private void removeUnsupportedThinkingFields(ObjectNode target) {
+        JsonNode thinking = target.get("thinking");
+        if (thinking instanceof ObjectNode thinkingObject) {
+            thinkingObject.remove("display");
+        }
     }
 
     private void rejectUnsupportedClaudePlatformFields(JsonNode source) {
