@@ -54,12 +54,13 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
     @Override
     protected JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement) {
         rejectUnsupportedClaudePlatformFields(source);
-        Set<String> requiredBetaFeatures =
-                BedrockClaudeMessagesRequestValidator.validateAndCollectRequiredBetaFeatures(source);
         ObjectNode target = source.deepCopy();
         target.remove("model");
         target.remove("stream");
         removeUnsupportedThinkingFields(target);
+        BedrockStructuredOutputCompatibility.normalizeRequest(target);
+        Set<String> requiredBetaFeatures =
+                BedrockClaudeMessagesRequestValidator.validateAndCollectRequiredBetaFeatures(target);
         target.put("anthropic_version", BEDROCK_ANTHROPIC_VERSION);
         mergeAnthropicBetaFeatures(target, requirement, requiredBetaFeatures);
         return target;
@@ -138,6 +139,7 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
     protected JsonNode convertResponseJson(JsonNode source, ProtocolConversionRequest requirement) {
         JsonNode target = source.deepCopy();
         BedrockClaudeMessagesResponseSanitizer.removeProviderExtensions(target);
+        BedrockStructuredOutputCompatibility.unwrapResponse(target);
         return target;
     }
 }

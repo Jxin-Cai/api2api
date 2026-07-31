@@ -116,6 +116,45 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
+    void test_unwrapsStructuredOutputInput_when_invokeModelStreamsWrappedArray() throws Exception {
+        // Arrange
+        ByteArrayOutputStream upstream = new ByteArrayOutputStream();
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"content_block_start","index":0,"content_block":{"type":"tool_use","id":"toolu_1","name":"StructuredOutput","input":{}}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"content_block_delta","index":0,"delta":{"type":"input_json_delta","partial_json":"{\\"__api2api_structured_output\\":[\\"design\\","}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"content_block_delta","index":0,"delta":{"type":"input_json_delta","partial_json":"\\"security\\"]}"}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"content_block_stop","index":0}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_delta","delta":{"stop_reason":"tool_use"},"usage":{"input_tokens":3,"output_tokens":2}}
+                """);
+        writeClaudeInvokeModelEvent(upstream, """
+                {"type":"message_stop"}
+                """);
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.toByteArray()),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        assertThat(events.stream()
+                .filter(node -> "input_json_delta".equals(node.at("/delta/type").asText()))
+                .map(node -> node.at("/delta/partial_json").asText())
+                .toList()).containsExactly("[\"design\",\"security\"]");
+    }
+
+    @Test
     void test_removesBedrockExtensions_when_invokeModelReturnsProviderMetadata() throws Exception {
         // Arrange
         ByteArrayOutputStream upstream = new ByteArrayOutputStream();

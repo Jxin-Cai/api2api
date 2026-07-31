@@ -444,6 +444,169 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
     }
 
     @Test
+    void test_wrapsStructuredOutputSchema_when_workflowRequiresRootArray() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"Select dimensions"}],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "input_schema":{"type":"array","items":{"type":"string"}}
+                  }]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, true, false));
+
+        // Assert
+        assertThat(mapped.at("/tools/0/input_schema/type").asText()).isEqualTo("object");
+        assertThat(mapped.at("/tools/0/input_schema/properties/__api2api_structured_output/type").asText())
+                .isEqualTo("array");
+    }
+
+    @Test
+    void test_unwrapsStructuredOutputInput_when_bedrockReturnsWrappedArray() throws Exception {
+        // Arrange
+        BedrockClaudeMessagesProtocolMessageConverter responseConverter =
+                new BedrockClaudeMessagesProtocolMessageConverter(
+                        new ProtocolJsonSupport(objectMapper),
+                        new ClaudeMessagesUsageExtractor(),
+                        ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES,
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ProtocolConversionDirection.RESPONSE,
+                        new SseEventTransformer()
+                );
+        String body = """
+                {
+                  "type":"message",
+                  "content":[{
+                    "type":"tool_use",
+                    "id":"toolu_1",
+                    "name":"StructuredOutput",
+                    "input":{"__api2api_structured_output":["design","security"]}
+                  }],
+                  "usage":{"input_tokens":1,"output_tokens":1}
+                }
+                """;
+
+        // Act
+        ProtocolConversionResult result = responseConverter.convert(
+                ProtocolPayload.of(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)
+        );
+        JsonNode mapped = objectMapper.readTree(result.body());
+
+        // Assert
+        assertThat(mapped.at("/content/0/input"))
+                .containsExactly(
+                        objectMapper.getNodeFactory().textNode("design"),
+                        objectMapper.getNodeFactory().textNode("security")
+                );
+    }
+
+    @Test
+    void test_wrapsStructuredOutputHistory_when_followUpContainsRootArrayInput() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[
+                    {"role":"assistant","content":[{
+                      "type":"tool_use",
+                      "id":"toolu_1",
+                      "name":"StructuredOutput",
+                      "input":["design","security"]
+                    }]},
+                    {"role":"user","content":[{
+                      "type":"tool_result",
+                      "tool_use_id":"toolu_1",
+                      "content":"accepted"
+                    }]}
+                  ],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "input_schema":{"type":"array","items":{"type":"string"}}
+                  }]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, true, false));
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/input/__api2api_structured_output"))
+                .containsExactly(
+                        objectMapper.getNodeFactory().textNode("design"),
+                        objectMapper.getNodeFactory().textNode("security")
+                );
+    }
+
+    @Test
+    void test_forcesStructuredOutput_when_claudeCodeSendsEnforcementRetry() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[
+                    {"role":"user","content":"Review the code"},
+                    {"role":"assistant","content":"The review is complete."},
+                    {"role":"user","content":[{
+                      "type":"text",
+                      "text":"[structured-output-enforce] You MUST call the StructuredOutput tool to complete this request. Call this tool now."
+                    }]}
+                  ],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "input_schema":{
+                      "type":"object",
+                      "properties":{"result":{"type":"string"}},
+                      "required":["result"]
+                    }
+                  }],
+                  "thinking":{"type":"adaptive","display":"omitted"}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, true, false));
+
+        // Assert
+        assertThat(mapped.at("/tool_choice/type").asText()).isEqualTo("tool");
+        assertThat(mapped.at("/tool_choice/name").asText()).isEqualTo("StructuredOutput");
+        assertThat(mapped.at("/tool_choice/disable_parallel_tool_use").asBoolean()).isTrue();
+        assertThat(mapped.has("thinking")).isFalse();
+    }
+
+    @Test
+    void test_preservesAutomaticToolChoice_when_structuredOutputIsNotEnforcementRetry() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"Review the code"}],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "input_schema":{"type":"object","properties":{"result":{"type":"string"}}}
+                  }],
+                  "thinking":{"type":"adaptive","display":"omitted"}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, true, false));
+
+        // Assert
+        assertThat(mapped.has("tool_choice")).isFalse();
+        assertThat(mapped.at("/thinking/type").asText()).isEqualTo("adaptive");
+    }
+
+    @Test
     void test_addsToolSearchBeta_when_requestUsesDeferredTools() throws Exception {
         // Arrange
         String body = """

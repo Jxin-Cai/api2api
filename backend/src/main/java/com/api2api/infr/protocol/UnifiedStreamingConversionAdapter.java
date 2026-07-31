@@ -1245,6 +1245,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     private UnifiedTokenUsage transformBedrockInvokeModelToClaude(
             String clientModel, InputStream upstreamBody, OutputStream clientBody) throws IOException {
         ObjectNode accumulatedUsage = objectNode();
+        Map<Integer, StringBuilder> structuredOutputBuffers = new HashMap<>();
         boolean messageStopped = false;
         boolean terminalErrorReceived = false;
         BedrockEvent event;
@@ -1278,6 +1279,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             mergeUsage(accumulatedUsage, claudeEvent.path("usage"));
             messageStopped = messageStopped || "message_stop".equals(eventType);
             terminalErrorReceived = terminalErrorReceived || "error".equals(eventType);
+            if (handleBedrockStructuredOutputEvent(
+                    eventType, claudeEvent, structuredOutputBuffers, clientBody)) {
+                continue;
+            }
 
             String sseEvent = "event: " + eventType + "\n"
                     + "data: " + objectMapper.writeValueAsString(claudeEvent) + "\n\n";
@@ -1290,6 +1295,48 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         return accumulatedUsage.isEmpty()
                 ? UnifiedTokenUsage.unknown()
                 : ClaudeMessagesUsageExtractor.extractUsageNode(accumulatedUsage);
+    }
+
+    private boolean handleBedrockStructuredOutputEvent(
+            String eventType,
+            JsonNode event,
+            Map<Integer, StringBuilder> buffers,
+            OutputStream clientBody
+    ) throws IOException {
+        int index = event.path("index").asInt(-1);
+        if ("content_block_start".equals(eventType)
+                && BedrockStructuredOutputCompatibility.TOOL_NAME.equals(
+                event.at("/content_block/name").asText())) {
+            buffers.put(index, new StringBuilder());
+            return false;
+        }
+        StringBuilder buffer = buffers.get(index);
+        if (buffer == null) {
+            return false;
+        }
+        if ("content_block_delta".equals(eventType)
+                && "input_json_delta".equals(event.at("/delta/type").asText())) {
+            buffer.append(event.at("/delta/partial_json").asText());
+            return true;
+        }
+        if (!"content_block_stop".equals(eventType)) {
+            return false;
+        }
+        buffers.remove(index);
+        if (buffer.isEmpty()) {
+            return false;
+        }
+        JsonNode wrappedInput = objectMapper.readTree(buffer.toString());
+        JsonNode unwrappedInput = BedrockStructuredOutputCompatibility.unwrapInput(wrappedInput);
+        ObjectNode deltaEvent = objectNode();
+        deltaEvent.put("type", "content_block_delta");
+        deltaEvent.put("index", index);
+        ObjectNode delta = objectNode();
+        delta.put("type", "input_json_delta");
+        delta.put("partial_json", objectMapper.writeValueAsString(unwrappedInput));
+        deltaEvent.set("delta", delta);
+        writeSse(clientBody, "content_block_delta", deltaEvent);
+        return false;
     }
 
     private void mergeUsage(ObjectNode accumulatedUsage, JsonNode usage) {
