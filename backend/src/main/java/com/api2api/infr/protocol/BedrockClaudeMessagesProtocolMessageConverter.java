@@ -58,6 +58,7 @@ final class BedrockClaudeMessagesProtocolMessageConverter extends AbstractProtoc
         target.remove("model");
         target.remove("stream");
         removeUnsupportedThinkingFields(target);
+        BedrockWebSearchToolCompatibility.normalizeRequest(target);
         BedrockStructuredOutputCompatibility.normalizeRequest(target);
         Set<String> requiredBetaFeatures =
                 BedrockClaudeMessagesRequestValidator.validateAndCollectRequiredBetaFeatures(target);

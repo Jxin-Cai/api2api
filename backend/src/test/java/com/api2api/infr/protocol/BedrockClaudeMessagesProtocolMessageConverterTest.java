@@ -630,21 +630,67 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
     }
 
     @Test
-    void test_rejectsToolType_when_requestUsesUnsupportedServerTool() {
+    void test_mapsWebSearchToCustomTool_when_requestUsesAnthropicServerTool() throws Exception {
         // Arrange
         String body = """
                 {
                   "model":"claude-opus-4.6",
                   "max_tokens":128,
                   "messages":[{"role":"user","content":"search the web"}],
-                  "tools":[{"type":"web_search_20250305","name":"web_search"}]
+                  "tools":[{
+                    "type":"web_search_20250305",
+                    "name":"web_search",
+                    "max_uses":5,
+                    "allowed_callers":["direct"],
+                    "allowed_domains":["docs.aws.amazon.com","docs.anthropic.com"],
+                    "user_location":{
+                      "type":"approximate",
+                      "city":"Shanghai",
+                      "country":"CN",
+                      "timezone":"Asia/Shanghai"
+                    }
+                  }]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, false, false));
+
+        // Assert
+        assertThat(mapped.at("/tools/0/type").asText()).isEqualTo("custom");
+        assertThat(mapped.at("/tools/0/name").asText()).isEqualTo("web_search");
+        assertThat(mapped.at("/tools/0/input_schema/type").asText()).isEqualTo("object");
+        assertThat(mapped.at("/tools/0/input_schema/properties/query/type").asText()).isEqualTo("string");
+        assertThat(mapped.at("/tools/0/input_schema/required/0").asText()).isEqualTo("query");
+        assertThat(mapped.at("/tools/0/input_schema/additionalProperties").asBoolean()).isFalse();
+        assertThat(mapped.at("/tools/0/allowed_callers").isMissingNode()).isTrue();
+        assertThat(mapped.at("/tools/0/description").asText())
+                .contains("at most 5 times")
+                .contains("docs.aws.amazon.com, docs.anthropic.com")
+                .contains("Shanghai")
+                .contains("Asia/Shanghai");
+    }
+
+    @Test
+    void test_rejectsWebSearchDomainFilters_when_allowedAndBlockedDomainsAreCombined() {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{"role":"user","content":"search the web"}],
+                  "tools":[{
+                    "type":"web_search_20250305",
+                    "name":"web_search",
+                    "allowed_domains":["example.com"],
+                    "blocked_domains":["blocked.example.com"]
+                  }]
                 }
                 """;
 
         // Act / Assert
         assertThatThrownBy(() -> convert(body, ProtocolConversionRequest.of(false, false, false)))
-                .hasMessageContaining("web_search_20250305")
-                .hasMessageContaining("not supported by Bedrock InvokeModel");
+                .hasMessageContaining("allowed_domains and blocked_domains");
     }
 
     @Test

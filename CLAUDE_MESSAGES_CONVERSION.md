@@ -2,6 +2,8 @@
 
 本文描述 Claude Code 通过 `/v1/messages` 接入时，服务转换到 OpenAI Responses 的行为。原则是：可等价映射就转换；不能可靠映射就明确失败，避免静默丢参数导致能力降级。AWS Bedrock 上游使用原生 Claude Messages InvokeModel 协议，不再支持 Converse。
 
+Bedrock InvokeModel 不托管执行 Anthropic `web_search_20250305`。该工具在 Bedrock 路径会转换成客户端执行的同名 `custom` 工具，输入 schema 要求 `query`；`max_uses`、`allowed_domains` / `blocked_domains` 与 `user_location` 会写入工具契约描述，避免把不受支持的 server tool type 原样发送给 Bedrock。上游返回普通 `tool_use`，调用方须执行搜索并以 `tool_result` 继续工具循环；若必须由模型提供商托管搜索，应选择原生支持 web search 的渠道，而不是 Bedrock InvokeModel。
+
 审计基线：2026-07-16，Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0 与 OpenAI SDK 6.47.0；对照 Anthropic 与 OpenAI 最新官方协议文档。
 
 ## OpenAI Responses
