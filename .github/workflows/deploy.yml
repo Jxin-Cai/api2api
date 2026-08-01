@@ -42,6 +42,7 @@ jobs:
       DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      API2API_API_KEY_ENCRYPTION_KEY: ${{ secrets.API2API_API_KEY_ENCRYPTION_KEY }}
       PROVIDER_SECRET_ENV: ${{ secrets.PROVIDER_SECRET_ENV }}
 
     steps:
@@ -84,24 +85,24 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           chmod 644 ~/.ssh/known_hosts
 
-          cat > ~/.ssh/config <<SSH_CONFIG
-Host deploy-target
-  HostName $DEPLOY_HOST
-  User $DEPLOY_USER
-  Port $DEPLOY_PORT
-  IdentityFile ~/.ssh/deploy_key
-  IdentitiesOnly yes
-  BatchMode yes
-  ConnectTimeout 15
-  ConnectionAttempts 1
-  ServerAliveInterval 30
-  ServerAliveCountMax 3
-  StrictHostKeyChecking yes
-  UserKnownHostsFile ~/.ssh/known_hosts
-  ControlMaster auto
-  ControlPath $RUNNER_TEMP/api2api-ssh-%C
-  ControlPersist 15m
-SSH_CONFIG
+          printf '%s\n' \
+            "Host deploy-target" \
+            "  HostName $DEPLOY_HOST" \
+            "  User $DEPLOY_USER" \
+            "  Port $DEPLOY_PORT" \
+            "  IdentityFile ~/.ssh/deploy_key" \
+            "  IdentitiesOnly yes" \
+            "  BatchMode yes" \
+            "  ConnectTimeout 15" \
+            "  ConnectionAttempts 1" \
+            "  ServerAliveInterval 30" \
+            "  ServerAliveCountMax 3" \
+            "  StrictHostKeyChecking yes" \
+            "  UserKnownHostsFile ~/.ssh/known_hosts" \
+            "  ControlMaster auto" \
+            "  ControlPath $RUNNER_TEMP/api2api-ssh-%C" \
+            "  ControlPersist 15m" \
+            > ~/.ssh/config
           chmod 600 ~/.ssh/config
 
       - name: Establish reusable SSH connection
@@ -171,6 +172,7 @@ SSH_CONFIG
           dotenv_line API2API_UPSTREAM_READ_TIMEOUT "$API2API_UPSTREAM_READ_TIMEOUT"
           dotenv_line API2API_STREAMING_FIRST_BYTE_TIMEOUT "$API2API_STREAMING_FIRST_BYTE_TIMEOUT"
           dotenv_line API2API_STREAMING_IDLE_TIMEOUT "$API2API_STREAMING_IDLE_TIMEOUT"
+          dotenv_line API2API_API_KEY_ENCRYPTION_KEY "$API2API_API_KEY_ENCRYPTION_KEY"
 
           if [[ "$ADMIN_PASSWORD" == "change-me" ]]; then
             echo "ADMIN_PASSWORD must not be change-me" >&2
