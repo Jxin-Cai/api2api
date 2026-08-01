@@ -20,9 +20,9 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.springframework.mock.env.MockEnvironment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.env.MockEnvironment;
 
 class ProviderModelFetchAdapterTest {
 
@@ -55,6 +55,7 @@ class ProviderModelFetchAdapterTest {
         secretProperties.setKeys(Map.of("test-key", "test-secret"));
         ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+        properties.setAllowInsecureHosts(true);
         ProviderModelFetchAdapter adapter = new ProviderModelFetchAdapter(
                 secretResolver,
                 properties,
@@ -114,6 +115,7 @@ class ProviderModelFetchAdapterTest {
         secretProperties.setKeys(Map.of("test-key", "test-secret"));
         ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+        properties.setAllowInsecureHosts(true);
         return new ProviderModelFetchAdapter(
                 secretResolver,
                 properties,

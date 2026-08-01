@@ -1,5 +1,6 @@
 package com.api2api.infr.protocol;
 
+import com.api2api.application.gateway.StreamingPassthroughPort;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
  * 在 streaming 直接透传（不需要协议转换）时，边透传 SSE 流边解析 usage 信息。
  */
 @Component
-public class StreamingPassthroughUsageExtractor implements com.api2api.application.gateway.StreamingPassthroughPort {
+public class StreamingPassthroughUsageExtractor implements StreamingPassthroughPort {
 
     private static final Logger log = LoggerFactory.getLogger(StreamingPassthroughUsageExtractor.class);
     private static final Set<String> CLAUDE_TERMINAL_EVENTS = Set.of("message_stop", "error");
@@ -165,7 +166,7 @@ public class StreamingPassthroughUsageExtractor implements com.api2api.applicati
         } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
             return fallback;
         } catch (Exception unexpected) {
-            log.debug("Unexpected error extracting usage from streaming data", unexpected);
+            log.warn("Unexpected error extracting usage from streaming data", unexpected);
             return fallback;
         }
     }
@@ -182,7 +183,7 @@ public class StreamingPassthroughUsageExtractor implements com.api2api.applicati
         } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
             return fallback;
         } catch (Exception unexpected) {
-            log.debug("Unexpected error extracting usage from streaming data", unexpected);
+            log.warn("Unexpected error extracting usage from streaming data", unexpected);
             return fallback;
         }
     }
@@ -194,20 +195,12 @@ public class StreamingPassthroughUsageExtractor implements com.api2api.applicati
             if (usageNode.isMissingNode() || usageNode.isNull()) {
                 return fallback;
             }
-            JsonNode details = usageNode.path("prompt_tokens_details");
-            long cacheReadTokens = details.path("cached_tokens").asLong(0);
-            long cacheWriteTokens = details.path("cache_write_tokens").asLong(0);
-            long promptTokens = usageNode.path("prompt_tokens").asLong(0);
-            long inputTokens = Math.max(0, promptTokens - cacheReadTokens - cacheWriteTokens);
-            long outputTokens = usageNode.path("completion_tokens").asLong(0);
-            if (inputTokens <= 0 && outputTokens <= 0) {
-                return fallback;
-            }
-            return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
+            UnifiedTokenUsage usage = OpenAIChatCompletionsUsageExtractor.extractUsage(usageNode);
+            return (usage.inputTokens() <= 0 && usage.outputTokens() <= 0) ? fallback : usage;
         } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
             return fallback;
         } catch (Exception unexpected) {
-            log.debug("Unexpected error extracting usage from streaming data", unexpected);
+            log.warn("Unexpected error extracting usage from streaming data", unexpected);
             return fallback;
         }
     }

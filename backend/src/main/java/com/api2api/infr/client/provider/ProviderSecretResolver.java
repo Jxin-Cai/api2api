@@ -45,7 +45,8 @@ public class ProviderSecretResolver {
             return systemEnvironmentValue;
         }
 
-        return ref;
+        throw new ProviderSecretResolveException(
+                "Unable to resolve provider secret for key reference: " + ref);
     }
 
     private String resolveFromActiveProfiles(String ref) {

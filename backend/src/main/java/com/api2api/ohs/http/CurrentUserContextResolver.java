@@ -34,8 +34,12 @@ public class CurrentUserContextResolver {
     }
 
     public void bindCurrentUser(HttpServletRequest request, UserAccountId userAccountId) {
-        HttpSession session = request.getSession(true);
-        session.setAttribute(CURRENT_USER_ID_SESSION_KEY, userAccountId.getValue());
+        HttpSession existingSession = request.getSession(false);
+        if (existingSession != null) {
+            existingSession.invalidate();
+        }
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute(CURRENT_USER_ID_SESSION_KEY, userAccountId.getValue());
     }
 
     public void clearCurrentUser(HttpServletRequest request) {

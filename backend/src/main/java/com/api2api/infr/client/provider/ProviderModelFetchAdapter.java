@@ -100,7 +100,9 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
 
         String secret = providerSecretResolver.resolve(keyRef);
         String effectiveModelsPath = modelsPath.value();
-        URI uri = URI.create(urlResolver.resolve(host.resolvePath(effectiveModelsPath).value()));
+        URI uri = OutboundUriGuard.verify(
+                URI.create(urlResolver.resolve(host.resolvePath(effectiveModelsPath).value())),
+                properties.isAllowInsecureHosts());
         ProtocolType headerProtocol = upstreamProtocols.stream()
                 .filter(ProtocolType::isClientFacing)
                 .findFirst()
@@ -174,34 +176,16 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
         if (!data.isArray()) {
             throw new BusinessException("PROVIDER_MODELS_RESPONSE_INVALID");
         }
-        Set<ProtocolType> uniqueProtocols = new LinkedHashSet<>(upstreamProtocols);
         Set<String> uniqueModelIds = new LinkedHashSet<>();
-        List<ChannelModelSupport> supports = new ArrayList<>();
-        long idBase = Instant.now(clock).toEpochMilli() * 1_000L;
-        long index = 1L;
+        List<ModelName> modelNames = new ArrayList<>();
         for (JsonNode item : data) {
             String id = modelId(item);
             if (id.isBlank() || !uniqueModelIds.add(id)) {
                 continue;
             }
-            ModelName modelName = ModelName.of(id);
-            for (ProtocolType protocol : uniqueProtocols) {
-                supports.add(ChannelModelSupport.create(
-                        ChannelModelSupportId.of(idBase + index++),
-                        modelName,
-                        modelName,
-                        protocol,
-                        defaultPriority,
-                        false,
-                        ModelSupportSource.FETCHED,
-                        Instant.now(clock)
-                ));
-            }
+            modelNames.add(ModelName.of(id));
         }
-        if (supports.isEmpty()) {
-            throw new BusinessException("PROVIDER_MODELS_EMPTY");
-        }
-        return supports.stream()
+        return buildModelSupports(modelNames, upstreamProtocols, defaultPriority).stream()
                 .sorted(Comparator.comparing(model -> model.requestedModel().value()))
                 .toList();
     }
@@ -248,10 +232,7 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
             Set<ProtocolType> upstreamProtocols,
             RoutePriority defaultPriority
     ) {
-        Set<ProtocolType> uniqueProtocols = new LinkedHashSet<>(upstreamProtocols);
-        List<ChannelModelSupport> supports = new ArrayList<>();
-        long idBase = Instant.now(clock).toEpochMilli() * 1_000L;
-        long index = 1L;
+        List<ModelName> modelNames = new ArrayList<>();
         for (JsonNode item : modelSummaries) {
             String modelId = item.path("modelId").asText("").trim();
             if (modelId.isBlank()) {
@@ -270,7 +251,24 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
                     continue;
                 }
             }
-            ModelName modelName = ModelName.of(modelId);
+            modelNames.add(ModelName.of(modelId));
+        }
+        return buildModelSupports(modelNames, upstreamProtocols, defaultPriority);
+    }
+
+    private List<ChannelModelSupport> buildModelSupports(
+            List<ModelName> modelNames,
+            Set<ProtocolType> upstreamProtocols,
+            RoutePriority defaultPriority
+    ) {
+        if (modelNames.isEmpty()) {
+            throw new BusinessException("PROVIDER_MODELS_EMPTY");
+        }
+        Set<ProtocolType> uniqueProtocols = new LinkedHashSet<>(upstreamProtocols);
+        List<ChannelModelSupport> supports = new ArrayList<>();
+        long idBase = Instant.now(clock).toEpochMilli() * 1_000L;
+        long index = 1L;
+        for (ModelName modelName : modelNames) {
             for (ProtocolType protocol : uniqueProtocols) {
                 supports.add(ChannelModelSupport.create(
                         ChannelModelSupportId.of(idBase + index++),
@@ -283,9 +281,6 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
                         Instant.now(clock)
                 ));
             }
-        }
-        if (supports.isEmpty()) {
-            throw new BusinessException("PROVIDER_MODELS_EMPTY");
         }
         return supports;
     }

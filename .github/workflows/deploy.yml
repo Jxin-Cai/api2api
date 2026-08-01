@@ -24,6 +24,8 @@ jobs:
       DEPLOY_PORT: ${{ vars.DEPLOY_PORT }}
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
       DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
+      DEPLOY_SSH_MAX_ATTEMPTS: ${{ vars.DEPLOY_SSH_MAX_ATTEMPTS || '8' }}
+      DEPLOY_SSH_RETRY_DELAY_SECONDS: ${{ vars.DEPLOY_SSH_RETRY_DELAY_SECONDS || '20' }}
       REPOSITORY_URL: https://github.com/${{ github.repository }}.git
 
       POSTGRES_DB: ${{ vars.POSTGRES_DB }}
@@ -67,11 +69,68 @@ jobs:
           require_value DEPLOY_SSH_PRIVATE_KEY "$DEPLOY_SSH_PRIVATE_KEY"
           require_value SSH_KNOWN_HOSTS "$SSH_KNOWN_HOSTS"
 
+          if [[ ! "$DEPLOY_SSH_MAX_ATTEMPTS" =~ ^[1-9][0-9]*$ ]]; then
+            echo "DEPLOY_SSH_MAX_ATTEMPTS must be a positive integer" >&2
+            exit 1
+          fi
+          if [[ ! "$DEPLOY_SSH_RETRY_DELAY_SECONDS" =~ ^[1-9][0-9]*$ ]]; then
+            echo "DEPLOY_SSH_RETRY_DELAY_SECONDS must be a positive integer" >&2
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/deploy_key
           chmod 644 ~/.ssh/known_hosts
+
+          cat > ~/.ssh/config <<SSH_CONFIG
+Host deploy-target
+  HostName $DEPLOY_HOST
+  User $DEPLOY_USER
+  Port $DEPLOY_PORT
+  IdentityFile ~/.ssh/deploy_key
+  IdentitiesOnly yes
+  BatchMode yes
+  ConnectTimeout 15
+  ConnectionAttempts 1
+  ServerAliveInterval 30
+  ServerAliveCountMax 3
+  StrictHostKeyChecking yes
+  UserKnownHostsFile ~/.ssh/known_hosts
+  ControlMaster auto
+  ControlPath $RUNNER_TEMP/api2api-ssh-%C
+  ControlPersist 15m
+SSH_CONFIG
+          chmod 600 ~/.ssh/config
+
+      - name: Establish reusable SSH connection
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          set -Eeuo pipefail
+
+          max_attempts=$((10#$DEPLOY_SSH_MAX_ATTEMPTS))
+          retry_delay_seconds=$((10#$DEPLOY_SSH_RETRY_DELAY_SECONDS))
+
+          for ((attempt = 1; attempt <= max_attempts; attempt++)); do
+            if ssh -o ControlMaster=yes -N -f deploy-target; then
+              echo "SSH connection established on attempt $attempt"
+              exit 0
+            fi
+
+            if ((attempt == max_attempts)); then
+              echo "Unable to reach deployment server after $attempt attempts" >&2
+              exit 1
+            fi
+
+            delay=$((retry_delay_seconds * attempt))
+            if ((delay > 60)); then
+              delay=60
+            fi
+            echo "SSH attempt $attempt failed; retrying in ${delay}s" >&2
+            sleep "$delay"
+          done
 
       - name: Render production env file
         shell: bash
@@ -138,20 +197,7 @@ jobs:
         run: |
           set -Eeuo pipefail
 
-          ssh_args=(
-            -i ~/.ssh/deploy_key
-            -p "$DEPLOY_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o ConnectTimeout=15
-            -o ConnectionAttempts=4
-            -o ServerAliveInterval=30
-            -o ServerAliveCountMax=3
-            -o StrictHostKeyChecking=yes
-            -o UserKnownHostsFile=~/.ssh/known_hosts
-          )
-
-          ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh deploy-target \
             bash -se -- "$DEPLOY_PATH" "$DEPLOY_BRANCH" "$REPOSITORY_URL" <<'REMOTE'
           set -Eeuo pipefail
 
@@ -176,42 +222,16 @@ jobs:
         run: |
           set -Eeuo pipefail
 
-          ssh_args=(
-            -i ~/.ssh/deploy_key
-            -p "$DEPLOY_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o ConnectTimeout=15
-            -o ConnectionAttempts=4
-            -o ServerAliveInterval=30
-            -o ServerAliveCountMax=3
-            -o StrictHostKeyChecking=yes
-            -o UserKnownHostsFile=~/.ssh/known_hosts
-          )
-
-          scp_args=(
-            -i ~/.ssh/deploy_key
-            -P "$DEPLOY_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o ConnectTimeout=15
-            -o ConnectionAttempts=4
-            -o ServerAliveInterval=30
-            -o ServerAliveCountMax=3
-            -o StrictHostKeyChecking=yes
-            -o UserKnownHostsFile=~/.ssh/known_hosts
-          )
-
-          ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh deploy-target \
             bash -se -- "$DEPLOY_PATH" <<'REMOTE'
           set -Eeuo pipefail
           deploy_path="$1"
           mkdir -p "$deploy_path"
           REMOTE
 
-          scp "${scp_args[@]}" "$RUNNER_TEMP/api2api.env" "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/.env.next"
+          scp "$RUNNER_TEMP/api2api.env" "deploy-target:$DEPLOY_PATH/.env.next"
 
-          ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh deploy-target \
             bash -se -- "$DEPLOY_PATH" <<'REMOTE'
           set -Eeuo pipefail
           deploy_path="$1"
@@ -224,20 +244,7 @@ jobs:
         run: |
           set -Eeuo pipefail
 
-          ssh_args=(
-            -i ~/.ssh/deploy_key
-            -p "$DEPLOY_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o ConnectTimeout=15
-            -o ConnectionAttempts=4
-            -o ServerAliveInterval=30
-            -o ServerAliveCountMax=3
-            -o StrictHostKeyChecking=yes
-            -o UserKnownHostsFile=~/.ssh/known_hosts
-          )
-
-          ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh deploy-target \
             bash -se -- "$DEPLOY_PATH" "$DEPLOY_BRANCH" "${COMPOSE_PROJECT_NAME:-api2api}" <<'REMOTE'
           set -Eeuo pipefail
 

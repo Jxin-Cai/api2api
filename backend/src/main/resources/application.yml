@@ -20,6 +20,7 @@ server:
         max-age: ${API2API_LOGIN_COOKIE_MAX_AGE:30d}
         http-only: true
         same-site: lax
+        secure: true
 
 api2api:
   bootstrap-admin:
@@ -27,7 +28,7 @@ api2api:
     password: ${ADMIN_PASSWORD:}
   security:
     api-key-material:
-      encryption-key: ${API2API_API_KEY_ENCRYPTION_KEY:api2api-development-api-key-material-secret}
+      encryption-key: ${API2API_API_KEY_ENCRYPTION_KEY:}
       key-version: 1
   provider-http:
     connect-timeout: 2s

@@ -24,10 +24,19 @@ public class AesGcmApiKeyMaterialProtector implements ApiKeyMaterialProtector {
     private final ApiKeyMaterialProtectionProperties properties;
     private final SecretKeySpec keySpec;
 
+    private static final String INSECURE_DEV_KEY = "api2api-development-api-key-material-secret";
+
     public AesGcmApiKeyMaterialProtector(ApiKeyMaterialProtectionProperties properties) {
         this.properties = properties;
         if (properties.getEncryptionKey().isBlank()) {
-            throw new IllegalStateException("API key material encryption key must not be blank");
+            throw new IllegalStateException(
+                    "API key material encryption key must not be blank. "
+                            + "Set the API2API_API_KEY_ENCRYPTION_KEY environment variable.");
+        }
+        if (INSECURE_DEV_KEY.equals(properties.getEncryptionKey())) {
+            throw new IllegalStateException(
+                    "Insecure default encryption key detected. "
+                            + "Set API2API_API_KEY_ENCRYPTION_KEY to a secure random value.");
         }
         this.keySpec = new SecretKeySpec(deriveAesKey(properties.getEncryptionKey()), "AES");
     }
