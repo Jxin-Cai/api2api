@@ -21,7 +21,7 @@ jobs:
     env:
       DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
       DEPLOY_USER: ${{ vars.DEPLOY_USER }}
-      DEPLOY_PORT: ${{ vars.DEPLOY_PORT }}
+      DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '2222' }}
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
       DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
       DEPLOY_SSH_MAX_ATTEMPTS: ${{ vars.DEPLOY_SSH_MAX_ATTEMPTS || '8' }}
@@ -81,8 +81,14 @@ jobs:
 
           mkdir -p ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
-          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/deploy_key
+
+          if [[ "$DEPLOY_PORT" == "22" ]]; then
+            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            host_key="${SSH_KNOWN_HOSTS#* }"
+            printf '[%s]:%s %s\n' "$DEPLOY_HOST" "$DEPLOY_PORT" "$host_key" > ~/.ssh/known_hosts
+          fi
           chmod 644 ~/.ssh/known_hosts
 
           printf '%s\n' \
