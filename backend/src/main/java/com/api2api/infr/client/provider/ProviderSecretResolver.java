@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
- * Resolves provider key references from secure configuration sources.
+ * Resolves provider key references from secure configuration sources, falling back to a plaintext key.
  */
 @Component
 @RequiredArgsConstructor
@@ -45,8 +45,7 @@ public class ProviderSecretResolver {
             return systemEnvironmentValue;
         }
 
-        throw new ProviderSecretResolveException(
-                "Unable to resolve provider secret for key reference: " + ref);
+        return ref;
     }
 
     private String resolveFromActiveProfiles(String ref) {

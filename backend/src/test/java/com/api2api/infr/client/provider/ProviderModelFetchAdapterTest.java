@@ -20,6 +20,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
@@ -35,6 +36,49 @@ class ProviderModelFetchAdapterTest {
         if (server != null) {
             server.stop(0);
         }
+    }
+
+    @Test
+    void test_sendsPlaintextKey_when_keyHasNoConfiguredReference() throws IOException {
+        // Arrange
+        AtomicReference<String> authorizationHeader = new AtomicReference<>();
+        server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1/models", exchange -> {
+            authorizationHeader.set(exchange.getRequestHeaders().getFirst("Authorization"));
+            byte[] body = "{\"data\":[{\"id\":\"claude-opus-4.6\"}]}".getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        server.start();
+
+        ProviderSecretResolver secretResolver = new ProviderSecretResolver(
+                new ProviderSecretProperties(),
+                new MockEnvironment()
+        );
+        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+        properties.setAllowInsecureHosts(true);
+        ProviderModelFetchAdapter adapter = new ProviderModelFetchAdapter(
+                secretResolver,
+                properties,
+                new UpstreamHttpHeaderPolicy(properties),
+                new ObjectMapper(),
+                new UpstreamUrlResolver(properties),
+                CLOCK
+        );
+
+        // Act
+        adapter.fetchModels(
+                ProviderChannelId.of(1L),
+                ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
+                ProviderKeyRef.of("plaintext-provider-key"),
+                ProviderModelsPath.DEFAULT,
+                Set.of(ProtocolType.OPENAI_RESPONSES),
+                RoutePriority.of(10)
+        );
+
+        // Assert
+        assertThat(authorizationHeader.get()).isEqualTo("Bearer plaintext-provider-key");
     }
 
     @Test
