@@ -34,7 +34,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   }
 
   return (
-    <Form<LoginFormValues> className="login-form" layout="vertical" onFinish={handleFinish} requiredMark={false}>
+    <Form<LoginFormValues>
+      className="login-form"
+      layout="vertical"
+      onFinish={handleFinish}
+      requiredMark={false}
+      autoComplete="off"
+    >
       <div className="login-form__head">
         <Typography.Title level={3} className="login-form__title">
           欢迎回来
@@ -52,7 +58,15 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           { pattern: /^[a-zA-Z0-9_.-]+$/, message: '仅支持字母、数字、下划线、点和横线' },
         ]}
       >
-        <Input prefix={<UserOutlined />} placeholder="请输入用户名" autoComplete="username" size="large" />
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="请输入用户名"
+          autoComplete="off"
+          data-1p-ignore
+          data-lpignore="true"
+          data-form-type="other"
+          size="large"
+        />
       </Form.Item>
       <Form.Item
         name="password"
@@ -62,7 +76,15 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           { max: 128, message: '密码长度不能超过 128 位' },
         ]}
       >
-        <Input.Password prefix={<LockOutlined />} placeholder="请输入密码" autoComplete="current-password" size="large" />
+        <Input.Password
+          prefix={<LockOutlined />}
+          placeholder="请输入密码"
+          autoComplete="new-password"
+          data-1p-ignore
+          data-lpignore="true"
+          data-form-type="other"
+          size="large"
+        />
       </Form.Item>
       <Form.Item className="login-form__submit">
         <Button type="primary" htmlType="submit" block size="large" loading={mutation.isPending} icon={<LoginOutlined />}>

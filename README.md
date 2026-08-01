@@ -334,6 +334,8 @@ npm run build
 
 部署前需要配置服务器地址、用户、端口、部署目录、分支和 SSH host key，并提供数据库密码、管理员密码与部署私钥。供应商密钥和 `API2API_API_KEY_ENCRYPTION_KEY` 可通过多行 `PROVIDER_SECRET_ENV` Secret 注入。
 
+当前内置 Nginx 使用 HTTP 监听，因此 `API2API_LOGIN_COOKIE_SECURE` 默认是 `false`。如果外层反向代理通过 HTTPS 对外提供服务，请将同名 Repository Variable 设置为 `true`。
+
 如果不使用 GitHub Actions，也可以在服务器上直接执行：
 
 ```bash

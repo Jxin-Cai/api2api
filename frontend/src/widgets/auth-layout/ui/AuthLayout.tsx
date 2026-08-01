@@ -114,7 +114,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
               {children}
               <div className="auth-layout__security-note">
                 <SafetyCertificateOutlined aria-hidden="true" />
-                <span>凭据经加密连接传输，登录状态仅保存在当前设备</span>
+                <span>登录凭据仅用于身份验证，登录状态保存在当前设备</span>
               </div>
             </Card>
           </aside>

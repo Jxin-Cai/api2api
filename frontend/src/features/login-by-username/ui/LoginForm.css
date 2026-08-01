@@ -28,11 +28,39 @@
 
 .login-form .ant-input-affix-wrapper {
   min-height: 48px;
-  border-radius: 13px !important;
+  padding-inline: 4px;
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none !important;
   transition:
     border-color var(--transition-fast),
-    box-shadow var(--transition-fast),
-    background-color var(--transition-fast);
+    box-shadow var(--transition-fast);
+}
+
+.login-form .ant-input-affix-wrapper:hover {
+  border-bottom-color: var(--text-tertiary);
+}
+
+.login-form .ant-input-affix-wrapper-focused,
+.login-form .ant-input-affix-wrapper:focus-within {
+  border-bottom-color: var(--primary-color);
+  box-shadow: inset 0 -2px 0 var(--primary-color) !important;
+}
+
+.login-form .ant-input,
+.login-form .ant-input-password input {
+  background: transparent !important;
+}
+
+.login-form input:-webkit-autofill,
+.login-form input:-webkit-autofill:hover,
+.login-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text-primary);
+  caret-color: var(--text-primary);
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  transition: background-color 9999s ease-out 0s;
 }
 
 .login-form .ant-input-prefix {
@@ -46,8 +74,7 @@
   cursor: pointer;
 }
 
-.login-form .ant-btn-lg:focus-visible,
-.login-form .ant-input-affix-wrapper:focus-within {
+.login-form .ant-btn-lg:focus-visible {
   outline: 3px solid var(--primary-soft-strong);
   outline-offset: 2px;
 }
