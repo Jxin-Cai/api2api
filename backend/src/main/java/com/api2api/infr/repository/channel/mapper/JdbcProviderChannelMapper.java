@@ -168,6 +168,25 @@ public class JdbcProviderChannelMapper implements ProviderChannelMapper {
     }
 
     @Override
+    public int restoreAllModelRateLimits(Instant updatedAt) {
+        return jdbcTemplate.update("""
+                UPDATE channel_model_supports AS model
+                SET status = 'ENABLED',
+                    rate_limited_at = NULL,
+                    rate_limit_reset_at = NULL,
+                    updated_at = :updatedTime
+                WHERE model.status = 'RATE_LIMITED'
+                  AND EXISTS (
+                      SELECT 1
+                      FROM provider_channels AS channel
+                      WHERE channel.id = model.provider_channel_id
+                        AND channel.deleted = FALSE
+                  )
+                """, new MapSqlParameterSource()
+                .addValue("updatedTime", timestamp(updatedAt)));
+    }
+
+    @Override
     public int softDeleteById(Long id, Instant updatedAt) {
         return jdbcTemplate.update("""
                 UPDATE provider_channels

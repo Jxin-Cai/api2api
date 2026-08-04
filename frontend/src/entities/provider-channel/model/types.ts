@@ -26,3 +26,7 @@ export interface AdminUpdateProviderChannelRequest {
   supportedProtocols: string[];
   protocolMappings: ProtocolMappingRequest[];
 }
+
+export interface ResetProviderChannelRateLimitsResponse {
+  restoredCount: number;
+}

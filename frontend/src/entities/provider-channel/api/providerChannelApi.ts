@@ -5,6 +5,7 @@ import type {
   AdminUpdateProviderChannelRequest,
   ProviderChannelListResponse,
   ProviderChannelResponse,
+  ResetProviderChannelRateLimitsResponse,
 } from '../model/types';
 
 function encodeId(id: number): string {
@@ -38,4 +39,8 @@ export function disableProviderChannel(providerChannelId: number): Promise<ApiRe
 
 export function deleteProviderChannel(providerChannelId: number): Promise<ApiResponse<void>> {
   return apiClient.delete(`/api/admin/provider-channels/${encodeId(providerChannelId)}`);
+}
+
+export function resetAllProviderChannelRateLimits(): Promise<ApiResponse<ResetProviderChannelRateLimitsResponse>> {
+  return apiClient.patch('/api/admin/provider-channels/rate-limits/reset');
 }

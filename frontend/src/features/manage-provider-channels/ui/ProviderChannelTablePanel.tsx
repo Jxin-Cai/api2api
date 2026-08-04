@@ -18,7 +18,7 @@ function needsReenable(channel: ProviderChannelResponse): boolean {
 
 export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannelTablePanelProps) {
   const { channels, isLoading, refetch } = useProviderChannels();
-  const { enableMutation, disableMutation, deleteMutation } = useProviderChannelMutations();
+  const { enableMutation, disableMutation, deleteMutation, resetAllRateLimitsMutation } = useProviderChannelMutations();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<ProviderChannelStatusFilter>();
   const [selectedChannelIds, setSelectedChannelIds] = useState<Key[]>([]);
@@ -40,6 +40,9 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
   }, [selectedChannelIds, source]);
   const canBatchEnable = selectedChannels.some(needsReenable);
   const canBatchDisable = selectedChannels.some((channel) => channel.status === 'ENABLED');
+  const rateLimitedChannelCount = source.filter((channel) => (
+    channel.supportedModels.some((model) => model.status === 'RATE_LIMITED')
+  )).length;
 
   function handleChannelChanged(channel: ProviderChannelResponse): void {
     setLocalChannels((current) => {
@@ -67,6 +70,12 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
 
   async function handleDelete(channelId: number): Promise<void> {
     await deleteMutation.mutateAsync(channelId);
+    handleRefresh();
+  }
+
+  async function handleResetAllRateLimits(): Promise<void> {
+    const response = await resetAllRateLimitsMutation.mutateAsync();
+    message.success(`已重置 ${response.data.restoredCount} 个模型限流状态`);
     handleRefresh();
   }
 
@@ -142,6 +151,9 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
           statusFilter={statusFilter}
           onStatusFilterChange={setStatusFilter}
           onCreateClick={() => setDrawer({ open: true, mode: 'create', channel: null })}
+          onResetAllRateLimits={() => void handleResetAllRateLimits()}
+          rateLimitedChannelCount={rateLimitedChannelCount}
+          resettingRateLimits={resetAllRateLimitsMutation.isPending}
           onRefresh={handleRefresh}
           loading={isLoading}
         />

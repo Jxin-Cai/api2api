@@ -141,6 +141,12 @@ public class ProviderChannelApplicationService {
         return providerChannelRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public int resetAllRateLimits(UserAccountId operatorUserId) {
+        assertAdmin(operatorUserId);
+        return providerChannelRepository.restoreAllModelRateLimits(now());
+    }
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ProviderModelOption> listProviderModelOptions(UserAccountId userId) {
         assertUserPortal(userId);

@@ -79,6 +79,12 @@ public class ProviderChannelRepositoryImpl implements ProviderChannelRepository 
     }
 
     @Override
+    public int restoreAllModelRateLimits(Instant restoredAt) {
+        Objects.requireNonNull(restoredAt, "Rate-limit restore time must not be null");
+        return mapper.restoreAllModelRateLimits(restoredAt);
+    }
+
+    @Override
     public void softDeleteById(ProviderChannelId id, Instant deletedAt) {
         Objects.requireNonNull(id, "ProviderChannelId must not be null");
         Objects.requireNonNull(deletedAt, "Deleted time must not be null");

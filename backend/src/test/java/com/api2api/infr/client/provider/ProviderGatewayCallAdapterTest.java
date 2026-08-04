@@ -375,6 +375,11 @@ class ProviderGatewayCallAdapterTest {
         }
 
         @Override
+        public int restoreAllModelRateLimits(java.time.Instant restoredAt) {
+            return 0;
+        }
+
+        @Override
         public void softDeleteById(ProviderChannelId id, java.time.Instant deletedAt) {
         }
     }

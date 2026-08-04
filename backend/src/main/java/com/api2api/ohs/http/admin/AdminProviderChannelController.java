@@ -30,6 +30,7 @@ import com.api2api.ohs.http.admin.dto.AdminUpsertChannelModelRequest;
 import com.api2api.ohs.http.admin.dto.ProviderChannelListResponse;
 import com.api2api.ohs.http.admin.dto.ProviderChannelResponse;
 import com.api2api.ohs.http.admin.dto.ProviderModelPreviewResponse;
+import com.api2api.ohs.http.admin.dto.ResetProviderChannelRateLimitsResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -73,6 +74,13 @@ public class AdminProviderChannelController {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         List<ProviderChannel> channels = providerChannelApplicationService.listChannels(operatorUserId);
         return ApiResponse.success(providerChannelHttpConverter.toListResponse(channels));
+    }
+
+    @PatchMapping("/rate-limits/reset")
+    public ApiResponse<ResetProviderChannelRateLimitsResponse> resetAllRateLimits(HttpServletRequest request) {
+        UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
+        int restoredCount = providerChannelApplicationService.resetAllRateLimits(operatorUserId);
+        return ApiResponse.success(new ResetProviderChannelRateLimitsResponse(restoredCount));
     }
 
     @PostMapping

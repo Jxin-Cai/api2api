@@ -1,4 +1,4 @@
-import { Button, Input, Select, Space } from 'antd';
+import { Button, Input, Popconfirm, Select, Space } from 'antd';
 
 export type ProviderChannelStatusFilter = 'ENABLED' | 'DISABLED';
 
@@ -13,6 +13,12 @@ interface ProviderChannelToolbarProps {
   onStatusFilterChange: (value: ProviderChannelStatusFilter | undefined) => void;
   /** 新建渠道回调 */
   onCreateClick: () => void;
+  /** 重置全部限流状态回调 */
+  onResetAllRateLimits: () => void;
+  /** 当前包含限流模型的渠道数量 */
+  rateLimitedChannelCount: number;
+  /** 是否正在重置限流状态 */
+  resettingRateLimits?: boolean;
   /** 刷新回调 */
   onRefresh: () => void;
   /** 是否加载中 */
@@ -25,6 +31,9 @@ export function ProviderChannelToolbar({
   statusFilter,
   onStatusFilterChange,
   onCreateClick,
+  onResetAllRateLimits,
+  rateLimitedChannelCount,
+  resettingRateLimits = false,
   onRefresh,
   loading = false,
 }: ProviderChannelToolbarProps) {
@@ -46,6 +55,16 @@ export function ProviderChannelToolbar({
         />
       </Space>
       <Space>
+        <Popconfirm
+          title={`确认重置全部 ${rateLimitedChannelCount} 个限流渠道？`}
+          description="所有渠道中被限流隔离的模型将立即恢复路由，人工禁用的渠道和模型不受影响。"
+          disabled={rateLimitedChannelCount === 0 || resettingRateLimits}
+          onConfirm={onResetAllRateLimits}
+        >
+          <Button disabled={rateLimitedChannelCount === 0} loading={resettingRateLimits}>
+            重置全部限流{rateLimitedChannelCount > 0 ? `（${rateLimitedChannelCount}）` : ''}
+          </Button>
+        </Popconfirm>
         <Button onClick={onRefresh} loading={loading}>刷新</Button>
         <Button type="primary" onClick={onCreateClick}>新建渠道</Button>
       </Space>

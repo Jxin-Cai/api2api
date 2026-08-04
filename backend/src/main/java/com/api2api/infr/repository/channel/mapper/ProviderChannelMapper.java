@@ -11,5 +11,6 @@ public interface ProviderChannelMapper {
     List<ProviderChannelPO> selectEnabledForRouting();
     int markModelRateLimited(Long id, String upstreamModel, java.time.Instant limitedAt, java.time.Instant resetAt);
     int restoreModelRateLimitsBefore(java.time.Instant now, java.time.Instant updatedAt);
+    int restoreAllModelRateLimits(java.time.Instant updatedAt);
     int softDeleteById(Long id, java.time.Instant updatedAt);
 }

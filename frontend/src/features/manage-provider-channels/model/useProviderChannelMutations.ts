@@ -5,6 +5,7 @@ import {
   disableProviderChannel,
   enableProviderChannel,
   providerChannelQueryKeys,
+  resetAllProviderChannelRateLimits,
   updateProviderChannel,
 } from '@entities/provider-channel';
 import type { AdminUpdateProviderChannelRequest } from '@entities/provider-channel';
@@ -23,6 +24,7 @@ export function useProviderChannelMutations() {
   const enableMutation = useMutation({ mutationFn: enableProviderChannel, onSuccess: invalidate });
   const disableMutation = useMutation({ mutationFn: disableProviderChannel, onSuccess: invalidate });
   const deleteMutation = useMutation({ mutationFn: deleteProviderChannel, onSuccess: invalidate });
+  const resetAllRateLimitsMutation = useMutation({ mutationFn: resetAllProviderChannelRateLimits, onSuccess: invalidate });
 
-  return { createMutation, updateMutation, enableMutation, disableMutation, deleteMutation, invalidate };
+  return { createMutation, updateMutation, enableMutation, disableMutation, deleteMutation, resetAllRateLimitsMutation, invalidate };
 }

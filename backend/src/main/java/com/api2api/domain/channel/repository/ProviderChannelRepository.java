@@ -61,6 +61,9 @@ public interface ProviderChannelRepository {
     /** Restores model routes whose rate-limit reset time has elapsed. */
     int restoreModelRateLimitsBefore(Instant now, Instant restoredAt);
 
+    /** Restores every rate-limited model route belonging to an active provider channel. */
+    int restoreAllModelRateLimits(Instant restoredAt);
+
     /**
      * Soft deletes a provider channel so it disappears from management lists and routing,
      * while preserving historical usage records and child rows for auditability.
