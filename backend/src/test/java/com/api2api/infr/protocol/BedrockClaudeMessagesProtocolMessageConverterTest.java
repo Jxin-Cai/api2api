@@ -583,6 +583,66 @@ class BedrockClaudeMessagesProtocolMessageConverterTest {
     }
 
     @Test
+    void test_removesClearThinkingEdit_when_structuredOutputRetryDisablesThinking() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[
+                    {"role":"user","content":"Review the code"},
+                    {"role":"assistant","content":"The review is complete."},
+                    {"role":"user","content":"[structured-output-enforce] Return the result now."}
+                  ],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "input_schema":{"type":"object","properties":{"result":{"type":"string"}}}
+                  }],
+                  "thinking":{"type":"adaptive"},
+                  "context_management":{"edits":[
+                    {"type":"clear_thinking_20251015","keep":{"type":"thinking_turns","value":2}},
+                    {"type":"clear_tool_uses_20250919","keep":{"type":"tool_uses","value":3}}
+                  ]}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, true, false));
+
+        // Assert
+        assertThat(mapped.at("/context_management/edits/0/type").asText())
+                .isEqualTo("clear_tool_uses_20250919");
+        assertThat(mapped.at("/context_management/edits").size()).isEqualTo(1);
+    }
+
+    @Test
+    void test_removesContextManagement_when_structuredOutputRetryOnlyClearsThinking() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-opus-4.6",
+                  "max_tokens":128,
+                  "messages":[{
+                    "role":"user",
+                    "content":"[structured-output-enforce] Return the result now."
+                  }],
+                  "tools":[{
+                    "name":"StructuredOutput",
+                    "input_schema":{"type":"object","properties":{"result":{"type":"string"}}}
+                  }],
+                  "thinking":{"type":"adaptive"},
+                  "context_management":{"edits":[{"type":"clear_thinking_20251015"}]}
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convert(body, ProtocolConversionRequest.of(false, true, false));
+
+        // Assert
+        assertThat(mapped.has("context_management")).isFalse();
+    }
+
+    @Test
     void test_preservesAutomaticToolChoice_when_structuredOutputIsNotEnforcementRetry() throws Exception {
         // Arrange
         String body = """

@@ -311,7 +311,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stop_sequences", "stop_sequences", "停止序列原样保留",
                         MappingLossiness.NONE, "MODEL", "DIRECT"),
                 detailedMapping("tools", "tools",
-                        "支持的自定义工具、memory 和 tool search 定义保留；Anthropic 托管 web_search_20250305 转为客户端执行的同名自定义工具并保留查询、次数、域名和定位约束；StructuredOutput 的非 object 根 schema 在 Bedrock 侧包装并在响应侧解包；Claude Code 收口重试会指定 StructuredOutput 并关闭 thinking",
+                        "支持的自定义工具、memory 和 tool search 定义保留；Anthropic 托管 web_search_20250305 转为客户端执行的同名自定义工具并保留查询、次数、域名和定位约束；StructuredOutput 的非 object 根 schema 在 Bedrock 侧包装并在响应侧解包；Claude Code 收口重试会指定 StructuredOutput、关闭 thinking，并移除随之失效的 clear_thinking 编辑",
                         MappingLossiness.PARTIAL, "TOOL", "TRANSFORM", "array", "array",
                         null, null, "Bedrock 不托管执行 Anthropic Web Search；要求调用方执行返回的 web_search tool_use，且自定义工具 input_schema.type=object"),
                 mapping("tools[].input_examples", "tools[].input_examples",

@@ -60,11 +60,46 @@ final class BedrockStructuredOutputCompatibility {
     private static void forceStructuredOutputTool(ObjectNode request) {
         // Bedrock rejects forced tool choice while thinking is enabled. The enforcement
         // retry is a final serialization turn, so it does not need another thinking pass.
+        // A clear_thinking edit is invalid after thinking is removed and must not be
+        // forwarded to Bedrock, while unrelated context edits still apply.
         request.remove("thinking");
+        removeClearThinkingEdits(request);
         ObjectNode toolChoice = request.putObject("tool_choice");
         toolChoice.put("type", "tool");
         toolChoice.put("name", TOOL_NAME);
         toolChoice.put("disable_parallel_tool_use", true);
+    }
+
+    private static void removeClearThinkingEdits(ObjectNode request) {
+        JsonNode contextManagement = request.get("context_management");
+        if (contextManagement instanceof ObjectNode contextManagementObject) {
+            removeClearThinkingEdits(contextManagementObject.path("edits"));
+            JsonNode edits = contextManagementObject.get("edits");
+            if (edits instanceof ArrayNode editArray && editArray.isEmpty()) {
+                contextManagementObject.remove("edits");
+            }
+            if (contextManagementObject.isEmpty()) {
+                request.remove("context_management");
+            }
+            return;
+        }
+        if (contextManagement instanceof ArrayNode edits) {
+            removeClearThinkingEdits(edits);
+            if (edits.isEmpty()) {
+                request.remove("context_management");
+            }
+        }
+    }
+
+    private static void removeClearThinkingEdits(JsonNode edits) {
+        if (!(edits instanceof ArrayNode editArray)) {
+            return;
+        }
+        for (int index = editArray.size() - 1; index >= 0; index--) {
+            if ("clear_thinking_20251015".equals(editArray.get(index).path("type").asText(""))) {
+                editArray.remove(index);
+            }
+        }
     }
 
     private static void normalizeConversationHistory(JsonNode messages) {
