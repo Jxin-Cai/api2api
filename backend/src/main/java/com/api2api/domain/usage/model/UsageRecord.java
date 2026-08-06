@@ -13,7 +13,13 @@ import java.time.Instant;
 import java.util.Objects;
 
 /**
- * Append-only aggregate root that represents the immutable usage fact of one gateway invocation.
+ * Aggregate root that represents one gateway invocation's usage lifecycle.
+ *
+ * <p>A record begins in the {@link UsageRecordStatus#PENDING} state when a token reservation is
+ * written atomically with the quota check (see {@link #reserve}). After the invocation completes it
+ * transitions to {@link UsageRecordStatus#SUCCESS} or {@link UsageRecordStatus#FAILED} via an
+ * in-place update; if the request fails without billable usage the reservation is deleted
+ * (cancelled) so quota is immediately freed.
  */
 public final class UsageRecord {
 
@@ -118,6 +124,64 @@ public final class UsageRecord {
         );
     }
 
+    /**
+     * Creates a PENDING token reservation to be written atomically with the quota check.
+     *
+     * <p>The reservation pre-occupies {@code reservedActualTokens} worth of quota so that
+     * concurrent requests reading {@code sumActualTokensByApiCredential} will observe the
+     * in-flight commitment and cannot bypass the quota limit.
+     *
+     * <p>Upstream model, protocol and provider channel are unknown at reservation time; the
+     * record is updated to SUCCESS/FAILED when the invocation completes (or deleted on
+     * cancellation).
+     *
+     * @param id                   usage record identifier (shared with the final record)
+     * @param invocation           the freshly started, non-terminal invocation
+     * @param streaming            whether the request uses streaming
+     * @param reservedActualTokens conservative upper-bound token reservation (stored as
+     *                             input_tokens; weight = 1× in the actual-token formula)
+     * @param now                  wall-clock time of reservation
+     * @return a PENDING usage record ready to be persisted
+     */
+    public static UsageRecord reserve(
+            UsageRecordId id,
+            GatewayInvocation invocation,
+            boolean streaming,
+            long reservedActualTokens,
+            Instant now
+    ) {
+        Objects.requireNonNull(id, "Usage record id must not be null");
+        Objects.requireNonNull(invocation, "Gateway invocation must not be null");
+        if (invocation.isTerminal()) {
+            throw new IllegalArgumentException("Reservation must be created from a non-terminal invocation");
+        }
+        if (reservedActualTokens < 0) {
+            throw new IllegalArgumentException("Reserved actual tokens must not be negative");
+        }
+        Instant startedAt = Objects.requireNonNull(invocation.startedAt(), "Invocation started time must not be null");
+        // Store reservation as input_tokens (weight 1×) so actualTokens() == reservedActualTokens
+        UsageTokenBreakdown reservation = UsageTokenBreakdown.known(reservedActualTokens, 0, 0, 0);
+        return new UsageRecord(
+                id,
+                invocation.requestId(),
+                invocation.userAccountId(),
+                invocation.apiCredentialId(),
+                invocation.requestedModel(),
+                null,           // upstreamModel: unknown at reservation time
+                invocation.requestProtocol(),
+                null,           // upstreamProtocol: unknown
+                null,           // providerChannelId: unknown
+                UsageRecordStatus.PENDING,
+                reservation,
+                streaming,
+                startedAt,
+                startedAt,      // endedAt == startedAt → duration zero for PENDING
+                UsageDuration.between(startedAt, startedAt),
+                null,           // no error diagnostic for PENDING
+                Objects.requireNonNull(now, "Current time must not be null")
+        );
+    }
+
     public static UsageRecord rehydrate(
             UsageRecordId id,
             GatewayRequestId requestId,
@@ -174,6 +238,16 @@ public final class UsageRecord {
     }
 
     private void validateStatusInvariant() {
+        if (status == UsageRecordStatus.PENDING) {
+            // PENDING records are reservations: upstream details are unknown, error is absent.
+            if (upstreamModel != null || upstreamProtocol != null || providerChannelId != null) {
+                throw new IllegalArgumentException("Pending usage record must not include upstream model, protocol or channel");
+            }
+            if (errorDiagnostic != null) {
+                throw new IllegalArgumentException("Pending usage record must not include error diagnostic");
+            }
+            return;
+        }
         if (status == UsageRecordStatus.SUCCESS) {
             if (upstreamModel == null || upstreamProtocol == null || providerChannelId == null) {
                 throw new IllegalArgumentException("Successful usage record must include upstream model, upstream protocol and provider channel");
@@ -190,6 +264,10 @@ public final class UsageRecord {
 
     public long totalTokens() {
         return tokenUsage.totalTokens();
+    }
+
+    public boolean isPending() {
+        return status == UsageRecordStatus.PENDING;
     }
 
     public boolean isSuccessful() {

@@ -2,6 +2,8 @@ package com.api2api.infr.repository.analytics;
 
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
+import static com.api2api.infr.repository.common.UsageTokenSqlFragments.ACTUAL_TOKENS_SQL;
+import static com.api2api.infr.repository.common.UsageTokenSqlFragments.withPrefix;
 
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
@@ -37,16 +39,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepository {
-
-    private static final String ACTUAL_TOKENS_SQL = "input_tokens::numeric + output_tokens::numeric * 5 + cache_read_input_tokens::numeric * 0.1 + cache_creation_input_tokens::numeric * 1.25";
-
-    private static String actualTokensSqlWithPrefix(String prefix) {
-        Objects.requireNonNull(prefix, "Column prefix must not be null");
-        if (prefix.isBlank()) {
-            return ACTUAL_TOKENS_SQL;
-        }
-        return prefix + ACTUAL_TOKENS_SQL.replace(" + ", " + " + prefix);
-    }
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -116,7 +108,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 GROUP BY u.id, u.username
                 ORDER BY total_tokens DESC, u.id ASC
                 LIMIT :limit
-                """.formatted(actualTokensSqlWithPrefix("r.")), params, (rs, rowNum) -> new UserTokenRow(
+                """.formatted(withPrefix("r.")), params, (rs, rowNum) -> new UserTokenRow(
                 rs.getLong("user_account_id"),
                 rs.getString("username"),
                 rs.getBigDecimal("total_tokens")
@@ -181,7 +173,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                   AND r.provider_channel_id IS NOT NULL
                   AND r.started_at >= :startTime
                   AND r.started_at < :endTime
-                """.formatted(actualTokensSqlWithPrefix("r.")), windowParams(window), rs -> {
+                """.formatted(withPrefix("r.")), windowParams(window), rs -> {
             Instant startedAt = instant(rs, "started_at");
             Bucket bucket = findBucket(buckets, startedAt);
             if (bucket != null) {

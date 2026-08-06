@@ -33,6 +33,9 @@ public class GatewayInvocationResponseMapper {
     @NonNull
     private final ObjectMapper objectMapper;
 
+    @NonNull
+    private final GatewayProtocolErrorBodyBuilder errorBodyBuilder;
+
     public GatewayRawResponse toRawResponse(GatewayInvocation invocation) {
         Objects.requireNonNull(invocation, "Gateway invocation must not be null");
         return toRawResponse(GatewayInvocationOutcome.withoutProviderResponse(invocation));
@@ -116,39 +119,20 @@ public class GatewayInvocationResponseMapper {
     }
 
     private String buildClaudeUpstreamErrorBody(int statusCode, String message) {
-        try {
-            ObjectNode root = objectMapper.createObjectNode();
-            root.put("type", "error");
-            ObjectNode error = objectMapper.createObjectNode();
-            error.put("type", switch (statusCode) {
-                case 400 -> "invalid_request_error";
-                case 401 -> "authentication_error";
-                case 403 -> "permission_error";
-                case 404 -> "not_found_error";
-                case 429 -> "rate_limit_error";
-                default -> "api_error";
-            });
-            error.put("message", message);
-            root.set("error", error);
-            return objectMapper.writeValueAsString(root);
-        } catch (Exception exception) {
-            return "{\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Upstream request failed\"}}";
-        }
+        String errorType = switch (statusCode) {
+            case 400 -> "invalid_request_error";
+            case 401 -> "authentication_error";
+            case 403 -> "permission_error";
+            case 404 -> "not_found_error";
+            case 429 -> "rate_limit_error";
+            default -> "api_error";
+        };
+        return errorBodyBuilder.buildClaudeErrorBody(errorType, message);
     }
 
     private String buildOpenAIUpstreamErrorBody(int statusCode, String message) {
-        try {
-            ObjectNode root = objectMapper.createObjectNode();
-            ObjectNode error = objectMapper.createObjectNode();
-            error.put("message", message);
-            error.put("type", statusCode == 429 ? "rate_limit_error" : statusCode >= 500 ? "api_error" : "invalid_request_error");
-            error.putNull("param");
-            error.putNull("code");
-            root.set("error", error);
-            return objectMapper.writeValueAsString(root);
-        } catch (Exception exception) {
-            return "{\"error\":{\"message\":\"Upstream request failed\",\"type\":\"api_error\"}}";
-        }
+        String errorType = statusCode == 429 ? "rate_limit_error" : statusCode >= 500 ? "api_error" : "invalid_request_error";
+        return errorBodyBuilder.buildOpenAIErrorBody(errorType, message);
     }
 
     private GatewayRawResponse mapSuccessResponse(GatewayInvocation invocation) {
@@ -214,41 +198,21 @@ public class GatewayInvocationResponseMapper {
     }
 
     private String buildClaudeErrorBody(InvocationError error) {
-        try {
-            ObjectNode errorNode = objectMapper.createObjectNode();
-            errorNode.put("type", "error");
-            ObjectNode innerError = objectMapper.createObjectNode();
-            innerError.put("type", switch (error.errorType()) {
-                case AUTHENTICATION_FAILED -> "authentication_error";
-                case MODEL_NOT_ALLOWED -> "permission_error";
-                case QUOTA_EXHAUSTED -> "rate_limit_error";
-                case CONVERSION_FAILED -> "invalid_request_error";
-                case NO_AVAILABLE_CHANNEL -> "api_error";
-                case UPSTREAM_FAILED -> latestRouteFailureType(error) == RouteFailureType.RATE_LIMITED
-                        ? "rate_limit_error"
-                        : "api_error";
-            });
-            innerError.put("message", error.message());
-            errorNode.set("error", innerError);
-            return objectMapper.writeValueAsString(errorNode);
-        } catch (Exception exception) {
-            return buildFallbackErrorBody(error);
-        }
+        String errorType = switch (error.errorType()) {
+            case AUTHENTICATION_FAILED -> "authentication_error";
+            case MODEL_NOT_ALLOWED -> "permission_error";
+            case QUOTA_EXHAUSTED -> "rate_limit_error";
+            case CONVERSION_FAILED -> "invalid_request_error";
+            case NO_AVAILABLE_CHANNEL -> "api_error";
+            case UPSTREAM_FAILED -> latestRouteFailureType(error) == RouteFailureType.RATE_LIMITED
+                    ? "rate_limit_error"
+                    : "api_error";
+        };
+        return errorBodyBuilder.buildClaudeErrorBody(errorType, error.message());
     }
 
     private String buildOpenAIErrorBody(InvocationError error) {
-        try {
-            ObjectNode errorNode = objectMapper.createObjectNode();
-            ObjectNode innerError = objectMapper.createObjectNode();
-            innerError.put("message", error.message());
-            innerError.put("type", mapErrorTypeToOpenAIType(error));
-            innerError.putNull("param");
-            innerError.putNull("code");
-            errorNode.set("error", innerError);
-            return objectMapper.writeValueAsString(errorNode);
-        } catch (Exception exception) {
-            return buildFallbackErrorBody(error);
-        }
+        return errorBodyBuilder.buildOpenAIErrorBody(mapErrorTypeToOpenAIType(error), error.message());
     }
 
     private String mapErrorTypeToOpenAIType(InvocationError error) {

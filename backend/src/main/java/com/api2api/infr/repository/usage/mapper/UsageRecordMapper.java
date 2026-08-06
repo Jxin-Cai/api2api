@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 public interface UsageRecordMapper {
     int insert(UsageRecordPO usageRecord);
+    int updateById(UsageRecordPO usageRecord);
+    int deleteById(Long id);
     UsageRecordPO selectById(Long id);
     UsageRecordPO selectByRequestId(String requestId);
     List<UsageRecordPO> selectByFilter(UsageRecordQueryPO query);

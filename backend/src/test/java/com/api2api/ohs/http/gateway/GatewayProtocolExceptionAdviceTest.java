@@ -13,7 +13,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 class GatewayProtocolExceptionAdviceTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final GatewayProtocolExceptionAdvice advice = new GatewayProtocolExceptionAdvice(objectMapper);
+    private final GatewayProtocolErrorBodyBuilder errorBodyBuilder = new GatewayProtocolErrorBodyBuilder(objectMapper);
+    private final GatewayProtocolExceptionAdvice advice = new GatewayProtocolExceptionAdvice(errorBodyBuilder);
 
     @Test
     void test_returnsClaudeBadRequestError_when_messagesRequestIsInvalid() throws Exception {

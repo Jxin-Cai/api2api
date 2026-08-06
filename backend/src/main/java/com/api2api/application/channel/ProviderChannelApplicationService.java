@@ -321,7 +321,7 @@ public class ProviderChannelApplicationService {
     }
 
     private ChannelModelSupportId nextChannelModelSupportId() {
-        long timestampPart = System.currentTimeMillis() * 1_000L;
+        long timestampPart = clock.millis() * 1_000L;
         long randomPart = ThreadLocalRandom.current().nextLong(1_000L);
         return ChannelModelSupportId.of(timestampPart + randomPart);
     }

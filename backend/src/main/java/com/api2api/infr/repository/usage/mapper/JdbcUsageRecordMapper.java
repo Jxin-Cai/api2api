@@ -2,6 +2,7 @@ package com.api2api.infr.repository.usage.mapper;
 
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
+import static com.api2api.infr.repository.common.UsageTokenSqlFragments.ACTUAL_TOKENS_SQL;
 
 import com.api2api.infr.repository.usage.po.UsageRecordPO;
 import com.api2api.infr.repository.usage.po.UsageRecordQueryPO;
@@ -23,8 +24,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class JdbcUsageRecordMapper implements UsageRecordMapper {
-
-    private static final String ACTUAL_TOKENS_SQL = "input_tokens::numeric + output_tokens::numeric * 5 + cache_read_input_tokens::numeric * 0.1 + cache_creation_input_tokens::numeric * 1.25";
 
     private static final String COLUMNS = "id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, error_type, error_message, route_failures_json, created_at, updated_at, deleted";
 
@@ -75,6 +74,44 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
                 INSERT INTO usage_records (id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, error_type, error_message, route_failures_json, created_at, updated_at, deleted)
                 VALUES (:id, :requestId, :userAccountId, :apiCredentialId, :requestedModel, :upstreamModel, :requestProtocol, :upstreamProtocol, :providerChannelId, :status, :inputTokens, :outputTokens, :cacheCreationInputTokens, :cacheReadInputTokens, :totalTokens, :usageKnown, :streaming, :startedTime, :endedTime, :durationMillis, :errorType, :errorMessage, :routeFailuresJson, :createdTime, :updatedTime, :deleted)
                 """, params(usageRecord));
+    }
+
+    @Override
+    public int updateById(UsageRecordPO usageRecord) {
+        return jdbcTemplate.update("""
+                UPDATE usage_records
+                SET request_id = :requestId,
+                    user_account_id = :userAccountId,
+                    api_credential_id = :apiCredentialId,
+                    requested_model = :requestedModel,
+                    upstream_model = :upstreamModel,
+                    request_protocol = :requestProtocol,
+                    upstream_protocol = :upstreamProtocol,
+                    provider_channel_id = :providerChannelId,
+                    status = :status,
+                    input_tokens = :inputTokens,
+                    output_tokens = :outputTokens,
+                    cache_creation_input_tokens = :cacheCreationInputTokens,
+                    cache_read_input_tokens = :cacheReadInputTokens,
+                    total_tokens = :totalTokens,
+                    usage_known = :usageKnown,
+                    streaming = :streaming,
+                    started_at = :startedTime,
+                    ended_at = :endedTime,
+                    duration_millis = :durationMillis,
+                    error_type = :errorType,
+                    error_message = :errorMessage,
+                    route_failures_json = :routeFailuresJson,
+                    updated_at = :updatedTime
+                WHERE id = :id AND deleted = FALSE
+                """, params(usageRecord));
+    }
+
+    @Override
+    public int deleteById(Long id) {
+        return jdbcTemplate.update(
+                "DELETE FROM usage_records WHERE id = :id",
+                Map.of("id", id));
     }
 
     @Override

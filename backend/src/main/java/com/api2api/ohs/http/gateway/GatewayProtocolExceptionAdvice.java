@@ -2,8 +2,6 @@ package com.api2api.ohs.http.gateway;
 
 import com.api2api.application.BusinessException;
 import com.api2api.domain.channel.model.ProtocolType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GatewayProtocolExceptionAdvice {
 
     @NonNull
-    private final ObjectMapper objectMapper;
+    private final GatewayProtocolErrorBodyBuilder errorBodyBuilder;
 
     @ExceptionHandler(GatewayProtocolException.class)
     public ResponseEntity<String> handleGatewayProtocol(GatewayProtocolException exception) {
@@ -111,24 +109,10 @@ public class GatewayProtocolExceptionAdvice {
     }
 
     private String buildErrorBody(ProtocolType protocol, String errorType, String message) {
-        try {
-            ObjectNode root = objectMapper.createObjectNode();
-            ObjectNode error = objectMapper.createObjectNode();
-            if (protocol == ProtocolType.CLAUDE_MESSAGES) {
-                root.put("type", "error");
-                error.put("type", errorType == null || errorType.isBlank() ? "invalid_request_error" : errorType);
-                error.put("message", message);
-            } else {
-                error.put("message", message);
-                error.put("type", mapErrorTypeForOpenAI(errorType));
-                error.putNull("param");
-                error.putNull("code");
-            }
-            root.set("error", error);
-            return objectMapper.writeValueAsString(root);
-        } catch (Exception exception) {
-            return "{\"error\":\"Internal server error\"}";
+        if (protocol == ProtocolType.CLAUDE_MESSAGES) {
+            return errorBodyBuilder.buildClaudeErrorBody(errorType, message);
         }
+        return errorBodyBuilder.buildOpenAIErrorBody(mapErrorTypeForOpenAI(errorType), message);
     }
 
     private String mapErrorTypeForOpenAI(String errorType) {

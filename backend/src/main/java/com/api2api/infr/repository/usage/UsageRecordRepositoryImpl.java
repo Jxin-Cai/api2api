@@ -36,6 +36,18 @@ public class UsageRecordRepositoryImpl implements UsageRecordRepository {
     }
 
     @Override
+    public void update(UsageRecord usageRecord) {
+        Objects.requireNonNull(usageRecord, "UsageRecord must not be null");
+        mapper.updateById(converter.toPO(usageRecord));
+    }
+
+    @Override
+    public void cancelReservation(UsageRecordId id) {
+        Objects.requireNonNull(id, "UsageRecordId must not be null");
+        mapper.deleteById(id.value());
+    }
+
+    @Override
     public Optional<UsageRecord> findById(UsageRecordId id) {
         Objects.requireNonNull(id, "UsageRecordId must not be null");
         return Optional.ofNullable(mapper.selectById(id.value()))

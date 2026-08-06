@@ -14,14 +14,35 @@ import java.math.BigDecimal;
 public interface UsageRecordRepository {
 
     /**
-     * Appends one immutable usage record.
-     * Implementations must use append-only semantics, must not overwrite an existing request id, and must preserve
-     * successful or failed usage record invariants. Duplicate request ids, invalid records or persistence failures
-     * should be reported as business failures.
+     * Persists a new usage record.
      *
-     * @param usageRecord immutable usage record to append
+     * <p>Used both for PENDING reservations (written atomically with the quota check) and,
+     * for legacy compatibility, for direct SUCCESS/FAILED inserts.
+     *
+     * @param usageRecord record to persist; must not be null
      */
     void save(UsageRecord usageRecord);
+
+    /**
+     * Replaces a PENDING reservation with its final SUCCESS or FAILED state.
+     *
+     * <p>Implementations must UPDATE the existing row identified by {@link UsageRecord#id()}
+     * rather than inserting a new row, so the PENDING token reservation is atomically replaced
+     * by the actual consumption without leaving orphaned rows.
+     *
+     * @param usageRecord terminal (SUCCESS or FAILED) record with actual token usage
+     */
+    void update(UsageRecord usageRecord);
+
+    /**
+     * Removes a PENDING reservation created by a request that produced no billable usage.
+     *
+     * <p>Freeing the reservation immediately returns the reserved quota to the credential so
+     * subsequent requests are not incorrectly blocked.
+     *
+     * @param id usage record id of the PENDING reservation to cancel
+     */
+    void cancelReservation(UsageRecordId id);
 
     /**
      * Loads a complete usage record by its identifier.

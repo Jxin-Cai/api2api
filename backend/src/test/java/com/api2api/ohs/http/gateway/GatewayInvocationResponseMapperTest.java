@@ -26,7 +26,8 @@ class GatewayInvocationResponseMapperTest {
 
     private static final Instant NOW = Instant.parse("2026-07-12T00:00:00Z");
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final GatewayInvocationResponseMapper mapper = new GatewayInvocationResponseMapper(objectMapper);
+    private final GatewayProtocolErrorBodyBuilder errorBodyBuilder = new GatewayProtocolErrorBodyBuilder(objectMapper);
+    private final GatewayInvocationResponseMapper mapper = new GatewayInvocationResponseMapper(objectMapper, errorBodyBuilder);
 
     @Test
     void test_returnsTooManyRequests_when_latestUpstreamFailureIsRateLimited() {

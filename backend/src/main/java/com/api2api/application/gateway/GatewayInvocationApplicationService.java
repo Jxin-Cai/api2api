@@ -811,17 +811,7 @@ public class GatewayInvocationApplicationService {
     }
 
     private RouteFailureType mapUpstreamFailureType(RuntimeException exception) {
-        String reason = safeReason(exception).toUpperCase();
-        if (reason.contains("TIMEOUT") || reason.contains("TIMED_OUT")) {
-            return RouteFailureType.TIMEOUT;
-        }
-        if (reason.contains("RATE_LIMIT") || reason.contains("RATE LIMITED") || reason.contains("TOO_MANY_REQUESTS")) {
-            return RouteFailureType.RATE_LIMITED;
-        }
-        if (reason.contains("UNAVAILABLE") || reason.contains("CHANNEL_UNAVAILABLE") || reason.contains("SERVICE_UNAVAILABLE")) {
-            return RouteFailureType.CHANNEL_UNAVAILABLE;
-        }
-        return RouteFailureType.UPSTREAM_ERROR;
+        return RouteFailureType.fromExceptionMessage(safeReason(exception));
     }
 
     private String safeReason(RuntimeException exception) {

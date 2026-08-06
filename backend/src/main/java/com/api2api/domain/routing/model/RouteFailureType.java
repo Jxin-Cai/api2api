@@ -1,17 +1,38 @@
 package com.api2api.domain.routing.model;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Route failure categories used by routing failover policy.
  */
 public enum RouteFailureType {
-    UPSTREAM_ERROR,
-    TIMEOUT,
-    RATE_LIMITED,
-    CHANNEL_UNAVAILABLE,
-    CONVERSION_ERROR,
-    AUTHORIZATION_ERROR;
+    UPSTREAM_ERROR(List.of()),
+    TIMEOUT(List.of("TIMEOUT", "TIMED_OUT")),
+    RATE_LIMITED(List.of("RATE_LIMIT", "RATE LIMITED", "TOO_MANY_REQUESTS")),
+    CHANNEL_UNAVAILABLE(List.of("UNAVAILABLE", "CHANNEL_UNAVAILABLE", "SERVICE_UNAVAILABLE")),
+    CONVERSION_ERROR(List.of()),
+    AUTHORIZATION_ERROR(List.of());
+
+    private final List<String> messageKeywords;
+
+    RouteFailureType(List<String> messageKeywords) {
+        this.messageKeywords = messageKeywords;
+    }
+
+    public static RouteFailureType fromExceptionMessage(String message) {
+        if (message == null || message.isBlank()) {
+            return UPSTREAM_ERROR;
+        }
+        String upper = message.toUpperCase(Locale.ROOT);
+        for (RouteFailureType type : values()) {
+            if (!type.messageKeywords.isEmpty()
+                    && type.messageKeywords.stream().anyMatch(upper::contains)) {
+                return type;
+            }
+        }
+        return UPSTREAM_ERROR;
+    }
 
     public boolean isRetryableByDefault() {
         return switch (this) {

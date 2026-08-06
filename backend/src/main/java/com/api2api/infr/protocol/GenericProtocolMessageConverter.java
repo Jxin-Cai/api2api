@@ -108,6 +108,18 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         target.put("model", model);
         boolean reasoning = isReasoningModel(model);
 
+        mapClaudeToChatModelParameters(source, target, reasoning);
+        mapClaudeToChatStreamOptions(source, target);
+        mapClaudeToChatServiceTier(source, target);
+        mapClaudeToChatReasoningEffort(source, target, reasoning);
+        mapClaudeToChatMetadata(source, target);
+        mapClaudeToChatTools(source, target);
+        mapClaudeToChatOutputFormat(source, target);
+        target.set("messages", assembleClaudeToChatMessages(source, reasoning));
+        return target;
+    }
+
+    private void mapClaudeToChatModelParameters(JsonNode source, ObjectNode target, boolean reasoning) {
         if (source.hasNonNull("max_tokens")) {
             int maxTokens = source.get("max_tokens").asInt();
             target.put("max_completion_tokens", maxTokens > 0
@@ -118,15 +130,21 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             copyIfPresent(source, target, "temperature");
             copyIfPresent(source, target, "top_p");
         }
+        if (source.hasNonNull("stop_sequences")) {
+            target.set("stop", source.get("stop_sequences"));
+        }
+    }
+
+    private void mapClaudeToChatStreamOptions(JsonNode source, ObjectNode target) {
         copyIfPresent(source, target, "stream");
         if (source.path("stream").asBoolean(false)) {
             ObjectNode streamOptions = json.objectNode();
             streamOptions.put("include_usage", true);
             target.set("stream_options", streamOptions);
         }
-        if (source.hasNonNull("stop_sequences")) {
-            target.set("stop", source.get("stop_sequences"));
-        }
+    }
+
+    private void mapClaudeToChatServiceTier(JsonNode source, ObjectNode target) {
         JsonNode serviceTier = source.get("service_tier");
         if (serviceTier != null && !serviceTier.isNull()) {
             target.put("service_tier", mapClaudeServiceTierToChat(serviceTier.asText("")));
@@ -134,7 +152,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (source.path("speed").isTextual() && "fast".equals(source.path("speed").asText())) {
             target.put("service_tier", "priority");
         }
+    }
 
+    private void mapClaudeToChatReasoningEffort(JsonNode source, ObjectNode target, boolean reasoning) {
         String effort = chatReasoningEffort(source);
         if (effort == null && reasoning) {
             effort = "medium";
@@ -142,12 +162,16 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (effort != null) {
             target.put("reasoning_effort", effort);
         }
+    }
 
+    private void mapClaudeToChatMetadata(JsonNode source, ObjectNode target) {
         JsonNode metadata = source.get("metadata");
         if (metadata != null && metadata.hasNonNull("user_id")) {
             target.put("user", metadata.get("user_id").asText());
         }
+    }
 
+    private void mapClaudeToChatTools(JsonNode source, ObjectNode target) {
         JsonNode tools = source.get("tools");
         if (tools != null && tools.isArray() && !tools.isEmpty()) {
             target.set("tools", claudeToolsToChat(tools));
@@ -160,32 +184,34 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 }
             }
         }
+    }
 
+    private void mapClaudeToChatOutputFormat(JsonNode source, ObjectNode target) {
         JsonNode outputConfig = source.get("output_config");
         JsonNode format = outputConfig != null && outputConfig.isObject()
                 ? outputConfig.get("format") : source.get("output_format");
-        if (format != null && !format.isNull()) {
-            if (format.isObject()) {
-                String formatType = format.path("type").asText("");
-                if ("json_schema".equals(formatType)) {
-                    ObjectNode responseFormat = json.objectNode();
-                    responseFormat.put("type", "json_schema");
-                    ObjectNode jsonSchema = json.objectNode();
-                    jsonSchema.put("name", format.path("name").asText("response"));
-                    if (format.hasNonNull("schema")) {
-                        jsonSchema.set("schema", format.get("schema"));
-                    }
-                    jsonSchema.put("strict", true);
-                    responseFormat.set("json_schema", jsonSchema);
-                    target.set("response_format", responseFormat);
-                } else if ("json".equals(formatType)) {
-                    ObjectNode responseFormat = json.objectNode();
-                    responseFormat.put("type", "json_object");
-                    target.set("response_format", responseFormat);
+        if (format != null && !format.isNull() && format.isObject()) {
+            String formatType = format.path("type").asText("");
+            if ("json_schema".equals(formatType)) {
+                ObjectNode responseFormat = json.objectNode();
+                responseFormat.put("type", "json_schema");
+                ObjectNode jsonSchema = json.objectNode();
+                jsonSchema.put("name", format.path("name").asText("response"));
+                if (format.hasNonNull("schema")) {
+                    jsonSchema.set("schema", format.get("schema"));
                 }
+                jsonSchema.put("strict", true);
+                responseFormat.set("json_schema", jsonSchema);
+                target.set("response_format", responseFormat);
+            } else if ("json".equals(formatType)) {
+                ObjectNode responseFormat = json.objectNode();
+                responseFormat.put("type", "json_object");
+                target.set("response_format", responseFormat);
             }
         }
+    }
 
+    private ArrayNode assembleClaudeToChatMessages(JsonNode source, boolean reasoning) {
         ArrayNode messages = json.arrayNode();
         JsonNode system = source.get("system");
         if (system != null && !system.isNull()) {
@@ -200,8 +226,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         JsonNode optimizedMessages = ClaudeConversationContextOptimizer.optimize(
                 source.get("messages"), source.get("context_management"));
         messages.addAll(normalizeChatToolHistory(claudeMessagesToChatMessages(optimizedMessages)));
-        target.set("messages", messages);
-        return target;
+        return messages;
     }
 
     private String claudeSystemToChatText(JsonNode system) {
