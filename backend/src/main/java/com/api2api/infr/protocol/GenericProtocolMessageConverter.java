@@ -301,16 +301,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             if (tool.hasNonNull("description")) {
                 function.put("description", tool.get("description").asText(""));
             }
-            JsonNode schema = tool.get("input_schema");
-            ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
-                    ? json.objectNode()
-                    : (ObjectNode) schema.deepCopy();
-            if (!parameters.has("type")) {
-                parameters.put("type", "object");
-            }
-            if (!parameters.has("properties")) {
-                parameters.set("properties", json.objectNode());
-            }
+            ObjectNode parameters = normalizeToolInputSchema(tool);
             function.set("parameters", parameters);
             if (tool.hasNonNull("strict")) {
                 function.put("strict", tool.path("strict").asBoolean());
@@ -389,17 +380,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             String type = block.path("type").asText("");
             switch (type) {
                 case "text" -> appendSeparatedText(textParts, block.path("text").asText(""));
-                case "tool_use" -> {
-                    ObjectNode call = json.objectNode();
-                    call.put("id", block.path("id").asText(""));
-                    call.put("type", "function");
-                    ObjectNode fn = json.objectNode();
-                    fn.put("name", block.path("name").asText(""));
-                    fn.put("arguments", block.hasNonNull("input")
-                            ? block.get("input").toString() : "{}");
-                    call.set("function", fn);
-                    toolCalls.add(call);
-                }
+                case "tool_use" -> toolCalls.add(claudeToolUseToChatFunctionCall(block));
                 case "server_tool_use", "mcp_tool_use", "program", "code_execution_tool_use" ->
                         throw new ProtocolConversionException(
                                 "CLAUDE_CHAT_SERVER_TOOL_HISTORY_NOT_SUPPORTED: " + type);
@@ -635,6 +616,18 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             }
         }
         return normalized;
+    }
+
+    private ObjectNode claudeToolUseToChatFunctionCall(JsonNode block) {
+        ObjectNode call = json.objectNode();
+        call.put("id", block.path("id").asText(""));
+        call.put("type", "function");
+        ObjectNode fn = json.objectNode();
+        fn.put("name", block.path("name").asText(""));
+        fn.put("arguments", block.hasNonNull("input")
+                ? block.get("input").toString() : "{}");
+        call.set("function", fn);
+        return call;
     }
 
     private boolean isBlankChatMessageContent(JsonNode content) {
@@ -1006,7 +999,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private void addClaudeTextPart(ArrayNode content, String value, String type) {
-        if (value == null || value.isBlank() || value.startsWith("x-anthropic-billing-header: ")) {
+        if (value == null || value.isBlank() || isAnthropicBillingHeader(value)) {
             return;
         }
         ObjectNode text = json.objectNode();
@@ -1314,6 +1307,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 }
                 case "image" -> addClaudeImagePart(output, block, model);
                 case "document" -> addClaudeDocumentPart(output, block, model);
+                case "tool_reference" -> {
+                    ObjectNode text = json.objectNode();
+                    text.put("type", "input_text");
+                    text.put("text", "[tool_reference: " + block.path("tool_name").asText("") + "]");
+                    output.add(text);
+                }
                 default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_TOOL_RESULT_CONTENT: " + type);
             }
         }
@@ -1461,9 +1460,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 if (!"custom".equals(type) && !type.isBlank()) {
                     throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_TOOL_NOT_SUPPORTED: " + type);
                 }
-                boolean[] customToolFlags = mapCustomToolToResponses(tool, model, mappedTools);
-                toolSearchRequired |= customToolFlags[0];
-                programmaticToolCallingRequired |= customToolFlags[1];
+                CustomToolMappingResult customToolResult = mapCustomToolToResponses(tool, model, mappedTools);
+                toolSearchRequired |= customToolResult.toolSearchRequired();
+                programmaticToolCallingRequired |= customToolResult.programmaticToolCallingRequired();
             }
         }
         if (mcpServers != null && mcpServers.isArray()) {
@@ -1517,12 +1516,14 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return mapped;
     }
 
+    private record CustomToolMappingResult(boolean toolSearchRequired, boolean programmaticToolCallingRequired) {}
+
     /**
      * Maps a custom tool to Responses format and adds it to mappedTools.
      *
-     * @return boolean array where [0] = toolSearchRequired, [1] = programmaticToolCallingRequired
+     * @return CustomToolMappingResult with toolSearchRequired and programmaticToolCallingRequired flags
      */
-    private boolean[] mapCustomToolToResponses(JsonNode tool, String model, ArrayNode mappedTools) {
+    private CustomToolMappingResult mapCustomToolToResponses(JsonNode tool, String model, ArrayNode mappedTools) {
         ObjectNode mapped = json.objectNode();
         mapped.put("type", "function");
         mapped.put("name", tool.path("name").asText(""));
@@ -1540,16 +1541,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (!description.isBlank()) {
             mapped.put("description", description);
         }
-        JsonNode schema = tool.get("input_schema");
-        ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
-                ? json.objectNode()
-                : ((ObjectNode) schema.deepCopy());
-        if (!parameters.has("type")) {
-            parameters.put("type", "object");
-        }
-        if (!parameters.has("properties")) {
-            parameters.set("properties", json.objectNode());
-        }
+        ObjectNode parameters = normalizeToolInputSchema(tool);
         mapped.set("parameters", parameters);
         mapped.put("strict", tool.path("strict").asBoolean(false));
         boolean deferLoading = tool.path("defer_loading").asBoolean(false);
@@ -1557,7 +1549,21 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             mapped.put("defer_loading", true);
         }
         mappedTools.add(mapped);
-        return new boolean[]{deferLoading, allowedCallers.programmatic()};
+        return new CustomToolMappingResult(deferLoading, allowedCallers.programmatic());
+    }
+
+    private ObjectNode normalizeToolInputSchema(JsonNode tool) {
+        JsonNode schema = tool.get("input_schema");
+        ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
+                ? json.objectNode()
+                : (ObjectNode) schema.deepCopy();
+        if (!parameters.has("type")) {
+            parameters.put("type", "object");
+        }
+        if (!parameters.has("properties")) {
+            parameters.set("properties", json.objectNode());
+        }
+        return parameters;
     }
 
     /**
@@ -2164,17 +2170,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 switch (type) {
                     case "text" -> textContent.append(block.path("text").asText(""));
                     case "thinking" -> thinkingContent.append(block.path("thinking").asText(""));
-                    case "tool_use" -> {
-                        ObjectNode call = json.objectNode();
-                        call.put("id", block.path("id").asText(""));
-                        call.put("type", "function");
-                        ObjectNode fn = json.objectNode();
-                        fn.put("name", block.path("name").asText(""));
-                        fn.put("arguments", block.hasNonNull("input")
-                                ? block.get("input").toString() : "{}");
-                        call.set("function", fn);
-                        toolCalls.add(call);
-                    }
+                    case "tool_use" -> toolCalls.add(claudeToolUseToChatFunctionCall(block));
                     default -> {}
                 }
             }
@@ -2866,8 +2862,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         throw new ProtocolConversionException("RESPONSES_CLAUDE_RESPONSE_FAILED: " + message);
     }
 
-    private ArrayNode outputMessage(String value) {
-        ArrayNode output = json.arrayNode();
+    private ObjectNode outputMessage(String value) {
         ObjectNode message = json.objectNode();
         message.put("type", "message");
         message.put("role", "assistant");
@@ -2877,8 +2872,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         text.put("text", value == null ? "" : value);
         content.add(text);
         message.set("content", content);
-        output.add(message);
-        return output;
+        return message;
     }
 
     private record RawTokenUsage(long input, long output, long cacheRead, long cacheWrite) {
