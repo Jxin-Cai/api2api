@@ -48,8 +48,13 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     private static final String RESPONSES_COMPACTION_VISIBLE_TEXT = ResponsesProtocolConstants.COMPACTION_VISIBLE_TEXT;
 
     private final ObjectMapper objectMapper;
+    private final ChatCompletionsToResponsesStreamingConverter chatToResponsesConverter;
+    private final ClaudeMessagesToResponsesStreamingConverter claudeToResponsesConverter;
+
     public UnifiedStreamingConversionAdapter(ObjectMapper objectMapper) {
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
+        this.chatToResponsesConverter = new ChatCompletionsToResponsesStreamingConverter(objectMapper);
+        this.claudeToResponsesConverter = new ClaudeMessagesToResponsesStreamingConverter(objectMapper);
     }
 
     @Override
@@ -61,7 +66,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 || (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS
                 && (clientProtocol == ProtocolType.CLAUDE_MESSAGES || clientProtocol == ProtocolType.OPENAI_RESPONSES))
                 || (upstreamProtocol == ProtocolType.CLAUDE_MESSAGES
-                && clientProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS);
+                && (clientProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS
+                || clientProtocol == ProtocolType.OPENAI_RESPONSES));
     }
 
     @Override
@@ -84,10 +90,18 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             return transformResponsesToClaude(context.clientModel().value(), upstreamBody, clientBody);
         }
         if (upstreamProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
+            if (clientProtocol == ProtocolType.OPENAI_RESPONSES) {
+                return chatToResponsesConverter.transform(
+                        context.clientModel().value(), upstreamBody, clientBody);
+            }
             return transformChatToClaude(context.clientModel().value(), upstreamBody, clientBody, clientProtocol);
         }
         if (upstreamProtocol == ProtocolType.CLAUDE_MESSAGES && clientProtocol == ProtocolType.OPENAI_CHAT_COMPLETIONS) {
             return transformClaudeToChat(context.clientModel().value(), upstreamBody, clientBody);
+        }
+        if (upstreamProtocol == ProtocolType.CLAUDE_MESSAGES && clientProtocol == ProtocolType.OPENAI_RESPONSES) {
+            return claudeToResponsesConverter.transform(
+                    context.clientModel().value(), upstreamBody, clientBody);
         }
         return UnifiedTokenUsage.unknown();
     }

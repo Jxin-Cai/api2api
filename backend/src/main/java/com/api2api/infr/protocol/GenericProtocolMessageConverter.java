@@ -2523,28 +2523,80 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private ObjectNode chatResponseToResponses(JsonNode source) {
         ObjectNode target = json.objectNode();
         JsonNode choice = source.path("choices").path(0);
-        target.put("id", source.path("id").asText("resp_api2api"));
+        String responseId = source.path("id").asText("resp_api2api");
+        target.put("id", responseId);
         target.put("object", "response");
         target.put("created_at", source.path("created").asLong(Instant.now().getEpochSecond()));
         target.put("model", source.path("model").asText(""));
         JsonNode message = choice.path("message");
         ArrayNode output = json.arrayNode();
-        String text = message.path("content").asText("");
-        if (!text.isEmpty()) {
-            output.add(outputMessage(text));
+        int outputOrdinal = 0;
+
+        String reasoning = message.path("reasoning_content").asText("");
+        if (!reasoning.isBlank()) {
+            ObjectNode reasoningItem = json.objectNode();
+            reasoningItem.put("type", "reasoning");
+            reasoningItem.put("id", responsesOutputItemId("rs_", responseId, outputOrdinal++));
+            ArrayNode summary = json.arrayNode();
+            summary.add(json.objectNode().put("type", "summary_text").put("text", reasoning));
+            reasoningItem.set("summary", summary);
+            output.add(reasoningItem);
         }
+
+        String text = chatResponseContentText(message.get("content"));
+        String refusal = message.path("refusal").asText("");
         JsonNode toolCalls = message.get("tool_calls");
+        boolean hasToolCalls = toolCalls != null && toolCalls.isArray() && !toolCalls.isEmpty();
+        if (text.isBlank() && !reasoning.isBlank() && !hasToolCalls) {
+            text = reasoning;
+        }
+        if (!text.isEmpty() || !refusal.isEmpty() || !hasToolCalls) {
+            ObjectNode messageItem = outputMessage(text);
+            messageItem.put("id", responsesOutputItemId("msg_", responseId, outputOrdinal++));
+            messageItem.put("status", "completed");
+            ObjectNode textPart = (ObjectNode) messageItem.path("content").path(0);
+            if (message.hasNonNull("annotations") && message.path("annotations").isArray()) {
+                textPart.set("annotations", message.path("annotations").deepCopy());
+            } else {
+                textPart.set("annotations", json.arrayNode());
+            }
+            if (!refusal.isEmpty()) {
+                ArrayNode content = (ArrayNode) messageItem.path("content");
+                if (text.isEmpty()) {
+                    content.removeAll();
+                }
+                content.add(json.objectNode().put("type", "refusal").put("refusal", refusal));
+            }
+            JsonNode logprobs = choice.path("logprobs").path("content");
+            if (logprobs.isArray() && !logprobs.isEmpty() && !text.isEmpty()) {
+                textPart.set("logprobs", logprobs.deepCopy());
+            }
+            output.add(messageItem);
+        }
         if (toolCalls != null && toolCalls.isArray()) {
             for (JsonNode call : toolCalls) {
                 ObjectNode functionCall = json.objectNode();
                 functionCall.put("type", "function_call");
+                functionCall.put("id", responsesOutputItemId("fc_", responseId, outputOrdinal++));
                 functionCall.put("call_id", call.path("id").asText(""));
                 functionCall.put("name", call.path("function").path("name").asText(""));
-                functionCall.put("arguments", call.path("function").path("arguments").asText("{}"));
+                String arguments = call.path("function").path("arguments").asText("");
+                functionCall.put("arguments", arguments.isBlank() ? "{}" : arguments);
+                functionCall.put("status", "completed");
                 output.add(functionCall);
             }
         }
         target.set("output", output);
+        target.put("output_text", responsesOutputText(output));
+        if ("length".equals(choice.path("finish_reason").asText(""))) {
+            target.put("status", "incomplete");
+            target.set("incomplete_details", json.objectNode().put("reason", "max_output_tokens"));
+        } else if ("content_filter".equals(choice.path("finish_reason").asText(""))) {
+            target.put("status", "incomplete");
+            target.set("incomplete_details", json.objectNode().put("reason", "content_filter"));
+        } else {
+            target.put("status", "completed");
+        }
         target.set("usage", responsesUsageFromChat(source.path("usage")));
         return target;
     }
@@ -2562,8 +2614,11 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         ObjectNode message = json.objectNode();
         message.put("role", "assistant");
         StringBuilder text = new StringBuilder();
+        StringBuilder refusal = new StringBuilder();
         StringBuilder reasoning = new StringBuilder();
         ArrayNode toolCalls = json.arrayNode();
+        ArrayNode annotations = json.arrayNode();
+        JsonNode responseLogprobs = null;
         JsonNode output = source.get("output");
         if (output != null && output.isArray()) {
             for (JsonNode item : output) {
@@ -2574,8 +2629,14 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                         for (JsonNode part : parts) {
                             if ("output_text".equals(part.path("type").asText(""))) {
                                 text.append(part.path("text").asText(""));
+                                if (part.path("annotations").isArray()) {
+                                    annotations.addAll((ArrayNode) part.path("annotations"));
+                                }
+                                if (part.path("logprobs").isArray() && !part.path("logprobs").isEmpty()) {
+                                    responseLogprobs = part.path("logprobs").deepCopy();
+                                }
                             } else if ("refusal".equals(part.path("type").asText(""))) {
-                                text.append(part.path("refusal").asText(""));
+                                refusal.append(part.path("refusal").asText(""));
                             }
                         }
                     }
@@ -2596,10 +2657,30 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                             reasoning.append(part.path("text").asText(""));
                         }
                     }
+                } else if ("file_search_call".equals(type) || "code_interpreter_call".equals(type)) {
+                    String toolOutput = responsesToolOutputText(item);
+                    if (!toolOutput.isBlank()) {
+                        if (!text.isEmpty()) {
+                            text.append("\n\n");
+                        }
+                        text.append(toolOutput);
+                    }
                 }
             }
         }
-        message.put("content", text.toString());
+        if (!text.isEmpty()) {
+            message.put("content", text.toString());
+        } else if (!refusal.isEmpty()) {
+            message.put("content", refusal.toString());
+        } else {
+            message.putNull("content");
+        }
+        if (!refusal.isEmpty()) {
+            message.put("refusal", refusal.toString());
+        }
+        if (!annotations.isEmpty()) {
+            message.set("annotations", annotations);
+        }
         if (!reasoning.isEmpty()) {
             message.put("reasoning_content", reasoning.toString());
         }
@@ -2608,6 +2689,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
         choice.set("message", message);
         choice.put("finish_reason", responsesFinishReasonToChat(source, toolCalls));
+        if (responseLogprobs != null) {
+            choice.set("logprobs", json.objectNode().set("content", responseLogprobs));
+        }
         choices.add(choice);
         target.set("choices", choices);
         target.set("usage", chatUsageFromResponses(source.path("usage")));
@@ -2619,9 +2703,26 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             return "tool_calls";
         }
         if ("incomplete".equals(source.path("status").asText(""))) {
+            if ("content_filter".equals(source.path("incomplete_details").path("reason").asText(""))) {
+                return "content_filter";
+            }
             return "length";
         }
         return "stop";
+    }
+
+    private String responsesToolOutputText(JsonNode item) {
+        for (String field : List.of("result", "logs", "output", "results")) {
+            JsonNode value = item.get(field);
+            if (value == null || value.isNull()) {
+                continue;
+            }
+            if (value.isTextual()) {
+                return value.asText("");
+            }
+            return value.toString();
+        }
+        return "";
     }
 
     private ObjectNode responsesResponseToClaude(JsonNode source) {
@@ -2870,6 +2971,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         ObjectNode text = json.objectNode();
         text.put("type", "output_text");
         text.put("text", value == null ? "" : value);
+        text.set("annotations", json.arrayNode());
         content.add(text);
         message.set("content", content);
         return message;
