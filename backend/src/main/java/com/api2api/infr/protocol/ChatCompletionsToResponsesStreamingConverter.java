@@ -29,9 +29,11 @@ import java.util.UUID;
 final class ChatCompletionsToResponsesStreamingConverter {
 
     private final ObjectMapper objectMapper;
+    private final ResponsesSseEmitter emitter;
 
     ChatCompletionsToResponsesStreamingConverter(ObjectMapper objectMapper) {
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
+        this.emitter = new ResponsesSseEmitter(objectMapper);
     }
 
     UnifiedTokenUsage transform(
@@ -388,31 +390,13 @@ final class ChatCompletionsToResponsesStreamingConverter {
     }
 
     private ObjectNode responsesUsage(State state) {
-        ObjectNode usage = objectMapper.createObjectNode();
-        long totalInputTokens = state.inputTokens
-                + state.cacheReadInputTokens
-                + state.cacheCreationInputTokens;
-        usage.put("input_tokens", totalInputTokens);
-        usage.put("output_tokens", state.outputTokens);
-        usage.put("total_tokens", totalInputTokens + state.outputTokens);
-        if (state.cacheReadInputTokens > 0 || state.cacheCreationInputTokens > 0) {
-            ObjectNode details = objectMapper.createObjectNode();
-            details.put("cached_tokens", state.cacheReadInputTokens);
-            if (state.cacheCreationInputTokens > 0) {
-                details.put("cache_write_tokens", state.cacheCreationInputTokens);
-            }
-            usage.set("input_tokens_details", details);
-        }
-        return usage;
+        return emitter.responsesUsage(
+                state.inputTokens, state.outputTokens,
+                state.cacheCreationInputTokens, state.cacheReadInputTokens);
     }
 
     private ObjectNode baseResponse(State state) {
-        ObjectNode response = objectMapper.createObjectNode();
-        response.put("id", state.responseId);
-        response.put("object", "response");
-        response.put("created_at", state.createdAt);
-        response.put("model", state.model);
-        return response;
+        return emitter.baseResponse(state.responseId, state.createdAt, state.model);
     }
 
     private ObjectNode indexedEvent(int outputIndex, String itemId) {
@@ -435,12 +419,7 @@ final class ChatCompletionsToResponsesStreamingConverter {
     }
 
     private void writeEvent(String type, ObjectNode event, State state, OutputStream output) throws IOException {
-        event.put("type", type);
-        event.put("sequence_number", state.sequenceNumber++);
-        output.write(("event: " + type + "\n").getBytes(StandardCharsets.UTF_8));
-        output.write(("data: " + objectMapper.writeValueAsString(event) + "\n\n")
-                .getBytes(StandardCharsets.UTF_8));
-        output.flush();
+        emitter.writeEvent(type, event, state.sequenceHolder, output);
     }
 
     private ObjectNode messagePart(boolean refusal, String text) {
@@ -468,18 +447,7 @@ final class ChatCompletionsToResponsesStreamingConverter {
     }
 
     private String collectOutputText(ArrayNode output) {
-        StringBuilder text = new StringBuilder();
-        for (JsonNode item : output) {
-            if (!"message".equals(item.path("type").asText(""))) {
-                continue;
-            }
-            for (JsonNode part : item.path("content")) {
-                text.append("refusal".equals(part.path("type").asText(""))
-                        ? part.path("refusal").asText("")
-                        : part.path("text").asText(""));
-            }
-        }
-        return text.toString();
+        return emitter.collectOutputText(output);
     }
 
     private String toResponseId(String chatId) {
@@ -492,14 +460,14 @@ final class ChatCompletionsToResponsesStreamingConverter {
     }
 
     private String itemId(String prefix) {
-        return prefix + "_" + UUID.randomUUID().toString().replace("-", "").substring(0, 24);
+        return emitter.itemId(prefix);
     }
 
     private static final class State {
         private String responseId = "resp_" + UUID.randomUUID().toString().replace("-", "").substring(0, 24);
         private String model;
         private long createdAt = Instant.now().getEpochSecond();
-        private int sequenceNumber;
+        private final int[] sequenceHolder = {0};
         private int nextOutputIndex;
         private boolean createdSent;
         private String finishReason = "stop";

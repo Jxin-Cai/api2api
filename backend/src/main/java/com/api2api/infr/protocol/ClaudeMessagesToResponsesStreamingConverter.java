@@ -23,9 +23,11 @@ import java.util.UUID;
 final class ClaudeMessagesToResponsesStreamingConverter {
 
     private final ObjectMapper objectMapper;
+    private final ResponsesSseEmitter emitter;
 
     ClaudeMessagesToResponsesStreamingConverter(ObjectMapper objectMapper) {
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
+        this.emitter = new ResponsesSseEmitter(objectMapper);
     }
 
     UnifiedTokenUsage transform(
@@ -387,31 +389,13 @@ final class ClaudeMessagesToResponsesStreamingConverter {
     }
 
     private ObjectNode baseResponse(State state) {
-        ObjectNode response = objectMapper.createObjectNode();
-        response.put("id", state.responseId);
-        response.put("object", "response");
-        response.put("created_at", state.createdAt);
-        response.put("model", state.model);
-        return response;
+        return emitter.baseResponse(state.responseId, state.createdAt, state.model);
     }
 
     private ObjectNode responsesUsage(State state) {
-        long totalInput = state.inputTokens
-                + state.cacheCreationInputTokens
-                + state.cacheReadInputTokens;
-        ObjectNode usage = objectMapper.createObjectNode();
-        usage.put("input_tokens", totalInput);
-        usage.put("output_tokens", state.outputTokens);
-        usage.put("total_tokens", totalInput + state.outputTokens);
-        if (state.cacheCreationInputTokens > 0 || state.cacheReadInputTokens > 0) {
-            ObjectNode details = objectMapper.createObjectNode();
-            details.put("cached_tokens", state.cacheReadInputTokens);
-            if (state.cacheCreationInputTokens > 0) {
-                details.put("cache_write_tokens", state.cacheCreationInputTokens);
-            }
-            usage.set("input_tokens_details", details);
-        }
-        return usage;
+        return emitter.responsesUsage(
+                state.inputTokens, state.outputTokens,
+                state.cacheCreationInputTokens, state.cacheReadInputTokens);
     }
 
     private ObjectNode outputTextPart(String text) {
@@ -456,25 +440,11 @@ final class ClaudeMessagesToResponsesStreamingConverter {
     }
 
     private void writeEvent(String type, ObjectNode event, State state, OutputStream output) throws IOException {
-        event.put("type", type);
-        event.put("sequence_number", state.sequenceNumber++);
-        output.write(("event: " + type + "\n").getBytes(StandardCharsets.UTF_8));
-        output.write(("data: " + objectMapper.writeValueAsString(event) + "\n\n")
-                .getBytes(StandardCharsets.UTF_8));
-        output.flush();
+        emitter.writeEvent(type, event, state.sequenceHolder, output);
     }
 
     private String collectOutputText(ArrayNode output) {
-        StringBuilder text = new StringBuilder();
-        for (JsonNode item : output) {
-            if (!"message".equals(item.path("type").asText(""))) {
-                continue;
-            }
-            for (JsonNode part : item.path("content")) {
-                text.append(part.path("text").asText(""));
-            }
-        }
-        return text.toString();
+        return emitter.collectOutputText(output);
     }
 
     private String toResponseId(String messageId) {
@@ -487,14 +457,14 @@ final class ClaudeMessagesToResponsesStreamingConverter {
     }
 
     private String itemId(String prefix) {
-        return prefix + "_" + UUID.randomUUID().toString().replace("-", "").substring(0, 24);
+        return emitter.itemId(prefix);
     }
 
     private static final class State {
         private String responseId = "resp_" + UUID.randomUUID().toString().replace("-", "").substring(0, 24);
         private final String model;
         private final long createdAt = Instant.now().getEpochSecond();
-        private int sequenceNumber;
+        private final int[] sequenceHolder = {0};
         private int nextOutputIndex;
         private boolean createdSent;
         private boolean messageStopped;

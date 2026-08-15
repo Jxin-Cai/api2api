@@ -19,7 +19,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_mapsStreamingClaudeToolsAndToolResults_when_convertingToResponsesRequest() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {
@@ -59,7 +59,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_omitsCompletionStatus_when_claudeToolResultReportsError() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {
@@ -91,7 +91,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_acceptsNoopClearThinkingContextManagement_when_claudeCodeUsesResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {
@@ -120,7 +120,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_rejectsInvalidThinkingKeepPolicy_when_keepIsNone() {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {
@@ -141,7 +141,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_clearsOldToolResultLocally_when_responsesCannotApplyClaudeContextEditing() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {
@@ -176,7 +176,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_mapsNonStreamingFunctionCall_when_responsesTargetsClaude() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .openAIResponsesToClaudeMessagesResponse(
                         json,
                         new OpenAIResponsesUsageExtractor(),
@@ -213,7 +213,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_doesNotForceReasoningOrVerbosity_when_claudeDidNotRequestThem() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"messages":[{"role":"user","content":"hello"}]}
@@ -232,7 +232,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_mapsLatestClaudeOutputToolsFilesAndMcpSchemas_when_convertingToResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {
@@ -278,7 +278,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_mapsFastModeAndRejectsUnknownFields_when_claudeRequestContainsUnsupportedFields() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String fastBody = """
                 {"model":"gpt-5.5","max_tokens":256,"speed":"fast","messages":[{"role":"user","content":"hi"}]}
@@ -300,7 +300,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_mapsDeprecatedClaudeOutputFormatAndPriorityTier_whenConvertingToResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"service_tier":"priority",
@@ -319,7 +319,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_omitsDefaultAutoServiceTier_whenConvertingToResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"service_tier":"auto",
@@ -336,7 +336,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_normalizesSchemaOnlyOutputFormat_whenConvertingToResponses() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,
@@ -356,7 +356,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_preservesResponsesToolCallsAndReasoning_whenConvertingToChatResponse() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .openAIResponsesToOpenAIChatResponse(
                         json, new OpenAIResponsesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -384,7 +384,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_preservesTextAndToolOrdering_when_assistantContentIsInterleaved() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"messages":[{"role":"assistant","content":[
@@ -408,7 +408,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_roundTripsEncryptedResponsesReasoning_when_claudeThinkingSignatureIsUsed() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
+        ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration(new ProtocolConversionProperties());
         ProtocolMessageConverter responseConverter = configuration.openAIResponsesToClaudeMessagesResponse(
                 json, new OpenAIResponsesUsageExtractor(), new SseEventTransformer());
         String responseBody = """
@@ -444,7 +444,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     @Test
     void test_roundTripsProviderHostedToolState_when_opaqueClaudeSignatureIsUsed() throws Exception {
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
+        ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration(new ProtocolConversionProperties());
         ProtocolMessageConverter responseConverter = configuration.openAIResponsesToClaudeMessagesResponse(
                 json, new OpenAIResponsesUsageExtractor(), new SseEventTransformer());
         String responseBody = """
@@ -481,7 +481,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_preservesCommentaryPhase_when_assistantTextPrecedesToolUse() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"messages":[{"role":"assistant","content":[
@@ -503,7 +503,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_mapsDeferredFunctionAndToolSearch_when_targetIsGpt54OrLater() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"tools":[
@@ -534,7 +534,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         reasoningItem.put("id", "rs_1");
         reasoningItem.put("encrypted_content", "encrypted");
         String signature = ResponsesReasoningBridge.encode(objectMapper, reasoningItem).orElseThrow();
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.6","max_tokens":256,"thinking":{"type":"adaptive"},
@@ -557,7 +557,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_omitsForeignThinkingState_when_replayingHistoryToResponses() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"messages":[
@@ -584,7 +584,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.5","max_tokens":256,"thinking":{"type":"adaptive"},
@@ -604,7 +604,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_rejectsCacheOnlyRequest_when_responsesCannotMatchClaudeWarmupSemantics() {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
         String body = """
                 {"model":"gpt-5.6","max_tokens":0,
@@ -622,7 +622,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_preservesOutputItemOrder_when_claudeResponseInterleavesTextAndToolUse() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -650,7 +650,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_addsIncompleteDetails_when_claudeStopsAtMaxTokens() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -673,7 +673,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_preservesContextWindowStopReason_when_claudeExceedsModelContext() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -697,7 +697,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_completesResponse_when_claudePausesServerToolLoop() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -719,7 +719,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_mapsRefusalContent_when_claudeRefusesResponse() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -742,7 +742,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_omitsEncryptedContent_when_claudeThinkingSignatureIsForeign() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -771,7 +771,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         originalReasoning.put("id", "rs_original");
         originalReasoning.put("encrypted_content", "encrypted-state");
         String signature = ResponsesReasoningBridge.encode(objectMapper, originalReasoning).orElseThrow();
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -794,7 +794,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_preservesConversationId_when_claudeResponseHasContainer() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """
@@ -817,7 +817,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     void test_rejectsUnknownContentBlock_when_claudeResponseCannotBeMappedLosslessly() {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .claudeMessagesToOpenAIResponsesResponse(
                         json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
         String body = """

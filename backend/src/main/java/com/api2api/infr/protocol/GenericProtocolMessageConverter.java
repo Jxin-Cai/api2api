@@ -40,6 +40,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private final Function<JsonNode, JsonNode> requestConverter;
     private final Function<JsonNode, JsonNode> responseConverter;
     private final boolean fullStreamingSupport;
+    private final List<String> reasoningModelPrefixes;
+    private final List<String> reasoningModelContains;
 
     GenericProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -47,12 +49,15 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             ProtocolType sourceProtocol,
             ProtocolType targetProtocol,
             ProtocolConversionDirection direction,
-            SseEventTransformer sseEventTransformer
+            SseEventTransformer sseEventTransformer,
+            ProtocolConversionProperties properties
     ) {
         super(json, usageExtractor, sourceProtocol, targetProtocol, direction, sseEventTransformer);
         this.requestConverter = resolveRequestConverter(sourceProtocol, targetProtocol);
         this.responseConverter = resolveResponseConverter(sourceProtocol, targetProtocol);
         this.fullStreamingSupport = isFullStreamingPair(sourceProtocol, targetProtocol, direction);
+        this.reasoningModelPrefixes = properties.getReasoningModelPrefixes();
+        this.reasoningModelContains = properties.getReasoningModelContains();
     }
 
     private Function<JsonNode, JsonNode> resolveRequestConverter(ProtocolType source, ProtocolType target) {
@@ -1780,25 +1785,15 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
      * - Generate reasoning configuration block
      * - Block unsupported protocol conversions (e.g. Claude Responses → non-reasoning)
      *
-     * Caller impact: used at L125, L651, L656, L720 in this file.
-     * Maintained based on upstream provider documentation.
-     * See: https://platform.openai.com/docs/guides/reasoning
-     *
-     * NOTE: Adding a new reasoning model family requires updating these lists.
-     * Consider externalizing to configuration if the list changes frequently.
+     * Configured via api2api.protocol.reasoning-model-prefixes and api2api.protocol.reasoning-model-contains.
      */
-    private static final List<String> REASONING_MODEL_PREFIXES = List.of(
-            "gpt-5", "o1", "o3", "o4"
-    );
-    private static final List<String> REASONING_MODEL_CONTAINS = List.of("codex");
-
     private boolean isReasoningModel(String model) {
         if (model == null) {
             return false;
         }
         String normalized = model.toLowerCase();
-        return REASONING_MODEL_PREFIXES.stream().anyMatch(normalized::startsWith)
-                || REASONING_MODEL_CONTAINS.stream().anyMatch(normalized::contains);
+        return reasoningModelPrefixes.stream().anyMatch(normalized::startsWith)
+                || reasoningModelContains.stream().anyMatch(normalized::contains);
     }
 
     private ObjectNode chatRequestToClaude(JsonNode source) {

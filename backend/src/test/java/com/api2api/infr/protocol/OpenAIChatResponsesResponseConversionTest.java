@@ -69,7 +69,7 @@ class OpenAIChatResponsesResponseConversionTest {
     @Test
     void test_preservesRefusalMetadata_when_responsesResponseTargetsChat() throws Exception {
         // Arrange
-        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
                 .openAIResponsesToOpenAIChatResponse(
                         new ProtocolJsonSupport(objectMapper),
                         new OpenAIResponsesUsageExtractor(),
@@ -93,7 +93,7 @@ class OpenAIChatResponsesResponseConversionTest {
     }
 
     private ProtocolMessageConverter converter() {
-        return new ProtocolConverterConfiguration().openAIChatToOpenAIResponsesResponse(
+        return new ProtocolConverterConfiguration(new ProtocolConversionProperties()).openAIChatToOpenAIResponsesResponse(
                 new ProtocolJsonSupport(objectMapper),
                 new OpenAIChatCompletionsUsageExtractor(),
                 new SseEventTransformer());

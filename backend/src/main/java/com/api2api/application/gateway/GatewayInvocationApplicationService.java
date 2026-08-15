@@ -44,7 +44,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Service
 @Slf4j
@@ -90,6 +92,9 @@ public class GatewayInvocationApplicationService {
 
     @NonNull
     private final GatewayStreamingConversionPort streamingConversionPort;
+
+    @NonNull
+    private final PlatformTransactionManager transactionManager;
 
     @NonNull
     private final Clock clock;
@@ -271,7 +276,8 @@ public class GatewayInvocationApplicationService {
     }
 
     private PreparedRoute prepareRoute(InvokeGatewayCommand command) {
-        GatewayInvocation invocation = authenticateAndStartInvocation(command);
+        TransactionTemplate tx = new TransactionTemplate(transactionManager);
+        GatewayInvocation invocation = tx.execute(status -> authenticateAndStartInvocation(command));
         Instant now = Instant.now(clock);
         List<ProtocolConversionDefinition> conversionDefinitions = conversionDefinitionRepository.findAll();
         List<ProviderChannel> channels = restoreExpiredAndFetchRoutableChannels(now);

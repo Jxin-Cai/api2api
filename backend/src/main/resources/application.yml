@@ -20,7 +20,7 @@ server:
         max-age: ${API2API_LOGIN_COOKIE_MAX_AGE:30d}
         http-only: true
         same-site: lax
-        secure: ${API2API_LOGIN_COOKIE_SECURE:false}
+        secure: ${API2API_LOGIN_COOKIE_SECURE:true}
 
 api2api:
   bootstrap-admin:
@@ -43,5 +43,8 @@ api2api:
     streaming-retry-backoff: ${API2API_STREAMING_RETRY_BACKOFF:200ms}
   gateway:
     model-rate-limit-isolation: ${API2API_MODEL_RATE_LIMIT_ISOLATION:PT24H}
+  protocol:
+    reasoning-model-prefixes: gpt-5,o1,o3,o4
+    reasoning-model-contains: codex
   provider-secrets:
     keys: {}

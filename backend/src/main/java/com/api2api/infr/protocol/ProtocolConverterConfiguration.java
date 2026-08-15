@@ -1,11 +1,17 @@
 package com.api2api.infr.protocol;
 
 import com.api2api.domain.channel.model.ProtocolType;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
+@EnableConfigurationProperties(ProtocolConversionProperties.class)
 class ProtocolConverterConfiguration {
+
+    private final ProtocolConversionProperties protocolConversionProperties;
 
     @Bean
     ProtocolMessageConverter claudeMessagesToOpenAIResponsesRequest(ProtocolJsonSupport json, SseEventTransformer sseEventTransformer) {
@@ -87,6 +93,6 @@ class ProtocolConverterConfiguration {
             ProtocolConversionDirection direction,
             SseEventTransformer sseEventTransformer
     ) {
-        return new GenericProtocolMessageConverter(json, usageExtractor, source, target, direction, sseEventTransformer);
+        return new GenericProtocolMessageConverter(json, usageExtractor, source, target, direction, sseEventTransformer, protocolConversionProperties);
     }
 }

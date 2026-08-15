@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class ClaudeConversationContextOptimizer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClaudeConversationContextOptimizer.class);
+    private static final Logger log = LoggerFactory.getLogger(ClaudeConversationContextOptimizer.class);
     private static final int DEFAULT_TOOL_CLEAR_TRIGGER_TOKENS = 100_000;
     private static final int DEFAULT_TOOL_USES_TO_KEEP = 3;
     private static final int REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT = 3;
@@ -487,7 +487,7 @@ public final class ClaudeConversationContextOptimizer {
 
     private static void failWhenRepeatedSuccessfulToolCallDetected(RepeatedToolCall repeatedToolCall) {
         if (repeatedToolCall.repetitions() >= REPEATED_SUCCESSFUL_TOOL_CALL_LIMIT) {
-            LOGGER.warn("Rejected repeated successful Claude tool call, toolName: {}, repetitions: {}",
+            log.warn("Rejected repeated successful Claude tool call, toolName: {}, repetitions: {}",
                     repeatedToolCall.toolName(), repeatedToolCall.repetitions());
             throw new ProtocolConversionException(
                     "CLAUDE_REPEATED_SUCCESSFUL_TOOL_CALL: " + repeatedToolCall.toolName()

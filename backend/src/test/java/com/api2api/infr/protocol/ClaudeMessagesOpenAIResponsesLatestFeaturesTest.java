@@ -14,7 +14,7 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-    private final ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
+    private final ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration(new ProtocolConversionProperties());
 
     @Test
     void test_omitsDirectOnlyAllowedCallers_when_targetIsGpt55() throws Exception {

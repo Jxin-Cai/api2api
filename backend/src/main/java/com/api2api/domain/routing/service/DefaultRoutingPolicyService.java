@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DefaultRoutingPolicyService implements RoutingPolicyService {
 
+    private static final int LOAD_BALANCE_MAX_ENTRIES = 1000;
+    private static final int LOAD_BALANCE_EVICT_TARGET = 500;
     private final ConcurrentHashMap<String, AtomicInteger> loadBalanceCounters = new ConcurrentHashMap<>();
 
     @Override
@@ -188,12 +190,8 @@ public class DefaultRoutingPolicyService implements RoutingPolicyService {
         if (candidates.size() <= 1) {
             return candidates;
         }
-        // Evict all entries when the map grows beyond threshold to prevent unbounded memory usage.
-        // NOTE: During eviction, concurrent threads may insert new entries with fresh counters,
-        // causing a brief load-balance reset. This is acceptable as load balance is best-effort
-        // and the counters are approximate round-robin state, not critical ordering guarantees.
-        if (loadBalanceCounters.size() > 1000) {
-            loadBalanceCounters.keySet().removeIf(k -> true);
+        if (loadBalanceCounters.size() > LOAD_BALANCE_MAX_ENTRIES) {
+            evictOldestCounters();
         }
         String key = request.requestProtocol().name() + ':'
                 + request.requestedModel().value() + ':'
@@ -206,6 +204,17 @@ public class DefaultRoutingPolicyService implements RoutingPolicyService {
         rotated.addAll(candidates.subList(startIndex, candidates.size()));
         rotated.addAll(candidates.subList(0, startIndex));
         return rotated;
+    }
+
+    private void evictOldestCounters() {
+        int toRemove = loadBalanceCounters.size() - LOAD_BALANCE_EVICT_TARGET;
+        var iterator = loadBalanceCounters.entrySet().iterator();
+        int removed = 0;
+        while (iterator.hasNext() && removed < toRemove) {
+            iterator.next();
+            iterator.remove();
+            removed++;
+        }
     }
 
     private static Comparator<RouteCandidate> candidateOrdering() {

@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
  * Resolves provider key references from secure configuration sources, falling back to a plaintext key.
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ProviderSecretResolver {
@@ -45,6 +47,7 @@ public class ProviderSecretResolver {
             return systemEnvironmentValue;
         }
 
+        log.warn("Provider key reference '{}' not found in any secure source; using raw value as secret", ref);
         return ref;
     }
 

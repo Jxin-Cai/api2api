@@ -15,7 +15,7 @@ class OpenAIChatToClaudeMessagesConversionTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
-    private final ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration();
+    private final ProtocolConverterConfiguration configuration = new ProtocolConverterConfiguration(new ProtocolConversionProperties());
 
     @Test
     void test_mapsBasicTextMessage_when_convertingChatToClaude() throws Exception {
