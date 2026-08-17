@@ -1,7 +1,8 @@
 import { useMemo, useState, type Key, type ReactNode } from 'react';
-import { Button, Card, message, Popconfirm, Space, Table, Typography } from 'antd';
+import { App, Button, Card, Popconfirm, Space, Table, Tooltip, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ProviderChannelRow, useProviderChannels, type ProviderChannelResponse } from '@entities/provider-channel';
+import { ChannelModelBatchFetchModal } from './ChannelModelBatchFetchModal';
 import { ProviderChannelFormDrawer } from './ProviderChannelFormDrawer';
 import { ProviderChannelToolbar, type ProviderChannelStatusFilter } from './ProviderChannelToolbar';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
@@ -17,12 +18,14 @@ function needsReenable(channel: ProviderChannelResponse): boolean {
 }
 
 export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannelTablePanelProps) {
+  const { message } = App.useApp();
   const { channels, isLoading, refetch } = useProviderChannels();
   const { enableMutation, disableMutation, deleteMutation, resetAllRateLimitsMutation } = useProviderChannelMutations();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<ProviderChannelStatusFilter>();
   const [selectedChannelIds, setSelectedChannelIds] = useState<Key[]>([]);
   const [batchChanging, setBatchChanging] = useState(false);
+  const [batchFetchOpen, setBatchFetchOpen] = useState(false);
   const [drawer, setDrawer] = useState<{ open: boolean; mode: 'create' | 'edit' | 'copy'; channel: ProviderChannelResponse | null }>({ open: false, mode: 'create', channel: null });
   const [localChannels, setLocalChannels] = useState<ProviderChannelResponse[]>([]);
   const source = localChannels.length > 0 ? localChannels : channels;
@@ -77,6 +80,14 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
     const response = await resetAllRateLimitsMutation.mutateAsync();
     message.success(`已重置 ${response.data.restoredCount} 个模型限流状态`);
     handleRefresh();
+  }
+
+  function handleBatchFetchModels(): void {
+    if (selectedChannels.length === 0) {
+      message.warning('请先选择至少一个渠道');
+      return;
+    }
+    setBatchFetchOpen(true);
   }
 
   async function handleBatchStatus(targetStatus: ProviderChannelStatusFilter): Promise<void> {
@@ -159,6 +170,9 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
         />
         <Space wrap>
           <Typography.Text type="secondary">已选择 {selectedChannelIds.length} 个渠道</Typography.Text>
+          <Tooltip title={selectedChannels.length === 0 ? '请先选择要验证的渠道' : '将请求所选渠道的 host/v1/models'}>
+            <Button onClick={handleBatchFetchModels}>验证并获取模型列表</Button>
+          </Tooltip>
           <Popconfirm
             title={`确认重新启用 ${selectedChannels.filter(needsReenable).length} 个渠道？`}
             description="将恢复所选渠道及其所有限流隔离模型，人工禁用的模型不受影响。"
@@ -190,6 +204,12 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
           pagination={false}
         />
         <ProviderChannelFormDrawer open={drawer.open} mode={drawer.mode} channel={drawer.channel} onClose={() => setDrawer((current) => ({ ...current, open: false }))} onSaved={handleChannelChanged} />
+        <ChannelModelBatchFetchModal
+          open={batchFetchOpen}
+          channels={selectedChannels}
+          onClose={() => setBatchFetchOpen(false)}
+          onChannelChanged={handleChannelChanged}
+        />
       </Space>
     </Card>
   );

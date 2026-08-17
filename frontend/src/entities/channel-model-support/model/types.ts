@@ -10,7 +10,6 @@ export interface AdminFetchProviderModelsRequest {
 export interface AdminFetchProviderChannelModelPreviewRequest {
   host?: string;
   keyRef?: string;
-  modelsPath?: string;
   upstreamProtocols?: string[];
   defaultPriority: number;
 }
@@ -18,7 +17,6 @@ export interface AdminFetchProviderChannelModelPreviewRequest {
 export interface AdminFetchProviderModelPreviewRequest {
   host: string;
   keyRef: string;
-  modelsPath: string;
   upstreamProtocols: string[];
   defaultPriority: number;
 }

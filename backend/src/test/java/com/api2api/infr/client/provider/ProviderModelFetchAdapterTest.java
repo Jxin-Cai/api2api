@@ -1,7 +1,9 @@
 package com.api2api.infr.client.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.api2api.application.BusinessException;
 import com.api2api.domain.channel.model.ChannelModelSupport;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannelId;
@@ -152,6 +154,65 @@ class ProviderModelFetchAdapterTest {
         // Assert
         assertThat(models).extracting(model -> model.requestedModel().value())
                 .containsExactly("gpt-5.5", "gpt-5.5-mini");
+    }
+
+    @Test
+    void test_requestsDefaultModelsPath_when_customModelsPathProvided() throws IOException {
+        AtomicReference<String> requestedPath = new AtomicReference<>();
+        AtomicReference<String> authorizationHeader = new AtomicReference<>();
+        server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1/models", exchange -> {
+            requestedPath.set(exchange.getRequestURI().getPath());
+            authorizationHeader.set(exchange.getRequestHeaders().getFirst("Authorization"));
+            byte[] body = "{\"data\":[{\"id\":\"gpt-4.1\"}]}".getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        server.createContext("/foundation-models", exchange -> {
+            exchange.sendResponseHeaders(404, -1);
+            exchange.close();
+        });
+        server.start();
+
+        adapter().fetchModels(
+                ProviderChannelId.of(1L),
+                ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
+                ProviderKeyRef.of("test-key"),
+                ProviderModelsPath.of("/foundation-models"),
+                Set.of(ProtocolType.OPENAI_RESPONSES),
+                RoutePriority.of(10)
+        );
+
+        assertThat(requestedPath.get()).isEqualTo("/v1/models");
+        assertThat(authorizationHeader.get()).isEqualTo("Bearer test-secret");
+    }
+
+    @Test
+    void test_includesFailureReason_when_upstreamReturnsUnauthorized() throws IOException {
+        server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1/models", exchange -> {
+            byte[] body = "{\"error\":{\"message\":\"Incorrect API key provided\"}}".getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(401, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        server.start();
+
+        assertThatThrownBy(() -> adapter().fetchModels(
+                ProviderChannelId.of(1L),
+                ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
+                ProviderKeyRef.of("test-key"),
+                ProviderModelsPath.of("/foundation-models"),
+                Set.of(ProtocolType.OPENAI_RESPONSES),
+                RoutePriority.of(10)
+        ))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("上游认证失败（HTTP 401）")
+                .hasMessageContaining("/v1/models")
+                .hasMessageContaining("Incorrect API key provided")
+                .extracting(exception -> ((BusinessException) exception).getCode())
+                .isEqualTo("PROVIDER_MODELS_AUTH_FAILED");
     }
 
     private ProviderModelFetchAdapter adapter() {

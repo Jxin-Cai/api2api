@@ -73,7 +73,6 @@ export function ProviderChannelRow({ channel, actions, expanded = false }: Provi
             {channel.host}
           </Typography.Text>
         </Tooltip>
-        <Typography.Text type="secondary">模型列表路径：{channel.modelsPath ?? '/v1/models'}</Typography.Text>
         <Typography.Text type="secondary">Key: {channel.keyMasked ?? channel.keyRef}</Typography.Text>
         <Typography.Text type="secondary">渠道优先级：{channel.routePriority ?? 0}（数字越大越优先）</Typography.Text>
         <Tooltip title={modelTooltip(enabledModels)}>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Button, Card, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Tooltip, Typography, message } from 'antd';
+import { App, Button, Card, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ModelPriorityBadge, ModelSourceTag, type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import { useProviderChannels, type ProviderChannelResponse } from '@entities/provider-channel';
@@ -38,6 +38,7 @@ const DEFAULT_FORM_VALUES: Partial<ModelMappingFormValues> = {
 };
 
 export function ChannelModelMappingManagementPanel() {
+  const { message } = App.useApp();
   const { channels, channelOptions, isLoading, isError, refetch } = useProviderChannels();
   const { upsertMutation, removeMutation } = useChannelModelMutations();
   const [form] = Form.useForm<ModelMappingFormValues>();
@@ -296,8 +297,17 @@ export function ChannelModelMappingManagementPanel() {
             />
           </Space>
           <Space wrap>
-            <Tooltip title={selectedFetchChannel ? undefined : '请先在筛选区选择一个渠道'}>
-              <Button disabled={!selectedFetchChannel} onClick={() => setFetchModalOpen(true)}>验证并获取模型列表</Button>
+            <Tooltip title={selectedFetchChannel ? '将请求该渠道的 host/v1/models' : '请先在筛选区选择一个渠道'}>
+              <Button onClick={() => {
+                if (!selectedFetchChannel) {
+                  message.warning('请先在筛选区选择一个渠道');
+                  return;
+                }
+                setFetchModalOpen(true);
+              }}
+              >
+                验证并获取模型列表
+              </Button>
             </Tooltip>
             <Button onClick={handleRefresh} loading={isLoading}>刷新</Button>
             <Button type="primary" disabled={sourceChannels.length === 0} onClick={openCreateModal}>新增映射</Button>

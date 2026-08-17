@@ -4,7 +4,6 @@ export interface ProviderChannelFormState {
   name: string;
   host: string;
   keyRef: string;
-  modelsPath: string;
   routePriority: number;
   supportedProtocols: string[];
   protocolMappings: ProtocolMappingRequest[];

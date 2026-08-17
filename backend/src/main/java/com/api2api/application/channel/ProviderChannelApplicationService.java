@@ -20,6 +20,7 @@ import com.api2api.domain.channel.model.ChannelModelSupportId;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
+import com.api2api.domain.channel.model.ProviderModelsPath;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
@@ -173,7 +174,7 @@ public class ProviderChannelApplicationService {
                 channel.id(),
                 channel.host(),
                 channel.keyRef(),
-                channel.modelsPath(),
+                ProviderModelsPath.DEFAULT,
                 channel.upstreamProtocols(),
                 command.getDefaultPriority()
         );
@@ -187,7 +188,7 @@ public class ProviderChannelApplicationService {
                 ProviderChannelId.of(1L),
                 command.getHost(),
                 command.getKeyRef(),
-                command.getModelsPath(),
+                ProviderModelsPath.DEFAULT,
                 command.getUpstreamProtocols(),
                 command.getDefaultPriority()
         );
@@ -204,7 +205,7 @@ public class ProviderChannelApplicationService {
                 channel.id(),
                 command.getHost() == null ? channel.host() : command.getHost(),
                 command.getKeyRef() == null ? channel.keyRef() : command.getKeyRef(),
-                command.getModelsPath() == null ? channel.modelsPath() : command.getModelsPath(),
+                ProviderModelsPath.DEFAULT,
                 upstreamProtocols,
                 command.getDefaultPriority()
         );
@@ -226,7 +227,7 @@ public class ProviderChannelApplicationService {
         ProviderChannel channel = loadChannel(providerChannelId);
 
         if (fetchedModels == null || fetchedModels.isEmpty()) {
-            throw new BusinessException("PROVIDER_MODELS_EMPTY");
+            throw new BusinessException("PROVIDER_MODELS_EMPTY", "上游未返回任何模型");
         }
         channel.replaceModels(fetchedModels, now());
         providerChannelRepository.save(channel);

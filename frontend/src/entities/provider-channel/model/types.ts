@@ -11,7 +11,7 @@ export interface AdminCreateProviderChannelRequest {
   name: string;
   host: string;
   keyRef: string;
-  modelsPath: string;
+  modelsPath?: string;
   routePriority: number;
   supportedProtocols: string[];
   protocolMappings: ProtocolMappingRequest[];
@@ -21,7 +21,7 @@ export interface AdminUpdateProviderChannelRequest {
   name: string;
   host: string;
   keyRef?: string;
-  modelsPath: string;
+  modelsPath?: string;
   routePriority: number;
   supportedProtocols: string[];
   protocolMappings: ProtocolMappingRequest[];

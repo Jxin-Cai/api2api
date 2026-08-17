@@ -14,8 +14,18 @@ public class BusinessException extends RuntimeException {
         this.code = requireCode(code);
     }
 
+    public BusinessException(String code, String message) {
+        super(requireMessage(message));
+        this.code = requireCode(code);
+    }
+
     public BusinessException(String code, Throwable cause) {
         super(requireCode(code), cause);
+        this.code = requireCode(code);
+    }
+
+    public BusinessException(String code, String message, Throwable cause) {
+        super(requireMessage(message), cause);
         this.code = requireCode(code);
     }
 
@@ -33,5 +43,13 @@ public class BusinessException extends RuntimeException {
             throw new IllegalArgumentException("Business exception code must not be blank");
         }
         return requiredCode;
+    }
+
+    private static String requireMessage(String message) {
+        String requiredMessage = Objects.requireNonNull(message, "Business exception message must not be null").trim();
+        if (requiredMessage.isEmpty()) {
+            throw new IllegalArgumentException("Business exception message must not be blank");
+        }
+        return requiredMessage;
     }
 }

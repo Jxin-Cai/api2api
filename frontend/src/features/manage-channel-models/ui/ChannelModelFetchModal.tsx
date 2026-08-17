@@ -1,17 +1,10 @@
 import { useEffect, useMemo, useState, type Key } from 'react';
-import { Alert, Button, InputNumber, Modal, Space, Switch, Table, Tag, Typography, message } from 'antd';
+import { Alert, App, Button, InputNumber, Modal, Space, Switch, Table, Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { type ChannelModelSupportResponse } from '@entities/channel-model-support';
 import type { ProviderChannelResponse } from '@entities/provider-channel';
-import type { ApiErrorShape } from '@shared/api';
+import { getApiErrorMessage } from '@shared/api';
 import { useChannelModelMutations } from '../model/useChannelModelMutations';
-
-function getErrorMessage(error: unknown): string {
-  if (typeof error === 'object' && error !== null && 'message' in error) {
-    return (error as ApiErrorShape).message || '请检查 Host、Key 和模型列表权限';
-  }
-  return '请检查 Host、Key 和模型列表权限';
-}
 
 interface ChannelModelFetchModalProps {
   /** 打开状态 */
@@ -29,9 +22,11 @@ interface ChannelModelFetchModalProps {
 }
 
 export function ChannelModelFetchModal({ open, channelId, channelName, models, onClose, onFetched }: ChannelModelFetchModalProps) {
+  const { message } = App.useApp();
   const [defaultPriority, setDefaultPriority] = useState(10);
   const [previewModels, setPreviewModels] = useState<ChannelModelSupportResponse[]>([]);
   const [selectedModelIds, setSelectedModelIds] = useState<Key[]>([]);
+  const [previewError, setPreviewError] = useState<string>();
   const { previewMutation, batchUpsertMutation } = useChannelModelMutations();
 
   useEffect(() => {
@@ -41,6 +36,7 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
     setPreviewModels([]);
     setSelectedModelIds([]);
     setDefaultPriority(10);
+    setPreviewError(undefined);
   }, [open]);
 
   const existingKeys = useMemo(() => new Set(models.map(modelKey)), [models]);
@@ -54,6 +50,7 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
       message.warning('默认模型排序值必须大于等于 1');
       return;
     }
+    setPreviewError(undefined);
     try {
       const response = await previewMutation.mutateAsync({ channelId, body: { defaultPriority } });
       const merged = response.data.models.map((model) => {
@@ -64,7 +61,9 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
       setSelectedModelIds(merged.filter((model) => findExisting(model)?.status === 'ENABLED').map((model) => model.id));
       message.success(`验证成功，已获取 ${merged.length} 个模型候选`);
     } catch (error) {
-      message.error(`验证并获取模型失败：${getErrorMessage(error)}`);
+      const reason = getApiErrorMessage(error, '请检查 Host、Key 和模型列表权限');
+      setPreviewError(reason);
+      message.error(`验证并获取模型失败：${reason}`);
     }
   }
 
@@ -97,7 +96,7 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
       message.success(`已保存 ${selectedModels.length} 个模型配置`);
       onClose();
     } catch (error) {
-      message.error(`保存模型配置失败：${getErrorMessage(error)}`);
+      message.error(`保存模型配置失败：${getApiErrorMessage(error, '请稍后重试')}`);
     }
   }
 
@@ -143,9 +142,10 @@ export function ChannelModelFetchModal({ open, channelId, channelName, models, o
         <Alert
           type="info"
           showIcon
-          message="此操作会请求上游模型列表接口，用于验证当前渠道 Host/Key 是否具备模型列表权限。获取结果仅作为上游支持模型候选。"
+          message="此操作会请求供应商 host/v1/models，并携带 Authorization: Bearer 渠道 Key。"
           description="默认只勾选已保存的启用模型；保存时会以所选模型作为当前启用模型集合，未勾选的候选不会展示或参与路由。"
         />
+        {previewError ? <Alert type="error" showIcon message="验证并获取模型失败" description={previewError} /> : null}
         <Space wrap>
           <Typography.Text>默认模型排序值</Typography.Text>
           <InputNumber min={1} value={defaultPriority} onChange={(value) => setDefaultPriority(value ?? 1)} />
