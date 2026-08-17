@@ -121,17 +121,31 @@ public class DefaultRoutingPolicyService implements RoutingPolicyService {
         }
     }
 
+    /**
+     * The channel's mapping for the request protocol is authoritative: a request must not be routed
+     * over another upstream protocol just because the model is also registered under it.
+     * Model-declared protocols are only used when the mapped protocol cannot serve the model,
+     * or when the request protocol has no mapping at all.
+     */
     private static Set<ProtocolType> candidateUpstreamProtocols(
             RoutingRequest request,
             ProviderChannel channel,
             List<ChannelModelSupport> modelSupports
     ) {
+        Optional<ProtocolType> mappedProtocol = channel.upstreamProtocolFor(request.requestProtocol());
+        if (mappedProtocol.isPresent() && servesAnyModel(modelSupports, mappedProtocol.get())) {
+            return Set.of(mappedProtocol.get());
+        }
         Set<ProtocolType> protocols = new LinkedHashSet<>();
-        channel.upstreamProtocolFor(request.requestProtocol()).ifPresent(protocols::add);
         modelSupports.stream()
                 .map(ChannelModelSupport::upstreamProtocol)
                 .forEach(protocols::add);
         return protocols;
+    }
+
+    private static boolean servesAnyModel(List<ChannelModelSupport> modelSupports, ProtocolType upstreamProtocol) {
+        return modelSupports.stream()
+                .anyMatch(modelSupport -> modelSupport.upstreamProtocol() == upstreamProtocol);
     }
 
     private static Optional<ConversionRoute> resolveRoute(
