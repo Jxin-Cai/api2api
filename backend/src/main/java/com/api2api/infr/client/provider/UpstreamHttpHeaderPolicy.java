@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -13,11 +14,18 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 /**
- * Builds sanitized upstream headers for provider requests.
+ * Builds upstream headers for provider requests.
+ *
+ * <p>Inbound headers are forwarded unless explicitly denied, preserving the client fingerprint the
+ * provider would observe on a direct call. The gateway only overrides what it owns: the provider
+ * credential and the content negotiation it needs to read the upstream body.</p>
  */
 @Component
 @RequiredArgsConstructor
 public class UpstreamHttpHeaderPolicy {
+
+    private static final String ANTHROPIC_VERSION = "anthropic-version";
+    private static final String ANTHROPIC_BETA = "anthropic-beta";
 
     @NonNull
     private final ProviderHttpClientProperties properties;
@@ -33,25 +41,26 @@ public class UpstreamHttpHeaderPolicy {
             throw new IllegalArgumentException("Bearer token must not be blank");
         }
         Map<String, String> headers = new LinkedHashMap<>();
-        addAllowedPassthroughHeaders(headers, incomingHeaders, protocolType);
+        addForwardedHeaders(headers, incomingHeaders, protocolType);
         headers.put(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken);
         headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
-            headers.put(HttpHeaders.ACCEPT, streaming
-                    ? "application/vnd.amazon.eventstream"
-                    : MediaType.APPLICATION_JSON_VALUE);
-        } else {
-            headers.put(HttpHeaders.ACCEPT, streaming
-                    ? MediaType.TEXT_EVENT_STREAM_VALUE
-                    : MediaType.APPLICATION_JSON_VALUE);
-        }
-        if (protocolType == ProtocolType.CLAUDE_MESSAGES) {
-            headers.put("anthropic-version", properties.getAnthropicVersion());
+        headers.put(HttpHeaders.ACCEPT, acceptFor(protocolType, streaming));
+        if (protocolType == ProtocolType.CLAUDE_MESSAGES && !containsIgnoreCase(headers, ANTHROPIC_VERSION)) {
+            headers.put(ANTHROPIC_VERSION, properties.getAnthropicVersion());
         }
         return headers;
     }
 
-    private void addAllowedPassthroughHeaders(
+    private String acceptFor(ProtocolType protocolType, boolean streaming) {
+        if (!streaming) {
+            return MediaType.APPLICATION_JSON_VALUE;
+        }
+        return protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
+                ? "application/vnd.amazon.eventstream"
+                : MediaType.TEXT_EVENT_STREAM_VALUE;
+    }
+
+    private void addForwardedHeaders(
             Map<String, String> target,
             Map<String, List<String>> source,
             ProtocolType protocolType
@@ -64,21 +73,33 @@ public class UpstreamHttpHeaderPolicy {
                 return;
             }
             String normalized = normalizeName(name);
-            if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES
-                    && "anthropic-beta".equals(normalized)) {
-                return;
-            }
             if (properties.getHeaderDenylist().contains(normalized)) {
                 return;
             }
-            if (!properties.getPassthroughHeaderAllowlist().contains(normalized)) {
+            if (protocolType == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES && ANTHROPIC_BETA.equals(normalized)) {
                 return;
             }
-            values.stream()
-                    .filter(value -> value != null && !value.isBlank())
-                    .findFirst()
-                    .ifPresent(value -> target.put(name.trim(), value));
+            String merged = mergeValues(values);
+            if (!merged.isEmpty()) {
+                target.put(name.trim(), merged);
+            }
         });
+    }
+
+    /**
+     * Recombines repeated field lines into a single comma-separated value as permitted for
+     * list-valued headers. Dropping the extra lines would silently disable negotiated features such
+     * as the beta flags a client spreads across several {@code anthropic-beta} headers.
+     */
+    private static String mergeValues(List<String> values) {
+        return values.stream()
+                .filter(value -> value != null && !value.isBlank())
+                .map(String::trim)
+                .collect(Collectors.joining(", "));
+    }
+
+    private static boolean containsIgnoreCase(Map<String, String> headers, String name) {
+        return headers.keySet().stream().anyMatch(existing -> existing.equalsIgnoreCase(name));
     }
 
     private static String normalizeName(String name) {

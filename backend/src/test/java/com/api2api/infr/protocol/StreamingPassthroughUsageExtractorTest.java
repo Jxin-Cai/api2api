@@ -1,13 +1,12 @@
 package com.api2api.infr.protocol;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
@@ -35,18 +34,56 @@ class StreamingPassthroughUsageExtractorTest {
     }
 
     @Test
-    void test_throwsEofException_when_claudeStreamHasNoTerminalEvent() {
+    void test_relaysUpstreamBody_when_claudeStreamHasNoTerminalEvent() throws IOException {
         // Arrange
         String upstream = "event: content_block_delta\ndata: {\"type\":\"content_block_delta\"}\n\n";
         ByteArrayOutputStream downstream = new ByteArrayOutputStream();
 
-        // Act / Assert
-        assertThatThrownBy(() -> extractor.transferAndExtract(
+        // Act
+        extractor.transferAndExtract(
                 new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
                 downstream,
                 ProtocolType.CLAUDE_MESSAGES
-        )).isInstanceOf(EOFException.class)
-                .hasMessageContaining("terminal event");
+        );
+
+        // Assert
+        assertThat(downstream.toString(StandardCharsets.UTF_8)).isEqualTo(upstream);
+    }
+
+    @Test
+    void test_extractsUsage_when_claudeStreamOmitsTrailingBlankLine() throws IOException {
+        // Arrange
+        String upstream = "event: message_delta\n"
+                + "data: {\"usage\":{\"input_tokens\":10,\"output_tokens\":5}}\n\n"
+                + "event: message_stop\ndata: {\"type\":\"message_stop\"}\n";
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = extractor.transferAndExtract(
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream,
+                ProtocolType.CLAUDE_MESSAGES
+        );
+
+        // Assert
+        assertThat(usage.totalTokens()).isEqualTo(15);
+    }
+
+    @Test
+    void test_detectsTerminalEvent_when_claudeStreamOmitsEventLines() throws IOException {
+        // Arrange
+        String upstream = "data: {\"type\":\"message_stop\"}\n\n";
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        extractor.transferAndExtract(
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream,
+                ProtocolType.CLAUDE_MESSAGES
+        );
+
+        // Assert
+        assertThat(downstream.toString(StandardCharsets.UTF_8)).isEqualTo(upstream);
     }
 
     @Test

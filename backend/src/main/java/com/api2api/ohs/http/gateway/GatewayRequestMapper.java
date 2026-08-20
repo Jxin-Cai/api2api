@@ -1,5 +1,6 @@
 package com.api2api.ohs.http.gateway;
 
+import com.api2api.application.gateway.InboundRequestContext;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.credential.model.ApiKeyHash;
@@ -9,7 +10,6 @@ import com.api2api.domain.usage.model.UsageRecordId;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,10 +31,11 @@ public class GatewayRequestMapper {
             String apiKeyHeader,
             String xRequestId,
             ProtocolType requestProtocol,
-            HttpHeaders incomingHeaders
+            InboundRequestContext inbound
     ) {
         Objects.requireNonNull(protocolRequest, "Protocol request must not be null");
         Objects.requireNonNull(requestProtocol, "Request protocol must not be null");
+        Objects.requireNonNull(inbound, "Inbound request context must not be null");
 
         ApiKeyHash keyHash = apiKeyHashHelper.hashGatewayApiKey(authorizationHeader, apiKeyHeader);
         GatewayInvocationId gatewayInvocationId = identifierHelper.nextInvocationId();
@@ -60,8 +61,8 @@ public class GatewayRequestMapper {
                 .requestedModel(requestedModel)
                 .requestProtocol(requestProtocol)
                 .requestBody(protocolRequest.rawBody())
-                .incomingHeaders(incomingHeaders)
-                .streaming(protocolRequest.streaming())
+                .inbound(inbound)
+                .streaming(inbound.operation().supportsStreaming() && protocolRequest.streaming())
                 .toolCallingRequired(protocolRequest.toolCallingRequired())
                 .reasoningRequired(protocolRequest.reasoningRequired())
                 .build();

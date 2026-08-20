@@ -53,17 +53,6 @@ public final class UnifiedTokenUsage {
         return new UnifiedTokenUsage(0, 0, 0, 0, 0, false);
     }
 
-    public static UnifiedTokenUsage of(
-            long inputTokens,
-            long outputTokens,
-            long cacheCreationInputTokens,
-            long cacheReadInputTokens,
-            long totalTokens,
-            boolean usageKnown
-    ) {
-        return new UnifiedTokenUsage(inputTokens, outputTokens, cacheCreationInputTokens, cacheReadInputTokens, totalTokens, usageKnown);
-    }
-
     private static void validateNonNegative(long value, String fieldName) {
         if (value < 0) {
             throw new ProtocolConversionException(fieldName + " must be greater than or equal to 0");

@@ -1,14 +1,12 @@
 package com.api2api.application.gateway.command;
 
+import com.api2api.application.gateway.InboundRequestContext;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.gateway.model.GatewayInvocationId;
 import com.api2api.domain.gateway.model.GatewayRequestId;
 import com.api2api.domain.usage.model.UsageRecordId;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Immutable command carrying one gateway invocation request.
@@ -23,7 +21,7 @@ public final class InvokeGatewayCommand {
     private final com.api2api.domain.channel.model.ModelName requestedModel;
     private final ProtocolType requestProtocol;
     private final String requestBody;
-    private final Map<String, List<String>> incomingHeaders;
+    private final InboundRequestContext inbound;
     private final boolean streaming;
     private final boolean toolCallingRequired;
     private final boolean reasoningRequired;
@@ -37,7 +35,7 @@ public final class InvokeGatewayCommand {
         this.requestedModel = Objects.requireNonNull(builder.requestedModel, "Requested model must not be null");
         this.requestProtocol = Objects.requireNonNull(builder.requestProtocol, "Request protocol must not be null");
         this.requestBody = requireNotBlank(builder.requestBody, "Request body must not be blank");
-        this.incomingHeaders = copyHeaders(builder.incomingHeaders);
+        this.inbound = builder.inbound == null ? InboundRequestContext.empty() : builder.inbound;
         this.streaming = builder.streaming;
         this.toolCallingRequired = builder.toolCallingRequired;
         this.reasoningRequired = builder.reasoningRequired;
@@ -53,20 +51,6 @@ public final class InvokeGatewayCommand {
             throw new IllegalArgumentException(message);
         }
         return value;
-    }
-
-    private static Map<String, List<String>> copyHeaders(Map<String, List<String>> headers) {
-        if (headers == null || headers.isEmpty()) {
-            return Map.of();
-        }
-        return headers.entrySet().stream()
-                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank())
-                .filter(entry -> entry.getValue() != null)
-                .collect(Collectors.toUnmodifiableMap(
-                        entry -> entry.getKey().trim(),
-                        entry -> List.copyOf(entry.getValue()),
-                        (left, right) -> left
-                ));
     }
 
     public GatewayInvocationId getGatewayInvocationId() {
@@ -101,8 +85,8 @@ public final class InvokeGatewayCommand {
         return requestBody;
     }
 
-    public Map<String, List<String>> getIncomingHeaders() {
-        return incomingHeaders;
+    public InboundRequestContext getInbound() {
+        return inbound;
     }
 
     public boolean isStreaming() {
@@ -126,7 +110,7 @@ public final class InvokeGatewayCommand {
         private com.api2api.domain.channel.model.ModelName requestedModel;
         private ProtocolType requestProtocol;
         private String requestBody;
-        private Map<String, List<String>> incomingHeaders;
+        private InboundRequestContext inbound;
         private boolean streaming;
         private boolean toolCallingRequired;
         private boolean reasoningRequired;
@@ -174,8 +158,8 @@ public final class InvokeGatewayCommand {
             return this;
         }
 
-        public Builder incomingHeaders(Map<String, List<String>> incomingHeaders) {
-            this.incomingHeaders = incomingHeaders;
+        public Builder inbound(InboundRequestContext inbound) {
+            this.inbound = inbound;
             return this;
         }
 

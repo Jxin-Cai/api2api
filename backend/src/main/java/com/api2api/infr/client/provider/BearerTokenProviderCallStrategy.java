@@ -1,9 +1,12 @@
 package com.api2api.infr.client.provider;
 
 import com.api2api.application.BusinessException;
+import com.api2api.application.gateway.InboundRequestContext;
+import com.api2api.application.gateway.ProtocolOperation;
 import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.application.gateway.UpstreamGatewayException;
+import com.api2api.application.gateway.UpstreamResponseMetadata;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
@@ -19,8 +22,6 @@ import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -63,9 +64,9 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             RouteCandidate candidate,
             String upstreamRequestBody,
             boolean streaming,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
-        HttpRequest request = buildRequest(candidate, upstreamRequestBody, streaming, incomingHeaders);
+        HttpRequest request = buildRequest(candidate, upstreamRequestBody, streaming, inbound);
         Instant startedAt = Instant.now();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -90,12 +91,12 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     public ProviderStreamingResponse openStream(
             RouteCandidate candidate,
             String upstreamRequestBody,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
         int attempt = 0;
         while (true) {
             try {
-                return openStreamOnce(candidate, upstreamRequestBody, incomingHeaders);
+                return openStreamOnce(candidate, upstreamRequestBody, inbound);
             } catch (UpstreamGatewayException failure) {
                 if (shouldRetryStream(attempt, failure)) {
                     waitBeforeStreamRetry(candidate, attempt, failure);
@@ -110,9 +111,9 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     private ProviderStreamingResponse openStreamOnce(
             RouteCandidate candidate,
             String upstreamRequestBody,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
-        HttpRequest request = buildRequest(candidate, upstreamRequestBody, true, incomingHeaders);
+        HttpRequest request = buildRequest(candidate, upstreamRequestBody, true, inbound);
         Instant startedAt = Instant.now();
         try {
             HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
@@ -120,7 +121,12 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             if (statusCode < 200 || statusCode >= 300) {
                 String errorBody = readErrorBody(response.body());
                 closeQuietly(response.body());
-                throw toStatusFailure(statusCode, elapsedSince(startedAt), errorBody);
+                throw toStatusFailure(
+                        statusCode,
+                        elapsedSince(startedAt),
+                        errorBody,
+                        UpstreamResponseMetadata.of(response.headers().map())
+                );
             }
             return ProviderStreamingResponse.of(
                     candidate.upstreamProtocol(),
@@ -156,10 +162,15 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         }
     }
 
+    /**
+     * Replays a stream only when the request provably never reached the provider, i.e. a transport
+     * failure with no status line. Replaying after a timeout or an error status would duplicate work
+     * the provider has already started and consume quota that is often the cause of the failure.
+     */
     private boolean shouldRetryStream(int attempt, UpstreamGatewayException failure) {
-        return failure.retryable()
-                && failure.failureType() != RouteFailureType.UPSTREAM_ERROR
-                && failure.failureType() != RouteFailureType.RATE_LIMITED
+        return failure.failureType() == RouteFailureType.CHANNEL_UNAVAILABLE
+                && failure.statusCode() == null
+                && failure.retryable()
                 && attempt < properties.getStreamingMaxRetries();
     }
 
@@ -197,7 +208,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             RouteCandidate candidate,
             String upstreamRequestBody,
             boolean streaming,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
         ProviderChannel channel = providerChannelRepository.findById(candidate.providerChannelId())
                 .orElseThrow(() -> new BusinessException("PROVIDER_CHANNEL_NOT_FOUND"));
@@ -220,32 +231,59 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             );
         }
         String secret = providerSecretResolver.resolve(channel.keyRef());
-        String path = resolveUpstreamPath(candidate, streaming);
+        String path = resolveUpstreamPath(candidate, streaming, inbound.operation());
+        String baseUrl = urlResolver.resolve(channel.host().resolvePath(path).value());
+        String query = candidate.requiresProtocolConversion() ? null : inbound.rawQuery();
         URI uri = OutboundUriGuard.verify(
-                URI.create(urlResolver.resolve(channel.host().resolvePath(path).value())),
+                URI.create(appendQuery(baseUrl, query)),
                 properties.isAllowInsecureHosts()
         );
-        Map<String, String> headers = headerPolicy.buildHeaders(
-                candidate.upstreamProtocol(), incomingHeaders, secret, streaming);
+        var headers = headerPolicy.buildHeaders(
+                candidate.upstreamProtocol(), inbound.headers(), secret, streaming);
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
                 .timeout(readTimeout(streaming))
                 .POST(HttpRequest.BodyPublishers.ofString(upstreamRequestBody));
-        headers.forEach(requestBuilder::header);
+        headers.forEach(requestBuilder::setHeader);
         return requestBuilder.build();
     }
 
-    private String resolveUpstreamPath(RouteCandidate candidate, boolean streaming) {
+    /**
+     * Carries the inbound query string through untouched; providers gate optional behaviour on it
+     * (for example Anthropic's {@code ?beta=true}), so dropping it silently changes the response.
+     */
+    private static String appendQuery(String baseUrl, String rawQuery) {
+        if (rawQuery == null || rawQuery.isBlank()) {
+            return baseUrl;
+        }
+        return baseUrl + (baseUrl.contains("?") ? "&" : "?") + rawQuery;
+    }
+
+    private String resolveUpstreamPath(RouteCandidate candidate, boolean streaming, ProtocolOperation operation) {
         if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
+            if (operation != ProtocolOperation.INVOKE) {
+                throw new UpstreamGatewayException(
+                        RouteFailureType.CHANNEL_UNAVAILABLE,
+                        null,
+                        true,
+                        0,
+                        "Operation " + operation + " is not available on Bedrock routes"
+                );
+            }
             String template = streaming
                     ? properties.getBedrockClaudeMessagesStreamPathTemplate()
                     : properties.getBedrockClaudeMessagesPathTemplate();
             return template.replace("{modelId}", candidate.upstreamModel().value());
         }
-        return properties.defaultPathFor(candidate.upstreamProtocol());
+        return properties.defaultPathFor(candidate.upstreamProtocol()) + operation.upstreamPathSuffix();
     }
 
-    private UpstreamGatewayException toStatusFailure(int statusCode, long elapsedMillis, String responseBody) {
+    private UpstreamGatewayException toStatusFailure(
+            int statusCode,
+            long elapsedMillis,
+            String responseBody,
+            UpstreamResponseMetadata responseMetadata
+    ) {
         RouteFailureType failureType = UpstreamFailureClassifier.fromHttpStatus(statusCode);
         boolean retryable;
         if (failureType == RouteFailureType.AUTHORIZATION_ERROR) {
@@ -256,7 +294,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             retryable = true;
         }
         String message = UpstreamFailureClassifier.compactErrorMessage("Upstream", statusCode, responseBody);
-        return new UpstreamGatewayException(failureType, statusCode, retryable, elapsedMillis, message);
+        return new UpstreamGatewayException(failureType, statusCode, retryable, elapsedMillis, message, responseMetadata);
     }
 
     private Duration readTimeout(boolean streaming) {
@@ -277,7 +315,8 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         }
         try {
             return new String(body.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
+        } catch (IOException exception) {
+            log.warn("Failed to read upstream error body", exception);
             return "";
         }
     }

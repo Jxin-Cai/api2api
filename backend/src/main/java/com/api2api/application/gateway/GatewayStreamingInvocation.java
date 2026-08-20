@@ -14,17 +14,20 @@ public final class GatewayStreamingInvocation {
     private final UsageRecordId usageRecordId;
     private final RouteCandidate candidate;
     private final ProviderStreamingResponse providerResponse;
+    private final UpstreamResponseMetadata upstreamMetadata;
 
     private GatewayStreamingInvocation(
             GatewayInvocation invocation,
             UsageRecordId usageRecordId,
             RouteCandidate candidate,
-            ProviderStreamingResponse providerResponse
+            ProviderStreamingResponse providerResponse,
+            UpstreamResponseMetadata upstreamMetadata
     ) {
         this.invocation = Objects.requireNonNull(invocation, "Gateway invocation must not be null");
         this.usageRecordId = Objects.requireNonNull(usageRecordId, "Usage record id must not be null");
         this.candidate = candidate;
         this.providerResponse = providerResponse;
+        this.upstreamMetadata = upstreamMetadata == null ? UpstreamResponseMetadata.empty() : upstreamMetadata;
         if ((candidate == null) != (providerResponse == null)) {
             throw new IllegalArgumentException("Streaming candidate and provider response must both be present or absent");
         }
@@ -36,11 +39,28 @@ public final class GatewayStreamingInvocation {
             RouteCandidate candidate,
             ProviderStreamingResponse providerResponse
     ) {
-        return new GatewayStreamingInvocation(invocation, usageRecordId, candidate, providerResponse);
+        return new GatewayStreamingInvocation(
+                invocation, usageRecordId, candidate, providerResponse, UpstreamResponseMetadata.empty());
     }
 
     public static GatewayStreamingInvocation failed(GatewayInvocation invocation, UsageRecordId usageRecordId) {
-        return new GatewayStreamingInvocation(invocation, usageRecordId, null, null);
+        return failed(invocation, usageRecordId, UpstreamResponseMetadata.empty());
+    }
+
+    public static GatewayStreamingInvocation failed(
+            GatewayInvocation invocation,
+            UsageRecordId usageRecordId,
+            UpstreamResponseMetadata upstreamMetadata
+    ) {
+        return new GatewayStreamingInvocation(invocation, usageRecordId, null, null, upstreamMetadata);
+    }
+
+    /**
+     * Upstream response headers observed on the failing attempt, so rate-limit hints such as
+     * {@code Retry-After} still reach the client when the stream never opened.
+     */
+    public UpstreamResponseMetadata upstreamMetadata() {
+        return upstreamMetadata;
     }
 
     public boolean opened() {

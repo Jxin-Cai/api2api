@@ -1,11 +1,11 @@
 package com.api2api.infr.client.provider;
 
+import com.api2api.application.gateway.InboundRequestContext;
 import com.api2api.application.gateway.ProviderGatewayCallPort;
 import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.domain.routing.model.RouteCandidate;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import org.springframework.stereotype.Component;
 
@@ -23,22 +23,26 @@ public class ProviderGatewayCallAdapter implements ProviderGatewayCallPort {
             RouteCandidate candidate,
             String upstreamRequestBody,
             boolean streaming,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
-        return findStrategy(candidate).forward(candidate, upstreamRequestBody, streaming, incomingHeaders);
+        return findStrategy(candidate).forward(candidate, upstreamRequestBody, streaming, resolveInbound(inbound));
     }
 
     @Override
     public ProviderStreamingResponse openStream(
             RouteCandidate candidate,
             String upstreamRequestBody,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
-        return findStrategy(candidate).openStream(candidate, upstreamRequestBody, incomingHeaders);
+        return findStrategy(candidate).openStream(candidate, upstreamRequestBody, resolveInbound(inbound));
+    }
+
+    private static InboundRequestContext resolveInbound(InboundRequestContext inbound) {
+        return inbound == null ? InboundRequestContext.empty() : inbound;
     }
 
     private ProviderCallStrategy findStrategy(RouteCandidate candidate) {

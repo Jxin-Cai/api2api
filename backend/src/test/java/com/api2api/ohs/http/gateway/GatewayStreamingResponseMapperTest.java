@@ -76,13 +76,13 @@ class GatewayStreamingResponseMapperTest {
         assertThat(downstream.toString(StandardCharsets.UTF_8))
                 .contains("event: content_block_delta")
                 .contains("event: error")
-                .contains("Upstream stream ended before a terminal event")
+                .contains("Upstream stream failed before completion")
                 .doesNotContain("event: message_stop");
         verify(applicationService).completeStreamingFailure(any(), any());
     }
 
     @Test
-    void test_writesClaudeErrorEvent_when_passthroughStreamEndsBeforeTerminalEvent() throws Exception {
+    void test_completesSuccessfully_when_passthroughStreamEndsWithoutTerminalEvent() throws Exception {
         // Arrange
         GatewayInvocationApplicationService applicationService = mock(GatewayInvocationApplicationService.class);
         GatewayStreamingConversionPort conversionPort = mock(GatewayStreamingConversionPort.class);
@@ -114,10 +114,42 @@ class GatewayStreamingResponseMapperTest {
         mapper.toResponseBody(streamingInvocation, new MockHttpServletResponse()).writeTo(downstream);
 
         // Assert
-        assertThat(downstream.toString(StandardCharsets.UTF_8))
-                .contains("event: content_block_delta")
-                .contains("event: error")
-                .contains("Upstream stream ended before a terminal event");
-        verify(applicationService).completeStreamingFailure(any(), any());
+        assertThat(downstream.toString(StandardCharsets.UTF_8)).isEqualTo(incompleteEvent);
+    }
+
+    @Test
+    void test_reportsSuccess_when_passthroughStreamEndsWithoutTerminalEvent() throws Exception {
+        // Arrange
+        GatewayInvocationApplicationService applicationService = mock(GatewayInvocationApplicationService.class);
+        GatewayStreamingConversionPort conversionPort = mock(GatewayStreamingConversionPort.class);
+        GatewayInvocation invocation = mock(GatewayInvocation.class);
+        RouteCandidate candidate = mock(RouteCandidate.class);
+        String incompleteEvent = "event: content_block_delta\ndata: {\"type\":\"content_block_delta\"}\n\n";
+        ProviderStreamingResponse providerResponse = ProviderStreamingResponse.of(
+                ProtocolType.CLAUDE_MESSAGES,
+                200,
+                Map.of(),
+                new ByteArrayInputStream(incompleteEvent.getBytes(StandardCharsets.UTF_8))
+        );
+        when(invocation.requestProtocol()).thenReturn(ProtocolType.CLAUDE_MESSAGES);
+        when(candidate.requiresProtocolConversion()).thenReturn(false);
+        GatewayStreamingInvocation streamingInvocation = GatewayStreamingInvocation.opened(
+                invocation,
+                UsageRecordId.of(1L),
+                candidate,
+                providerResponse
+        );
+        GatewayStreamingResponseMapper mapper = new GatewayStreamingResponseMapper(
+                applicationService,
+                conversionPort,
+                new StreamingPassthroughUsageExtractor(new ObjectMapper())
+        );
+
+        // Act
+        mapper.toResponseBody(streamingInvocation, new MockHttpServletResponse())
+                .writeTo(new ByteArrayOutputStream());
+
+        // Assert
+        verify(applicationService).completeStreamingSuccess(any(), any());
     }
 }

@@ -47,8 +47,16 @@ public class ProviderSecretResolver {
             return systemEnvironmentValue;
         }
 
-        log.warn("Provider key reference '{}' not found in any secure source; using raw value as secret", ref);
+        log.warn("Provider key reference '{}' not found in any secure source; using raw value as secret",
+                maskSecret(ref));
         return ref;
+    }
+
+    private static String maskSecret(String value) {
+        if (value == null || value.length() <= 8) {
+            return "***";
+        }
+        return value.substring(0, 4) + "***" + value.substring(value.length() - 4);
     }
 
     private String resolveFromActiveProfiles(String ref) {

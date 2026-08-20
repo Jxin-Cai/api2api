@@ -85,6 +85,36 @@ class RoutingPolicyServiceTest {
     }
 
     @Test
+    void test_dropsConvertedCandidates_when_nativeProtocolOnlyIsRequired() {
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("OpenAI channel"),
+                ProviderHost.of("https://api.example.com"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)),
+                List.of(model(1L, "claude-sonnet", "gpt-4.1", ProtocolType.OPENAI_RESPONSES, 1, true)),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ModelName.of("claude-sonnet"),
+                        ConversionRequirement.of(false, false, false)
+                ),
+                List.of(channel),
+                List.of(definition(1L, ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)),
+                NOW
+        );
+
+        assertThat(plan.nativeProtocolOnly().hasCandidate()).isFalse();
+    }
+
+    @Test
     void test_usesOnlyMappedUpstreamProtocol_when_modelIsAlsoRegisteredUnderAnotherProtocol() {
         // Arrange
         ProviderChannel channel = ProviderChannel.rehydrate(

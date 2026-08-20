@@ -43,6 +43,20 @@ public final class RoutePlan {
         return candidates;
     }
 
+    /**
+     * Keeps only routes that speak the client's protocol. Auxiliary endpoints such as token counting
+     * have no counterpart after a protocol conversion, so converted candidates are not usable.
+     */
+    public RoutePlan nativeProtocolOnly() {
+        List<RouteCandidate> nativeCandidates = candidates.stream()
+                .filter(candidate -> !candidate.requiresProtocolConversion())
+                .toList();
+        if (nativeCandidates.size() == candidates.size()) {
+            return this;
+        }
+        return new RoutePlan(routingRequest, nativeCandidates, createdAt);
+    }
+
     public Instant createdAt() {
         return createdAt;
     }

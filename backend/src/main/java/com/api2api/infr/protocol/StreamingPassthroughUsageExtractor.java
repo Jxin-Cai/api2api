@@ -6,7 +6,6 @@ import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -92,29 +91,43 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
             output.write('\n');
             if (line.startsWith("event:")) {
                 currentEvent = line.substring(6).trim();
-            } else if (line.startsWith("data:") && targetEvent.equals(currentEvent)) {
+                terminalEventSeen |= terminalEvents.contains(currentEvent);
+            } else if (line.startsWith("data:")) {
                 String data = line.substring(5).trim();
-                if (!data.isEmpty() && !"[DONE]".equals(data)) {
+                terminalEventSeen |= isTerminalData(data, terminalEvents);
+                if (targetEvent.equals(currentEvent) && !data.isEmpty() && !"[DONE]".equals(data)) {
                     usage = extractor.apply(data, usage);
                 }
             } else if (line.isEmpty()) {
-                terminalEventSeen |= terminalEvents.contains(currentEvent);
                 output.flush();
                 currentEvent = null;
             }
         }
         output.flush();
-        if (!terminalEventSeen) {
-            throw new EOFException("Upstream SSE stream ended before a terminal event");
-        }
+        warnWhenStreamEndedWithoutTerminalEvent(terminalEventSeen);
         return usage;
+    }
+
+    /**
+     * Recognises a terminal event carried only in the data payload, for upstreams that omit the
+     * optional {@code event:} line. SSE permits it, and treating those streams as truncated would
+     * abort otherwise complete responses.
+     */
+    private boolean isTerminalData(String data, Set<String> terminalEvents) {
+        if (data.isEmpty() || "[DONE]".equals(data)) {
+            return false;
+        }
+        try {
+            return terminalEvents.contains(objectMapper.readTree(data).path("type").asText(""));
+        } catch (com.fasterxml.jackson.core.JsonProcessingException notJson) {
+            return false;
+        }
     }
 
     private UnifiedTokenUsage extractOpenAIChatCompletions(InputStream input, OutputStream output) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
         UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
         boolean terminalEventSeen = false;
-        boolean currentEventTerminal = false;
         String line;
         while ((line = reader.readLine()) != null) {
             output.write(line.getBytes(StandardCharsets.UTF_8));
@@ -122,22 +135,29 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
             if (line.startsWith("data:")) {
                 String data = line.substring(5).trim();
                 if ("[DONE]".equals(data)) {
-                    currentEventTerminal = true;
+                    terminalEventSeen = true;
                 } else if (!data.isEmpty()) {
                     usage = tryExtractOpenAIChatCompletionsUsage(data, usage);
                 }
             }
             if (line.isEmpty()) {
-                terminalEventSeen |= currentEventTerminal;
-                currentEventTerminal = false;
                 output.flush();
             }
         }
         output.flush();
-        if (!terminalEventSeen) {
-            throw new EOFException("Upstream SSE stream ended before a terminal event");
-        }
+        warnWhenStreamEndedWithoutTerminalEvent(terminalEventSeen);
         return usage;
+    }
+
+    /**
+     * A missing terminal event is reported but not escalated. The upstream body was relayed to the
+     * client byte for byte, so injecting a synthetic error event here would turn a complete response
+     * into a client-visible failure whenever a provider closes the connection without a trailer.
+     */
+    private void warnWhenStreamEndedWithoutTerminalEvent(boolean terminalEventSeen) {
+        if (!terminalEventSeen) {
+            log.warn("Upstream SSE stream ended without a terminal event; relayed body may be truncated");
+        }
     }
 
     private UnifiedTokenUsage tryExtractClaudeUsage(String data, UnifiedTokenUsage fallback) {

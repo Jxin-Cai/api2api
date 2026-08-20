@@ -13,10 +13,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ProviderHttpClientProperties {
 
     private static final Duration DEFAULT_UPSTREAM_READ_TIMEOUT = Duration.ofMinutes(10);
-    private static final Duration DEFAULT_STREAMING_FIRST_BYTE_TIMEOUT = Duration.ofMinutes(2);
+    private static final Duration DEFAULT_STREAMING_FIRST_BYTE_TIMEOUT = Duration.ofMinutes(5);
     private static final Duration DEFAULT_STREAMING_IDLE_TIMEOUT = Duration.ofMinutes(10);
 
-    private Duration connectTimeout = Duration.ofSeconds(2);
+    private Duration connectTimeout = Duration.ofSeconds(10);
     private Duration modelsReadTimeout = Duration.ofSeconds(10);
     private int modelsMaxRetries = 1;
     private boolean allowInsecureHosts = false;
@@ -33,25 +33,46 @@ public class ProviderHttpClientProperties {
     private String bedrockClaudeMessagesPathTemplate = "/model/{modelId}/invoke";
     private String bedrockClaudeMessagesStreamPathTemplate = "/model/{modelId}/invoke-with-response-stream";
     private String anthropicVersion = "2023-06-01";
-    private Set<String> passthroughHeaderAllowlist = new LinkedHashSet<>(Set.of(
-            "x-request-id",
-            "x-correlation-id",
-            "anthropic-beta",
-            "openai-beta",
-            "traceparent",
-            "tracestate",
-            "baggage"
-    ));
+    /**
+     * Inbound headers that must never reach the provider. Everything else is forwarded verbatim so
+     * the upstream sees the same client fingerprint (user agent, beta flags, SDK metadata) it would
+     * see on a direct call; providers routinely apply different quotas per client signature.
+     *
+     * <p>Three groups are denied: client credentials the gateway replaces, hop-by-hop and
+     * length-framing headers that belong to the inbound connection only, and negotiation headers the
+     * gateway owns because it controls how the upstream body is read.</p>
+     */
     private Set<String> headerDenylist = new LinkedHashSet<>(Set.of(
             "authorization",
             "proxy-authorization",
+            "x-api-key",
             "cookie",
             "set-cookie",
             "host",
             "connection",
+            "proxy-connection",
+            "keep-alive",
             "content-length",
             "transfer-encoding",
-            "x-api-key"
+            "te",
+            "trailer",
+            "upgrade",
+            "expect",
+            "accept",
+            "accept-encoding",
+            "content-type",
+            "forwarded",
+            "via",
+            "x-forwarded-for",
+            "x-forwarded-host",
+            "x-forwarded-proto",
+            "x-forwarded-port",
+            "x-forwarded-prefix",
+            "x-forwarded-server",
+            "x-real-ip",
+            "true-client-ip",
+            "cf-connecting-ip",
+            "cf-ipcountry"
     ));
 
     public Duration getConnectTimeout() {
@@ -203,14 +224,6 @@ public class ProviderHttpClientProperties {
             throw new IllegalArgumentException("Anthropic version must not be blank");
         }
         this.anthropicVersion = anthropicVersion.trim();
-    }
-
-    public Set<String> getPassthroughHeaderAllowlist() {
-        return Set.copyOf(passthroughHeaderAllowlist);
-    }
-
-    public void setPassthroughHeaderAllowlist(Set<String> passthroughHeaderAllowlist) {
-        this.passthroughHeaderAllowlist = normalizeHeaderNames(passthroughHeaderAllowlist);
     }
 
     public Set<String> getHeaderDenylist() {

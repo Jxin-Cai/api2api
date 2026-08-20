@@ -90,6 +90,11 @@ public class GatewayStreamingResponseMapper {
         return responseBody;
     }
 
+    /**
+     * Signals a genuine transport failure — a broken connection or an idle timeout — after part of the
+     * stream was already relayed. A stream that simply lacks a trailer is not an error and never
+     * reaches this path.
+     */
     private boolean writeStreamingError(
             OutputStream outputStream,
             ProtocolType clientProtocol,
@@ -98,16 +103,16 @@ public class GatewayStreamingResponseMapper {
         String event = switch (clientProtocol) {
             case CLAUDE_MESSAGES -> """
                     event: error
-                    data: {"type":"error","error":{"type":"api_error","message":"Upstream stream ended before a terminal event"}}
+                    data: {"type":"error","error":{"type":"api_error","message":"Upstream stream failed before completion"}}
 
                     """;
             case OPENAI_RESPONSES -> """
                     event: error
-                    data: {"type":"error","code":"upstream_stream_error","message":"Upstream stream ended before a terminal event","param":null}
+                    data: {"type":"error","code":"upstream_stream_error","message":"Upstream stream failed before completion","param":null}
 
                     """;
             case OPENAI_CHAT_COMPLETIONS -> """
-                    data: {"error":{"type":"upstream_stream_error","message":"Upstream stream ended before a terminal event"}}
+                    data: {"error":{"type":"upstream_stream_error","message":"Upstream stream failed before completion"}}
 
                     data: [DONE]
 

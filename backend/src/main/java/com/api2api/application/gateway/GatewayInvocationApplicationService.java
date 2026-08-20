@@ -56,11 +56,19 @@ public class GatewayInvocationApplicationService {
     private static final int MAX_FAILURE_REASON_LENGTH = 1000;
 
     /**
-     * Duration a model remains isolated from routing after an upstream 429 rate-limit response.
-     * After this period, the model's status is restored to ENABLED by {@code restoreModelRateLimitsBefore}.
-     * Configurable via property {@code api2api.gateway.model-rate-limit-isolation} (ISO-8601 duration, default 24h).
+     * Conservative token reservation per request for TOCTOU-safe quota enforcement.
+     * This value is written as a PENDING usage record during authentication so that concurrent
+     * requests observe the in-flight commitment via {@code sumActualTokensByApiCredential}.
      */
-    @Value("${api2api.gateway.model-rate-limit-isolation:PT24H}")
+    private static final long DEFAULT_RESERVATION_TOKENS = 4096;
+
+    /**
+     * Fallback isolation window applied after an upstream 429 when the provider advertised no
+     * {@code Retry-After}. Kept short because a rate limit is a transient signal: a long window turns
+     * one throttled request into an outage for every later request on the same model.
+     * Configurable via property {@code api2api.gateway.model-rate-limit-isolation} (ISO-8601 duration).
+     */
+    @Value("${api2api.gateway.model-rate-limit-isolation:PT1M}")
     private Duration modelRateLimitIsolationDuration;
 
     @NonNull
@@ -148,9 +156,13 @@ public class GatewayInvocationApplicationService {
 
         invocation = gatewayInvocationService.route(invocation, routePlan, Instant.now(clock));
         RouteCandidate candidate = routePlan.firstCandidate();
+        UpstreamResponseMetadata lastUpstreamMetadata = UpstreamResponseMetadata.empty();
         while (candidate != null) {
             StreamingRouteAttempt attempt = openStreamingRoute(command, route, invocation, candidate);
             invocation = attempt.invocation();
+            if (attempt.upstreamMetadata().present()) {
+                lastUpstreamMetadata = attempt.upstreamMetadata();
+            }
             if (attempt.retryNext()) {
                 candidate = attempt.nextCandidate();
                 continue;
@@ -159,7 +171,7 @@ public class GatewayInvocationApplicationService {
         }
 
         invocation = completeAllCandidatesFailed(command, invocation);
-        return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId());
+        return GatewayStreamingInvocation.failed(invocation, command.getUsageRecordId(), lastUpstreamMetadata);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -226,7 +238,7 @@ public class GatewayInvocationApplicationService {
                 command.isStreaming(),
                 command.isToolCallingRequired(),
                 command.isReasoningRequired()
-        ).withAnthropicBetaFeatures(anthropicBetaFeatures(command.getIncomingHeaders()));
+        ).withAnthropicBetaFeatures(anthropicBetaFeatures(command.getInbound().headers()));
         ApiCredential credential = apiCredentialRepository.findByKeyHash(command.getKeyHash())
                 .orElseThrow(() -> new BusinessException("API_CREDENTIAL_INVALID"));
         credential.assertUsable();
@@ -247,6 +259,15 @@ public class GatewayInvocationApplicationService {
                 now
         );
         invocation = gatewayInvocationService.authenticate(invocation, credential, currentConsumedTokens, now);
+
+        if (command.getInbound().operation().billable()) {
+            // Atomically reserve quota so concurrent requests see the in-flight commitment
+            UsageRecord reservation = UsageRecord.reserve(
+                    command.getUsageRecordId(), invocation, command.isStreaming(),
+                    DEFAULT_RESERVATION_TOKENS, now);
+            usageRecordRepository.save(reservation);
+        }
+
         credential.markUsed(now);
         apiCredentialRepository.save(credential);
         return invocation;
@@ -257,10 +278,12 @@ public class GatewayInvocationApplicationService {
         Objects.requireNonNull(usageRecordId, "Usage record id must not be null");
         Objects.requireNonNull(invocation, "Gateway invocation must not be null");
         if (!hasBillableSuccessfulUsage(invocation)) {
+            // No billable usage — cancel a PENDING reservation when one was written
+            usageRecordRepository.cancelReservation(usageRecordId);
             return;
         }
         UsageRecord usageRecord = UsageRecord.fromInvocation(usageRecordId, invocation, Instant.now(clock));
-        usageRecordRepository.save(usageRecord);
+        usageRecordRepository.update(usageRecord);
     }
 
     private boolean hasBillableSuccessfulUsage(GatewayInvocation invocation) {
@@ -287,6 +310,9 @@ public class GatewayInvocationApplicationService {
                 invocation.requirement()
         );
         RoutePlan routePlan = routingPolicyService.buildRoutePlan(routingRequest, channels, conversionDefinitions, now);
+        if (command.getInbound().operation().requiresNativeProtocol()) {
+            routePlan = routePlan.nativeProtocolOnly();
+        }
         return new PreparedRoute(invocation, routePlan, conversionDefinitions);
     }
 
@@ -383,7 +409,7 @@ public class GatewayInvocationApplicationService {
                 candidate,
                 requestConversion.body(),
                 command.isStreaming(),
-                command.getIncomingHeaders()
+                command.getInbound()
         );
         return new SynchronousProviderCall(convertedInvocation, upstreamResponse);
     }
@@ -406,7 +432,7 @@ public class GatewayInvocationApplicationService {
                 conversionRequirement(invocation, candidate),
                 route.conversionDefinitions()
         );
-        responseConversion = rewriteResponseModel(candidate, responseConversion);
+        responseConversion = rewriteResponseModel(command, candidate, responseConversion);
         invocation = gatewayInvocationService.recordConversion(
                 invocation,
                 responseConversion,
@@ -465,7 +491,8 @@ public class GatewayInvocationApplicationService {
                     invocation,
                     route.routePlan(),
                     routeFailure,
-                    InvocationErrorType.CONVERSION_FAILED
+                    InvocationErrorType.CONVERSION_FAILED,
+                    UpstreamResponseMetadata.empty()
             );
         } catch (UpstreamGatewayException exception) {
             RouteFailure routeFailure = toRouteFailure(candidate, exception);
@@ -475,7 +502,8 @@ public class GatewayInvocationApplicationService {
                     invocation,
                     route.routePlan(),
                     routeFailure,
-                    InvocationErrorType.UPSTREAM_FAILED
+                    InvocationErrorType.UPSTREAM_FAILED,
+                    exception.responseMetadata()
             );
         } catch (RuntimeException exception) {
             RouteFailure routeFailure = toRouteFailure(candidate, mapUpstreamFailureType(exception), exception);
@@ -484,7 +512,8 @@ public class GatewayInvocationApplicationService {
                     invocation,
                     route.routePlan(),
                     routeFailure,
-                    InvocationErrorType.UPSTREAM_FAILED
+                    InvocationErrorType.UPSTREAM_FAILED,
+                    UpstreamResponseMetadata.empty()
             );
         }
     }
@@ -521,7 +550,7 @@ public class GatewayInvocationApplicationService {
         ProviderStreamingResponse providerResponse = providerGatewayCallPort.openStream(
                 candidate,
                 requestConversion.body(),
-                command.getIncomingHeaders()
+                command.getInbound()
         );
         return new StreamingProviderCall(convertedInvocation, providerResponse);
     }
@@ -531,15 +560,17 @@ public class GatewayInvocationApplicationService {
             GatewayInvocation invocation,
             RoutePlan routePlan,
             RouteFailure routeFailure,
-            InvocationErrorType errorType
+            InvocationErrorType errorType,
+            UpstreamResponseMetadata upstreamMetadata
     ) {
         FailoverResult failover = handleFailoverException(command, invocation, routePlan, routeFailure, errorType);
         if (failover.retryNext()) {
-            return StreamingRouteAttempt.retryNext(failover.invocation(), failover.nextCandidate());
+            return StreamingRouteAttempt.retryNext(failover.invocation(), failover.nextCandidate(), upstreamMetadata);
         }
         return StreamingRouteAttempt.terminal(GatewayStreamingInvocation.failed(
                 failover.invocation(),
-                command.getUsageRecordId()
+                command.getUsageRecordId(),
+                upstreamMetadata
         ));
     }
 
@@ -617,8 +648,18 @@ public class GatewayInvocationApplicationService {
                 .toList();
     }
 
-    private ConversionResult rewriteResponseModel(RouteCandidate candidate, ConversionResult responseConversion) {
-        if (!candidate.requiresModelMapping()) {
+    /**
+     * Restores the client-facing model name after route model mapping. Only invocation responses
+     * carry a model field; auxiliary operations such as token counting would gain a field the
+     * protocol never defines.
+     */
+    private ConversionResult rewriteResponseModel(
+            InvokeGatewayCommand command,
+            RouteCandidate candidate,
+            ConversionResult responseConversion
+    ) {
+        if (!candidate.requiresModelMapping()
+                || command.getInbound().operation() != ProtocolOperation.INVOKE) {
             return responseConversion;
         }
         String body = payloadModelMappingPort.rewriteModel(candidate.clientProtocol(), responseConversion.body(), candidate.requestedModel());
@@ -636,12 +677,12 @@ public class GatewayInvocationApplicationService {
             RouteCandidate candidate,
             String upstreamRequestBody,
             boolean streaming,
-            Map<String, List<String>> incomingHeaders
+            InboundRequestContext inbound
     ) {
         Objects.requireNonNull(port, "Provider gateway call port must not be null");
         Objects.requireNonNull(candidate, "Route candidate must not be null");
         Objects.requireNonNull(upstreamRequestBody, "Upstream request body must not be null");
-        ProviderGatewayResponse response = port.forward(candidate, upstreamRequestBody, streaming, incomingHeaders);
+        ProviderGatewayResponse response = port.forward(candidate, upstreamRequestBody, streaming, inbound);
         if (!candidate.upstreamProtocol().equals(response.protocol())) {
             throw new BusinessException("UPSTREAM_RESPONSE_PROTOCOL_MISMATCH");
         }
@@ -702,12 +743,14 @@ public class GatewayInvocationApplicationService {
         String reason = exception.failureType() == RouteFailureType.RATE_LIMITED
                 ? modelRateLimitedReason(candidate, safeReason(exception))
                 : safeReason(exception);
+        Instant now = Instant.now(clock);
         return RouteFailure.of(
                 candidate.providerChannelId(),
                 exception.failureType(),
                 reason,
                 exception.retryable(),
-                Instant.now(clock)
+                now,
+                exception.responseMetadata().retryAfter(now).orElse(null)
         );
     }
 
@@ -728,7 +771,7 @@ public class GatewayInvocationApplicationService {
         if (failure.failureType() != RouteFailureType.RATE_LIMITED) {
             return;
         }
-        Instant resetAt = failure.occurredAt().plus(modelRateLimitIsolationDuration);
+        Instant resetAt = failure.occurredAt().plus(failure.retryAfter().orElse(modelRateLimitIsolationDuration));
         providerChannelRepository.markModelRateLimited(
                 failure.providerChannelId(),
                 candidate.upstreamModel(),
@@ -751,12 +794,14 @@ public class GatewayInvocationApplicationService {
         if (failureType == RouteFailureType.RATE_LIMITED) {
             reason = modelRateLimitedReason(candidate, reason);
         }
+        Instant now = Instant.now(clock);
         return RouteFailure.of(
                 candidate.providerChannelId(),
                 failureType,
                 reason,
                 failureType.isRetryableByDefault() || isModelUnavailable(response.statusCode(), response.body()),
-                Instant.now(clock)
+                now,
+                UpstreamResponseMetadata.of(response.headers()).retryAfter(now).orElse(null)
         );
     }
 
@@ -901,13 +946,19 @@ public class GatewayInvocationApplicationService {
     private record StreamingRouteAttempt(
             GatewayInvocation invocation,
             RouteCandidate nextCandidate,
-            GatewayStreamingInvocation streamingInvocation
+            GatewayStreamingInvocation streamingInvocation,
+            UpstreamResponseMetadata upstreamMetadata
     ) {
-        private static StreamingRouteAttempt retryNext(GatewayInvocation invocation, RouteCandidate nextCandidate) {
+        private static StreamingRouteAttempt retryNext(
+                GatewayInvocation invocation,
+                RouteCandidate nextCandidate,
+                UpstreamResponseMetadata upstreamMetadata
+        ) {
             return new StreamingRouteAttempt(
                     invocation,
                     Objects.requireNonNull(nextCandidate, "Next route candidate must not be null"),
-                    null
+                    null,
+                    upstreamMetadata
             );
         }
 
@@ -916,7 +967,12 @@ public class GatewayInvocationApplicationService {
                     streamingInvocation,
                     "Gateway streaming invocation must not be null"
             );
-            return new StreamingRouteAttempt(nonNullInvocation.invocation(), null, nonNullInvocation);
+            return new StreamingRouteAttempt(
+                    nonNullInvocation.invocation(),
+                    null,
+                    nonNullInvocation,
+                    nonNullInvocation.upstreamMetadata()
+            );
         }
 
         private boolean retryNext() {

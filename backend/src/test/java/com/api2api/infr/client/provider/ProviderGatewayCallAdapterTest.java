@@ -2,6 +2,8 @@ package com.api2api.infr.client.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.api2api.application.gateway.InboundRequestContext;
+import com.api2api.application.gateway.ProtocolOperation;
 import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.application.gateway.UpstreamGatewayException;
@@ -42,6 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +71,8 @@ class ProviderGatewayCallAdapterTest {
                 candidate(ProtocolType.OPENAI_RESPONSES),
                 "{\"model\":\"gpt\"}",
                 false,
-                Map.of("X-Request-Id", List.of("request-1"), "Authorization", List.of("Bearer client-key"))
+                InboundRequestContext.ofHeaders(
+                        Map.of("X-Request-Id", List.of("request-1"), "Authorization", List.of("Bearer client-key")))
         );
 
         assertThat(response.statusCode()).isEqualTo(200);
@@ -85,7 +89,7 @@ class ProviderGatewayCallAdapterTest {
                 candidate(ProtocolType.OPENAI_RESPONSES),
                 "{}",
                 false,
-                Map.of()
+                InboundRequestContext.empty()
         );
 
         assertThat(response.successful()).isFalse();
@@ -101,7 +105,7 @@ class ProviderGatewayCallAdapterTest {
         ProviderStreamingResponse response = adapter.openStream(
                 candidate(ProtocolType.OPENAI_RESPONSES),
                 "{}",
-                Map.of()
+                InboundRequestContext.empty()
         );
 
         assertThat(response.statusCode()).isEqualTo(200);
@@ -121,7 +125,7 @@ class ProviderGatewayCallAdapterTest {
         ProviderStreamingResponse response = adapter.openStream(
                 candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES),
                 "{\"messages\":[]}",
-                Map.of()
+                InboundRequestContext.empty()
         );
 
         // Assert
@@ -136,7 +140,7 @@ class ProviderGatewayCallAdapterTest {
         ProviderGatewayCallAdapter adapter = adapter();
 
         UpstreamGatewayException exception = Assertions.catchThrowableOfType(
-                () -> adapter.openStream(candidate(ProtocolType.OPENAI_RESPONSES), "{}", Map.of()),
+                () -> adapter.openStream(candidate(ProtocolType.OPENAI_RESPONSES), "{}", InboundRequestContext.empty()),
                 UpstreamGatewayException.class
         );
 
@@ -153,13 +157,148 @@ class ProviderGatewayCallAdapterTest {
 
         // Act
         UpstreamGatewayException exception = Assertions.catchThrowableOfType(
-                () -> adapter.openStream(candidate(ProtocolType.OPENAI_RESPONSES), "{}", Map.of()),
+                () -> adapter.openStream(candidate(ProtocolType.OPENAI_RESPONSES), "{}", InboundRequestContext.empty()),
                 UpstreamGatewayException.class
         );
 
         // Assert
         assertThat(exception.failureType()).isEqualTo(com.api2api.domain.routing.model.RouteFailureType.RATE_LIMITED);
         assertThat(requests.get()).isEqualTo(1);
+    }
+
+    @Test
+    void test_forwardsQueryString_when_clientSuppliesOne() throws IOException {
+        // Arrange
+        AtomicReference<String> requestUri = new AtomicReference<>();
+        server = recordingServer("/v1/responses", requestUri);
+        ProviderGatewayCallAdapter adapter = adapter();
+
+        // Act
+        adapter.forward(
+                candidate(ProtocolType.OPENAI_RESPONSES),
+                "{}",
+                false,
+                InboundRequestContext.of(Map.of(), "beta=true", ProtocolOperation.INVOKE)
+        );
+
+        // Assert
+        assertThat(requestUri.get()).isEqualTo("/v1/responses?beta=true");
+    }
+
+    @Test
+    void test_usesCountTokensEndpoint_when_operationIsCountTokens() throws IOException {
+        // Arrange
+        AtomicReference<String> requestUri = new AtomicReference<>();
+        server = recordingServer("/v1/messages/count_tokens", requestUri);
+        ProviderGatewayCallAdapter adapter = adapter(ProtocolType.CLAUDE_MESSAGES);
+
+        // Act
+        adapter.forward(
+                candidate(ProtocolType.CLAUDE_MESSAGES),
+                "{}",
+                false,
+                InboundRequestContext.of(Map.of(), null, ProtocolOperation.COUNT_TOKENS)
+        );
+
+        // Assert
+        assertThat(requestUri.get()).isEqualTo("/v1/messages/count_tokens");
+    }
+
+    @Test
+    void test_dropsQueryString_when_upstreamProtocolDiffers() throws IOException {
+        // Arrange
+        AtomicReference<String> requestUri = new AtomicReference<>();
+        server = recordingServer("/v1/responses", requestUri);
+        ProviderGatewayCallAdapter adapter = adapter();
+
+        // Act
+        adapter.forward(
+                candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES),
+                "{}",
+                false,
+                InboundRequestContext.of(Map.of(), "beta=true", ProtocolOperation.INVOKE)
+        );
+
+        // Assert
+        assertThat(requestUri.get()).isEqualTo("/v1/responses");
+    }
+
+    @Test
+    void test_doesNotRetryStreamingRequest_when_upstreamReturnsServerError() throws IOException {
+        // Arrange
+        AtomicInteger requests = new AtomicInteger();
+        server = serverThatFailsWith(500, requests);
+        ProviderGatewayCallAdapter adapter = adapterWithStreamingRetryBackoff();
+
+        // Act
+        Assertions.catchThrowableOfType(
+                () -> adapter.openStream(
+                        candidate(ProtocolType.OPENAI_RESPONSES), "{}", InboundRequestContext.empty()),
+                UpstreamGatewayException.class
+        );
+
+        // Assert
+        assertThat(requests.get()).isEqualTo(1);
+    }
+
+    @Test
+    void test_carriesRetryAfterHeader_when_upstreamRateLimitsStream() throws IOException {
+        // Arrange
+        server = rateLimitedServerWithRetryAfter("42");
+        ProviderGatewayCallAdapter adapter = adapterWithStreamingRetryBackoff();
+
+        // Act
+        UpstreamGatewayException exception = Assertions.catchThrowableOfType(
+                () -> adapter.openStream(
+                        candidate(ProtocolType.OPENAI_RESPONSES), "{}", InboundRequestContext.empty()),
+                UpstreamGatewayException.class
+        );
+
+        // Assert
+        assertThat(exception.responseMetadata().retryAfter(Instant.now()))
+                .contains(java.time.Duration.ofSeconds(42));
+    }
+
+    private HttpServer recordingServer(String path, AtomicReference<String> requestUri) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext(path, exchange -> {
+            requestUri.set(exchange.getRequestURI().toString());
+            byte[] bytes = "{}".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
+    private HttpServer serverThatFailsWith(int status, AtomicInteger requests) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext("/v1/responses", exchange -> {
+            requests.incrementAndGet();
+            byte[] bytes = "{\"error\":\"boom\"}".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(status, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
+    private HttpServer rateLimitedServerWithRetryAfter(String retryAfter) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext("/v1/responses", exchange -> {
+            byte[] bytes = "{\"error\":\"busy\"}".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.getResponseHeaders().set("Retry-After", retryAfter);
+            exchange.sendResponseHeaders(429, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
     }
 
     private HttpServer server(int status, String contentType, String body) throws IOException {

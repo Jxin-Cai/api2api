@@ -2,6 +2,7 @@ package com.api2api.ohs.http.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.api2api.application.gateway.UpstreamResponseMetadata;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannelId;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class GatewayInvocationResponseMapperTest {
@@ -51,6 +53,20 @@ class GatewayInvocationResponseMapperTest {
 
         // Assert
         assertThat(body.at("/error/type").asText()).isEqualTo("rate_limit_error");
+    }
+
+    @Test
+    void test_forwardsRetryAfterHeader_when_upstreamRateLimitedBeforeStreamOpened() {
+        // Arrange
+        GatewayInvocation invocation = failedClaudeInvocation(RouteFailureType.RATE_LIMITED);
+        UpstreamResponseMetadata upstreamMetadata = UpstreamResponseMetadata.of(
+                Map.of("retry-after", List.of("30"), "x-ratelimit-remaining", List.of("0")));
+
+        // Act
+        GatewayRawResponse response = mapper.toRawResponse(invocation, upstreamMetadata);
+
+        // Assert
+        assertThat(response.headers()).containsEntry("retry-after", List.of("30"));
     }
 
     private GatewayInvocation failedClaudeInvocation(RouteFailureType failureType) {

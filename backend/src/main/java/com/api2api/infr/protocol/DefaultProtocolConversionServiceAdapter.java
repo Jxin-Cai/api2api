@@ -40,6 +40,12 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
     }
 
+    /**
+     * Rewrites the request only when the client and upstream protocols actually differ. A payload
+     * that needs no conversion is forwarded byte for byte: any edit to the message history — even a
+     * semantically equivalent one — invalidates the provider's prompt cache for every later turn of
+     * the conversation, which multiplies billed input tokens and the rate limiting that follows.
+     */
     @Override
     public ProtocolConversionResult convertRequest(
             ProtocolPayload payload,
@@ -47,13 +53,13 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
             ProtocolConversionRequest requirement,
             List<ProtocolConversionDefinition> definitions
     ) {
-        payload = ClaudeRequestSanitizer.sanitize(objectMapper, payload, targetProtocol);
         ConversionRoute route = resolve(payload.protocol(), targetProtocol, requirement, definitions);
-        if (route.passthrough()) {
+        if (payload.protocol() == targetProtocol || route.passthrough()) {
             return ProtocolConversionResult.passthrough(payload);
         }
+        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(objectMapper, payload, targetProtocol);
         return findConverter(payload.protocol(), targetProtocol, ProtocolConversionDirection.REQUEST, requirement)
-                .convert(payload, requirement);
+                .convert(sanitized, requirement);
     }
 
     @Override
@@ -64,7 +70,7 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
             List<ProtocolConversionDefinition> definitions
     ) {
         ConversionRoute route = resolve(payload.protocol(), originalClientProtocol, requirement, definitions);
-        if (route.passthrough()) {
+        if (payload.protocol() == originalClientProtocol || route.passthrough()) {
             return ProtocolConversionResult.of(
                     payload.protocol(),
                     originalClientProtocol,

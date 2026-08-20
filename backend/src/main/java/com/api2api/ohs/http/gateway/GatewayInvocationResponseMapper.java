@@ -2,6 +2,7 @@ package com.api2api.ohs.http.gateway;
 
 import com.api2api.application.gateway.GatewayInvocationOutcome;
 import com.api2api.application.gateway.ProviderGatewayResponse;
+import com.api2api.application.gateway.UpstreamResponseMetadata;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.gateway.model.ConversionTrace;
 import com.api2api.domain.gateway.model.GatewayInvocation;
@@ -37,11 +38,27 @@ public class GatewayInvocationResponseMapper {
     private final GatewayProtocolErrorBodyBuilder errorBodyBuilder;
 
     public GatewayRawResponse toRawResponse(GatewayInvocation invocation) {
+        return toRawResponse(invocation, UpstreamResponseMetadata.empty());
+    }
+
+    /**
+     * Maps a terminal invocation that never produced a provider body, preserving the upstream headers
+     * observed on the failing attempt. Clients rely on {@code Retry-After} and the rate-limit headers
+     * to back off correctly; synthesising a bare error would make them retry too aggressively.
+     */
+    public GatewayRawResponse toRawResponse(GatewayInvocation invocation, UpstreamResponseMetadata upstreamMetadata) {
         Objects.requireNonNull(invocation, "Gateway invocation must not be null");
-        return toRawResponse(GatewayInvocationOutcome.withoutProviderResponse(invocation));
+        return toRawResponse(GatewayInvocationOutcome.withoutProviderResponse(invocation), upstreamMetadata);
     }
 
     public GatewayRawResponse toRawResponse(GatewayInvocationOutcome outcome) {
+        return toRawResponse(outcome, UpstreamResponseMetadata.empty());
+    }
+
+    private GatewayRawResponse toRawResponse(
+            GatewayInvocationOutcome outcome,
+            UpstreamResponseMetadata upstreamMetadata
+    ) {
         Objects.requireNonNull(outcome, "Gateway invocation outcome must not be null");
         GatewayInvocation invocation = outcome.invocation();
 
@@ -61,7 +78,7 @@ public class GatewayInvocationResponseMapper {
         if (result.status() == InvocationStatus.SUCCESS) {
             return mapSuccessResponse(invocation);
         } else {
-            return mapFailureResponse(invocation);
+            return mapFailureResponse(invocation, upstreamMetadata);
         }
     }
 
@@ -154,7 +171,10 @@ public class GatewayInvocationResponseMapper {
         return GatewayRawResponse.of(body, HttpStatus.OK.value(), contentType);
     }
 
-    private GatewayRawResponse mapFailureResponse(GatewayInvocation invocation) {
+    private GatewayRawResponse mapFailureResponse(
+            GatewayInvocation invocation,
+            UpstreamResponseMetadata upstreamMetadata
+    ) {
         GatewayInvocationResult result = invocation.result();
         InvocationError error = result.error();
         if (error == null) {
@@ -165,7 +185,8 @@ public class GatewayInvocationResponseMapper {
         HttpStatus httpStatus = mapErrorToHttpStatus(error);
         String errorBody = buildProtocolErrorBody(requestProtocol, error);
 
-        return GatewayRawResponse.of(errorBody, httpStatus.value(), MediaType.APPLICATION_JSON);
+        return GatewayRawResponse.of(
+                errorBody, httpStatus.value(), MediaType.APPLICATION_JSON, upstreamMetadata.headers());
     }
 
     private HttpStatus mapErrorToHttpStatus(InvocationError error) {

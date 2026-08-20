@@ -20,7 +20,7 @@ class ProviderHttpClientPropertiesTest {
     }
 
     @Test
-    void test_returnsTwoMinuteStreamingFirstByteTimeout_when_notConfigured() {
+    void test_returnsFiveMinuteStreamingFirstByteTimeout_when_notConfigured() {
         // Arrange
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
 
@@ -28,7 +28,19 @@ class ProviderHttpClientPropertiesTest {
         Duration timeout = properties.getStreamingFirstByteTimeout();
 
         // Assert
-        assertThat(timeout).isEqualTo(Duration.ofMinutes(2));
+        assertThat(timeout).isEqualTo(Duration.ofMinutes(5));
+    }
+
+    @Test
+    void test_returnsTenSecondConnectTimeout_when_notConfigured() {
+        // Arrange
+        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+
+        // Act
+        Duration timeout = properties.getConnectTimeout();
+
+        // Assert
+        assertThat(timeout).isEqualTo(Duration.ofSeconds(10));
     }
 
     @Test
