@@ -537,7 +537,7 @@ class UnifiedStreamingConversionAdapterTest {
 
         // Assert
         JsonNode completed = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
-                .filter(node -> "response.completed".equals(node.path("type").asText()))
+                .filter(node -> "response.incomplete".equals(node.path("type").asText()))
                 .findFirst().orElseThrow();
         assertThat(completed.at("/response/status").asText()).isEqualTo("incomplete");
         assertThat(completed.at("/response/incomplete_details/reason").asText())
@@ -968,6 +968,136 @@ class UnifiedStreamingConversionAdapterTest {
         assertThat(downstream.toString(StandardCharsets.UTF_8))
                 .doesNotContain("event: message_delta")
                 .doesNotContain("event: message_stop");
+    }
+
+    @Test
+    void test_tunnelsSignatureDeltaThroughEncryptedContent_when_claudeStreamTargetsResponses() throws Exception {
+        // Arrange
+        String upstream = """
+                event: message_start
+                data: {"type":"message_start","message":{"id":"msg_1","usage":{"input_tokens":5,"output_tokens":0}}}
+
+                event: content_block_start
+                data: {"type":"content_block_start","index":0,"content_block":{"type":"thinking","thinking":""}}
+
+                event: content_block_delta
+                data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"deep thought"}}
+
+                event: content_block_delta
+                data: {"type":"content_block_delta","index":0,"delta":{"type":"signature_delta","signature":"anthropic-signature"}}
+
+                event: content_block_stop
+                data: {"type":"content_block_stop","index":0}
+
+                event: message_delta
+                data: {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"output_tokens":3}}
+
+                event: message_stop
+                data: {"type":"message_stop"}
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream);
+
+        // Assert
+        JsonNode reasoningDone = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "response.output_item.done".equals(node.path("type").asText())
+                        && "reasoning".equals(node.at("/item/type").asText()))
+                .findFirst().orElseThrow();
+        JsonNode restored = ClaudeThinkingStateBridge.decode(
+                objectMapper, reasoningDone.at("/item/encrypted_content").asText()).orElseThrow();
+        assertThat(restored.path("signature").asText()).isEqualTo("anthropic-signature");
+    }
+
+    @Test
+    void test_bridgesRedactedThinkingBlock_when_claudeStreamTargetsResponses() throws Exception {
+        // Arrange
+        String upstream = """
+                event: message_start
+                data: {"type":"message_start","message":{"id":"msg_1","usage":{"input_tokens":5,"output_tokens":0}}}
+
+                event: content_block_start
+                data: {"type":"content_block_start","index":0,"content_block":{"type":"redacted_thinking","data":"opaque-redacted-data"}}
+
+                event: content_block_stop
+                data: {"type":"content_block_stop","index":0}
+
+                event: content_block_start
+                data: {"type":"content_block_start","index":1,"content_block":{"type":"text","text":""}}
+
+                event: content_block_delta
+                data: {"type":"content_block_delta","index":1,"delta":{"type":"text_delta","text":"visible"}}
+
+                event: content_block_stop
+                data: {"type":"content_block_stop","index":1}
+
+                event: message_delta
+                data: {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"output_tokens":3}}
+
+                event: message_stop
+                data: {"type":"message_stop"}
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream);
+
+        // Assert
+        JsonNode reasoningDone = dataEvents(downstream.toString(StandardCharsets.UTF_8)).stream()
+                .filter(node -> "response.output_item.done".equals(node.path("type").asText())
+                        && "reasoning".equals(node.at("/item/type").asText()))
+                .findFirst().orElseThrow();
+        JsonNode restored = ClaudeThinkingStateBridge.decode(
+                objectMapper, reasoningDone.at("/item/encrypted_content").asText()).orElseThrow();
+        assertThat(restored.path("type").asText()).isEqualTo("redacted_thinking");
+        assertThat(restored.path("data").asText()).isEqualTo("opaque-redacted-data");
+    }
+
+    @Test
+    void test_restoresNativeSignature_when_responsesStreamCarriesBridgedThinkingState() throws Exception {
+        // Arrange
+        String bridged = ClaudeThinkingStateBridge.encode(objectMapper, objectMapper.readTree("""
+                {"type":"thinking","thinking":"prior reasoning","signature":"anthropic-signature"}
+                """)).orElseThrow();
+        String upstream = """
+                data: {"type":"response.created","response":{"id":"resp_1"}}
+
+                data: {"type":"response.output_item.done","output_index":0,"item":{"type":"reasoning","id":"rs_1","summary":[],"encrypted_content":%s}}
+
+                data: {"type":"response.output_item.done","output_index":1,"item":{"type":"message","role":"assistant","content":[{"type":"output_text","text":"ok"}]}}
+
+                data: {"type":"response.completed","response":{"status":"completed","usage":{"input_tokens":5,"output_tokens":3}}}
+
+                """.formatted(objectMapper.writeValueAsString(bridged));
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_RESPONSES, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream);
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        JsonNode thinkingDelta = events.stream()
+                .filter(node -> "content_block_delta".equals(node.path("type").asText())
+                        && "thinking_delta".equals(node.at("/delta/type").asText()))
+                .findFirst().orElseThrow();
+        assertThat(thinkingDelta.at("/delta/thinking").asText()).isEqualTo("prior reasoning");
+        JsonNode signatureDelta = events.stream()
+                .filter(node -> "content_block_delta".equals(node.path("type").asText())
+                        && "signature_delta".equals(node.at("/delta/type").asText()))
+                .findFirst().orElseThrow();
+        assertThat(signatureDelta.at("/delta/signature").asText()).isEqualTo("anthropic-signature");
     }
 
     private GatewayStreamingConversionContext context(
