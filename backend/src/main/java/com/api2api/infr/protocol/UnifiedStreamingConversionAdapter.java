@@ -439,14 +439,27 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 );
                 state.toolCallSeen = true;
             } else if ("reasoning".equals(itemType)) {
-                ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
-                writeResponsesThinkingFallback(
-                        outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
-                String signature = ResponsesReasoningBridge.encode(objectMapper, item)
-                        .orElseThrow(() -> new IOException(
-                                "OpenAI Responses reasoning item is missing encrypted state"));
-                writeClaudeContentDelta(
-                        outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                JsonNode bridgedBlock = ClaudeThinkingStateBridge.decode(
+                        objectMapper, item.path("encrypted_content").asText("")).orElse(null);
+                if (bridgedBlock != null && "thinking".equals(bridgedBlock.path("type").asText(""))) {
+                    // Round trip: restore the native Claude signature tunneled
+                    // through reasoning.encrypted_content.
+                    ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                    writeResponsesThinkingFallback(
+                            outputIndex, bridgedBlock.path("thinking").asText(""), state, clientBody);
+                    writeClaudeContentDelta(
+                            outputIndex, "signature_delta", "signature",
+                            bridgedBlock.path("signature").asText(""), state, clientBody);
+                } else {
+                    ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                    writeResponsesThinkingFallback(
+                            outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
+                    String signature = ResponsesReasoningBridge.encode(objectMapper, item)
+                            .orElseThrow(() -> new IOException(
+                                    "OpenAI Responses reasoning item is missing encrypted state"));
+                    writeClaudeContentDelta(
+                            outputIndex, "signature_delta", "signature", signature, state, clientBody);
+                }
             } else if (isResponsesCompactionType(itemType)) {
                 ObjectNode normalizedItem = (ObjectNode) item.deepCopy();
                 normalizedItem.put("type", "compaction");

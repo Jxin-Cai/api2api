@@ -141,6 +141,7 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         state.blocks.put(claudeIndex, block);
         switch (type) {
             case "thinking" -> openReasoning(block, state, output);
+            case "redacted_thinking" -> openRedactedThinking(block, contentBlock, state, output);
             case "text" -> openText(block, state, output);
             case "tool_use", "mcp_tool_use" -> {
                 if ("mcp_tool_use".equals(type)) {
@@ -175,6 +176,22 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         event.put("summary_index", 0);
         event.set("part", part);
         writeEvent("response.reasoning_summary_part.added", event, state, output);
+    }
+
+    private void openRedactedThinking(
+            BlockState block,
+            JsonNode contentBlock,
+            State state,
+            OutputStream output
+    ) throws IOException {
+        block.itemId = itemId("rs");
+        block.redactedData = contentBlock.path("data").asText("");
+        ObjectNode item = objectMapper.createObjectNode();
+        item.put("type", "reasoning");
+        item.put("id", block.itemId);
+        item.put("status", "in_progress");
+        item.set("summary", objectMapper.createArrayNode());
+        writeOutputItemEvent("response.output_item.added", block, item, state, output);
     }
 
     private void openText(BlockState block, State state, OutputStream output) throws IOException {
@@ -239,6 +256,9 @@ final class ClaudeMessagesToResponsesStreamingConverter {
             }
             case "input_json_delta" -> emitToolArguments(
                     block, delta.path("partial_json").asText(""), state, output);
+            // Responses has no signature event; the signature is tunneled through
+            // reasoning.encrypted_content on the final output item instead.
+            case "signature_delta" -> block.signature.append(delta.path("signature").asText(""));
             default -> {
             }
         }
@@ -268,6 +288,7 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         }
         switch (block.type) {
             case "thinking" -> closeReasoning(block, state, output);
+            case "redacted_thinking" -> closeRedactedThinking(block, state, output);
             case "text" -> closeText(block, state, output);
             case "tool_use" -> closeTool(block, state, output);
             default -> throw new IOException("Unsupported Claude streaming content block: " + block.type);
@@ -297,6 +318,29 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         ArrayNode summary = objectMapper.createArrayNode();
         summary.add(part);
         item.set("summary", summary);
+        String signature = block.signature.toString();
+        if (!signature.isBlank()) {
+            ObjectNode claudeBlock = objectMapper.createObjectNode();
+            claudeBlock.put("type", "thinking");
+            claudeBlock.put("thinking", text);
+            claudeBlock.put("signature", signature);
+            ClaudeThinkingStateBridge.encode(objectMapper, claudeBlock)
+                    .ifPresent(bridged -> item.put("encrypted_content", bridged));
+        }
+        closeItem(block, item, state, output);
+    }
+
+    private void closeRedactedThinking(BlockState block, State state, OutputStream output) throws IOException {
+        ObjectNode item = objectMapper.createObjectNode();
+        item.put("type", "reasoning");
+        item.put("id", block.itemId);
+        item.put("status", "completed");
+        item.set("summary", objectMapper.createArrayNode());
+        ObjectNode claudeBlock = objectMapper.createObjectNode();
+        claudeBlock.put("type", "redacted_thinking");
+        claudeBlock.put("data", block.redactedData);
+        ClaudeThinkingStateBridge.encode(objectMapper, claudeBlock)
+                .ifPresent(bridged -> item.put("encrypted_content", bridged));
         closeItem(block, item, state, output);
     }
 
@@ -373,7 +417,8 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         if (state.usageKnown) {
             response.set("usage", responsesUsage(state));
         }
-        writeEvent("response.completed",
+        String terminalEvent = "incomplete".equals(status) ? "response.incomplete" : "response.completed";
+        writeEvent(terminalEvent,
                 objectMapper.createObjectNode().set("response", response), state, output);
     }
 
@@ -489,7 +534,9 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         private String callId = "";
         private String name = "";
         private String namespace = "";
+        private String redactedData = "";
         private final StringBuilder value = new StringBuilder();
+        private final StringBuilder signature = new StringBuilder();
         private boolean closed;
 
         private BlockState(int outputIndex, String type) {

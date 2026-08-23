@@ -739,7 +739,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
-    void test_omitsEncryptedContent_when_claudeThinkingSignatureIsForeign() throws Exception {
+    void test_tunnelsNativeSignatureThroughEncryptedContent_when_claudeThinkingSignatureIsNative() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
@@ -759,7 +759,9 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         // Assert
         assertThat(mapped.at("/output/0/type").asText()).isEqualTo("reasoning");
         assertThat(mapped.at("/output/0/summary/0/text").asText()).isEqualTo("summary");
-        assertThat(mapped.at("/output/0").has("encrypted_content")).isFalse();
+        JsonNode restored = ClaudeThinkingStateBridge.decode(
+                objectMapper, mapped.at("/output/0/encrypted_content").asText()).orElseThrow();
+        assertThat(restored.path("signature").asText()).isEqualTo("native-claude-signature");
     }
 
     @Test
@@ -831,5 +833,310 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
                 ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
                 ProtocolConversionRequest.of(false, false, false)))
                 .hasMessageContaining("CLAUDE_RESPONSES_UNSUPPORTED_RESPONSE_BLOCK");
+    }
+
+    @Test
+    void test_bridgesRedactedThinkingThroughEncryptedContent_when_claudeResponseTargetsResponses() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesResponse(
+                        json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
+        String body = """
+                {"id":"msg_redacted","model":"claude-test","stop_reason":"end_turn",
+                 "content":[{"type":"redacted_thinking","data":"opaque-redacted-data"}],
+                 "usage":{"input_tokens":3,"output_tokens":2}}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/output/0/type").asText()).isEqualTo("reasoning");
+        JsonNode restored = ClaudeThinkingStateBridge.decode(
+                objectMapper, mapped.at("/output/0/encrypted_content").asText()).orElseThrow();
+        assertThat(restored.path("type").asText()).isEqualTo("redacted_thinking");
+        assertThat(restored.path("data").asText()).isEqualTo("opaque-redacted-data");
+    }
+
+    @Test
+    void test_convertsCompactionBlockToCompactionItem_when_claudeResponseTargetsResponses() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesResponse(
+                        json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
+        String body = """
+                {"id":"msg_compaction","model":"claude-test","stop_reason":"end_turn",
+                 "content":[{"type":"compaction","content":"conversation summary"},
+                            {"type":"text","text":"continuing"}],
+                 "usage":{"input_tokens":3,"output_tokens":2}}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/output/0/type").asText()).isEqualTo("compaction");
+        assertThat(mapped.at("/output/0/summary/0/text").asText()).isEqualTo("conversation summary");
+        assertThat(mapped.at("/output/1/type").asText()).isEqualTo("message");
+    }
+
+    @Test
+    void test_mapsCacheWriteTokens_when_claudeResponseUsageHasCacheCreation() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesResponse(
+                        json, new ClaudeMessagesUsageExtractor(), new SseEventTransformer());
+        String body = """
+                {"id":"msg_cache","model":"claude-test","stop_reason":"end_turn",
+                 "content":[{"type":"text","text":"done"}],
+                 "usage":{"input_tokens":10,"output_tokens":2,
+                          "cache_creation_input_tokens":7,"cache_read_input_tokens":4}}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/usage/input_tokens_details/cache_write_tokens").asLong()).isEqualTo(7);
+    }
+
+    @Test
+    void test_convertsStructuredInputDirectly_when_responsesRequestTargetsClaude() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "instructions":"Be concise",
+                  "max_output_tokens":512,
+                  "tools":[{"type":"function","name":"get_weather","description":"weather",
+                            "parameters":{"type":"object","properties":{"city":{"type":"string"}}}}],
+                  "tool_choice":{"type":"function","name":"get_weather"},
+                  "parallel_tool_calls":false,
+                  "input":[
+                    {"role":"user","content":[{"type":"input_text","text":"weather in BJ?"}]},
+                    {"type":"function_call","call_id":"call_1","name":"get_weather","arguments":"{\\"city\\":\\"BJ\\"}"},
+                    {"type":"function_call_output","call_id":"call_1","output":"sunny"}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.path("system").asText()).isEqualTo("Be concise");
+        assertThat(mapped.path("max_tokens").asInt()).isEqualTo(512);
+        assertThat(mapped.at("/tools/0/name").asText()).isEqualTo("get_weather");
+        assertThat(mapped.at("/tools/0/input_schema/properties/city/type").asText()).isEqualTo("string");
+        assertThat(mapped.at("/tool_choice/type").asText()).isEqualTo("tool");
+        assertThat(mapped.at("/tool_choice/name").asText()).isEqualTo("get_weather");
+        assertThat(mapped.at("/tool_choice/disable_parallel_tool_use").asBoolean()).isTrue();
+        assertThat(mapped.at("/messages/0/role").asText()).isEqualTo("user");
+        assertThat(mapped.at("/messages/1/role").asText()).isEqualTo("assistant");
+        assertThat(mapped.at("/messages/1/content/0/type").asText()).isEqualTo("tool_use");
+        assertThat(mapped.at("/messages/1/content/0/input/city").asText()).isEqualTo("BJ");
+        assertThat(mapped.at("/messages/2/role").asText()).isEqualTo("user");
+        assertThat(mapped.at("/messages/2/content/0/type").asText()).isEqualTo("tool_result");
+        assertThat(mapped.at("/messages/2/content/0/content").asText()).isEqualTo("sunny");
+    }
+
+    @Test
+    void test_restoresNativeThinkingBlock_when_responsesRequestReplaysBridgedReasoningState() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        String bridged = ClaudeThinkingStateBridge.encode(objectMapper, objectMapper.readTree("""
+                {"type":"thinking","thinking":"prior reasoning","signature":"anthropic-signature"}
+                """)).orElseThrow();
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "input":[
+                    {"role":"user","content":[{"type":"input_text","text":"continue"}]},
+                    {"type":"reasoning","id":"rs_1","summary":[],"encrypted_content":%s},
+                    {"role":"assistant","content":[{"type":"output_text","text":"ok"}]}
+                  ]
+                }
+                """.formatted(objectMapper.writeValueAsString(bridged));
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/1/role").asText()).isEqualTo("assistant");
+        assertThat(mapped.at("/messages/1/content/0/type").asText()).isEqualTo("thinking");
+        assertThat(mapped.at("/messages/1/content/0/thinking").asText()).isEqualTo("prior reasoning");
+        assertThat(mapped.at("/messages/1/content/0/signature").asText()).isEqualTo("anthropic-signature");
+    }
+
+    @Test
+    void test_dropsForeignReasoningState_when_responsesRequestCarriesOpenAIEncryptedContent() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "input":[
+                    {"role":"user","content":[{"type":"input_text","text":"continue"}]},
+                    {"type":"reasoning","id":"rs_1","summary":[],"encrypted_content":"gAAAA-openai-opaque"}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.path("messages")).hasSize(1);
+        assertThat(mapped.at("/messages/0/role").asText()).isEqualTo("user");
+    }
+
+    @Test
+    void test_mapsReasoningEffortToThinkingBudget_when_responsesRequestTargetsClaude() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "max_output_tokens":16384,
+                  "reasoning":{"effort":"high"},
+                  "input":"think hard"
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/thinking/type").asText()).isEqualTo("enabled");
+        assertThat(mapped.at("/thinking/budget_tokens").asInt()).isEqualTo(10240);
+        assertThat(mapped.at("/output_config/effort").asText()).isEqualTo("high");
+    }
+
+    @Test
+    void test_convertsImageDataUriToBase64Source_when_responsesRequestTargetsClaude() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "input":[
+                    {"role":"user","content":[
+                      {"type":"input_text","text":"describe"},
+                      {"type":"input_image","image_url":"data:image/png;base64,aGVsbG8="}
+                    ]}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/1/type").asText()).isEqualTo("image");
+        assertThat(mapped.at("/messages/0/content/1/source/type").asText()).isEqualTo("base64");
+        assertThat(mapped.at("/messages/0/content/1/source/media_type").asText()).isEqualTo("image/png");
+        assertThat(mapped.at("/messages/0/content/1/source/data").asText()).isEqualTo("aGVsbG8=");
+    }
+
+    @Test
+    void test_mapsTextFormatToOutputConfig_when_responsesRequestUsesJsonSchema() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "text":{"format":{"type":"json_schema","name":"answer",
+                          "schema":{"type":"object","properties":{"answer":{"type":"string"}}}}},
+                  "input":"answer in json"
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/output_config/format/type").asText()).isEqualTo("json_schema");
+        assertThat(mapped.at("/output_config/format/schema/properties/answer/type").asText()).isEqualTo("string");
+    }
+
+    @Test
+    void test_rejectsStatefulRequest_when_responsesRequestUsesPreviousResponseId() {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"claude-test","previous_response_id":"resp_prev","input":"continue"}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, false)))
+                .hasMessageContaining("RESPONSES_CLAUDE_PREVIOUS_RESPONSE_ID_NOT_SUPPORTED");
+    }
+
+    @Test
+    void test_restoresNativeThinkingBlock_when_responsesResponseCarriesBridgedState() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        String bridged = ClaudeThinkingStateBridge.encode(objectMapper, objectMapper.readTree("""
+                {"type":"thinking","thinking":"prior reasoning","signature":"anthropic-signature"}
+                """)).orElseThrow();
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesResponse(
+                        json, new OpenAIResponsesUsageExtractor(), new SseEventTransformer());
+        String body = """
+                {"id":"resp_1","model":"claude-test","status":"completed",
+                 "output":[
+                   {"type":"reasoning","id":"rs_1","summary":[],"encrypted_content":%s},
+                   {"type":"message","role":"assistant","content":[{"type":"output_text","text":"ok"}]}
+                 ],
+                 "usage":{"input_tokens":3,"output_tokens":2}}
+                """.formatted(objectMapper.writeValueAsString(bridged));
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/content/0/type").asText()).isEqualTo("thinking");
+        assertThat(mapped.at("/content/0/thinking").asText()).isEqualTo("prior reasoning");
+        assertThat(mapped.at("/content/0/signature").asText()).isEqualTo("anthropic-signature");
     }
 }

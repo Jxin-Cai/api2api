@@ -42,6 +42,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private final boolean fullStreamingSupport;
     private final List<String> reasoningModelPrefixes;
     private final List<String> reasoningModelContains;
+    private final ResponsesToClaudeRequestConverter responsesToClaudeRequestConverter;
 
     GenericProtocolMessageConverter(
             ProtocolJsonSupport json,
@@ -58,6 +59,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         this.fullStreamingSupport = isFullStreamingPair(sourceProtocol, targetProtocol, direction);
         this.reasoningModelPrefixes = properties.getReasoningModelPrefixes();
         this.reasoningModelContains = properties.getReasoningModelContains();
+        this.responsesToClaudeRequestConverter = new ResponsesToClaudeRequestConverter(json);
     }
 
     private Function<JsonNode, JsonNode> resolveRequestConverter(ProtocolType source, ProtocolType target) {
@@ -82,7 +84,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_RESPONSES) return true;
         if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return true;
         if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.CLAUDE_MESSAGES) return true;
-        if (direction == ProtocolConversionDirection.RESPONSE && source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.CLAUDE_MESSAGES) return true;
+        if (source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.CLAUDE_MESSAGES) return true;
         if (direction == ProtocolConversionDirection.RESPONSE
                 && ((source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS)
                 || (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.OPENAI_RESPONSES))) return true;
@@ -2139,8 +2141,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private ObjectNode responsesRequestToClaude(JsonNode source) {
-        ObjectNode chat = responsesRequestToChat(source);
-        return chatRequestToClaude(chat);
+        return responsesToClaudeRequestConverter.convert(source);
     }
 
     private ObjectNode claudeResponseToChat(JsonNode source) {
@@ -2215,10 +2216,16 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             for (JsonNode block : content) {
                 String type = block.path("type").asText("");
                 switch (type) {
-                    case "thinking" -> {
+                    case "thinking", "redacted_thinking" -> {
                         outputOrdinal = flushClaudeResponseMessage(
                                 output, msgParts, responseId, outputOrdinal);
                         output.add(claudeResponseThinkingToResponses(block, responseId, outputOrdinal));
+                        outputOrdinal++;
+                    }
+                    case "compaction" -> {
+                        outputOrdinal = flushClaudeResponseMessage(
+                                output, msgParts, responseId, outputOrdinal);
+                        output.add(claudeResponseCompactionToResponses(block, responseId, outputOrdinal));
                         outputOrdinal++;
                     }
                     case "text" -> {
@@ -2247,7 +2254,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                     case "mcp_tool_use", "server_tool_use", "code_execution_tool_result",
                          "mcp_tool_result", "web_search_tool_result", "web_fetch_tool_result",
                          "bash_code_execution_tool_result", "text_editor_code_execution_tool_result",
-                         "tool_search_tool_result", "redacted_thinking", "compaction" ->
+                         "tool_search_tool_result" ->
                             throw new ProtocolConversionException(
                                     "CLAUDE_RESPONSES_UNSUPPORTED_RESPONSE_BLOCK: " + type);
                     default -> throw new ProtocolConversionException(
@@ -2300,6 +2307,18 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             String responseId,
             int outputOrdinal
     ) {
+        if ("redacted_thinking".equals(block.path("type").asText(""))) {
+            ObjectNode reasoning = json.objectNode();
+            reasoning.put("type", "reasoning");
+            reasoning.put("id", responsesOutputItemId("rs_", responseId, outputOrdinal));
+            reasoning.set("summary", json.arrayNode());
+            String bridged = ClaudeThinkingStateBridge.encode(json.objectMapper(), block)
+                    .orElseThrow(() -> new ProtocolConversionException(
+                            "CLAUDE_RESPONSES_REDACTED_THINKING_STATE_MISSING"));
+            reasoning.put("encrypted_content", bridged);
+            return reasoning;
+        }
+
         String signature = block.path("signature").asText("");
         Optional<JsonNode> opaqueItem = ResponsesReasoningBridge.decodeItem(json.objectMapper(), signature);
         if (opaqueItem.isPresent()) {
@@ -2314,6 +2333,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             reasoning.put("encrypted_content", state.get().path("encrypted_content").asText());
         } else {
             reasoning.put("id", responsesOutputItemId("rs_", responseId, outputOrdinal));
+            // Native Claude signatures are tunneled through encrypted_content so a
+            // Responses client can replay the signed thinking block on the next turn.
+            ClaudeThinkingStateBridge.encode(json.objectMapper(), block)
+                    .ifPresent(bridged -> reasoning.put("encrypted_content", bridged));
         }
 
         String thinking = block.path("thinking").asText("");
@@ -2324,10 +2347,32 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             summaryText.put("text", thinking);
             summary.add(summaryText);
             reasoning.set("summary", summary);
-        } else if (state.isEmpty()) {
+        } else if (state.isEmpty() && !reasoning.hasNonNull("encrypted_content")) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_THINKING_STATE_NOT_REPLAYABLE");
         }
         return reasoning;
+    }
+
+    private ObjectNode claudeResponseCompactionToResponses(
+            JsonNode block,
+            String responseId,
+            int outputOrdinal
+    ) {
+        String summaryText = block.path("content").asText("");
+        if (summaryText.isBlank()) {
+            throw new ProtocolConversionException("CLAUDE_RESPONSES_COMPACTION_CONTENT_REQUIRED");
+        }
+        ObjectNode compaction = json.objectNode();
+        compaction.put("type", "compaction");
+        compaction.put("id", responsesOutputItemId("cmp_", responseId, outputOrdinal));
+        ArrayNode summary = json.arrayNode();
+        ObjectNode summaryPart = json.objectNode();
+        summaryPart.put("type", "summary_text");
+        summaryPart.put("text", summaryText);
+        summary.add(summaryPart);
+        compaction.set("summary", summary);
+        compaction.put("status", "completed");
+        return compaction;
     }
 
     private ObjectNode claudeContainerToResponsesConversation(JsonNode container) {
@@ -2858,6 +2903,13 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private ObjectNode responsesReasoningToClaude(JsonNode item) {
+        JsonNode bridgedBlock = ClaudeThinkingStateBridge.decode(
+                json.objectMapper(), item.path("encrypted_content").asText("")).orElse(null);
+        if (bridgedBlock != null) {
+            // Round trip: restore the native Claude thinking/redacted_thinking block
+            // that was tunneled through reasoning.encrypted_content.
+            return (ObjectNode) bridgedBlock;
+        }
         StringBuilder summaryText = new StringBuilder();
         JsonNode summary = item.get("summary");
         if (summary != null && summary.isArray()) {
@@ -3021,6 +3073,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         target.put("total_tokens", raw.input() + raw.output());
         ObjectNode details = json.objectNode();
         details.put("cached_tokens", raw.cacheRead());
+        if (raw.cacheWrite() > 0) {
+            details.put("cache_write_tokens", raw.cacheWrite());
+        }
         target.set("input_tokens_details", details);
         return target;
     }
