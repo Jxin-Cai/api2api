@@ -2,7 +2,10 @@ package com.api2api.ohs.http.dashboard.converter;
 
 import com.api2api.domain.analytics.model.AdminDashboardMetrics;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.CredentialTokenRanking;
+import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.FrontDashboardMetrics;
+import com.api2api.domain.analytics.model.FrontKeyMetrics;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
 import com.api2api.domain.analytics.model.ProtocolTokenTrendPoint;
 import com.api2api.domain.analytics.model.TokenAmount;
@@ -12,8 +15,11 @@ import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.dashboard.dto.AdminDashboardResponse;
 import com.api2api.ohs.http.dashboard.dto.ChannelTokenTrendPointResponse;
+import com.api2api.ohs.http.dashboard.dto.CredentialTokenRankingResponse;
+import com.api2api.ohs.http.dashboard.dto.CredentialTokenTrendPointResponse;
 import com.api2api.ohs.http.dashboard.dto.FrontDashboardRecentCallResponse;
 import com.api2api.ohs.http.dashboard.dto.FrontDashboardResponse;
+import com.api2api.ohs.http.dashboard.dto.FrontKeyMetricsResponse;
 import com.api2api.ohs.http.dashboard.dto.ProtocolRequestRateResponse;
 import com.api2api.ohs.http.dashboard.dto.ProtocolTokenTrendPointResponse;
 import com.api2api.ohs.http.dashboard.dto.TokenAmountResponse;
@@ -37,6 +43,17 @@ public abstract class DashboardResponseConverter {
                 .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))
                 .apiKeyCount(apiKeyCount)
                 .recentCalls(recentCalls.getRecords().stream().map(this::toRecentCallResponse).toList())
+                .build();
+    }
+
+    public FrontKeyMetricsResponse toFrontKeyMetricsResponse(FrontKeyMetrics metrics) {
+        return FrontKeyMetricsResponse.builder()
+                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()
+                        .map(this::toCredentialTokenRankingResponse).toList())
+                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()
+                        .map(this::toCredentialTokenRankingResponse).toList())
+                .credentialTokenTrends(metrics.getCredentialTokenTrends().stream()
+                        .map(this::toCredentialTokenTrendPointResponse).toList())
                 .build();
     }
 
@@ -85,4 +102,14 @@ public abstract class DashboardResponseConverter {
     @Mapping(target = "providerChannelName", expression = "java(point.getProviderChannelName().value())")
     @Mapping(target = "totalTokens", source = "totalTokens.tokens")
     protected abstract ChannelTokenTrendPointResponse toChannelTokenTrendPointResponse(ChannelTokenTrendPoint point);
+
+    @Mapping(target = "credentialId", expression = "java(ranking.getCredentialId().value())")
+    @Mapping(target = "credentialName", expression = "java(ranking.getCredentialName().value())")
+    @Mapping(target = "totalTokens", source = "totalTokens.tokens")
+    protected abstract CredentialTokenRankingResponse toCredentialTokenRankingResponse(CredentialTokenRanking ranking);
+
+    @Mapping(target = "credentialId", expression = "java(point.getCredentialId().value())")
+    @Mapping(target = "credentialName", expression = "java(point.getCredentialName().value())")
+    @Mapping(target = "totalTokens", source = "totalTokens.tokens")
+    protected abstract CredentialTokenTrendPointResponse toCredentialTokenTrendPointResponse(CredentialTokenTrendPoint point);
 }

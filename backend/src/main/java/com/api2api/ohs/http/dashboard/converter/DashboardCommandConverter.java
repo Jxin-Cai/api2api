@@ -2,10 +2,14 @@ package com.api2api.ohs.http.dashboard.converter;
 
 import com.api2api.application.dashboard.command.GetAdminDashboardCommand;
 import com.api2api.application.dashboard.command.GetFrontDashboardCommand;
+import com.api2api.application.dashboard.command.GetFrontKeyMetricsCommand;
+import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.ohs.http.dashboard.DashboardTimeWindowHelper;
 import com.api2api.ohs.http.dashboard.dto.GetAdminDashboardRequest;
 import com.api2api.ohs.http.dashboard.dto.GetFrontDashboardRequest;
+import com.api2api.ohs.http.dashboard.dto.GetFrontKeyMetricsRequest;
+import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -41,6 +45,29 @@ public class DashboardCommandConverter {
                         ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage())
                 .recentCallsSize(request.getRecentCallsSize() == null
                         ? DEFAULT_RECENT_CALLS_SIZE : request.getRecentCallsSize())
+                .zoneId(zoneId)
+                .build();
+    }
+
+    public GetFrontKeyMetricsCommand toGetFrontKeyMetricsCommand(
+            GetFrontKeyMetricsRequest request,
+            UserAccountId currentUserId
+    ) {
+        String zoneId = effectiveZoneId(request.getZoneId());
+        int trendDays = request.getTrendDays() == null
+                ? DashboardTimeWindowHelper.DEFAULT_TREND_DAYS : request.getTrendDays();
+        List<ApiCredentialId> credentialIds = request.getCredentialIds() == null
+                ? List.of()
+                : request.getCredentialIds().stream().map(ApiCredentialId::of).toList();
+        return GetFrontKeyMetricsCommand.builder()
+                .currentUserId(currentUserId)
+                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))
+                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))
+                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))
+                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))
+                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))
+                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))
+                .trendCredentialIds(credentialIds)
                 .zoneId(zoneId)
                 .build();
     }

@@ -39,7 +39,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       layout="vertical"
       onFinish={handleFinish}
       requiredMark={false}
-      autoComplete="off"
+      autoComplete="on"
     >
       <div className="login-form__head">
         <Typography.Title level={3} className="login-form__title">
@@ -61,10 +61,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <Input
           prefix={<UserOutlined />}
           placeholder="请输入用户名"
-          autoComplete="off"
-          data-1p-ignore
-          data-lpignore="true"
-          data-form-type="other"
+          autoComplete="username"
           size="large"
         />
       </Form.Item>
@@ -79,10 +76,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <Input.Password
           prefix={<LockOutlined />}
           placeholder="请输入密码"
-          autoComplete="new-password"
-          data-1p-ignore
-          data-lpignore="true"
-          data-form-type="other"
+          autoComplete="current-password"
           size="large"
         />
       </Form.Item>

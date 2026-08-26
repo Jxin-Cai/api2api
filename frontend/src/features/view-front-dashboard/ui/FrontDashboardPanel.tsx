@@ -1,18 +1,33 @@
-import { Button, Card, Space, Typography } from 'antd';
+import { Button, Card, Col, Row, Select, Space, Typography } from 'antd';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { MetricCard, useFrontDashboardMetrics } from '@entities/dashboard-metric';
+import { useApiCredentials } from '@entities/api-credential';
+import {
+  MetricCard,
+  TopRankList,
+  TrendChart,
+  useFrontDashboardMetrics,
+  useFrontKeyMetrics,
+} from '@entities/dashboard-metric';
 import { UsageRecordTable } from '@entities/usage-record';
 import { ROUTE_PATHS } from '@shared/config/constants';
+import { normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
 import { formatTokenMillions } from '@shared/lib/formatters';
 import { buildAppUsageQuery } from '@shared/lib/usageQuery';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
 import type { FrontDashboardPanelProps } from '../model/types';
 
+const TREND_DAYS = 7;
+
 export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   const navigate = useNavigate();
+  const [selectedCredentialIds, setSelectedCredentialIds] = useState<string[]>([]);
   const query = useFrontDashboardMetrics({ zoneId, recentCallsPage: 1, recentCallsSize: 20 });
+  const keyMetricsQuery = useFrontKeyMetrics({ zoneId, trendDays: TREND_DAYS, credentialIds: selectedCredentialIds });
+  const { options: credentialOptions } = useApiCredentials();
   const data = query.data;
+  const keyMetrics = keyMetricsQuery.data;
 
   if (query.isError) {
     return <PageState status="error" title="前台仪表盘加载失败" description={query.error.message} onRetry={(): void => { query.refetch().catch(() => undefined); }} />;
@@ -25,6 +40,42 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
         <MetricCard title="近 30 日 Token" value={formatTokenMillions(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="API Key 数量" value={data?.apiKeyCount ?? 0} loading={query.isLoading} />
       </DashboardSummaryGrid>
+
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={12}>
+          <TopRankList title="今日 Top10 Key Token" items={normalizeRankItems(keyMetrics?.dailyTopCredentials)} loading={keyMetricsQuery.isLoading} />
+        </Col>
+        <Col xs={24} lg={12}>
+          <TopRankList title="本月 Top10 Key Token" items={normalizeRankItems(keyMetrics?.monthlyTopCredentials)} loading={keyMetricsQuery.isLoading} />
+        </Col>
+      </Row>
+
+      <Space direction="vertical" size={12} style={{ width: '100%' }}>
+        <Space wrap style={{ width: '100%', justifyContent: 'space-between' }}>
+          <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日 Key Token 趋势（k）</Typography.Title>
+          <Select
+            mode="multiple"
+            allowClear
+            placeholder="全部 Key（可多选筛选）"
+            style={{ minWidth: 280 }}
+            maxTagCount="responsive"
+            options={credentialOptions}
+            value={selectedCredentialIds}
+            onChange={(values: string[]): void => { setSelectedCredentialIds(values); }}
+          />
+        </Space>
+        {keyMetricsQuery.isError ? (
+          <PageState
+            status="error"
+            title="Key 趋势加载失败"
+            description={keyMetricsQuery.error.message}
+            onRetry={(): void => { keyMetricsQuery.refetch().catch(() => undefined); }}
+          />
+        ) : (
+          <TrendChart data={normalizeTrendPoints(keyMetrics?.credentialTokenTrends)} loading={keyMetricsQuery.isLoading} />
+        )}
+      </Space>
+
       <Card
         className="surface-card"
         title="最近调用"

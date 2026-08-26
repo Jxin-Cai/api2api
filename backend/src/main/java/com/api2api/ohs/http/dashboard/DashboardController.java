@@ -3,8 +3,10 @@ package com.api2api.ohs.http.dashboard;
 import com.api2api.application.dashboard.DashboardApplicationService;
 import com.api2api.application.dashboard.command.GetAdminDashboardCommand;
 import com.api2api.application.dashboard.command.GetFrontDashboardCommand;
+import com.api2api.application.dashboard.command.GetFrontKeyMetricsCommand;
 import com.api2api.domain.analytics.model.AdminDashboardMetrics;
 import com.api2api.domain.analytics.model.FrontDashboardMetrics;
+import com.api2api.domain.analytics.model.FrontKeyMetrics;
 import com.api2api.domain.usage.model.PagedUsageRecords;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.ohs.http.ApiResponse;
@@ -13,8 +15,10 @@ import com.api2api.ohs.http.dashboard.converter.DashboardCommandConverter;
 import com.api2api.ohs.http.dashboard.converter.DashboardResponseConverter;
 import com.api2api.ohs.http.dashboard.dto.AdminDashboardResponse;
 import com.api2api.ohs.http.dashboard.dto.FrontDashboardResponse;
+import com.api2api.ohs.http.dashboard.dto.FrontKeyMetricsResponse;
 import com.api2api.ohs.http.dashboard.dto.GetAdminDashboardRequest;
 import com.api2api.ohs.http.dashboard.dto.GetFrontDashboardRequest;
+import com.api2api.ohs.http.dashboard.dto.GetFrontKeyMetricsRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.NonNull;
@@ -57,6 +61,20 @@ public class DashboardController {
         PagedUsageRecords recentCalls = dashboardApplicationService.queryFrontDashboardRecentCalls(command);
 
         return ApiResponse.success(dashboardResponseConverter.toFrontDashboardResponse(metrics, apiKeyCount, recentCalls));
+    }
+
+    @GetMapping("/api/dashboard/key-metrics")
+    public ApiResponse<FrontKeyMetricsResponse> getFrontKeyMetrics(
+            @Valid GetFrontKeyMetricsRequest metricsRequest,
+            HttpServletRequest request
+    ) {
+        UserAccountId currentUserId = currentUserContextResolver.resolveCurrentUserId(request);
+        GetFrontKeyMetricsCommand command = dashboardCommandConverter.toGetFrontKeyMetricsCommand(
+                metricsRequest, currentUserId);
+
+        FrontKeyMetrics metrics = dashboardApplicationService.getFrontKeyMetrics(command);
+
+        return ApiResponse.success(dashboardResponseConverter.toFrontKeyMetricsResponse(metrics));
     }
 
     @GetMapping("/api/admin/dashboard")

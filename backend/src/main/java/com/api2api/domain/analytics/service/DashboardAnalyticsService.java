@@ -5,8 +5,12 @@ import com.api2api.domain.analytics.model.AdminDashboardQuery;
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.CredentialTokenRanking;
+import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.FrontDashboardMetrics;
 import com.api2api.domain.analytics.model.FrontDashboardQuery;
+import com.api2api.domain.analytics.model.FrontKeyMetrics;
+import com.api2api.domain.analytics.model.FrontKeyMetricsQuery;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
 import com.api2api.domain.analytics.model.ProtocolTokenTrendPoint;
 import com.api2api.domain.analytics.model.TokenAmount;
@@ -47,6 +51,36 @@ public final class DashboardAnalyticsService {
         ), "Front dashboard month tokens");
 
         return FrontDashboardMetrics.of(todayTokens, monthTokens);
+    }
+
+    public FrontKeyMetrics buildFrontKeyMetrics(
+            FrontKeyMetricsQuery query,
+            DashboardAnalyticsRepository repository
+    ) {
+        FrontKeyMetricsQuery nonNullQuery = Objects.requireNonNull(query, "Front key metrics query must not be null");
+        DashboardAnalyticsRepository nonNullRepository = requireRepository(repository);
+
+        List<CredentialTokenRanking> dailyTopCredentials = normalizeTopCredentials(
+                nonNullRepository.findTopCredentialsByTokens(
+                        nonNullQuery.userAccountId(), nonNullQuery.todayWindow(), DASHBOARD_TOP_USER_LIMIT),
+                "Daily top credentials"
+        );
+        List<CredentialTokenRanking> monthlyTopCredentials = normalizeTopCredentials(
+                nonNullRepository.findTopCredentialsByTokens(
+                        nonNullQuery.userAccountId(), nonNullQuery.monthWindow(), DASHBOARD_TOP_USER_LIMIT),
+                "Monthly top credentials"
+        );
+        List<CredentialTokenTrendPoint> credentialTokenTrends = requireList(
+                nonNullRepository.sumCredentialTokenTrends(
+                        nonNullQuery.userAccountId(),
+                        nonNullQuery.trendCredentialIds(),
+                        nonNullQuery.trendWindow(),
+                        AnalyticsGranularity.DAY
+                ),
+                "Credential token trends"
+        );
+
+        return FrontKeyMetrics.of(dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends);
     }
 
     public AdminDashboardMetrics buildAdminMetrics(
@@ -143,6 +177,21 @@ public final class DashboardAnalyticsService {
                 .toList();
         if (!copiedRankings.equals(sortedRankings)) {
             throw new IllegalArgumentException(name + " must be sorted by total tokens descending and user account id ascending");
+        }
+        return copiedRankings;
+    }
+
+    private static List<CredentialTokenRanking> normalizeTopCredentials(List<CredentialTokenRanking> rankings, String name) {
+        List<CredentialTokenRanking> copiedRankings = requireList(rankings, name);
+        if (copiedRankings.size() > DASHBOARD_TOP_USER_LIMIT) {
+            throw new IllegalArgumentException(name + " must contain at most 10 rows");
+        }
+        List<CredentialTokenRanking> sortedRankings = copiedRankings.stream()
+                .sorted(CredentialTokenRanking.STABLE_TOKEN_DESC_CREDENTIAL_ASC
+                        .thenComparingInt(CredentialTokenRanking::rank))
+                .toList();
+        if (!copiedRankings.equals(sortedRankings)) {
+            throw new IllegalArgumentException(name + " must be sorted by total tokens descending and credential id ascending");
         }
         return copiedRankings;
     }

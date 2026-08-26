@@ -3,14 +3,18 @@ package com.api2api.application.dashboard;
 import com.api2api.application.BusinessException;
 import com.api2api.application.dashboard.command.GetAdminDashboardCommand;
 import com.api2api.application.dashboard.command.GetFrontDashboardCommand;
+import com.api2api.application.dashboard.command.GetFrontKeyMetricsCommand;
 import com.api2api.domain.analytics.model.AdminDashboardMetrics;
 import com.api2api.domain.analytics.model.AdminDashboardQuery;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
 import com.api2api.domain.analytics.model.FrontDashboardMetrics;
 import com.api2api.domain.analytics.model.FrontDashboardQuery;
+import com.api2api.domain.analytics.model.FrontKeyMetrics;
+import com.api2api.domain.analytics.model.FrontKeyMetricsQuery;
 import com.api2api.domain.analytics.repository.DashboardAnalyticsRepository;
 import com.api2api.domain.analytics.service.DashboardAnalyticsService;
 import com.api2api.domain.credential.model.ApiCredential;
+import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.usage.model.PageRequestSpec;
 import com.api2api.domain.usage.model.PagedUsageRecords;
@@ -21,6 +25,8 @@ import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -99,6 +105,52 @@ public class DashboardApplicationService {
                 timeRange
         );
         return usageRecordRepository.query(filter, pageRequest);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public FrontKeyMetrics getFrontKeyMetrics(GetFrontKeyMetricsCommand command) {
+        UserAccount currentUser = userAccountRepository.findById(command.getCurrentUserId())
+                .orElseThrow(() -> new BusinessException("USER_NOT_FOUND"));
+        currentUser.assertCanAccess(AccessScope.USER_PORTAL);
+
+        List<ApiCredential> ownedCredentials = apiCredentialRepository.findByOwnerUserId(command.getCurrentUserId());
+        if (ownedCredentials == null) {
+            throw new BusinessException("API_CREDENTIAL_QUERY_FAILED");
+        }
+        Set<Long> ownedCredentialIds = ownedCredentials.stream()
+                .map(credential -> credential.getId().value())
+                .collect(Collectors.toSet());
+        List<ApiCredentialId> trendCredentialIds = command.getTrendCredentialIds();
+        boolean hasForeignCredential = trendCredentialIds.stream()
+                .anyMatch(credentialId -> !ownedCredentialIds.contains(credentialId.value()));
+        if (hasForeignCredential) {
+            throw new BusinessException("API_CREDENTIAL_FORBIDDEN");
+        }
+
+        AnalyticsTimeWindow todayWindow = AnalyticsTimeWindow.of(
+                command.getTodayStartInclusive(),
+                command.getTodayEndExclusive(),
+                command.getZoneId()
+        );
+        AnalyticsTimeWindow monthWindow = AnalyticsTimeWindow.of(
+                command.getMonthStartInclusive(),
+                command.getMonthEndExclusive(),
+                command.getZoneId()
+        );
+        AnalyticsTimeWindow trendWindow = AnalyticsTimeWindow.of(
+                command.getTrendStartInclusive(),
+                command.getTrendEndExclusive(),
+                command.getZoneId()
+        );
+        FrontKeyMetricsQuery query = FrontKeyMetricsQuery.of(
+                command.getCurrentUserId(),
+                todayWindow,
+                monthWindow,
+                trendWindow,
+                trendCredentialIds
+        );
+
+        return dashboardAnalyticsService.buildFrontKeyMetrics(query, dashboardAnalyticsRepository);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

@@ -15,16 +15,20 @@ export interface TrendLikeDto {
   providerChannelId?: string | number;
   providerChannel?: string;
   providerChannelName?: string;
+  credentialId?: string | number;
+  credentialName?: string;
 }
 
 export interface RankLikeDto {
   id?: string | number;
   userId?: string | number;
   userAccountId?: string | number;
+  credentialId?: string | number;
   model?: string;
   name?: string;
   label?: string;
   displayName?: string;
+  credentialName?: string;
   value?: number;
   tokens?: number;
   totalTokens?: number;
@@ -32,23 +36,44 @@ export interface RankLikeDto {
   username?: string;
 }
 
+/**
+ * 将后端 ISO Instant（如 2026-08-27T00:00:00Z）格式化为短日期 MM-DD；
+ * 非日期字符串原样返回。
+ */
+export function formatBucketDate(raw: string): string {
+  const parsed = new Date(raw);
+  if (Number.isNaN(parsed.getTime())) {
+    return raw;
+  }
+  const month = String(parsed.getMonth() + 1).padStart(2, '0');
+  const day = String(parsed.getDate()).padStart(2, '0');
+  return `${month}-${day}`;
+}
+
 export function normalizeTrendPoints(items: TrendLikeDto[] | undefined): TrendChartPoint[] {
   return (items ?? []).map((item: TrendLikeDto): TrendChartPoint => {
     const tokens = item.value ?? item.totalTokens ?? item.tokens ?? 0;
+    const rawDate = item.date ?? item.bucketStart ?? item.bucket ?? item.label ?? '-';
     return {
-      date: item.date ?? item.bucketStart ?? item.bucket ?? item.label ?? '-',
+      date: formatBucketDate(rawDate),
       value: Number((tokens / 1_000).toFixed(1)),
-      category: item.category ?? item.protocol ?? item.protocolType ?? item.providerChannelName ?? item.providerChannel ?? String(item.providerChannelId ?? '未归属渠道'),
+      category: item.category
+        ?? item.protocol
+        ?? item.protocolType
+        ?? item.credentialName
+        ?? item.providerChannelName
+        ?? item.providerChannel
+        ?? String(item.credentialId ?? item.providerChannelId ?? '未归属渠道'),
     };
   });
 }
 
 export function normalizeRankItems(items: RankLikeDto[] | undefined, unit = 'k tokens'): RankItem[] {
   return (items ?? []).map((item: RankLikeDto, index: number): RankItem => {
-    const identity = item.id ?? item.userId ?? item.userAccountId ?? item.model ?? item.label ?? index + 1;
+    const identity = item.id ?? item.userId ?? item.userAccountId ?? item.credentialId ?? item.model ?? item.label ?? index + 1;
     return {
       id: String(identity),
-      label: item.label ?? item.displayName ?? item.username ?? item.name ?? item.model ?? String(identity),
+      label: item.label ?? item.displayName ?? item.username ?? item.credentialName ?? item.name ?? item.model ?? String(identity),
       value: Number(((item.value ?? item.totalTokens ?? item.tokens ?? 0) / 1_000).toFixed(1)),
       unit,
       meta: item.meta ?? item.username,

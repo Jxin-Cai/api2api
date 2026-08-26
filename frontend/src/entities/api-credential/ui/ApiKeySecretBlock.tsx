@@ -2,6 +2,7 @@ import { Alert, App, Button, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { copyText } from '@shared/lib';
+import './ApiKeySecretBlock.css';
 
 interface ApiKeySecretBlockProps {
   /** 创建响应中的明文 API Key */
@@ -55,9 +56,9 @@ export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskA
     <Space direction="vertical" style={{ width: '100%' }} size={12}>
       <Alert type="warning" showIcon message={warningMessage} />
       {credentialName ? <Typography.Text strong>{credentialName}</Typography.Text> : null}
-      <Typography.Paragraph code copyable={false} style={{ wordBreak: 'break-all', padding: 12, background: '#f0f7ff' }}>
+      <code className="api-key-secret-block__code">
         {masked ? '••••••••••••••••••••••••••••••••' : plainApiKey}
-      </Typography.Paragraph>
+      </code>
       <Space>
         <Button type="primary" onClick={handleCopy}>{copied ? '已复制' : '复制'}</Button>
         <Button onClick={(): void => setMasked(!masked)}>{masked ? '显示' : '隐藏'}</Button>

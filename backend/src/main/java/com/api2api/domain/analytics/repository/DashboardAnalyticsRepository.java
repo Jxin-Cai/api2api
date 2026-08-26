@@ -3,11 +3,14 @@ package com.api2api.domain.analytics.repository;
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.CredentialTokenRanking;
+import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
 import com.api2api.domain.analytics.model.ProtocolTokenTrendPoint;
 import com.api2api.domain.analytics.model.TokenAmount;
 import com.api2api.domain.analytics.model.UserTokenRanking;
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.user.model.UserAccountId;
@@ -88,6 +91,40 @@ public interface DashboardAnalyticsRepository {
      * @return non-null channel trend points for administrative dashboards
      */
     List<ChannelTokenTrendPoint> sumChannelTokenTrends(AnalyticsTimeWindow window, AnalyticsGranularity granularity);
+
+    /**
+     * Finds one user's API credentials with the highest token consumption inside a time window.
+     * Implementations must aggregate {@code tokenUsage.totalTokens} by API credential, attach the credential name, and
+     * sort by total tokens descending and credential id ascending; {@code limit} must be within 1 to 100.
+     * Invalid arguments should be rejected as business failures; no matching records should return an empty list.
+     *
+     * @param userAccountId owner whose credentials are ranked
+     * @param window analytics time window to aggregate
+     * @param limit maximum number of rows to return
+     * @return non-null stable ranking rows
+     */
+    List<CredentialTokenRanking> findTopCredentialsByTokens(UserAccountId userAccountId, AnalyticsTimeWindow window, int limit);
+
+    /**
+     * Sums token trends by API credential and time bucket for one user.
+     * Implementations must split {@code window} into continuous buckets using {@code granularity}, aggregate total
+     * tokens per credential, attach credential names, restrict rows to {@code userAccountId}, and — when
+     * {@code credentialIds} is non-empty — to those credential ids only. Every bucket/credential pair must be filled
+     * with zero when no records exist so trend lines remain continuous.
+     * Invalid arguments should be rejected as business failures.
+     *
+     * @param userAccountId owner whose usage is aggregated
+     * @param credentialIds credential ids to include; empty means every credential of the user that has usage
+     * @param window analytics time window to bucket
+     * @param granularity bucket granularity
+     * @return non-null credential trend points
+     */
+    List<CredentialTokenTrendPoint> sumCredentialTokenTrends(
+            UserAccountId userAccountId,
+            List<ApiCredentialId> credentialIds,
+            AnalyticsTimeWindow window,
+            AnalyticsGranularity granularity
+    );
 
     /**
      * Counts usage records matching a role-aware filter.

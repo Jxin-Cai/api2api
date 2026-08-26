@@ -56,11 +56,20 @@
 
 .login-form input:-webkit-autofill,
 .login-form input:-webkit-autofill:hover,
-.login-form input:-webkit-autofill:focus {
+.login-form input:-webkit-autofill:focus,
+.login-form input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--text-primary);
   caret-color: var(--text-primary);
-  box-shadow: 0 0 0 1000px transparent inset !important;
+  /* Chrome 对 transparent inset 阴影不生效，会保留突兀的黄/蓝长条底色；用主题表面色覆盖 */
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-surface) inset !important;
+  box-shadow: 0 0 0 1000px var(--bg-surface) inset !important;
   transition: background-color 9999s ease-out 0s;
+}
+
+.login-form input:autofill {
+  -webkit-text-fill-color: var(--text-primary);
+  caret-color: var(--text-primary);
+  box-shadow: 0 0 0 1000px var(--bg-surface) inset !important;
 }
 
 .login-form .ant-input-prefix {

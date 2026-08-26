@@ -9,7 +9,7 @@ import { DashboardSummaryGrid, PageState } from '@shared/ui';
 
 const RECENT_RATE_MINUTES = 5;
 const TREND_DAYS = 7;
-const PROTOCOLS = ['CLAUDE_MESSAGES', 'OPENAI_RESPONSES', 'OPENAI_CHAT_COMPLETIONS'];
+const PROTOCOLS = ['CLAUDE_MESSAGES', 'OPENAI_RESPONSES', 'OPENAI_CHAT_COMPLETIONS', 'AWS_BEDROCK_CLAUDE_MESSAGES'];
 
 export function AdminDashboardPanel() {
   const query = useAdminDashboardMetrics({ recentRateMinutes: RECENT_RATE_MINUTES, trendDays: TREND_DAYS });
@@ -37,7 +37,7 @@ export function AdminDashboardPanel() {
 
   return (
     <Space direction="vertical" size={20} style={{ width: '100%' }}>
-      <DashboardSummaryGrid colProps={{ xs: 24, sm: 12, xl: 6 }}>
+      <DashboardSummaryGrid colProps={{ xs: 24, sm: 12, lg: 8 }}>
         <MetricCard title="全平台今日 Token" value={formatTokenMillions(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="全平台本月 Token" value={formatTokenMillions(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
         {PROTOCOLS.map((protocol) => {

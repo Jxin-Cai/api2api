@@ -56,6 +56,33 @@ export interface GetAdminDashboardRequest {
   trendDays?: number;
 }
 
+export interface GetFrontKeyMetricsRequest {
+  zoneId?: string;
+  trendDays?: number;
+  credentialIds?: Array<string | number>;
+}
+
+export interface CredentialTokenRankingResponse {
+  rank?: number;
+  credentialId?: string | number;
+  credentialName?: string;
+  totalTokens?: number;
+}
+
+export interface CredentialTokenTrendPointResponse {
+  bucketStart?: string;
+  bucketEnd?: string;
+  credentialId?: string | number;
+  credentialName?: string;
+  totalTokens?: number;
+}
+
+export interface FrontKeyMetricsResponse {
+  dailyTopCredentials?: CredentialTokenRankingResponse[];
+  monthlyTopCredentials?: CredentialTokenRankingResponse[];
+  credentialTokenTrends?: CredentialTokenTrendPointResponse[];
+}
+
 export interface FrontDashboardBackendResponse {
   todayTokens?: TokenAmountResponse | number;
   monthTokens?: TokenAmountResponse | number;

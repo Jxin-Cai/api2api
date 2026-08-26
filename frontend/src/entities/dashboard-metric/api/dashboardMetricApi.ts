@@ -5,8 +5,10 @@ import type {
   AdminDashboardResponse,
   FrontDashboardBackendResponse,
   FrontDashboardResponse,
+  FrontKeyMetricsResponse,
   GetAdminDashboardRequest,
   GetFrontDashboardRequest,
+  GetFrontKeyMetricsRequest,
   TokenAmountResponse,
 } from '../model/types';
 
@@ -37,6 +39,31 @@ export async function getFrontDashboard(
   return {
     ...response,
     data: toFrontDashboard(response.data),
+  };
+}
+
+export async function getFrontKeyMetrics(
+  params: GetFrontKeyMetricsRequest = {}
+): Promise<ApiResponse<FrontKeyMetricsResponse>> {
+  const queryParams: QueryParams = {};
+  if (params.zoneId) {
+    queryParams.zoneId = params.zoneId;
+  }
+  if (typeof params.trendDays === 'number') {
+    queryParams.trendDays = params.trendDays;
+  }
+  if (params.credentialIds && params.credentialIds.length > 0) {
+    queryParams.credentialIds = params.credentialIds.join(',');
+  }
+  const response = await apiClient.get<FrontKeyMetricsResponse>('/api/dashboard/key-metrics', queryParams);
+  const data = response.data ?? {};
+  return {
+    ...response,
+    data: {
+      dailyTopCredentials: Array.isArray(data.dailyTopCredentials) ? data.dailyTopCredentials : [],
+      monthlyTopCredentials: Array.isArray(data.monthlyTopCredentials) ? data.monthlyTopCredentials : [],
+      credentialTokenTrends: Array.isArray(data.credentialTokenTrends) ? data.credentialTokenTrends : [],
+    },
   };
 }
 

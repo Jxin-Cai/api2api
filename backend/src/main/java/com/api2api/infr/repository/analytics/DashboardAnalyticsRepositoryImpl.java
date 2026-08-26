@@ -8,6 +8,8 @@ import static com.api2api.infr.repository.common.UsageTokenSqlFragments.withPref
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.CredentialTokenRanking;
+import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
 import com.api2api.domain.analytics.model.ProtocolTokenTrendPoint;
 import com.api2api.domain.analytics.model.TokenAmount;
@@ -16,6 +18,8 @@ import com.api2api.domain.analytics.repository.DashboardAnalyticsRepository;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.channel.model.ProviderChannelName;
+import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.model.ApiCredentialName;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.user.model.UserAccountId;
@@ -198,6 +202,129 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     }
 
     @Override
+    public List<CredentialTokenRanking> findTopCredentialsByTokens(
+            UserAccountId userAccountId,
+            AnalyticsTimeWindow window,
+            int limit
+    ) {
+        Objects.requireNonNull(userAccountId, "User account id must not be null");
+        Objects.requireNonNull(window, "Analytics time window must not be null");
+        if (limit < 1 || limit > 100) {
+            throw new IllegalArgumentException("Top credential limit must be between 1 and 100");
+        }
+        MapSqlParameterSource params = windowParams(window)
+                .addValue("userAccountId", userAccountId.getValue())
+                .addValue("limit", limit);
+        List<CredentialTokenRow> rows = jdbcTemplate.query("""
+                SELECT k.id AS api_credential_id,
+                       k.name AS credential_name,
+                       COALESCE(SUM(%s), 0) AS total_tokens
+                FROM usage_records r
+                JOIN api_credentials k ON k.id = r.api_credential_id
+                WHERE r.deleted = FALSE
+                  AND k.deleted = FALSE
+                  AND r.user_account_id = :userAccountId
+                  AND r.started_at >= :startTime
+                  AND r.started_at < :endTime
+                GROUP BY k.id, k.name
+                ORDER BY total_tokens DESC, k.id ASC
+                LIMIT :limit
+                """.formatted(withPrefix("r.")), params, (rs, rowNum) -> new CredentialTokenRow(
+                rs.getLong("api_credential_id"),
+                rs.getString("credential_name"),
+                rs.getBigDecimal("total_tokens")
+        ));
+        List<CredentialTokenRanking> rankings = new ArrayList<>();
+        for (int index = 0; index < rows.size(); index++) {
+            CredentialTokenRow row = rows.get(index);
+            rankings.add(CredentialTokenRanking.of(
+                    index + 1,
+                    ApiCredentialId.of(row.apiCredentialId()),
+                    ApiCredentialName.of(row.credentialName()),
+                    TokenAmount.of(row.totalTokens())
+            ));
+        }
+        return rankings;
+    }
+
+    @Override
+    public List<CredentialTokenTrendPoint> sumCredentialTokenTrends(
+            UserAccountId userAccountId,
+            List<ApiCredentialId> credentialIds,
+            AnalyticsTimeWindow window,
+            AnalyticsGranularity granularity
+    ) {
+        Objects.requireNonNull(userAccountId, "User account id must not be null");
+        Objects.requireNonNull(credentialIds, "Credential ids must not be null");
+        Objects.requireNonNull(window, "Analytics time window must not be null");
+        AnalyticsGranularity.requireSupported(granularity);
+
+        Map<Long, String> credentialNames = loadCredentialNames(userAccountId, credentialIds);
+        List<Bucket> buckets = buckets(window, granularity);
+        Map<CredentialBucketKey, BigDecimal> totals = new LinkedHashMap<>();
+
+        MapSqlParameterSource params = windowParams(window).addValue("userAccountId", userAccountId.getValue());
+        String credentialCondition = "";
+        if (!credentialIds.isEmpty()) {
+            credentialCondition = " AND r.api_credential_id IN (:credentialIds)";
+            params.addValue("credentialIds", credentialIds.stream().map(ApiCredentialId::value).toList());
+        }
+        String sql = ("""
+                SELECT r.api_credential_id,
+                       r.started_at,
+                       %s AS actual_tokens
+                FROM usage_records r
+                WHERE r.deleted = FALSE
+                  AND r.user_account_id = :userAccountId
+                  AND r.started_at >= :startTime
+                  AND r.started_at < :endTime
+                """).formatted(withPrefix("r.")) + credentialCondition;
+        jdbcTemplate.query(sql, params, rs -> {
+            Instant startedAt = instant(rs, "started_at");
+            Bucket bucket = findBucket(buckets, startedAt);
+            if (bucket != null) {
+                long credentialId = rs.getLong("api_credential_id");
+                CredentialBucketKey key = new CredentialBucketKey(credentialId, bucket.start());
+                totals.merge(key, rs.getBigDecimal("actual_tokens"), BigDecimal::add);
+            }
+        });
+
+        List<Long> orderedCredentialIds = new ArrayList<>(credentialNames.keySet());
+        List<CredentialTokenTrendPoint> points = new ArrayList<>();
+        for (Bucket bucket : buckets) {
+            for (Long credentialId : orderedCredentialIds) {
+                ApiCredentialId id = ApiCredentialId.of(credentialId);
+                ApiCredentialName name = ApiCredentialName.of(credentialNames.get(credentialId));
+                BigDecimal total = totals.getOrDefault(new CredentialBucketKey(credentialId, bucket.start()), BigDecimal.ZERO);
+                points.add(total.signum() == 0
+                        ? CredentialTokenTrendPoint.zero(bucket.start(), bucket.end(), id, name)
+                        : CredentialTokenTrendPoint.of(bucket.start(), bucket.end(), id, name, TokenAmount.of(total)));
+            }
+        }
+        return points;
+    }
+
+    private Map<Long, String> loadCredentialNames(UserAccountId userAccountId, List<ApiCredentialId> credentialIds) {
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("ownerUserId", userAccountId.getValue());
+        String condition = "";
+        if (!credentialIds.isEmpty()) {
+            condition = " AND id IN (:credentialIds)";
+            params.addValue("credentialIds", credentialIds.stream().map(ApiCredentialId::value).toList());
+        }
+        Map<Long, String> names = new LinkedHashMap<>();
+        jdbcTemplate.query(
+                "SELECT id, name FROM api_credentials WHERE deleted = FALSE AND owner_user_id = :ownerUserId"
+                        + condition + " ORDER BY id ASC",
+                params,
+                rs -> {
+                    names.put(rs.getLong("id"), rs.getString("name"));
+                }
+        );
+        return names;
+    }
+
+    @Override
     public long countUsageRecords(UsageRecordFilter filter) {
         Objects.requireNonNull(filter, "Usage record filter must not be null");
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -297,6 +424,12 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     }
 
     private record ChannelBucketKey(long providerChannelId, Instant bucketStart) {
+    }
+
+    private record CredentialBucketKey(long apiCredentialId, Instant bucketStart) {
+    }
+
+    private record CredentialTokenRow(long apiCredentialId, String credentialName, BigDecimal totalTokens) {
     }
 
     private record UserTokenRow(long userAccountId, String username, BigDecimal totalTokens) {

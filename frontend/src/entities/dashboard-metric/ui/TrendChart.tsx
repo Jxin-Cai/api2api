@@ -1,8 +1,24 @@
 import { Line } from '@ant-design/charts';
 import { Card, Empty, Spin } from 'antd';
+import { useMemo } from 'react';
 
+import { useThemeStore } from '@shared/config/stores/useThemeStore';
 import type { TrendChartPoint } from '@shared/types/chart';
 import './TrendChart.css';
+
+/** 分类色板：≥10 色，明暗主题下均有足够对比度 */
+const SERIES_COLORS = [
+  '#c65746',
+  '#10b981',
+  '#d97706',
+  '#2f6fed',
+  '#8b5cf6',
+  '#0e9f9f',
+  '#d9539d',
+  '#84994f',
+  '#8b8680',
+  '#b45309',
+];
 
 interface TrendChartProps {
   /** 图表数据 */
@@ -19,9 +35,40 @@ interface TrendChartProps {
   loading?: boolean;
   /** 空状态文案 */
   emptyText?: string;
+  /** 数值单位（tooltip / Y 轴），默认 k */
+  valueUnit?: string;
 }
 
-export function TrendChart({ data, xField = 'date', yField = 'value', seriesField = 'category', height = 260, loading = false, emptyText = '暂无趋势数据' }: TrendChartProps) {
+function resolveCssColor(variableName: string, fallback: string): string {
+  if (typeof window === 'undefined') {
+    return fallback;
+  }
+  const value = window.getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+  return value.length > 0 ? value : fallback;
+}
+
+export function TrendChart({
+  data,
+  xField = 'date',
+  yField = 'value',
+  seriesField = 'category',
+  height = 260,
+  loading = false,
+  emptyText = '暂无趋势数据',
+  valueUnit = 'k',
+}: TrendChartProps) {
+  const themeMode = useThemeStore((state) => state.mode);
+
+  const chartTheme = useMemo(() => {
+    const isDark = themeMode === 'dark';
+    return {
+      isDark,
+      axisLabel: resolveCssColor('--text-tertiary', isDark ? '#9c958d' : '#8a8378'),
+      legendLabel: resolveCssColor('--text-secondary', isDark ? '#c9c3bb' : '#5f594f'),
+      gridStroke: resolveCssColor('--border-color', isDark ? '#3a3530' : '#e7e2da'),
+    };
+  }, [themeMode]);
+
   if (loading) {
     return <Card className="trend-chart-card"><Spin style={{ width: '100%', minHeight: height }} /></Card>;
   }
@@ -33,20 +80,37 @@ export function TrendChart({ data, xField = 'date', yField = 'value', seriesFiel
   return (
     <Card className="trend-chart-card">
       <Line
+        key={themeMode}
         data={data}
         xField={xField}
         yField={yField}
-        seriesField={seriesField}
+        colorField={seriesField}
         height={height}
-        smooth
-        point={{ size: 3, shape: 'circle' }}
-        color={['#8b8680', '#c65746', '#10b981', '#d97706', '#6d6760']}
+        theme={chartTheme.isDark ? 'classicDark' : 'classic'}
+        shapeField="smooth"
+        point={{ sizeField: 3, shapeField: 'circle' }}
+        scale={{ color: { range: SERIES_COLORS } }}
         axis={{
-          x: { labelFill: 'var(--text-tertiary)', lineStroke: 'var(--border-color)' },
-          y: { labelFill: 'var(--text-tertiary)', gridStroke: 'var(--border-color)' },
+          x: {
+            labelFill: chartTheme.axisLabel,
+            lineStroke: chartTheme.gridStroke,
+            labelAutoRotate: false,
+          },
+          y: {
+            labelFill: chartTheme.axisLabel,
+            gridStroke: chartTheme.gridStroke,
+            labelFormatter: (value: number) => `${value}${valueUnit}`,
+          },
         }}
-        tooltip={{ showMarkers: true }}
-        legend={{ color: { itemLabelFill: 'var(--text-secondary)' } }}
+        tooltip={{
+          items: [
+            {
+              channel: 'y',
+              valueFormatter: (value: number) => `${value}${valueUnit}`,
+            },
+          ],
+        }}
+        legend={{ color: { itemLabelFill: chartTheme.legendLabel } }}
       />
     </Card>
   );
