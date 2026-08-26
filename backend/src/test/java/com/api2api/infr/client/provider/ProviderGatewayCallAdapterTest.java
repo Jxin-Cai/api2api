@@ -48,7 +48,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.env.MockEnvironment;
 
 class ProviderGatewayCallAdapterTest {
 
@@ -376,13 +375,9 @@ class ProviderGatewayCallAdapterTest {
             ProviderHttpClientProperties properties,
             ProtocolType claudeUpstreamProtocol
     ) {
-        ProviderSecretProperties secretProperties = new ProviderSecretProperties();
-        secretProperties.setKeys(Map.of("provider-key", "provider-secret"));
         ProviderChannelRepository repo = new FixedProviderChannelRepository(channel(claudeUpstreamProtocol));
-        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
         BearerTokenProviderCallStrategy bearerStrategy = new BearerTokenProviderCallStrategy(
                 repo,
-                secretResolver,
                 properties,
                 new UpstreamHttpHeaderPolicy(properties),
                 new UpstreamUrlResolver(properties)
@@ -395,7 +390,7 @@ class ProviderGatewayCallAdapterTest {
                 ProviderChannelId.of(1L),
                 ProviderChannelName.of("test"),
                 ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
-                ProviderKeyRef.of("provider-key"),
+                ProviderKeyRef.of("provider-secret"),
                 ProviderModelsPath.DEFAULT,
                 1,
                 Set.of(

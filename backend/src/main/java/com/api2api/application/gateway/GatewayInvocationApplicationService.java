@@ -204,6 +204,33 @@ public class GatewayInvocationApplicationService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    public void completeStreamingClientDisconnect(
+            GatewayStreamingInvocation streamingInvocation,
+            UnifiedTokenUsage usage
+    ) {
+        Objects.requireNonNull(streamingInvocation, "Streaming invocation must not be null");
+        if (!streamingInvocation.opened() || streamingInvocation.invocation().isTerminal()) {
+            return;
+        }
+        UnifiedTokenUsage finalUsage = usage == null ? UnifiedTokenUsage.unknown() : usage;
+        GatewayInvocation invocation = gatewayInvocationService.completeSuccess(
+                streamingInvocation.invocation(),
+                streamingInvocation.candidate(),
+                finalUsage,
+                true,
+                Instant.now(clock)
+        );
+        log.info(
+                "Gateway streaming request disconnected by client, requestId: {}, channelId: {}, usageKnown: {}, totalTokens: {}",
+                invocation.requestId().value(),
+                streamingInvocation.candidate().providerChannelId().value(),
+                finalUsage.usageKnown(),
+                finalUsage.usageKnown() ? finalUsage.totalTokens() : null
+        );
+        appendUsageRecord(streamingInvocation.usageRecordId(), invocation);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
     public void completeStreamingFailure(GatewayStreamingInvocation streamingInvocation, RuntimeException exception) {
         Objects.requireNonNull(streamingInvocation, "Streaming invocation must not be null");
         if (!streamingInvocation.opened() || streamingInvocation.invocation().isTerminal()) {

@@ -85,7 +85,7 @@ API2API 将它们收敛为一个统一网关：
 
 ### 管理与可观测性
 
-- **供应商渠道管理** — 配置上游地址、协议、密钥引用和渠道状态
+- **供应商渠道管理** — 配置上游地址、协议、渠道密钥和渠道状态
 - **模型发现** — 从供应商拉取模型列表，筛选并保存渠道模型
 - **转换定义浏览** — 查看协议方向、实现状态和字段映射详情
 - **仪表盘** — 展示请求量、成功率、Token 趋势、协议分布和用户排行
@@ -160,21 +160,11 @@ Docker Compose 默认仅向宿主机暴露前端入口；Nginx 会把 `/api/*` �
 ## 首次配置
 
 1. 使用 `.env` 中的 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 登录管理台。
-2. 创建供应商渠道，填写上游地址、协议和密钥引用，例如 `OPENAI_API_KEY`。
-3. 将同名供应商密钥作为环境变量注入运行环境，不要在仓库中保存真实密钥。
-4. 拉取或手动添加渠道模型，设置优先模型与路由顺序。
-5. 创建模型分组并选择允许调用的模型。
-6. 创建用户与 API Key，将模型分组和可选 Token 限额绑定到该 Key。
-7. 保存首次展示的 API Key 明文；之后可在受控流程中按需查看。
-
-供应商密钥示例：
-
-```dotenv
-OPENAI_API_KEY=replace-with-provider-secret
-ANTHROPIC_API_KEY=replace-with-provider-secret
-```
-
-管理台中的渠道 `keyRef` 必须与环境变量名完全一致。
+2. 创建供应商渠道，填写上游地址、协议和供应商 API Key。
+3. 拉取或手动添加渠道模型，设置优先模型与路由顺序。
+4. 创建模型分组并选择允许调用的模型。
+5. 创建用户与 API Key，将模型分组和可选 Token 限额绑定到该 Key。
+6. 保存首次展示的 API Key 明文；之后可在受控流程中按需查看。
 
 <br/>
 
@@ -330,9 +320,9 @@ npm run build
 - push 到 `master` 时自动部署
 - 支持在 GitHub Actions 页面手动触发
 - 通过 SSH 在目标服务器拉取代码并运行 Docker Compose
-- 普通参数使用 Repository Variables，密码、SSH 私钥和供应商密钥使用 Repository Secrets
+- 普通参数使用 Repository Variables，密码和 SSH 私钥使用 Repository Secrets
 
-部署前需要配置服务器地址、用户、端口、部署目录、分支和 SSH host key，并提供数据库密码、管理员密码与部署私钥。供应商密钥和 `API2API_API_KEY_ENCRYPTION_KEY` 可通过多行 `PROVIDER_SECRET_ENV` Secret 注入。
+部署前需要配置服务器地址、用户、端口、部署目录、分支和 SSH host key，并提供数据库密码、管理员密码与部署私钥。`API2API_API_KEY_ENCRYPTION_KEY` 通过 Repository Secret 注入。供应商渠道密钥在管理台中配置。
 
 当前内置 Nginx 使用 HTTP 监听，因此 `API2API_LOGIN_COOKIE_SECURE` 默认是 `false`。如果外层反向代理通过 HTTPS 对外提供服务，请将同名 Repository Variable 设置为 `true`。
 

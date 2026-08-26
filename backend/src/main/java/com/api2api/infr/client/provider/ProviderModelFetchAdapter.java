@@ -43,9 +43,6 @@ import org.springframework.stereotype.Component;
 public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
 
     @NonNull
-    private final ProviderSecretResolver providerSecretResolver;
-
-    @NonNull
     private final ProviderHttpClientProperties properties;
 
     @NonNull
@@ -63,14 +60,12 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
     private final HttpClient httpClient;
 
     public ProviderModelFetchAdapter(
-            ProviderSecretResolver providerSecretResolver,
             ProviderHttpClientProperties properties,
             UpstreamHttpHeaderPolicy headerPolicy,
             ObjectMapper objectMapper,
             UpstreamUrlResolver urlResolver,
             Clock clock
     ) {
-        this.providerSecretResolver = Objects.requireNonNull(providerSecretResolver, "Provider secret resolver must not be null");
         this.properties = Objects.requireNonNull(properties, "Provider HTTP client properties must not be null");
         this.headerPolicy = Objects.requireNonNull(headerPolicy, "Upstream HTTP header policy must not be null");
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper must not be null");
@@ -104,10 +99,7 @@ public class ProviderModelFetchAdapter implements ProviderModelFetchPort {
             );
         }
 
-        String secret = providerSecretResolver.resolve(keyRef);
-        if (secret == null || secret.isBlank()) {
-            throw new BusinessException("PROVIDER_MODELS_AUTH_FAILED", "渠道未配置可用的 API Key");
-        }
+        String secret = keyRef.value();
         String effectiveModelsPath = ProviderModelsPath.DEFAULT.value();
         URI uri = OutboundUriGuard.verify(
                 URI.create(urlResolver.resolve(host.resolvePath(effectiveModelsPath).value())),

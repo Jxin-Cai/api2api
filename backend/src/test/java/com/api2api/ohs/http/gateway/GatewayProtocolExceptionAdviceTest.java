@@ -5,10 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.api2api.application.BusinessException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 
 class GatewayProtocolExceptionAdviceTest {
 
@@ -107,6 +109,22 @@ class GatewayProtocolExceptionAdviceTest {
         assertThat(body.path("type").asText()).isEqualTo("error");
         assertThat(body.at("/error/type").asText()).isEqualTo("api_error");
         assertThat(body.at("/error/message").asText()).isEqualTo("Internal server error");
+    }
+
+    @Test
+    void test_returnsNoErrorBody_when_clientDisconnectsDuringStreaming() {
+        // Arrange
+        MockHttpServletRequest request = requestFor("/v1/messages");
+        AsyncRequestNotUsableException exception = new AsyncRequestNotUsableException(
+                "ServletOutputStream failed to flush: java.io.IOException: Broken pipe",
+                new IOException("Broken pipe")
+        );
+
+        // Act
+        ResponseEntity<String> response = advice.handleUnexpected(exception, request);
+
+        // Assert
+        assertThat(response).isNull();
     }
 
     private MockHttpServletRequest requestFor(String uri) {

@@ -20,12 +20,10 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.env.MockEnvironment;
 
 class ProviderModelFetchAdapterTest {
 
@@ -41,8 +39,7 @@ class ProviderModelFetchAdapterTest {
     }
 
     @Test
-    void test_sendsPlaintextKey_when_keyHasNoConfiguredReference() throws IOException {
-        // Arrange
+    void test_sendsStoredKey_when_fetchingModels() throws IOException {
         AtomicReference<String> authorizationHeader = new AtomicReference<>();
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/models", exchange -> {
@@ -54,23 +51,7 @@ class ProviderModelFetchAdapterTest {
         });
         server.start();
 
-        ProviderSecretResolver secretResolver = new ProviderSecretResolver(
-                new ProviderSecretProperties(),
-                new MockEnvironment()
-        );
-        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
-        properties.setAllowInsecureHosts(true);
-        ProviderModelFetchAdapter adapter = new ProviderModelFetchAdapter(
-                secretResolver,
-                properties,
-                new UpstreamHttpHeaderPolicy(properties),
-                new ObjectMapper(),
-                new UpstreamUrlResolver(properties),
-                CLOCK
-        );
-
-        // Act
-        adapter.fetchModels(
+        adapter().fetchModels(
                 ProviderChannelId.of(1L),
                 ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
                 ProviderKeyRef.of("plaintext-provider-key"),
@@ -79,7 +60,6 @@ class ProviderModelFetchAdapterTest {
                 RoutePriority.of(10)
         );
 
-        // Assert
         assertThat(authorizationHeader.get()).isEqualTo("Bearer plaintext-provider-key");
     }
 
@@ -97,24 +77,10 @@ class ProviderModelFetchAdapterTest {
         });
         server.start();
 
-        ProviderSecretProperties secretProperties = new ProviderSecretProperties();
-        secretProperties.setKeys(Map.of("test-key", "test-secret"));
-        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
-        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
-        properties.setAllowInsecureHosts(true);
-        ProviderModelFetchAdapter adapter = new ProviderModelFetchAdapter(
-                secretResolver,
-                properties,
-                new UpstreamHttpHeaderPolicy(properties),
-                new ObjectMapper(),
-                new UpstreamUrlResolver(properties),
-                CLOCK
-        );
-
-        List<ChannelModelSupport> models = adapter.fetchModels(
+        List<ChannelModelSupport> models = adapter().fetchModels(
                 ProviderChannelId.of(1L),
                 ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
-                ProviderKeyRef.of("test-key"),
+                ProviderKeyRef.of("test-secret"),
                 ProviderModelsPath.DEFAULT,
                 Set.of(ProtocolType.OPENAI_RESPONSES),
                 RoutePriority.of(10)
@@ -129,7 +95,6 @@ class ProviderModelFetchAdapterTest {
 
     @Test
     void test_fetchesNewModels_when_hostAlreadyContainsV1AndListUsesModelsAliases() throws IOException {
-        // Arrange
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/models", exchange -> {
             byte[] body = "{\"models\":[{\"slug\":\"gpt-5.5\"},{\"name\":\"models/gpt-5.5-mini\"}]}"
@@ -141,17 +106,15 @@ class ProviderModelFetchAdapterTest {
         server.start();
         ProviderModelFetchAdapter adapter = adapter();
 
-        // Act
         List<ChannelModelSupport> models = adapter.fetchModels(
                 ProviderChannelId.of(1L),
                 ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort() + "/v1"),
-                ProviderKeyRef.of("test-key"),
+                ProviderKeyRef.of("test-secret"),
                 ProviderModelsPath.DEFAULT,
                 Set.of(ProtocolType.OPENAI_RESPONSES),
                 RoutePriority.of(10)
         );
 
-        // Assert
         assertThat(models).extracting(model -> model.requestedModel().value())
                 .containsExactly("gpt-5.5", "gpt-5.5-mini");
     }
@@ -178,7 +141,7 @@ class ProviderModelFetchAdapterTest {
         adapter().fetchModels(
                 ProviderChannelId.of(1L),
                 ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
-                ProviderKeyRef.of("test-key"),
+                ProviderKeyRef.of("test-secret"),
                 ProviderModelsPath.of("/foundation-models"),
                 Set.of(ProtocolType.OPENAI_RESPONSES),
                 RoutePriority.of(10)
@@ -202,7 +165,7 @@ class ProviderModelFetchAdapterTest {
         assertThatThrownBy(() -> adapter().fetchModels(
                 ProviderChannelId.of(1L),
                 ProviderHost.of("http://127.0.0.1:" + server.getAddress().getPort()),
-                ProviderKeyRef.of("test-key"),
+                ProviderKeyRef.of("test-secret"),
                 ProviderModelsPath.of("/foundation-models"),
                 Set.of(ProtocolType.OPENAI_RESPONSES),
                 RoutePriority.of(10)
@@ -216,13 +179,9 @@ class ProviderModelFetchAdapterTest {
     }
 
     private ProviderModelFetchAdapter adapter() {
-        ProviderSecretProperties secretProperties = new ProviderSecretProperties();
-        secretProperties.setKeys(Map.of("test-key", "test-secret"));
-        ProviderSecretResolver secretResolver = new ProviderSecretResolver(secretProperties, new MockEnvironment());
         ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
         properties.setAllowInsecureHosts(true);
         return new ProviderModelFetchAdapter(
-                secretResolver,
                 properties,
                 new UpstreamHttpHeaderPolicy(properties),
                 new ObjectMapper(),

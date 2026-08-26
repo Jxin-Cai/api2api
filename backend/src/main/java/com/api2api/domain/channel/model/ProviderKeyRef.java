@@ -3,7 +3,7 @@ package com.api2api.domain.channel.model;
 import java.util.Objects;
 
 /**
- * Provider key reference or plaintext provider secret value object.
+ * Plaintext provider API key stored on a channel.
  */
 public final class ProviderKeyRef {
 

@@ -30,7 +30,6 @@ import org.springframework.stereotype.Component;
 class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
 
     private final ProviderChannelRepository providerChannelRepository;
-    private final ProviderSecretResolver providerSecretResolver;
     private final ProviderHttpClientProperties properties;
     private final UpstreamHttpHeaderPolicy headerPolicy;
     private final UpstreamUrlResolver urlResolver;
@@ -38,13 +37,11 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
 
     BearerTokenProviderCallStrategy(
             ProviderChannelRepository providerChannelRepository,
-            ProviderSecretResolver providerSecretResolver,
             ProviderHttpClientProperties properties,
             UpstreamHttpHeaderPolicy headerPolicy,
             UpstreamUrlResolver urlResolver
     ) {
         this.providerChannelRepository = providerChannelRepository;
-        this.providerSecretResolver = providerSecretResolver;
         this.properties = properties;
         this.headerPolicy = headerPolicy;
         this.urlResolver = urlResolver;
@@ -230,7 +227,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     "Model is not enabled for routing"
             );
         }
-        String secret = providerSecretResolver.resolve(channel.keyRef());
+        String secret = channel.keyRef().value();
         String path = resolveUpstreamPath(candidate, streaming, inbound.operation());
         String baseUrl = urlResolver.resolve(channel.host().resolvePath(path).value());
         String query = candidate.requiresProtocolConversion() ? null : inbound.rawQuery();

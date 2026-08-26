@@ -56,6 +56,10 @@ public class GatewayProtocolExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleUnexpected(Exception exception, HttpServletRequest request) {
+        if (ClientDisconnectDetector.isClientDisconnect(exception)) {
+            log.info("Gateway client disconnected during response write");
+            return null;
+        }
         log.error("Unexpected gateway error", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -67,6 +67,13 @@ public class GatewayStreamingResponseMapper {
                 }
                 outputStream.flush();
             } catch (IOException exception) {
+                if (ClientDisconnectDetector.isClientDisconnect(exception)) {
+                    gatewayInvocationApplicationService.completeStreamingClientDisconnect(
+                            streamingInvocation,
+                            usage
+                    );
+                    return;
+                }
                 boolean errorEventWritten = writeStreamingError(
                         outputStream,
                         streamingInvocation.invocation().requestProtocol(),
@@ -81,6 +88,13 @@ public class GatewayStreamingResponseMapper {
                 }
                 return;
             } catch (RuntimeException exception) {
+                if (ClientDisconnectDetector.isClientDisconnect(exception)) {
+                    gatewayInvocationApplicationService.completeStreamingClientDisconnect(
+                            streamingInvocation,
+                            usage
+                    );
+                    return;
+                }
                 gatewayInvocationApplicationService.completeStreamingFailure(streamingInvocation, exception);
                 throw exception;
             }
@@ -91,9 +105,8 @@ public class GatewayStreamingResponseMapper {
     }
 
     /**
-     * Signals a genuine transport failure — a broken connection or an idle timeout — after part of the
-     * stream was already relayed. A stream that simply lacks a trailer is not an error and never
-     * reaches this path.
+     * Signals an upstream transport failure after part of the stream was already relayed, while the
+     * client connection is still writable. Client disconnects never reach this path.
      */
     private boolean writeStreamingError(
             OutputStream outputStream,
