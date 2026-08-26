@@ -7,7 +7,11 @@ import java.util.Objects;
 
 /**
  * Guards outbound provider requests against unsupported schemes and SSRF targets
- * such as loopback, link-local, private and metadata addresses.
+ * such as loopback, link-local and cloud metadata addresses.
+ *
+ * <p>RFC1918 / site-local addresses are allowed so Docker service names
+ * (for example {@code http://copilot-api:4141}) and {@code host.docker.internal}
+ * work without extra configuration.</p>
  */
 final class OutboundUriGuard {
 
@@ -42,7 +46,6 @@ final class OutboundUriGuard {
             for (InetAddress address : InetAddress.getAllByName(host)) {
                 if (address.isLoopbackAddress()
                         || address.isLinkLocalAddress()
-                        || address.isSiteLocalAddress()
                         || address.isAnyLocalAddress()
                         || isMetadataAddress(address)) {
                     return true;
