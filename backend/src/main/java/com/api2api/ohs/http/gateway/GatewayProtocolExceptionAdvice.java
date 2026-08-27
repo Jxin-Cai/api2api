@@ -72,7 +72,7 @@ public class GatewayProtocolExceptionAdvice {
             if (uri.endsWith("/v1/messages")) {
                 return ProtocolType.CLAUDE_MESSAGES;
             }
-            if (uri.endsWith("/v1/responses")) {
+            if (uri.endsWith("/responses")) {
                 return ProtocolType.OPENAI_RESPONSES;
             }
             if (uri.endsWith("/v1/chat/completions")) {

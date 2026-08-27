@@ -112,7 +112,11 @@ public class GatewayProtocolController {
                 rawBody, authorization, apiKey, xRequestId, headers, httpRequest, httpResponse);
     }
 
-    @PostMapping("/v1/responses")
+    /**
+     * Codex-style Responses clients append {@code /responses} to a base_url that has no
+     * {@code /v1} prefix, so the alias must resolve to the same endpoint.
+     */
+    @PostMapping({"/v1/responses", "/responses"})
     public Object openaiResponses(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers,
