@@ -6,5 +6,45 @@
 }
 
 .trend-chart-card .ant-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding: 18px;
+}
+
+.trend-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  max-height: 88px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.trend-chart-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: min(220px, 100%);
+  min-width: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.trend-chart-legend__swatch {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.trend-chart-legend__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -17,6 +17,7 @@ import { formatTokenMillions } from '@shared/lib/formatters';
 import { buildAppUsageQuery } from '@shared/lib/usageQuery';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
 import type { FrontDashboardPanelProps } from '../model/types';
+import './FrontDashboardPanel.css';
 
 const TREND_DAYS = 7;
 
@@ -51,19 +52,19 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
       </Row>
 
       <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        <Space wrap style={{ width: '100%', justifyContent: 'space-between' }}>
-          <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日 Key Token 趋势（k）</Typography.Title>
+        <div className="front-dashboard-trend__head">
+          <Typography.Title level={4} className="front-dashboard-trend__title">近 {TREND_DAYS} 日 Key Token 趋势（M）</Typography.Title>
           <Select
             mode="multiple"
             allowClear
             placeholder="全部 Key（可多选筛选）"
-            style={{ minWidth: 280 }}
+            className="front-dashboard-trend__filter"
             maxTagCount="responsive"
             options={credentialOptions}
             value={selectedCredentialIds}
             onChange={(values: string[]): void => { setSelectedCredentialIds(values); }}
           />
-        </Space>
+        </div>
         {keyMetricsQuery.isError ? (
           <PageState
             status="error"

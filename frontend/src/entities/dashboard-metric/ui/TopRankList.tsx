@@ -35,7 +35,7 @@ export function TopRankList({ items, title, loading = false, onItemClick }: TopR
               <span className="top-rank-list__rank">{index + 1}</span>
               <Typography.Text strong className="top-rank-list__label">{item.label}</Typography.Text>
               <Typography.Text className="top-rank-list__value mono-number">
-                {item.unit?.startsWith('k') ? item.value.toFixed(1) : item.value} {item.unit ?? ''}
+                {item.value.toFixed(1)}{item.unit ?? ''}
               </Typography.Text>
             </List.Item>
           )}

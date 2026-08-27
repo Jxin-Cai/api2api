@@ -28,15 +28,20 @@ interface TrendChartProps {
   /** Y 字段 */
   yField?: string;
   /** 多系列字段 */
-  seriesField?: string;
+  seriesField?: keyof TrendChartPoint;
   /** 图表高度 */
   height?: number;
   /** 是否加载中 */
   loading?: boolean;
   /** 空状态文案 */
   emptyText?: string;
-  /** 数值单位（tooltip / Y 轴），默认 k */
+  /** 数值单位（tooltip / Y 轴），默认 M */
   valueUnit?: string;
+}
+
+interface TrendSeries {
+  name: string;
+  color: string;
 }
 
 function resolveCssColor(variableName: string, fallback: string): string {
@@ -47,6 +52,15 @@ function resolveCssColor(variableName: string, fallback: string): string {
   return value.length > 0 ? value : fallback;
 }
 
+function formatAxisValue(value: number, valueUnit: string): string {
+  return `${value.toFixed(1)}${valueUnit}`;
+}
+
+function resolveSeriesName(point: TrendChartPoint, seriesField: keyof TrendChartPoint): string {
+  const value = point[seriesField];
+  return value == null ? '' : String(value);
+}
+
 export function TrendChart({
   data,
   xField = 'date',
@@ -55,16 +69,31 @@ export function TrendChart({
   height = 260,
   loading = false,
   emptyText = '暂无趋势数据',
-  valueUnit = 'k',
+  valueUnit = 'M',
 }: TrendChartProps) {
   const themeMode = useThemeStore((state) => state.mode);
+  const series = useMemo((): TrendSeries[] => {
+    const seen = new Set<string>();
+    const items: TrendSeries[] = [];
+    for (const point of data) {
+      const name = resolveSeriesName(point, seriesField);
+      if (seen.has(name)) {
+        continue;
+      }
+      seen.add(name);
+      items.push({
+        name,
+        color: SERIES_COLORS[items.length % SERIES_COLORS.length],
+      });
+    }
+    return items;
+  }, [data, seriesField]);
 
   const chartTheme = useMemo(() => {
     const isDark = themeMode === 'dark';
     return {
       isDark,
       axisLabel: resolveCssColor('--text-tertiary', isDark ? '#9c958d' : '#8a8378'),
-      legendLabel: resolveCssColor('--text-secondary', isDark ? '#c9c3bb' : '#5f594f'),
       gridStroke: resolveCssColor('--border-color', isDark ? '#3a3530' : '#e7e2da'),
     };
   }, [themeMode]);
@@ -89,7 +118,8 @@ export function TrendChart({
         theme={chartTheme.isDark ? 'classicDark' : 'classic'}
         shapeField="smooth"
         point={{ sizeField: 3, shapeField: 'circle' }}
-        scale={{ color: { range: SERIES_COLORS } }}
+        scale={{ color: { domain: series.map((item) => item.name), range: series.map((item) => item.color) } }}
+        legend={{ color: false }}
         axis={{
           x: {
             labelFill: chartTheme.axisLabel,
@@ -99,19 +129,28 @@ export function TrendChart({
           y: {
             labelFill: chartTheme.axisLabel,
             gridStroke: chartTheme.gridStroke,
-            labelFormatter: (value: number) => `${value}${valueUnit}`,
+            labelFormatter: (value: number) => formatAxisValue(value, valueUnit),
           },
         }}
         tooltip={{
           items: [
             {
               channel: 'y',
-              valueFormatter: (value: number) => `${value}${valueUnit}`,
+              valueFormatter: (value: number) => formatAxisValue(value, valueUnit),
             },
           ],
         }}
-        legend={{ color: { itemLabelFill: chartTheme.legendLabel } }}
       />
+      {series.length > 0 ? (
+        <ul className="trend-chart-legend" aria-label="趋势图图例">
+          {series.map((item) => (
+            <li key={item.name} className="trend-chart-legend__item" title={item.name}>
+              <span className="trend-chart-legend__swatch" style={{ background: item.color }} />
+              <span className="trend-chart-legend__label">{item.name || '未命名'}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </Card>
   );
 }

@@ -1,5 +1,7 @@
 import type { RankItem, TrendChartPoint } from '@shared/types/chart';
 
+import { formatTokenMillionsValue } from './formatters';
+
 export interface TrendLikeDto {
   date?: string;
   bucket?: string;
@@ -56,7 +58,7 @@ export function normalizeTrendPoints(items: TrendLikeDto[] | undefined): TrendCh
     const rawDate = item.date ?? item.bucketStart ?? item.bucket ?? item.label ?? '-';
     return {
       date: formatBucketDate(rawDate),
-      value: Number((tokens / 1_000).toFixed(1)),
+      value: Number(formatTokenMillionsValue(tokens)),
       category: item.category
         ?? item.protocol
         ?? item.protocolType
@@ -68,13 +70,13 @@ export function normalizeTrendPoints(items: TrendLikeDto[] | undefined): TrendCh
   });
 }
 
-export function normalizeRankItems(items: RankLikeDto[] | undefined, unit = 'k tokens'): RankItem[] {
+export function normalizeRankItems(items: RankLikeDto[] | undefined, unit = 'M'): RankItem[] {
   return (items ?? []).map((item: RankLikeDto, index: number): RankItem => {
     const identity = item.id ?? item.userId ?? item.userAccountId ?? item.credentialId ?? item.model ?? item.label ?? index + 1;
     return {
       id: String(identity),
       label: item.label ?? item.displayName ?? item.username ?? item.credentialName ?? item.name ?? item.model ?? String(identity),
-      value: Number(((item.value ?? item.totalTokens ?? item.tokens ?? 0) / 1_000).toFixed(1)),
+      value: Number(formatTokenMillionsValue(item.value ?? item.totalTokens ?? item.tokens ?? 0)),
       unit,
       meta: item.meta ?? item.username,
     };

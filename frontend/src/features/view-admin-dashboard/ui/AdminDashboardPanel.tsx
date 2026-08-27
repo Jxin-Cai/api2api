@@ -66,12 +66,12 @@ export function AdminDashboardPanel() {
       </Row>
 
       <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日协议 Token 趋势（k）</Typography.Title>
+        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日协议 Token 趋势（M）</Typography.Title>
         <TrendChart data={normalizeTrendPoints(data?.protocolTokenTrends)} loading={query.isLoading} />
       </Space>
 
       <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日供应商渠道 Token 趋势（k）</Typography.Title>
+        <Typography.Title level={4} style={{ margin: 0 }}>近 {TREND_DAYS} 日供应商渠道 Token 趋势（M）</Typography.Title>
         <TrendChart data={normalizeTrendPoints(data?.channelTokenTrends)} loading={query.isLoading} />
       </Space>
     </Space>
