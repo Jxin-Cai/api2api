@@ -58,10 +58,10 @@ export function AdminDashboardPanel() {
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
-          <TopRankList title="今日 Top10 用户 Token" items={normalizeRankItems(data?.dailyTopUsers)} loading={query.isLoading} />
+          <TopRankList title="今日 Top10 用户总 Token" items={normalizeRankItems(data?.dailyTopUsers)} loading={query.isLoading} />
         </Col>
         <Col xs={24} lg={12}>
-          <TopRankList title="本月 Top10 用户 Token" items={normalizeRankItems(data?.monthlyTopUsers)} loading={query.isLoading} />
+          <TopRankList title="本月 Top10 用户总 Token" items={normalizeRankItems(data?.monthlyTopUsers)} loading={query.isLoading} />
         </Col>
       </Row>
 

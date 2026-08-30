@@ -102,7 +102,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         List<UserTokenRow> rows = jdbcTemplate.query("""
                 SELECT u.id AS user_account_id,
                        u.username AS username,
-                       COALESCE(SUM(%s), 0) AS total_tokens
+                       COALESCE(SUM(r.total_tokens), 0) AS total_tokens
                 FROM usage_records r
                 JOIN user_accounts u ON u.id = r.user_account_id
                 WHERE r.deleted = FALSE
@@ -112,7 +112,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 GROUP BY u.id, u.username
                 ORDER BY total_tokens DESC, u.id ASC
                 LIMIT :limit
-                """.formatted(withPrefix("r.")), params, (rs, rowNum) -> new UserTokenRow(
+                """, params, (rs, rowNum) -> new UserTokenRow(
                 rs.getLong("user_account_id"),
                 rs.getString("username"),
                 rs.getBigDecimal("total_tokens")
@@ -218,7 +218,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         List<CredentialTokenRow> rows = jdbcTemplate.query("""
                 SELECT k.id AS api_credential_id,
                        k.name AS credential_name,
-                       COALESCE(SUM(%s), 0) AS total_tokens
+                       COALESCE(SUM(r.total_tokens), 0) AS total_tokens
                 FROM usage_records r
                 JOIN api_credentials k ON k.id = r.api_credential_id
                 WHERE r.deleted = FALSE
@@ -229,7 +229,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 GROUP BY k.id, k.name
                 ORDER BY total_tokens DESC, k.id ASC
                 LIMIT :limit
-                """.formatted(withPrefix("r.")), params, (rs, rowNum) -> new CredentialTokenRow(
+                """, params, (rs, rowNum) -> new CredentialTokenRow(
                 rs.getLong("api_credential_id"),
                 rs.getString("credential_name"),
                 rs.getBigDecimal("total_tokens")

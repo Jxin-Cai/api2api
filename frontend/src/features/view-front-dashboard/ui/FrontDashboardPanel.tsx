@@ -44,10 +44,10 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
-          <TopRankList title="今日 Top10 Key Token" items={normalizeRankItems(keyMetrics?.dailyTopCredentials)} loading={keyMetricsQuery.isLoading} />
+          <TopRankList title="今日 Top10 Key 总 Token" items={normalizeRankItems(keyMetrics?.dailyTopCredentials)} loading={keyMetricsQuery.isLoading} />
         </Col>
         <Col xs={24} lg={12}>
-          <TopRankList title="本月 Top10 Key Token" items={normalizeRankItems(keyMetrics?.monthlyTopCredentials)} loading={keyMetricsQuery.isLoading} />
+          <TopRankList title="本月 Top10 Key 总 Token" items={normalizeRankItems(keyMetrics?.monthlyTopCredentials)} loading={keyMetricsQuery.isLoading} />
         </Col>
       </Row>
 
