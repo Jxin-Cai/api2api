@@ -1,8 +1,10 @@
 import { Button, DatePicker, Input, Select, Space } from 'antd';
 import type { Dayjs } from 'dayjs';
+import { useMemo } from 'react';
 
 import { useApiCredentials } from '@entities/api-credential';
 import { useProviderChannels } from '@entities/provider-channel';
+import { useProviderModels } from '@entities/provider-model';
 import { PROTOCOL_OPTIONS } from '@shared/lib/protocols';
 
 import type { UsageRecordFilters, UsageScope } from '../model/types';
@@ -29,11 +31,18 @@ function toIsoString(value: Dayjs | null): string | undefined {
 export function UsageRecordFilterBar({ scope, filters, onFilterChange, onFiltersChange, onReset, disabled = false }: UsageRecordFilterBarProps) {
   const isAdmin = scope === 'admin';
   const { options: apiCredentialOptions, query: apiCredentialQuery } = useApiCredentials();
+  const { modelOptions, isLoading: modelLoading } = useProviderModels();
   const { channelOptions, isLoading: channelLoading } = useProviderChannels({ enabled: isAdmin });
   const providerChannelOptions = channelOptions.map((option: { label: string; value: number }) => ({
     label: option.label,
     value: String(option.value),
   }));
+  const selectableModelOptions = useMemo(() => {
+    if (!filters.model || modelOptions.some((option) => option.value === filters.model)) {
+      return modelOptions;
+    }
+    return [{ label: filters.model, value: filters.model }, ...modelOptions];
+  }, [filters.model, modelOptions]);
 
   return (
     <Space wrap align="start">
@@ -48,13 +57,17 @@ export function UsageRecordFilterBar({ scope, filters, onFilterChange, onFilters
         disabled={disabled}
         onChange={(value: string | undefined): void => onFilterChange('apiCredentialId', value)}
       />
-      <Input
+      <Select
         allowClear
+        showSearch
+        optionFilterProp="label"
         value={filters.model}
         placeholder="模型"
-        style={{ width: 180 }}
+        style={{ width: 240 }}
+        options={selectableModelOptions}
+        loading={modelLoading}
         disabled={disabled}
-        onChange={(event): void => onFilterChange('model', event.target.value || undefined)}
+        onChange={(value: string | undefined): void => onFilterChange('model', value)}
       />
       <Select
         allowClear
