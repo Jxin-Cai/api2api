@@ -7,8 +7,16 @@ export const providerModelQueryKeys = {
   all: ['provider-models'] as const,
 };
 
-export function useProviderModels() {
-  const query = useQuery({ queryKey: providerModelQueryKeys.all, queryFn: listProviderModels });
+export interface UseProviderModelsOptions {
+  enabled?: boolean;
+}
+
+export function useProviderModels(options: UseProviderModelsOptions = {}) {
+  const query = useQuery({
+    queryKey: providerModelQueryKeys.all,
+    queryFn: listProviderModels,
+    enabled: options.enabled ?? true,
+  });
   const models = query.data?.data.models ?? [];
   const modelOptions = useMemo(
     () => models.map((model) => ({

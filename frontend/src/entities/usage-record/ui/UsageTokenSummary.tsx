@@ -53,7 +53,6 @@ export function UsageTokenSummary({
       {loading ? (
         <>
           <Skeleton className="usage-token-summary__skeleton usage-token-summary__skeleton--primary" active title={{ width: 112 }} paragraph={{ rows: 2, width: ['58%', '36%'] }} />
-          <Skeleton className="usage-token-summary__skeleton" active title={{ width: 96 }} paragraph={{ rows: 2, width: ['48%', '40%'] }} />
           <Skeleton className="usage-token-summary__skeleton" active title={{ width: 80 }} paragraph={{ rows: 2, width: ['42%', '64%'] }} />
         </>
       ) : (
@@ -61,25 +60,29 @@ export function UsageTokenSummary({
           <div className="usage-token-summary__primary">
             <div className="usage-token-summary__heading">
               <div>
-                <span className="usage-token-summary__eyebrow">ACTUAL TOKENS</span>
-                <h2 className="usage-token-summary__label">实际 Token 总量</h2>
+                <span className="usage-token-summary__eyebrow">TOKEN USAGE</span>
+                <h2 className="usage-token-summary__label">当前筛选 Token 汇总</h2>
               </div>
               <span className="usage-token-summary__scope">{scopeLabel} / 当前筛选</span>
             </div>
-            <div className="usage-token-summary__value-row mono-number">
-              <strong className="usage-token-summary__value">{formattedActualTokens}</strong>
-              <span className="usage-token-summary__unit">M</span>
+            <div className="usage-token-summary__split">
+              <div>
+                <span className="usage-token-summary__split-label">实际 Token</span>
+                <div className="usage-token-summary__value-row mono-number">
+                  <strong className="usage-token-summary__value">{formattedActualTokens}</strong>
+                  <span className="usage-token-summary__unit">M</span>
+                </div>
+                <span className="usage-token-summary__hint mono-number">平均 {formattedAverageActualTokens} Token / 条</span>
+              </div>
+              <div>
+                <span className="usage-token-summary__split-label">总 Token</span>
+                <div className="usage-token-summary__value-row mono-number">
+                  <strong className="usage-token-summary__value">{formattedTotalTokens}</strong>
+                  <span className="usage-token-summary__unit">M</span>
+                </div>
+                <span className="usage-token-summary__hint mono-number">平均 {formattedAverageTotalTokens} Token / 条</span>
+              </div>
             </div>
-            <span className="usage-token-summary__hint mono-number">平均 {formattedAverageActualTokens} Token / 条</span>
-          </div>
-          <div className="usage-token-summary__metric">
-            <span className="usage-token-summary__eyebrow">TOTAL TOKENS</span>
-            <h2 className="usage-token-summary__label">总 Token 总量</h2>
-            <div className="usage-token-summary__value-row mono-number">
-              <strong className="usage-token-summary__value usage-token-summary__value--compact">{formattedTotalTokens}</strong>
-              <span className="usage-token-summary__unit">M</span>
-            </div>
-            <span className="usage-token-summary__hint mono-number">平均 {formattedAverageTotalTokens} Token / 条</span>
           </div>
           <div className="usage-token-summary__secondary">
             <span className="usage-token-summary__eyebrow">REQUESTS</span>

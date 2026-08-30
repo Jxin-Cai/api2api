@@ -3,11 +3,11 @@ import type { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
 import { useApiCredentials } from '@entities/api-credential';
-import { useProviderChannels } from '@entities/provider-channel';
+import { useProviderChannels, type ProviderChannelResponse } from '@entities/provider-channel';
 import { useProviderModels } from '@entities/provider-model';
 import { PROTOCOL_OPTIONS } from '@shared/lib/protocols';
 
-import type { UsageRecordFilters, UsageScope } from '../model/types';
+import type { UsageFilterOption, UsageRecordFilters, UsageScope } from '../model/types';
 
 interface UsageRecordFilterBarProps {
   /** 前台或后台范围 */
@@ -28,21 +28,45 @@ function toIsoString(value: Dayjs | null): string | undefined {
   return value ? value.toISOString() : undefined;
 }
 
+function toChannelModelOptions(channels: ProviderChannelResponse[]): UsageFilterOption[] {
+  const modelNames = new Set<string>();
+  channels.forEach((channel) => {
+    (channel.supportedModels ?? []).forEach((model) => {
+      const name = model.requestedModel?.trim();
+      if (name) {
+        modelNames.add(name);
+      }
+    });
+  });
+  return [...modelNames]
+    .sort((left, right) => left.localeCompare(right, 'zh-CN'))
+    .map((name) => ({ label: name, value: name }));
+}
+
+function withCurrentModelOption(options: UsageFilterOption[], currentModel: string | undefined): UsageFilterOption[] {
+  if (!currentModel || options.some((option) => option.value === currentModel)) {
+    return options;
+  }
+  return [{ label: currentModel, value: currentModel }, ...options];
+}
+
 export function UsageRecordFilterBar({ scope, filters, onFilterChange, onFiltersChange, onReset, disabled = false }: UsageRecordFilterBarProps) {
   const isAdmin = scope === 'admin';
   const { options: apiCredentialOptions, query: apiCredentialQuery } = useApiCredentials();
-  const { modelOptions, isLoading: modelLoading } = useProviderModels();
-  const { channelOptions, isLoading: channelLoading } = useProviderChannels({ enabled: isAdmin });
+  const { modelOptions: portalModelOptions, isLoading: portalModelLoading } = useProviderModels({ enabled: !isAdmin });
+  const { channels, channelOptions, isLoading: channelLoading } = useProviderChannels({ enabled: isAdmin });
   const providerChannelOptions = channelOptions.map((option: { label: string; value: number }) => ({
     label: option.label,
     value: String(option.value),
   }));
-  const selectableModelOptions = useMemo(() => {
-    if (!filters.model || modelOptions.some((option) => option.value === filters.model)) {
-      return modelOptions;
-    }
-    return [{ label: filters.model, value: filters.model }, ...modelOptions];
-  }, [filters.model, modelOptions]);
+  const selectableModelOptions = useMemo(
+    () => withCurrentModelOption(
+      isAdmin ? toChannelModelOptions(channels) : portalModelOptions,
+      filters.model
+    ),
+    [channels, filters.model, isAdmin, portalModelOptions]
+  );
+  const modelLoading = isAdmin ? channelLoading : portalModelLoading;
 
   return (
     <Space wrap align="start">
