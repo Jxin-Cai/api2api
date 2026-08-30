@@ -21,6 +21,7 @@ public class UsageRecordPageResponse {
     private int size;
     private long totalElements;
     private long totalPages;
-    private BigDecimal filteredTotalTokens;
+    private long filteredTotalTokens;
+    private BigDecimal filteredActualTokens;
     private boolean adminView;
 }

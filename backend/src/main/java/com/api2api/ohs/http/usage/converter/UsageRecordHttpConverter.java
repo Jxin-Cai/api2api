@@ -71,7 +71,8 @@ public abstract class UsageRecordHttpConverter {
                 .size(pagedRecords.getSize())
                 .totalElements(pagedRecords.getTotalElements())
                 .totalPages(pagedRecords.totalPages())
-                .filteredTotalTokens(pagedRecords.getFilteredTokenTotal().getActualTokens())
+                .filteredTotalTokens(pagedRecords.getFilteredTokenTotal().getTotalTokens())
+                .filteredActualTokens(pagedRecords.getFilteredTokenTotal().getActualTokens())
                 .adminView(adminView)
                 .build();
     }

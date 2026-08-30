@@ -39,6 +39,7 @@ export function UsageRecordsPanel({ scope }: UsageRecordsPanelProps) {
             <UsageTokenSummary
               scope={scope}
               totalTokens={data?.summary?.totalTokens ?? data?.totalTokens ?? 0}
+              actualTokens={data?.summary?.actualTokens ?? data?.actualTokens ?? 0}
               recordCount={data?.summary?.recordCount ?? data?.total ?? 0}
               loading={query.isLoading}
             />

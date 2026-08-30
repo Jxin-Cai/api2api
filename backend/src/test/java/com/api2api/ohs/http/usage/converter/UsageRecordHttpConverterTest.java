@@ -48,6 +48,16 @@ class UsageRecordHttpConverterTest {
         assertThat(response.getRecords().get(0).getProviderChannelName()).isEqualTo("channel-a");
     }
 
+    @Test
+    void test_includes_total_and_actual_tokens_when_rendering_usage_page() {
+        PagedUsageRecordViews page = pageWith(successfulRecord());
+
+        var response = converter.toPageResponse(page, false);
+
+        assertThat(response.getFilteredTotalTokens()).isEqualTo(3L);
+        assertThat(response.getFilteredActualTokens()).isEqualByComparingTo("11");
+    }
+
     private PagedUsageRecordViews pageWith(UsageRecord record) {
         PagedUsageRecords page = PagedUsageRecords.of(
                 List.of(record),

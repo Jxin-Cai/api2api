@@ -37,6 +37,7 @@ export interface UsageRecordBackendPageResponse {
   totalElements: number;
   totalPages: number;
   filteredTotalTokens: number;
+  filteredActualTokens?: number;
   adminView: boolean;
 }
 
@@ -65,11 +66,13 @@ export interface UsageRecordResponse {
 
 export interface UsageTokenSummaryResponse {
   totalTokens: number;
+  actualTokens: number;
   recordCount: number;
 }
 
 export interface UsageRecordPageResponse extends PageResponse<UsageRecordResponse> {
   totalTokens: number;
+  actualTokens: number;
   summary?: UsageTokenSummaryResponse;
 }
 

@@ -43,6 +43,11 @@ function cleanIsoDate(value: string | undefined): string | undefined {
   return Number.isNaN(time) ? undefined : new Date(time).toISOString();
 }
 
+function toTokenAmount(value: number | undefined): number {
+  const parsed = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
+}
+
 function toBackendParams(params: QueryUsageRecordsRequest): BackendUsageQueryParams {
   const startInclusive = cleanIsoDate(params.startTime);
   const endExclusive = cleanIsoDate(params.endTime);
@@ -65,15 +70,18 @@ function toFrontendPage(response: UsageRecordBackendPageResponse): UsageRecordPa
   const page = Number.isFinite(response?.page) ? response.page : 1;
   const size = response?.size === 100 || response?.size === 200 ? response.size : 50;
   const totalElements = Number.isFinite(response?.totalElements) ? response.totalElements : records.length;
-  const filteredTotalTokens = Number.isFinite(response?.filteredTotalTokens) ? response.filteredTotalTokens : 0;
+  const filteredTotalTokens = toTokenAmount(response?.filteredTotalTokens);
+  const filteredActualTokens = toTokenAmount(response?.filteredActualTokens);
   return {
     records: records.map(toUsageRecordResponse),
     page,
     pageSize: size,
     total: totalElements,
     totalTokens: filteredTotalTokens,
+    actualTokens: filteredActualTokens,
     summary: {
       totalTokens: filteredTotalTokens,
+      actualTokens: filteredActualTokens,
       recordCount: totalElements,
     },
   };
