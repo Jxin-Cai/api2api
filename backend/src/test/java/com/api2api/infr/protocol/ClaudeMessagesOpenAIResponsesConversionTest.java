@@ -526,6 +526,47 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_mapsClaudeToolReferencesToResponsesToolSearchOutput_when_toolSearchLoadsDeferredTools()
+            throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration()
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":256,"tools":[
+                  {"type":"tool_search_tool_regex_20251119","name":"ToolSearch"},
+                  {"name":"WebSearch","description":"Search the web","input_schema":{
+                    "type":"object","properties":{"query":{"type":"string"}},"required":["query"]
+                  },"defer_loading":true}
+                ],"messages":[
+                  {"role":"assistant","content":[{
+                    "type":"tool_use","id":"call_search","name":"ToolSearch",
+                    "input":{"query":"select:WebSearch","max_results":1}
+                  }]},
+                  {"role":"user","content":[{"type":"tool_result","tool_use_id":"call_search","content":[
+                    {"type":"tool_reference","tool_name":"WebSearch"}
+                  ]}]}
+                ]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, true, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/tools/0/type").asText()).isEqualTo("tool_search");
+        assertThat(mapped.at("/tools/0/execution").asText()).isEqualTo("client");
+        assertThat(mapped.at("/tools/0/parameters/required/0").asText()).isEqualTo("query");
+        assertThat(mapped.at("/input/0/type").asText()).isEqualTo("tool_search_call");
+        assertThat(mapped.at("/input/0/call_id").asText()).isEqualTo("call_search");
+        assertThat(mapped.at("/input/1/type").asText()).isEqualTo("tool_search_output");
+        assertThat(mapped.at("/input/1/call_id").asText()).isEqualTo("call_search");
+        assertThat(mapped.at("/input/1/tools/0/name").asText()).isEqualTo("WebSearch");
+        assertThat(mapped.at("/input/1/tools/0/defer_loading").asBoolean()).isTrue();
+    }
+
+    @Test
     void test_mapsMaxEffortAndAllTurnsContext_when_encryptedReasoningIsReplayed() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);

@@ -741,7 +741,7 @@ class ProtocolConverterConfiguration {
                     source.get("messages"), source.get("context_management"));
             ArrayNode input = json.arrayNode();
             input.addAll(claudeSystemToResponsesInput(source.get("system"), model));
-            input.addAll(claudeMessagesToResponsesInput(optimizedMessages, model));
+            input.addAll(claudeMessagesToResponsesInput(optimizedMessages, source.get("tools"), model));
             applyTopLevelCacheControl(input, source.get("cache_control"), model);
             target.set("input", input);
             ArrayNode mappedTools = claudeToolsToResponses(
@@ -851,12 +851,13 @@ class ProtocolConverterConfiguration {
             return input;
         }
 
-        private ArrayNode claudeMessagesToResponsesInput(JsonNode messages, String model) {
+        private ArrayNode claudeMessagesToResponsesInput(JsonNode messages, JsonNode tools, String model) {
             ArrayNode input = json.arrayNode();
             if (messages == null || !messages.isArray()) {
                 return input;
             }
             Map<String, JsonNode> toolCallers = collectClaudeToolCallers(messages);
+            Map<String, JsonNode> toolUses = collectClaudeToolUses(messages);
             for (JsonNode message : messages) {
                 String role = message.path("role").asText("user");
                 JsonNode content = message.get("content");
@@ -900,7 +901,7 @@ class ProtocolConverterConfiguration {
                         }
                         case "tool_result" -> {
                             flushResponsesMessage(input, role, messageContent, assistantPhase);
-                            input.add(claudeToolResultToResponses(block, toolCallers, model));
+                            input.add(claudeToolResultToResponses(block, toolCallers, toolUses, tools, model));
                         }
                         case "server_tool_use" -> {
                             if (!ResponsesProgrammaticToolBridge.isSyntheticProgramToolId(
@@ -999,6 +1000,25 @@ class ProtocolConverterConfiguration {
                 }
             }
             return Map.copyOf(callers);
+        }
+
+        private Map<String, JsonNode> collectClaudeToolUses(JsonNode messages) {
+            Map<String, JsonNode> toolUses = new HashMap<>();
+            for (JsonNode message : messages) {
+                JsonNode content = message.get("content");
+                if (content == null || !content.isArray()) {
+                    continue;
+                }
+                for (JsonNode block : content) {
+                    if ("tool_use".equals(block.path("type").asText(""))) {
+                        String toolUseId = block.path("id").asText("");
+                        if (!toolUseId.isBlank()) {
+                            toolUses.put(toolUseId, block.deepCopy());
+                        }
+                    }
+                }
+            }
+            return Map.copyOf(toolUses);
         }
 
         private void flushResponsesMessage(ArrayNode input, String role, ArrayNode content, String assistantPhase) {
@@ -1268,6 +1288,17 @@ class ProtocolConverterConfiguration {
         }
 
         private ObjectNode claudeToolUseToResponses(JsonNode block) {
+            if ("ToolSearch".equals(block.path("name").asText(""))) {
+                ObjectNode call = json.objectNode();
+                call.put("type", "tool_search_call");
+                call.put("execution", "client");
+                call.put("call_id", block.path("id").asText(""));
+                call.put("status", "completed");
+                JsonNode arguments = block.get("input");
+                call.set("arguments", arguments == null || !arguments.isObject()
+                        ? json.objectNode() : arguments.deepCopy());
+                return call;
+            }
             ObjectNode call = ResponsesToolCallBridge.toResponsesToolCall(json.objectMapper(), block);
             ObjectNode caller = ResponsesProgrammaticToolBridge.toResponsesCaller(
                     json.objectMapper(), block.get("caller"));
@@ -1280,10 +1311,16 @@ class ProtocolConverterConfiguration {
         private ObjectNode claudeToolResultToResponses(
                 JsonNode block,
                 Map<String, JsonNode> toolCallers,
+                Map<String, JsonNode> toolUses,
+                JsonNode tools,
                 String model
         ) {
-            ObjectNode result = json.objectNode();
             String toolUseId = block.path("tool_use_id").asText("");
+            JsonNode toolUse = toolUses.get(toolUseId);
+            if (toolUse != null && "ToolSearch".equals(toolUse.path("name").asText(""))) {
+                return claudeToolSearchResultToResponses(block, tools, model);
+            }
+            ObjectNode result = json.objectNode();
             boolean custom = ResponsesToolCallBridge.isCustomClaudeToolUseId(toolUseId);
             result.put("type", custom ? "custom_tool_call_output" : "function_call_output");
             result.put("call_id", ResponsesToolCallBridge.toResponsesCallId(toolUseId));
@@ -1303,6 +1340,50 @@ class ProtocolConverterConfiguration {
                 result.set("caller", caller);
             }
             return result;
+        }
+
+        private ObjectNode claudeToolSearchResultToResponses(JsonNode block, JsonNode tools, String model) {
+            ObjectNode result = json.objectNode();
+            result.put("type", "tool_search_output");
+            result.put("execution", "client");
+            result.put("call_id", block.path("tool_use_id").asText(""));
+            result.put("status", "completed");
+            JsonNode content = block.get("content");
+            if (content == null || !content.isArray()) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_TOOL_SEARCH_RESULT_MUST_CONTAIN_TOOL_REFERENCES");
+            }
+            ArrayNode loadedTools = json.arrayNode();
+            for (JsonNode reference : content) {
+                if (!"tool_reference".equals(reference.path("type").asText(""))) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_RESPONSES_TOOL_SEARCH_RESULT_MUST_CONTAIN_TOOL_REFERENCES");
+                }
+                String toolName = reference.path("tool_name").asText("");
+                JsonNode tool = findClaudeToolByName(tools, toolName);
+                if (tool == null) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_RESPONSES_TOOL_REFERENCE_NOT_DECLARED: " + toolName);
+                }
+                if (!"custom".equals(tool.path("type").asText("custom"))) {
+                    throw new ProtocolConversionException(
+                            "CLAUDE_RESPONSES_TOOL_REFERENCE_NOT_CUSTOM: " + toolName);
+                }
+                loadedTools.add(claudeCustomToolToResponses(tool, model));
+            }
+            result.set("tools", loadedTools);
+            return result;
+        }
+
+        private JsonNode findClaudeToolByName(JsonNode tools, String name) {
+            if (tools == null || !tools.isArray()) {
+                return null;
+            }
+            for (JsonNode tool : tools) {
+                if (name.equals(tool.path("name").asText(""))) {
+                    return tool;
+                }
+            }
+            return null;
         }
 
         private JsonNode claudeToolResultOutputToResponses(JsonNode content, String model) {
@@ -1442,6 +1523,42 @@ class ProtocolConverterConfiguration {
             return "medium";
         }
 
+        private ObjectNode claudeCustomToolToResponses(JsonNode tool, String model) {
+            ObjectNode mapped = json.objectNode();
+            mapped.put("type", "function");
+            mapped.put("name", tool.path("name").asText(""));
+            ResponsesProgrammaticToolBridge.AllowedCallersMapping allowedCallers =
+                    ResponsesProgrammaticToolBridge.toResponsesAllowedCallers(
+                            json.objectMapper(), tool.get("allowed_callers"));
+            if (allowedCallers.values() != null && supportsResponsesProgrammaticToolCalling(model)) {
+                mapped.set("allowed_callers", allowedCallers.values());
+            }
+            String description = tool.path("description").asText("");
+            if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
+                description = description + (description.isBlank() ? "" : "\n\n")
+                        + "Input examples: " + tool.path("input_examples");
+            }
+            if (!description.isBlank()) {
+                mapped.put("description", description);
+            }
+            JsonNode schema = tool.get("input_schema");
+            ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
+                    ? json.objectNode()
+                    : ((ObjectNode) schema.deepCopy());
+            if (!parameters.has("type")) {
+                parameters.put("type", "object");
+            }
+            if (!parameters.has("properties")) {
+                parameters.set("properties", json.objectNode());
+            }
+            mapped.set("parameters", parameters);
+            mapped.put("strict", tool.path("strict").asBoolean(false));
+            if (tool.path("defer_loading").asBoolean(false)) {
+                mapped.put("defer_loading", true);
+            }
+            return mapped;
+        }
+
         private ArrayNode claudeToolsToResponses(
                 JsonNode tools,
                 JsonNode mcpServers,
@@ -1451,6 +1568,7 @@ class ProtocolConverterConfiguration {
             ArrayNode mappedTools = json.arrayNode();
             boolean toolSearchRequired = false;
             boolean programmaticToolCallingRequired = false;
+            JsonNode toolSearch = null;
             if (tools != null && tools.isArray()) {
                 for (JsonNode tool : tools) {
                     String type = tool.path("type").asText("custom");
@@ -1459,6 +1577,7 @@ class ProtocolConverterConfiguration {
                     }
                     if (type.startsWith("tool_search_tool")) {
                         toolSearchRequired = true;
+                        toolSearch = tool;
                         continue;
                     }
                     if (type.startsWith("web_search")) {
@@ -1494,38 +1613,12 @@ class ProtocolConverterConfiguration {
                     if (!"custom".equals(type) && !type.isBlank()) {
                         throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_TOOL_NOT_SUPPORTED: " + type);
                     }
-                    ObjectNode mapped = json.objectNode();
-                    mapped.put("type", "function");
-                    mapped.put("name", tool.path("name").asText(""));
                     ResponsesProgrammaticToolBridge.AllowedCallersMapping allowedCallers =
                             ResponsesProgrammaticToolBridge.toResponsesAllowedCallers(
                                     json.objectMapper(), tool.get("allowed_callers"));
-                    if (allowedCallers.values() != null && supportsResponsesProgrammaticToolCalling(model)) {
-                        mapped.set("allowed_callers", allowedCallers.values());
-                    }
                     programmaticToolCallingRequired |= allowedCallers.programmatic();
-                    String description = tool.path("description").asText("");
-                    if (tool.path("input_examples").isArray() && !tool.path("input_examples").isEmpty()) {
-                        description = description + (description.isBlank() ? "" : "\n\n")
-                                + "Input examples: " + tool.path("input_examples");
-                    }
-                    if (!description.isBlank()) {
-                        mapped.put("description", description);
-                    }
-                    JsonNode schema = tool.get("input_schema");
-                    ObjectNode parameters = schema == null || schema.isNull() || !schema.isObject()
-                            ? json.objectNode()
-                            : ((ObjectNode) schema.deepCopy());
-                    if (!parameters.has("type")) {
-                        parameters.put("type", "object");
-                    }
-                    if (!parameters.has("properties")) {
-                        parameters.set("properties", json.objectNode());
-                    }
-                    mapped.set("parameters", parameters);
-                    mapped.put("strict", tool.path("strict").asBoolean(false));
+                    ObjectNode mapped = claudeCustomToolToResponses(tool, model);
                     if (tool.path("defer_loading").asBoolean(false)) {
-                        mapped.put("defer_loading", true);
                         toolSearchRequired = true;
                     }
                     mappedTools.add(mapped);
@@ -1561,7 +1654,21 @@ class ProtocolConverterConfiguration {
                 if (!supportsResponsesToolSearch(model)) {
                     throw new ProtocolConversionException("CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_TOOL_SEARCH");
                 }
-                mappedTools.insert(0, json.objectNode().put("type", "tool_search"));
+                ObjectNode mappedToolSearch = json.objectNode().put("type", "tool_search");
+                if (toolSearch != null) {
+                    mappedToolSearch.put("execution", "client");
+                    String description = toolSearch.path("description").asText("");
+                    if (!description.isBlank()) {
+                        mappedToolSearch.put("description", description);
+                    }
+                    JsonNode schema = toolSearch.get("input_schema");
+                    if (schema != null && schema.isObject()) {
+                        mappedToolSearch.set("parameters", schema.deepCopy());
+                    } else {
+                        mappedToolSearch.set("parameters", defaultToolSearchParameters());
+                    }
+                }
+                mappedTools.insert(0, mappedToolSearch);
             }
             if (programmaticToolCallingRequired) {
                 if (!supportsResponsesProgrammaticToolCalling(model)) {
@@ -1571,6 +1678,20 @@ class ProtocolConverterConfiguration {
                 mappedTools.insert(0, json.objectNode().put("type", "programmatic_tool_calling"));
             }
             return mappedTools;
+        }
+
+        private ObjectNode defaultToolSearchParameters() {
+            ObjectNode parameters = json.objectNode();
+            parameters.put("type", "object");
+            ObjectNode properties = json.objectNode();
+            properties.set("query", json.objectNode().put("type", "string"));
+            properties.set("max_results", json.objectNode().put("type", "integer"));
+            parameters.set("properties", properties);
+            ArrayNode required = json.arrayNode();
+            required.add("query");
+            parameters.set("required", required);
+            parameters.put("additionalProperties", false);
+            return parameters;
         }
 
         private boolean mcpDeferred(JsonNode tools, String serverName) {
