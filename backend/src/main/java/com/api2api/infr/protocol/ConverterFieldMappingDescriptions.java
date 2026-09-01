@@ -215,7 +215,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("usage.prompt_tokens", "usage.input_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.completion_tokens", "usage.output_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.prompt_tokens_details.cached_tokens", "usage.cache_read_input_tokens", "缓存 token 路径映射", MappingLossiness.NONE, "USAGE", "RENAME"),
-                mapping("usage.prompt_tokens_details.cache_creation_tokens/cache_write_tokens", "usage.cache_creation_input_tokens", "两种缓存写入字段合并", MappingLossiness.NONE, "USAGE", "TRANSFORM"),
+                mapping("usage.prompt_tokens_details.cache_creation_tokens/cache_write_tokens", "usage.cache_creation_input_tokens", "同义缓存写入字段取其一（优先 cache_write_tokens），不相加", MappingLossiness.NONE, "USAGE", "TRANSFORM"),
                 mapping("id", "id", "响应 ID 透传", MappingLossiness.NONE, "METADATA", "DIRECT"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
         ));

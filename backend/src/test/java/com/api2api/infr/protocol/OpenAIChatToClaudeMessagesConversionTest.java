@@ -329,7 +329,7 @@ class OpenAIChatToClaudeMessagesConversionTest {
     }
 
     @Test
-    void test_preservesCacheUsage_when_chatReportsBothWriteFields() throws Exception {
+    void test_prefersCacheWriteTokens_when_chatReportsBothWriteFields() throws Exception {
         // Arrange
         String body = """
                 {
@@ -344,10 +344,10 @@ class OpenAIChatToClaudeMessagesConversionTest {
         ConvertedResponse result = convertResponse(body);
 
         // Assert
-        assertThat(result.usage().inputTokens()).isEqualTo(55);
-        assertThat(result.usage().cacheCreationInputTokens()).isEqualTo(15);
+        assertThat(result.usage().inputTokens()).isEqualTo(65);
+        assertThat(result.usage().cacheCreationInputTokens()).isEqualTo(5);
         assertThat(result.usage().cacheReadInputTokens()).isEqualTo(30);
-        assertThat(result.body().at("/usage/cache_creation_input_tokens").asLong()).isEqualTo(15);
+        assertThat(result.body().at("/usage/cache_creation_input_tokens").asLong()).isEqualTo(5);
     }
 
     private JsonNode convertRequest(String body, boolean toolCallingRequired) throws Exception {

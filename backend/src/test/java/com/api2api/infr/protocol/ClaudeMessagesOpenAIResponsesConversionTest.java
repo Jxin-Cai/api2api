@@ -52,7 +52,7 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThat(mapped.at("/input/1/type").asText()).isEqualTo("function_call");
         assertThat(mapped.at("/input/1/call_id").asText()).isEqualTo("call_1");
         assertThat(mapped.at("/input/2/type").asText()).isEqualTo("function_call_output");
-        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("medium");
     }
 
     @Test

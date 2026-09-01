@@ -284,8 +284,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (thinking != null && thinking.hasNonNull("budget_tokens")) {
             int budget = thinking.get("budget_tokens").asInt(0);
             if (budget <= 1024) return "low";
-            if (budget <= 8192) return "medium";
-            return "high";
+            if (budget <= 4096) return "medium";
+            if (budget <= 10240) return "high";
+            return "xhigh";
         }
         return null;
     }
@@ -1428,13 +1429,18 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private String reasoningEffortFromBudget(int budgetTokens) {
-        if (budgetTokens >= 4096) {
-            return "high";
-        }
+        // 与 ResponsesToClaudeRequestConverter.thinkingBudgetForEffort 的正向表保持对称：
+        // low=1024, medium=4096, high=10240, xhigh/max=32768
         if (budgetTokens > 0 && budgetTokens <= 1024) {
             return "low";
         }
-        return "medium";
+        if (budgetTokens <= 4096) {
+            return "medium";
+        }
+        if (budgetTokens <= 10240) {
+            return "high";
+        }
+        return "xhigh";
     }
 
     private ArrayNode claudeToolsToResponses(
@@ -3036,8 +3042,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         static RawTokenUsage fromChat(JsonNode usage) {
             JsonNode details = usage.path("prompt_tokens_details");
             long cached = details.path("cached_tokens").asLong(0);
-            long cacheWrite = details.path("cache_creation_tokens").asLong(0)
-                    + details.path("cache_write_tokens").asLong(0);
+            long cacheWrite = details.path("cache_write_tokens").asLong(0);
+            if (cacheWrite <= 0) {
+                cacheWrite = details.path("cache_creation_tokens").asLong(0);
+            }
             long input = usage.path("prompt_tokens").asLong(0);
             long output = usage.path("completion_tokens").asLong(0);
             return new RawTokenUsage(input, output, cached, cacheWrite);

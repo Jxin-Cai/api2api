@@ -18,9 +18,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Converts Anthropic Messages SSE events into strict OpenAI Responses SSE events. */
 final class ClaudeMessagesToResponsesStreamingConverter {
+
+    private static final Logger log = LoggerFactory.getLogger(ClaudeMessagesToResponsesStreamingConverter.class);
 
     private final ObjectMapper objectMapper;
     private final ResponsesSseEmitter emitter;
@@ -137,6 +141,18 @@ final class ClaudeMessagesToResponsesStreamingConverter {
             return;
         }
         String type = contentBlock.path("type").asText("");
+        boolean supported = switch (type) {
+            case "thinking", "redacted_thinking", "text", "tool_use", "mcp_tool_use" -> true;
+            default -> false;
+        };
+        if (!supported) {
+            // 未知内容块（如 server_tool_use / web_search_tool_result）降级为忽略，禁止断流
+            log.warn("Ignoring unsupported Claude streaming content block: {}", type);
+            BlockState ignoredBlock = new BlockState(-1, type);
+            ignoredBlock.ignored = true;
+            state.blocks.put(claudeIndex, ignoredBlock);
+            return;
+        }
         BlockState block = new BlockState(state.nextOutputIndex++, type);
         state.blocks.put(claudeIndex, block);
         switch (type) {
@@ -153,10 +169,7 @@ final class ClaudeMessagesToResponsesStreamingConverter {
                 }
                 openTool(block, contentBlock, state, output);
             }
-            default -> {
-                state.blocks.remove(claudeIndex);
-                throw new IOException("Unsupported Claude streaming content block: " + type);
-            }
+            default -> throw new IllegalStateException("Unreachable content block type: " + type);
         }
     }
 
@@ -237,6 +250,9 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         if (block == null) {
             throw new IOException("Claude content delta referenced an unopened block: " + claudeIndex);
         }
+        if (block.ignored) {
+            return;
+        }
         switch (delta.path("type").asText("")) {
             case "thinking_delta" -> {
                 String value = delta.path("thinking").asText("");
@@ -283,7 +299,7 @@ final class ClaudeMessagesToResponsesStreamingConverter {
 
     private void closeBlock(int claudeIndex, State state, OutputStream output) throws IOException {
         BlockState block = state.blocks.get(claudeIndex);
-        if (block == null || block.closed) {
+        if (block == null || block.closed || block.ignored) {
             return;
         }
         switch (block.type) {
@@ -538,6 +554,7 @@ final class ClaudeMessagesToResponsesStreamingConverter {
         private final StringBuilder value = new StringBuilder();
         private final StringBuilder signature = new StringBuilder();
         private boolean closed;
+        private boolean ignored;
 
         private BlockState(int outputIndex, String type) {
             this.outputIndex = outputIndex;

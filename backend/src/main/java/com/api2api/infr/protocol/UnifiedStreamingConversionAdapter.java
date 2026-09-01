@@ -954,6 +954,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private final Map<Integer, StringBuilder> pendingToolArguments = new HashMap<>();
         private final Set<Integer> announcedToolCalls = new HashSet<>();
         private final Set<Integer> openToolBlocks = new HashSet<>();
+        private final Set<Integer> toolBlocksWithArguments = new HashSet<>();
         private long inputTokens;
         private long outputTokens;
         private long cacheCreationInputTokens;
@@ -974,6 +975,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private final Map<Integer, Integer> blockToToolIndex = new HashMap<>();
         private long inputTokens;
         private long outputTokens;
+        private long cacheCreationInputTokens;
+        private long cacheReadInputTokens;
 
         private ClaudeToChatStreamState(String model) {
             this.model = model;
@@ -1011,7 +1014,17 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", state.blockIndex));
             state.blockIndex++;
         }
-        closeOpenClaudeToolBlocks(state.openToolBlocks, clientBody);
+        // 名字始终未到的工具调用按兜底名宣告，避免丢弃已缓冲的参数并保证块闭合
+        for (Integer tcIndex : state.blockToToolIndex.keySet().stream().sorted().toList()) {
+            if (!state.announcedToolCalls.contains(tcIndex)) {
+                if (!state.toolCallNames.containsKey(tcIndex)) {
+                    log.warn("Chat stream tool call {} ended without a function name, announcing with fallback name", tcIndex);
+                    state.toolCallNames.put(tcIndex, "unknown_tool");
+                }
+                announceClaudeToolCall(state, tcIndex, clientBody);
+            }
+        }
+        closeOpenClaudeToolBlocks(state, clientBody);
 
         // Emit message_delta with stop_reason and usage
         ObjectNode msgDelta = objectNode();
@@ -1076,7 +1089,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                                           OutputStream clientBody) throws IOException {
         String reasoningContent = delta.path("reasoning_content").asText(null);
         if (reasoningContent != null && !reasoningContent.isEmpty()) {
-            closeOpenClaudeToolBlocks(state.openToolBlocks, clientBody);
+            closeOpenClaudeToolBlocks(state, clientBody);
             if (!state.reasoningBlockOpen) {
                 if (state.textBlockOpen) {
                     writeSse(clientBody, "content_block_stop", objectNode()
@@ -1112,7 +1125,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             content = delta.path("refusal").asText("");
         }
         if (content != null && !content.isEmpty()) {
-            closeOpenClaudeToolBlocks(state.openToolBlocks, clientBody);
+            closeOpenClaudeToolBlocks(state, clientBody);
             if (state.reasoningBlockOpen) {
                 writeSse(clientBody, "content_block_stop", objectNode().put("type", "content_block_stop").put("index", state.blockIndex));
                 state.reasoningBlockOpen = false;
@@ -1182,7 +1195,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 if (tcArgs != null && !tcArgs.isEmpty()) {
                     if (announced) {
                         writeClaudeToolArgumentsDelta(
-                                state.blockToToolIndex.get(tcIndex), tcArgs, clientBody);
+                                state, state.blockToToolIndex.get(tcIndex), tcArgs, clientBody);
                     } else {
                         state.pendingToolArguments
                                 .computeIfAbsent(tcIndex, ignored -> new StringBuilder())
@@ -1198,8 +1211,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (usage != null && !usage.isNull()) {
             JsonNode details = usage.path("prompt_tokens_details");
             state.cacheReadInputTokens = details.path("cached_tokens").asLong(0);
-            state.cacheCreationInputTokens = details.path("cache_creation_tokens").asLong(0)
-                    + details.path("cache_write_tokens").asLong(0);
+            state.cacheCreationInputTokens = details.path("cache_write_tokens").asLong(0);
+            if (state.cacheCreationInputTokens <= 0) {
+                state.cacheCreationInputTokens = details.path("cache_creation_tokens").asLong(0);
+            }
             state.inputTokens = Math.max(0, usage.path("prompt_tokens").asLong(0)
                     - state.cacheReadInputTokens - state.cacheCreationInputTokens);
             state.outputTokens = usage.path("completion_tokens").asLong(0);
@@ -1242,15 +1257,17 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
         StringBuilder pendingArguments = state.pendingToolArguments.remove(toolCallIndex);
         if (pendingArguments != null && !pendingArguments.isEmpty()) {
-            writeClaudeToolArgumentsDelta(blockIndex, pendingArguments.toString(), clientBody);
+            writeClaudeToolArgumentsDelta(state, blockIndex, pendingArguments.toString(), clientBody);
         }
     }
 
     private void writeClaudeToolArgumentsDelta(
+            ChatToClaudeStreamState state,
             int blockIndex,
             String arguments,
             OutputStream clientBody
     ) throws IOException {
+        state.toolBlocksWithArguments.add(blockIndex);
         ObjectNode blockDelta = objectNode();
         blockDelta.put("type", "content_block_delta");
         blockDelta.put("index", blockIndex);
@@ -1261,12 +1278,16 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         writeSse(clientBody, "content_block_delta", blockDelta);
     }
 
-    private void closeOpenClaudeToolBlocks(Set<Integer> openToolBlocks, OutputStream clientBody) throws IOException {
-        for (Integer blockIndex : openToolBlocks.stream().sorted().toList()) {
+    private void closeOpenClaudeToolBlocks(ChatToClaudeStreamState state, OutputStream clientBody) throws IOException {
+        for (Integer blockIndex : state.openToolBlocks.stream().sorted().toList()) {
+            // 从未收到参数增量的 tool_use 块，闭合前补发空对象，保证客户端能解析出合法 input
+            if (!state.toolBlocksWithArguments.contains(blockIndex)) {
+                writeClaudeToolArgumentsDelta(state, blockIndex, "{}", clientBody);
+            }
             writeSse(clientBody, "content_block_stop",
                     objectNode().put("type", "content_block_stop").put("index", blockIndex));
         }
-        openToolBlocks.clear();
+        state.openToolBlocks.clear();
     }
 
     private UnifiedTokenUsage transformBedrockInvokeModelToClaude(
@@ -1404,7 +1425,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             handleClaudeEventForChat(eventType, event, state, clientBody);
         }
 
-        return UnifiedTokenUsage.known(state.inputTokens, state.outputTokens, 0, 0);
+        return UnifiedTokenUsage.known(state.inputTokens, state.outputTokens,
+                state.cacheCreationInputTokens, state.cacheReadInputTokens);
     }
 
     private void handleClaudeEventForChat(String eventType, JsonNode event,
@@ -1418,6 +1440,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 }
                 JsonNode msgUsage = event.path("message").path("usage");
                 state.inputTokens = msgUsage.path("input_tokens").asLong(0);
+                state.cacheCreationInputTokens = msgUsage.path("cache_creation_input_tokens").asLong(0);
+                state.cacheReadInputTokens = msgUsage.path("cache_read_input_tokens").asLong(0);
             }
             case "content_block_delta" -> {
                 JsonNode blockDelta = event.path("delta");
@@ -1476,21 +1500,34 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             case "message_delta" -> {
                 JsonNode msgDelta = event.path("delta");
                 JsonNode srNode = msgDelta.get("stop_reason");
-                if (srNode == null || !srNode.isTextual() || srNode.asText().isBlank()) {
-                    throw new IOException("Claude stream missing stop_reason in message_delta");
-                }
-                String sr = srNode.asText();
+                String sr = srNode != null && srNode.isTextual() ? srNode.asText() : "";
+                boolean hasToolCalls = !state.blockToToolIndex.isEmpty();
+                // 未知或缺失的 stop_reason 一律降级为可用的 finish_reason，禁止断流
                 String finishReason = switch (sr) {
-                    case "end_turn", "stop_sequence" -> "stop";
-                    case "max_tokens" -> "length";
+                    case "end_turn", "stop_sequence", "pause_turn" -> "stop";
+                    case "max_tokens", "model_context_window_exceeded" -> "length";
                     case "tool_use" -> "tool_calls";
                     case "refusal" -> "content_filter";
-                    default -> throw new IOException("Unsupported Claude stop_reason in stream: " + sr);
+                    default -> {
+                        if (sr.isBlank()) {
+                            log.warn("Claude stream message_delta missing stop_reason, degrading to default finish_reason");
+                        } else {
+                            log.warn("Unknown Claude stop_reason in stream: {}, degrading to default finish_reason", sr);
+                        }
+                        yield hasToolCalls ? "tool_calls" : "stop";
+                    }
                 };
-                state.outputTokens = event.path("usage").path("output_tokens").asLong(0);
+                JsonNode deltaUsage = event.path("usage");
+                state.outputTokens = deltaUsage.path("output_tokens").asLong(state.outputTokens);
+                state.inputTokens = deltaUsage.path("input_tokens").asLong(state.inputTokens);
+                state.cacheCreationInputTokens = deltaUsage.path("cache_creation_input_tokens")
+                        .asLong(state.cacheCreationInputTokens);
+                state.cacheReadInputTokens = deltaUsage.path("cache_read_input_tokens")
+                        .asLong(state.cacheReadInputTokens);
                 writeChatChunk(clientBody, state.chatId, state.model, state.created, objectNode(), finishReason);
 
                 // Write usage chunk
+                long promptTokens = state.inputTokens + state.cacheCreationInputTokens + state.cacheReadInputTokens;
                 ObjectNode usageChunk = objectNode();
                 usageChunk.put("id", state.chatId);
                 usageChunk.put("object", "chat.completion.chunk");
@@ -1499,9 +1536,13 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 ArrayNode choices = objectMapper.createArrayNode();
                 usageChunk.set("choices", choices);
                 ObjectNode usageNode = objectNode();
-                usageNode.put("prompt_tokens", state.inputTokens);
+                usageNode.put("prompt_tokens", promptTokens);
                 usageNode.put("completion_tokens", state.outputTokens);
-                usageNode.put("total_tokens", state.inputTokens + state.outputTokens);
+                usageNode.put("total_tokens", promptTokens + state.outputTokens);
+                ObjectNode promptDetails = objectNode();
+                promptDetails.put("cached_tokens", state.cacheReadInputTokens);
+                promptDetails.put("cache_write_tokens", state.cacheCreationInputTokens);
+                usageNode.set("prompt_tokens_details", promptDetails);
                 usageChunk.set("usage", usageNode);
                 clientBody.write(("data: " + objectMapper.writeValueAsString(usageChunk) + "\n\n").getBytes(StandardCharsets.UTF_8));
                 clientBody.flush();

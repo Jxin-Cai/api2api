@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Stateful Chat Completions SSE to Responses SSE converter.
@@ -27,6 +29,8 @@ import java.util.UUID;
  * terminal response event is emitted.</p>
  */
 final class ChatCompletionsToResponsesStreamingConverter {
+
+    private static final Logger log = LoggerFactory.getLogger(ChatCompletionsToResponsesStreamingConverter.class);
 
     private final ObjectMapper objectMapper;
     private final ResponsesSseEmitter emitter;
@@ -321,12 +325,19 @@ final class ChatCompletionsToResponsesStreamingConverter {
         for (ToolState tool : state.tools.values().stream()
                 .sorted((left, right) -> Integer.compare(left.outputIndex, right.outputIndex)).toList()) {
             if (!tool.announced) {
+                // 名字始终未到时按 function_call 兜底宣告，禁止断流
                 if (tool.name.isBlank()) {
-                    throw new IOException("Chat Completions tool call ended without a function name");
+                    log.warn("Chat Completions tool call ended without a function name, announcing as-is");
                 }
                 announceTool(tool, state, output);
             }
             String arguments = tool.arguments.isEmpty() ? "{}" : tool.arguments.toString();
+            // 截断的参数 JSON 不能作为 completed 项下发：客户端（如 Codex）会把它持久化
+            // 进历史并在下一轮回放，导致整个请求被上游拒绝
+            if (!isValidJson(arguments)) {
+                throw new IOException("Chat Completions tool call '" + tool.callId
+                        + "' arguments are invalid JSON (truncated stream?)");
+            }
             ObjectNode argsDone = indexedEvent(tool.outputIndex, tool.itemId);
             argsDone.put("arguments", arguments);
             argsDone.put("call_id", tool.callId);
@@ -336,6 +347,15 @@ final class ChatCompletionsToResponsesStreamingConverter {
             ObjectNode item = toolItem(tool, "completed", arguments);
             writeOutputItemEvent("response.output_item.done", tool.outputIndex, item, state, output);
             state.completedOutput.put(tool.outputIndex, item);
+        }
+    }
+
+    private boolean isValidJson(String value) {
+        try {
+            objectMapper.readTree(value);
+            return true;
+        } catch (JsonProcessingException e) {
+            return false;
         }
     }
 
@@ -382,8 +402,10 @@ final class ChatCompletionsToResponsesStreamingConverter {
         state.usageKnown = true;
         JsonNode details = usage.path("prompt_tokens_details");
         state.cacheReadInputTokens = details.path("cached_tokens").asLong(0);
-        state.cacheCreationInputTokens = details.path("cache_creation_tokens").asLong(0)
-                + details.path("cache_write_tokens").asLong(0);
+        state.cacheCreationInputTokens = details.path("cache_write_tokens").asLong(0);
+        if (state.cacheCreationInputTokens <= 0) {
+            state.cacheCreationInputTokens = details.path("cache_creation_tokens").asLong(0);
+        }
         state.inputTokens = Math.max(0, usage.path("prompt_tokens").asLong(0)
                 - state.cacheReadInputTokens - state.cacheCreationInputTokens);
         state.outputTokens = usage.path("completion_tokens").asLong(0);
