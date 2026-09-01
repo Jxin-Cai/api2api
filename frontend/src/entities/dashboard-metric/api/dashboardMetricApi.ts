@@ -12,9 +12,10 @@ import type {
   TokenAmountResponse,
 } from '../model/types';
 
-function toTokenAmount(value: TokenAmountResponse | number | undefined): TokenAmountResponse {
-  const tokens = typeof value === 'number' ? value : value?.tokens;
-  const safeTokens = typeof tokens === 'number' && Number.isFinite(tokens) ? tokens : 0;
+function toTokenAmount(value: TokenAmountResponse | number | string | undefined): TokenAmountResponse {
+  const raw = typeof value === 'number' || typeof value === 'string' ? value : value?.tokens;
+  const parsed = typeof raw === 'number' ? raw : Number(raw);
+  const safeTokens = Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
   return { tokens: safeTokens, millions: safeTokens / 1_000_000 };
 }
 
@@ -24,9 +25,15 @@ function toFiniteNumber(value: unknown): number {
 }
 
 function toFrontDashboard(response: FrontDashboardBackendResponse): FrontDashboardResponse {
+  const todayActualTokens = toTokenAmount(response?.todayActualTokens ?? response?.todayTokens);
+  const monthActualTokens = toTokenAmount(response?.monthActualTokens ?? response?.monthTokens);
   return {
-    todayTokens: toTokenAmount(response?.todayTokens),
-    monthTokens: toTokenAmount(response?.monthTokens),
+    todayTokens: todayActualTokens,
+    todayActualTokens,
+    todayTotalTokens: toTokenAmount(response?.todayTotalTokens),
+    monthTokens: monthActualTokens,
+    monthActualTokens,
+    monthTotalTokens: toTokenAmount(response?.monthTotalTokens),
     apiKeyCount: Number.isFinite(response?.apiKeyCount) ? response.apiKeyCount : 0,
     recentCalls: Array.isArray(response?.recentCalls) ? response.recentCalls.map(toUsageRecordResponse) : [],
   };

@@ -41,11 +41,11 @@ public final class DashboardAnalyticsService {
         FrontDashboardQuery nonNullQuery = Objects.requireNonNull(query, "Front dashboard query must not be null");
         DashboardAnalyticsRepository nonNullRepository = requireRepository(repository);
 
-        TokenAmount todayTokens = requireTokenAmount(nonNullRepository.sumUserTotalTokens(
+        UsageTokenBreakdown todayTokens = requireTokenBreakdown(nonNullRepository.sumUserTokens(
                 nonNullQuery.userAccountId(),
                 nonNullQuery.todayWindow()
         ), "Front dashboard today tokens");
-        TokenAmount monthTokens = requireTokenAmount(nonNullRepository.sumUserTotalTokens(
+        UsageTokenBreakdown monthTokens = requireTokenBreakdown(nonNullRepository.sumUserTokens(
                 nonNullQuery.userAccountId(),
                 nonNullQuery.monthWindow()
         ), "Front dashboard month tokens");
@@ -145,6 +145,10 @@ public final class DashboardAnalyticsService {
 
     private static TokenAmount requireTokenAmount(TokenAmount tokenAmount, String name) {
         return Objects.requireNonNull(tokenAmount, name + " must not be null");
+    }
+
+    private static UsageTokenBreakdown requireTokenBreakdown(UsageTokenBreakdown tokenBreakdown, String name) {
+        return Objects.requireNonNull(tokenBreakdown, name + " must not be null");
     }
 
     private static List<ProtocolRequestRate> normalizeProtocolRequestRates(

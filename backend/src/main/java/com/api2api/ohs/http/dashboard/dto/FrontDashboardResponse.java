@@ -16,7 +16,11 @@ import lombok.NoArgsConstructor;
 public class FrontDashboardResponse {
 
     private TokenAmountResponse todayTokens;
+    private TokenAmountResponse todayActualTokens;
+    private TokenAmountResponse todayTotalTokens;
     private TokenAmountResponse monthTokens;
+    private TokenAmountResponse monthActualTokens;
+    private TokenAmountResponse monthTotalTokens;
     private long apiKeyCount;
     private List<FrontDashboardRecentCallResponse> recentCalls;
 }

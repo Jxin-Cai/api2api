@@ -39,8 +39,12 @@ public abstract class DashboardResponseConverter {
             PagedUsageRecords recentCalls
     ) {
         return FrontDashboardResponse.builder()
-                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))
-                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))
+                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))
+                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))
+                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))
+                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))
+                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))
+                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens()))
                 .apiKeyCount(apiKeyCount)
                 .recentCalls(recentCalls.getRecords().stream().map(this::toRecentCallResponse).toList())
                 .build();

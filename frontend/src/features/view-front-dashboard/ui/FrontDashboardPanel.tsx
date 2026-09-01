@@ -36,9 +36,11 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
 
   return (
     <Space direction="vertical" size={20} style={{ width: '100%' }}>
-      <DashboardSummaryGrid>
-        <MetricCard title="今日 Token" value={formatTokenMillions(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={query.isLoading} />
-        <MetricCard title="近 30 日 Token" value={formatTokenMillions(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={query.isLoading} />
+      <DashboardSummaryGrid colProps={{ xs: 24, sm: 12, lg: 8, xl: 4 }}>
+        <MetricCard title="今日实际 Token" value={formatTokenMillions(data?.todayActualTokens?.tokens)} rawValue={data?.todayActualTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="今日总 Token" value={formatTokenMillions(data?.todayTotalTokens?.tokens)} rawValue={data?.todayTotalTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="近 30 日实际 Token" value={formatTokenMillions(data?.monthActualTokens?.tokens)} rawValue={data?.monthActualTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="近 30 日总 Token" value={formatTokenMillions(data?.monthTotalTokens?.tokens)} rawValue={data?.monthTotalTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="API Key 数量" value={data?.apiKeyCount ?? 0} loading={query.isLoading} />
       </DashboardSummaryGrid>
 

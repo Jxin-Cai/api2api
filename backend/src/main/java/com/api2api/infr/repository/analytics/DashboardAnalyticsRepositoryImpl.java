@@ -49,17 +49,39 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
 
     @Override
     public TokenAmount sumUserTotalTokens(UserAccountId userAccountId, AnalyticsTimeWindow window) {
+        return TokenAmount.of(sumUserTokens(userAccountId, window).actualTokens());
+    }
+
+    @Override
+    public UsageTokenBreakdown sumUserTokens(UserAccountId userAccountId, AnalyticsTimeWindow window) {
         Objects.requireNonNull(userAccountId, "User account id must not be null");
         Objects.requireNonNull(window, "Analytics time window must not be null");
-        String sql = "SELECT COALESCE(SUM(" + ACTUAL_TOKENS_SQL + "), 0) FROM usage_records "
-                + "WHERE deleted = FALSE AND user_account_id = :userAccountId "
-                + "AND started_at >= :startTime AND started_at < :endTime";
-        BigDecimal total = jdbcTemplate.queryForObject(
-                sql,
-                windowParams(window).addValue("userAccountId", userAccountId.getValue()),
-                BigDecimal.class
-        );
-        return TokenAmount.of(total == null ? BigDecimal.ZERO : total);
+        UsageTokenBreakdown breakdown = jdbcTemplate.queryForObject("""
+                SELECT COALESCE(SUM(input_tokens), 0) AS input_tokens,
+                       COALESCE(SUM(output_tokens), 0) AS output_tokens,
+                       COALESCE(SUM(cache_creation_input_tokens), 0) AS cache_creation_input_tokens,
+                       COALESCE(SUM(cache_read_input_tokens), 0) AS cache_read_input_tokens,
+                       COALESCE(BOOL_AND(usage_known), TRUE) AS usage_known
+                FROM usage_records
+                WHERE deleted = FALSE
+                  AND user_account_id = :userAccountId
+                  AND started_at >= :startTime
+                  AND started_at < :endTime
+                """, windowParams(window).addValue("userAccountId", userAccountId.getValue()), (rs, rowNum) -> {
+            long inputTokens = rs.getLong("input_tokens");
+            long outputTokens = rs.getLong("output_tokens");
+            long cacheCreationInputTokens = rs.getLong("cache_creation_input_tokens");
+            long cacheReadInputTokens = rs.getLong("cache_read_input_tokens");
+            return UsageTokenBreakdown.of(
+                    inputTokens,
+                    outputTokens,
+                    cacheCreationInputTokens,
+                    cacheReadInputTokens,
+                    inputTokens + outputTokens + cacheCreationInputTokens + cacheReadInputTokens,
+                    rs.getBoolean("usage_known")
+            );
+        });
+        return breakdown == null ? UsageTokenBreakdown.zeroKnown() : breakdown;
     }
 
     @Override

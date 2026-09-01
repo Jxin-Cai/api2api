@@ -85,14 +85,22 @@ export interface FrontKeyMetricsResponse {
 
 export interface FrontDashboardBackendResponse {
   todayTokens?: TokenAmountResponse | number;
+  todayActualTokens?: TokenAmountResponse | number;
+  todayTotalTokens?: TokenAmountResponse | number;
   monthTokens?: TokenAmountResponse | number;
+  monthActualTokens?: TokenAmountResponse | number;
+  monthTotalTokens?: TokenAmountResponse | number;
   apiKeyCount?: number;
   recentCalls?: FrontDashboardRecentCallBackendResponse[];
 }
 
 export interface FrontDashboardResponse {
   todayTokens?: TokenAmountResponse;
+  todayActualTokens?: TokenAmountResponse;
+  todayTotalTokens?: TokenAmountResponse;
   monthTokens?: TokenAmountResponse;
+  monthActualTokens?: TokenAmountResponse;
+  monthTotalTokens?: TokenAmountResponse;
   apiKeyCount?: number;
   recentCalls?: UsageRecordResponse[];
 }

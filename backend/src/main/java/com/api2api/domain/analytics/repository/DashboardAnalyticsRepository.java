@@ -34,6 +34,20 @@ public interface DashboardAnalyticsRepository {
     TokenAmount sumUserTotalTokens(UserAccountId userAccountId, AnalyticsTimeWindow window);
 
     /**
+     * Sums actual tokens and total tokens for one user inside a left-closed and right-open analytics time window.
+     * Implementations must only include usage records whose user account id matches {@code userAccountId} and whose
+     * started time is contained in {@code window}. Actual tokens use the weighted usage formula; total tokens are the
+     * raw sum of input, output and cache tokens.
+     * Invalid arguments should be rejected as business failures; no matching records should return
+     * {@link UsageTokenBreakdown#zeroKnown()}.
+     *
+     * @param userAccountId user whose records are included
+     * @param window analytics time window using left-closed and right-open semantics
+     * @return non-null token breakdown containing both actual and total tokens
+     */
+    UsageTokenBreakdown sumUserTokens(UserAccountId userAccountId, AnalyticsTimeWindow window);
+
+    /**
      * Sums platform-wide total tokens inside a left-closed and right-open analytics time window.
      * Implementations must include every persisted usage record in the window, including failed requests that persisted
      * a known token usage; {@code tokenUsage.totalTokens} is the source of truth.

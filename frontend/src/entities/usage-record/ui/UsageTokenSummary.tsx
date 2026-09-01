@@ -72,7 +72,9 @@ export function UsageTokenSummary({
                   <strong className="usage-token-summary__value">{formattedActualTokens}</strong>
                   <span className="usage-token-summary__unit">M</span>
                 </div>
-                <span className="usage-token-summary__hint mono-number">平均 {formattedAverageActualTokens} Token / 条</span>
+                <span className="usage-token-summary__hint mono-number">
+                  合计 {safeActualTokens.toLocaleString('zh-CN')} · 平均 {formattedAverageActualTokens} Token / 条
+                </span>
               </div>
               <div>
                 <span className="usage-token-summary__split-label">总 Token</span>
@@ -80,7 +82,9 @@ export function UsageTokenSummary({
                   <strong className="usage-token-summary__value">{formattedTotalTokens}</strong>
                   <span className="usage-token-summary__unit">M</span>
                 </div>
-                <span className="usage-token-summary__hint mono-number">平均 {formattedAverageTotalTokens} Token / 条</span>
+                <span className="usage-token-summary__hint mono-number">
+                  合计 {safeTotalTokens.toLocaleString('zh-CN')} · 平均 {formattedAverageTotalTokens} Token / 条
+                </span>
               </div>
             </div>
           </div>

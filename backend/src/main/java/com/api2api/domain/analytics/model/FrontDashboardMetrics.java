@@ -1,5 +1,6 @@
 package com.api2api.domain.analytics.model;
 
+import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import java.util.Objects;
 
 /**
@@ -7,32 +8,64 @@ import java.util.Objects;
  */
 public final class FrontDashboardMetrics {
 
-    private final TokenAmount todayTokens;
-    private final TokenAmount monthTokens;
+    private final UsageTokenBreakdown todayTokenUsage;
+    private final UsageTokenBreakdown monthTokenUsage;
 
-    private FrontDashboardMetrics(TokenAmount todayTokens, TokenAmount monthTokens) {
-        this.todayTokens = Objects.requireNonNull(todayTokens, "Front dashboard today tokens must not be null");
-        this.monthTokens = Objects.requireNonNull(monthTokens, "Front dashboard month tokens must not be null");
+    private FrontDashboardMetrics(UsageTokenBreakdown todayTokenUsage, UsageTokenBreakdown monthTokenUsage) {
+        this.todayTokenUsage = Objects.requireNonNull(todayTokenUsage, "Front dashboard today tokens must not be null");
+        this.monthTokenUsage = Objects.requireNonNull(monthTokenUsage, "Front dashboard month tokens must not be null");
     }
 
-    public static FrontDashboardMetrics of(TokenAmount todayTokens, TokenAmount monthTokens) {
-        return new FrontDashboardMetrics(todayTokens, monthTokens);
+    public static FrontDashboardMetrics of(UsageTokenBreakdown todayTokenUsage, UsageTokenBreakdown monthTokenUsage) {
+        return new FrontDashboardMetrics(todayTokenUsage, monthTokenUsage);
+    }
+
+    public TokenAmount todayActualTokens() {
+        return TokenAmount.of(todayTokenUsage.actualTokens());
+    }
+
+    public TokenAmount todayTotalTokens() {
+        return TokenAmount.of(todayTokenUsage.totalTokens());
+    }
+
+    public TokenAmount monthActualTokens() {
+        return TokenAmount.of(monthTokenUsage.actualTokens());
+    }
+
+    public TokenAmount monthTotalTokens() {
+        return TokenAmount.of(monthTokenUsage.totalTokens());
     }
 
     public TokenAmount todayTokens() {
-        return todayTokens;
+        return todayActualTokens();
     }
 
     public TokenAmount monthTokens() {
-        return monthTokens;
+        return monthActualTokens();
     }
 
     public TokenAmount getTodayTokens() {
-        return todayTokens;
+        return todayActualTokens();
     }
 
     public TokenAmount getMonthTokens() {
-        return monthTokens;
+        return monthActualTokens();
+    }
+
+    public TokenAmount getTodayActualTokens() {
+        return todayActualTokens();
+    }
+
+    public TokenAmount getTodayTotalTokens() {
+        return todayTotalTokens();
+    }
+
+    public TokenAmount getMonthActualTokens() {
+        return monthActualTokens();
+    }
+
+    public TokenAmount getMonthTotalTokens() {
+        return monthTotalTokens();
     }
 
     @Override
@@ -43,12 +76,12 @@ public final class FrontDashboardMetrics {
         if (!(o instanceof FrontDashboardMetrics that)) {
             return false;
         }
-        return Objects.equals(todayTokens, that.todayTokens)
-                && Objects.equals(monthTokens, that.monthTokens);
+        return Objects.equals(todayTokenUsage, that.todayTokenUsage)
+                && Objects.equals(monthTokenUsage, that.monthTokenUsage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(todayTokens, monthTokens);
+        return Objects.hash(todayTokenUsage, monthTokenUsage);
     }
 }
