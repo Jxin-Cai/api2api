@@ -3706,10 +3706,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         static RawTokenUsage fromChat(JsonNode usage) {
             JsonNode details = usage.path("prompt_tokens_details");
             long cached = details.path("cached_tokens").asLong(0);
-            long cacheWrite = details.path("cache_write_tokens").asLong(0);
-            if (cacheWrite <= 0) {
-                cacheWrite = details.path("cache_creation_tokens").asLong(0);
-            }
+            long cacheWrite = OpenAIChatCompletionsUsageExtractor.cacheWriteTokens(details);
             long input = usage.path("prompt_tokens").asLong(0);
             long output = usage.path("completion_tokens").asLong(0);
             return new RawTokenUsage(input, output, cached, cacheWrite);

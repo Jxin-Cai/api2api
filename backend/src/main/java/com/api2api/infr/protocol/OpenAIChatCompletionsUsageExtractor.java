@@ -25,14 +25,19 @@ public class OpenAIChatCompletionsUsageExtractor implements UnifiedUsageExtracto
     static UnifiedTokenUsage extractUsage(JsonNode usageNode) {
         JsonNode details = usageNode.path("prompt_tokens_details");
         long cacheReadTokens = details.path("cached_tokens").asLong(0);
-        // cache_write_tokens 与 cache_creation_tokens 是不同上游对同一语义的两种命名，取其一，禁止相加
-        long cacheWriteTokens = details.path("cache_write_tokens").asLong(0);
-        if (cacheWriteTokens <= 0) {
-            cacheWriteTokens = details.path("cache_creation_tokens").asLong(0);
-        }
+        long cacheWriteTokens = cacheWriteTokens(details);
         long promptTokens = usageNode.path("prompt_tokens").asLong(0);
         long inputTokens = Math.max(0, promptTokens - cacheReadTokens - cacheWriteTokens);
         long outputTokens = usageNode.path("completion_tokens").asLong(0);
         return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens);
+    }
+
+    /** cache_write_tokens 与 cache_creation_tokens 是不同上游对同一语义的两种命名，取其一（优先 write），禁止相加。 */
+    static long cacheWriteTokens(JsonNode promptTokensDetails) {
+        long cacheWriteTokens = promptTokensDetails.path("cache_write_tokens").asLong(0);
+        if (cacheWriteTokens > 0) {
+            return cacheWriteTokens;
+        }
+        return promptTokensDetails.path("cache_creation_tokens").asLong(0);
     }
 }

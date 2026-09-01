@@ -1211,10 +1211,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (usage != null && !usage.isNull()) {
             JsonNode details = usage.path("prompt_tokens_details");
             state.cacheReadInputTokens = details.path("cached_tokens").asLong(0);
-            state.cacheCreationInputTokens = details.path("cache_write_tokens").asLong(0);
-            if (state.cacheCreationInputTokens <= 0) {
-                state.cacheCreationInputTokens = details.path("cache_creation_tokens").asLong(0);
-            }
+            state.cacheCreationInputTokens = OpenAIChatCompletionsUsageExtractor.cacheWriteTokens(details);
             state.inputTokens = Math.max(0, usage.path("prompt_tokens").asLong(0)
                     - state.cacheReadInputTokens - state.cacheCreationInputTokens);
             state.outputTokens = usage.path("completion_tokens").asLong(0);
