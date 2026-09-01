@@ -565,6 +565,87 @@ class OpenAIChatOpenAIResponsesRequestConversionTest {
         assertThat(mapped.at("/messages/1/content").asText()).isEqualTo("done");
     }
 
+    @Test
+    void test_replaysTurnReasoningOnChainedToolCall_when_reasoningEmittedOncePerTurn() throws Exception {
+        String body = """
+                {
+                  "model":"deepseek-v4",
+                  "input":[
+                    {"type":"reasoning","summary":[{"type":"summary_text","text":"plan both calls"}]},
+                    {"type":"function_call","call_id":"call_1","name":"a","arguments":"{}"},
+                    {"type":"function_call_output","call_id":"call_1","output":"ra"},
+                    {"type":"function_call","call_id":"call_2","name":"b","arguments":"{}"},
+                    {"type":"function_call_output","call_id":"call_2","output":"rb"}
+                  ]
+                }
+                """;
+
+        JsonNode mapped = responsesToChat(body);
+
+        JsonNode secondAssistant = mapped.path("messages").get(2);
+        assertThat(secondAssistant.path("role").asText()).isEqualTo("assistant");
+        assertThat(secondAssistant.path("reasoning_content").asText()).isEqualTo("plan both calls");
+    }
+
+    @Test
+    void test_attachesReasoningToPlainAssistantMessage_when_reasoningPrecedesAssistantText() throws Exception {
+        String body = """
+                {
+                  "model":"deepseek-v4",
+                  "input":[
+                    {"type":"message","role":"user","content":"why?"},
+                    {"type":"reasoning","summary":[{"type":"summary_text","text":"figuring it out"}]},
+                    {"type":"message","role":"assistant","content":[{"type":"output_text","text":"Because."}]}
+                  ]
+                }
+                """;
+
+        JsonNode mapped = responsesToChat(body);
+
+        JsonNode assistant = mapped.path("messages").get(1);
+        assertThat(assistant.path("reasoning_content").asText()).isEqualTo("figuring it out");
+    }
+
+    @Test
+    void test_clearsTurnReasoning_when_userMessageEndsTurn() throws Exception {
+        String body = """
+                {
+                  "model":"deepseek-v4",
+                  "input":[
+                    {"type":"reasoning","summary":[{"type":"summary_text","text":"old turn"}]},
+                    {"type":"function_call","call_id":"call_1","name":"a","arguments":"{}"},
+                    {"type":"function_call_output","call_id":"call_1","output":"ra"},
+                    {"type":"message","role":"user","content":"next question"},
+                    {"type":"function_call","call_id":"call_2","name":"b","arguments":"{}"},
+                    {"type":"function_call_output","call_id":"call_2","output":"rb"}
+                  ]
+                }
+                """;
+
+        JsonNode mapped = responsesToChat(body);
+
+        JsonNode secondAssistant = mapped.path("messages").get(3);
+        assertThat(secondAssistant.path("role").asText()).isEqualTo("assistant");
+        assertThat(secondAssistant.has("reasoning_content")).isFalse();
+    }
+
+    @Test
+    void test_mapsBareStringItemToUserMessage_when_inputArrayContainsText() throws Exception {
+        String body = """
+                {
+                  "model":"deepseek-v4",
+                  "input":[
+                    "plain question"
+                  ]
+                }
+                """;
+
+        JsonNode mapped = responsesToChat(body);
+
+        assertThat(mapped.at("/messages/0/role").asText()).isEqualTo("user");
+        assertThat(mapped.at("/messages/0/content").asText()).isEqualTo("plain question");
+    }
+
     private JsonNode chatToResponses(String body) throws Exception {
         ProtocolMessageConverter converter = configuration.openAIChatToOpenAIResponsesRequest(
                 json, new SseEventTransformer());

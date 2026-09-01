@@ -2563,24 +2563,44 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
         Set<String> invalidFunctionCallIds = new HashSet<>();
         StringBuilder pendingReasoning = new StringBuilder();
+        StringBuilder lastTurnReasoning = new StringBuilder();
         ObjectNode pendingAssistant = null;
         for (JsonNode item : input) {
+            if (item.isTextual()) {
+                ObjectNode user = json.objectNode();
+                user.put("role", "user");
+                user.put("content", item.asText());
+                messages.add(user);
+                pendingAssistant = null;
+                pendingReasoning.setLength(0);
+                lastTurnReasoning.setLength(0);
+                continue;
+            }
             String type = responsesInputItemType(item);
             switch (type) {
                 case "message" -> {
                     pendingAssistant = null;
-                    appendResponsesMessageItemToChat(messages, item);
+                    appendResponsesMessageItemToChat(messages, item, pendingReasoning, lastTurnReasoning);
                 }
-                case "reasoning" -> appendSeparatedText(pendingReasoning, extractResponsesReasoningText(item));
+                case "reasoning" -> {
+                    appendSeparatedText(pendingReasoning, extractResponsesReasoningText(item));
+                    if (!pendingReasoning.isEmpty()) {
+                        lastTurnReasoning.setLength(0);
+                        lastTurnReasoning.append(pendingReasoning);
+                    }
+                }
                 case "function_call" -> pendingAssistant = appendResponsesFunctionCallToChat(
-                        messages, item, pendingAssistant, pendingReasoning, invalidFunctionCallIds);
+                        messages, item, pendingAssistant, pendingReasoning, lastTurnReasoning, invalidFunctionCallIds);
                 case "function_call_output" -> {
                     pendingAssistant = null;
+                    // 工具输出不结束本轮 thinking，lastTurnReasoning 保留供链式调用复播
+                    pendingReasoning.setLength(0);
                     appendResponsesFunctionCallOutputToChat(messages, item, invalidFunctionCallIds);
                 }
                 default -> {
                     // 服务端工具轨迹（web_search_call 等）在 Chat 协议没有等价物，跳过
                     pendingAssistant = null;
+                    pendingReasoning.setLength(0);
                 }
             }
         }
@@ -2595,7 +2615,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return type;
     }
 
-    private void appendResponsesMessageItemToChat(ArrayNode messages, JsonNode item) {
+    private void appendResponsesMessageItemToChat(
+            ArrayNode messages,
+            JsonNode item,
+            StringBuilder pendingReasoning,
+            StringBuilder lastTurnReasoning
+    ) {
         String role = item.path("role").asText("user");
         ObjectNode message = json.objectNode();
         message.put("role", "developer".equals(role) ? "system" : role);
@@ -2604,6 +2629,18 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             message.set("content", responsesUserPartsToChatParts(content));
         } else {
             message.put("content", extractOpenAiContentText(content));
+        }
+        if ("assistant".equals(role)) {
+            // DeepSeek thinking 模型要求 assistant 历史消息回传其 reasoning_content，缺失会报 400
+            String reasoning = pendingReasoning.isEmpty() ? lastTurnReasoning.toString() : pendingReasoning.toString();
+            if (!reasoning.isBlank()) {
+                message.put("reasoning_content", reasoning);
+            }
+            pendingReasoning.setLength(0);
+        } else {
+            // user 侧项结束本轮 thinking
+            pendingReasoning.setLength(0);
+            lastTurnReasoning.setLength(0);
         }
         messages.add(message);
     }
@@ -2690,6 +2727,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             JsonNode item,
             ObjectNode pendingAssistant,
             StringBuilder pendingReasoning,
+            StringBuilder lastTurnReasoning,
             Set<String> invalidFunctionCallIds
     ) {
         String callId = item.path("call_id").asText(item.path("id").asText(""));
@@ -2700,6 +2738,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 invalidFunctionCallIds.add(callId);
             }
             log.warn("Dropping responses function_call with invalid JSON arguments, callId: {}", callId);
+            pendingReasoning.setLength(0);
             return pendingAssistant;
         }
         ObjectNode assistant = pendingAssistant;
@@ -2716,6 +2755,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             appendSeparatedText(combined, pendingReasoning.toString());
             assistant.put("reasoning_content", combined.toString());
             pendingReasoning.setLength(0);
+        } else if (!assistant.hasNonNull("reasoning_content") && !lastTurnReasoning.isEmpty()) {
+            // DeepSeek 每轮只发一次 reasoning，链式调用（reasoning → call A → output A → call B）中
+            // call B 的 assistant 消息需复播本轮 reasoning，否则历史校验报 400
+            assistant.put("reasoning_content", lastTurnReasoning.toString());
         }
         ObjectNode function = json.objectNode();
         function.put("name", item.path("name").asText(""));
