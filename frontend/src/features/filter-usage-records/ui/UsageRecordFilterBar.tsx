@@ -3,7 +3,7 @@ import type { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
 import { useApiCredentials } from '@entities/api-credential';
-import { useProviderChannels, type ProviderChannelResponse } from '@entities/provider-channel';
+import { useProviderChannels } from '@entities/provider-channel';
 import { useProviderModels } from '@entities/provider-model';
 import { PROTOCOL_OPTIONS } from '@shared/lib/protocols';
 
@@ -28,21 +28,6 @@ function toIsoString(value: Dayjs | null): string | undefined {
   return value ? value.toISOString() : undefined;
 }
 
-function toChannelModelOptions(channels: ProviderChannelResponse[]): UsageFilterOption[] {
-  const modelNames = new Set<string>();
-  channels.forEach((channel) => {
-    (channel.supportedModels ?? []).forEach((model) => {
-      const name = model.requestedModel?.trim();
-      if (name) {
-        modelNames.add(name);
-      }
-    });
-  });
-  return [...modelNames]
-    .sort((left, right) => left.localeCompare(right, 'zh-CN'))
-    .map((name) => ({ label: name, value: name }));
-}
-
 function withCurrentModelOption(options: UsageFilterOption[], currentModel: string | undefined): UsageFilterOption[] {
   if (!currentModel || options.some((option) => option.value === currentModel)) {
     return options;
@@ -53,26 +38,23 @@ function withCurrentModelOption(options: UsageFilterOption[], currentModel: stri
 export function UsageRecordFilterBar({ scope, filters, onFilterChange, onFiltersChange, onReset, disabled = false }: UsageRecordFilterBarProps) {
   const isAdmin = scope === 'admin';
   const { options: apiCredentialOptions, query: apiCredentialQuery } = useApiCredentials();
-  const { modelOptions: portalModelOptions, isLoading: portalModelLoading } = useProviderModels({ enabled: !isAdmin });
-  const { channels, channelOptions, isLoading: channelLoading } = useProviderChannels({ enabled: isAdmin });
+  const { modelOptions, isLoading: modelLoading } = useProviderModels();
+  const { channelOptions, isLoading: channelLoading } = useProviderChannels({ enabled: isAdmin });
   const providerChannelOptions = channelOptions.map((option: { label: string; value: number }) => ({
     label: option.label,
     value: String(option.value),
   }));
   const selectableModelOptions = useMemo(
-    () => withCurrentModelOption(
-      isAdmin ? toChannelModelOptions(channels) : portalModelOptions,
-      filters.model
-    ),
-    [channels, filters.model, isAdmin, portalModelOptions]
+    () => withCurrentModelOption(modelOptions, filters.model),
+    [filters.model, modelOptions]
   );
-  const modelLoading = isAdmin ? channelLoading : portalModelLoading;
 
   return (
     <Space wrap align="start">
       <Select
         allowClear
         showSearch
+        optionFilterProp="label"
         value={filters.apiCredentialId}
         placeholder="API Key"
         style={{ width: 200 }}
@@ -85,12 +67,14 @@ export function UsageRecordFilterBar({ scope, filters, onFilterChange, onFilters
         allowClear
         showSearch
         optionFilterProp="label"
-        value={filters.model}
-        placeholder="模型"
-        style={{ width: 240 }}
+        value={filters.model || undefined}
+        placeholder="选择模型"
+        style={{ width: 260 }}
         options={selectableModelOptions}
         loading={modelLoading}
         disabled={disabled}
+        notFoundContent={modelLoading ? '模型加载中…' : '暂无已配置模型'}
+        getPopupContainer={(trigger): HTMLElement => trigger.parentElement ?? document.body}
         onChange={(value: string | undefined): void => onFilterChange('model', value)}
       />
       <Select
@@ -125,6 +109,7 @@ export function UsageRecordFilterBar({ scope, filters, onFilterChange, onFilters
           <Select
             allowClear
             showSearch
+            optionFilterProp="label"
             value={filters.providerChannelId}
             placeholder="供应商渠道"
             style={{ width: 200 }}

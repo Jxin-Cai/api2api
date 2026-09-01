@@ -152,11 +152,8 @@ public class ProviderChannelApplicationService {
     public List<ProviderModelOption> listProviderModelOptions(UserAccountId userId) {
         assertUserPortal(userId);
         Map<String, ModelOptionAccumulator> options = new LinkedHashMap<>();
-        for (ProviderChannel channel : providerChannelRepository.findEnabledForRouting()) {
+        for (ProviderChannel channel : providerChannelRepository.findAll()) {
             for (ChannelModelSupport modelSupport : channel.supportedModels()) {
-                if (modelSupport.status() != ChannelModelStatus.ENABLED) {
-                    continue;
-                }
                 String modelName = modelSupport.requestedModel().value();
                 options.computeIfAbsent(modelName, ignored -> new ModelOptionAccumulator(modelSupport.requestedModel()))
                         .add(channel, modelSupport.upstreamProtocol());
