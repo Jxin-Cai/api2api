@@ -11,5 +11,3 @@ export interface ProtocolDirectionQuery {
   sourceProtocol: string;
   targetProtocol: string;
 }
-
-export type ProtocolConversionActiveTab = 'request' | 'response';

@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Collapse, Descriptions, Drawer, Grid, Popconfirm, Space, Spin, Statistic, Tag, Typography } from 'antd';
-import { CapabilityTags, buildMappingView, type ProtocolConversionMappingResponse, useProtocolConversionDetail, type ProtocolConversionResponse } from '@entities/protocol-conversion';
+import { CapabilityTags, buildMappingView, type ProtocolConversionActiveTab, type ProtocolConversionMappingResponse, useProtocolConversionDetail, type ProtocolConversionResponse } from '@entities/protocol-conversion';
 import { ProtocolFieldTable, ProtocolMetadataLink, useProtocolMetadataDetail } from '@entities/protocol-metadata';
 import { ProtocolMappingPanel } from '@widgets/protocol-mapping-panel';
 import { formatProtocolDirection } from '@shared/lib/protocols';
 import { PageState } from '@shared/ui';
 import { useProtocolConversionMutations } from '../model/useProtocolConversionMutations';
-import type { ProtocolConversionActiveTab } from '../model/types';
 
 interface ProtocolConversionDetailDrawerProps {
   /** 打开状态 */

@@ -1,7 +1,6 @@
 import { Segmented, Space, Tabs } from 'antd';
 import { useState } from 'react';
-import { FieldMappingHierarchy, FieldMappingTable, type ProtocolConversionMappingResponse, type ProtocolConversionResponse } from '@entities/protocol-conversion';
-import type { ProtocolConversionActiveTab } from '@features/view-protocol-conversions';
+import { FieldMappingHierarchy, FieldMappingTable, type ProtocolConversionActiveTab, type ProtocolConversionMappingResponse, type ProtocolConversionResponse } from '@entities/protocol-conversion';
 
 type MappingViewMode = 'hierarchy' | 'table';
 

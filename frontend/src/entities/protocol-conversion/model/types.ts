@@ -68,6 +68,9 @@ export interface ProtocolConversionResponse {
 
 export type ProtocolConversionCapabilityLike = ProtocolConversionCapabilityResponse | ProtocolConversionListItemResponse;
 
+/** 转换详情映射 Tab，对应 requestMapping / responseMapping */
+export type ProtocolConversionActiveTab = 'request' | 'response';
+
 export interface ProtocolConversionDirectionRequest {
   sourceProtocol: string;
   targetProtocol: string;
