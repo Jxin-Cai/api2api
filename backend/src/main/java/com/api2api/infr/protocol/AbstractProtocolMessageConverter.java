@@ -233,29 +233,6 @@ abstract class AbstractProtocolMessageConverter implements ProtocolMessageConver
         return result;
     }
 
-    protected ArrayNode responsesInputToChatMessages(JsonNode input) {
-        ArrayNode messages = json.arrayNode();
-        if (input == null || input.isMissingNode() || input.isNull()) {
-            return messages;
-        }
-        if (input.isTextual()) {
-            ObjectNode message = json.objectNode();
-            message.put("role", "user");
-            message.put("content", input.asText());
-            messages.add(message);
-            return messages;
-        }
-        if (input.isArray()) {
-            for (JsonNode item : input) {
-                ObjectNode message = json.objectNode();
-                message.put("role", item.path("role").asText("user"));
-                message.put("content", extractOpenAiContentText(item.get("content")));
-                messages.add(message);
-            }
-        }
-        return messages;
-    }
-
     protected String extractOpenAiContentText(JsonNode content) {
         if (content == null || content.isMissingNode() || content.isNull()) {
             return "";

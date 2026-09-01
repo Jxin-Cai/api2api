@@ -12,14 +12,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.HexFormat;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class GenericProtocolMessageConverter extends AbstractProtocolMessageConverter {
+
+    private static final Logger log = LoggerFactory.getLogger(GenericProtocolMessageConverter.class);
 
     private static final boolean RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED = false;
     private static final int MIN_CHAT_COMPLETION_TOKENS = 128;
@@ -56,7 +62,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         super(json, usageExtractor, sourceProtocol, targetProtocol, direction, sseEventTransformer);
         this.requestConverter = resolveRequestConverter(sourceProtocol, targetProtocol);
         this.responseConverter = resolveResponseConverter(sourceProtocol, targetProtocol);
-        this.fullStreamingSupport = isFullStreamingPair(sourceProtocol, targetProtocol, direction);
+        this.fullStreamingSupport = isFullStreamingPair(sourceProtocol, targetProtocol);
         this.reasoningModelPrefixes = properties.getReasoningModelPrefixes();
         this.reasoningModelContains = properties.getReasoningModelContains();
         this.responsesToClaudeRequestConverter = new ResponsesToClaudeRequestConverter(json);
@@ -80,14 +86,13 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return this::responsesResponseToClaude;
     }
 
-    private static boolean isFullStreamingPair(ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {
+    private static boolean isFullStreamingPair(ProtocolType source, ProtocolType target) {
         if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_RESPONSES) return true;
         if (source == ProtocolType.CLAUDE_MESSAGES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return true;
         if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.CLAUDE_MESSAGES) return true;
         if (source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.CLAUDE_MESSAGES) return true;
-        if (direction == ProtocolConversionDirection.RESPONSE
-                && ((source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS)
-                || (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.OPENAI_RESPONSES))) return true;
+        if (source == ProtocolType.OPENAI_RESPONSES && target == ProtocolType.OPENAI_CHAT_COMPLETIONS) return true;
+        if (source == ProtocolType.OPENAI_CHAT_COMPLETIONS && target == ProtocolType.OPENAI_RESPONSES) return true;
         return false;
     }
 
@@ -2094,56 +2099,672 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private ObjectNode chatRequestToResponses(JsonNode source) {
         ObjectNode target = json.objectNode();
+        String model = source.path("model").asText("");
         copyIfPresent(source, target, "model");
         copyIfPresent(source, target, "stream");
-        copyIfPresent(source, target, "max_tokens", "max_output_tokens");
-        copyIfPresent(source, target, "temperature");
-        copyIfPresent(source, target, "top_p");
-        JsonNode messages = source.get("messages");
-        ArrayNode input = json.arrayNode();
-        StringBuilder instructions = new StringBuilder();
-        if (messages != null && messages.isArray()) {
-            for (JsonNode message : messages) {
-                String role = message.path("role").asText("user");
-                String content = message.path("content").asText("");
-                if ("system".equals(role)) {
-                    if (!instructions.isEmpty()) {
-                        instructions.append('\n');
-                    }
-                    instructions.append(content);
-                    continue;
+        copyIfPresent(source, target, "store");
+        copyIfPresent(source, target, "user");
+        copyIfPresent(source, target, "parallel_tool_calls");
+        mapChatToResponsesModelParameters(source, target, isReasoningModel(model));
+        mapChatToResponsesReasoning(source, target);
+        mapChatToResponsesTools(source, target);
+        mapChatToResponsesTextFormat(source, target);
+        target.set("input", chatMessagesToResponsesInput(source.get("messages")));
+        return target;
+    }
+
+    private void mapChatToResponsesModelParameters(JsonNode source, ObjectNode target, boolean reasoning) {
+        JsonNode maxTokens = source.hasNonNull("max_completion_tokens")
+                ? source.get("max_completion_tokens")
+                : source.get("max_tokens");
+        if (maxTokens != null && !maxTokens.isNull()) {
+            target.set("max_output_tokens", maxTokens.deepCopy());
+        }
+        if (!reasoning) {
+            copyIfPresent(source, target, "temperature");
+            copyIfPresent(source, target, "top_p");
+        }
+    }
+
+    private void mapChatToResponsesReasoning(JsonNode source, ObjectNode target) {
+        if (!source.hasNonNull("reasoning_effort")) {
+            return;
+        }
+        ObjectNode reasoning = json.objectNode();
+        reasoning.put("effort", source.get("reasoning_effort").asText(""));
+        reasoning.put("summary", "auto");
+        target.set("reasoning", reasoning);
+    }
+
+    private void mapChatToResponsesTools(JsonNode source, ObjectNode target) {
+        ArrayNode tools = json.arrayNode();
+        JsonNode chatTools = source.get("tools");
+        if (chatTools != null && chatTools.isArray()) {
+            for (JsonNode tool : chatTools) {
+                JsonNode function = tool.get("function");
+                if (function != null && function.isObject()) {
+                    tools.add(chatFunctionDefinitionToResponsesTool(function));
                 }
-                ObjectNode item = json.objectNode();
-                item.put("role", role);
-                item.put("content", content);
-                input.add(item);
             }
         }
-        if (!instructions.isEmpty()) {
-            target.put("instructions", instructions.toString());
+        JsonNode legacyFunctions = source.get("functions");
+        if (legacyFunctions != null && legacyFunctions.isArray()) {
+            for (JsonNode function : legacyFunctions) {
+                if (function.isObject()) {
+                    tools.add(chatFunctionDefinitionToResponsesTool(function));
+                }
+            }
         }
-        target.set("input", input);
-        return target;
+        if (!tools.isEmpty()) {
+            target.set("tools", tools);
+        }
+        JsonNode toolChoice = source.hasNonNull("tool_choice")
+                ? chatToolChoiceToResponses(source.get("tool_choice"))
+                : chatLegacyFunctionCallToResponsesToolChoice(source.get("function_call"));
+        if (toolChoice != null) {
+            target.set("tool_choice", toolChoice);
+        }
+    }
+
+    private ObjectNode chatFunctionDefinitionToResponsesTool(JsonNode function) {
+        ObjectNode tool = json.objectNode();
+        tool.put("type", "function");
+        tool.put("name", function.path("name").asText(""));
+        if (function.hasNonNull("description")) {
+            tool.put("description", function.get("description").asText(""));
+        }
+        if (function.hasNonNull("parameters")) {
+            tool.set("parameters", function.get("parameters").deepCopy());
+        }
+        tool.put("strict", function.path("strict").asBoolean(false));
+        return tool;
+    }
+
+    private JsonNode chatToolChoiceToResponses(JsonNode toolChoice) {
+        if (toolChoice.isTextual()) {
+            return toolChoice.deepCopy();
+        }
+        if (toolChoice.isObject() && "function".equals(toolChoice.path("type").asText(""))) {
+            String name = toolChoice.path("function").path("name").asText("");
+            if (!name.isBlank()) {
+                ObjectNode mapped = json.objectNode();
+                mapped.put("type", "function");
+                mapped.put("name", name);
+                return mapped;
+            }
+        }
+        return null;
+    }
+
+    private JsonNode chatLegacyFunctionCallToResponsesToolChoice(JsonNode functionCall) {
+        if (functionCall == null || functionCall.isNull()) {
+            return null;
+        }
+        if (functionCall.isTextual()) {
+            String value = functionCall.asText("");
+            return "auto".equals(value) || "none".equals(value) ? functionCall.deepCopy() : null;
+        }
+        String name = functionCall.path("name").asText("");
+        if (name.isBlank()) {
+            return null;
+        }
+        ObjectNode mapped = json.objectNode();
+        mapped.put("type", "function");
+        mapped.put("name", name);
+        return mapped;
+    }
+
+    private void mapChatToResponsesTextFormat(JsonNode source, ObjectNode target) {
+        JsonNode responseFormat = source.get("response_format");
+        if (responseFormat == null || !responseFormat.isObject()) {
+            return;
+        }
+        String type = responseFormat.path("type").asText("");
+        ObjectNode format;
+        if ("json_schema".equals(type)) {
+            JsonNode jsonSchema = responseFormat.get("json_schema");
+            format = jsonSchema != null && jsonSchema.isObject()
+                    ? (ObjectNode) jsonSchema.deepCopy()
+                    : json.objectNode();
+            format.put("type", "json_schema");
+        } else if (!type.isBlank()) {
+            format = (ObjectNode) responseFormat.deepCopy();
+        } else {
+            return;
+        }
+        ObjectNode text = json.objectNode();
+        text.set("format", format);
+        target.set("text", text);
+    }
+
+    private ArrayNode chatMessagesToResponsesInput(JsonNode messages) {
+        ArrayNode input = json.arrayNode();
+        if (messages == null || !messages.isArray()) {
+            return input;
+        }
+        for (JsonNode message : messages) {
+            String role = message.path("role").asText("user");
+            switch (role) {
+                case "system", "developer" -> addChatSystemMessageToResponsesInput(input, message, role);
+                case "assistant" -> addChatAssistantMessageToResponsesInput(input, message);
+                case "tool" -> input.add(responsesFunctionCallOutputItem(
+                        message.path("tool_call_id").asText(""),
+                        extractOpenAiContentText(message.get("content"))));
+                // legacy function 协议没有 call_id，只能沿用函数名对齐 function_call 侧的同名回填
+                case "function" -> input.add(responsesFunctionCallOutputItem(
+                        message.path("name").asText(""),
+                        extractOpenAiContentText(message.get("content"))));
+                default -> addChatUserMessageToResponsesInput(input, message, role);
+            }
+        }
+        return input;
+    }
+
+    private void addChatSystemMessageToResponsesInput(ArrayNode input, JsonNode message, String role) {
+        String text = extractOpenAiContentText(message.get("content"));
+        if (text.isBlank()) {
+            return;
+        }
+        ArrayNode parts = json.arrayNode();
+        parts.add(responsesTextPart("input_text", text));
+        input.add(responsesMessageItem(role, parts));
+    }
+
+    private void addChatUserMessageToResponsesInput(ArrayNode input, JsonNode message, String role) {
+        JsonNode content = message.get("content");
+        ArrayNode parts = json.arrayNode();
+        if (content != null && content.isArray()) {
+            for (JsonNode part : content) {
+                chatContentPartToResponses(part).ifPresent(parts::add);
+            }
+        } else {
+            String text = content == null || content.isNull() ? "" : content.asText("");
+            if (!text.isEmpty()) {
+                parts.add(responsesTextPart("input_text", text));
+            }
+        }
+        if (parts.isEmpty()) {
+            return;
+        }
+        input.add(responsesMessageItem(role, parts));
+    }
+
+    private Optional<ObjectNode> chatContentPartToResponses(JsonNode part) {
+        String type = part.path("type").asText("");
+        switch (type) {
+            case "text" -> {
+                return Optional.of(responsesTextPart("input_text", part.path("text").asText("")));
+            }
+            case "image_url" -> {
+                String url = part.path("image_url").path("url").asText("");
+                if (url.isBlank() || isEmptyBase64DataUri(url)) {
+                    return Optional.empty();
+                }
+                ObjectNode mapped = json.objectNode();
+                mapped.put("type", "input_image");
+                mapped.put("image_url", url);
+                JsonNode detail = part.path("image_url").get("detail");
+                if (detail != null && detail.isTextual()) {
+                    mapped.put("detail", detail.asText());
+                }
+                return Optional.of(mapped);
+            }
+            case "file" -> {
+                return Optional.of(chatFilePartToResponsesInputFile(part.path("file")));
+            }
+            default -> throw new ProtocolConversionException(
+                    "OPENAI_CHAT_RESPONSES_CONTENT_PART_NOT_SUPPORTED: " + type);
+        }
+    }
+
+    private ObjectNode chatFilePartToResponsesInputFile(JsonNode file) {
+        ObjectNode mapped = json.objectNode();
+        mapped.put("type", "input_file");
+        if (file.hasNonNull("file_id")) {
+            mapped.put("file_id", file.get("file_id").asText(""));
+        } else if (file.hasNonNull("file_data")) {
+            if (file.hasNonNull("filename")) {
+                mapped.put("filename", file.get("filename").asText(""));
+            }
+            mapped.put("file_data", file.get("file_data").asText(""));
+        } else {
+            throw new ProtocolConversionException("OPENAI_CHAT_RESPONSES_FILE_SOURCE_REQUIRED");
+        }
+        return mapped;
+    }
+
+    private boolean isEmptyBase64DataUri(String url) {
+        int marker = url.indexOf(";base64,");
+        return url.startsWith("data:") && marker >= 0 && url.length() == marker + ";base64,".length();
+    }
+
+    private void addChatAssistantMessageToResponsesInput(ArrayNode input, JsonNode message) {
+        String text = assembleChatAssistantResponsesText(message);
+        if (!text.isBlank()) {
+            ArrayNode parts = json.arrayNode();
+            parts.add(responsesTextPart("output_text", text));
+            input.add(responsesMessageItem("assistant", parts));
+        }
+        JsonNode toolCalls = message.get("tool_calls");
+        if (toolCalls != null && toolCalls.isArray()) {
+            for (JsonNode toolCall : toolCalls) {
+                JsonNode function = toolCall.path("function");
+                input.add(responsesFunctionCallItem(
+                        toolCall.path("id").asText(""),
+                        function.path("name").asText(""),
+                        function.path("arguments").asText("")));
+            }
+        }
+        JsonNode legacyCall = message.get("function_call");
+        if (legacyCall != null && legacyCall.isObject()) {
+            String name = legacyCall.path("name").asText("");
+            input.add(responsesFunctionCallItem(name, name, legacyCall.path("arguments").asText("")));
+        }
+    }
+
+    private String assembleChatAssistantResponsesText(JsonNode message) {
+        StringBuilder text = new StringBuilder();
+        String reasoning = message.path("reasoning_content").asText("");
+        if (!reasoning.isBlank()) {
+            // Responses input 项没有 reasoning_content 字段，用 thinking 标签保留推理轨迹
+            text.append("<thinking>\n").append(reasoning).append("\n</thinking>");
+        }
+        String content = extractOpenAiContentText(message.get("content"));
+        if (!content.isBlank()) {
+            if (!text.isEmpty()) {
+                text.append("\n\n");
+            }
+            text.append(content);
+        }
+        return text.toString();
+    }
+
+    private ObjectNode responsesFunctionCallItem(String callId, String name, String arguments) {
+        ObjectNode item = json.objectNode();
+        item.put("type", "function_call");
+        item.put("call_id", callId);
+        item.put("name", name);
+        item.put("arguments", arguments == null || arguments.isBlank() ? "{}" : arguments);
+        return item;
+    }
+
+    private ObjectNode responsesFunctionCallOutputItem(String callId, String output) {
+        ObjectNode item = json.objectNode();
+        item.put("type", "function_call_output");
+        item.put("call_id", callId);
+        item.put("output", output.isBlank() ? EMPTY_TOOL_RESULT : output);
+        return item;
+    }
+
+    private ObjectNode responsesMessageItem(String role, ArrayNode content) {
+        ObjectNode item = json.objectNode();
+        item.put("type", "message");
+        item.put("role", role);
+        item.set("content", content);
+        return item;
+    }
+
+    private ObjectNode responsesTextPart(String type, String text) {
+        ObjectNode part = json.objectNode();
+        part.put("type", type);
+        part.put("text", text);
+        return part;
     }
 
     private ObjectNode responsesRequestToChat(JsonNode source) {
         ObjectNode target = json.objectNode();
+        String model = source.path("model").asText("");
         copyIfPresent(source, target, "model");
+        copyIfPresent(source, target, "user");
+        copyIfPresent(source, target, "parallel_tool_calls");
+        mapResponsesToChatStreamOptions(source, target);
+        mapResponsesToChatModelParameters(source, target, isReasoningModel(model));
+        Set<String> functionToolNames = mapResponsesToChatTools(source, target);
+        mapResponsesToChatToolChoice(source, target, functionToolNames);
+        mapResponsesToChatReasoningEffort(source, target);
+        mapResponsesToChatResponseFormat(source, target);
+        target.set("messages", assembleResponsesToChatMessages(source));
+        return target;
+    }
+
+    private void mapResponsesToChatStreamOptions(JsonNode source, ObjectNode target) {
         copyIfPresent(source, target, "stream");
-        copyIfPresent(source, target, "max_output_tokens", "max_tokens");
-        copyIfPresent(source, target, "temperature");
-        copyIfPresent(source, target, "top_p");
+        if (source.path("stream").asBoolean(false)) {
+            ObjectNode streamOptions = json.objectNode();
+            streamOptions.put("include_usage", true);
+            target.set("stream_options", streamOptions);
+        }
+    }
+
+    private void mapResponsesToChatModelParameters(JsonNode source, ObjectNode target, boolean reasoning) {
+        if (source.hasNonNull("max_output_tokens")) {
+            int maxTokens = source.get("max_output_tokens").asInt();
+            target.put("max_completion_tokens", maxTokens > 0
+                    ? Math.max(maxTokens, MIN_CHAT_COMPLETION_TOKENS)
+                    : maxTokens);
+        }
+        if (!reasoning) {
+            copyIfPresent(source, target, "temperature");
+            copyIfPresent(source, target, "top_p");
+        }
+    }
+
+    private Set<String> mapResponsesToChatTools(JsonNode source, ObjectNode target) {
+        JsonNode tools = source.get("tools");
+        if (tools == null || !tools.isArray() || tools.isEmpty()) {
+            return Set.of();
+        }
+        ArrayNode chatTools = json.arrayNode();
+        Set<String> functionToolNames = new LinkedHashSet<>();
+        for (JsonNode tool : tools) {
+            if (!"function".equals(tool.path("type").asText(""))) {
+                // 服务端托管工具（web_search、code_interpreter 等）在 Chat 协议没有等价能力，静默丢弃
+                continue;
+            }
+            ObjectNode function = json.objectNode();
+            String name = tool.path("name").asText("");
+            function.put("name", name);
+            if (tool.hasNonNull("description")) {
+                function.put("description", tool.get("description").asText(""));
+            }
+            if (tool.hasNonNull("parameters")) {
+                function.set("parameters", tool.get("parameters").deepCopy());
+            }
+            if (tool.hasNonNull("strict")) {
+                function.put("strict", tool.get("strict").asBoolean(false));
+            }
+            ObjectNode chatTool = json.objectNode();
+            chatTool.put("type", "function");
+            chatTool.set("function", function);
+            chatTools.add(chatTool);
+            functionToolNames.add(name);
+        }
+        if (!chatTools.isEmpty()) {
+            target.set("tools", chatTools);
+        }
+        return functionToolNames;
+    }
+
+    private void mapResponsesToChatToolChoice(JsonNode source, ObjectNode target, Set<String> functionToolNames) {
+        JsonNode toolChoice = source.get("tool_choice");
+        if (toolChoice == null || toolChoice.isNull()) {
+            return;
+        }
+        if (toolChoice.isTextual()) {
+            target.set("tool_choice", toolChoice.deepCopy());
+            return;
+        }
+        if ("function".equals(toolChoice.path("type").asText(""))) {
+            String name = toolChoice.path("name").asText("");
+            // 指定的函数工具若已随服务端工具一并丢弃，则不转发 tool_choice，避免上游校验失败
+            if (!name.isBlank() && functionToolNames.contains(name)) {
+                ObjectNode function = json.objectNode();
+                function.put("name", name);
+                ObjectNode mapped = json.objectNode();
+                mapped.put("type", "function");
+                mapped.set("function", function);
+                target.set("tool_choice", mapped);
+            }
+        }
+    }
+
+    private void mapResponsesToChatReasoningEffort(JsonNode source, ObjectNode target) {
+        JsonNode reasoning = source.get("reasoning");
+        if (reasoning != null && reasoning.hasNonNull("effort")) {
+            target.put("reasoning_effort", reasoning.get("effort").asText(""));
+        }
+    }
+
+    private void mapResponsesToChatResponseFormat(JsonNode source, ObjectNode target) {
+        JsonNode format = source.path("text").get("format");
+        if (format == null || !format.isObject()) {
+            return;
+        }
+        String type = format.path("type").asText("");
+        if ("json_schema".equals(type)) {
+            ObjectNode jsonSchema = (ObjectNode) format.deepCopy();
+            jsonSchema.remove("type");
+            ObjectNode responseFormat = json.objectNode();
+            responseFormat.put("type", "json_schema");
+            responseFormat.set("json_schema", jsonSchema);
+            target.set("response_format", responseFormat);
+        } else if (!type.isBlank() && !"text".equals(type)) {
+            target.set("response_format", format.deepCopy());
+        }
+    }
+
+    private ArrayNode assembleResponsesToChatMessages(JsonNode source) {
         ArrayNode messages = json.arrayNode();
         JsonNode instructions = source.get("instructions");
-        if (instructions != null && !instructions.isNull()) {
+        if (instructions != null && instructions.isTextual() && !instructions.asText().isBlank()) {
             ObjectNode system = json.objectNode();
             system.put("role", "system");
-            system.put("content", instructions.asText(""));
+            system.put("content", instructions.asText());
             messages.add(system);
         }
-        messages.addAll(responsesInputToChatMessages(source.get("input")));
-        target.set("messages", messages);
-        return target;
+        messages.addAll(responsesInputItemsToChatMessages(source.get("input")));
+        return normalizeChatToolHistory(messages);
+    }
+
+    private ArrayNode responsesInputItemsToChatMessages(JsonNode input) {
+        ArrayNode messages = json.arrayNode();
+        if (input == null || input.isMissingNode() || input.isNull()) {
+            return messages;
+        }
+        if (input.isTextual()) {
+            ObjectNode message = json.objectNode();
+            message.put("role", "user");
+            message.put("content", input.asText());
+            messages.add(message);
+            return messages;
+        }
+        if (!input.isArray()) {
+            return messages;
+        }
+        Set<String> invalidFunctionCallIds = new HashSet<>();
+        StringBuilder pendingReasoning = new StringBuilder();
+        ObjectNode pendingAssistant = null;
+        for (JsonNode item : input) {
+            String type = responsesInputItemType(item);
+            switch (type) {
+                case "message" -> {
+                    pendingAssistant = null;
+                    appendResponsesMessageItemToChat(messages, item);
+                }
+                case "reasoning" -> appendSeparatedText(pendingReasoning, extractResponsesReasoningText(item));
+                case "function_call" -> pendingAssistant = appendResponsesFunctionCallToChat(
+                        messages, item, pendingAssistant, pendingReasoning, invalidFunctionCallIds);
+                case "function_call_output" -> {
+                    pendingAssistant = null;
+                    appendResponsesFunctionCallOutputToChat(messages, item, invalidFunctionCallIds);
+                }
+                default -> {
+                    // 服务端工具轨迹（web_search_call 等）在 Chat 协议没有等价物，跳过
+                    pendingAssistant = null;
+                }
+            }
+        }
+        return messages;
+    }
+
+    private String responsesInputItemType(JsonNode item) {
+        String type = item.path("type").asText("");
+        if (type.isBlank() && item.hasNonNull("role")) {
+            return "message";
+        }
+        return type;
+    }
+
+    private void appendResponsesMessageItemToChat(ArrayNode messages, JsonNode item) {
+        String role = item.path("role").asText("user");
+        ObjectNode message = json.objectNode();
+        message.put("role", "developer".equals(role) ? "system" : role);
+        JsonNode content = item.get("content");
+        if ("user".equals(role) && content != null && content.isArray() && containsNonTextResponsesPart(content)) {
+            message.set("content", responsesUserPartsToChatParts(content));
+        } else {
+            message.put("content", extractOpenAiContentText(content));
+        }
+        messages.add(message);
+    }
+
+    private boolean containsNonTextResponsesPart(JsonNode content) {
+        for (JsonNode part : content) {
+            String type = part.path("type").asText("");
+            if ("input_image".equals(type) || "input_file".equals(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private ArrayNode responsesUserPartsToChatParts(JsonNode content) {
+        ArrayNode parts = json.arrayNode();
+        for (JsonNode part : content) {
+            switch (part.path("type").asText("")) {
+                case "input_text", "output_text", "text" -> {
+                    ObjectNode text = json.objectNode();
+                    text.put("type", "text");
+                    text.put("text", part.path("text").asText(""));
+                    parts.add(text);
+                }
+                case "input_image" -> {
+                    String url = part.path("image_url").asText("");
+                    if (!url.isBlank()) {
+                        ObjectNode imageUrl = json.objectNode();
+                        imageUrl.put("url", url);
+                        if (part.hasNonNull("detail")) {
+                            imageUrl.put("detail", part.get("detail").asText(""));
+                        }
+                        ObjectNode image = json.objectNode();
+                        image.put("type", "image_url");
+                        image.set("image_url", imageUrl);
+                        parts.add(image);
+                    }
+                }
+                case "input_file" -> {
+                    ObjectNode file = json.objectNode();
+                    if (part.hasNonNull("file_id")) {
+                        file.put("file_id", part.get("file_id").asText(""));
+                    }
+                    if (part.hasNonNull("filename")) {
+                        file.put("filename", part.get("filename").asText(""));
+                    }
+                    if (part.hasNonNull("file_data")) {
+                        file.put("file_data", part.get("file_data").asText(""));
+                    }
+                    ObjectNode mapped = json.objectNode();
+                    mapped.put("type", "file");
+                    mapped.set("file", file);
+                    parts.add(mapped);
+                }
+                default -> {
+                    // 其余部件（refusal 等）在 Chat 用户消息中没有等价表达，跳过
+                }
+            }
+        }
+        return parts;
+    }
+
+    private String extractResponsesReasoningText(JsonNode item) {
+        StringBuilder text = new StringBuilder();
+        JsonNode summary = item.get("summary");
+        if (summary != null && summary.isArray()) {
+            for (JsonNode part : summary) {
+                appendSeparatedText(text, part.path("text").asText(""));
+            }
+        }
+        if (text.isEmpty()) {
+            JsonNode content = item.get("content");
+            if (content != null && content.isArray()) {
+                for (JsonNode part : content) {
+                    appendSeparatedText(text, part.path("text").asText(""));
+                }
+            }
+        }
+        return text.toString();
+    }
+
+    private ObjectNode appendResponsesFunctionCallToChat(
+            ArrayNode messages,
+            JsonNode item,
+            ObjectNode pendingAssistant,
+            StringBuilder pendingReasoning,
+            Set<String> invalidFunctionCallIds
+    ) {
+        String callId = item.path("call_id").asText(item.path("id").asText(""));
+        String arguments = item.path("arguments").asText("");
+        if (!isValidFunctionCallArguments(arguments)) {
+            // 历史中被截断的工具参数会让上游拒绝整个请求，跳过该调用并连带跳过其结果，自愈污染历史
+            if (!callId.isBlank()) {
+                invalidFunctionCallIds.add(callId);
+            }
+            log.warn("Dropping responses function_call with invalid JSON arguments, callId: {}", callId);
+            return pendingAssistant;
+        }
+        ObjectNode assistant = pendingAssistant;
+        if (assistant == null) {
+            assistant = json.objectNode();
+            assistant.put("role", "assistant");
+            assistant.putNull("content");
+            assistant.set("tool_calls", json.arrayNode());
+            messages.add(assistant);
+        }
+        if (!pendingReasoning.isEmpty()) {
+            // DeepSeek 等 thinking 模型要求触发工具调用的 assistant 消息携带 reasoning_content，否则报 400
+            StringBuilder combined = new StringBuilder(assistant.path("reasoning_content").asText(""));
+            appendSeparatedText(combined, pendingReasoning.toString());
+            assistant.put("reasoning_content", combined.toString());
+            pendingReasoning.setLength(0);
+        }
+        ObjectNode function = json.objectNode();
+        function.put("name", item.path("name").asText(""));
+        function.put("arguments", arguments.isBlank() ? "{}" : arguments);
+        ObjectNode toolCall = json.objectNode();
+        toolCall.put("id", callId);
+        toolCall.put("type", "function");
+        toolCall.set("function", function);
+        ((ArrayNode) assistant.get("tool_calls")).add(toolCall);
+        return assistant;
+    }
+
+    private boolean isValidFunctionCallArguments(String arguments) {
+        if (arguments == null || arguments.isBlank()) {
+            return true;
+        }
+        try {
+            json.objectMapper().readTree(arguments);
+            return true;
+        } catch (JsonProcessingException exception) {
+            return false;
+        }
+    }
+
+    private void appendResponsesFunctionCallOutputToChat(
+            ArrayNode messages, JsonNode item, Set<String> invalidFunctionCallIds) {
+        String callId = item.path("call_id").asText("");
+        if (invalidFunctionCallIds.contains(callId)) {
+            return;
+        }
+        ObjectNode message = json.objectNode();
+        message.put("role", "tool");
+        message.put("tool_call_id", callId);
+        String output = responsesFunctionCallOutputText(item.get("output"));
+        message.put("content", output.isBlank() ? EMPTY_TOOL_RESULT : output);
+        messages.add(message);
+    }
+
+    private String responsesFunctionCallOutputText(JsonNode output) {
+        if (output == null || output.isNull()) {
+            return "";
+        }
+        if (output.isTextual()) {
+            return output.asText();
+        }
+        if (output.isArray()) {
+            return extractOpenAiContentText(output);
+        }
+        return output.toString();
     }
 
     private ObjectNode responsesRequestToClaude(JsonNode source) {

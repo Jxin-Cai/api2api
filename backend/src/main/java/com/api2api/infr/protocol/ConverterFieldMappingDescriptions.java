@@ -246,13 +246,18 @@ final class ConverterFieldMappingDescriptions {
 
         // ===== OpenAI Responses → OpenAI Chat Completions =====
         map.put(key(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("input", "messages", "Responses input 转为 Chat messages", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("input", "messages", "Responses input 项（message/reasoning/function_call/function_call_output）转为 Chat 消息并按工具调用不变式归一化", MappingLossiness.PARTIAL, "MESSAGE", "RESHAPE"),
+                mapping("instructions", "messages[0] (system)", "instructions 转为首条 system 消息", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("max_output_tokens", "max_completion_tokens", "字段重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("temperature", "temperature", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("top_p", "top_p", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("tools", "tools", "工具定义格式转换", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
+                mapping("max_output_tokens", "max_completion_tokens", "字段重命名并钳制最小补全 Token 数", MappingLossiness.NONE, "MODEL", "TRANSFORM"),
+                mapping("temperature", "temperature", "透传；推理模型丢弃", MappingLossiness.PARTIAL, "MODEL", "DIRECT"),
+                mapping("top_p", "top_p", "透传；推理模型丢弃", MappingLossiness.PARTIAL, "MODEL", "DIRECT"),
+                mapping("tools", "tools", "函数工具重新嵌套为 Chat 结构；服务端托管工具丢弃", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
+                mapping("tool_choice", "tool_choice", "指定函数重新嵌套；目标工具被丢弃时不转发", MappingLossiness.PARTIAL, "TOOL", "TRANSFORM"),
+                mapping("parallel_tool_calls", "parallel_tool_calls", "Direct passthrough", MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("reasoning.effort", "reasoning_effort", "字段重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
+                mapping("text.format", "response_format", "json_schema 重新嵌套为 Chat response_format", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("stream", "stream", "透传并在流式时补充 stream_options.include_usage", MappingLossiness.NONE, "STREAMING", "TRANSFORM")
         ));
 
         map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE), List.of(
@@ -267,12 +272,17 @@ final class ConverterFieldMappingDescriptions {
 
         // ===== OpenAI Chat Completions → OpenAI Responses =====
         map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "input", "Chat messages 转为 Responses input", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages", "input", "Chat 消息（system/user/assistant/tool/function）转为对应 Responses input 项", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages[].reasoning_content", "input[].content (output_text)", "assistant 推理文本以 thinking 标签并入 output_text", MappingLossiness.PARTIAL, "MESSAGE", "TRANSFORM"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("max_completion_tokens", "max_output_tokens", "字段重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("temperature", "temperature", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("top_p", "top_p", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("tools", "tools", "工具定义格式转换", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("max_completion_tokens", "max_output_tokens", "字段重命名；缺省时回退 max_tokens", MappingLossiness.NONE, "MODEL", "RENAME"),
+                mapping("temperature", "temperature", "透传；推理模型丢弃", MappingLossiness.PARTIAL, "MODEL", "DIRECT"),
+                mapping("top_p", "top_p", "透传；推理模型丢弃", MappingLossiness.PARTIAL, "MODEL", "DIRECT"),
+                mapping("tools", "tools", "函数工具摊平为 Responses 结构；legacy functions 一并转换", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("tool_choice", "tool_choice", "指定函数摊平；legacy function_call 一并转换", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
+                mapping("parallel_tool_calls", "parallel_tool_calls", "Direct passthrough", MappingLossiness.NONE, "TOOL", "DIRECT"),
+                mapping("reasoning_effort", "reasoning.effort", "转为 reasoning 配置并默认开启摘要", MappingLossiness.NONE, "MODEL", "RESHAPE"),
+                mapping("response_format", "text.format", "json_schema 摊平为 Responses text.format", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
         ));
 
