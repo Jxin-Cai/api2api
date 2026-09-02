@@ -130,6 +130,11 @@ public class GatewayStreamingResponseMapper {
                     data: [DONE]
 
                     """;
+            case OPENAI_IMAGES -> """
+                    event: error
+                    data: {"type":"error","code":"upstream_stream_error","message":"Upstream stream failed before completion","param":null}
+
+                    """;
             default -> "";
         };
         if (event.isEmpty()) {

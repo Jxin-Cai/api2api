@@ -19,7 +19,7 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-const protocolItems = ['Claude Messages', 'OpenAI Responses', 'Chat Completions'];
+const protocolItems = ['Claude Messages', 'OpenAI Responses', 'Chat Completions', 'OpenAI Images'];
 
 const capabilityItems = [
   {

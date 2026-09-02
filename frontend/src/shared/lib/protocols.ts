@@ -1,4 +1,4 @@
-export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT_COMPLETIONS' | 'AWS_BEDROCK_CLAUDE_MESSAGES';
+export type ProtocolType = 'CLAUDE_MESSAGES' | 'OPENAI_RESPONSES' | 'OPENAI_CHAT_COMPLETIONS' | 'OPENAI_IMAGES' | 'AWS_BEDROCK_CLAUDE_MESSAGES';
 
 export interface ProtocolMeta {
   label: string;
@@ -19,12 +19,14 @@ export const PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolType }> = [
   { label: 'Claude Messages', value: 'CLAUDE_MESSAGES' },
   { label: 'OpenAI Responses', value: 'OPENAI_RESPONSES' },
   { label: 'OpenAI Chat Completions', value: 'OPENAI_CHAT_COMPLETIONS' },
+  { label: 'OpenAI Images', value: 'OPENAI_IMAGES' },
 ];
 
 export const UPSTREAM_PROTOCOL_OPTIONS: Array<{ label: string; value: ProtocolType }> = [
   { label: 'Claude Messages', value: 'CLAUDE_MESSAGES' },
   { label: 'OpenAI Responses', value: 'OPENAI_RESPONSES' },
   { label: 'OpenAI Chat Completions', value: 'OPENAI_CHAT_COMPLETIONS' },
+  { label: 'OpenAI Images', value: 'OPENAI_IMAGES' },
   { label: 'AWS Bedrock Claude Messages (InvokeModel)', value: 'AWS_BEDROCK_CLAUDE_MESSAGES' },
 ];
 
@@ -40,6 +42,10 @@ const PROTOCOL_META: Record<string, ProtocolMeta> = {
   OPENAI_CHAT_COMPLETIONS: {
     label: 'OpenAI Chat Completions', color: 'blue', verifiedAt: '2026-07-16', referenceVersion: 'OpenAI API v1',
     officialSpecUrl: 'https://developers.openai.com/api/reference/resources/chat',
+  },
+  OPENAI_IMAGES: {
+    label: 'OpenAI Images', color: 'magenta', verifiedAt: '2026-09-02', referenceVersion: 'OpenAI API v1',
+    officialSpecUrl: 'https://developers.openai.com/api/reference/resources/images',
   },
   AWS_BEDROCK_CLAUDE_MESSAGES: {
     label: 'AWS Bedrock Claude Messages', color: 'teal', verifiedAt: '2026-07-24', referenceVersion: 'Bedrock Runtime InvokeModel',

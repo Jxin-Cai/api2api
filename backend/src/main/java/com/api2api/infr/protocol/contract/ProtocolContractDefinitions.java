@@ -358,6 +358,41 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("stream event", "stream.event", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "Claude SSE 事件", "InvokeModel 二进制事件帧解码后的原生 Claude SSE 事件", "包含 message_start、content_block_delta、message_delta、message_stop 等事件"),
                         ProtocolFieldRef.of("usage", "usage", FieldType.OBJECT, true, FieldSection.METADATA, UsageDirection.OUTPUT, "Token 用量", "原生 Claude 格式", "包含 input_tokens、output_tokens、cache_creation_input_tokens、cache_read_input_tokens")
                         )
+                ),
+                new ProtocolContract(
+                        ProtocolType.OPENAI_IMAGES, "OpenAI Images", "OpenAI API v1 · Images generations",
+                        "OpenAI Images API（/v1/images/generations），支持 gpt-image 系列模型的文生图请求、SSE 流式部分图像事件和图像 token 用量统计。仅覆盖 JSON 请求体的 generations 端点；multipart 的 edits/variations 端点不在范围内。", "/v1/images/generations", objectMapper,
+                        List.of(
+                        ProtocolFieldRef.of("model", "model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.INPUT, "模型标识符", "指定使用的图像模型", "如 gpt-image-2、gpt-image-1、dall-e-3 等"),
+                        ProtocolFieldRef.of("prompt", "prompt", FieldType.STRING, true, FieldSection.MESSAGE, UsageDirection.INPUT, "图像描述提示词", "描述要生成的图像内容", "gpt-image 系列最长 32000 字符"),
+                        ProtocolFieldRef.of("n", "n", FieldType.INTEGER, false, FieldSection.MODEL, UsageDirection.INPUT, "生成图像数量", "一次请求生成多张图像", "默认 1，dall-e-3 仅支持 1"),
+                        ProtocolFieldRef.of("size", "size", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "图像尺寸", "指定生成图像的分辨率", "gpt-image 支持 1024x1024、1536x1024、1024x1536、auto"),
+                        ProtocolFieldRef.of("quality", "quality", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "图像质量", "平衡生成质量与成本", "gpt-image 支持 low、medium、high、auto；dall-e-3 支持 standard、hd"),
+                        ProtocolFieldRef.of("background", "background", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "背景模式", "控制生成图像的背景透明度", "transparent、opaque 或 auto，仅 gpt-image 系列支持"),
+                        ProtocolFieldRef.of("output_format", "output_format", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "输出图像格式", "指定返回图像的编码格式", "png、jpeg 或 webp，仅 gpt-image 系列支持"),
+                        ProtocolFieldRef.of("output_compression", "output_compression", FieldType.INTEGER, false, FieldSection.MODEL, UsageDirection.INPUT, "输出压缩率 (0-100)", "控制 jpeg/webp 的压缩程度", "仅 output_format 为 jpeg/webp 时生效"),
+                        ProtocolFieldRef.of("moderation", "moderation", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.INPUT, "内容审核级别", "控制生成内容的审核严格程度", "low 或 auto，仅 gpt-image 系列支持"),
+                        ProtocolFieldRef.of("input_fidelity", "input_fidelity", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "输入保真度", "控制对输入图像特征的保留程度", "low 或 high"),
+                        ProtocolFieldRef.of("style", "style", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "图像风格", "控制生成图像的视觉风格", "vivid 或 natural，仅 dall-e-3 支持"),
+                        ProtocolFieldRef.of("response_format", "response_format", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "响应格式（dall-e 系列）", "选择返回 URL 还是 base64 数据", "url 或 b64_json；gpt-image 系列固定返回 b64_json"),
+                        ProtocolFieldRef.of("user", "user", FieldType.STRING, false, FieldSection.METADATA, UsageDirection.INPUT, "最终用户标识符", "用于滥用检测和追踪", "唯一标识终端用户"),
+                        ProtocolFieldRef.of("stream", "stream", FieldType.BOOLEAN, false, FieldSection.STREAMING, UsageDirection.INPUT, "是否启用流式响应", "控制是否以 SSE 事件流返回部分图像", "为 true 时返回 partial_image 和 completed 事件，仅 gpt-image 系列支持"),
+                        ProtocolFieldRef.of("partial_images", "partial_images", FieldType.INTEGER, false, FieldSection.STREAMING, UsageDirection.INPUT, "部分图像数量 (0-3)", "控制流式过程中返回的中间图像帧数", "仅 stream=true 时生效"),
+                        ProtocolFieldRef.of("created", "created", FieldType.INTEGER, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "响应创建时间戳（Unix epoch 秒）", "记录图像生成时间", "Unix timestamp"),
+                        ProtocolFieldRef.of("data", "data", FieldType.ARRAY, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "生成图像列表", "承载生成的图像数据", "每项包含 b64_json 或 url"),
+                        ProtocolFieldRef.of("data[].b64_json", "data[].b64_json", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "Base64 编码的图像数据", "内联返回图像内容", "gpt-image 系列固定返回此字段"),
+                        ProtocolFieldRef.of("data[].url", "data[].url", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "图像 URL", "返回图像的临时下载链接", "dall-e 系列 response_format=url 时返回，有效期约 60 分钟"),
+                        ProtocolFieldRef.of("data[].revised_prompt", "data[].revised_prompt", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "改写后的提示词", "返回模型实际使用的提示词", "dall-e-3 自动改写提示词时返回"),
+                        ProtocolFieldRef.of("usage", "usage", FieldType.OBJECT, false, FieldSection.USAGE, UsageDirection.OUTPUT, "Token 用量统计", "报告图像生成消耗的 token 数量", "gpt-image 系列返回；dall-e 系列不返回"),
+                        ProtocolFieldRef.of("usage.input_tokens", "usage.input_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "输入 token 数", "计算文本与图像输入消耗", "包含文本和图像输入 token"),
+                        ProtocolFieldRef.of("usage.output_tokens", "usage.output_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "输出 token 数", "计算图像输出消耗", "生成图像消耗的 token 数量"),
+                        ProtocolFieldRef.of("usage.total_tokens", "usage.total_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "总 token 数", "输入 + 输出的总计", "input_tokens + output_tokens"),
+                        ProtocolFieldRef.of("usage.input_tokens_details.text_tokens", "usage.input_tokens_details.text_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "文本输入 token", "拆分输入中的文本消耗", "input_tokens_details 明细"),
+                        ProtocolFieldRef.of("usage.input_tokens_details.image_tokens", "usage.input_tokens_details.image_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "图像输入 token", "拆分输入中的图像消耗", "input_tokens_details 明细"),
+                        ProtocolFieldRef.of("usage.output_tokens_details.image_tokens", "usage.output_tokens_details.image_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "图像输出 token", "拆分输出中的图像消耗", "output_tokens_details 明细"),
+                        ProtocolFieldRef.of("SSE: image_generation.partial_image", "stream.event.image_generation.partial_image", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：部分图像", "流式传输生成过程中的中间图像帧", "包含 b64_json、partial_image_index、created_at 等字段"),
+                        ProtocolFieldRef.of("SSE: image_generation.completed", "stream.event.image_generation.completed", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：图像完成", "返回最终图像和用量统计", "包含 b64_json、size、quality、usage 等字段，流结束前发送")
+                        )
                 )
         );
     }

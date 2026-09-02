@@ -103,6 +103,46 @@ class StreamingPassthroughUsageExtractorTest {
         assertThat(downstream.toString(StandardCharsets.UTF_8)).contains("data: [DONE]");
     }
 
+    @Test
+    void test_extractsUsage_when_imagesStreamEmitsCompletedEvent() throws IOException {
+        // Arrange
+        String upstream = "event: image_generation.partial_image\n"
+                + "data: {\"type\":\"image_generation.partial_image\",\"b64_json\":\"aGk=\",\"partial_image_index\":0}\n\n"
+                + "event: image_generation.completed\n"
+                + "data: {\"type\":\"image_generation.completed\",\"b64_json\":\"aGk=\","
+                + "\"usage\":{\"input_tokens\":42,\"output_tokens\":1000,\"total_tokens\":1042}}\n\n";
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = extractor.transferAndExtract(
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream,
+                ProtocolType.OPENAI_IMAGES
+        );
+
+        // Assert
+        assertThat(usage.inputTokens()).isEqualTo(42);
+        assertThat(usage.outputTokens()).isEqualTo(1000);
+    }
+
+    @Test
+    void test_relaysUpstreamBodyUnchanged_when_imagesStreamIsPassedThrough() throws IOException {
+        // Arrange
+        String upstream = "event: image_generation.completed\n"
+                + "data: {\"type\":\"image_generation.completed\",\"b64_json\":\"aGk=\"}\n\n";
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        extractor.transferAndExtract(
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream,
+                ProtocolType.OPENAI_IMAGES
+        );
+
+        // Assert
+        assertThat(downstream.toString(StandardCharsets.UTF_8)).isEqualTo(upstream);
+    }
+
     private static final class CountingOutputStream extends ByteArrayOutputStream {
 
         private int flushCount;

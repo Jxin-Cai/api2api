@@ -54,4 +54,16 @@ class ProviderHttpClientPropertiesTest {
         // Assert
         assertThat(timeout).isEqualTo(Duration.ofMinutes(10));
     }
+
+    @Test
+    void test_returnsImagesGenerationsPath_when_openaiImagesPathNotConfigured() {
+        // Arrange
+        ProviderHttpClientProperties properties = new ProviderHttpClientProperties();
+
+        // Act
+        String path = properties.defaultPathFor(com.api2api.domain.channel.model.ProtocolType.OPENAI_IMAGES);
+
+        // Assert
+        assertThat(path).isEqualTo("/v1/images/generations");
+    }
 }

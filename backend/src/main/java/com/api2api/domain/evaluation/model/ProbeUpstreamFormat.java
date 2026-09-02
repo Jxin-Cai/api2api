@@ -25,7 +25,7 @@ public enum ProbeUpstreamFormat {
     public static ProbeUpstreamFormat fromProtocol(ProtocolType protocol) {
         return switch (protocol) {
             case CLAUDE_MESSAGES, AWS_BEDROCK_CLAUDE_MESSAGES -> ANTHROPIC;
-            case OPENAI_CHAT_COMPLETIONS, OPENAI_RESPONSES -> OPENAI;
+            case OPENAI_CHAT_COMPLETIONS, OPENAI_RESPONSES, OPENAI_IMAGES -> OPENAI;
         };
     }
 

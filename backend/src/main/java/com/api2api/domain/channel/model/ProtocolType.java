@@ -11,6 +11,7 @@ public enum ProtocolType {
     CLAUDE_MESSAGES("/v1/messages"),
     OPENAI_RESPONSES("/v1/responses"),
     OPENAI_CHAT_COMPLETIONS("/v1/chat/completions"),
+    OPENAI_IMAGES("/v1/images/generations"),
     AWS_BEDROCK_CLAUDE_MESSAGES("/model/{modelId}/invoke");
 
     private final String defaultEndpointPath;
@@ -57,6 +58,10 @@ public enum ProtocolType {
             normalized = "OPENAI_RESPONSES";
         } else if ("CHAT_COMPLETIONS".equals(normalized) || "OPENAI_CHAT".equals(normalized)) {
             normalized = "OPENAI_CHAT_COMPLETIONS";
+        } else if ("IMAGES".equals(normalized)
+                || "IMAGES_GENERATIONS".equals(normalized)
+                || "IMAGE_GENERATIONS".equals(normalized)) {
+            normalized = "OPENAI_IMAGES";
         } else if ("BEDROCK_CLAUDE_MESSAGES".equals(normalized)
                 || "BEDROCK_INVOKE_MODEL".equals(normalized)) {
             normalized = "AWS_BEDROCK_CLAUDE_MESSAGES";

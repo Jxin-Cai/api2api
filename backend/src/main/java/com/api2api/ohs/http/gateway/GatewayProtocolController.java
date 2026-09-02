@@ -148,6 +148,22 @@ public class GatewayProtocolController {
                 rawBody, authorization, apiKey, xRequestId, headers, httpRequest, httpResponse);
     }
 
+    @PostMapping("/v1/images/generations")
+    public Object openaiImageGenerations(
+            @RequestBody String rawBody,
+            @RequestHeader HttpHeaders headers,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey,
+            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse
+    ) {
+        return invokeProtocol(
+                ProtocolType.OPENAI_IMAGES,
+                ProtocolOperation.INVOKE,
+                rawBody, authorization, apiKey, xRequestId, headers, httpRequest, httpResponse);
+    }
+
     /**
      * Accepts the inbound request in full — body, headers, query string and operation — and hands it
      * to the application layer unmodified. Deciding what a given provider may see belongs to the

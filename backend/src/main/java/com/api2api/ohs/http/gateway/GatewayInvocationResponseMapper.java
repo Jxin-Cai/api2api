@@ -210,7 +210,7 @@ public class GatewayInvocationResponseMapper {
         try {
             return switch (protocol) {
                 case CLAUDE_MESSAGES -> buildClaudeErrorBody(error);
-                case OPENAI_RESPONSES, OPENAI_CHAT_COMPLETIONS -> buildOpenAIErrorBody(error);
+                case OPENAI_RESPONSES, OPENAI_CHAT_COMPLETIONS, OPENAI_IMAGES -> buildOpenAIErrorBody(error);
                 case AWS_BEDROCK_CLAUDE_MESSAGES -> buildOpenAIErrorBody(error);
             };
         } catch (Exception exception) {

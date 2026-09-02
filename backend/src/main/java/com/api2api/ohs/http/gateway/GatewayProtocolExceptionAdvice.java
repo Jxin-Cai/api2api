@@ -78,6 +78,9 @@ public class GatewayProtocolExceptionAdvice {
             if (uri.endsWith("/v1/chat/completions")) {
                 return ProtocolType.OPENAI_CHAT_COMPLETIONS;
             }
+            if (uri.endsWith("/v1/images/generations")) {
+                return ProtocolType.OPENAI_IMAGES;
+            }
         }
         return ProtocolType.OPENAI_CHAT_COMPLETIONS;
     }

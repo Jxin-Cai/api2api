@@ -10,7 +10,7 @@ import { DashboardSummaryGrid, PageState } from '@shared/ui';
 
 const RECENT_RATE_MINUTES = 5;
 const TREND_DAYS = 7;
-const PROTOCOLS = ['CLAUDE_MESSAGES', 'OPENAI_RESPONSES', 'OPENAI_CHAT_COMPLETIONS', 'AWS_BEDROCK_CLAUDE_MESSAGES'];
+const PROTOCOLS = ['CLAUDE_MESSAGES', 'OPENAI_RESPONSES', 'OPENAI_CHAT_COMPLETIONS', 'OPENAI_IMAGES', 'AWS_BEDROCK_CLAUDE_MESSAGES'];
 
 export function AdminDashboardPanel() {
   const query = useAdminDashboardMetrics({

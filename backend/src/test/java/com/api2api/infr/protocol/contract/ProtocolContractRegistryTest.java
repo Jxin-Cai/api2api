@@ -18,8 +18,8 @@ class ProtocolContractRegistryTest {
     private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
-    void test_registry_contains_executable_shapes_when_four_protocols_are_registered() {
-        assertEquals(4, registry.contracts().size());
+    void test_registry_contains_executable_shapes_when_five_protocols_are_registered() {
+        assertEquals(5, registry.contracts().size());
         for (ProtocolContract contract : registry.contracts()) {
             assertFalse(contract.fields().isEmpty());
             assertFalse(contract.requestShape().fields().isEmpty());
@@ -70,6 +70,28 @@ class ProtocolContractRegistryTest {
     }
 
     @Test
+    void test_parseRequest_reads_model_and_stream_when_images_body_requests_streaming() {
+        String body = """
+                {"model":"gpt-image-2","prompt":"A cat on a bench","stream":true,"partial_images":2}
+                """;
+
+        ParsedGatewayRequest parsed = registry.parseRequest(ProtocolType.OPENAI_IMAGES, body);
+
+        assertEquals("gpt-image-2", parsed.model());
+        assertEquals(true, parsed.streaming());
+    }
+
+    @Test
+    void test_parseRequest_rejects_missing_prompt_when_images_body_omits_required_field() {
+        String body = """
+                {"model":"gpt-image-2"}
+                """;
+
+        assertThrows(ProtocolContractViolationException.class,
+                () -> registry.parseRequest(ProtocolType.OPENAI_IMAGES, body));
+    }
+
+    @Test
     void test_parseRequest_accepts_string_message_content_when_openai_responses_uses_text_shorthand() {
         String body = """
                 {"model":"gpt-5.5","stream":true,
@@ -97,7 +119,7 @@ class ProtocolContractRegistryTest {
     }
 
     @Test
-    void test_reports_official_api_versions_when_four_protocols_are_registered() {
+    void test_reports_official_api_versions_when_five_protocols_are_registered() {
         assertEquals("Anthropic API 2023-06-01 · SDK 0.111.0",
                 registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
         assertEquals("OpenAI API v1 · SDK 6.47.0",
@@ -106,6 +128,8 @@ class ProtocolContractRegistryTest {
                 registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());
         assertEquals("Bedrock Runtime InvokeModel · Claude Messages passthrough",
                 registry.require(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES).apiSpecVersion());
+        assertEquals("OpenAI API v1 · Images generations",
+                registry.require(ProtocolType.OPENAI_IMAGES).apiSpecVersion());
     }
 
     @Test
@@ -144,6 +168,12 @@ class ProtocolContractRegistryTest {
                 "anthropic_version",
                 "messages",
                 "stream.event"
+        )));
+        assertTrue(fieldPaths(ProtocolType.OPENAI_IMAGES).containsAll(List.of(
+                "prompt",
+                "data[].b64_json",
+                "usage.output_tokens_details.image_tokens",
+                "stream.event.image_generation.completed"
         )));
     }
 

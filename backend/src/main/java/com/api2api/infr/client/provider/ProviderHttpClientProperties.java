@@ -30,6 +30,7 @@ public class ProviderHttpClientProperties {
     private String claudeMessagesPath = "/v1/messages";
     private String openaiResponsesPath = "/v1/responses";
     private String openaiChatCompletionsPath = "/v1/chat/completions";
+    private String openaiImagesPath = "/v1/images/generations";
     private String bedrockClaudeMessagesPathTemplate = "/model/{modelId}/invoke";
     private String bedrockClaudeMessagesStreamPathTemplate = "/model/{modelId}/invoke-with-response-stream";
     private String anthropicVersion = "2023-06-01";
@@ -193,6 +194,14 @@ public class ProviderHttpClientProperties {
         this.openaiChatCompletionsPath = normalizePath(openaiChatCompletionsPath, "OpenAI chat completions path must start with /");
     }
 
+    public String getOpenaiImagesPath() {
+        return openaiImagesPath;
+    }
+
+    public void setOpenaiImagesPath(String openaiImagesPath) {
+        this.openaiImagesPath = normalizePath(openaiImagesPath, "OpenAI images path must start with /");
+    }
+
     public String getBedrockClaudeMessagesPathTemplate() {
         return bedrockClaudeMessagesPathTemplate;
     }
@@ -240,6 +249,7 @@ public class ProviderHttpClientProperties {
             case CLAUDE_MESSAGES -> claudeMessagesPath;
             case OPENAI_RESPONSES -> openaiResponsesPath;
             case OPENAI_CHAT_COMPLETIONS -> openaiChatCompletionsPath;
+            case OPENAI_IMAGES -> openaiImagesPath;
             case AWS_BEDROCK_CLAUDE_MESSAGES -> null;
         };
     }

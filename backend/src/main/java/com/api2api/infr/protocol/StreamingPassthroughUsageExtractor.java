@@ -31,6 +31,10 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
             "response.incomplete",
             "error"
     );
+    private static final Set<String> IMAGES_TERMINAL_EVENTS = Set.of(
+            "image_generation.completed",
+            "error"
+    );
 
     private final ObjectMapper objectMapper;
 
@@ -47,6 +51,7 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
             case CLAUDE_MESSAGES -> extractClaudeMessages(input, output);
             case OPENAI_RESPONSES -> extractOpenAIResponses(input, output);
             case OPENAI_CHAT_COMPLETIONS -> extractOpenAIChatCompletions(input, output);
+            case OPENAI_IMAGES -> extractOpenAIImages(input, output);
             default -> {
                 input.transferTo(output);
                 yield UnifiedTokenUsage.unknown();
@@ -71,6 +76,16 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
                 "response.completed",
                 RESPONSES_TERMINAL_EVENTS,
                 this::tryExtractOpenAIResponsesUsage
+        );
+    }
+
+    private UnifiedTokenUsage extractOpenAIImages(InputStream input, OutputStream output) throws IOException {
+        return extractByEvent(
+                input,
+                output,
+                "image_generation.completed",
+                IMAGES_TERMINAL_EVENTS,
+                this::tryExtractOpenAIImagesUsage
         );
     }
 
@@ -200,6 +215,22 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
                 return fallback;
             }
             return OpenAIResponsesUsageExtractor.extractUsage(usageNode);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
+            return fallback;
+        } catch (Exception unexpected) {
+            log.warn("Unexpected error extracting usage from streaming data", unexpected);
+            return fallback;
+        }
+    }
+
+    private UnifiedTokenUsage tryExtractOpenAIImagesUsage(String data, UnifiedTokenUsage fallback) {
+        try {
+            JsonNode node = objectMapper.readTree(data);
+            JsonNode usageNode = node.path("usage");
+            if (usageNode.isMissingNode() || usageNode.isNull()) {
+                return fallback;
+            }
+            return OpenAIImagesUsageExtractor.extractUsage(usageNode);
         } catch (com.fasterxml.jackson.core.JsonProcessingException | IllegalArgumentException expected) {
             return fallback;
         } catch (Exception unexpected) {
