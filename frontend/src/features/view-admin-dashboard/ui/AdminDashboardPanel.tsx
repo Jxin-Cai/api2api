@@ -5,6 +5,7 @@ import { MetricCard, TopRankList, TrendChart, useAdminDashboardMetrics } from '@
 import { normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
 import { formatTokenMillions } from '@shared/lib/formatters';
 import { getProtocolMeta } from '@shared/lib/protocols';
+import { resolveTimeZone } from '@shared/lib/timeZone';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
 
 const RECENT_RATE_MINUTES = 5;
@@ -12,7 +13,11 @@ const TREND_DAYS = 7;
 const PROTOCOLS = ['CLAUDE_MESSAGES', 'OPENAI_RESPONSES', 'OPENAI_CHAT_COMPLETIONS', 'AWS_BEDROCK_CLAUDE_MESSAGES'];
 
 export function AdminDashboardPanel() {
-  const query = useAdminDashboardMetrics({ recentRateMinutes: RECENT_RATE_MINUTES, trendDays: TREND_DAYS });
+  const query = useAdminDashboardMetrics({
+    zoneId: resolveTimeZone(),
+    recentRateMinutes: RECENT_RATE_MINUTES,
+    trendDays: TREND_DAYS,
+  });
   const data = query.data;
 
   const rateByProtocol = useMemo((): Map<string, { requestCount: number; requestsPerMinute: number }> => {

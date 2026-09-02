@@ -10,6 +10,7 @@ export interface RankItem {
   value: number;
   unit?: string;
   meta?: string;
+  rawValue?: number;
 }
 
 export interface MetricTrend {

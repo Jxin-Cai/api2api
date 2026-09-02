@@ -1,4 +1,5 @@
 import { apiClient, type ApiResponse } from '@shared/api';
+import { browserTimeZone } from '@shared/lib/timeZone';
 
 import type {
   ApiCredentialListResponse,
@@ -61,7 +62,7 @@ function credentialPath(credentialId: string, suffix: string): string {
 }
 
 export async function listApiCredentials(): Promise<ApiResponse<ApiCredentialListResponse>> {
-  const zoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const zoneId = browserTimeZone();
   const response = await apiClient.get<{ credentials: ApiCredentialBackendResponse[] }>('/api/api-credentials', { zoneId });
   return {
     ...response,

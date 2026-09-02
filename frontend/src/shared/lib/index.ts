@@ -5,4 +5,5 @@ export * from './formatters';
 export * from './protocols';
 export * from './queryString';
 export * from './table';
+export * from './timeZone';
 export * from './usageQuery';

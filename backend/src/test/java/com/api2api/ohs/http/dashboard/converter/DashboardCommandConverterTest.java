@@ -55,4 +55,15 @@ class DashboardCommandConverterTest {
 
         assertThat(command.getTrendCredentialIds()).isEmpty();
     }
+
+    @Test
+    void test_uses_request_zone_when_building_front_key_metrics() {
+        GetFrontKeyMetricsRequest request = GetFrontKeyMetricsRequest.builder()
+                .zoneId("Asia/Shanghai")
+                .build();
+
+        var command = converter.toGetFrontKeyMetricsCommand(request, UserAccountId.of(1L));
+
+        assertThat(command.getZoneId()).isEqualTo("Asia/Shanghai");
+    }
 }

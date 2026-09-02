@@ -3,6 +3,7 @@ package com.api2api.infr.repository.analytics;
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
 import static com.api2api.infr.repository.common.UsageTokenSqlFragments.ACTUAL_TOKENS_SQL;
+import static com.api2api.infr.repository.common.UsageTokenSqlFragments.totalTokensWithPrefix;
 import static com.api2api.infr.repository.common.UsageTokenSqlFragments.withPrefix;
 
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
@@ -237,21 +238,25 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         MapSqlParameterSource params = windowParams(window)
                 .addValue("userAccountId", userAccountId.getValue())
                 .addValue("limit", limit);
+        String totalTokensSql = totalTokensWithPrefix("r.");
         List<CredentialTokenRow> rows = jdbcTemplate.query("""
                 SELECT k.id AS api_credential_id,
                        k.name AS credential_name,
-                       COALESCE(SUM(r.total_tokens), 0) AS total_tokens
-                FROM usage_records r
-                JOIN api_credentials k ON k.id = r.api_credential_id
-                WHERE r.deleted = FALSE
-                  AND k.deleted = FALSE
-                  AND r.user_account_id = :userAccountId
-                  AND r.started_at >= :startTime
-                  AND r.started_at < :endTime
+                       COALESCE(SUM(%s), 0) AS total_tokens
+                FROM api_credentials k
+                LEFT JOIN usage_records r
+                  ON r.api_credential_id = k.id
+                 AND r.deleted = FALSE
+                 AND r.user_account_id = :userAccountId
+                 AND r.started_at >= :startTime
+                 AND r.started_at < :endTime
+                WHERE k.deleted = FALSE
+                  AND k.owner_user_id = :userAccountId
                 GROUP BY k.id, k.name
+                HAVING COALESCE(SUM(%s), 0) > 0
                 ORDER BY total_tokens DESC, k.id ASC
                 LIMIT :limit
-                """, params, (rs, rowNum) -> new CredentialTokenRow(
+                """.formatted(totalTokensSql, totalTokensSql), params, (rs, rowNum) -> new CredentialTokenRow(
                 rs.getLong("api_credential_id"),
                 rs.getString("credential_name"),
                 rs.getBigDecimal("total_tokens")

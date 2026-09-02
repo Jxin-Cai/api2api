@@ -1,8 +1,10 @@
 import { apiClient, type ApiResponse, type QueryParams } from '@shared/api';
 import { toUsageRecordResponse } from '@shared/api/contracts';
+import { resolveTimeZone } from '@shared/lib/timeZone';
 
 import type {
   AdminDashboardResponse,
+  CredentialTokenRankingResponse,
   FrontDashboardBackendResponse,
   FrontDashboardResponse,
   FrontKeyMetricsResponse,
@@ -24,6 +26,15 @@ function toFiniteNumber(value: unknown): number {
   return Number.isFinite(numberValue) ? numberValue : 0;
 }
 
+function toCredentialRanking(item: CredentialTokenRankingResponse): CredentialTokenRankingResponse {
+  return {
+    rank: item?.rank,
+    credentialId: item?.credentialId,
+    credentialName: item?.credentialName,
+    totalTokens: toFiniteNumber(item?.totalTokens),
+  };
+}
+
 function toFrontDashboard(response: FrontDashboardBackendResponse): FrontDashboardResponse {
   const todayActualTokens = toTokenAmount(response?.todayActualTokens ?? response?.todayTokens);
   const monthActualTokens = toTokenAmount(response?.monthActualTokens ?? response?.monthTokens);
@@ -42,7 +53,10 @@ function toFrontDashboard(response: FrontDashboardBackendResponse): FrontDashboa
 export async function getFrontDashboard(
   params: GetFrontDashboardRequest = {}
 ): Promise<ApiResponse<FrontDashboardResponse>> {
-  const response = await apiClient.get<FrontDashboardBackendResponse>('/api/dashboard', params as unknown as QueryParams);
+  const response = await apiClient.get<FrontDashboardBackendResponse>('/api/dashboard', {
+    ...params,
+    zoneId: resolveTimeZone(params.zoneId),
+  } as unknown as QueryParams);
   return {
     ...response,
     data: toFrontDashboard(response.data),
@@ -52,10 +66,9 @@ export async function getFrontDashboard(
 export async function getFrontKeyMetrics(
   params: GetFrontKeyMetricsRequest = {}
 ): Promise<ApiResponse<FrontKeyMetricsResponse>> {
-  const queryParams: QueryParams = {};
-  if (params.zoneId) {
-    queryParams.zoneId = params.zoneId;
-  }
+  const queryParams: QueryParams = {
+    zoneId: resolveTimeZone(params.zoneId),
+  };
   if (typeof params.trendDays === 'number') {
     queryParams.trendDays = params.trendDays;
   }
@@ -67,8 +80,12 @@ export async function getFrontKeyMetrics(
   return {
     ...response,
     data: {
-      dailyTopCredentials: Array.isArray(data.dailyTopCredentials) ? data.dailyTopCredentials : [],
-      monthlyTopCredentials: Array.isArray(data.monthlyTopCredentials) ? data.monthlyTopCredentials : [],
+      dailyTopCredentials: Array.isArray(data.dailyTopCredentials)
+        ? data.dailyTopCredentials.map(toCredentialRanking)
+        : [],
+      monthlyTopCredentials: Array.isArray(data.monthlyTopCredentials)
+        ? data.monthlyTopCredentials.map(toCredentialRanking)
+        : [],
       credentialTokenTrends: Array.isArray(data.credentialTokenTrends) ? data.credentialTokenTrends : [],
     },
   };
@@ -77,7 +94,10 @@ export async function getFrontKeyMetrics(
 export async function getAdminDashboard(
   params: GetAdminDashboardRequest = {}
 ): Promise<ApiResponse<AdminDashboardResponse>> {
-  const response = await apiClient.get<AdminDashboardResponse>('/api/admin/dashboard', params as unknown as QueryParams);
+  const response = await apiClient.get<AdminDashboardResponse>('/api/admin/dashboard', {
+    ...params,
+    zoneId: resolveTimeZone(params.zoneId),
+  } as unknown as QueryParams);
   const data = response.data ?? {};
   return {
     ...response,

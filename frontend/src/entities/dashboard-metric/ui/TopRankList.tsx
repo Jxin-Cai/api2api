@@ -1,4 +1,4 @@
-import { Empty, List, Skeleton, Typography } from 'antd';
+import { Empty, List, Skeleton, Tooltip, Typography } from 'antd';
 
 import { SpotlightCard } from '@shared/ui';
 import type { RankItem } from '@shared/types/chart';
@@ -34,9 +34,11 @@ export function TopRankList({ items, title, loading = false, onItemClick }: TopR
             >
               <span className="top-rank-list__rank">{index + 1}</span>
               <Typography.Text strong className="top-rank-list__label">{item.label}</Typography.Text>
-              <Typography.Text className="top-rank-list__value mono-number">
-                {item.value.toFixed(1)}{item.unit ?? ''}
-              </Typography.Text>
+              <Tooltip title={item.rawValue !== undefined ? `原始值：${item.rawValue.toLocaleString('zh-CN')}` : undefined}>
+                <Typography.Text className="top-rank-list__value mono-number">
+                  {item.value.toFixed(1)}{item.unit ?? ''}
+                </Typography.Text>
+              </Tooltip>
             </List.Item>
           )}
         />

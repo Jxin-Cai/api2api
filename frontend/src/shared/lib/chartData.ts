@@ -73,12 +73,15 @@ export function normalizeTrendPoints(items: TrendLikeDto[] | undefined): TrendCh
 export function normalizeRankItems(items: RankLikeDto[] | undefined, unit = 'M'): RankItem[] {
   return (items ?? []).map((item: RankLikeDto, index: number): RankItem => {
     const identity = item.id ?? item.userId ?? item.userAccountId ?? item.credentialId ?? item.model ?? item.label ?? index + 1;
+    const tokens = Number(item.value ?? item.totalTokens ?? item.tokens ?? 0);
+    const safeTokens = Number.isFinite(tokens) ? Math.max(0, tokens) : 0;
     return {
       id: String(identity),
       label: item.label ?? item.displayName ?? item.username ?? item.credentialName ?? item.name ?? item.model ?? String(identity),
-      value: Number(formatTokenMillionsValue(item.value ?? item.totalTokens ?? item.tokens ?? 0)),
+      value: Number(formatTokenMillionsValue(safeTokens)),
       unit,
       meta: item.meta ?? item.username,
+      rawValue: safeTokens,
     };
   });
 }

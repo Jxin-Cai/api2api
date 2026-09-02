@@ -107,8 +107,9 @@ public interface DashboardAnalyticsRepository {
     List<ChannelTokenTrendPoint> sumChannelTokenTrends(AnalyticsTimeWindow window, AnalyticsGranularity granularity);
 
     /**
-     * Finds one user's API credentials with the highest token consumption inside a time window.
-     * Implementations must aggregate {@code tokenUsage.totalTokens} by API credential, attach the credential name, and
+     * Finds one user's API credentials with the highest raw total tokens inside a time window.
+     * Implementations must aggregate the same total-token formula as API credential usage views
+     * ({@code input + output + cache creation + cache read}) by owned credential, attach the credential name, and
      * sort by total tokens descending and credential id ascending; {@code limit} must be within 1 to 100.
      * Invalid arguments should be rejected as business failures; no matching records should return an empty list.
      *
