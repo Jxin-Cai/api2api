@@ -287,11 +287,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         JsonNode thinking = source.get("thinking");
         if (thinking == null) thinking = source.get("reasoning");
         if (thinking != null && thinking.hasNonNull("budget_tokens")) {
+            // 与 reasoningEffortFromBudget 同理：budget 推导的 effort 封顶 high，
+            // xhigh 仅保留给显式 output_config.effort。
             int budget = thinking.get("budget_tokens").asInt(0);
             if (budget <= 1024) return "low";
             if (budget <= 4096) return "medium";
-            if (budget <= 10240) return "high";
-            return "xhigh";
+            return "high";
         }
         return null;
     }
@@ -1434,18 +1435,17 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private String reasoningEffortFromBudget(int budgetTokens) {
-        // 与 ResponsesToClaudeRequestConverter.thinkingBudgetForEffort 的正向表保持对称：
-        // low=1024, medium=4096, high=10240, xhigh/max=32768
+        // 阈值取自 ResponsesToClaudeRequestConverter.thinkingBudgetForEffort 的正向表
+        // （low=1024, medium=4096, high=10240），但封顶 high：budget 是 Claude 客户端
+        // 开启 thinking 的常规副产品（Claude Code 默认即 31999），xhigh 只有部分上游
+        // 接受，仅当用户显式传 output_config.effort=xhigh/max 时才发送。
         if (budgetTokens > 0 && budgetTokens <= 1024) {
             return "low";
         }
         if (budgetTokens <= 4096) {
             return "medium";
         }
-        if (budgetTokens <= 10240) {
-            return "high";
-        }
-        return "xhigh";
+        return "high";
     }
 
     private ArrayNode claudeToolsToResponses(

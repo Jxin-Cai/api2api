@@ -228,6 +228,21 @@ class ClaudeMessagesOpenAIChatConversionTest {
     }
 
     @Test
+    void test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"gpt-5.6","max_tokens":32000,"thinking":{"type":"enabled","budget_tokens":31999},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, false);
+
+        // Assert
+        assertThat(mapped.path("reasoning_effort").asText()).isEqualTo("high");
+    }
+
+    @Test
     void test_defaultsReasoningEffortToMedium_when_targetIsReasoningModel() throws Exception {
         // Arrange
         String body = """

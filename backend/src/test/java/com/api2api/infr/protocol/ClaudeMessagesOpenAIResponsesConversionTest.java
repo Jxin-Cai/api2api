@@ -581,6 +581,26 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":32000,"thinking":{"type":"enabled","budget_tokens":31999},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+    }
+
+    @Test
     void test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56() throws Exception {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
