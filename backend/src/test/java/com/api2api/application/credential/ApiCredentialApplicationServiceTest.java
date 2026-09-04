@@ -12,6 +12,12 @@ import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiKeyHash;
+import com.api2api.domain.credential.model.ModelDailyLimits;
+import com.api2api.domain.credential.model.ModelGroup;
+import com.api2api.domain.credential.model.ModelGroupId;
+import com.api2api.domain.credential.model.ModelGroupName;
+import com.api2api.domain.credential.model.ModelName;
+import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.credential.repository.ModelGroupRepository;
 import com.api2api.domain.usage.model.UsageTimeRange;
@@ -25,7 +31,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class ApiCredentialApplicationServiceTest {
@@ -38,6 +46,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
+        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
         ApiCredential credential = mock(ApiCredential.class);
         ApiKeyHash keyHash = ApiKeyHash.of("a".repeat(64));
         when(apiCredentialRepository.findByKeyHash(keyHash)).thenReturn(Optional.of(credential));
@@ -47,6 +56,7 @@ class ApiCredentialApplicationServiceTest {
                 modelGroupRepository,
                 usageRecordRepository,
                 apiKeyMaterialProtector,
+                dailyUsageService,
                 Clock.fixed(Instant.parse("2026-07-13T12:00:00Z"), ZoneOffset.UTC)
         );
 
@@ -66,6 +76,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
+        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
         UserAccount userAccount = mock(UserAccount.class);
         ApiCredential credential = mock(ApiCredential.class);
         UserAccountId userAccountId = UserAccountId.of(1L);
@@ -79,6 +90,7 @@ class ApiCredentialApplicationServiceTest {
                 modelGroupRepository,
                 usageRecordRepository,
                 apiKeyMaterialProtector,
+                dailyUsageService,
                 Clock.fixed(now, ZoneOffset.UTC)
         );
         DeleteApiCredentialCommand command = DeleteApiCredentialCommand.builder()
@@ -101,6 +113,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
+        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
         UserAccount userAccount = mock(UserAccount.class);
         ApiCredential credential = mock(ApiCredential.class);
         UserAccountId userAccountId = UserAccountId.of(1L);
@@ -121,6 +134,7 @@ class ApiCredentialApplicationServiceTest {
                 modelGroupRepository,
                 usageRecordRepository,
                 apiKeyMaterialProtector,
+                dailyUsageService,
                 Clock.fixed(Instant.parse("2026-07-13T12:00:00Z"), ZoneOffset.UTC)
         );
 
@@ -136,5 +150,54 @@ class ApiCredentialApplicationServiceTest {
                         ApiCredentialUsageView::todayTotalTokens
                 )
                 .containsExactly(tuple(new BigDecimal("156.25"), 120L, new BigDecimal("24.60"), 13L));
+    }
+
+    @Test
+    void test_marks_model_rate_limited_when_group_daily_limit_is_reached() {
+        // Arrange
+        UserAccountRepository userAccountRepository = mock(UserAccountRepository.class);
+        ApiCredentialRepository apiCredentialRepository = mock(ApiCredentialRepository.class);
+        ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
+        UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
+        ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
+        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
+        UserAccount userAccount = mock(UserAccount.class);
+        ApiCredential credential = mock(ApiCredential.class);
+        UserAccountId userAccountId = UserAccountId.of(1L);
+        ApiCredentialId credentialId = ApiCredentialId.of(2L);
+        ModelGroupId groupId = ModelGroupId.of(3L);
+        ModelName cappedModel = ModelName.of("gpt-4.1");
+        Instant now = Instant.parse("2026-07-13T12:00:00Z");
+        ModelGroup group = ModelGroup.create(
+                groupId, userAccountId, ModelGroupName.of("prod"),
+                ModelWhitelist.of(Set.of(cappedModel)),
+                ModelDailyLimits.of(Map.of(cappedModel, 1_000L)),
+                now
+        );
+        when(userAccountRepository.findById(userAccountId)).thenReturn(Optional.of(userAccount));
+        when(apiCredentialRepository.findByOwnerUserId(userAccountId)).thenReturn(List.of(credential));
+        when(modelGroupRepository.findByOwnerUserId(userAccountId)).thenReturn(List.of(group));
+        when(credential.getId()).thenReturn(credentialId);
+        when(credential.getModelGroupId()).thenReturn(groupId);
+        when(usageRecordRepository.sumActualTokensByApiCredential(credentialId)).thenReturn(BigDecimal.ZERO);
+        when(usageRecordRepository.sumTokens(any())).thenReturn(UsageTokenBreakdown.zeroKnown());
+        when(dailyUsageService.loadTodayUsageByGroup(userAccountId))
+                .thenReturn(Map.of(groupId, Map.of(cappedModel, new BigDecimal("1000"))));
+        ApiCredentialApplicationService service = new ApiCredentialApplicationService(
+                userAccountRepository,
+                apiCredentialRepository,
+                modelGroupRepository,
+                usageRecordRepository,
+                apiKeyMaterialProtector,
+                dailyUsageService,
+                Clock.fixed(now, ZoneOffset.UTC)
+        );
+        UsageTimeRange todayTimeRange = UsageTimeRange.of(now.minusSeconds(3600), now.plusSeconds(3600));
+
+        // Act
+        List<ApiCredentialUsageView> views = service.listMyCredentialUsageViews(userAccountId, todayTimeRange);
+
+        // Assert
+        assertThat(views.get(0).rateLimitedModels()).containsExactly(cappedModel);
     }
 }

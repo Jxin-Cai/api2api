@@ -16,6 +16,7 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.model.ModelGroupId;
+import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.credential.repository.ModelGroupRepository;
 import com.api2api.domain.usage.model.UsageRecordFilter;
@@ -32,8 +33,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,6 +61,9 @@ public class ApiCredentialApplicationService {
 
     @NonNull
     private final ApiKeyMaterialProtector apiKeyMaterialProtector;
+
+    @NonNull
+    private final ModelGroupDailyUsageService dailyUsageService;
 
     @NonNull
     private final Clock clock;
@@ -93,15 +100,34 @@ public class ApiCredentialApplicationService {
             UserAccountId ownerUserId,
             UsageTimeRange todayTimeRange
     ) {
-        return listMyCredentials(ownerUserId).stream()
-                .map(credential -> usageView(ownerUserId, credential, todayTimeRange))
+        List<ApiCredential> credentials = listMyCredentials(ownerUserId);
+        Map<ModelGroupId, Set<ModelName>> rateLimitedModelsByGroup = rateLimitedModelsByGroup(ownerUserId);
+        return credentials.stream()
+                .map(credential -> usageView(
+                        ownerUserId,
+                        credential,
+                        todayTimeRange,
+                        rateLimitedModelsByGroup.getOrDefault(credential.getModelGroupId(), Set.of())))
                 .toList();
+    }
+
+    private Map<ModelGroupId, Set<ModelName>> rateLimitedModelsByGroup(UserAccountId ownerUserId) {
+        Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup = dailyUsageService.loadTodayUsageByGroup(ownerUserId);
+        Map<ModelGroupId, Set<ModelName>> limitedByGroup = new HashMap<>();
+        for (ModelGroup group : modelGroupRepository.findByOwnerUserId(ownerUserId)) {
+            Set<ModelName> limited = group.rateLimitedModels(usageByGroup.getOrDefault(group.getId(), Map.of()));
+            if (!limited.isEmpty()) {
+                limitedByGroup.put(group.getId(), limited);
+            }
+        }
+        return limitedByGroup;
     }
 
     private ApiCredentialUsageView usageView(
             UserAccountId ownerUserId,
             ApiCredential credential,
-            UsageTimeRange todayTimeRange
+            UsageTimeRange todayTimeRange,
+            Set<ModelName> rateLimitedModels
     ) {
         UsageTokenBreakdown todayTokens = todayTokenBreakdown(ownerUserId, credential.getId(), todayTimeRange);
         return ApiCredentialUsageView.of(
@@ -109,7 +135,8 @@ public class ApiCredentialApplicationService {
                 currentConsumedTokens(credential.getId()),
                 usageRecordRepository.sumTotalTokensByApiCredential(credential.getId()),
                 todayTokens.actualTokens(),
-                todayTokens.totalTokens()
+                todayTokens.totalTokens(),
+                rateLimitedModels
         );
     }
 

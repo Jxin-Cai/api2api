@@ -4,12 +4,15 @@ import static com.api2api.infr.repository.common.JdbcTimestampSupport.instant;
 import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
 import static com.api2api.infr.repository.common.UsageTokenSqlFragments.ACTUAL_TOKENS_SQL;
 
+import com.api2api.infr.repository.common.UsageTokenSqlFragments;
+import com.api2api.infr.repository.usage.po.ModelGroupModelUsagePO;
 import com.api2api.infr.repository.usage.po.UsageRecordPO;
 import com.api2api.infr.repository.usage.po.UsageRecordQueryPO;
 import com.api2api.infr.repository.usage.po.UsageTokenSummaryPO;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -169,6 +172,48 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
                 BigDecimal.class
         );
         return total == null ? BigDecimal.ZERO : total;
+    }
+
+    @Override
+    public BigDecimal sumActualTokensByModelGroupAndModel(
+            Long modelGroupId, String requestedModel, Instant startInclusive, Instant endExclusive) {
+        BigDecimal total = jdbcTemplate.queryForObject(
+                "SELECT COALESCE(SUM(" + UsageTokenSqlFragments.withPrefix("r.") + "), 0) "
+                        + "FROM usage_records r JOIN api_credentials c ON c.id = r.api_credential_id "
+                        + "WHERE c.model_group_id = :modelGroupId AND r.requested_model = :requestedModel "
+                        + "AND r.started_at >= :startInclusive AND r.started_at < :endExclusive "
+                        + "AND r.deleted = FALSE AND c.deleted = FALSE",
+                new MapSqlParameterSource()
+                        .addValue("modelGroupId", modelGroupId)
+                        .addValue("requestedModel", requestedModel)
+                        .addValue("startInclusive", timestamp(startInclusive))
+                        .addValue("endExclusive", timestamp(endExclusive)),
+                BigDecimal.class
+        );
+        return total == null ? BigDecimal.ZERO : total;
+    }
+
+    @Override
+    public List<ModelGroupModelUsagePO> sumActualTokensByOwnerGroupedByModel(
+            Long ownerUserId, Instant startInclusive, Instant endExclusive) {
+        return jdbcTemplate.query(
+                "SELECT c.model_group_id, r.requested_model, "
+                        + "COALESCE(SUM(" + UsageTokenSqlFragments.withPrefix("r.") + "), 0) AS actual_tokens "
+                        + "FROM usage_records r JOIN api_credentials c ON c.id = r.api_credential_id "
+                        + "WHERE c.owner_user_id = :ownerUserId "
+                        + "AND r.started_at >= :startInclusive AND r.started_at < :endExclusive "
+                        + "AND r.deleted = FALSE AND c.deleted = FALSE "
+                        + "GROUP BY c.model_group_id, r.requested_model",
+                new MapSqlParameterSource()
+                        .addValue("ownerUserId", ownerUserId)
+                        .addValue("startInclusive", timestamp(startInclusive))
+                        .addValue("endExclusive", timestamp(endExclusive)),
+                (rs, rowNum) -> ModelGroupModelUsagePO.builder()
+                        .modelGroupId(rs.getLong("model_group_id"))
+                        .requestedModel(rs.getString("requested_model"))
+                        .actualTokens(rs.getBigDecimal("actual_tokens"))
+                        .build()
+        );
     }
 
     @Override

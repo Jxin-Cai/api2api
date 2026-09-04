@@ -2,7 +2,10 @@ package com.api2api.domain.analytics.repository;
 
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
+import com.api2api.domain.analytics.model.ChannelLatencyRanking;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.ConcurrencyTrendPoint;
+import com.api2api.domain.analytics.model.CredentialConcurrencyTrendPoint;
 import com.api2api.domain.analytics.model.CredentialTokenRanking;
 import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
@@ -14,6 +17,8 @@ import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.user.model.UserAccountId;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -140,6 +145,51 @@ public interface DashboardAnalyticsRepository {
             AnalyticsTimeWindow window,
             AnalyticsGranularity granularity
     );
+
+    /**
+     * Calculates the peak number of simultaneously in-flight requests per time bucket across the whole platform.
+     * A request is in flight from {@code startedAt} until {@code endedAt}; records without an end time are treated
+     * as still running at {@code asOf}. Buckets are produced from the window start up to the bucket containing
+     * {@code asOf} (or the window end, whichever is earlier) so the curve never extends into the future.
+     *
+     * @param window analytics time window to bucket
+     * @param bucketSize bucket length; must be positive
+     * @param asOf evaluation instant for open-ended requests
+     * @return non-null continuous concurrency points
+     */
+    List<ConcurrencyTrendPoint> calculateConcurrencyTrends(AnalyticsTimeWindow window, Duration bucketSize, Instant asOf);
+
+    /**
+     * Calculates per-credential peak concurrency per time bucket for one user, using the same in-flight semantics
+     * as {@link #calculateConcurrencyTrends}. Rows are restricted to {@code userAccountId} and, when
+     * {@code credentialIds} is non-empty, to those credentials only. Every bucket/credential pair is filled with
+     * zero so the lines stay continuous.
+     *
+     * @param userAccountId owner whose usage is aggregated
+     * @param credentialIds credential ids to include; empty means every credential of the user
+     * @param window analytics time window to bucket
+     * @param bucketSize bucket length; must be positive
+     * @param asOf evaluation instant for open-ended requests
+     * @return non-null credential concurrency points
+     */
+    List<CredentialConcurrencyTrendPoint> calculateCredentialConcurrencyTrends(
+            UserAccountId userAccountId,
+            List<ApiCredentialId> credentialIds,
+            AnalyticsTimeWindow window,
+            Duration bucketSize,
+            Instant asOf
+    );
+
+    /**
+     * Finds provider channels whose slowest single completed response inside {@code window} was the longest.
+     * Implementations must only consider records with a final provider channel and a known duration, sort by max
+     * duration descending then channel id ascending, and return at most {@code limit} rows (1 to 100).
+     *
+     * @param window analytics time window to aggregate
+     * @param limit maximum number of rows to return
+     * @return non-null stable ranking rows
+     */
+    List<ChannelLatencyRanking> findSlowestChannels(AnalyticsTimeWindow window, int limit);
 
     /**
      * Counts usage records matching a role-aware filter.

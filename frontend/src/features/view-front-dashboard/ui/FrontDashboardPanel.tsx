@@ -12,7 +12,7 @@ import {
 } from '@entities/dashboard-metric';
 import { UsageRecordTable } from '@entities/usage-record';
 import { ROUTE_PATHS } from '@shared/config/constants';
-import { normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
+import { normalizeConcurrencyPoints, normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
 import { formatTokenMillions } from '@shared/lib/formatters';
 import { resolveTimeZone } from '@shared/lib/timeZone';
 import { buildAppUsageQuery } from '@shared/lib/usageQuery';
@@ -78,6 +78,19 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
           />
         ) : (
           <TrendChart data={normalizeTrendPoints(keyMetrics?.credentialTokenTrends)} loading={keyMetricsQuery.isLoading} />
+        )}
+      </Space>
+
+      <Space direction="vertical" size={12} style={{ width: '100%' }}>
+        <Typography.Title level={4} className="front-dashboard-trend__title">今日各 Key 并发曲线（每 5 分钟峰值，沿用上方 Key 筛选）</Typography.Title>
+        {keyMetricsQuery.isError ? null : (
+          <TrendChart
+            data={normalizeConcurrencyPoints(keyMetrics?.credentialConcurrencyTrends)}
+            loading={keyMetricsQuery.isLoading}
+            valueUnit=""
+            valuePrecision={0}
+            emptyText="今日暂无请求"
+          />
         )}
       </Space>
 

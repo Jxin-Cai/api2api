@@ -59,8 +59,9 @@ public enum ProtocolType {
         } else if ("CHAT_COMPLETIONS".equals(normalized) || "OPENAI_CHAT".equals(normalized)) {
             normalized = "OPENAI_CHAT_COMPLETIONS";
         } else if ("IMAGES".equals(normalized)
-                || "IMAGES_GENERATIONS".equals(normalized)
-                || "IMAGE_GENERATIONS".equals(normalized)) {
+                || normalized.startsWith("IMAGES_")
+                || normalized.startsWith("IMAGE_")) {
+            // Covers every Images API endpoint alias: generations, edits and variations.
             normalized = "OPENAI_IMAGES";
         } else if ("BEDROCK_CLAUDE_MESSAGES".equals(normalized)
                 || "BEDROCK_INVOKE_MODEL".equals(normalized)) {

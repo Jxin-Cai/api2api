@@ -4,3 +4,4 @@ export * from './api/dashboardMetricApi';
 export { MetricCard } from './ui/MetricCard';
 export { TrendChart } from './ui/TrendChart';
 export { TopRankList } from './ui/TopRankList';
+export { SlowestChannelTable } from './ui/SlowestChannelTable';

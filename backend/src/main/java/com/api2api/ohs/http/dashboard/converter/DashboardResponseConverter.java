@@ -1,7 +1,10 @@
 package com.api2api.ohs.http.dashboard.converter;
 
 import com.api2api.domain.analytics.model.AdminDashboardMetrics;
+import com.api2api.domain.analytics.model.ChannelLatencyRanking;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.ConcurrencyTrendPoint;
+import com.api2api.domain.analytics.model.CredentialConcurrencyTrendPoint;
 import com.api2api.domain.analytics.model.CredentialTokenRanking;
 import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.FrontDashboardMetrics;
@@ -14,7 +17,10 @@ import com.api2api.domain.usage.model.PagedUsageRecords;
 import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.ohs.http.converter.MapStructConfig;
 import com.api2api.ohs.http.dashboard.dto.AdminDashboardResponse;
+import com.api2api.ohs.http.dashboard.dto.ChannelLatencyRankingResponse;
 import com.api2api.ohs.http.dashboard.dto.ChannelTokenTrendPointResponse;
+import com.api2api.ohs.http.dashboard.dto.ConcurrencyTrendPointResponse;
+import com.api2api.ohs.http.dashboard.dto.CredentialConcurrencyTrendPointResponse;
 import com.api2api.ohs.http.dashboard.dto.CredentialTokenRankingResponse;
 import com.api2api.ohs.http.dashboard.dto.CredentialTokenTrendPointResponse;
 import com.api2api.ohs.http.dashboard.dto.FrontDashboardRecentCallResponse;
@@ -58,6 +64,8 @@ public abstract class DashboardResponseConverter {
                         .map(this::toCredentialTokenRankingResponse).toList())
                 .credentialTokenTrends(metrics.getCredentialTokenTrends().stream()
                         .map(this::toCredentialTokenTrendPointResponse).toList())
+                .credentialConcurrencyTrends(metrics.getCredentialConcurrencyTrends().stream()
+                        .map(this::toCredentialConcurrencyTrendPointResponse).toList())
                 .build();
     }
 
@@ -73,6 +81,10 @@ public abstract class DashboardResponseConverter {
                         .map(this::toProtocolTokenTrendPointResponse).toList())
                 .channelTokenTrends(metrics.getChannelTokenTrends().stream()
                         .map(this::toChannelTokenTrendPointResponse).toList())
+                .todayConcurrencyTrends(metrics.getTodayConcurrencyTrends().stream()
+                        .map(this::toConcurrencyTrendPointResponse).toList())
+                .dailySlowestChannels(metrics.getDailySlowestChannels().stream()
+                        .map(this::toChannelLatencyRankingResponse).toList())
                 .build();
     }
 
@@ -116,4 +128,15 @@ public abstract class DashboardResponseConverter {
     @Mapping(target = "credentialName", expression = "java(point.getCredentialName().value())")
     @Mapping(target = "totalTokens", source = "totalTokens.tokens")
     protected abstract CredentialTokenTrendPointResponse toCredentialTokenTrendPointResponse(CredentialTokenTrendPoint point);
+
+    protected abstract ConcurrencyTrendPointResponse toConcurrencyTrendPointResponse(ConcurrencyTrendPoint point);
+
+    @Mapping(target = "credentialId", expression = "java(point.getCredentialId().value())")
+    @Mapping(target = "credentialName", expression = "java(point.getCredentialName().value())")
+    protected abstract CredentialConcurrencyTrendPointResponse toCredentialConcurrencyTrendPointResponse(
+            CredentialConcurrencyTrendPoint point);
+
+    @Mapping(target = "providerChannelId", expression = "java(ranking.getProviderChannelId().value())")
+    @Mapping(target = "providerChannelName", expression = "java(ranking.getProviderChannelName().value())")
+    protected abstract ChannelLatencyRankingResponse toChannelLatencyRankingResponse(ChannelLatencyRanking ranking);
 }

@@ -4,6 +4,11 @@ spring:
   mvc:
     async:
       request-timeout: ${API2API_GATEWAY_ASYNC_TIMEOUT:15m}
+  servlet:
+    multipart:
+      # OpenAI Images edits/variations upload images as multipart parts; gpt-image accepts up to 50MB each.
+      max-file-size: ${API2API_GATEWAY_MULTIPART_MAX_FILE_SIZE:50MB}
+      max-request-size: ${API2API_GATEWAY_MULTIPART_MAX_REQUEST_SIZE:100MB}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/api2api}
     username: ${SPRING_DATASOURCE_USERNAME:api2api}
@@ -43,6 +48,7 @@ api2api:
     streaming-retry-backoff: ${API2API_STREAMING_RETRY_BACKOFF:200ms}
   gateway:
     model-rate-limit-isolation: ${API2API_MODEL_RATE_LIMIT_ISOLATION:PT1M}
+    model-daily-limit-zone: ${API2API_MODEL_DAILY_LIMIT_ZONE:Asia/Shanghai}
   protocol:
     reasoning-model-prefixes: gpt-5,o1,o3,o4
     reasoning-model-contains: codex

@@ -38,6 +38,7 @@ class ModelGroupApplicationServiceTest {
         ModelGroupApplicationService service = new ModelGroupApplicationService(
                 userRepository,
                 groupRepository,
+                mock(ModelGroupDailyUsageService.class),
                 Clock.fixed(Instant.parse("2026-07-20T00:00:00Z"), ZoneOffset.UTC)
         );
         DeleteModelGroupCommand command = DeleteModelGroupCommand.builder()

@@ -1,5 +1,6 @@
 package com.api2api.application.credential.command;
 
+import com.api2api.domain.credential.model.ModelDailyLimits;
 import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelGroupName;
 import com.api2api.domain.credential.model.ModelWhitelist;
@@ -15,4 +16,5 @@ public final class UpdateModelGroupCommand {
     @NotNull private final ModelGroupId modelGroupId;
     @NotNull private final ModelGroupName name;
     @NotNull private final ModelWhitelist modelWhitelist;
+    @NotNull private final ModelDailyLimits modelDailyLimits;
 }

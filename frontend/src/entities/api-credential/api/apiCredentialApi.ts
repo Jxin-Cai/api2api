@@ -24,6 +24,7 @@ interface ApiCredentialBackendResponse {
   name?: string;
   modelGroupId?: string | number;
   modelWhitelist?: string[];
+  rateLimitedModels?: string[];
   tokenLimit?: number;
   consumedTokens?: number;
   totalTokens?: number;
@@ -43,6 +44,7 @@ function normalizeCredential(raw: ApiCredentialBackendResponse): ApiCredentialRe
     name: raw.name ?? '',
     modelGroupId: String(raw.modelGroupId ?? ''),
     modelWhitelist: raw.modelWhitelist ?? [],
+    rateLimitedModels: raw.rateLimitedModels ?? [],
     tokenLimit: Number(raw.tokenLimit ?? 0),
     consumedTokens: Number(raw.consumedTokens ?? 0),
     totalTokens: Number(raw.totalTokens ?? 0),

@@ -38,7 +38,7 @@ public class ModelGroupController {
     @GetMapping
     public ApiResponse<ModelGroupListResponse> listMyGroups(HttpServletRequest request) {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
-        return ApiResponse.success(converter.toListResponse(applicationService.listMyGroups(ownerUserId)));
+        return ApiResponse.success(converter.toListResponse(applicationService.listMyGroupViews(ownerUserId)));
     }
 
     @PostMapping
@@ -47,7 +47,7 @@ public class ModelGroupController {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
         ModelGroup group = applicationService.createGroup(converter.toCreateCommand(
                 body, ownerUserId, identifierFactory.newModelGroupId()));
-        return ApiResponse.success(converter.toResponse(group));
+        return ApiResponse.success(converter.toResponse(applicationService.viewGroup(group)));
     }
 
     @PutMapping("/{model-group-id}")
@@ -57,7 +57,7 @@ public class ModelGroupController {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
         ModelGroup group = applicationService.updateGroup(converter.toUpdateCommand(
                 body, ownerUserId, ModelGroupId.of(groupId)));
-        return ApiResponse.success(converter.toResponse(group));
+        return ApiResponse.success(converter.toResponse(applicationService.viewGroup(group)));
     }
 
     @DeleteMapping("/{model-group-id}")

@@ -1,11 +1,14 @@
 package com.api2api.application.gateway;
 
 import com.api2api.application.BusinessException;
+import com.api2api.application.credential.ModelDailyLimitWindow;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.domain.credential.model.ApiCredential;
+import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
+import com.api2api.domain.credential.repository.ModelGroupRepository;
 import com.api2api.domain.gateway.model.GatewayInvocation;
 import com.api2api.domain.gateway.model.GatewayInvocationResult;
 import com.api2api.domain.gateway.model.InvocationError;
@@ -73,6 +76,12 @@ public class GatewayInvocationApplicationService {
 
     @NonNull
     private final ApiCredentialRepository apiCredentialRepository;
+
+    @NonNull
+    private final ModelGroupRepository modelGroupRepository;
+
+    @NonNull
+    private final ModelDailyLimitWindow modelDailyLimitWindow;
 
     @NonNull
     private final UsageRecordRepository usageRecordRepository;
@@ -275,6 +284,7 @@ public class GatewayInvocationApplicationService {
             throw new BusinessException("INVALID_TOKEN_TOTAL");
         }
         credential.assertQuotaAvailable(currentConsumedTokens);
+        assertModelDailyLimitAvailable(credential, command.getRequestedCredentialModel());
         GatewayInvocation invocation = GatewayInvocation.start(
                 command.getGatewayInvocationId(),
                 command.getGatewayRequestId(),
@@ -298,6 +308,23 @@ public class GatewayInvocationApplicationService {
         credential.markUsed(now);
         apiCredentialRepository.save(credential);
         return invocation;
+    }
+
+    /**
+     * Group-wide daily cap: every key bound to the same model group shares one per-model budget, so the
+     * aggregation spans all credentials of the group rather than just the calling key.
+     */
+    private void assertModelDailyLimitAvailable(
+            ApiCredential credential,
+            com.api2api.domain.credential.model.ModelName requestedModel
+    ) {
+        ModelGroup group = modelGroupRepository.findById(credential.getModelGroupId()).orElse(null);
+        if (group == null || group.getModelDailyLimits().limitFor(requestedModel).isEmpty()) {
+            return;
+        }
+        BigDecimal consumedToday = usageRecordRepository.sumActualTokensByModelGroupAndModel(
+                group.getId(), requestedModel, modelDailyLimitWindow.today());
+        group.assertDailyLimitAvailable(requestedModel, consumedToday);
     }
 
     @Transactional(rollbackFor = Exception.class)

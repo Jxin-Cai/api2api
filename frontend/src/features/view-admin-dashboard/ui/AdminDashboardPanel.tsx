@@ -1,8 +1,8 @@
 import { Col, Row, Space, Typography } from 'antd';
 import { useMemo } from 'react';
 
-import { MetricCard, TopRankList, TrendChart, useAdminDashboardMetrics } from '@entities/dashboard-metric';
-import { normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
+import { MetricCard, SlowestChannelTable, TopRankList, TrendChart, useAdminDashboardMetrics } from '@entities/dashboard-metric';
+import { normalizeConcurrencyPoints, normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
 import { formatTokenMillions } from '@shared/lib/formatters';
 import { getProtocolMeta } from '@shared/lib/protocols';
 import { resolveTimeZone } from '@shared/lib/timeZone';
@@ -67,6 +67,24 @@ export function AdminDashboardPanel() {
         </Col>
         <Col xs={24} lg={12}>
           <TopRankList title="本月 Top10 用户总 Token" items={normalizeRankItems(data?.monthlyTopUsers)} loading={query.isLoading} />
+        </Col>
+      </Row>
+
+      <Row gutter={[16, 16]}>
+        <Col xs={24} xl={14}>
+          <Space direction="vertical" size={12} style={{ width: '100%' }}>
+            <Typography.Title level={4} style={{ margin: 0 }}>今日并发曲线（每 5 分钟峰值）</Typography.Title>
+            <TrendChart
+              data={normalizeConcurrencyPoints(data?.todayConcurrencyTrends)}
+              loading={query.isLoading}
+              valueUnit=""
+              valuePrecision={0}
+              emptyText="今日暂无请求"
+            />
+          </Space>
+        </Col>
+        <Col xs={24} xl={10}>
+          <SlowestChannelTable title="今日单次响应最慢渠道 Top5" items={data?.dailySlowestChannels ?? []} loading={query.isLoading} />
         </Col>
       </Row>
 

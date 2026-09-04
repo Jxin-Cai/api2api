@@ -14,6 +14,10 @@ interface ModelGroupTablePanelProps {
   modelOptions: Array<{ label: string; value: string }>;
 }
 
+function formatTokens(value: number): string {
+  return Math.round(value).toLocaleString();
+}
+
 export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps) {
   const { message, modal } = App.useApp();
   const { groups, query } = useModelGroups();
@@ -80,6 +84,36 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
       ),
     },
     {
+      title: '模型每日上限',
+      key: 'modelDailyLimits',
+      width: 260,
+      render: (_: unknown, group): ReactElement => {
+        const entries = Object.entries(group.modelDailyLimits);
+        if (entries.length === 0) {
+          return <Typography.Text type="secondary">未设置</Typography.Text>;
+        }
+        const rateLimited = new Set(group.rateLimitedModels);
+        return (
+          <Space direction="vertical" size={2}>
+            {entries.map(([model, limit]) => {
+              const used = group.modelDailyUsage[model] ?? 0;
+              const throttled = rateLimited.has(model);
+              return (
+                <Tooltip key={model} title={`${model} 今日已用 ${formatTokens(used)} / 上限 ${formatTokens(limit)}${throttled ? '，已限流' : ''}`}>
+                  <Space size={4}>
+                    <Tag color={throttled ? 'red' : undefined} style={{ marginInlineEnd: 0 }}>{model}</Tag>
+                    <Typography.Text type={throttled ? 'danger' : 'secondary'} style={{ fontSize: 12 }}>
+                      {formatTokens(used)} / {formatTokens(limit)}{throttled ? ' 限流中' : ''}
+                    </Typography.Text>
+                  </Space>
+                </Tooltip>
+              );
+            })}
+          </Space>
+        );
+      },
+    },
+    {
       title: '已绑定 Key',
       key: 'bindings',
       width: 120,
@@ -107,7 +141,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
 
   return (
     <>
-      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。修改分组白名单后，组内所有 Key 的可用模型会立即同步。" style={{ marginBottom: 16 }} />
+      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。修改分组白名单后，组内所有 Key 的可用模型会立即同步；模型每日上限按分组内所有 Key 当天合计消耗计算，达到后该模型对全组 Key 限流。" style={{ marginBottom: 16 }} />
       <Card className="api-credential-table-card">
         <div className="api-credential-toolbar">
           <div className="api-credential-toolbar__copy">
@@ -119,7 +153,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
             <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>创建分组</Button>
           </Space>
         </div>
-        <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 760 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
+        <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 1020 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
       </Card>
       <ModelGroupFormModal open={formOpen} group={editing} modelOptions={modelOptions} onClose={(): void => setFormOpen(false)} onSaved={(): void => undefined} />
     </>

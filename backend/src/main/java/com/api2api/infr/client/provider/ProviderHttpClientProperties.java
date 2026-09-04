@@ -1,5 +1,7 @@
 package com.api2api.infr.client.provider;
 
+import com.api2api.application.gateway.ProtocolOperation;
+import com.api2api.domain.channel.model.ProtocolType;
 import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -28,9 +30,12 @@ public class ProviderHttpClientProperties {
     private String upstreamHostOverride = "";
     private String modelsPath = "/models";
     private String claudeMessagesPath = "/v1/messages";
+    private String claudeMessagesCountTokensPath = "/v1/messages/count_tokens";
     private String openaiResponsesPath = "/v1/responses";
     private String openaiChatCompletionsPath = "/v1/chat/completions";
     private String openaiImagesPath = "/v1/images/generations";
+    private String openaiImagesEditsPath = "/v1/images/edits";
+    private String openaiImagesVariationsPath = "/v1/images/variations";
     private String bedrockClaudeMessagesPathTemplate = "/model/{modelId}/invoke";
     private String bedrockClaudeMessagesStreamPathTemplate = "/model/{modelId}/invoke-with-response-stream";
     private String anthropicVersion = "2023-06-01";
@@ -178,6 +183,15 @@ public class ProviderHttpClientProperties {
         this.claudeMessagesPath = normalizePath(claudeMessagesPath, "Claude messages path must start with /");
     }
 
+    public String getClaudeMessagesCountTokensPath() {
+        return claudeMessagesCountTokensPath;
+    }
+
+    public void setClaudeMessagesCountTokensPath(String claudeMessagesCountTokensPath) {
+        this.claudeMessagesCountTokensPath = normalizePath(
+                claudeMessagesCountTokensPath, "Claude messages count tokens path must start with /");
+    }
+
     public String getOpenaiResponsesPath() {
         return openaiResponsesPath;
     }
@@ -200,6 +214,23 @@ public class ProviderHttpClientProperties {
 
     public void setOpenaiImagesPath(String openaiImagesPath) {
         this.openaiImagesPath = normalizePath(openaiImagesPath, "OpenAI images path must start with /");
+    }
+
+    public String getOpenaiImagesEditsPath() {
+        return openaiImagesEditsPath;
+    }
+
+    public void setOpenaiImagesEditsPath(String openaiImagesEditsPath) {
+        this.openaiImagesEditsPath = normalizePath(openaiImagesEditsPath, "OpenAI images edits path must start with /");
+    }
+
+    public String getOpenaiImagesVariationsPath() {
+        return openaiImagesVariationsPath;
+    }
+
+    public void setOpenaiImagesVariationsPath(String openaiImagesVariationsPath) {
+        this.openaiImagesVariationsPath = normalizePath(
+                openaiImagesVariationsPath, "OpenAI images variations path must start with /");
     }
 
     public String getBedrockClaudeMessagesPathTemplate() {
@@ -243,7 +274,7 @@ public class ProviderHttpClientProperties {
         this.headerDenylist = normalizeHeaderNames(headerDenylist);
     }
 
-    public String defaultPathFor(com.api2api.domain.channel.model.ProtocolType protocolType) {
+    public String defaultPathFor(ProtocolType protocolType) {
         Objects.requireNonNull(protocolType, "Protocol type must not be null");
         return switch (protocolType) {
             case CLAUDE_MESSAGES -> claudeMessagesPath;
@@ -251,6 +282,23 @@ public class ProviderHttpClientProperties {
             case OPENAI_CHAT_COMPLETIONS -> openaiChatCompletionsPath;
             case OPENAI_IMAGES -> openaiImagesPath;
             case AWS_BEDROCK_CLAUDE_MESSAGES -> null;
+        };
+    }
+
+    /**
+     * Upstream path for a protocol operation. {@link ProtocolOperation#INVOKE} uses the protocol's
+     * default path; auxiliary operations have their own configurable path on the owning protocol.
+     */
+    public String upstreamPathFor(ProtocolType protocolType, ProtocolOperation operation) {
+        Objects.requireNonNull(operation, "Protocol operation must not be null");
+        if (!operation.availableOn(protocolType)) {
+            throw new IllegalArgumentException("Operation " + operation + " is not available on " + protocolType);
+        }
+        return switch (operation) {
+            case INVOKE -> defaultPathFor(protocolType);
+            case COUNT_TOKENS -> claudeMessagesCountTokensPath;
+            case IMAGE_EDITS -> openaiImagesEditsPath;
+            case IMAGE_VARIATIONS -> openaiImagesVariationsPath;
         };
     }
 

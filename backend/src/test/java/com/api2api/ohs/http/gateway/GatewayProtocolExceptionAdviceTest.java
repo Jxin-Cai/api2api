@@ -81,6 +81,20 @@ class GatewayProtocolExceptionAdviceTest {
     }
 
     @Test
+    void test_returnsRateLimitError_when_modelDailyLimitIsExceeded() throws Exception {
+        MockHttpServletRequest request = requestFor("/v1/chat/completions");
+
+        ResponseEntity<String> response = advice.handleBadRequest(
+                new IllegalStateException("MODEL_DAILY_LIMIT_EXCEEDED: daily token limit of model gpt-4.1 has been reached"),
+                request
+        );
+
+        JsonNode body = objectMapper.readTree(response.getBody());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.TOO_MANY_REQUESTS);
+        assertThat(body.at("/error/type").asText()).isEqualTo("rate_limit_error");
+    }
+
+    @Test
     void test_returnsOpenAIErrorShape_when_responsesRequestIsInvalid() throws Exception {
         MockHttpServletRequest request = requestFor("/v1/responses");
 
@@ -96,6 +110,21 @@ class GatewayProtocolExceptionAdviceTest {
         assertThat(body.at("/error/message").asText()).isEqualTo("Invalid request");
         assertThat(body.at("/error/param").isNull()).isTrue();
         assertThat(body.at("/error/code").isNull()).isTrue();
+    }
+
+    @Test
+    void test_returnsOpenAIErrorShape_when_imagesEditsRequestIsInvalid() throws Exception {
+        MockHttpServletRequest request = requestFor("/v1/images/edits");
+
+        ResponseEntity<String> response = advice.handleBadRequest(
+                new IllegalArgumentException("Request body must be multipart/form-data"),
+                request
+        );
+
+        JsonNode body = objectMapper.readTree(response.getBody());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(body.path("type").isMissingNode()).isTrue();
+        assertThat(body.at("/error/type").asText()).isEqualTo("invalid_request_error");
     }
 
     @Test

@@ -87,6 +87,7 @@ export async function getFrontKeyMetrics(
         ? data.monthlyTopCredentials.map(toCredentialRanking)
         : [],
       credentialTokenTrends: Array.isArray(data.credentialTokenTrends) ? data.credentialTokenTrends : [],
+      credentialConcurrencyTrends: Array.isArray(data.credentialConcurrencyTrends) ? data.credentialConcurrencyTrends : [],
     },
   };
 }
@@ -115,6 +116,17 @@ export async function getAdminDashboard(
       monthlyTopUsers: Array.isArray(data.monthlyTopUsers) ? data.monthlyTopUsers : [],
       protocolTokenTrends: Array.isArray(data.protocolTokenTrends) ? data.protocolTokenTrends : [],
       channelTokenTrends: Array.isArray(data.channelTokenTrends) ? data.channelTokenTrends : [],
+      todayConcurrencyTrends: Array.isArray(data.todayConcurrencyTrends) ? data.todayConcurrencyTrends : [],
+      dailySlowestChannels: Array.isArray(data.dailySlowestChannels)
+        ? data.dailySlowestChannels.map((item) => ({
+            rank: item?.rank,
+            providerChannelId: item?.providerChannelId,
+            providerChannelName: item?.providerChannelName,
+            maxDurationMillis: toFiniteNumber(item?.maxDurationMillis),
+            avgDurationMillis: toFiniteNumber(item?.avgDurationMillis),
+            requestCount: toFiniteNumber(item?.requestCount),
+          }))
+        : [],
     },
   };
 }

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.api2api.application.credential.ApiCredentialApplicationService;
 import com.api2api.application.gateway.GatewayInvocationApplicationService;
+import com.api2api.application.gateway.MultipartFormPayloadCodec;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ModelName;
@@ -39,7 +40,9 @@ class GatewayProtocolControllerTest {
                 mock(GatewayRequestMapper.class),
                 mock(GatewayInvocationResponseMapper.class),
                 mock(GatewayStreamingResponseMapper.class),
-                new ProtocolContractRegistry(new ObjectMapper())
+                new ProtocolContractRegistry(new ObjectMapper()),
+                mock(MultipartFormRequestReader.class),
+                mock(MultipartFormPayloadCodec.class)
         );
 
         // Act

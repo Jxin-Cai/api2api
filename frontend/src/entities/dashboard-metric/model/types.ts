@@ -77,10 +77,32 @@ export interface CredentialTokenTrendPointResponse {
   totalTokens?: number;
 }
 
+export interface ConcurrencyTrendPointResponse {
+  bucketStart?: string;
+  bucketEnd?: string;
+  peakConcurrency?: number;
+}
+
+export interface CredentialConcurrencyTrendPointResponse extends ConcurrencyTrendPointResponse {
+  credentialId?: string | number;
+  credentialName?: string;
+}
+
+export interface ChannelLatencyRankingResponse {
+  rank?: number;
+  providerChannelId?: string | number;
+  providerChannelName?: string;
+  maxDurationMillis?: number;
+  avgDurationMillis?: number;
+  requestCount?: number;
+}
+
 export interface FrontKeyMetricsResponse {
   dailyTopCredentials?: CredentialTokenRankingResponse[];
   monthlyTopCredentials?: CredentialTokenRankingResponse[];
   credentialTokenTrends?: CredentialTokenTrendPointResponse[];
+  /** 当天各 Key 的峰值并发曲线（5 分钟桶） */
+  credentialConcurrencyTrends?: CredentialConcurrencyTrendPointResponse[];
 }
 
 export interface FrontDashboardBackendResponse {
@@ -113,4 +135,8 @@ export interface AdminDashboardResponse {
   monthlyTopUsers?: DashboardRankItemResponse[];
   protocolTokenTrends?: DashboardTrendPointResponse[];
   channelTokenTrends?: DashboardTrendPointResponse[];
+  /** 当天全平台峰值并发曲线（5 分钟桶） */
+  todayConcurrencyTrends?: ConcurrencyTrendPointResponse[];
+  /** 当天单次响应耗时最长的渠道 Top5 */
+  dailySlowestChannels?: ChannelLatencyRankingResponse[];
 }

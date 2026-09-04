@@ -1,17 +1,23 @@
 package com.api2api.infr.repository.usage;
 
 import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.model.ModelGroupId;
+import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.gateway.model.GatewayRequestId;
+import com.api2api.domain.usage.model.ModelGroupModelUsage;
 import com.api2api.domain.usage.model.PageRequestSpec;
 import com.api2api.domain.usage.model.PagedUsageRecords;
 import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageRecordId;
+import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
+import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.repository.usage.converter.UsageRecordPersistenceConverter;
 import com.api2api.infr.repository.usage.mapper.UsageRecordMapper;
 import com.api2api.infr.repository.usage.po.UsageRecordQueryPO;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.math.BigDecimal;
@@ -80,6 +86,31 @@ public class UsageRecordRepositoryImpl implements UsageRecordRepository {
     public BigDecimal sumActualTokensByApiCredential(ApiCredentialId apiCredentialId) {
         Objects.requireNonNull(apiCredentialId, "ApiCredentialId must not be null");
         return mapper.sumActualTokensByApiCredential(apiCredentialId.value());
+    }
+
+    @Override
+    public BigDecimal sumActualTokensByModelGroupAndModel(
+            ModelGroupId modelGroupId, ModelName model, UsageTimeRange timeRange) {
+        Objects.requireNonNull(modelGroupId, "ModelGroupId must not be null");
+        Objects.requireNonNull(model, "ModelName must not be null");
+        Objects.requireNonNull(timeRange, "UsageTimeRange must not be null");
+        return mapper.sumActualTokensByModelGroupAndModel(
+                modelGroupId.value(), model.getValue(), timeRange.startInclusive(), timeRange.endExclusive());
+    }
+
+    @Override
+    public List<ModelGroupModelUsage> sumActualTokensByOwnerGroupedByModel(
+            UserAccountId ownerUserId, UsageTimeRange timeRange) {
+        Objects.requireNonNull(ownerUserId, "UserAccountId must not be null");
+        Objects.requireNonNull(timeRange, "UsageTimeRange must not be null");
+        return mapper.sumActualTokensByOwnerGroupedByModel(
+                        ownerUserId.getValue(), timeRange.startInclusive(), timeRange.endExclusive())
+                .stream()
+                .map(po -> new ModelGroupModelUsage(
+                        ModelGroupId.of(po.getModelGroupId()),
+                        ModelName.of(po.getRequestedModel()),
+                        po.getActualTokens() == null ? BigDecimal.ZERO : po.getActualTokens()))
+                .toList();
     }
 
     @Override

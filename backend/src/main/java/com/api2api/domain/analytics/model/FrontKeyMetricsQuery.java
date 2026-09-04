@@ -2,6 +2,7 @@ package com.api2api.domain.analytics.model;
 
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.user.model.UserAccountId;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,13 +16,16 @@ public final class FrontKeyMetricsQuery {
     private final AnalyticsTimeWindow monthWindow;
     private final AnalyticsTimeWindow trendWindow;
     private final List<ApiCredentialId> trendCredentialIds;
+    /** Evaluation instant; in-flight requests without an end time are treated as still running at this point. */
+    private final Instant asOf;
 
     private FrontKeyMetricsQuery(
             UserAccountId userAccountId,
             AnalyticsTimeWindow todayWindow,
             AnalyticsTimeWindow monthWindow,
             AnalyticsTimeWindow trendWindow,
-            List<ApiCredentialId> trendCredentialIds
+            List<ApiCredentialId> trendCredentialIds,
+            Instant asOf
     ) {
         this.userAccountId = Objects.requireNonNull(userAccountId, "Front key metrics user account id must not be null");
         this.todayWindow = Objects.requireNonNull(todayWindow, "Front key metrics today window must not be null");
@@ -33,6 +37,7 @@ public final class FrontKeyMetricsQuery {
                 .map(id -> Objects.requireNonNull(id, "Front key metrics trend credential ids must not contain null"))
                 .distinct()
                 .toList();
+        this.asOf = Objects.requireNonNull(asOf, "Front key metrics evaluation instant must not be null");
     }
 
     public static FrontKeyMetricsQuery of(
@@ -40,9 +45,10 @@ public final class FrontKeyMetricsQuery {
             AnalyticsTimeWindow todayWindow,
             AnalyticsTimeWindow monthWindow,
             AnalyticsTimeWindow trendWindow,
-            List<ApiCredentialId> trendCredentialIds
+            List<ApiCredentialId> trendCredentialIds,
+            Instant asOf
     ) {
-        return new FrontKeyMetricsQuery(userAccountId, todayWindow, monthWindow, trendWindow, trendCredentialIds);
+        return new FrontKeyMetricsQuery(userAccountId, todayWindow, monthWindow, trendWindow, trendCredentialIds, asOf);
     }
 
     public UserAccountId userAccountId() {
@@ -65,6 +71,10 @@ public final class FrontKeyMetricsQuery {
         return trendCredentialIds;
     }
 
+    public Instant asOf() {
+        return asOf;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,11 +87,12 @@ public final class FrontKeyMetricsQuery {
                 && Objects.equals(todayWindow, that.todayWindow)
                 && Objects.equals(monthWindow, that.monthWindow)
                 && Objects.equals(trendWindow, that.trendWindow)
-                && Objects.equals(trendCredentialIds, that.trendCredentialIds);
+                && Objects.equals(trendCredentialIds, that.trendCredentialIds)
+                && Objects.equals(asOf, that.asOf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userAccountId, todayWindow, monthWindow, trendWindow, trendCredentialIds);
+        return Objects.hash(userAccountId, todayWindow, monthWindow, trendWindow, trendCredentialIds, asOf);
     }
 }

@@ -31,8 +31,13 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
             "response.incomplete",
             "error"
     );
+    private static final Set<String> IMAGES_USAGE_EVENTS = Set.of(
+            "image_generation.completed",
+            "image_edit.completed"
+    );
     private static final Set<String> IMAGES_TERMINAL_EVENTS = Set.of(
             "image_generation.completed",
+            "image_edit.completed",
             "error"
     );
 
@@ -63,7 +68,7 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
         return extractByEvent(
                 input,
                 output,
-                "message_delta",
+                Set.of("message_delta"),
                 CLAUDE_TERMINAL_EVENTS,
                 this::tryExtractClaudeUsage
         );
@@ -73,17 +78,20 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
         return extractByEvent(
                 input,
                 output,
-                "response.completed",
+                Set.of("response.completed"),
                 RESPONSES_TERMINAL_EVENTS,
                 this::tryExtractOpenAIResponsesUsage
         );
     }
 
+    /**
+     * Generations and edits streams end with differently named completed events; both carry usage.
+     */
     private UnifiedTokenUsage extractOpenAIImages(InputStream input, OutputStream output) throws IOException {
         return extractByEvent(
                 input,
                 output,
-                "image_generation.completed",
+                IMAGES_USAGE_EVENTS,
                 IMAGES_TERMINAL_EVENTS,
                 this::tryExtractOpenAIImagesUsage
         );
@@ -92,7 +100,7 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
     private UnifiedTokenUsage extractByEvent(
             InputStream input,
             OutputStream output,
-            String targetEvent,
+            Set<String> usageEvents,
             Set<String> terminalEvents,
             BiFunction<String, UnifiedTokenUsage, UnifiedTokenUsage> extractor
     ) throws IOException {
@@ -110,7 +118,8 @@ public class StreamingPassthroughUsageExtractor implements StreamingPassthroughP
             } else if (line.startsWith("data:")) {
                 String data = line.substring(5).trim();
                 terminalEventSeen |= isTerminalData(data, terminalEvents);
-                if (targetEvent.equals(currentEvent) && !data.isEmpty() && !"[DONE]".equals(data)) {
+                if (currentEvent != null && usageEvents.contains(currentEvent)
+                        && !data.isEmpty() && !"[DONE]".equals(data)) {
                     usage = extractor.apply(data, usage);
                 }
             } else if (line.isEmpty()) {

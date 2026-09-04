@@ -4,7 +4,10 @@ import com.api2api.domain.analytics.model.AdminDashboardMetrics;
 import com.api2api.domain.analytics.model.AdminDashboardQuery;
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
+import com.api2api.domain.analytics.model.ChannelLatencyRanking;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.ConcurrencyTrendPoint;
+import com.api2api.domain.analytics.model.CredentialConcurrencyTrendPoint;
 import com.api2api.domain.analytics.model.CredentialTokenRanking;
 import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.FrontDashboardMetrics;
@@ -20,6 +23,7 @@ import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
+import java.time.Duration;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
@@ -33,6 +37,9 @@ import java.util.stream.Collectors;
 public final class DashboardAnalyticsService {
 
     private static final int DASHBOARD_TOP_USER_LIMIT = 10;
+    private static final int DASHBOARD_SLOWEST_CHANNEL_LIMIT = 5;
+    /** Resolution of the intraday concurrency curves. */
+    private static final Duration CONCURRENCY_BUCKET = Duration.ofMinutes(5);
 
     public FrontDashboardMetrics buildFrontMetrics(
             FrontDashboardQuery query,
@@ -80,7 +87,19 @@ public final class DashboardAnalyticsService {
                 "Credential token trends"
         );
 
-        return FrontKeyMetrics.of(dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends);
+        List<CredentialConcurrencyTrendPoint> credentialConcurrencyTrends = requireList(
+                nonNullRepository.calculateCredentialConcurrencyTrends(
+                        nonNullQuery.userAccountId(),
+                        nonNullQuery.trendCredentialIds(),
+                        nonNullQuery.todayWindow(),
+                        CONCURRENCY_BUCKET,
+                        nonNullQuery.asOf()
+                ),
+                "Credential concurrency trends"
+        );
+
+        return FrontKeyMetrics.of(
+                dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends, credentialConcurrencyTrends);
     }
 
     public AdminDashboardMetrics buildAdminMetrics(
@@ -127,6 +146,15 @@ public final class DashboardAnalyticsService {
                 "Channel token trends"
         );
 
+        List<ConcurrencyTrendPoint> todayConcurrencyTrends = requireList(
+                nonNullRepository.calculateConcurrencyTrends(
+                        nonNullQuery.todayWindow(), CONCURRENCY_BUCKET, nonNullQuery.asOf()),
+                "Today concurrency trends"
+        );
+        List<ChannelLatencyRanking> dailySlowestChannels = normalizeSlowestChannels(
+                nonNullRepository.findSlowestChannels(nonNullQuery.todayWindow(), DASHBOARD_SLOWEST_CHANNEL_LIMIT)
+        );
+
         return AdminDashboardMetrics.of(
                 protocolRequestRates,
                 todayTokens,
@@ -134,7 +162,9 @@ public final class DashboardAnalyticsService {
                 dailyTopUsers,
                 monthlyTopUsers,
                 protocolTokenTrends,
-                channelTokenTrends
+                channelTokenTrends,
+                todayConcurrencyTrends,
+                dailySlowestChannels
         );
     }
 
@@ -196,6 +226,25 @@ public final class DashboardAnalyticsService {
                 .toList();
         if (!copiedRankings.equals(sortedRankings)) {
             throw new IllegalArgumentException(name + " must be sorted by total tokens descending and credential id ascending");
+        }
+        return copiedRankings;
+    }
+
+    private static List<ChannelLatencyRanking> normalizeSlowestChannels(List<ChannelLatencyRanking> rankings) {
+        List<ChannelLatencyRanking> copiedRankings = requireList(rankings, "Daily slowest channels");
+        if (copiedRankings.size() > DASHBOARD_SLOWEST_CHANNEL_LIMIT) {
+            throw new IllegalArgumentException("Daily slowest channels must contain at most 5 rows");
+        }
+        for (int index = 1; index < copiedRankings.size(); index++) {
+            ChannelLatencyRanking previous = copiedRankings.get(index - 1);
+            ChannelLatencyRanking current = copiedRankings.get(index);
+            boolean ordered = previous.maxDurationMillis() > current.maxDurationMillis()
+                    || (previous.maxDurationMillis() == current.maxDurationMillis()
+                    && previous.providerChannelId().value() < current.providerChannelId().value());
+            if (!ordered) {
+                throw new IllegalArgumentException(
+                        "Daily slowest channels must be sorted by max duration descending and channel id ascending");
+            }
         }
         return copiedRankings;
     }

@@ -2,6 +2,7 @@ package com.api2api.infr.client.provider;
 
 import com.api2api.application.BusinessException;
 import com.api2api.application.gateway.InboundRequestContext;
+import com.api2api.application.gateway.MultipartFormPayloadCodec;
 import com.api2api.application.gateway.ProtocolOperation;
 import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
@@ -33,18 +34,21 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     private final ProviderHttpClientProperties properties;
     private final UpstreamHttpHeaderPolicy headerPolicy;
     private final UpstreamUrlResolver urlResolver;
+    private final MultipartFormPayloadCodec multipartFormCodec;
     private final HttpClient httpClient;
 
     BearerTokenProviderCallStrategy(
             ProviderChannelRepository providerChannelRepository,
             ProviderHttpClientProperties properties,
             UpstreamHttpHeaderPolicy headerPolicy,
-            UpstreamUrlResolver urlResolver
+            UpstreamUrlResolver urlResolver,
+            MultipartFormPayloadCodec multipartFormCodec
     ) {
         this.providerChannelRepository = providerChannelRepository;
         this.properties = properties;
         this.headerPolicy = headerPolicy;
         this.urlResolver = urlResolver;
+        this.multipartFormCodec = multipartFormCodec;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(properties.getConnectTimeout())
                 .version(HttpClient.Version.HTTP_1_1)
@@ -235,14 +239,26 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                 URI.create(appendQuery(baseUrl, query)),
                 properties.isAllowInsecureHosts()
         );
+        UpstreamRequestBody body = encodeBody(upstreamRequestBody, inbound.operation());
         var headers = headerPolicy.buildHeaders(
-                candidate.upstreamProtocol(), inbound.headers(), secret, streaming);
+                candidate.upstreamProtocol(), inbound.headers(), secret, streaming, body.contentType());
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
                 .timeout(readTimeout(streaming))
-                .POST(HttpRequest.BodyPublishers.ofString(upstreamRequestBody));
+                .POST(HttpRequest.BodyPublishers.ofByteArray(body.content()));
         headers.forEach(requestBuilder::setHeader);
         return requestBuilder.build();
+    }
+
+    /**
+     * The pipeline hands over JSON text for every operation; multipart operations carry their form as
+     * a JSON envelope that is re-encoded here so the provider receives real {@code multipart/form-data}.
+     */
+    private UpstreamRequestBody encodeBody(String upstreamRequestBody, ProtocolOperation operation) {
+        if (!operation.acceptsMultipartForm()) {
+            return UpstreamRequestBody.json(upstreamRequestBody);
+        }
+        return MultipartFormBodyWriter.write(multipartFormCodec.decode(upstreamRequestBody));
     }
 
     /**
@@ -257,22 +273,23 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     }
 
     private String resolveUpstreamPath(RouteCandidate candidate, boolean streaming, ProtocolOperation operation) {
-        if (candidate.upstreamProtocol() == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
-            if (operation != ProtocolOperation.INVOKE) {
-                throw new UpstreamGatewayException(
-                        RouteFailureType.CHANNEL_UNAVAILABLE,
-                        null,
-                        true,
-                        0,
-                        "Operation " + operation + " is not available on Bedrock routes"
-                );
-            }
+        ProtocolType upstreamProtocol = candidate.upstreamProtocol();
+        if (!operation.availableOn(upstreamProtocol)) {
+            throw new UpstreamGatewayException(
+                    RouteFailureType.CHANNEL_UNAVAILABLE,
+                    null,
+                    true,
+                    0,
+                    "Operation " + operation + " is not available on " + upstreamProtocol + " routes"
+            );
+        }
+        if (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
             String template = streaming
                     ? properties.getBedrockClaudeMessagesStreamPathTemplate()
                     : properties.getBedrockClaudeMessagesPathTemplate();
             return template.replace("{modelId}", candidate.upstreamModel().value());
         }
-        return properties.defaultPathFor(candidate.upstreamProtocol()) + operation.upstreamPathSuffix();
+        return properties.upstreamPathFor(upstreamProtocol, operation);
     }
 
     private UpstreamGatewayException toStatusFailure(

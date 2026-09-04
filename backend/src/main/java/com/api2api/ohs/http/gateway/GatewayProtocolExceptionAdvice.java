@@ -78,7 +78,7 @@ public class GatewayProtocolExceptionAdvice {
             if (uri.endsWith("/v1/chat/completions")) {
                 return ProtocolType.OPENAI_CHAT_COMPLETIONS;
             }
-            if (uri.endsWith("/v1/images/generations")) {
+            if (uri.contains("/v1/images/")) {
                 return ProtocolType.OPENAI_IMAGES;
             }
         }
@@ -89,7 +89,8 @@ public class GatewayProtocolExceptionAdvice {
         return switch (normalizeCode(code)) {
             case "API_CREDENTIAL_INVALID" -> new ErrorMapping(HttpStatus.UNAUTHORIZED, "authentication_error");
             case "API_CREDENTIAL_DISABLED", "MODEL_NOT_ALLOWED" -> new ErrorMapping(HttpStatus.FORBIDDEN, "permission_error");
-            case "TOKEN_QUOTA_EXHAUSTED" -> new ErrorMapping(HttpStatus.TOO_MANY_REQUESTS, "rate_limit_error");
+            case "TOKEN_QUOTA_EXHAUSTED", "MODEL_DAILY_LIMIT_EXCEEDED" ->
+                    new ErrorMapping(HttpStatus.TOO_MANY_REQUESTS, "rate_limit_error");
             case "INVALID_TOKEN_TOTAL" -> new ErrorMapping(HttpStatus.INTERNAL_SERVER_ERROR, "api_error");
             default -> new ErrorMapping(HttpStatus.BAD_REQUEST, "invalid_request_error");
         };
@@ -98,7 +99,8 @@ public class GatewayProtocolExceptionAdvice {
     private ErrorMapping mapBadRequestMessage(String message) {
         return switch (normalizeCode(message)) {
             case "API_CREDENTIAL_DISABLED", "MODEL_NOT_ALLOWED" -> new ErrorMapping(HttpStatus.FORBIDDEN, "permission_error");
-            case "TOKEN_QUOTA_EXHAUSTED" -> new ErrorMapping(HttpStatus.TOO_MANY_REQUESTS, "rate_limit_error");
+            case "TOKEN_QUOTA_EXHAUSTED", "MODEL_DAILY_LIMIT_EXCEEDED" ->
+                    new ErrorMapping(HttpStatus.TOO_MANY_REQUESTS, "rate_limit_error");
             default -> new ErrorMapping(HttpStatus.BAD_REQUEST, "invalid_request_error");
         };
     }

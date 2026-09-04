@@ -18,4 +18,5 @@ public class FrontKeyMetricsResponse {
     private List<CredentialTokenRankingResponse> dailyTopCredentials;
     private List<CredentialTokenRankingResponse> monthlyTopCredentials;
     private List<CredentialTokenTrendPointResponse> credentialTokenTrends;
+    private List<CredentialConcurrencyTrendPointResponse> credentialConcurrencyTrends;
 }

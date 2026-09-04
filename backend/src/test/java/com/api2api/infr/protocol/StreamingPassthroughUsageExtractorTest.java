@@ -126,6 +126,28 @@ class StreamingPassthroughUsageExtractorTest {
     }
 
     @Test
+    void test_extractsUsage_when_imageEditStreamEmitsCompletedEvent() throws IOException {
+        // Arrange
+        String upstream = "event: image_edit.partial_image\n"
+                + "data: {\"type\":\"image_edit.partial_image\",\"b64_json\":\"aGk=\",\"partial_image_index\":0}\n\n"
+                + "event: image_edit.completed\n"
+                + "data: {\"type\":\"image_edit.completed\",\"b64_json\":\"aGk=\","
+                + "\"usage\":{\"input_tokens\":7,\"output_tokens\":300,\"total_tokens\":307}}\n\n";
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        UnifiedTokenUsage usage = extractor.transferAndExtract(
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream,
+                ProtocolType.OPENAI_IMAGES
+        );
+
+        // Assert
+        assertThat(usage.inputTokens()).isEqualTo(7);
+        assertThat(usage.outputTokens()).isEqualTo(300);
+    }
+
+    @Test
     void test_relaysUpstreamBodyUnchanged_when_imagesStreamIsPassedThrough() throws IOException {
         // Arrange
         String upstream = "event: image_generation.completed\n"

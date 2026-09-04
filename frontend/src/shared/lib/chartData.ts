@@ -52,6 +52,37 @@ export function formatBucketDate(raw: string): string {
   return `${month}-${day}`;
 }
 
+export interface ConcurrencyLikeDto {
+  bucketStart?: string;
+  bucketEnd?: string;
+  peakConcurrency?: number;
+  credentialId?: string | number;
+  credentialName?: string;
+}
+
+/** 将后端 ISO Instant 格式化为当日时刻 HH:mm；非日期字符串原样返回。 */
+export function formatBucketTime(raw: string): string {
+  const parsed = new Date(raw);
+  if (Number.isNaN(parsed.getTime())) {
+    return raw;
+  }
+  const hours = String(parsed.getHours()).padStart(2, '0');
+  const minutes = String(parsed.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+/**
+ * 并发曲线点：X 轴为桶起始时刻，Y 轴为峰值并发（整数）。
+ * 未带凭证信息的点归入单一“全平台”系列。
+ */
+export function normalizeConcurrencyPoints(items: ConcurrencyLikeDto[] | undefined, defaultCategory = '全平台'): TrendChartPoint[] {
+  return (items ?? []).map((item: ConcurrencyLikeDto): TrendChartPoint => ({
+    date: formatBucketTime(item.bucketStart ?? '-'),
+    value: Math.max(0, Math.round(Number(item.peakConcurrency ?? 0)) || 0),
+    category: item.credentialName ?? (item.credentialId === undefined ? defaultCategory : String(item.credentialId)),
+  }));
+}
+
 export function normalizeTrendPoints(items: TrendLikeDto[] | undefined): TrendChartPoint[] {
   return (items ?? []).map((item: TrendLikeDto): TrendChartPoint => {
     const tokens = item.value ?? item.totalTokens ?? item.tokens ?? 0;

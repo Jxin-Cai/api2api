@@ -15,6 +15,7 @@ public class ModelGroupPO {
     private Long ownerUserId;
     private String name;
     private String modelWhitelist;
+    private String modelDailyLimits;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean deleted;

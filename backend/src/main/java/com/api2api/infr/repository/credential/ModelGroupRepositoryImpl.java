@@ -72,6 +72,7 @@ public class ModelGroupRepositoryImpl implements ModelGroupRepository {
                 .ownerUserId(group.getOwnerUserId().getValue())
                 .name(group.getName().getValue())
                 .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist()))
+                .modelDailyLimits(ModelDailyLimitsTextCodec.encode(group.getModelDailyLimits()))
                 .createdAt(group.getCreatedAt())
                 .updatedAt(group.getUpdatedAt())
                 .deleted(false)
@@ -81,6 +82,7 @@ public class ModelGroupRepositoryImpl implements ModelGroupRepository {
     private ModelGroup toDomain(ModelGroupPO po) {
         return ModelGroup.rehydrate(ModelGroupId.of(po.getId()), UserAccountId.of(po.getOwnerUserId()),
                 ModelGroupName.of(po.getName()), ModelWhitelistTextCodec.decode(po.getModelWhitelist()),
+                ModelDailyLimitsTextCodec.decode(po.getModelDailyLimits()),
                 po.getCreatedAt(), po.getUpdatedAt());
     }
 }

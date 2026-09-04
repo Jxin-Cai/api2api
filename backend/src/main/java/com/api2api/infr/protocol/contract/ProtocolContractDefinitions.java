@@ -360,11 +360,13 @@ final class ProtocolContractDefinitions {
                         )
                 ),
                 new ProtocolContract(
-                        ProtocolType.OPENAI_IMAGES, "OpenAI Images", "OpenAI API v1 · Images generations",
-                        "OpenAI Images API（/v1/images/generations），支持 gpt-image 系列模型的文生图请求、SSE 流式部分图像事件和图像 token 用量统计。仅覆盖 JSON 请求体的 generations 端点；multipart 的 edits/variations 端点不在范围内。", "/v1/images/generations", objectMapper,
+                        ProtocolType.OPENAI_IMAGES, "OpenAI Images", "OpenAI API v1 · Images generations / edits / variations",
+                        "OpenAI Images API，覆盖 /v1/images/generations（JSON 文生图）、/v1/images/edits（multipart 图生图/局部重绘）与 /v1/images/variations（multipart 变体）三个端点，支持 gpt-image 系列模型、SSE 流式部分图像事件和图像 token 用量统计。edits/variations 的表单字段与 generations 同名，附加 image、mask 文件字段。", "/v1/images/generations", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("model", "model", FieldType.STRING, true, FieldSection.MODEL, UsageDirection.INPUT, "模型标识符", "指定使用的图像模型", "如 gpt-image-2、gpt-image-1、dall-e-3 等"),
-                        ProtocolFieldRef.of("prompt", "prompt", FieldType.STRING, true, FieldSection.MESSAGE, UsageDirection.INPUT, "图像描述提示词", "描述要生成的图像内容", "gpt-image 系列最长 32000 字符"),
+                        ProtocolFieldRef.of("prompt", "prompt", FieldType.STRING, true, FieldSection.MESSAGE, UsageDirection.INPUT, "图像描述提示词", "描述要生成或编辑的图像内容", "gpt-image 系列最长 32000 字符；variations 端点不需要"),
+                        ProtocolFieldRef.of("image", "image", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.INPUT, "输入图像文件（multipart）", "edits/variations 端点的待编辑图像", "edits 可传多张（image[]），png/webp/jpg，gpt-image 系列单张不超过 50MB；dall-e-2 需为方形 png 且不超过 4MB"),
+                        ProtocolFieldRef.of("mask", "mask", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.INPUT, "遮罩图像文件（multipart）", "指示 edits 端点需要重绘的透明区域", "png，须与第一张 image 尺寸一致，仅 edits 端点支持"),
                         ProtocolFieldRef.of("n", "n", FieldType.INTEGER, false, FieldSection.MODEL, UsageDirection.INPUT, "生成图像数量", "一次请求生成多张图像", "默认 1，dall-e-3 仅支持 1"),
                         ProtocolFieldRef.of("size", "size", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "图像尺寸", "指定生成图像的分辨率", "gpt-image 支持 1024x1024、1536x1024、1024x1536、auto"),
                         ProtocolFieldRef.of("quality", "quality", FieldType.ENUM, false, FieldSection.MODEL, UsageDirection.INPUT, "图像质量", "平衡生成质量与成本", "gpt-image 支持 low、medium、high、auto；dall-e-3 支持 standard、hd"),
@@ -391,7 +393,9 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("usage.input_tokens_details.image_tokens", "usage.input_tokens_details.image_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "图像输入 token", "拆分输入中的图像消耗", "input_tokens_details 明细"),
                         ProtocolFieldRef.of("usage.output_tokens_details.image_tokens", "usage.output_tokens_details.image_tokens", FieldType.INTEGER, false, FieldSection.USAGE, UsageDirection.OUTPUT, "图像输出 token", "拆分输出中的图像消耗", "output_tokens_details 明细"),
                         ProtocolFieldRef.of("SSE: image_generation.partial_image", "stream.event.image_generation.partial_image", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：部分图像", "流式传输生成过程中的中间图像帧", "包含 b64_json、partial_image_index、created_at 等字段"),
-                        ProtocolFieldRef.of("SSE: image_generation.completed", "stream.event.image_generation.completed", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：图像完成", "返回最终图像和用量统计", "包含 b64_json、size、quality、usage 等字段，流结束前发送")
+                        ProtocolFieldRef.of("SSE: image_generation.completed", "stream.event.image_generation.completed", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：图像完成", "返回最终图像和用量统计", "包含 b64_json、size、quality、usage 等字段，流结束前发送"),
+                        ProtocolFieldRef.of("SSE: image_edit.partial_image", "stream.event.image_edit.partial_image", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：编辑中的部分图像", "edits 端点流式传输的中间图像帧", "包含 b64_json、partial_image_index、created_at 等字段"),
+                        ProtocolFieldRef.of("SSE: image_edit.completed", "stream.event.image_edit.completed", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式事件：编辑完成", "edits 端点返回最终图像和用量统计", "包含 b64_json、size、quality、usage 等字段，流结束前发送")
                         )
                 )
         );

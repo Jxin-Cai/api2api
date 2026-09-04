@@ -1,8 +1,10 @@
 package com.api2api.application.credential.dto;
 
 import com.api2api.domain.credential.model.ApiCredential;
+import com.api2api.domain.credential.model.ModelName;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 public final class ApiCredentialUsageView {
 
@@ -11,8 +13,12 @@ public final class ApiCredentialUsageView {
     private final long totalTokens;
     private final BigDecimal todayConsumedTokens;
     private final long todayTotalTokens;
+    /** Models capped today by the bound model group's daily limit; shared by every key of the group. */
+    private final Set<ModelName> rateLimitedModels;
 
-    private ApiCredentialUsageView(ApiCredential credential, BigDecimal consumedTokens, long totalTokens, BigDecimal todayConsumedTokens, long todayTotalTokens) {
+    private ApiCredentialUsageView(ApiCredential credential, BigDecimal consumedTokens, long totalTokens,
+                                   BigDecimal todayConsumedTokens, long todayTotalTokens,
+                                   Set<ModelName> rateLimitedModels) {
         BigDecimal nonNullConsumedTokens = Objects.requireNonNull(consumedTokens, "Consumed tokens must not be null");
         BigDecimal nonNullTodayConsumedTokens = Objects.requireNonNull(todayConsumedTokens, "Today consumed tokens must not be null");
         if (nonNullConsumedTokens.signum() < 0) {
@@ -26,6 +32,7 @@ public final class ApiCredentialUsageView {
         this.totalTokens = totalTokens;
         this.todayConsumedTokens = nonNullTodayConsumedTokens;
         this.todayTotalTokens = todayTotalTokens;
+        this.rateLimitedModels = Set.copyOf(Objects.requireNonNull(rateLimitedModels, "Rate limited models must not be null"));
     }
 
     public static ApiCredentialUsageView of(
@@ -35,7 +42,19 @@ public final class ApiCredentialUsageView {
             BigDecimal todayConsumedTokens,
             long todayTotalTokens
     ) {
-        return new ApiCredentialUsageView(credential, consumedTokens, totalTokens, todayConsumedTokens, todayTotalTokens);
+        return of(credential, consumedTokens, totalTokens, todayConsumedTokens, todayTotalTokens, Set.of());
+    }
+
+    public static ApiCredentialUsageView of(
+            ApiCredential credential,
+            BigDecimal consumedTokens,
+            long totalTokens,
+            BigDecimal todayConsumedTokens,
+            long todayTotalTokens,
+            Set<ModelName> rateLimitedModels
+    ) {
+        return new ApiCredentialUsageView(
+                credential, consumedTokens, totalTokens, todayConsumedTokens, todayTotalTokens, rateLimitedModels);
     }
 
     public ApiCredential credential() {
@@ -56,6 +75,10 @@ public final class ApiCredentialUsageView {
 
     public long todayTotalTokens() {
         return todayTotalTokens;
+    }
+
+    public Set<ModelName> rateLimitedModels() {
+        return rateLimitedModels;
     }
 
     public BigDecimal remainingTokens() {
@@ -83,6 +106,10 @@ public final class ApiCredentialUsageView {
 
     public long getTodayTotalTokens() {
         return todayTotalTokens;
+    }
+
+    public Set<ModelName> getRateLimitedModels() {
+        return rateLimitedModels;
     }
 
     public BigDecimal getRemainingTokens() {

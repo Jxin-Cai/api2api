@@ -1,13 +1,19 @@
 package com.api2api.domain.usage.repository;
 
 import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.model.ModelGroupId;
+import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.gateway.model.GatewayRequestId;
+import com.api2api.domain.usage.model.ModelGroupModelUsage;
 import com.api2api.domain.usage.model.PageRequestSpec;
 import com.api2api.domain.usage.model.PagedUsageRecords;
 import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.usage.model.UsageRecordFilter;
 import com.api2api.domain.usage.model.UsageRecordId;
+import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
+import com.api2api.domain.user.model.UserAccountId;
+import java.util.List;
 import java.util.Optional;
 import java.math.BigDecimal;
 
@@ -88,6 +94,18 @@ public interface UsageRecordRepository {
 
     /** Returns weighted tokens used by quota and statistical accounting. */
     BigDecimal sumActualTokensByApiCredential(ApiCredentialId apiCredentialId);
+
+    /**
+     * Sums weighted tokens of one requested model across every credential bound to a model group within
+     * {@code timeRange}. PENDING reservations are included so concurrent requests observe in-flight commitments.
+     */
+    BigDecimal sumActualTokensByModelGroupAndModel(ModelGroupId modelGroupId, ModelName model, UsageTimeRange timeRange);
+
+    /**
+     * Aggregates weighted tokens per (model group, requested model) for every group owned by {@code ownerUserId}
+     * within {@code timeRange}. Groups or models without usage are absent from the result.
+     */
+    List<ModelGroupModelUsage> sumActualTokensByOwnerGroupedByModel(UserAccountId ownerUserId, UsageTimeRange timeRange);
 
     /**
      * Sums token details using exactly the same filter and role-based visibility rules as {@link #query}.

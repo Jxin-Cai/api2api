@@ -12,23 +12,28 @@ public final class FrontKeyMetrics {
     private final List<CredentialTokenRanking> dailyTopCredentials;
     private final List<CredentialTokenRanking> monthlyTopCredentials;
     private final List<CredentialTokenTrendPoint> credentialTokenTrends;
+    private final List<CredentialConcurrencyTrendPoint> credentialConcurrencyTrends;
 
     private FrontKeyMetrics(
             List<CredentialTokenRanking> dailyTopCredentials,
             List<CredentialTokenRanking> monthlyTopCredentials,
-            List<CredentialTokenTrendPoint> credentialTokenTrends
+            List<CredentialTokenTrendPoint> credentialTokenTrends,
+            List<CredentialConcurrencyTrendPoint> credentialConcurrencyTrends
     ) {
         this.dailyTopCredentials = requireList(dailyTopCredentials, "Daily top credentials");
         this.monthlyTopCredentials = requireList(monthlyTopCredentials, "Monthly top credentials");
         this.credentialTokenTrends = requireList(credentialTokenTrends, "Credential token trends");
+        this.credentialConcurrencyTrends = requireList(credentialConcurrencyTrends, "Credential concurrency trends");
     }
 
     public static FrontKeyMetrics of(
             List<CredentialTokenRanking> dailyTopCredentials,
             List<CredentialTokenRanking> monthlyTopCredentials,
-            List<CredentialTokenTrendPoint> credentialTokenTrends
+            List<CredentialTokenTrendPoint> credentialTokenTrends,
+            List<CredentialConcurrencyTrendPoint> credentialConcurrencyTrends
     ) {
-        return new FrontKeyMetrics(dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends);
+        return new FrontKeyMetrics(
+                dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends, credentialConcurrencyTrends);
     }
 
     private static <T> List<T> requireList(List<T> values, String name) {
@@ -50,6 +55,10 @@ public final class FrontKeyMetrics {
         return credentialTokenTrends;
     }
 
+    public List<CredentialConcurrencyTrendPoint> credentialConcurrencyTrends() {
+        return credentialConcurrencyTrends;
+    }
+
     public List<CredentialTokenRanking> getDailyTopCredentials() {
         return dailyTopCredentials;
     }
@@ -62,6 +71,10 @@ public final class FrontKeyMetrics {
         return credentialTokenTrends;
     }
 
+    public List<CredentialConcurrencyTrendPoint> getCredentialConcurrencyTrends() {
+        return credentialConcurrencyTrends;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -72,11 +85,12 @@ public final class FrontKeyMetrics {
         }
         return Objects.equals(dailyTopCredentials, that.dailyTopCredentials)
                 && Objects.equals(monthlyTopCredentials, that.monthlyTopCredentials)
-                && Objects.equals(credentialTokenTrends, that.credentialTokenTrends);
+                && Objects.equals(credentialTokenTrends, that.credentialTokenTrends)
+                && Objects.equals(credentialConcurrencyTrends, that.credentialConcurrencyTrends);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends);
+        return Objects.hash(dailyTopCredentials, monthlyTopCredentials, credentialTokenTrends, credentialConcurrencyTrends);
     }
 }

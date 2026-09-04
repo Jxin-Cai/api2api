@@ -171,12 +171,21 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
       dataIndex: 'modelWhitelist',
       key: 'modelWhitelist',
       width: 230,
-      render: (models: string[]): ReactElement => (
-        <div className="api-credential-models">
-          {models.length ? models.slice(0, 2).map((model) => <Tag key={model}>{model}</Tag>) : <Typography.Text type="secondary">全部禁用</Typography.Text>}
-          {models.length > 2 ? <Tooltip title={models.slice(2).join(', ')}><Tag>+{models.length - 2}</Tag></Tooltip> : null}
-        </div>
-      ),
+      render: (models: string[], credential: ApiCredentialResponse): ReactElement => {
+        const throttled = new Set(credential.rateLimitedModels);
+        // 限流中的模型优先展示，避免被折叠进 +N 里
+        const ordered = [...models].sort((left, right) => Number(throttled.has(right)) - Number(throttled.has(left)));
+        return (
+          <div className="api-credential-models">
+            {ordered.length
+              ? ordered.slice(0, 2).map((model) => (throttled.has(model)
+                ? <Tooltip key={model} title="所属分组今日该模型已达每日上限，调用将返回限流错误"><Tag color="red">{model} · 限流中</Tag></Tooltip>
+                : <Tag key={model}>{model}</Tag>))
+              : <Typography.Text type="secondary">全部禁用</Typography.Text>}
+            {ordered.length > 2 ? <Tooltip title={ordered.slice(2).map((model) => (throttled.has(model) ? `${model}（限流中）` : model)).join(', ')}><Tag>+{ordered.length - 2}</Tag></Tooltip> : null}
+          </div>
+        );
+      },
     },
     { title: '累计用量 / 限额', key: 'tokenUsage', width: 220, render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
     {

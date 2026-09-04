@@ -22,4 +22,6 @@ public class AdminDashboardResponse {
     private List<UserTokenRankingResponse> monthlyTopUsers;
     private List<ProtocolTokenTrendPointResponse> protocolTokenTrends;
     private List<ChannelTokenTrendPointResponse> channelTokenTrends;
+    private List<ConcurrencyTrendPointResponse> todayConcurrencyTrends;
+    private List<ChannelLatencyRankingResponse> dailySlowestChannels;
 }

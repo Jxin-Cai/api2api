@@ -3,6 +3,7 @@ package com.api2api.infr.client.provider;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.api2api.application.gateway.InboundRequestContext;
+import com.api2api.application.gateway.MultipartFormPayload;
 import com.api2api.application.gateway.ProtocolOperation;
 import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
@@ -34,6 +35,8 @@ import com.api2api.domain.protocol.model.MappingLossiness;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinition;
 import com.api2api.domain.protocol.model.ProtocolConversionDefinitionId;
 import com.api2api.domain.routing.model.RouteCandidate;
+import com.api2api.infr.protocol.JsonMultipartFormPayloadCodec;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -204,6 +207,38 @@ class ProviderGatewayCallAdapterTest {
     }
 
     @Test
+    void test_postsMultipartFormToEditsEndpoint_when_operationIsImageEdits() throws IOException {
+        // Arrange
+        AtomicReference<String> requestUri = new AtomicReference<>();
+        AtomicReference<String> contentType = new AtomicReference<>();
+        AtomicReference<byte[]> requestBody = new AtomicReference<>();
+        server = capturingServer("/v1/images/edits", requestUri, contentType, requestBody);
+        ProviderGatewayCallAdapter adapter = adapter();
+        JsonMultipartFormPayloadCodec codec = new JsonMultipartFormPayloadCodec(new ObjectMapper());
+        String envelope = codec.encode(new MultipartFormPayload(
+                List.of(new MultipartFormPayload.TextField("model", "gpt"),
+                        new MultipartFormPayload.TextField("prompt", "add a hat")),
+                List.of(new MultipartFormPayload.FilePart("image", "cat.png", "image/png", new byte[] {1, 2, 3}))
+        ));
+
+        // Act
+        adapter.forward(
+                candidate(ProtocolType.OPENAI_IMAGES),
+                envelope,
+                false,
+                InboundRequestContext.of(Map.of(), null, ProtocolOperation.IMAGE_EDITS)
+        );
+
+        // Assert
+        assertThat(requestUri.get()).isEqualTo("/v1/images/edits");
+        assertThat(contentType.get()).startsWith("multipart/form-data; boundary=");
+        String body = new String(requestBody.get(), StandardCharsets.ISO_8859_1);
+        assertThat(body)
+                .contains("Content-Disposition: form-data; name=\"prompt\"\r\n\r\nadd a hat\r\n")
+                .contains("Content-Disposition: form-data; name=\"image\"; filename=\"cat.png\"\r\nContent-Type: image/png\r\n\r\n\u0001\u0002\u0003\r\n");
+    }
+
+    @Test
     void test_dropsQueryString_when_upstreamProtocolDiffers() throws IOException {
         // Arrange
         AtomicReference<String> requestUri = new AtomicReference<>();
@@ -262,6 +297,27 @@ class ProviderGatewayCallAdapterTest {
         HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         httpServer.createContext(path, exchange -> {
             requestUri.set(exchange.getRequestURI().toString());
+            byte[] bytes = "{}".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
+    private HttpServer capturingServer(
+            String path,
+            AtomicReference<String> requestUri,
+            AtomicReference<String> contentType,
+            AtomicReference<byte[]> requestBody
+    ) throws IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        httpServer.createContext(path, exchange -> {
+            requestUri.set(exchange.getRequestURI().toString());
+            contentType.set(exchange.getRequestHeaders().getFirst("Content-Type"));
+            requestBody.set(exchange.getRequestBody().readAllBytes());
             byte[] bytes = "{}".getBytes(StandardCharsets.UTF_8);
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(200, bytes.length);
@@ -380,7 +436,8 @@ class ProviderGatewayCallAdapterTest {
                 repo,
                 properties,
                 new UpstreamHttpHeaderPolicy(properties),
-                new UpstreamUrlResolver(properties)
+                new UpstreamUrlResolver(properties),
+                new JsonMultipartFormPayloadCodec(new ObjectMapper())
         );
         return new ProviderGatewayCallAdapter(List.of(bearerStrategy));
     }
@@ -395,11 +452,13 @@ class ProviderGatewayCallAdapterTest {
                 1,
                 Set.of(
                         ChannelProtocolMapping.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES),
-                        ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, claudeUpstreamProtocol)
+                        ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, claudeUpstreamProtocol),
+                        ChannelProtocolMapping.of(ProtocolType.OPENAI_IMAGES, ProtocolType.OPENAI_IMAGES)
                 ),
                 List.of(
                         modelSupport(1L, ProtocolType.OPENAI_RESPONSES),
-                        modelSupport(2L, claudeUpstreamProtocol)
+                        modelSupport(2L, claudeUpstreamProtocol),
+                        modelSupport(3L, ProtocolType.OPENAI_IMAGES)
                 ),
                 ProviderChannelStatus.ENABLED,
                 NOW,

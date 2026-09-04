@@ -37,6 +37,8 @@ interface TrendChartProps {
   emptyText?: string;
   /** 数值单位（tooltip / Y 轴），默认 M */
   valueUnit?: string;
+  /** 数值小数位（tooltip / Y 轴），默认 1 */
+  valuePrecision?: number;
 }
 
 interface TrendSeries {
@@ -52,8 +54,8 @@ function resolveCssColor(variableName: string, fallback: string): string {
   return value.length > 0 ? value : fallback;
 }
 
-function formatAxisValue(value: number, valueUnit: string): string {
-  return `${value.toFixed(1)}${valueUnit}`;
+function formatAxisValue(value: number, valueUnit: string, precision: number): string {
+  return `${value.toFixed(precision)}${valueUnit}`;
 }
 
 function resolveSeriesName(point: TrendChartPoint, seriesField: keyof TrendChartPoint): string {
@@ -70,6 +72,7 @@ export function TrendChart({
   loading = false,
   emptyText = '暂无趋势数据',
   valueUnit = 'M',
+  valuePrecision = 1,
 }: TrendChartProps) {
   const themeMode = useThemeStore((state) => state.mode);
   const series = useMemo((): TrendSeries[] => {
@@ -129,14 +132,14 @@ export function TrendChart({
           y: {
             labelFill: chartTheme.axisLabel,
             gridStroke: chartTheme.gridStroke,
-            labelFormatter: (value: number) => formatAxisValue(value, valueUnit),
+            labelFormatter: (value: number) => formatAxisValue(value, valueUnit, valuePrecision),
           },
         }}
         tooltip={{
           items: [
             {
               channel: 'y',
-              valueFormatter: (value: number) => formatAxisValue(value, valueUnit),
+              valueFormatter: (value: number) => formatAxisValue(value, valueUnit, valuePrecision),
             },
           ],
         }}

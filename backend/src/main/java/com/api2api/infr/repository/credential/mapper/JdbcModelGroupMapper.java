@@ -19,7 +19,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class JdbcModelGroupMapper implements ModelGroupMapper {
 
-    private static final String COLUMNS = "id, owner_user_id, name, model_whitelist, created_at, updated_at, deleted";
+    private static final String COLUMNS =
+            "id, owner_user_id, name, model_whitelist, model_daily_limits, created_at, updated_at, deleted";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -29,6 +30,7 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
             .ownerUserId(rs.getLong("owner_user_id"))
             .name(rs.getString("name"))
             .modelWhitelist(rs.getString("model_whitelist"))
+            .modelDailyLimits(rs.getString("model_daily_limits"))
             .createdAt(instant(rs, "created_at"))
             .updatedAt(instant(rs, "updated_at"))
             .deleted(rs.getBoolean("deleted"))
@@ -37,8 +39,8 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
     @Override
     public int insert(ModelGroupPO group) {
         return jdbcTemplate.update("""
-                INSERT INTO model_groups (id, owner_user_id, name, model_whitelist, created_at, updated_at, deleted)
-                VALUES (:id, :ownerUserId, :name, :modelWhitelist, :createdAt, :updatedAt, :deleted)
+                INSERT INTO model_groups (id, owner_user_id, name, model_whitelist, model_daily_limits, created_at, updated_at, deleted)
+                VALUES (:id, :ownerUserId, :name, :modelWhitelist, :modelDailyLimits, :createdAt, :updatedAt, :deleted)
                 """, params(group));
     }
 
@@ -46,7 +48,8 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
     public int update(ModelGroupPO group) {
         return jdbcTemplate.update("""
                 UPDATE model_groups
-                SET name = :name, model_whitelist = :modelWhitelist, updated_at = :updatedAt
+                SET name = :name, model_whitelist = :modelWhitelist, model_daily_limits = :modelDailyLimits,
+                    updated_at = :updatedAt
                 WHERE id = :id AND deleted = FALSE
                 """, params(group));
     }
@@ -98,6 +101,7 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
                 .addValue("ownerUserId", group.getOwnerUserId())
                 .addValue("name", group.getName())
                 .addValue("modelWhitelist", group.getModelWhitelist())
+                .addValue("modelDailyLimits", group.getModelDailyLimits() == null ? "{}" : group.getModelDailyLimits())
                 .addValue("createdAt", timestamp(group.getCreatedAt()))
                 .addValue("updatedAt", timestamp(group.getUpdatedAt()))
                 .addValue("deleted", group.isDeleted());

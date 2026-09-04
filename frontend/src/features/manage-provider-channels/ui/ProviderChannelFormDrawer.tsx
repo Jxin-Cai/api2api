@@ -123,8 +123,13 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
     return existingModels.find((item) => modelKey(item) === modelKey(model));
   }
 
+  /**
+   * 上游返回的候选合并已保存配置；已保存但上游未返回的模型继续保留为候选，
+   * 是否生效由用户勾选决定，避免替换保存时被静默删除。
+   */
   function mergeWithExistingModels(models: ChannelModelSupportResponse[]): ChannelModelSupportResponse[] {
-    return models.map((model) => {
+    const fetchedKeys = new Set(models.map(modelKey));
+    const merged = models.map((model) => {
       const existing = findExistingModel(model);
       return existing ? {
         ...model,
@@ -135,6 +140,8 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         status: existing.status,
       } : model;
     });
+    const retained = existingModels.filter((model) => !fetchedKeys.has(modelKey(model)));
+    return [...merged, ...retained];
   }
 
   function handleSupportedProtocolsChange(protocols: string[]): void {

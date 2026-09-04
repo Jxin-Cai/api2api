@@ -41,4 +41,8 @@ public final class GetFrontKeyMetricsCommand {
 
     @NotBlank
     private final String zoneId;
+
+    /** Evaluation instant used to close still-running requests when computing concurrency. */
+    @NotNull
+    private final Instant asOf;
 }

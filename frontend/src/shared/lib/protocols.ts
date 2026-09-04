@@ -44,7 +44,7 @@ const PROTOCOL_META: Record<string, ProtocolMeta> = {
     officialSpecUrl: 'https://developers.openai.com/api/reference/resources/chat',
   },
   OPENAI_IMAGES: {
-    label: 'OpenAI Images', color: 'magenta', verifiedAt: '2026-09-02', referenceVersion: 'OpenAI API v1',
+    label: 'OpenAI Images', color: 'magenta', verifiedAt: '2026-09-04', referenceVersion: 'OpenAI API v1',
     officialSpecUrl: 'https://developers.openai.com/api/reference/resources/images',
   },
   AWS_BEDROCK_CLAUDE_MESSAGES: {

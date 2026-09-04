@@ -5,6 +5,7 @@ import com.api2api.application.gateway.GatewayInvocationApplicationService;
 import com.api2api.application.gateway.GatewayInvocationOutcome;
 import com.api2api.application.gateway.GatewayStreamingInvocation;
 import com.api2api.application.gateway.InboundRequestContext;
+import com.api2api.application.gateway.MultipartFormPayloadCodec;
 import com.api2api.application.gateway.ProtocolOperation;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
 import com.api2api.domain.channel.model.ProtocolType;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Gateway controller exposing three protocol-compatible endpoints for external SDKs.
+ * Gateway controller exposing the protocol-compatible endpoints for external SDKs.
  * Returns raw protocol responses without management API wrapping.
  */
 @Slf4j
@@ -58,6 +59,12 @@ public class GatewayProtocolController {
 
     @NonNull
     private final ExecutableProtocolContract protocolContract;
+
+    @NonNull
+    private final MultipartFormRequestReader multipartFormRequestReader;
+
+    @NonNull
+    private final MultipartFormPayloadCodec multipartFormPayloadCodec;
 
     @GetMapping({"/v1/model", "/v1/models"})
     public GatewayModelListResponse listModels(
@@ -165,6 +172,44 @@ public class GatewayProtocolController {
     }
 
     /**
+     * Images edits and variations are {@code multipart/form-data} in the OpenAI API. The form is read
+     * into the JSON envelope the pipeline understands; the upstream client turns it back into multipart.
+     */
+    @PostMapping("/v1/images/edits")
+    public Object openaiImageEdits(
+            @RequestHeader HttpHeaders headers,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey,
+            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse
+    ) {
+        return invokeProtocol(
+                ProtocolType.OPENAI_IMAGES,
+                ProtocolOperation.IMAGE_EDITS,
+                multipartEnvelope(httpRequest), authorization, apiKey, xRequestId, headers, httpRequest, httpResponse);
+    }
+
+    @PostMapping("/v1/images/variations")
+    public Object openaiImageVariations(
+            @RequestHeader HttpHeaders headers,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "x-api-key", required = false) String apiKey,
+            @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse
+    ) {
+        return invokeProtocol(
+                ProtocolType.OPENAI_IMAGES,
+                ProtocolOperation.IMAGE_VARIATIONS,
+                multipartEnvelope(httpRequest), authorization, apiKey, xRequestId, headers, httpRequest, httpResponse);
+    }
+
+    private String multipartEnvelope(HttpServletRequest httpRequest) {
+        return multipartFormPayloadCodec.encode(multipartFormRequestReader.read(httpRequest));
+    }
+
+    /**
      * Accepts the inbound request in full — body, headers, query string and operation — and hands it
      * to the application layer unmodified. Deciding what a given provider may see belongs to the
      * upstream call policy, and reshaping payloads belongs to the protocol converters.
@@ -180,8 +225,6 @@ public class GatewayProtocolController {
             HttpServletRequest httpRequest,
             HttpServletResponse httpResponse
     ) {
-        log.info("Received {} {} request, X-Request-Id: {}", protocol, operation, xRequestId);
-
         GatewayProtocolRequest protocolRequest = ContractBackedGatewayRequest.fromContract(
                 protocolContract.parseGatewayRequest(protocol, rawBody)
         );

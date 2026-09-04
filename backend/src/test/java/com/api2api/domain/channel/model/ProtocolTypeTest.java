@@ -21,7 +21,9 @@ class ProtocolTypeTest {
     @Test
     void test_parsesOpenAIImages_when_externalValueUsesImagesAliases() {
         // Arrange
-        var aliases = java.util.List.of("images", "images/generations", "image-generations", "OPENAI_IMAGES");
+        var aliases = java.util.List.of(
+                "images", "images/generations", "image-generations", "OPENAI_IMAGES",
+                "/v1/images/edits", "/v1/images/variations", "image-edits");
 
         // Act & Assert
         for (String alias : aliases) {

@@ -6,8 +6,16 @@ interface ModelGroupBackendResponse {
   id: string | number;
   name?: string;
   modelWhitelist?: string[];
+  modelDailyLimits?: Record<string, number | string>;
+  modelDailyUsage?: Record<string, number | string>;
+  rateLimitedModels?: string[];
+  dailyLimitZoneId?: string;
   createdAt?: string | number;
   updatedAt?: string | number;
+}
+
+function normalizeNumberMap(source: Record<string, number | string> | undefined): Record<string, number> {
+  return Object.fromEntries(Object.entries(source ?? {}).map(([model, value]) => [model, Number(value)]));
 }
 
 function normalizeGroup(group: ModelGroupBackendResponse): ModelGroupResponse {
@@ -15,6 +23,10 @@ function normalizeGroup(group: ModelGroupBackendResponse): ModelGroupResponse {
     id: String(group.id),
     name: group.name ?? '',
     modelWhitelist: group.modelWhitelist ?? [],
+    modelDailyLimits: normalizeNumberMap(group.modelDailyLimits),
+    modelDailyUsage: normalizeNumberMap(group.modelDailyUsage),
+    rateLimitedModels: group.rateLimitedModels ?? [],
+    dailyLimitZoneId: group.dailyLimitZoneId,
     createdAt: group.createdAt,
     updatedAt: group.updatedAt,
   };

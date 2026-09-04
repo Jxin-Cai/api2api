@@ -89,6 +89,11 @@ public class DashboardTimeWindowHelper {
                 .toInstant();
     }
 
+    /** Current instant used as the "now" reference for in-flight request evaluation. */
+    public Instant getEvaluationInstant() {
+        return Instant.now();
+    }
+
     private ZoneId parseZoneId(String zoneId) {
         String effectiveZoneId = zoneId == null || zoneId.isBlank() ? DEFAULT_ZONE_ID : zoneId;
         return ZoneId.of(effectiveZoneId);

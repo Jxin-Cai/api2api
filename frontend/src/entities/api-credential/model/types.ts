@@ -5,6 +5,8 @@ export interface ApiCredentialResponse {
   name: string;
   modelGroupId: string;
   modelWhitelist: string[];
+  /** 因所属分组每日上限已触发而在当天被限流的模型 */
+  rateLimitedModels: string[];
   tokenLimit: number;
   consumedTokens?: number;
   totalTokens?: number;

@@ -8,7 +8,10 @@ import static com.api2api.infr.repository.common.UsageTokenSqlFragments.withPref
 
 import com.api2api.domain.analytics.model.AnalyticsGranularity;
 import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
+import com.api2api.domain.analytics.model.ChannelLatencyRanking;
 import com.api2api.domain.analytics.model.ChannelTokenTrendPoint;
+import com.api2api.domain.analytics.model.ConcurrencyTrendPoint;
+import com.api2api.domain.analytics.model.CredentialConcurrencyTrendPoint;
 import com.api2api.domain.analytics.model.CredentialTokenRanking;
 import com.api2api.domain.analytics.model.CredentialTokenTrendPoint;
 import com.api2api.domain.analytics.model.ProtocolRequestRate;
@@ -22,10 +25,16 @@ import com.api2api.domain.channel.model.ProviderChannelName;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.credential.model.ApiCredentialName;
 import com.api2api.domain.usage.model.UsageRecordFilter;
+import com.api2api.domain.usage.model.UsageRecordStatus;
 import com.api2api.domain.usage.model.UsageTokenBreakdown;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.model.Username;
+import com.api2api.infr.repository.analytics.InFlightConcurrencyCalculator.Interval;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -44,6 +53,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepository {
+
+    /** Requests that started earlier than this before the window are not considered in-flight candidates. */
+    private static final Duration IN_FLIGHT_LOOKBACK = Duration.ofHours(1);
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -157,7 +169,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     public List<ProtocolTokenTrendPoint> sumProtocolTokenTrends(AnalyticsTimeWindow window, AnalyticsGranularity granularity) {
         Objects.requireNonNull(window, "Analytics time window must not be null");
         AnalyticsGranularity.requireSupported(granularity);
-        List<Bucket> buckets = buckets(window, granularity);
+        List<TimeBucket> buckets = buckets(window, granularity);
         Map<ProtocolBucketKey, BigDecimal> totals = new LinkedHashMap<>();
         String sql = "SELECT request_protocol, started_at, " + ACTUAL_TOKENS_SQL + " AS actual_tokens "
                 + "FROM usage_records WHERE deleted = FALSE "
@@ -165,14 +177,14 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         jdbcTemplate.query(sql, windowParams(window), rs -> {
             ProtocolType protocol = ProtocolType.valueOf(rs.getString("request_protocol"));
             Instant startedAt = instant(rs, "started_at");
-            Bucket bucket = findBucket(buckets, startedAt);
+            TimeBucket bucket = findBucket(buckets, startedAt);
             if (bucket != null) {
                 ProtocolBucketKey key = new ProtocolBucketKey(protocol, bucket.start());
                 totals.merge(key, rs.getBigDecimal("actual_tokens"), BigDecimal::add);
             }
         });
         List<ProtocolTokenTrendPoint> points = new ArrayList<>();
-        for (Bucket bucket : buckets) {
+        for (TimeBucket bucket : buckets) {
             for (ProtocolType protocol : ProtocolType.values()) {
                 BigDecimal total = totals.getOrDefault(new ProtocolBucketKey(protocol, bucket.start()), BigDecimal.ZERO);
                 points.add(total.signum() == 0
@@ -187,7 +199,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     public List<ChannelTokenTrendPoint> sumChannelTokenTrends(AnalyticsTimeWindow window, AnalyticsGranularity granularity) {
         Objects.requireNonNull(window, "Analytics time window must not be null");
         AnalyticsGranularity.requireSupported(granularity);
-        List<Bucket> buckets = buckets(window, granularity);
+        List<TimeBucket> buckets = buckets(window, granularity);
         Map<ChannelBucketKey, ChannelBucketTotal> totals = new LinkedHashMap<>();
         jdbcTemplate.query("""
                 SELECT r.provider_channel_id,
@@ -202,7 +214,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                   AND r.started_at < :endTime
                 """.formatted(withPrefix("r.")), windowParams(window), rs -> {
             Instant startedAt = instant(rs, "started_at");
-            Bucket bucket = findBucket(buckets, startedAt);
+            TimeBucket bucket = findBucket(buckets, startedAt);
             if (bucket != null) {
                 long channelId = rs.getLong("provider_channel_id");
                 String channelName = rs.getString("provider_channel_name");
@@ -287,7 +299,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
         AnalyticsGranularity.requireSupported(granularity);
 
         Map<Long, String> credentialNames = loadCredentialNames(userAccountId, credentialIds);
-        List<Bucket> buckets = buckets(window, granularity);
+        List<TimeBucket> buckets = buckets(window, granularity);
         Map<CredentialBucketKey, BigDecimal> totals = new LinkedHashMap<>();
 
         MapSqlParameterSource params = windowParams(window).addValue("userAccountId", userAccountId.getValue());
@@ -308,7 +320,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 """).formatted(withPrefix("r.")) + credentialCondition;
         jdbcTemplate.query(sql, params, rs -> {
             Instant startedAt = instant(rs, "started_at");
-            Bucket bucket = findBucket(buckets, startedAt);
+            TimeBucket bucket = findBucket(buckets, startedAt);
             if (bucket != null) {
                 long credentialId = rs.getLong("api_credential_id");
                 CredentialBucketKey key = new CredentialBucketKey(credentialId, bucket.start());
@@ -318,7 +330,7 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
 
         List<Long> orderedCredentialIds = new ArrayList<>(credentialNames.keySet());
         List<CredentialTokenTrendPoint> points = new ArrayList<>();
-        for (Bucket bucket : buckets) {
+        for (TimeBucket bucket : buckets) {
             for (Long credentialId : orderedCredentialIds) {
                 ApiCredentialId id = ApiCredentialId.of(credentialId);
                 ApiCredentialName name = ApiCredentialName.of(credentialNames.get(credentialId));
@@ -349,6 +361,167 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 }
         );
         return names;
+    }
+
+    @Override
+    public List<ConcurrencyTrendPoint> calculateConcurrencyTrends(
+            AnalyticsTimeWindow window,
+            Duration bucketSize,
+            Instant asOf
+    ) {
+        Objects.requireNonNull(window, "Analytics time window must not be null");
+        Objects.requireNonNull(asOf, "Evaluation instant must not be null");
+        List<TimeBucket> buckets = TimeBucket.split(window.startInclusive(), window.endExclusive(), bucketSize, asOf);
+        List<Interval> intervals = new ArrayList<>();
+        jdbcTemplate.query(IN_FLIGHT_SQL, inFlightParams(window), rs -> {
+            Interval interval = toInterval(rs, asOf);
+            if (interval != null) {
+                intervals.add(interval);
+            }
+        });
+        List<Integer> peaks = InFlightConcurrencyCalculator.peakPerBucket(intervals, buckets);
+        List<ConcurrencyTrendPoint> points = new ArrayList<>(buckets.size());
+        for (int index = 0; index < buckets.size(); index++) {
+            TimeBucket bucket = buckets.get(index);
+            points.add(new ConcurrencyTrendPoint(bucket.start(), bucket.end(), peaks.get(index)));
+        }
+        return points;
+    }
+
+    @Override
+    public List<CredentialConcurrencyTrendPoint> calculateCredentialConcurrencyTrends(
+            UserAccountId userAccountId,
+            List<ApiCredentialId> credentialIds,
+            AnalyticsTimeWindow window,
+            Duration bucketSize,
+            Instant asOf
+    ) {
+        Objects.requireNonNull(userAccountId, "User account id must not be null");
+        Objects.requireNonNull(credentialIds, "Credential ids must not be null");
+        Objects.requireNonNull(window, "Analytics time window must not be null");
+        Objects.requireNonNull(asOf, "Evaluation instant must not be null");
+
+        Map<Long, String> credentialNames = loadCredentialNames(userAccountId, credentialIds);
+        List<TimeBucket> buckets = TimeBucket.split(window.startInclusive(), window.endExclusive(), bucketSize, asOf);
+
+        MapSqlParameterSource params = inFlightParams(window).addValue("userAccountId", userAccountId.getValue());
+        String credentialCondition = "";
+        if (!credentialIds.isEmpty()) {
+            credentialCondition = " AND r.api_credential_id IN (:credentialIds)";
+            params.addValue("credentialIds", credentialIds.stream().map(ApiCredentialId::value).toList());
+        }
+        Map<Long, List<Interval>> intervalsByCredential = new LinkedHashMap<>();
+        jdbcTemplate.query(IN_FLIGHT_SQL + " AND r.user_account_id = :userAccountId" + credentialCondition, params, rs -> {
+            Interval interval = toInterval(rs, asOf);
+            if (interval != null) {
+                intervalsByCredential
+                        .computeIfAbsent(rs.getLong("api_credential_id"), ignored -> new ArrayList<>())
+                        .add(interval);
+            }
+        });
+
+        Map<Long, List<Integer>> peaksByCredential = new LinkedHashMap<>();
+        for (Long credentialId : credentialNames.keySet()) {
+            List<Interval> intervals = intervalsByCredential.getOrDefault(credentialId, List.of());
+            peaksByCredential.put(credentialId, InFlightConcurrencyCalculator.peakPerBucket(intervals, buckets));
+        }
+        List<CredentialConcurrencyTrendPoint> points = new ArrayList<>();
+        for (int index = 0; index < buckets.size(); index++) {
+            TimeBucket bucket = buckets.get(index);
+            for (Map.Entry<Long, String> credential : credentialNames.entrySet()) {
+                points.add(new CredentialConcurrencyTrendPoint(
+                        bucket.start(),
+                        bucket.end(),
+                        ApiCredentialId.of(credential.getKey()),
+                        ApiCredentialName.of(credential.getValue()),
+                        peaksByCredential.get(credential.getKey()).get(index)
+                ));
+            }
+        }
+        return points;
+    }
+
+    @Override
+    public List<ChannelLatencyRanking> findSlowestChannels(AnalyticsTimeWindow window, int limit) {
+        Objects.requireNonNull(window, "Analytics time window must not be null");
+        if (limit < 1 || limit > 100) {
+            throw new IllegalArgumentException("Slowest channel limit must be between 1 and 100");
+        }
+        MapSqlParameterSource params = windowParams(window)
+                .addValue("pendingStatus", UsageRecordStatus.PENDING.name())
+                .addValue("limit", limit);
+        List<ChannelLatencyRow> rows = jdbcTemplate.query("""
+                SELECT r.provider_channel_id,
+                       COALESCE(c.name, 'Unknown Channel') AS provider_channel_name,
+                       MAX(r.duration_millis) AS max_duration_millis,
+                       AVG(r.duration_millis) AS avg_duration_millis,
+                       COUNT(*) AS request_count
+                FROM usage_records r
+                LEFT JOIN provider_channels c ON c.id = r.provider_channel_id
+                WHERE r.deleted = FALSE
+                  AND r.provider_channel_id IS NOT NULL
+                  AND r.status <> :pendingStatus
+                  AND r.duration_millis IS NOT NULL
+                  AND r.started_at >= :startTime
+                  AND r.started_at < :endTime
+                GROUP BY r.provider_channel_id, c.name
+                ORDER BY max_duration_millis DESC, r.provider_channel_id ASC
+                LIMIT :limit
+                """, params, (rs, rowNum) -> new ChannelLatencyRow(
+                rs.getLong("provider_channel_id"),
+                rs.getString("provider_channel_name"),
+                rs.getLong("max_duration_millis"),
+                rs.getBigDecimal("avg_duration_millis"),
+                rs.getLong("request_count")
+        ));
+        List<ChannelLatencyRanking> rankings = new ArrayList<>(rows.size());
+        for (int index = 0; index < rows.size(); index++) {
+            ChannelLatencyRow row = rows.get(index);
+            rankings.add(new ChannelLatencyRanking(
+                    index + 1,
+                    ProviderChannelId.of(row.providerChannelId()),
+                    ProviderChannelName.of(row.providerChannelName()),
+                    row.maxDurationMillis(),
+                    row.avgDurationMillis().setScale(0, RoundingMode.HALF_UP).longValue(),
+                    row.requestCount()
+            ));
+        }
+        return rankings;
+    }
+
+    /**
+     * Rows overlapping the window: started before the window ends and either still pending or ended at/after the
+     * window start. Requests that started long before the window are ignored to keep the scan bounded.
+     */
+    private static final String IN_FLIGHT_SQL = """
+            SELECT r.api_credential_id, r.started_at, r.ended_at, r.status
+            FROM usage_records r
+            WHERE r.deleted = FALSE
+              AND r.started_at >= :lookbackStart
+              AND r.started_at < :endTime
+              AND (r.status = :pendingStatus OR COALESCE(r.ended_at, r.started_at) >= :startTime)""";
+
+    private MapSqlParameterSource inFlightParams(AnalyticsTimeWindow window) {
+        return windowParams(window)
+                .addValue("lookbackStart", timestamp(window.startInclusive().minus(IN_FLIGHT_LOOKBACK)))
+                .addValue("pendingStatus", UsageRecordStatus.PENDING.name());
+    }
+
+    private Interval toInterval(ResultSet rs, Instant asOf) throws SQLException {
+        Instant startedAt = instant(rs, "started_at");
+        if (startedAt.isAfter(asOf)) {
+            return null;
+        }
+        Instant endedAt;
+        if (UsageRecordStatus.PENDING.name().equals(rs.getString("status"))) {
+            endedAt = asOf;
+        } else {
+            Instant persistedEnd = instant(rs, "ended_at");
+            endedAt = persistedEnd == null ? startedAt : persistedEnd;
+        }
+        // A request that finished instantly still occupied a slot; give it a minimal footprint.
+        Instant minimalEnd = startedAt.plusMillis(1);
+        return new Interval(startedAt, endedAt.isBefore(minimalEnd) ? minimalEnd : endedAt);
     }
 
     @Override
@@ -417,34 +590,22 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 .addValue("endTime", timestamp(window.endExclusive()));
     }
 
-    private List<Bucket> buckets(AnalyticsTimeWindow window, AnalyticsGranularity granularity) {
+    private List<TimeBucket> buckets(AnalyticsTimeWindow window, AnalyticsGranularity granularity) {
         TemporalUnit unit = switch (granularity) {
             case DAY -> ChronoUnit.DAYS;
             case HOUR -> ChronoUnit.HOURS;
             case MINUTE -> ChronoUnit.MINUTES;
         };
-        List<Bucket> buckets = new ArrayList<>();
-        Instant start = window.startInclusive();
-        while (start.isBefore(window.endExclusive())) {
-            Instant next = start.plus(1, unit);
-            Instant end = next.isAfter(window.endExclusive()) ? window.endExclusive() : next;
-            buckets.add(new Bucket(start, end));
-            start = end;
-        }
-        return buckets;
+        return TimeBucket.split(window.startInclusive(), window.endExclusive(), unit.getDuration(), null);
     }
 
-    private Bucket findBucket(List<Bucket> buckets, Instant instant) {
-        for (Bucket bucket : buckets) {
-            if (!instant.isBefore(bucket.start()) && instant.isBefore(bucket.end())) {
+    private TimeBucket findBucket(List<TimeBucket> buckets, Instant instant) {
+        for (TimeBucket bucket : buckets) {
+            if (bucket.contains(instant)) {
                 return bucket;
             }
         }
         return null;
-    }
-
-
-    private record Bucket(Instant start, Instant end) {
     }
 
     private record ProtocolBucketKey(ProtocolType protocol, Instant bucketStart) {
@@ -460,6 +621,15 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     }
 
     private record UserTokenRow(long userAccountId, String username, BigDecimal totalTokens) {
+    }
+
+    private record ChannelLatencyRow(
+            long providerChannelId,
+            String providerChannelName,
+            long maxDurationMillis,
+            BigDecimal avgDurationMillis,
+            long requestCount
+    ) {
     }
 
     private record ChannelBucketTotal(

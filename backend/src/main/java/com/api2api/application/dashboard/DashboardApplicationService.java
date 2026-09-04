@@ -147,7 +147,8 @@ public class DashboardApplicationService {
                 todayWindow,
                 monthWindow,
                 trendWindow,
-                trendCredentialIds
+                trendCredentialIds,
+                command.getAsOf()
         );
 
         return dashboardAnalyticsService.buildFrontKeyMetrics(query, dashboardAnalyticsRepository);
@@ -184,7 +185,8 @@ public class DashboardApplicationService {
                 todayWindow,
                 monthWindow,
                 recentRateWindow,
-                trendWindow
+                trendWindow,
+                command.getAsOf()
         );
 
         return dashboardAnalyticsService.buildAdminMetrics(query, operator, dashboardAnalyticsRepository);

@@ -30,6 +30,8 @@ public class ApiCredentialResponse {
     private BigDecimal todayConsumedTokens;
     private long todayTotalTokens;
     private BigDecimal remainingTokens;
+    /** Models throttled today because the bound model group reached its daily cap. */
+    private List<String> rateLimitedModels;
     private ApiCredentialStatus status;
     private Instant lastUsedAt;
     private Instant createdAt;

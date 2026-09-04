@@ -150,6 +150,7 @@ public abstract class ApiCredentialHttpConverter {
     @Mapping(target = "todayConsumedTokens", constant = "0")
     @Mapping(target = "todayTotalTokens", constant = "0L")
     @Mapping(target = "remainingTokens", ignore = true)
+    @Mapping(target = "rateLimitedModels", expression = "java(java.util.List.of())")
     public abstract ApiCredentialResponse toResponse(ApiCredential credential);
 
     @Mapping(target = "id", source = "credential.id.value")
@@ -168,7 +169,12 @@ public abstract class ApiCredentialHttpConverter {
     @Mapping(target = "todayConsumedTokens", source = "todayConsumedTokens")
     @Mapping(target = "todayTotalTokens", source = "todayTotalTokens")
     @Mapping(target = "remainingTokens", source = "remainingTokens")
+    @Mapping(target = "rateLimitedModels", expression = "java(toSortedModelNames(view.getRateLimitedModels()))")
     public abstract ApiCredentialResponse toResponse(ApiCredentialUsageView view);
+
+    protected List<String> toSortedModelNames(Set<ModelName> models) {
+        return models.stream().map(ModelName::getValue).sorted().toList();
+    }
 
     protected ModelWhitelist toModelWhitelist(List<String> modelNames) {
         Set<ModelName> models = new LinkedHashSet<>();

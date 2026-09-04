@@ -69,6 +69,7 @@ public class DashboardCommandConverter {
                 .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))
                 .trendCredentialIds(credentialIds)
                 .zoneId(zoneId)
+                .asOf(timeWindowHelper.getEvaluationInstant())
                 .build();
     }
 
@@ -92,6 +93,7 @@ public class DashboardCommandConverter {
                 .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))
                 .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))
                 .zoneId(zoneId)
+                .asOf(timeWindowHelper.getEvaluationInstant())
                 .build();
     }
 

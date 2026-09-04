@@ -128,7 +128,7 @@ class ProtocolContractRegistryTest {
                 registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());
         assertEquals("Bedrock Runtime InvokeModel · Claude Messages passthrough",
                 registry.require(ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES).apiSpecVersion());
-        assertEquals("OpenAI API v1 · Images generations",
+        assertEquals("OpenAI API v1 · Images generations / edits / variations",
                 registry.require(ProtocolType.OPENAI_IMAGES).apiSpecVersion());
     }
 
@@ -171,9 +171,12 @@ class ProtocolContractRegistryTest {
         )));
         assertTrue(fieldPaths(ProtocolType.OPENAI_IMAGES).containsAll(List.of(
                 "prompt",
+                "image",
+                "mask",
                 "data[].b64_json",
                 "usage.output_tokens_details.image_tokens",
-                "stream.event.image_generation.completed"
+                "stream.event.image_generation.completed",
+                "stream.event.image_edit.completed"
         )));
     }
 

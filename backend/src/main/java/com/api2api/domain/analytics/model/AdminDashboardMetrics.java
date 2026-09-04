@@ -20,6 +20,8 @@ public final class AdminDashboardMetrics {
     private final List<UserTokenRanking> monthlyTopUsers;
     private final List<ProtocolTokenTrendPoint> protocolTokenTrends;
     private final List<ChannelTokenTrendPoint> channelTokenTrends;
+    private final List<ConcurrencyTrendPoint> todayConcurrencyTrends;
+    private final List<ChannelLatencyRanking> dailySlowestChannels;
 
     private AdminDashboardMetrics(
             List<ProtocolRequestRate> protocolRequestRates,
@@ -28,7 +30,9 @@ public final class AdminDashboardMetrics {
             List<UserTokenRanking> dailyTopUsers,
             List<UserTokenRanking> monthlyTopUsers,
             List<ProtocolTokenTrendPoint> protocolTokenTrends,
-            List<ChannelTokenTrendPoint> channelTokenTrends
+            List<ChannelTokenTrendPoint> channelTokenTrends,
+            List<ConcurrencyTrendPoint> todayConcurrencyTrends,
+            List<ChannelLatencyRanking> dailySlowestChannels
     ) {
         this.protocolRequestRates = copyRequired(protocolRequestRates, "Protocol request rates");
         ensureProtocolRateCoverage(this.protocolRequestRates);
@@ -40,6 +44,8 @@ public final class AdminDashboardMetrics {
         ensureTopUserLimit(this.monthlyTopUsers, "Monthly top users");
         this.protocolTokenTrends = copyRequired(protocolTokenTrends, "Protocol token trends");
         this.channelTokenTrends = copyRequired(channelTokenTrends, "Channel token trends");
+        this.todayConcurrencyTrends = copyRequired(todayConcurrencyTrends, "Today concurrency trends");
+        this.dailySlowestChannels = copyRequired(dailySlowestChannels, "Daily slowest channels");
     }
 
     public static AdminDashboardMetrics of(
@@ -49,7 +55,9 @@ public final class AdminDashboardMetrics {
             List<UserTokenRanking> dailyTopUsers,
             List<UserTokenRanking> monthlyTopUsers,
             List<ProtocolTokenTrendPoint> protocolTokenTrends,
-            List<ChannelTokenTrendPoint> channelTokenTrends
+            List<ChannelTokenTrendPoint> channelTokenTrends,
+            List<ConcurrencyTrendPoint> todayConcurrencyTrends,
+            List<ChannelLatencyRanking> dailySlowestChannels
     ) {
         return new AdminDashboardMetrics(
                 protocolRequestRates,
@@ -58,7 +66,9 @@ public final class AdminDashboardMetrics {
                 dailyTopUsers,
                 monthlyTopUsers,
                 protocolTokenTrends,
-                channelTokenTrends
+                channelTokenTrends,
+                todayConcurrencyTrends,
+                dailySlowestChannels
         );
     }
 
@@ -115,6 +125,14 @@ public final class AdminDashboardMetrics {
         return List.copyOf(channelTokenTrends);
     }
 
+    public List<ConcurrencyTrendPoint> todayConcurrencyTrends() {
+        return List.copyOf(todayConcurrencyTrends);
+    }
+
+    public List<ChannelLatencyRanking> dailySlowestChannels() {
+        return List.copyOf(dailySlowestChannels);
+    }
+
     public List<ProtocolRequestRate> getProtocolRequestRates() {
         return protocolRequestRates();
     }
@@ -143,6 +161,14 @@ public final class AdminDashboardMetrics {
         return channelTokenTrends();
     }
 
+    public List<ConcurrencyTrendPoint> getTodayConcurrencyTrends() {
+        return todayConcurrencyTrends();
+    }
+
+    public List<ChannelLatencyRanking> getDailySlowestChannels() {
+        return dailySlowestChannels();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -157,7 +183,9 @@ public final class AdminDashboardMetrics {
                 && Objects.equals(dailyTopUsers, that.dailyTopUsers)
                 && Objects.equals(monthlyTopUsers, that.monthlyTopUsers)
                 && Objects.equals(protocolTokenTrends, that.protocolTokenTrends)
-                && Objects.equals(channelTokenTrends, that.channelTokenTrends);
+                && Objects.equals(channelTokenTrends, that.channelTokenTrends)
+                && Objects.equals(todayConcurrencyTrends, that.todayConcurrencyTrends)
+                && Objects.equals(dailySlowestChannels, that.dailySlowestChannels);
     }
 
     @Override
@@ -169,7 +197,9 @@ public final class AdminDashboardMetrics {
                 dailyTopUsers,
                 monthlyTopUsers,
                 protocolTokenTrends,
-                channelTokenTrends
+                channelTokenTrends,
+                todayConcurrencyTrends,
+                dailySlowestChannels
         );
     }
 }

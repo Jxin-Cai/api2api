@@ -4,17 +4,21 @@ import com.api2api.application.BusinessException;
 import com.api2api.application.credential.command.CreateModelGroupCommand;
 import com.api2api.application.credential.command.DeleteModelGroupCommand;
 import com.api2api.application.credential.command.UpdateModelGroupCommand;
+import com.api2api.application.credential.dto.ModelGroupView;
 import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelGroupName;
+import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.credential.repository.ModelGroupRepository;
 import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
 import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.repository.UserAccountRepository;
+import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,7 @@ public class ModelGroupApplicationService {
 
     @NonNull private final UserAccountRepository userAccountRepository;
     @NonNull private final ModelGroupRepository modelGroupRepository;
+    @NonNull private final ModelGroupDailyUsageService dailyUsageService;
     @NonNull private final Clock clock;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -34,12 +39,28 @@ public class ModelGroupApplicationService {
         return modelGroupRepository.findByOwnerUserId(ownerUserId);
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ModelGroupView> listMyGroupViews(UserAccountId ownerUserId) {
+        List<ModelGroup> groups = listMyGroups(ownerUserId);
+        Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup = dailyUsageService.loadTodayUsageByGroup(ownerUserId);
+        return groups.stream()
+                .map(group -> ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of())))
+                .toList();
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public ModelGroupView viewGroup(ModelGroup group) {
+        Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup =
+                dailyUsageService.loadTodayUsageByGroup(group.getOwnerUserId());
+        return ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()));
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public ModelGroup createGroup(CreateModelGroupCommand command) {
         assertUserPortal(command.getOwnerUserId());
         assertNameAvailable(command.getOwnerUserId(), command.getName(), command.getModelGroupId());
         ModelGroup group = ModelGroup.create(command.getModelGroupId(), command.getOwnerUserId(),
-                command.getName(), command.getModelWhitelist(), now());
+                command.getName(), command.getModelWhitelist(), command.getModelDailyLimits(), now());
         modelGroupRepository.save(group);
         return group;
     }
@@ -49,7 +70,7 @@ public class ModelGroupApplicationService {
         assertUserPortal(command.getOwnerUserId());
         ModelGroup group = loadOwnedGroup(command.getModelGroupId(), command.getOwnerUserId());
         assertNameAvailable(command.getOwnerUserId(), command.getName(), command.getModelGroupId());
-        group.update(command.getName(), command.getModelWhitelist(), now());
+        group.update(command.getName(), command.getModelWhitelist(), command.getModelDailyLimits(), now());
         modelGroupRepository.save(group);
         return group;
     }

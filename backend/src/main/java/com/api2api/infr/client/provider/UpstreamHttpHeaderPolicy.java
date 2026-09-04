@@ -36,14 +36,31 @@ public class UpstreamHttpHeaderPolicy {
             String bearerToken,
             boolean streaming
     ) {
+        return buildHeaders(protocolType, incomingHeaders, bearerToken, streaming, MediaType.APPLICATION_JSON_VALUE);
+    }
+
+    /**
+     * @param contentType the media type of the body the gateway is about to send; the gateway owns
+     *                    this header because it re-encodes every upstream body itself
+     */
+    public Map<String, String> buildHeaders(
+            ProtocolType protocolType,
+            Map<String, List<String>> incomingHeaders,
+            String bearerToken,
+            boolean streaming,
+            String contentType
+    ) {
         Objects.requireNonNull(protocolType, "Protocol type must not be null");
         if (bearerToken == null || bearerToken.isBlank()) {
             throw new IllegalArgumentException("Bearer token must not be blank");
         }
+        if (contentType == null || contentType.isBlank()) {
+            throw new IllegalArgumentException("Content type must not be blank");
+        }
         Map<String, String> headers = new LinkedHashMap<>();
         addForwardedHeaders(headers, incomingHeaders, protocolType);
         headers.put(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken);
-        headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        headers.put(HttpHeaders.CONTENT_TYPE, contentType);
         headers.put(HttpHeaders.ACCEPT, acceptFor(protocolType, streaming));
         if (protocolType == ProtocolType.CLAUDE_MESSAGES && !containsIgnoreCase(headers, ANTHROPIC_VERSION)) {
             headers.put(ANTHROPIC_VERSION, properties.getAnthropicVersion());
