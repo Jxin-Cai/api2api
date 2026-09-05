@@ -217,6 +217,7 @@ final class ResponsesToClaudeRequestConverter {
                 switch (partType) {
                     case "input_text", "output_text", "text" -> addTextBlock(blocks, part.path("text").asText(""));
                     case "input_image" -> blocks.add(imagePartToClaude(part));
+                    case "input_file" -> blocks.add(filePartToClaude(part));
                     default -> throw new ProtocolConversionException(
                             "RESPONSES_CLAUDE_UNSUPPORTED_TOOL_OUTPUT_PART: " + partType);
                 }
@@ -361,53 +362,11 @@ final class ResponsesToClaudeRequestConverter {
     }
 
     private ObjectNode imagePartToClaude(JsonNode part) {
-        String imageUrl = part.path("image_url").asText("");
-        if (imageUrl.isBlank()) {
-            throw new ProtocolConversionException("RESPONSES_CLAUDE_IMAGE_URL_REQUIRED");
-        }
-        ObjectNode image = json.objectNode();
-        image.put("type", "image");
-        ObjectNode source = json.objectNode();
-        if (imageUrl.startsWith("data:")) {
-            int separator = imageUrl.indexOf(";base64,");
-            if (separator < 0) {
-                throw new ProtocolConversionException("RESPONSES_CLAUDE_IMAGE_DATA_URI_INVALID");
-            }
-            source.put("type", "base64");
-            source.put("media_type", imageUrl.substring("data:".length(), separator));
-            source.put("data", imageUrl.substring(separator + ";base64,".length()));
-        } else {
-            source.put("type", "url");
-            source.put("url", imageUrl);
-        }
-        image.set("source", source);
-        return image;
+        return ClaudeResponsesMediaMapper.imagePartToClaude(json, part);
     }
 
     private ObjectNode filePartToClaude(JsonNode part) {
-        ObjectNode document = json.objectNode();
-        document.put("type", "document");
-        ObjectNode source = json.objectNode();
-        if (part.hasNonNull("file_id")) {
-            source.put("type", "file");
-            source.put("file_id", part.path("file_id").asText(""));
-        } else if (part.hasNonNull("file_url")) {
-            source.put("type", "url");
-            source.put("url", part.path("file_url").asText(""));
-        } else if (part.hasNonNull("file_data")) {
-            // Responses input_file carries no MIME type; Claude base64 documents
-            // only accept PDF, which is also the Responses file-upload default.
-            source.put("type", "base64");
-            source.put("media_type", "application/pdf");
-            source.put("data", part.path("file_data").asText(""));
-        } else {
-            throw new ProtocolConversionException("RESPONSES_CLAUDE_FILE_SOURCE_REQUIRED");
-        }
-        document.set("source", source);
-        if (part.hasNonNull("filename")) {
-            document.put("title", part.path("filename").asText(""));
-        }
-        return document;
+        return ClaudeResponsesMediaMapper.filePartToClaude(json, part);
     }
 
     private boolean isBlankTextOnly(ArrayNode content) {

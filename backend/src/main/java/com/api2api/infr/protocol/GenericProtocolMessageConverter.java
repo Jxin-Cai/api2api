@@ -508,22 +508,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if ("url".equals(sourceType)) {
             throw new ProtocolConversionException("CLAUDE_CHAT_DOCUMENT_URL_NOT_SUPPORTED");
         }
-        ObjectNode part = json.objectNode();
-        part.put("type", "file");
-        ObjectNode file = json.objectNode();
-        if ("file".equals(sourceType)) {
-            file.put("file_id", source.path("file_id").asText(""));
-        } else if ("base64".equals(sourceType)) {
-            file.put("file_data", source.path("data").asText(""));
-        } else {
-            throw new ProtocolConversionException("CLAUDE_CHAT_DOCUMENT_SOURCE_NOT_SUPPORTED: " + sourceType);
-        }
-        String title = block.path("title").asText("");
-        if (!title.isBlank()) {
-            file.put("filename", title);
-        }
-        part.set("file", file);
-        parts.add(part);
+        parts.add(ClaudeResponsesMediaMapper.toChatFilePart(json, block));
     }
 
     private String extractToolResultContent(JsonNode toolResult) {
@@ -1041,26 +1026,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private void addClaudeImagePart(ArrayNode content, JsonNode block, String model) {
-        JsonNode source = block.get("source");
-        if (source == null || source.isNull()) {
-            return;
-        }
-        ObjectNode image = json.objectNode();
-        image.put("type", "input_image");
-        String sourceType = source.path("type").asText("base64");
-        if ("url".equals(sourceType)) {
-            image.put("image_url", source.path("url").asText(""));
-        } else {
-            String mediaType = source.path("media_type").asText("image/png");
-            String data = source.path("data").asText("");
-            if (data.isBlank()) {
-                throw new ProtocolConversionException("CLAUDE_RESPONSES_IMAGE_DATA_REQUIRED");
-            }
-            image.put("image_url", "data:" + mediaType + ";base64," + data);
-        }
-        image.put("detail", "auto");
-        applyResponsesCacheBreakpoint(image, block, model);
-        content.add(image);
+        ClaudeResponsesMediaMapper.addClaudeImage(json, content, block)
+                .ifPresent(image -> applyResponsesCacheBreakpoint(image, block, model));
     }
 
     private void addClaudeDocumentPart(ArrayNode content, JsonNode block) {
@@ -1068,23 +1035,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private void addClaudeDocumentPart(ArrayNode content, JsonNode block, String model) {
-        JsonNode source = block.path("source");
-        ObjectNode file = json.objectNode();
-        file.put("type", "input_file");
-        String type = source.path("type").asText("");
-        switch (type) {
-            case "base64" -> file.put("file_data", source.path("data").asText(""));
-            case "url" -> file.put("file_url", source.path("url").asText(""));
-            case "file" -> file.put("file_id", source.path("file_id").asText(""));
-            case "text" -> file.put("file_data", java.util.Base64.getEncoder()
-                    .encodeToString(source.path("data").asText("").getBytes(java.nio.charset.StandardCharsets.UTF_8)));
-            default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_UNSUPPORTED_DOCUMENT_SOURCE: " + type);
-        }
-        if (block.hasNonNull("title")) {
-            file.put("filename", block.path("title").asText());
-        }
-        applyResponsesCacheBreakpoint(file, block, model);
-        content.add(file);
+        ClaudeResponsesMediaMapper.addClaudeDocument(json, content, block)
+                .ifPresent(part -> applyResponsesCacheBreakpoint(part, block, model));
     }
 
     private void addClaudeSearchResultPart(ArrayNode content, JsonNode block, String textType, String model) {
@@ -1410,7 +1362,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             reasoning.put("context", "all_turns");
         }
         if (!reasoning.isEmpty()) {
-            reasoning.put("summary", "auto");
+            String display = thinking != null && thinking.isObject()
+                    ? thinking.path("display").asText("")
+                    : "";
+            if (!"omitted".equals(display)) {
+                reasoning.put("summary", "auto");
+            }
         }
         return reasoning;
     }
@@ -2047,23 +2004,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private ObjectNode chatFileToClaudeDocument(JsonNode file) {
-        ObjectNode document = json.objectNode();
-        document.put("type", "document");
-        ObjectNode source = json.objectNode();
-        if (file.hasNonNull("file_id")) {
-            source.put("type", "file");
-            source.put("file_id", file.path("file_id").asText(""));
-        } else if (file.hasNonNull("file_data")) {
-            source.put("type", "base64");
-            source.put("data", file.path("file_data").asText(""));
-        } else {
-            throw new ProtocolConversionException("OPENAI_CHAT_CLAUDE_FILE_SOURCE_REQUIRED");
-        }
-        document.set("source", source);
-        if (file.hasNonNull("filename")) {
-            document.put("title", file.path("filename").asText(""));
-        }
-        return document;
+        return ClaudeResponsesMediaMapper.chatFileToClaudeDocument(json, file);
     }
 
     private ObjectNode chatFunctionCallToClaudeToolUse(String id, String name, String arguments) {
@@ -2301,19 +2242,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private ObjectNode chatFilePartToResponsesInputFile(JsonNode file) {
-        ObjectNode mapped = json.objectNode();
-        mapped.put("type", "input_file");
-        if (file.hasNonNull("file_id")) {
-            mapped.put("file_id", file.get("file_id").asText(""));
-        } else if (file.hasNonNull("file_data")) {
-            if (file.hasNonNull("filename")) {
-                mapped.put("filename", file.get("filename").asText(""));
-            }
-            mapped.put("file_data", file.get("file_data").asText(""));
-        } else {
-            throw new ProtocolConversionException("OPENAI_CHAT_RESPONSES_FILE_SOURCE_REQUIRED");
-        }
-        return mapped;
+        return ClaudeResponsesMediaMapper.chatFileToResponsesInputFile(json, file);
     }
 
     private boolean isEmptyBase64DataUri(String url) {
