@@ -93,6 +93,8 @@ export interface ChannelLatencyRankingResponse {
   providerChannelId?: string | number;
   providerChannelName?: string;
   maxDurationMillis?: number;
+  maxFirstTokenMillis?: number;
+  avgFirstTokenMillis?: number;
   avgDurationMillis?: number;
   requestCount?: number;
 }

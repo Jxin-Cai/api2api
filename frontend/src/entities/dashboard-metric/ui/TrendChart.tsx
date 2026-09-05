@@ -136,6 +136,10 @@ export function TrendChart({
           },
         }}
         tooltip={{
+          position: 'top',
+          bounding: 'viewport',
+          enterable: true,
+          offset: 12,
           items: [
             {
               channel: 'y',

@@ -44,4 +44,7 @@ public class UsageRecordResponse {
     private Instant startedAt;
     private Instant endedAt;
     private Instant createdAt;
+    private Long durationMillis;
+    private Long firstTokenMillis;
+    private String clientIp;
 }

@@ -234,7 +234,7 @@ public class GatewayProtocolController {
                 apiKey,
                 xRequestId,
                 protocol,
-                InboundRequestContext.of(headers, httpRequest.getQueryString(), operation)
+                InboundRequestContext.of(headers, httpRequest.getQueryString(), operation, resolveClientIp(httpRequest))
         );
         logAcceptedRequest(command, xRequestId);
 
@@ -259,6 +259,12 @@ public class GatewayProtocolController {
                     .toResponseEntity();
         }
         return streamingResponseMapper.toResponseBody(streamingInvocation, httpResponse);
+    }
+
+    private String resolveClientIp(HttpServletRequest request) {
+        String forwarded = request.getHeader("X-Forwarded-For");
+        if (forwarded != null && !forwarded.isBlank()) return forwarded.split(",", 2)[0].trim();
+        return request.getRemoteAddr();
     }
 
     private void logAcceptedRequest(InvokeGatewayCommand command, String incomingRequestId) {

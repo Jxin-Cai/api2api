@@ -27,6 +27,7 @@ public final class GatewayInvocation {
     private final ApiCredentialId apiCredentialId;
     private final ProtocolType requestProtocol;
     private final ModelName requestedModel;
+    private final String clientIp;
     private final ConversionRequirement requirement;
     private GatewayInvocationState state;
     private RoutePlan routePlan;
@@ -35,6 +36,7 @@ public final class GatewayInvocation {
     private GatewayInvocationResult result;
     private final Instant startedAt;
     private Instant endedAt;
+    private Long firstTokenMillis;
 
     private GatewayInvocation(
             GatewayInvocationId id,
@@ -43,6 +45,7 @@ public final class GatewayInvocation {
             ApiCredentialId apiCredentialId,
             ProtocolType requestProtocol,
             ModelName requestedModel,
+            String clientIp,
             ConversionRequirement requirement,
             GatewayInvocationState state,
             RoutePlan routePlan,
@@ -58,6 +61,7 @@ public final class GatewayInvocation {
         this.apiCredentialId = Objects.requireNonNull(apiCredentialId, "API credential id must not be null");
         this.requestProtocol = Objects.requireNonNull(requestProtocol, "Request protocol must not be null");
         this.requestedModel = Objects.requireNonNull(requestedModel, "Requested model must not be null");
+        this.clientIp = clientIp;
         this.requirement = Objects.requireNonNull(requirement, "Conversion requirement must not be null");
         this.state = Objects.requireNonNull(state, "Gateway invocation state must not be null");
         this.routePlan = routePlan;
@@ -79,6 +83,7 @@ public final class GatewayInvocation {
             ApiCredentialId apiCredentialId,
             ProtocolType requestProtocol,
             ModelName requestedModel,
+            String clientIp,
             ConversionRequirement requirement,
             Instant now
     ) {
@@ -89,6 +94,7 @@ public final class GatewayInvocation {
                 apiCredentialId,
                 requestProtocol,
                 requestedModel,
+                clientIp,
                 requirement,
                 GatewayInvocationState.CREATED,
                 null,
@@ -294,6 +300,14 @@ public final class GatewayInvocation {
     public GatewayInvocationResult result() {
         return result;
     }
+
+    public String clientIp() { return clientIp; }
+
+    public void markFirstToken(Instant firstTokenAt) {
+        if (firstTokenMillis == null && firstTokenAt != null) firstTokenMillis = Math.max(0, java.time.Duration.between(startedAt, firstTokenAt).toMillis());
+    }
+
+    public Long firstTokenMillis() { return firstTokenMillis; }
 
     public Instant startedAt() {
         return startedAt;

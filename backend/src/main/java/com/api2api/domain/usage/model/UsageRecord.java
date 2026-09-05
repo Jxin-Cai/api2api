@@ -28,6 +28,8 @@ public final class UsageRecord {
     private final UserAccountId userAccountId;
     private final ApiCredentialId apiCredentialId;
     private final ModelName requestedModel;
+    private final String clientIp;
+    private final Long firstTokenMillis;
     private final ModelName upstreamModel;
     private final ProtocolType requestProtocol;
     private final ProtocolType upstreamProtocol;
@@ -47,6 +49,8 @@ public final class UsageRecord {
             UserAccountId userAccountId,
             ApiCredentialId apiCredentialId,
             ModelName requestedModel,
+            String clientIp,
+            Long firstTokenMillis,
             ModelName upstreamModel,
             ProtocolType requestProtocol,
             ProtocolType upstreamProtocol,
@@ -65,6 +69,8 @@ public final class UsageRecord {
         this.userAccountId = Objects.requireNonNull(userAccountId, "User account id must not be null");
         this.apiCredentialId = Objects.requireNonNull(apiCredentialId, "API credential id must not be null");
         this.requestedModel = Objects.requireNonNull(requestedModel, "Requested model must not be null");
+        this.clientIp = clientIp;
+        this.firstTokenMillis = firstTokenMillis;
         this.upstreamModel = upstreamModel;
         this.requestProtocol = Objects.requireNonNull(requestProtocol, "Request protocol must not be null");
         this.upstreamProtocol = upstreamProtocol;
@@ -107,6 +113,8 @@ public final class UsageRecord {
                 nonNullInvocation.userAccountId(),
                 nonNullInvocation.apiCredentialId(),
                 nonNullInvocation.requestedModel(),
+                nonNullInvocation.clientIp(),
+                nonNullInvocation.firstTokenMillis(),
                 result.upstreamModel(),
                 nonNullInvocation.requestProtocol(),
                 result.upstreamProtocol(),
@@ -167,6 +175,8 @@ public final class UsageRecord {
                 invocation.userAccountId(),
                 invocation.apiCredentialId(),
                 invocation.requestedModel(),
+                invocation.clientIp(),
+                null,
                 null,           // upstreamModel: unknown at reservation time
                 invocation.requestProtocol(),
                 null,           // upstreamProtocol: unknown
@@ -188,6 +198,8 @@ public final class UsageRecord {
             UserAccountId userAccountId,
             ApiCredentialId apiCredentialId,
             ModelName requestedModel,
+            String clientIp,
+            Long firstTokenMillis,
             ModelName upstreamModel,
             ProtocolType requestProtocol,
             ProtocolType upstreamProtocol,
@@ -207,6 +219,8 @@ public final class UsageRecord {
                 userAccountId,
                 apiCredentialId,
                 requestedModel,
+                clientIp,
+                firstTokenMillis,
                 upstreamModel,
                 requestProtocol,
                 upstreamProtocol,
@@ -325,6 +339,14 @@ public final class UsageRecord {
     public boolean streaming() {
         return streaming;
     }
+
+    public String clientIp() { return clientIp; }
+
+    public String getClientIp() { return clientIp; }
+
+    public Long firstTokenMillis() { return firstTokenMillis; }
+
+    public Long getFirstTokenMillis() { return firstTokenMillis; }
 
     public Instant startedAt() {
         return startedAt;

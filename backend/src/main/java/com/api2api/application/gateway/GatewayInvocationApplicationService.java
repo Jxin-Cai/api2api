@@ -292,6 +292,7 @@ public class GatewayInvocationApplicationService {
                 credential.getId(),
                 command.getRequestProtocol(),
                 command.getRequestedModel(),
+                command.getInbound().clientIp(),
                 requirement,
                 now
         );

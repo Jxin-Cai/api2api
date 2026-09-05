@@ -14,30 +14,32 @@ import java.util.stream.Collectors;
 public record InboundRequestContext(
         Map<String, List<String>> headers,
         String rawQuery,
-        ProtocolOperation operation
+        ProtocolOperation operation,
+        String clientIp
 ) {
 
     public InboundRequestContext {
         headers = copyHeaders(headers);
         rawQuery = normalizeQuery(rawQuery);
         operation = operation == null ? ProtocolOperation.INVOKE : operation;
+        clientIp = clientIp == null || clientIp.isBlank() ? null : clientIp.trim();
     }
 
     public static InboundRequestContext empty() {
-        return new InboundRequestContext(Map.of(), null, ProtocolOperation.INVOKE);
+        return new InboundRequestContext(Map.of(), null, ProtocolOperation.INVOKE, null);
     }
 
     public static InboundRequestContext of(
-            Map<String, List<String>> headers,
-            String rawQuery,
-            ProtocolOperation operation
+            Map<String, List<String>> headers, String rawQuery, ProtocolOperation operation, String clientIp
     ) {
-        return new InboundRequestContext(headers, rawQuery, operation);
+        return new InboundRequestContext(headers, rawQuery, operation, clientIp);
     }
 
     public static InboundRequestContext ofHeaders(Map<String, List<String>> headers) {
-        return new InboundRequestContext(headers, null, ProtocolOperation.INVOKE);
+        return new InboundRequestContext(headers, null, ProtocolOperation.INVOKE, null);
     }
+
+    public String clientIp() { return clientIp; }
 
     public boolean hasRawQuery() {
         return rawQuery != null;
@@ -73,11 +75,12 @@ public record InboundRequestContext(
         return other instanceof InboundRequestContext that
                 && Objects.equals(headers, that.headers)
                 && Objects.equals(rawQuery, that.rawQuery)
-                && operation == that.operation;
+                && operation == that.operation
+                && Objects.equals(clientIp, that.clientIp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, rawQuery, operation);
+        return Objects.hash(headers, rawQuery, operation, clientIp);
     }
 }

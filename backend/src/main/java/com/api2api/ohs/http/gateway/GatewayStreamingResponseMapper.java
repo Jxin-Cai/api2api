@@ -10,6 +10,7 @@ import com.api2api.domain.protocol.model.UnifiedTokenUsage;
 import com.api2api.application.gateway.StreamingPassthroughPort;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.FilterOutputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import lombok.NonNull;
@@ -44,6 +45,17 @@ public class GatewayStreamingResponseMapper {
         applyHeaders(streamingInvocation, response);
         StreamingResponseBody responseBody = outputStream -> {
             UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
+            OutputStream trackedOutput = new FilterOutputStream(outputStream) {
+                private boolean written;
+                @Override public void write(byte[] b, int off, int len) throws IOException {
+                    if (!written && len > 0) { streamingInvocation.invocation().markFirstToken(java.time.Instant.now()); written = true; }
+                    super.write(b, off, len);
+                }
+                @Override public void write(int b) throws IOException {
+                    if (!written) { streamingInvocation.invocation().markFirstToken(java.time.Instant.now()); written = true; }
+                    super.write(b);
+                }
+            };
             try (ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse()) {
                 if (streamingInvocation.requiresProtocolConversion()) {
                     GatewayStreamingConversionContext conversionContext = GatewayStreamingConversionContext.of(
@@ -56,16 +68,16 @@ public class GatewayStreamingResponseMapper {
                     usage = streamingConversionPort.transform(
                             conversionContext,
                             providerResponse.body(),
-                            outputStream
+                            trackedOutput
                     );
                 } else {
                     usage = streamingPassthroughPort.transferAndExtract(
                             providerResponse.body(),
-                            outputStream,
+                            trackedOutput,
                             providerResponse.protocol()
                     );
                 }
-                outputStream.flush();
+                trackedOutput.flush();
             } catch (IOException exception) {
                 if (ClientDisconnectDetector.isClientDisconnect(exception)) {
                     gatewayInvocationApplicationService.completeStreamingClientDisconnect(

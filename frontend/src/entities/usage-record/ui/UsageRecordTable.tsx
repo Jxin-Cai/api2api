@@ -38,11 +38,14 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
     { title: '缓存命中输入', dataIndex: 'cacheReadInputTokens', key: 'cacheReadInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
     { title: '实际 Token', dataIndex: 'tokens', key: 'tokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
     { title: '总 Token', dataIndex: 'totalTokens', key: 'totalTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: '首字耗时', dataIndex: 'firstTokenMillis', key: 'firstTokenMillis', align: 'right', width: 110, render: (value: number | undefined): string => value == null ? '-' : `${value} ms` },
+    { title: '总耗时', dataIndex: 'durationMillis', key: 'durationMillis', align: 'right', width: 110, render: (value: number | undefined): string => value == null ? '-' : `${value} ms` },
     { title: '状态', dataIndex: 'status', key: 'status', width: 120, render: (value: string | undefined): ReactElement => <UsageRecordStatusTag status={value ?? 'SUCCESS'} /> },
   ];
 
   if (scope === 'admin') {
     columns.splice(2, 0, { title: '用户', dataIndex: 'username', key: 'username', width: 140, render: (_: unknown, record: UsageRecordResponse): string => record.username ?? record.userId ?? '-' });
+    columns.push({ title: '请求 IP', dataIndex: 'clientIp', key: 'clientIp', width: 140, render: (value: string | undefined): string => value ?? '-' });
     columns.push({ title: '渠道', dataIndex: 'providerChannelName', key: 'providerChannelName', width: 160, render: (_: unknown, record: UsageRecordResponse): string => record.providerChannelName ?? record.providerChannel ?? record.providerChannelId ?? '-' });
   }
 

@@ -18,6 +18,8 @@ public class ChannelLatencyRankingResponse {
     private Long providerChannelId;
     private String providerChannelName;
     private Long maxDurationMillis;
+    private Long maxFirstTokenMillis;
+    private Long avgFirstTokenMillis;
     private Long avgDurationMillis;
     private Long requestCount;
 }

@@ -13,6 +13,8 @@ public record ChannelLatencyRanking(
         ProviderChannelName providerChannelName,
         long maxDurationMillis,
         long avgDurationMillis,
+        long maxFirstTokenMillis,
+        long avgFirstTokenMillis,
         long requestCount
 ) {
 
@@ -49,6 +51,10 @@ public record ChannelLatencyRanking(
     public long getAvgDurationMillis() {
         return avgDurationMillis;
     }
+
+    public long getMaxFirstTokenMillis() { return maxFirstTokenMillis; }
+
+    public long getAvgFirstTokenMillis() { return avgFirstTokenMillis; }
 
     public long getRequestCount() {
         return requestCount;

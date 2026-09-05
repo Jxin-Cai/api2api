@@ -28,7 +28,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class JdbcUsageRecordMapper implements UsageRecordMapper {
 
-    private static final String COLUMNS = "id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, error_type, error_message, route_failures_json, created_at, updated_at, deleted";
+    private static final String COLUMNS = "id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, first_token_millis, client_ip, error_type, error_message, route_failures_json, created_at, updated_at, deleted";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -54,6 +54,8 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
             .startedTime(instant(rs, "started_at"))
             .endedTime(instant(rs, "ended_at"))
             .durationMillis(rs.getLong("duration_millis"))
+            .firstTokenMillis(nullableLong(rs, "first_token_millis"))
+            .clientIp(rs.getString("client_ip"))
             .errorType(rs.getString("error_type"))
             .errorMessage(rs.getString("error_message"))
             .routeFailuresJson(rs.getString("route_failures_json"))
@@ -74,8 +76,8 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
     @Override
     public int insert(UsageRecordPO usageRecord) {
         return jdbcTemplate.update("""
-                INSERT INTO usage_records (id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, error_type, error_message, route_failures_json, created_at, updated_at, deleted)
-                VALUES (:id, :requestId, :userAccountId, :apiCredentialId, :requestedModel, :upstreamModel, :requestProtocol, :upstreamProtocol, :providerChannelId, :status, :inputTokens, :outputTokens, :cacheCreationInputTokens, :cacheReadInputTokens, :totalTokens, :usageKnown, :streaming, :startedTime, :endedTime, :durationMillis, :errorType, :errorMessage, :routeFailuresJson, :createdTime, :updatedTime, :deleted)
+                INSERT INTO usage_records (id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, first_token_millis, client_ip, error_type, error_message, route_failures_json, created_at, updated_at, deleted)
+                VALUES (:id, :requestId, :userAccountId, :apiCredentialId, :requestedModel, :upstreamModel, :requestProtocol, :upstreamProtocol, :providerChannelId, :status, :inputTokens, :outputTokens, :cacheCreationInputTokens, :cacheReadInputTokens, :totalTokens, :usageKnown, :streaming, :startedTime, :endedTime, :durationMillis, :firstTokenMillis, :clientIp, :errorType, :errorMessage, :routeFailuresJson, :createdTime, :updatedTime, :deleted)
                 """, params(usageRecord));
     }
 
@@ -102,6 +104,8 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
                     started_at = :startedTime,
                     ended_at = :endedTime,
                     duration_millis = :durationMillis,
+                    first_token_millis = :firstTokenMillis,
+                    client_ip = :clientIp,
                     error_type = :errorType,
                     error_message = :errorMessage,
                     route_failures_json = :routeFailuresJson,
@@ -286,6 +290,8 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
                 .addValue("startedTime", timestamp(po.getStartedTime()))
                 .addValue("endedTime", timestamp(po.getEndedTime()))
                 .addValue("durationMillis", po.getDurationMillis())
+                .addValue("firstTokenMillis", po.getFirstTokenMillis())
+                .addValue("clientIp", po.getClientIp())
                 .addValue("errorType", po.getErrorType())
                 .addValue("errorMessage", po.getErrorMessage())
                 .addValue("routeFailuresJson", po.getRouteFailuresJson())

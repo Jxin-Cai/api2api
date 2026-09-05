@@ -36,6 +36,7 @@ public class UsageRecordPersistenceConverter {
                 .userAccountId(usageRecord.userAccountId().getValue())
                 .apiCredentialId(usageRecord.apiCredentialId().value())
                 .requestedModel(usageRecord.requestedModel().value())
+                .clientIp(usageRecord.clientIp())
                 .upstreamModel(usageRecord.upstreamModel() == null ? null : usageRecord.upstreamModel().value())
                 .requestProtocol(usageRecord.requestProtocol().name())
                 .upstreamProtocol(usageRecord.upstreamProtocol() == null ? null : usageRecord.upstreamProtocol().name())
@@ -51,6 +52,7 @@ public class UsageRecordPersistenceConverter {
                 .startedTime(usageRecord.startedAt())
                 .endedTime(usageRecord.endedAt())
                 .durationMillis(usageRecord.duration().millis())
+                .firstTokenMillis(usageRecord.firstTokenMillis())
                 .errorType(usageRecord.errorDiagnostic() == null ? null : usageRecord.errorDiagnostic().errorType().name())
                 .errorMessage(usageRecord.errorDiagnostic() == null ? null : usageRecord.errorDiagnostic().message())
                 .routeFailuresJson(usageRecord.errorDiagnostic() == null ? null : usageRecord.errorDiagnostic().routeFailures().toString())
@@ -77,6 +79,8 @@ public class UsageRecordPersistenceConverter {
                 UserAccountId.of(po.getUserAccountId()),
                 ApiCredentialId.of(po.getApiCredentialId()),
                 ModelName.of(safeText(po.getRequestedModel(), "unknown")),
+                po.getClientIp(),
+                po.getFirstTokenMillis(),
                 safeModelName(po.getUpstreamModel(), status),
                 parseProtocol(po.getRequestProtocol(), ProtocolType.CLAUDE_MESSAGES),
                 parseUpstreamProtocol(po.getUpstreamProtocol(), status),

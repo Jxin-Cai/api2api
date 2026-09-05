@@ -1,9 +1,39 @@
 .trend-chart-card {
+  position: relative;
   border-color: var(--border-color) !important;
   background: var(--bg-surface) !important;
   box-shadow: var(--shadow-sm) !important;
-  overflow: hidden;
+  overflow: visible;
 }
+
+/* Keep dense multi-series hover details inside the viewport without hiding items. */
+.trend-chart-card .g2-tooltip {
+  z-index: 30;
+  width: min(640px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  max-height: min(360px, calc(100vh - 32px));
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.trend-chart-card .g2-tooltip-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  gap: 6px 12px;
+  min-width: 0;
+}
+
+.trend-chart-card .g2-tooltip-list-item {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.trend-chart-card .g2-tooltip-list-item-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 
 .trend-chart-card .ant-card-body {
   display: flex;

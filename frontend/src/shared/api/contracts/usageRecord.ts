@@ -28,6 +28,9 @@ export interface UsageRecordBackendResponse {
   startedAt?: string | number;
   endedAt?: string | number;
   createdAt?: string | number;
+  durationMillis?: number;
+  firstTokenMillis?: number;
+  clientIp?: string;
 }
 
 export interface UsageRecordBackendPageResponse {
@@ -62,6 +65,9 @@ export interface UsageRecordResponse {
   providerChannelName?: string;
   diagnostic?: string;
   createdAt: string | number;
+  durationMillis?: number;
+  firstTokenMillis?: number;
+  clientIp?: string;
 }
 
 export interface UsageTokenSummaryResponse {
@@ -110,5 +116,8 @@ export function toUsageRecordResponse(record: UsageRecordBackendResponse): Usage
     providerChannelName: record.providerChannelName,
     diagnostic: buildUsageDiagnostic(record),
     createdAt: record.createdAt ?? record.startedAt ?? '-',
+    durationMillis: record.durationMillis,
+    firstTokenMillis: record.firstTokenMillis,
+    clientIp: record.clientIp,
   };
 }

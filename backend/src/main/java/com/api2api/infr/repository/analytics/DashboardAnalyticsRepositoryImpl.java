@@ -455,6 +455,8 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                        COALESCE(c.name, 'Unknown Channel') AS provider_channel_name,
                        MAX(r.duration_millis) AS max_duration_millis,
                        AVG(r.duration_millis) AS avg_duration_millis,
+                       MAX(r.first_token_millis) AS max_first_token_millis,
+                       AVG(r.first_token_millis) AS avg_first_token_millis,
                        COUNT(*) AS request_count
                 FROM usage_records r
                 LEFT JOIN provider_channels c ON c.id = r.provider_channel_id
@@ -472,6 +474,8 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                 rs.getString("provider_channel_name"),
                 rs.getLong("max_duration_millis"),
                 rs.getBigDecimal("avg_duration_millis"),
+                rs.getLong("max_first_token_millis"),
+                rs.getBigDecimal("avg_first_token_millis"),
                 rs.getLong("request_count")
         ));
         List<ChannelLatencyRanking> rankings = new ArrayList<>(rows.size());
@@ -483,6 +487,8 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
                     ProviderChannelName.of(row.providerChannelName()),
                     row.maxDurationMillis(),
                     row.avgDurationMillis().setScale(0, RoundingMode.HALF_UP).longValue(),
+                    row.maxFirstTokenMillis(),
+                    row.avgFirstTokenMillis() == null ? 0 : row.avgFirstTokenMillis().setScale(0, RoundingMode.HALF_UP).longValue(),
                     row.requestCount()
             ));
         }
@@ -628,6 +634,8 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
             String providerChannelName,
             long maxDurationMillis,
             BigDecimal avgDurationMillis,
+            long maxFirstTokenMillis,
+            BigDecimal avgFirstTokenMillis,
             long requestCount
     ) {
     }

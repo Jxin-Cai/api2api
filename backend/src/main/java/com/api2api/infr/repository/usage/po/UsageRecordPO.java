@@ -35,6 +35,8 @@ public class UsageRecordPO {
     private Instant startedTime;
     private Instant endedTime;
     private long durationMillis;
+    private Long firstTokenMillis;
+    private String clientIp;
     private String errorType;
     private String errorMessage;
     private String routeFailuresJson;
