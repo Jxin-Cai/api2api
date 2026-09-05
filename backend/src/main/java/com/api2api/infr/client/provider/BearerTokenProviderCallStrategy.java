@@ -133,7 +133,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     candidate.upstreamProtocol(),
                     statusCode,
                     response.headers().map(),
-                    withStreamingTimeout(response.body())
+                    prepareStreamingBody(candidate, response, startedAt)
             );
         } catch (HttpTimeoutException exception) {
             throw new UpstreamGatewayException(
@@ -164,15 +164,53 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
     }
 
     /**
-     * Replays a stream only when the request provably never reached the provider, i.e. a transport
-     * failure with no status line. Replaying after a timeout or an error status would duplicate work
-     * the provider has already started and consume quota that is often the cause of the failure.
+     * Preserve the existing transport retry policy and additionally retry explicit capacity
+     * rejections detected before output. A timeout or arbitrary server error is not replay-safe.
      */
     private boolean shouldRetryStream(int attempt, UpstreamGatewayException failure) {
-        return failure.failureType() == RouteFailureType.CHANNEL_UNAVAILABLE
-                && failure.statusCode() == null
-                && failure.retryable()
-                && attempt < properties.getStreamingMaxRetries();
+        boolean retryableTransport = failure.failureType() == RouteFailureType.CHANNEL_UNAVAILABLE
+                && failure.statusCode() == null;
+        boolean explicitOverload = failure instanceof UpstreamStreamOverloadedException;
+        return failure.retryable()
+                && attempt < properties.getStreamingMaxRetries()
+                && (retryableTransport || explicitOverload)
+                // Do not sleep for an unbounded Retry-After or retry earlier than the provider asks.
+                // Leave such failures to the route failover policy, preserving response metadata.
+                && (!explicitOverload || failure.responseMetadata().retryAfter(Instant.now()).isEmpty());
+    }
+
+    private InputStream prepareStreamingBody(
+            RouteCandidate candidate,
+            HttpResponse<InputStream> response,
+            Instant startedAt
+    ) {
+        InputStream body = withStreamingTimeout(response.body());
+        if (candidate.upstreamProtocol() != ProtocolType.OPENAI_RESPONSES
+                || !response.headers().firstValue("Content-Type").orElse("")
+                        .split(";", 2)[0].trim().equalsIgnoreCase("text/event-stream")) {
+            return body;
+        }
+        boolean handedOff = false;
+        try {
+            InputStream inspected = ResponsesStreamPreflight.inspect(
+                    body, startedAt, UpstreamResponseMetadata.of(response.headers().map()));
+            handedOff = true;
+            return inspected;
+        } catch (IOException exception) {
+            // HTTP headers were received: do not misclassify a body read failure as a connection
+            // that never reached the provider and replay potentially running generation.
+            UpstreamGatewayException failure = new UpstreamGatewayException(
+                    exception instanceof java.net.SocketTimeoutException
+                            ? RouteFailureType.TIMEOUT : RouteFailureType.CHANNEL_UNAVAILABLE,
+                    response.statusCode(), false, elapsedSince(startedAt),
+                    "Upstream stream failed during preflight", UpstreamResponseMetadata.of(response.headers().map()));
+            failure.initCause(exception);
+            throw failure;
+        } finally {
+            if (!handedOff) {
+                closeQuietly(body);
+            }
+        }
     }
 
     private void waitBeforeStreamRetry(
