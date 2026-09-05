@@ -105,9 +105,7 @@ final class ResponsesStreamPreflight {
         }
         JsonNode response = payload.path("response");
         return switch (type) {
-            case "response.created", "response.in_progress" ->
-                    response.path("output").isArray() && response.path("output").isEmpty()
-                            ? Decision.PRELUDE : Decision.PASSTHROUGH;
+            case "response.created", "response.in_progress" -> Decision.PRELUDE;
             case "response.failed" -> hasNoOutput(response) && isOverloaded(response.path("error"))
                     ? Decision.OVERLOADED : Decision.PASSTHROUGH;
             case "error", "response.error" -> isOverloaded(payload.has("error") ? payload.path("error") : payload)
