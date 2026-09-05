@@ -59,6 +59,29 @@ class ClaudeMessagesOpenAIResponsesLatestFeaturesTest {
     }
 
     @Test
+    void test_mapsProgrammaticToolCalling_when_targetIsNextGptGenerationVariant() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"gpt-6-astra",
+                  "max_tokens":1024,
+                  "tools":[{
+                    "name":"Read",
+                    "input_schema":{"type":"object"},
+                    "allowed_callers":["direct","code_execution_20260521"]
+                  }],
+                  "messages":[{"role":"user","content":"inspect"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.at("/tools/0/type").asText()).isEqualTo("programmatic_tool_calling");
+    }
+
+    @Test
     void test_preservesProgramCaller_when_toolResultIsReplayed() throws Exception {
         // Arrange
         String responseBody = """

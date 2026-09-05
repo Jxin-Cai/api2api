@@ -1753,56 +1753,39 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private boolean supportsResponsesToolSearch(String model) {
-        return gpt5MinorVersion(model) >= 4;
+        return GptModelVersion.isAtLeast(model, GptModelVersion.GPT_5_4);
     }
 
     private boolean supportsPersistedReasoning(String model) {
-        return gpt5MinorVersion(model) >= 6;
+        return GptModelVersion.isAtLeast(model, GptModelVersion.GPT_5_6);
     }
 
     private boolean supportsResponsesProgrammaticToolCalling(String model) {
-        return gpt5MinorVersion(model) >= 6;
+        return GptModelVersion.isAtLeast(model, GptModelVersion.GPT_5_6);
     }
 
     private boolean supportsMaxReasoningEffort(String model) {
-        return gpt5MinorVersion(model) >= 6;
-    }
-
-    private int gpt5MinorVersion(String model) {
-        if (model == null) {
-            return -1;
-        }
-        String normalized = model.toLowerCase();
-        if (!normalized.startsWith("gpt-5.")) {
-            return -1;
-        }
-        int start = "gpt-5.".length();
-        int end = start;
-        while (end < normalized.length() && Character.isDigit(normalized.charAt(end))) {
-            end++;
-        }
-        if (end == start) {
-            return -1;
-        }
-        try {
-            return Integer.parseInt(normalized.substring(start, end));
-        } catch (NumberFormatException exception) {
-            throw new ProtocolConversionException("CLAUDE_RESPONSES_INVALID_TARGET_MODEL_VERSION: " + model, exception);
-        }
+        return GptModelVersion.isAtLeast(model, GptModelVersion.GPT_5_6);
     }
 
     /**
-     * Reasoning model prefixes that require special protocol handling:
+     * Reasoning models require special protocol handling:
      * - Disable temperature/top_p parameters (reasoning models manage their own sampling)
      * - Use "developer" role instead of "system" (provider requirement)
      * - Generate reasoning configuration block
      * - Block unsupported protocol conversions (e.g. Claude Responses → non-reasoning)
      *
-     * Configured via api2api.protocol.reasoning-model-prefixes and api2api.protocol.reasoning-model-contains.
+     * Every GPT generation from gpt-5 onwards is reasoning-only, so those are detected by
+     * version rather than by an ever-growing prefix list. Non-versioned families (o-series,
+     * codex, ...) stay configurable via api2api.protocol.reasoning-model-prefixes and
+     * api2api.protocol.reasoning-model-contains.
      */
     private boolean isReasoningModel(String model) {
         if (model == null) {
             return false;
+        }
+        if (GptModelVersion.isAtLeast(model, GptModelVersion.GPT_5)) {
+            return true;
         }
         String normalized = model.toLowerCase();
         return reasoningModelPrefixes.stream().anyMatch(normalized::startsWith)

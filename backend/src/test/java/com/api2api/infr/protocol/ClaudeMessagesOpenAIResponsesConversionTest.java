@@ -621,6 +621,113 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
     }
 
     @Test
+    void test_mapsThinkingToReasoning_when_targetIsNextGptGenerationVariant() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6-astra","max_tokens":32000,"stream":true,
+                 "thinking":{"type":"adaptive"},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, true),
+                ProtocolConversionRequest.of(true, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+    }
+
+    @Test
+    void test_omitsSamplingParameters_when_targetIsNextGptGenerationVariant() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6-astra","max_tokens":256,"temperature":1,"top_p":0.9,
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.has("temperature")).isFalse();
+        assertThat(mapped.has("top_p")).isFalse();
+    }
+
+    @Test
+    void test_keepsMaxEffort_when_targetIsNextGptGeneration() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "output_config":{"effort":"max"},"messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("max");
+    }
+
+    @Test
+    void test_persistsReasoningContext_when_nextGptGenerationReplaysReasoningState() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ObjectNode reasoningItem = objectMapper.createObjectNode();
+        reasoningItem.put("type", "reasoning");
+        reasoningItem.put("id", "rs_1");
+        reasoningItem.put("encrypted_content", "encrypted");
+        String signature = ResponsesReasoningBridge.encode(objectMapper, reasoningItem).orElseThrow();
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6-astra","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "messages":[{"role":"assistant","content":[
+                   {"type":"thinking","thinking":"summary","signature":"%s"}
+                 ]}]}
+                """.formatted(signature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/context").asText()).isEqualTo("all_turns");
+    }
+
+    @Test
+    void test_rejectsThinking_when_targetIsLegacyNonReasoningGptModel() {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-4.1","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)))
+                .hasMessageContaining("CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_REASONING");
+    }
+
+    @Test
     void test_rejectsCacheOnlyRequest_when_responsesCannotMatchClaudeWarmupSemantics() {
         // Arrange
         ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
