@@ -4,6 +4,7 @@ import { Navigate, useLocation, type RouteObject } from 'react-router-dom';
 import { RequireRole } from '@features/route-by-role';
 import { PageState } from '@shared/ui';
 
+const AdminOperationsPage = lazy(() => import('@pages/AdminOperationsPage'));
 const AdminUsersPage = lazy(() => import('@pages/AdminUsersPage'));
 const AdminChannelsPage = lazy(() => import('@pages/AdminChannelsPage'));
 const AdminModelMappingsPage = lazy(() => import('@pages/AdminModelMappingsPage'));
@@ -25,6 +26,7 @@ function LegacyProtocolMetadataRedirect(): ReactElement {
 }
 
 export const adminRoutes: RouteObject[] = [
+  { path: '/admin/operations', element: withAdminGuard(<AdminOperationsPage />) },
   { path: '/admin/users', element: withAdminGuard(<AdminUsersPage />) },
   { path: '/admin/channels', element: withAdminGuard(<AdminChannelsPage />) },
   { path: '/admin/model-mappings', element: withAdminGuard(<AdminModelMappingsPage />) },

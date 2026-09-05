@@ -53,3 +53,8 @@ api2api:
     # gpt-5 and later generations are detected by version; only list non-versioned families here.
     reasoning-model-prefixes: o1,o3,o4
     reasoning-model-contains: codex
+  operations:
+    # Linux kernel /proc metrics (not cgroup/container quotas).
+    proc-path: ${API2API_OPERATIONS_PROC_PATH:/proc}
+    # Filesystem containing this path; defaults to the service's root filesystem.
+    disk-path: ${API2API_OPERATIONS_DISK_PATH:/}

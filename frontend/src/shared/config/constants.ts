@@ -6,6 +6,7 @@ export const ROUTE_PATHS = {
   appUsage: '/app/usage',
   appSettings: '/app/settings',
   adminDashboard: '/admin/dashboard',
+  adminOperations: '/admin/operations',
   adminUsers: '/admin/users',
   adminChannels: '/admin/channels',
   adminModelMappings: '/admin/model-mappings',

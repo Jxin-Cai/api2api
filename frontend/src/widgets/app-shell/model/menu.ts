@@ -16,6 +16,7 @@ export const appMenuItems: AppMenuItem[] = [
 
 export const adminMenuItems: AppMenuItem[] = [
   { key: 'admin-dashboard', label: '后台仪表盘', path: ROUTE_PATHS.adminDashboard, portal: 'admin' },
+  { key: 'admin-operations', label: '运维监控', path: ROUTE_PATHS.adminOperations, portal: 'admin' },
   { key: 'admin-usage', label: '使用记录', path: ROUTE_PATHS.adminUsage, portal: 'admin' },
   { key: 'admin-users', label: '用户管理', path: ROUTE_PATHS.adminUsers, portal: 'admin' },
   { key: 'admin-channels', label: '供应商渠道', path: ROUTE_PATHS.adminChannels, portal: 'admin' },
