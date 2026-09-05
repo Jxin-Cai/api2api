@@ -50,5 +50,6 @@ api2api:
     model-rate-limit-isolation: ${API2API_MODEL_RATE_LIMIT_ISOLATION:PT1M}
     model-daily-limit-zone: ${API2API_MODEL_DAILY_LIMIT_ZONE:Asia/Shanghai}
   protocol:
-    reasoning-model-prefixes: gpt-5,o1,o3,o4
+    # gpt-5 and later generations are detected by version; only list non-versioned families here.
+    reasoning-model-prefixes: o1,o3,o4
     reasoning-model-contains: codex

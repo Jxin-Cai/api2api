@@ -55,7 +55,8 @@ class ClaudeMessagesOpenAIChatConversionTest {
         JsonNode mapped = convertRequest(body, false);
 
         assertThat(mapped.at("/messages/0/content/0/type").asText()).isEqualTo("file");
-        assertThat(mapped.at("/messages/0/content/0/file/file_data").asText()).isEqualTo("bm90ZXM=");
+        assertThat(mapped.at("/messages/0/content/0/file/file_data").asText())
+                .isEqualTo("data:text/plain;base64,bm90ZXM=");
         assertThat(mapped.at("/messages/0/content/0/file/filename").asText()).isEqualTo("notes.txt");
     }
 

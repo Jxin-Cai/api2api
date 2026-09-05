@@ -10,6 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "api2api.protocol")
 class ProtocolConversionProperties {
 
-    private List<String> reasoningModelPrefixes = List.of("gpt-5", "o1", "o3", "o4");
+    /**
+     * Non-versioned reasoning model families. Versioned GPT models (gpt-5 and later)
+     * are detected by {@link GptModelVersion} and do not need to be listed here.
+     */
+    private List<String> reasoningModelPrefixes = List.of("o1", "o3", "o4");
     private List<String> reasoningModelContains = List.of("codex");
 }

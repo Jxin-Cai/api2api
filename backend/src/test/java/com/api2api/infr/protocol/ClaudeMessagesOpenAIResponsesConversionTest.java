@@ -273,6 +273,104 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThat(mapped.at("/tools/2/allowed_tools/0").asText()).isEqualTo("search");
         assertThat(mapped.at("/input/0/content/0/image_url").asText()).isEqualTo("https://example.com/a.png");
         assertThat(mapped.at("/input/0/content/1/file_url").asText()).isEqualTo("https://example.com/a.pdf");
+        assertThat(mapped.at("/input/0/content/1/filename").isMissingNode()).isTrue();
+        assertThat(mapped.at("/input/0/content/2/text").asText()).isEqualTo("Document: doc.pdf");
+    }
+
+    @Test
+    void test_mapsBase64DocumentMediaTypeAndContext_when_convertingToResponses() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":256,"messages":[{"role":"user","content":[
+                  {"type":"document","title":"notes","context":"internal memo",
+                   "source":{"type":"base64","media_type":"text/plain","data":"bm90ZXM="}}
+                ]}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/input/0/content/0/type").asText()).isEqualTo("input_file");
+        assertThat(mapped.at("/input/0/content/0/filename").asText()).isEqualTo("notes.txt");
+        assertThat(mapped.at("/input/0/content/0/file_data").asText())
+                .isEqualTo("data:text/plain;base64,bm90ZXM=");
+        assertThat(mapped.at("/input/0/content/1/type").asText()).isEqualTo("input_text");
+        assertThat(mapped.at("/input/0/content/1/text").asText()).isEqualTo("internal memo");
+    }
+
+    @Test
+    void test_mapsImageFileId_when_claudeImageReferencesUploadedFile() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":256,"messages":[{"role":"user","content":[
+                  {"type":"image","source":{"type":"file","file_id":"file_abc"}}
+                ]}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/input/0/content/0/type").asText()).isEqualTo("input_image");
+        assertThat(mapped.at("/input/0/content/0/file_id").asText()).isEqualTo("file_abc");
+        assertThat(mapped.at("/input/0/content/0/image_url").isMissingNode()).isTrue();
+    }
+
+    @Test
+    void test_flattensContentDocument_when_claudeSendsInlineDocumentBlocks() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":256,"messages":[{"role":"user","content":[
+                  {"type":"document","title":"brief","source":{"type":"content","content":[
+                    {"type":"text","text":"section one"}
+                  ]}}
+                ]}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/input/0/content/0/text").asText()).isEqualTo("Document: brief");
+        assertThat(mapped.at("/input/0/content/1/text").asText()).isEqualTo("section one");
+    }
+
+    @Test
+    void test_omitsReasoningSummary_when_claudeThinkingDisplayIsOmitted() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-5.6","max_tokens":256,
+                 "thinking":{"type":"adaptive","display":"omitted"},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+        assertThat(mapped.at("/reasoning/summary").isMissingNode()).isTrue();
     }
 
     @Test
@@ -618,6 +716,113 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
 
         // Assert
         assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("xhigh");
+    }
+
+    @Test
+    void test_mapsThinkingToReasoning_when_targetIsNextGptGenerationVariant() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6-astra","max_tokens":32000,"stream":true,
+                 "thinking":{"type":"adaptive"},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, true),
+                ProtocolConversionRequest.of(true, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("high");
+    }
+
+    @Test
+    void test_omitsSamplingParameters_when_targetIsNextGptGenerationVariant() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6-astra","max_tokens":256,"temperature":1,"top_p":0.9,
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.has("temperature")).isFalse();
+        assertThat(mapped.has("top_p")).isFalse();
+    }
+
+    @Test
+    void test_keepsMaxEffort_when_targetIsNextGptGeneration() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "output_config":{"effort":"max"},"messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/effort").asText()).isEqualTo("max");
+    }
+
+    @Test
+    void test_persistsReasoningContext_when_nextGptGenerationReplaysReasoningState() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ObjectNode reasoningItem = objectMapper.createObjectNode();
+        reasoningItem.put("type", "reasoning");
+        reasoningItem.put("id", "rs_1");
+        reasoningItem.put("encrypted_content", "encrypted");
+        String signature = ResponsesReasoningBridge.encode(objectMapper, reasoningItem).orElseThrow();
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-6-astra","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "messages":[{"role":"assistant","content":[
+                   {"type":"thinking","thinking":"summary","signature":"%s"}
+                 ]}]}
+                """.formatted(signature);
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)).body());
+
+        // Assert
+        assertThat(mapped.at("/reasoning/context").asText()).isEqualTo("all_turns");
+    }
+
+    @Test
+    void test_rejectsThinking_when_targetIsLegacyNonReasoningGptModel() {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(json, new SseEventTransformer());
+        String body = """
+                {"model":"gpt-4.1","max_tokens":256,"thinking":{"type":"adaptive"},
+                 "messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act / Assert
+        assertThatThrownBy(() -> converter.convert(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, body, false),
+                ProtocolConversionRequest.of(false, false, true)))
+                .hasMessageContaining("CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_REASONING");
     }
 
     @Test
@@ -1086,6 +1291,87 @@ class ClaudeMessagesOpenAIResponsesConversionTest {
         assertThat(mapped.at("/messages/0/content/1/source/type").asText()).isEqualTo("base64");
         assertThat(mapped.at("/messages/0/content/1/source/media_type").asText()).isEqualTo("image/png");
         assertThat(mapped.at("/messages/0/content/1/source/data").asText()).isEqualTo("aGVsbG8=");
+    }
+
+    @Test
+    void test_mapsFileDataUriAndFilename_when_responsesRequestTargetsClaude() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "input":[{"role":"user","content":[
+                    {"type":"input_file","filename":"notes.txt",
+                     "file_data":"data:text/plain;base64,bm90ZXM="}
+                  ]}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/type").asText()).isEqualTo("document");
+        assertThat(mapped.at("/messages/0/content/0/title").asText()).isEqualTo("notes.txt");
+        assertThat(mapped.at("/messages/0/content/0/source/type").asText()).isEqualTo("base64");
+        assertThat(mapped.at("/messages/0/content/0/source/media_type").asText()).isEqualTo("text/plain");
+        assertThat(mapped.at("/messages/0/content/0/source/data").asText()).isEqualTo("bm90ZXM=");
+    }
+
+    @Test
+    void test_mapsImageFileId_when_responsesRequestTargetsClaude() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "input":[{"role":"user","content":[
+                    {"type":"input_image","file_id":"file_abc"}
+                  ]}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/type").asText()).isEqualTo("image");
+        assertThat(mapped.at("/messages/0/content/0/source/type").asText()).isEqualTo("file");
+        assertThat(mapped.at("/messages/0/content/0/source/file_id").asText()).isEqualTo("file_abc");
+    }
+
+    @Test
+    void test_infersDocumentMediaTypeFromFilename_when_responsesFileDataIsRawBase64() throws Exception {
+        // Arrange
+        ProtocolJsonSupport json = new ProtocolJsonSupport(objectMapper);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .openAIResponsesToClaudeMessagesRequest(json, new SseEventTransformer());
+        String body = """
+                {
+                  "model":"claude-test",
+                  "input":[{"role":"user","content":[
+                    {"type":"input_file","filename":"brief.docx","file_data":"UEsDBA=="}
+                  ]}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = objectMapper.readTree(converter.convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, body, false),
+                ProtocolConversionRequest.of(false, false, false)).body());
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content/0/source/media_type").asText())
+                .isEqualTo("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        assertThat(mapped.at("/messages/0/content/0/source/data").asText()).isEqualTo("UEsDBA==");
     }
 
     @Test
