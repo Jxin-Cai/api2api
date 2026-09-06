@@ -12,6 +12,19 @@ export function formatTokenMillions(tokens?: number | null): string {
   return value === '-' ? value : `${value}M`;
 }
 
+const TOKENS_PER_BILLION = 1_000_000_000;
+
+/** Format dashboard token totals in millions, switching to billions at 1 billion tokens. */
+export function formatTokenCompact(tokens?: number | null): string {
+  if (tokens === undefined || tokens === null || !Number.isFinite(tokens)) {
+    return '-';
+  }
+  if (tokens >= TOKENS_PER_BILLION) {
+    return `${(tokens / TOKENS_PER_BILLION).toFixed(1)}B`;
+  }
+  return `${(tokens / TOKENS_PER_MILLION).toFixed(1)}M`;
+}
+
 export function formatTokenThousands(tokens?: number | null, decimals = 1): string {
   if (tokens === undefined || tokens === null || !Number.isFinite(tokens)) {
     return '-';

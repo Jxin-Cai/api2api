@@ -8,6 +8,8 @@ import com.api2api.ohs.http.dashboard.DashboardTimeWindowHelper;
 import com.api2api.ohs.http.dashboard.dto.GetFrontDashboardRequest;
 import com.api2api.ohs.http.dashboard.dto.GetFrontKeyMetricsRequest;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +25,22 @@ class DashboardCommandConverterTest {
         var command = converter.toGetFrontDashboardCommand(request, UserAccountId.of(1L));
 
         assertThat(command.getRecentCallsSize()).isEqualTo(20);
+    }
+
+    @Test
+    void test_usesCurrentCalendarMonth_when_building_front_dashboard() {
+        String zoneId = "Asia/Shanghai";
+        GetFrontDashboardRequest request = GetFrontDashboardRequest.builder()
+                .zoneId(zoneId)
+                .build();
+
+        var command = converter.toGetFrontDashboardCommand(request, UserAccountId.of(1L));
+        LocalDate today = LocalDate.now(ZoneId.of(zoneId));
+
+        assertThat(command.getThirtyDayStartInclusive())
+                .isEqualTo(today.withDayOfMonth(1).atStartOfDay(ZoneId.of(zoneId)).toInstant());
+        assertThat(command.getThirtyDayEndExclusive())
+                .isEqualTo(today.plusMonths(1).withDayOfMonth(1).atStartOfDay(ZoneId.of(zoneId)).toInstant());
     }
 
     @Test

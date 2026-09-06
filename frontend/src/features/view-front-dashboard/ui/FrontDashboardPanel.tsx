@@ -15,7 +15,7 @@ import {
 import { UsageRecordTable } from '@entities/usage-record';
 import { ROUTE_PATHS } from '@shared/config/constants';
 import { normalizeConcurrencyPoints, normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
-import { formatTokenMillions } from '@shared/lib/formatters';
+import { formatTokenCompact } from '@shared/lib/formatters';
 import { resolveTimeZone } from '@shared/lib/timeZone';
 import { buildAppUsageQuery } from '@shared/lib/usageQuery';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
@@ -43,10 +43,10 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   return (
     <Space direction="vertical" size={20} style={{ width: '100%' }}>
       <DashboardSummaryGrid colProps={{ xs: 24, sm: 12, lg: 8, xl: 4 }}>
-        <MetricCard title="今日实际 Token" value={formatTokenMillions(data?.todayActualTokens?.tokens)} rawValue={data?.todayActualTokens?.tokens} loading={distributionQuery.isLoading} />
-        <MetricCard title="今日总 Token" value={formatTokenMillions(data?.todayTotalTokens?.tokens)} rawValue={data?.todayTotalTokens?.tokens} loading={distributionQuery.isLoading} />
-        <MetricCard title="近 30 日实际 Token" value={formatTokenMillions(data?.monthActualTokens?.tokens)} rawValue={data?.monthActualTokens?.tokens} loading={query.isLoading} />
-        <MetricCard title="近 30 日总 Token" value={formatTokenMillions(data?.monthTotalTokens?.tokens)} rawValue={data?.monthTotalTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="今日实际 Token" value={formatTokenCompact(data?.todayActualTokens?.tokens)} rawValue={data?.todayActualTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="今日总 Token" value={formatTokenCompact(data?.todayTotalTokens?.tokens)} rawValue={data?.todayTotalTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="本月实际 Token" value={formatTokenCompact(data?.monthActualTokens?.tokens)} rawValue={data?.monthActualTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="本月总 Token" value={formatTokenCompact(data?.monthTotalTokens?.tokens)} rawValue={data?.monthTotalTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="API Key 数量" value={data?.apiKeyCount ?? 0} loading={query.isLoading} />
       </DashboardSummaryGrid>
 

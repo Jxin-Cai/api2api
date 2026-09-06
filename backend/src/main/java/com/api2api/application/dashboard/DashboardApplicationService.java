@@ -63,7 +63,7 @@ public class DashboardApplicationService {
                 command.getTodayEndExclusive(),
                 command.getZoneId()
         );
-        AnalyticsTimeWindow thirtyDayWindow = AnalyticsTimeWindow.of(
+        AnalyticsTimeWindow monthWindow = AnalyticsTimeWindow.of(
                 command.getThirtyDayStartInclusive(),
                 command.getThirtyDayEndExclusive(),
                 command.getZoneId()
@@ -71,7 +71,7 @@ public class DashboardApplicationService {
         FrontDashboardQuery query = FrontDashboardQuery.of(
                 command.getCurrentUserId(),
                 todayWindow,
-                thirtyDayWindow
+                monthWindow
         );
 
         return dashboardAnalyticsService.buildFrontMetrics(query, dashboardAnalyticsRepository);

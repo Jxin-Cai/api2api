@@ -36,8 +36,8 @@ public class DashboardCommandConverter {
                 .currentUserId(currentUserId)
                 .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))
                 .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))
-                .thirtyDayStartInclusive(timeWindowHelper.getThirtyDayStartInclusive(zoneId))
-                .thirtyDayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))
+                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))
+                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))
                 .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(
                         zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))
                 .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))
