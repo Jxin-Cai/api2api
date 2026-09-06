@@ -46,14 +46,27 @@ public class GatewayStreamingResponseMapper {
         StreamingResponseBody responseBody = outputStream -> {
             UnifiedTokenUsage usage = UnifiedTokenUsage.unknown();
             OutputStream trackedOutput = new FilterOutputStream(outputStream) {
-                private boolean written;
+                private boolean semanticTokenObserved;
+                private final StringBuilder eventBuffer = new StringBuilder();
                 @Override public void write(byte[] b, int off, int len) throws IOException {
-                    if (!written && len > 0) { streamingInvocation.invocation().markFirstToken(java.time.Instant.now()); written = true; }
+                    observeSemanticToken(b, off, len);
                     super.write(b, off, len);
                 }
                 @Override public void write(int b) throws IOException {
-                    if (!written) { streamingInvocation.invocation().markFirstToken(java.time.Instant.now()); written = true; }
+                    observeSemanticToken(new byte[] {(byte) b}, 0, 1);
                     super.write(b);
+                }
+                private void observeSemanticToken(byte[] bytes, int off, int len) {
+                    if (semanticTokenObserved || len <= 0) return;
+                    eventBuffer.append(new String(bytes, off, len, StandardCharsets.UTF_8));
+                    String payload = eventBuffer.toString();
+                    if (payload.contains("\"text_delta\"") || payload.contains("\"text\"") || payload.contains("\"content\"") || payload.contains("\"output_text\"")) {
+                        streamingInvocation.invocation().markFirstToken(java.time.Instant.now());
+                        semanticTokenObserved = true;
+                        eventBuffer.setLength(0);
+                    } else if (eventBuffer.length() > 8192) {
+                        eventBuffer.delete(0, eventBuffer.length() - 4096);
+                    }
                 }
             };
             try (ProviderStreamingResponse providerResponse = streamingInvocation.providerResponse()) {

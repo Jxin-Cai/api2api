@@ -1,9 +1,11 @@
 import { Button, Card, Col, Row, Select, Space, Typography } from 'antd';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useApiCredentials } from '@entities/api-credential';
 import {
+  DistributionPieChart,
+  useUsageDistributions,
   MetricCard,
   TopRankList,
   TrendChart,
@@ -27,9 +29,11 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   const [selectedCredentialIds, setSelectedCredentialIds] = useState<string[]>([]);
   const resolvedZoneId = resolveTimeZone(zoneId);
   const query = useFrontDashboardMetrics({ zoneId: resolvedZoneId, recentCallsPage: 1, recentCallsSize: 20 });
+  const distributionQuery = useUsageDistributions('front', { zoneId: resolvedZoneId });
   const keyMetricsQuery = useFrontKeyMetrics({ zoneId: resolvedZoneId, trendDays: TREND_DAYS, credentialIds: selectedCredentialIds });
   const { options: credentialOptions } = useApiCredentials();
   const data = query.data;
+  const distribution = { model: distributionQuery.data?.models ?? [], channel: distributionQuery.data?.channels ?? [] };
   const keyMetrics = keyMetricsQuery.data;
 
   if (query.isError) {
@@ -39,12 +43,17 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   return (
     <Space direction="vertical" size={20} style={{ width: '100%' }}>
       <DashboardSummaryGrid colProps={{ xs: 24, sm: 12, lg: 8, xl: 4 }}>
-        <MetricCard title="今日实际 Token" value={formatTokenMillions(data?.todayActualTokens?.tokens)} rawValue={data?.todayActualTokens?.tokens} loading={query.isLoading} />
-        <MetricCard title="今日总 Token" value={formatTokenMillions(data?.todayTotalTokens?.tokens)} rawValue={data?.todayTotalTokens?.tokens} loading={query.isLoading} />
+        <MetricCard title="今日实际 Token" value={formatTokenMillions(data?.todayActualTokens?.tokens)} rawValue={data?.todayActualTokens?.tokens} loading={distributionQuery.isLoading} />
+        <MetricCard title="今日总 Token" value={formatTokenMillions(data?.todayTotalTokens?.tokens)} rawValue={data?.todayTotalTokens?.tokens} loading={distributionQuery.isLoading} />
         <MetricCard title="近 30 日实际 Token" value={formatTokenMillions(data?.monthActualTokens?.tokens)} rawValue={data?.monthActualTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="近 30 日总 Token" value={formatTokenMillions(data?.monthTotalTokens?.tokens)} rawValue={data?.monthTotalTokens?.tokens} loading={query.isLoading} />
         <MetricCard title="API Key 数量" value={data?.apiKeyCount ?? 0} loading={query.isLoading} />
       </DashboardSummaryGrid>
+
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={12}><DistributionPieChart title="模型分布" items={distribution.model} loading={distributionQuery.isLoading} /></Col>
+        <Col xs={24} lg={12}><DistributionPieChart title="渠道分布" items={distribution.channel} loading={distributionQuery.isLoading} /></Col>
+      </Row>
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>

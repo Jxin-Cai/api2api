@@ -19,7 +19,10 @@ import com.api2api.ohs.http.dashboard.dto.FrontKeyMetricsResponse;
 import com.api2api.ohs.http.dashboard.dto.GetAdminDashboardRequest;
 import com.api2api.ohs.http.dashboard.dto.GetFrontDashboardRequest;
 import com.api2api.ohs.http.dashboard.dto.GetFrontKeyMetricsRequest;
+import com.api2api.ohs.http.dashboard.dto.UsageDistributionResponse;
+import com.api2api.domain.analytics.model.AnalyticsTimeWindow;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +49,9 @@ public class DashboardController {
 
     @NonNull
     private final CurrentUserContextResolver currentUserContextResolver;
+
+    @NonNull
+    private final DashboardTimeWindowHelper dashboardTimeWindowHelper;
 
     @GetMapping("/api/dashboard")
     public ApiResponse<FrontDashboardResponse> getFrontDashboard(
@@ -75,6 +81,35 @@ public class DashboardController {
         FrontKeyMetrics metrics = dashboardApplicationService.getFrontKeyMetrics(command);
 
         return ApiResponse.success(dashboardResponseConverter.toFrontKeyMetricsResponse(metrics));
+    }
+
+    @GetMapping("/api/dashboard/distributions")
+    public ApiResponse<UsageDistributionResponse> getFrontDistributions(GetFrontDashboardRequest request, HttpServletRequest httpRequest) {
+        UserAccountId userId = currentUserContextResolver.resolveCurrentUserId(httpRequest);
+        AnalyticsTimeWindow window = AnalyticsTimeWindow.of(
+                dashboardTimeWindowHelper.getTrendStartInclusive(request.getZoneId(), 7),
+                dashboardTimeWindowHelper.getTrendEndExclusive(request.getZoneId()), request.getZoneId());
+        return ApiResponse.success(toDistributionResponse(
+                dashboardApplicationService.getDistribution(window, userId, true),
+                dashboardApplicationService.getDistribution(window, userId, false)));
+    }
+
+    @GetMapping("/api/admin/dashboard/distributions")
+    public ApiResponse<UsageDistributionResponse> getAdminDistributions(GetAdminDashboardRequest request, HttpServletRequest httpRequest) {
+        currentUserContextResolver.resolveOperatorUserId(httpRequest);
+        AnalyticsTimeWindow window = AnalyticsTimeWindow.of(
+                dashboardTimeWindowHelper.getTrendStartInclusive(request.getZoneId(), request.getTrendDays() == null ? 7 : request.getTrendDays()),
+                dashboardTimeWindowHelper.getTrendEndExclusive(request.getZoneId()), request.getZoneId());
+        return ApiResponse.success(toDistributionResponse(
+                dashboardApplicationService.getDistribution(window, null, true),
+                dashboardApplicationService.getDistribution(window, null, false)));
+    }
+
+    private UsageDistributionResponse toDistributionResponse(List<com.api2api.domain.analytics.model.UsageDistributionItem> models, List<com.api2api.domain.analytics.model.UsageDistributionItem> channels) {
+        return UsageDistributionResponse.builder()
+                .models(models.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList())
+                .channels(channels.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList())
+                .build();
     }
 
     @GetMapping("/api/admin/dashboard")

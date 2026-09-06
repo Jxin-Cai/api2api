@@ -1,6 +1,6 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 
-import { getAdminDashboard, getFrontDashboard, getFrontKeyMetrics } from '../api/dashboardMetricApi';
+import { getAdminDashboard, getFrontDashboard, getFrontKeyMetrics, getUsageDistributions } from '../api/dashboardMetricApi';
 import type {
   AdminDashboardResponse,
   FrontDashboardResponse,
@@ -45,5 +45,12 @@ export function useAdminDashboardMetrics(
       const response = await getAdminDashboard(params);
       return response.data;
     },
+  });
+}
+
+export function useUsageDistributions(scope: 'front' | 'admin', params: { zoneId?: string; trendDays?: number } = {}) {
+  return useQuery({
+    queryKey: ['dashboard', 'distributions', scope, params],
+    queryFn: () => getUsageDistributions(scope, params),
   });
 }

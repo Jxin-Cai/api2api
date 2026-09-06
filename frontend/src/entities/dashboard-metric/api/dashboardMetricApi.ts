@@ -130,3 +130,13 @@ export async function getAdminDashboard(
     },
   };
 }
+
+export interface UsageDistributionResponse {
+  models?: Array<{ name: string; value: number }>;
+  channels?: Array<{ name: string; value: number }>;
+}
+
+export async function getUsageDistributions(scope: 'front' | 'admin', params: { zoneId?: string; trendDays?: number } = {}) {
+  const path = scope === 'admin' ? '/api/admin/dashboard/distributions' : '/api/dashboard/distributions';
+  return (await apiClient.get<UsageDistributionResponse>(path, params as QueryParams)).data;
+}

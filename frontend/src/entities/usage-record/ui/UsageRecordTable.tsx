@@ -1,4 +1,4 @@
-import { Empty, Table, Typography } from 'antd';
+import { Empty, Table, Tooltip, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useState, type ReactElement } from 'react';
 
@@ -32,12 +32,11 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
     { title: 'API Key', dataIndex: 'apiCredentialName', key: 'apiCredentialName', width: 140, render: (_: unknown, record: UsageRecordResponse): string => record.apiCredentialName ?? record.apiCredentialId ?? '-' },
     { title: '模型', dataIndex: 'model', key: 'model', width: 180 },
     { title: '协议', dataIndex: 'protocolType', key: 'protocolType', width: 180 },
-    { title: '输入 Token', dataIndex: 'inputTokens', key: 'inputTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
-    { title: '输出 Token', dataIndex: 'outputTokens', key: 'outputTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
-    { title: '缓存创建输入', dataIndex: 'cacheCreationInputTokens', key: 'cacheCreationInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
-    { title: '缓存命中输入', dataIndex: 'cacheReadInputTokens', key: 'cacheReadInputTokens', align: 'right', width: 140, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
-    { title: '实际 Token', dataIndex: 'tokens', key: 'tokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
-    { title: '总 Token', dataIndex: 'totalTokens', key: 'totalTokens', align: 'right', width: 120, render: (value: number | undefined): string => formatTokenThousands(value ?? 0) },
+    { title: 'Token', key: 'tokens', align: 'right', width: 120, render: (_: unknown, record: UsageRecordResponse): ReactElement => (
+      <Tooltip mouseEnterDelay={0.15} placement="top" title={<div className="usage-token-tooltip">输入：{formatTokenThousands(record.inputTokens ?? 0)}<br />输出：{formatTokenThousands(record.outputTokens ?? 0)}<br />缓存创建：{formatTokenThousands(record.cacheCreationInputTokens ?? 0)}<br />缓存命中：{formatTokenThousands(record.cacheReadInputTokens ?? 0)}<br />实际：{formatTokenThousands(record.tokens)}<br />总计：{formatTokenThousands(record.totalTokens)}</div>}>
+        <span title="鼠标悬停查看 Token 明细" className="usage-token-value"><Typography.Text className="mono-number" underline>{formatTokenThousands(record.tokens)}</Typography.Text></span>
+      </Tooltip>
+    ) },
     { title: '首字耗时', dataIndex: 'firstTokenMillis', key: 'firstTokenMillis', align: 'right', width: 110, render: (value: number | undefined): string => value == null ? '-' : `${value} ms` },
     { title: '总耗时', dataIndex: 'durationMillis', key: 'durationMillis', align: 'right', width: 110, render: (value: number | undefined): string => value == null ? '-' : `${value} ms` },
     { title: '状态', dataIndex: 'status', key: 'status', width: 120, render: (value: string | undefined): ReactElement => <UsageRecordStatusTag status={value ?? 'SUCCESS'} /> },

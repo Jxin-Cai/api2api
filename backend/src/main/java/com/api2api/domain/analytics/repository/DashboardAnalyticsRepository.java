@@ -12,6 +12,7 @@ import com.api2api.domain.analytics.model.ProtocolRequestRate;
 import com.api2api.domain.analytics.model.ProtocolTokenTrendPoint;
 import com.api2api.domain.analytics.model.TokenAmount;
 import com.api2api.domain.analytics.model.UserTokenRanking;
+import com.api2api.domain.analytics.model.UsageDistributionItem;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.usage.model.UsageRecordFilter;
@@ -86,6 +87,10 @@ public interface DashboardAnalyticsRepository {
      * @return non-null stable ranking rows
      */
     List<UserTokenRanking> findTopUsersByTokens(AnalyticsTimeWindow window, int limit);
+
+    List<UsageDistributionItem> findModelDistribution(UserAccountId userAccountId, AnalyticsTimeWindow window, int limit);
+
+    List<UsageDistributionItem> findChannelDistribution(UserAccountId userAccountId, AnalyticsTimeWindow window, int limit);
 
     /**
      * Sums token trends by protocol and time bucket.

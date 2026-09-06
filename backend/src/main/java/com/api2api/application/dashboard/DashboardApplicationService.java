@@ -23,8 +23,10 @@ import com.api2api.domain.usage.model.UsageTimeRange;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
 import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccount;
+import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.domain.user.repository.UserAccountRepository;
 import java.util.List;
+import com.api2api.domain.analytics.model.UsageDistributionItem;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.NonNull;
@@ -190,6 +192,11 @@ public class DashboardApplicationService {
         );
 
         return dashboardAnalyticsService.buildAdminMetrics(query, operator, dashboardAnalyticsRepository);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UsageDistributionItem> getDistribution(AnalyticsTimeWindow window, UserAccountId userId, boolean model) {
+        return model ? dashboardAnalyticsRepository.findModelDistribution(userId, window, 12) : dashboardAnalyticsRepository.findChannelDistribution(userId, window, 12);
     }
 
     private UserAccount loadFrontUser(GetFrontDashboardCommand command) {

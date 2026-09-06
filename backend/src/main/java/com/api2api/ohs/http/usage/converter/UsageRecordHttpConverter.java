@@ -101,7 +101,7 @@ public abstract class UsageRecordHttpConverter {
     @Mapping(target = "actualTokens", source = "tokenUsage.actualTokens")
     @Mapping(target = "usageKnown", source = "tokenUsage.usageKnown")
     @Mapping(target = "durationMillis", expression = "java(record.getDuration().millis())")
-    @Mapping(target = "firstTokenMillis", expression = "java(null)")
+    @Mapping(target = "firstTokenMillis", expression = "java(record.getFirstTokenMillis())")
     @Mapping(target = "clientIp", expression = "java(record.getClientIp())")
     @Mapping(target = "errorType", expression = "java(errorTypeValue(record))")
     @Mapping(target = "errorMessage", expression = "java(errorMessageValue(record))")
