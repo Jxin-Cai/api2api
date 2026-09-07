@@ -1,6 +1,6 @@
 import { Skeleton } from 'antd';
 
-import { formatTokenMillionsValue } from '@shared/lib/formatters';
+import { formatTokenCompactParts } from '@shared/lib/formatters';
 
 import type { UsageScope } from '../model/types';
 import './UsageTokenSummary.css';
@@ -36,8 +36,8 @@ export function UsageTokenSummary({
   const safeTotalTokens = toSafeAmount(totalTokens);
   const safeActualTokens = toSafeAmount(actualTokens);
   const safeRecordCount = toSafeAmount(recordCount);
-  const formattedTotalTokens = formatTokenMillionsValue(safeTotalTokens);
-  const formattedActualTokens = formatTokenMillionsValue(safeActualTokens);
+  const formattedTotalTokens = formatTokenCompactParts(safeTotalTokens) ?? { value: '0.0', unit: 'M' };
+  const formattedActualTokens = formatTokenCompactParts(safeActualTokens) ?? { value: '0.0', unit: 'M' };
   const formattedRecordCount = safeRecordCount.toLocaleString('zh-CN');
   const formattedAverageActualTokens = averageTokens(safeActualTokens, safeRecordCount);
   const formattedAverageTotalTokens = averageTokens(safeTotalTokens, safeRecordCount);
@@ -69,8 +69,8 @@ export function UsageTokenSummary({
               <div>
                 <span className="usage-token-summary__split-label">实际 Token</span>
                 <div className="usage-token-summary__value-row mono-number">
-                  <strong className="usage-token-summary__value">{formattedActualTokens}</strong>
-                  <span className="usage-token-summary__unit">M</span>
+                  <strong className="usage-token-summary__value">{formattedActualTokens.value}</strong>
+                  <span className="usage-token-summary__unit">{formattedActualTokens.unit}</span>
                 </div>
                 <span className="usage-token-summary__hint mono-number">
                   合计 {safeActualTokens.toLocaleString('zh-CN')} · 平均 {formattedAverageActualTokens} Token / 条
@@ -79,8 +79,8 @@ export function UsageTokenSummary({
               <div>
                 <span className="usage-token-summary__split-label">总 Token</span>
                 <div className="usage-token-summary__value-row mono-number">
-                  <strong className="usage-token-summary__value">{formattedTotalTokens}</strong>
-                  <span className="usage-token-summary__unit">M</span>
+                  <strong className="usage-token-summary__value">{formattedTotalTokens.value}</strong>
+                  <span className="usage-token-summary__unit">{formattedTotalTokens.unit}</span>
                 </div>
                 <span className="usage-token-summary__hint mono-number">
                   合计 {safeTotalTokens.toLocaleString('zh-CN')} · 平均 {formattedAverageTotalTokens} Token / 条

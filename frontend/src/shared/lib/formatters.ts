@@ -1,4 +1,12 @@
 const TOKENS_PER_MILLION = 1_000_000;
+const TOKENS_PER_BILLION = 1_000_000_000;
+
+export type TokenCompactUnit = 'M' | 'B';
+
+export interface TokenCompactParts {
+  value: string;
+  unit: TokenCompactUnit;
+}
 
 export function formatTokenMillionsValue(tokens?: number | null): string {
   if (tokens === undefined || tokens === null) {
@@ -12,17 +20,21 @@ export function formatTokenMillions(tokens?: number | null): string {
   return value === '-' ? value : `${value}M`;
 }
 
-const TOKENS_PER_BILLION = 1_000_000_000;
-
-/** Format dashboard token totals in millions, switching to billions at 1 billion tokens. */
-export function formatTokenCompact(tokens?: number | null): string {
+/** Split token totals into a 1-decimal value and M/B unit. Uses B at 1 billion tokens. */
+export function formatTokenCompactParts(tokens?: number | null): TokenCompactParts | null {
   if (tokens === undefined || tokens === null || !Number.isFinite(tokens)) {
-    return '-';
+    return null;
   }
   if (tokens >= TOKENS_PER_BILLION) {
-    return `${(tokens / TOKENS_PER_BILLION).toFixed(1)}B`;
+    return { value: (tokens / TOKENS_PER_BILLION).toFixed(1), unit: 'B' };
   }
-  return `${(tokens / TOKENS_PER_MILLION).toFixed(1)}M`;
+  return { value: (tokens / TOKENS_PER_MILLION).toFixed(1), unit: 'M' };
+}
+
+/** Format token totals in millions, switching to billions at 1 billion tokens. */
+export function formatTokenCompact(tokens?: number | null): string {
+  const parts = formatTokenCompactParts(tokens);
+  return parts == null ? '-' : `${parts.value}${parts.unit}`;
 }
 
 export function formatTokenThousands(tokens?: number | null, decimals = 1): string {
