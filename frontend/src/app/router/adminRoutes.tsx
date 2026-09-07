@@ -1,14 +1,16 @@
-import { lazy, Suspense, type ReactElement } from 'react';
+import { Suspense, type ReactElement } from 'react';
 import { Navigate, useLocation, type RouteObject } from 'react-router-dom';
 
 import { RequireRole } from '@features/route-by-role';
 import { PageState } from '@shared/ui';
 
-const AdminOperationsPage = lazy(() => import('@pages/AdminOperationsPage'));
-const AdminUsersPage = lazy(() => import('@pages/AdminUsersPage'));
-const AdminChannelsPage = lazy(() => import('@pages/AdminChannelsPage'));
-const AdminModelMappingsPage = lazy(() => import('@pages/AdminModelMappingsPage'));
-const AdminConversionsPage = lazy(() => import('@pages/AdminConversionsPage'));
+import { lazyWithRetry } from './lazyWithRetry';
+
+const AdminOperationsPage = lazyWithRetry(() => import('@pages/AdminOperationsPage'));
+const AdminUsersPage = lazyWithRetry(() => import('@pages/AdminUsersPage'));
+const AdminChannelsPage = lazyWithRetry(() => import('@pages/AdminChannelsPage'));
+const AdminModelMappingsPage = lazyWithRetry(() => import('@pages/AdminModelMappingsPage'));
+const AdminConversionsPage = lazyWithRetry(() => import('@pages/AdminConversionsPage'));
 
 function withAdminGuard(element: ReactElement): ReactElement {
   return (

@@ -1,4 +1,4 @@
-import { Button, Space, Typography, message, notification } from 'antd';
+import { App, Button, Space, Typography } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import { copyText } from '@shared/lib';
 
@@ -10,10 +10,12 @@ interface CopyableTextProps {
 }
 
 export function CopyableText({ text, masked = false }: CopyableTextProps) {
+  const { message, notification } = App.useApp();
+
   async function handleCopy(): Promise<void> {
     const result = await copyText(text);
     if (!result.ok) {
-      notification.error({ message: '复制失败', description: result.reason ?? '请手动选择文本复制。' });
+      notification.warning({ message: '请手动复制', description: result.reason ?? '请按 ⌘C 或 Ctrl+C 复制。' });
       return;
     }
     message.success('已复制');

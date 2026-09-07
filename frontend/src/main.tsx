@@ -15,7 +15,10 @@ window.addEventListener('vite:preloadError', (event) => {
   }
 });
 
-clearChunkReloadFlag();
+// Delay clearing so a broken chunk cannot reload-loop on the same navigation.
+window.setTimeout((): void => {
+  clearChunkReloadFlag();
+}, 3000);
 
 const rootElement = document.getElementById('root');
 

@@ -5,7 +5,8 @@ import { useMemo, useState, type ReactElement } from 'react';
 
 import { ApiCredentialStatusTag, ApiKeySecretBlock, useApiCredentials, type ApiCredentialResponse, type CreateApiCredentialResponse, type RevealApiCredentialSecretResponse } from '@entities/api-credential';
 import { MetricCard } from '@entities/dashboard-metric';
-import { formatTokenMillions } from '@shared/lib/formatters';
+import { getApiErrorMessage } from '@shared/api';
+import { formatTokenCompact, formatTokenMillions } from '@shared/lib/formatters';
 import { PageState } from '@shared/ui';
 
 import { useApiCredentialMutations } from '../model/useApiCredentialMutations';
@@ -114,10 +115,13 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
       onOk: async (): Promise<void> => {
         try {
           const secret = await revealMutation.mutateAsync(credential.id);
-          setRevealedCredentialName(credential.name);
-          setRevealedSecret(secret);
+          // Reveal 已打断用户手势，此时自动写入剪贴板会失败；等确认框关闭后再展示明文，由用户点击复制。
+          window.setTimeout((): void => {
+            setRevealedCredentialName(credential.name);
+            setRevealedSecret(secret);
+          }, 0);
         } catch (error: unknown) {
-          message.error(error instanceof Error ? error.message : '获取 API Key 失败');
+          message.error(getApiErrorMessage(error, '获取 API Key 失败'));
         }
       },
     });
@@ -236,7 +240,7 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
     },
   ];
 
-  if (query.isError) {
+  if (query.isError && !query.isFetching) {
     return <PageState status="error" title="API Key 加载失败" description={query.error.message} onRetry={(): void => { query.refetch().catch((): void => undefined); }} />;
   }
 
@@ -245,8 +249,8 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
       <Space direction="vertical" className="api-credential-panel" size={20}>
         <div className="api-credential-summary">
           <MetricCard title="API Key 总数" value={credentials.length} loading={query.isLoading} />
-          <MetricCard title="实际 Token 总用量" value={formatTokenMillions(tokenSummary.actualTokens)} rawValue={tokenSummary.actualTokens} loading={query.isLoading} />
-          <MetricCard title="总 Token 总用量" value={formatTokenMillions(tokenSummary.totalTokens)} rawValue={tokenSummary.totalTokens} loading={query.isLoading} />
+          <MetricCard title="实际 Token 总用量" value={formatTokenCompact(tokenSummary.actualTokens)} rawValue={tokenSummary.actualTokens} loading={query.isLoading} />
+          <MetricCard title="总 Token 总用量" value={formatTokenCompact(tokenSummary.totalTokens)} rawValue={tokenSummary.totalTokens} loading={query.isLoading} />
           <MetricCard title="今日实际 Token" value={formatTokenMillions(tokenSummary.todayActualTokens)} rawValue={tokenSummary.todayActualTokens} loading={query.isLoading} />
           <MetricCard title="今日总 Token" value={formatTokenMillions(tokenSummary.todayTotalTokens)} rawValue={tokenSummary.todayTotalTokens} loading={query.isLoading} />
         </div>

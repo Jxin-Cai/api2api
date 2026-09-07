@@ -1,12 +1,20 @@
 import { Button, Result, Space } from 'antd';
+import { useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
-import { isChunkLoadError } from '@shared/lib';
+import { handleChunkLoadFailure, isChunkLoadError } from '@shared/lib';
 import { ROUTE_PATHS } from '@shared/config/constants';
 
 export function RouteErrorState() {
   const error = useRouteError();
+  const chunkLoadError = isChunkLoadError(error);
 
-  if (isChunkLoadError(error)) {
+  useEffect(() => {
+    if (chunkLoadError) {
+      handleChunkLoadFailure();
+    }
+  }, [chunkLoadError]);
+
+  if (chunkLoadError) {
     return (
       <div className="app-page" style={{ display: 'flex', justifyContent: 'center', paddingTop: 120 }}>
         <Result

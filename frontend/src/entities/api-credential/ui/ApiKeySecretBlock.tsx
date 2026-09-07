@@ -1,5 +1,5 @@
 import { Alert, App, Button, Space, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { copyText } from '@shared/lib';
 import './ApiKeySecretBlock.css';
@@ -21,6 +21,7 @@ export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskA
   const { message, notification } = App.useApp();
   const [copied, setCopied] = useState(false);
   const [masked, setMasked] = useState(false);
+  const secretRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setCopied(false);
@@ -33,10 +34,13 @@ export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskA
       notification.error({ message: '复制失败', description: '当前没有可复制的 API Key 明文。' });
       return;
     }
-    const result = await copyText(text);
+    const result = await copyText(text, secretRef.current);
     if (!result.ok) {
       setMasked(false);
-      notification.error({ message: '复制失败', description: result.reason ? `${result.reason}，请手动选择文本复制。` : '请手动选择文本复制。' });
+      notification.warning({
+        message: '请手动复制',
+        description: result.reason ?? '请按 ⌘C 或 Ctrl+C 复制已选中的明文。',
+      });
       return;
     }
     setCopied(true);
@@ -56,7 +60,7 @@ export function ApiKeySecretBlock({ plainApiKey, credentialName, onCopied, maskA
     <Space direction="vertical" style={{ width: '100%' }} size={12}>
       <Alert type="warning" showIcon message={warningMessage} />
       {credentialName ? <Typography.Text strong>{credentialName}</Typography.Text> : null}
-      <code className="api-key-secret-block__code">
+      <code ref={secretRef} className="api-key-secret-block__code">
         {masked ? '••••••••••••••••••••••••••••••••' : plainApiKey}
       </code>
       <Space>

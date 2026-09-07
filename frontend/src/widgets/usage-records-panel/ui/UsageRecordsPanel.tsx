@@ -27,7 +27,7 @@ export function UsageRecordsPanel({ scope }: UsageRecordsPanelProps) {
           disabled={query.isFetching}
         />
         <UsagePageSizeSelector value={filters.pageSize} onChange={(pageSize): void => setPage(1, pageSize)} />
-        {query.isError ? (
+        {query.isError && !query.isFetching ? (
           <PageState
             status="error"
             title="使用记录加载失败"
@@ -52,7 +52,7 @@ export function UsageRecordsPanel({ scope }: UsageRecordsPanelProps) {
             />
           </>
         )}
-        {query.isError ? (
+        {query.isError && !query.isFetching ? (
           <Button onClick={resetFilters}>重置筛选</Button>
         ) : null}
       </Space>

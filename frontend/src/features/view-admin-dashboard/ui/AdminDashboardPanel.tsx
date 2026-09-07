@@ -32,7 +32,7 @@ export function AdminDashboardPanel() {
     );
   }, [data?.protocolRequestRates]);
 
-  if (query.isError) {
+  if (query.isError && !query.isFetching) {
     return (
       <PageState
         status="error"

@@ -36,7 +36,7 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
   const distribution = { model: distributionQuery.data?.models ?? [], channel: distributionQuery.data?.channels ?? [] };
   const keyMetrics = keyMetricsQuery.data;
 
-  if (query.isError) {
+  if (query.isError && !query.isFetching) {
     return <PageState status="error" title="前台仪表盘加载失败" description={query.error.message} onRetry={(): void => { query.refetch().catch(() => undefined); }} />;
   }
 
@@ -78,7 +78,7 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
             onChange={(values: string[]): void => { setSelectedCredentialIds(values); }}
           />
         </div>
-        {keyMetricsQuery.isError ? (
+        {keyMetricsQuery.isError && !keyMetricsQuery.isFetching ? (
           <PageState
             status="error"
             title="Key 趋势加载失败"
@@ -92,7 +92,7 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
 
       <Space direction="vertical" size={12} style={{ width: '100%' }}>
         <Typography.Title level={4} className="front-dashboard-trend__title">今日各 Key 并发曲线（每 5 分钟峰值，沿用上方 Key 筛选）</Typography.Title>
-        {keyMetricsQuery.isError ? null : (
+        {keyMetricsQuery.isError && !keyMetricsQuery.isFetching ? null : (
           <TrendChart
             data={normalizeConcurrencyPoints(keyMetrics?.credentialConcurrencyTrends)}
             loading={keyMetricsQuery.isLoading}
