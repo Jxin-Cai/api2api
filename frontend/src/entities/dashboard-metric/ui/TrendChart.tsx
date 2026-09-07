@@ -111,43 +111,50 @@ export function TrendChart({
 
   return (
     <Card className="trend-chart-card">
-      <Line
-        key={themeMode}
-        data={data}
-        xField={xField}
-        yField={yField}
-        colorField={seriesField}
-        height={height}
-        theme={chartTheme.isDark ? 'classicDark' : 'classic'}
-        shapeField="smooth"
-        point={{ sizeField: 3, shapeField: 'circle' }}
-        scale={{ color: { domain: series.map((item) => item.name), range: series.map((item) => item.color) } }}
-        legend={{ color: false }}
-        axis={{
-          x: {
-            labelFill: chartTheme.axisLabel,
-            lineStroke: chartTheme.gridStroke,
-            labelAutoRotate: false,
-          },
-          y: {
-            labelFill: chartTheme.axisLabel,
-            gridStroke: chartTheme.gridStroke,
-            labelFormatter: (value: number) => formatAxisValue(value, valueUnit, valuePrecision),
-          },
-        }}
-        tooltip={{
-          position: 'top',
-          bounding: 'viewport',
-          enterable: true,
-          offset: 12,
-          items: [
-            {
-              channel: 'y',
-              valueFormatter: (value: number) => formatAxisValue(value, valueUnit, valuePrecision),
+      <div className="trend-chart-plot" style={{ height }}>
+        <Line
+          key={themeMode}
+          data={data}
+          xField={xField}
+          yField={yField}
+          colorField={seriesField}
+          autoFit
+          height={height}
+          margin={0}
+          inset={8}
+          theme={chartTheme.isDark ? 'classicDark' : 'classic'}
+          shapeField="smooth"
+          point={{ sizeField: 3, shapeField: 'circle' }}
+          scale={{ color: { domain: series.map((item) => item.name), range: series.map((item) => item.color) } }}
+          legend={false}
+          axis={{
+            x: {
+              labelFill: chartTheme.axisLabel,
+              lineStroke: chartTheme.gridStroke,
+              labelAutoRotate: false,
+              size: 28,
             },
-          ],
-        }}
-      />
+            y: {
+              labelFill: chartTheme.axisLabel,
+              gridStroke: chartTheme.gridStroke,
+              size: 44,
+              labelFormatter: (value: number) => formatAxisValue(value, valueUnit, valuePrecision),
+            },
+          }}
+          tooltip={{
+            position: 'top',
+            bounding: 'viewport',
+            enterable: true,
+            offset: 12,
+            items: [
+              {
+                channel: 'y',
+                valueFormatter: (value: number) => formatAxisValue(value, valueUnit, valuePrecision),
+              },
+            ],
+          }}
+        />
+      </div>
       {series.length > 0 ? (
         <ul className="trend-chart-legend" aria-label="趋势图图例">
           {series.map((item) => (

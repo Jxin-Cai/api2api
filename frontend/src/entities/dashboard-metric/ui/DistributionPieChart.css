@@ -1,6 +1,10 @@
 .dashboard-distribution-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   min-height: 320px;
   padding: 18px;
+  overflow: visible;
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -9,18 +13,99 @@
 }
 
 .dashboard-distribution-card__title {
-  margin: 0 0 16px;
-  padding-bottom: 12px;
-  color: var(--text-primary);
-  -webkit-text-fill-color: var(--text-primary);
-  background: none;
-  -webkit-background-clip: border-box;
-  background-clip: border-box;
-  border-bottom: 2px solid var(--text-primary);
+  position: relative;
+  z-index: 2;
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #171717;
+  color: #171717 !important;
+  -webkit-text-fill-color: #171717 !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
   font-size: 16px;
   font-weight: 800;
   line-height: 1.4;
   letter-spacing: 0.01em;
+  opacity: 1;
+  visibility: visible;
+}
+
+[data-theme='dark'] .dashboard-distribution-card__title {
+  border-bottom-color: #f7f5f2;
+  color: #f7f5f2 !important;
+  -webkit-text-fill-color: #f7f5f2 !important;
+}
+
+.dashboard-distribution-card__chart {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  min-width: 0;
+  height: 220px;
+  overflow: visible;
+}
+
+.dashboard-distribution-card .g2-tooltip {
+  z-index: 40;
+  min-width: 132px;
+  pointer-events: none;
+}
+
+.dashboard-distribution-card__chart canvas,
+.dashboard-distribution-card__chart svg {
+  max-width: 100% !important;
+}
+
+.dashboard-distribution-card__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  max-height: 88px;
+  margin: 12px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.dashboard-distribution-card__legend-item {
+  display: inline-flex;
+  align-items: center;
+  max-width: min(220px, 100%);
+  min-width: 0;
+  color: #171717;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.dashboard-distribution-card__legend-hit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+  cursor: default;
+}
+
+[data-theme='dark'] .dashboard-distribution-card__legend-item {
+  color: #f7f5f2;
+}
+
+.dashboard-distribution-card__legend-swatch {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.dashboard-distribution-card__legend-label {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dashboard-distribution-card .ant-empty {
@@ -29,11 +114,4 @@
 
 .dashboard-distribution-card .ant-empty-description {
   color: var(--text-secondary);
-}
-
-.dashboard-distribution-card .g2-html-legend,
-.dashboard-distribution-card .g2-legend,
-.dashboard-distribution-card [class*='legend-item-label'] {
-  color: var(--text-primary);
-  fill: var(--text-primary);
 }

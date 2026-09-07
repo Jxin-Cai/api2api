@@ -136,7 +136,7 @@ export interface UsageDistributionResponse {
   channels?: Array<{ name: string; value: number }>;
 }
 
-export async function getUsageDistributions(scope: 'front' | 'admin', params: { zoneId?: string; trendDays?: number } = {}) {
+export async function getUsageDistributions(scope: 'front' | 'admin', params: { zoneId?: string } = {}) {
   const path = scope === 'admin' ? '/api/admin/dashboard/distributions' : '/api/dashboard/distributions';
   return (await apiClient.get<UsageDistributionResponse>(path, params as QueryParams)).data;
 }

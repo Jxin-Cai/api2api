@@ -20,7 +20,7 @@ export function AdminDashboardPanel() {
     trendDays: TREND_DAYS,
   });
   const data = query.data;
-  const distributionQuery = useUsageDistributions('admin', { zoneId: resolveTimeZone(), trendDays: TREND_DAYS });
+  const distributionQuery = useUsageDistributions('admin', { zoneId: resolveTimeZone() });
   const distribution = { model: distributionQuery.data?.models ?? [], channel: distributionQuery.data?.channels ?? [] };
 
   const rateByProtocol = useMemo((): Map<string, { requestCount: number; requestsPerMinute: number }> => {
@@ -91,7 +91,19 @@ export function AdminDashboardPanel() {
         </Row>
       </section>
 
-      <section className="admin-dashboard__section" aria-labelledby="admin-dashboard-distributions"><Typography.Title id="admin-dashboard-distributions" level={4} className="admin-dashboard__section-title">模型与渠道分布</Typography.Title><Row gutter={[16, 16]}><Col xs={24} lg={12}><DistributionPieChart title="模型分布（近 7 日）" items={distribution.model} loading={distributionQuery.isLoading} /></Col><Col xs={24} lg={12}><DistributionPieChart title="渠道分布（近 7 日）" items={distribution.channel} loading={distributionQuery.isLoading} /></Col></Row></section>
+      <section className="admin-dashboard__section" aria-labelledby="admin-dashboard-distributions">
+        <Typography.Title id="admin-dashboard-distributions" level={4} className="admin-dashboard__section-title">
+          模型与渠道分布
+        </Typography.Title>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={12}>
+            <DistributionPieChart title="模型分布（本月）" items={distribution.model} loading={distributionQuery.isLoading} />
+          </Col>
+          <Col xs={24} lg={12}>
+            <DistributionPieChart title="渠道分布（本月）" items={distribution.channel} loading={distributionQuery.isLoading} />
+          </Col>
+        </Row>
+      </section>
 
       <section className="admin-dashboard__section" aria-labelledby="admin-dashboard-trends">
         <Typography.Title id="admin-dashboard-trends" level={4} className="admin-dashboard__section-title">

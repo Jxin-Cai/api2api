@@ -51,8 +51,8 @@ export function FrontDashboardPanel({ zoneId }: FrontDashboardPanelProps) {
       </DashboardSummaryGrid>
 
       <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}><DistributionPieChart title="模型分布" items={distribution.model} loading={distributionQuery.isLoading} /></Col>
-        <Col xs={24} lg={12}><DistributionPieChart title="渠道分布" items={distribution.channel} loading={distributionQuery.isLoading} /></Col>
+        <Col xs={24} lg={12}><DistributionPieChart title="模型分布（本月）" items={distribution.model} loading={distributionQuery.isLoading} /></Col>
+        <Col xs={24} lg={12}><DistributionPieChart title="渠道分布（本月）" items={distribution.channel} loading={distributionQuery.isLoading} /></Col>
       </Row>
 
       <Row gutter={[16, 16]}>

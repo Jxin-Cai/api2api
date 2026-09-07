@@ -86,9 +86,7 @@ public class DashboardController {
     @GetMapping("/api/dashboard/distributions")
     public ApiResponse<UsageDistributionResponse> getFrontDistributions(GetFrontDashboardRequest request, HttpServletRequest httpRequest) {
         UserAccountId userId = currentUserContextResolver.resolveCurrentUserId(httpRequest);
-        AnalyticsTimeWindow window = AnalyticsTimeWindow.of(
-                dashboardTimeWindowHelper.getTrendStartInclusive(request.getZoneId(), 7),
-                dashboardTimeWindowHelper.getTrendEndExclusive(request.getZoneId()), request.getZoneId());
+        AnalyticsTimeWindow window = currentMonthWindow(request.getZoneId());
         return ApiResponse.success(toDistributionResponse(
                 dashboardApplicationService.getDistribution(window, userId, true),
                 dashboardApplicationService.getDistribution(window, userId, false)));
@@ -97,12 +95,20 @@ public class DashboardController {
     @GetMapping("/api/admin/dashboard/distributions")
     public ApiResponse<UsageDistributionResponse> getAdminDistributions(GetAdminDashboardRequest request, HttpServletRequest httpRequest) {
         currentUserContextResolver.resolveOperatorUserId(httpRequest);
-        AnalyticsTimeWindow window = AnalyticsTimeWindow.of(
-                dashboardTimeWindowHelper.getTrendStartInclusive(request.getZoneId(), request.getTrendDays() == null ? 7 : request.getTrendDays()),
-                dashboardTimeWindowHelper.getTrendEndExclusive(request.getZoneId()), request.getZoneId());
+        AnalyticsTimeWindow window = currentMonthWindow(request.getZoneId());
         return ApiResponse.success(toDistributionResponse(
                 dashboardApplicationService.getDistribution(window, null, true),
                 dashboardApplicationService.getDistribution(window, null, false)));
+    }
+
+    private AnalyticsTimeWindow currentMonthWindow(String zoneId) {
+        String effectiveZoneId = zoneId == null || zoneId.isBlank()
+                ? DashboardTimeWindowHelper.DEFAULT_ZONE_ID
+                : zoneId.trim();
+        return AnalyticsTimeWindow.of(
+                dashboardTimeWindowHelper.getMonthStartInclusive(effectiveZoneId),
+                dashboardTimeWindowHelper.getMonthEndExclusive(effectiveZoneId),
+                effectiveZoneId);
     }
 
     private UsageDistributionResponse toDistributionResponse(List<com.api2api.domain.analytics.model.UsageDistributionItem> models, List<com.api2api.domain.analytics.model.UsageDistributionItem> channels) {

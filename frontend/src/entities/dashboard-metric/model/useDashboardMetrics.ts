@@ -48,7 +48,7 @@ export function useAdminDashboardMetrics(
   });
 }
 
-export function useUsageDistributions(scope: 'front' | 'admin', params: { zoneId?: string; trendDays?: number } = {}) {
+export function useUsageDistributions(scope: 'front' | 'admin', params: { zoneId?: string } = {}) {
   return useQuery({
     queryKey: ['dashboard', 'distributions', scope, params],
     queryFn: () => getUsageDistributions(scope, params),

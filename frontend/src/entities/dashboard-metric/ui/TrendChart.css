@@ -1,9 +1,12 @@
 .trend-chart-card {
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border-color: var(--border-color) !important;
   background: var(--bg-surface) !important;
   box-shadow: var(--shadow-sm) !important;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* Keep dense multi-series hover details inside the viewport without hiding items. */
@@ -39,7 +42,22 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
   padding: 18px;
+  overflow: hidden;
+}
+
+.trend-chart-plot {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.trend-chart-plot canvas,
+.trend-chart-plot svg {
+  display: block;
+  max-width: 100% !important;
 }
 
 .trend-chart-legend {
