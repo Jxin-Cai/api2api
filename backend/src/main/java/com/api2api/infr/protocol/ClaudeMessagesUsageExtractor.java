@@ -26,22 +26,39 @@ public class ClaudeMessagesUsageExtractor implements UnifiedUsageExtractor {
         if (usage == null || !usage.isObject()) {
             return UnifiedTokenUsage.unknown();
         }
+        // The top-level usage object is the provider's authoritative total for the response.
+        // Some providers additionally expose per-iteration accounting for server-side compaction;
+        // summing it when top-level values are present double-counts the same request.
         IterationUsage iterationUsage = sumIterations(usage.path("iterations"));
-        long inputTokens = iterationUsage.present()
-                ? iterationUsage.inputTokens()
-                : firstPositiveLong(usage.get("input_tokens"), usage.get("prompt_tokens"));
-        long outputTokens = iterationUsage.present()
-                ? iterationUsage.outputTokens()
-                : firstPositiveLong(usage.get("output_tokens"), usage.get("completion_tokens"));
-        long cacheCreationInputTokens = iterationUsage.cacheCreationInputTokens() > 0
-                ? iterationUsage.cacheCreationInputTokens()
-                : firstPositiveLong(usage.get("cache_creation_input_tokens"));
-        if (cacheCreationInputTokens == 0) {
+        long inputTokens = firstPresentNonNegativeLong(
+                usage.get("input_tokens"), usage.get("prompt_tokens"));
+        if (inputTokens < 0 && iterationUsage.present()) {
+            inputTokens = iterationUsage.inputTokens();
+        }
+        long outputTokens = firstPresentNonNegativeLong(
+                usage.get("output_tokens"), usage.get("completion_tokens"));
+        if (outputTokens < 0 && iterationUsage.present()) {
+            outputTokens = iterationUsage.outputTokens();
+        }
+        long cacheCreationInputTokens = firstPresentNonNegativeLong(
+                usage.get("cache_creation_input_tokens"));
+        if (cacheCreationInputTokens < 0) {
+            cacheCreationInputTokens = iterationUsage.present()
+                    ? iterationUsage.cacheCreationInputTokens() : -1;
+        }
+        if (cacheCreationInputTokens <= 0) {
             cacheCreationInputTokens = sumCacheCreationDetails(usage.path("cache_creation"));
         }
-        long cacheReadInputTokens = iterationUsage.cacheReadInputTokens() > 0
-                ? iterationUsage.cacheReadInputTokens()
-                : firstPositiveLong(usage.get("cache_read_input_tokens"), usage.get("cached_tokens"));
+        long cacheReadInputTokens = firstPresentNonNegativeLong(
+                usage.get("cache_read_input_tokens"), usage.get("cached_tokens"));
+        if (cacheReadInputTokens < 0) {
+            cacheReadInputTokens = iterationUsage.present()
+                    ? iterationUsage.cacheReadInputTokens() : 0;
+        }
+        inputTokens = Math.max(0, inputTokens);
+        outputTokens = Math.max(0, outputTokens);
+        cacheCreationInputTokens = Math.max(0, cacheCreationInputTokens);
+        cacheReadInputTokens = Math.max(0, cacheReadInputTokens);
         return UnifiedTokenUsage.known(inputTokens, outputTokens, cacheCreationInputTokens, cacheReadInputTokens);
     }
 
@@ -75,6 +92,15 @@ public class ClaudeMessagesUsageExtractor implements UnifiedUsageExtractor {
     private static long sumCacheCreationDetails(JsonNode cacheCreation) {
         return Math.max(0, cacheCreation.path("ephemeral_5m_input_tokens").asLong(0)
                 + cacheCreation.path("ephemeral_1h_input_tokens").asLong(0));
+    }
+
+    private static long firstPresentNonNegativeLong(JsonNode... values) {
+        for (JsonNode value : values) {
+            if (value != null && !value.isNull() && !value.isMissingNode() && value.isNumber()) {
+                return Math.max(0, value.asLong(0));
+            }
+        }
+        return -1;
     }
 
     static long firstPositiveLong(JsonNode... values) {
