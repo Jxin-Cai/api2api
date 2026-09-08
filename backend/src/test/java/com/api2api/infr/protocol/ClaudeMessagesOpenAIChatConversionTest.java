@@ -257,6 +257,70 @@ class ClaudeMessagesOpenAIChatConversionTest {
         assertThat(mapped.path("reasoning_effort").asText()).isEqualTo("medium");
     }
 
+    @Test
+    void test_replaysThinkingAsReasoningContent_when_assistantTurnCallsTool() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "messages":[
+                    {"role":"assistant","content":[
+                      {"type":"thinking","thinking":"need weather data"},
+                      {"type":"tool_use","id":"call_1","name":"get_weather","input":{"city":"Shanghai"}}
+                    ]},
+                    {"role":"user","content":[
+                      {"type":"tool_result","tool_use_id":"call_1","content":"sunny"}
+                    ]}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.at("/messages/0/reasoning_content").asText()).isEqualTo("need weather data");
+    }
+
+    @Test
+    void test_omitsThinkingFromReasoningContent_when_assistantTurnHasNoToolCall() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "messages":[{"role":"assistant","content":[
+                    {"type":"thinking","thinking":"private reasoning"},
+                    {"type":"text","text":"answer"}
+                  ]}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, false);
+
+        // Assert
+        assertThat(mapped.at("/messages/0").has("reasoning_content")).isFalse();
+    }
+
+    @Test
+    void test_dropsNamedToolChoice_when_toolIsUndeclared() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "tools":[{"name":"get_weather","input_schema":{"type":"object"}}],
+                  "tool_choice":{"type":"tool","name":"missing_tool"},
+                  "messages":[{"role":"user","content":"hello"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.has("tool_choice")).isFalse();
+    }
+
     private JsonNode convertRequest(String body, boolean toolCallingRequired) throws Exception {
         ProtocolMessageConverter converter = configuration.claudeMessagesToOpenAIChatRequest(
                 json, new SseEventTransformer());

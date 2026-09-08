@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private static final boolean RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED = false;
     private static final int MIN_CHAT_COMPLETION_TOKENS = 128;
+    private static final int DEFAULT_CLAUDE_MAX_TOKENS = 8192;
     private static final String EMPTY_TOOL_RESULT = "(empty)";
     private static final String ANTHROPIC_BILLING_HEADER_PREFIX = "x-anthropic-billing-header: ";
 
@@ -186,11 +188,22 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private void mapClaudeToChatTools(JsonNode source, ObjectNode target) {
         JsonNode tools = source.get("tools");
         if (tools != null && tools.isArray() && !tools.isEmpty()) {
-            target.set("tools", claudeToolsToChat(tools));
+            ArrayNode mappedTools = claudeToolsToChat(tools);
+            target.set("tools", mappedTools);
             target.put("parallel_tool_calls", true);
             JsonNode toolChoice = source.get("tool_choice");
             if (toolChoice != null && !toolChoice.isNull()) {
-                target.set("tool_choice", claudeToolChoiceToChat(toolChoice));
+                Set<String> declaredToolNames = new HashSet<>();
+                for (JsonNode tool : mappedTools) {
+                    String name = tool.path("function").path("name").asText("");
+                    if (!name.isBlank()) {
+                        declaredToolNames.add(name);
+                    }
+                }
+                JsonNode mappedToolChoice = claudeToolChoiceToChat(toolChoice, declaredToolNames);
+                if (mappedToolChoice != null) {
+                    target.set("tool_choice", mappedToolChoice);
+                }
                 if (toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
                     target.put("parallel_tool_calls", false);
                 }
@@ -338,22 +351,27 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         };
     }
 
-    private JsonNode claudeToolChoiceToChat(JsonNode toolChoice) {
+    private JsonNode claudeToolChoiceToChat(JsonNode toolChoice, Set<String> declaredToolNames) {
         String type = toolChoice.isTextual()
                 ? toolChoice.asText("auto")
                 : toolChoice.path("type").asText("auto");
         return switch (type) {
+            case "auto" -> json.valueToTree("auto");
             case "any" -> json.valueToTree("required");
             case "none" -> json.valueToTree("none");
             case "tool" -> {
+                String name = toolChoice.path("name").asText("");
+                if (name.isBlank() || !declaredToolNames.contains(name)) {
+                    yield null;
+                }
                 ObjectNode obj = json.objectNode();
                 obj.put("type", "function");
                 ObjectNode fn = json.objectNode();
-                fn.put("name", toolChoice.path("name").asText(""));
+                fn.put("name", name);
                 obj.set("function", fn);
                 yield obj;
             }
-            default -> json.valueToTree("auto");
+            default -> null;
         };
     }
 
@@ -389,11 +407,14 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             return result;
         }
         StringBuilder textParts = new StringBuilder();
+        StringBuilder thinkingParts = new StringBuilder();
         ArrayNode toolCalls = json.arrayNode();
         for (JsonNode block : content) {
             String type = block.path("type").asText("");
             switch (type) {
                 case "text" -> appendSeparatedText(textParts, block.path("text").asText(""));
+                case "thinking" -> appendReasoningText(
+                        thinkingParts, block.path("thinking").asText(""));
                 case "tool_use" -> toolCalls.add(claudeToolUseToChatFunctionCall(block));
                 case "server_tool_use", "mcp_tool_use", "program", "code_execution_tool_use" ->
                         throw new ProtocolConversionException(
@@ -410,9 +431,22 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
         if (!toolCalls.isEmpty()) {
             msg.set("tool_calls", toolCalls);
+            if (!thinkingParts.isEmpty()) {
+                msg.put("reasoning_content", thinkingParts.toString());
+            }
         }
         result.add(msg);
         return result;
+    }
+
+    private void appendReasoningText(StringBuilder target, String text) {
+        if (text.isEmpty()) {
+            return;
+        }
+        if (!target.isEmpty()) {
+            target.append('\n');
+        }
+        target.append(text);
     }
 
     private ArrayNode convertUserMessageToChat(JsonNode content) {
@@ -1755,9 +1789,13 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         copyIfPresent(source, target, "stream");
         // max_completion_tokens → max_tokens (Chat naming convention)
         if (source.hasNonNull("max_completion_tokens")) {
-            target.put("max_tokens", source.get("max_completion_tokens").asInt());
+            target.put("max_tokens", positiveOrDefault(
+                    source.get("max_completion_tokens").asInt(), DEFAULT_CLAUDE_MAX_TOKENS));
+        } else if (source.hasNonNull("max_tokens")) {
+            target.put("max_tokens", positiveOrDefault(
+                    source.get("max_tokens").asInt(), DEFAULT_CLAUDE_MAX_TOKENS));
         } else {
-            copyIfPresent(source, target, "max_tokens");
+            target.put("max_tokens", DEFAULT_CLAUDE_MAX_TOKENS);
         }
         copyIfPresent(source, target, "temperature");
         copyIfPresent(source, target, "top_p");
@@ -1773,9 +1811,16 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         // tool_choice + parallel_tool_calls → Claude tool_choice
         JsonNode toolChoice = source.get("tool_choice");
         boolean parallelToolCalls = source.path("parallel_tool_calls").asBoolean(true);
-        ObjectNode mappedToolChoice = chatToolChoiceToClaude(toolChoice, parallelToolCalls);
-        if (mappedToolChoice != null && !mappedToolChoice.isEmpty()) {
-            target.set("tool_choice", mappedToolChoice);
+        if (target.path("tools").isArray() && !target.path("tools").isEmpty()) {
+            Set<String> declaredToolNames = new HashSet<>();
+            for (JsonNode tool : target.path("tools")) {
+                declaredToolNames.add(tool.path("name").asText(""));
+            }
+            ObjectNode mappedToolChoice = chatToolChoiceToClaude(
+                    toolChoice, parallelToolCalls, declaredToolNames);
+            if (mappedToolChoice != null && !mappedToolChoice.isEmpty()) {
+                target.set("tool_choice", mappedToolChoice);
+            }
         }
 
         ArrayNode messages = json.arrayNode();
@@ -1805,8 +1850,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (!system.isEmpty()) {
             target.put("system", system.toString());
         }
-        target.set("messages", messages);
+        target.set("messages", normalizeClaudeToolHistory(messages));
         return target;
+    }
+
+    private int positiveOrDefault(int value, int defaultValue) {
+        return value > 0 ? value : defaultValue;
     }
 
     // ---- Chat → Claude helper methods ----
@@ -1828,9 +1877,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             if (function.hasNonNull("description")) {
                 mapped.put("description", function.path("description").asText(""));
             }
-            JsonNode parameters = function.get("parameters");
-            mapped.set("input_schema", parameters == null || parameters.isNull()
-                    ? json.objectNode().put("type", "object") : parameters.deepCopy());
+            mapped.set("input_schema", normalizeChatToolParameters(function.get("parameters")));
             if (function.hasNonNull("strict")) {
                 mapped.put("strict", function.path("strict").asBoolean());
             }
@@ -1839,7 +1886,30 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return result;
     }
 
-    private ObjectNode chatToolChoiceToClaude(JsonNode toolChoice, boolean parallelToolCalls) {
+    private ObjectNode normalizeChatToolParameters(JsonNode parameters) {
+        ObjectNode normalized = json.objectNode();
+        normalized.put("type", "object");
+        normalized.set("properties", json.objectNode());
+        if (parameters == null || !parameters.isObject()) {
+            return normalized;
+        }
+        String type = parameters.path("type").asText("object");
+        if (!"object".equals(type)) {
+            return normalized;
+        }
+        normalized = (ObjectNode) parameters.deepCopy();
+        normalized.put("type", "object");
+        if (!normalized.path("properties").isObject()) {
+            normalized.set("properties", json.objectNode());
+        }
+        return normalized;
+    }
+
+    private ObjectNode chatToolChoiceToClaude(
+            JsonNode toolChoice,
+            boolean parallelToolCalls,
+            Set<String> declaredToolNames
+    ) {
         ObjectNode mapped = json.objectNode();
         if (toolChoice == null || toolChoice.isNull()) {
             if (!parallelToolCalls) {
@@ -1856,15 +1926,116 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 default -> "auto";
             });
         } else if ("function".equals(toolChoice.path("type").asText(""))) {
+            String name = toolChoice.path("function").path("name").asText("");
+            if (name.isBlank() || !declaredToolNames.contains(name)) {
+                return null;
+            }
             mapped.put("type", "tool");
-            mapped.put("name", toolChoice.path("function").path("name").asText(""));
+            mapped.put("name", name);
         } else {
-            mapped.put("type", "auto");
+            return null;
         }
         if (!parallelToolCalls) {
             mapped.put("disable_parallel_tool_use", true);
         }
         return mapped;
+    }
+
+    private ArrayNode normalizeClaudeToolHistory(ArrayNode messages) {
+        Map<String, JsonNode> repliesById = new HashMap<>();
+        for (JsonNode message : messages) {
+            if (!"user".equals(message.path("role").asText(""))) {
+                continue;
+            }
+            for (JsonNode block : message.path("content")) {
+                if ("tool_result".equals(block.path("type").asText(""))) {
+                    String toolUseId = block.path("tool_use_id").asText("");
+                    if (!toolUseId.isBlank()) {
+                        repliesById.put(toolUseId, block);
+                    }
+                }
+            }
+        }
+
+        ArrayNode normalized = json.arrayNode();
+        for (JsonNode message : messages) {
+            ArrayNode blocks = message.path("content").isArray()
+                    ? (ArrayNode) message.path("content") : json.arrayNode();
+            if ("assistant".equals(message.path("role").asText(""))) {
+                appendNormalizedClaudeAssistant(normalized, blocks, repliesById);
+            } else {
+                appendClaudeMessageWithoutToolResults(normalized, message, blocks);
+            }
+        }
+        return mergeConsecutiveClaudeMessages(normalized);
+    }
+
+    private void appendNormalizedClaudeAssistant(
+            ArrayNode normalized,
+            ArrayNode blocks,
+            Map<String, JsonNode> repliesById
+    ) {
+        ArrayNode content = json.arrayNode();
+        ArrayNode answeredToolUses = json.arrayNode();
+        for (JsonNode block : blocks) {
+            if (!"tool_use".equals(block.path("type").asText(""))) {
+                content.add(block.deepCopy());
+                continue;
+            }
+            String toolUseId = block.path("id").asText("");
+            if (!toolUseId.isBlank() && repliesById.containsKey(toolUseId)) {
+                content.add(block.deepCopy());
+                answeredToolUses.add(block.deepCopy());
+            }
+        }
+        if (!content.isEmpty()) {
+            normalized.add(claudeMessage("assistant", content));
+        }
+        if (!answeredToolUses.isEmpty()) {
+            ArrayNode results = json.arrayNode();
+            for (JsonNode toolUse : answeredToolUses) {
+                results.add(repliesById.get(toolUse.path("id").asText()).deepCopy());
+            }
+            normalized.add(claudeMessage("user", results));
+        }
+    }
+
+    private void appendClaudeMessageWithoutToolResults(
+            ArrayNode normalized,
+            JsonNode message,
+            ArrayNode blocks
+    ) {
+        ArrayNode content = json.arrayNode();
+        for (JsonNode block : blocks) {
+            if (!"tool_result".equals(block.path("type").asText(""))) {
+                content.add(block.deepCopy());
+            }
+        }
+        if (!content.isEmpty()) {
+            normalized.add(claudeMessage(message.path("role").asText("user"), content));
+        }
+    }
+
+    private ArrayNode mergeConsecutiveClaudeMessages(ArrayNode messages) {
+        ArrayNode merged = json.arrayNode();
+        for (JsonNode message : messages) {
+            String role = message.path("role").asText("user");
+            if (!merged.isEmpty()
+                    && role.equals(merged.get(merged.size() - 1).path("role").asText(""))) {
+                ArrayNode previousContent = (ArrayNode) merged.get(merged.size() - 1).path("content");
+                previousContent.addAll((ArrayNode) message.path("content"));
+            } else {
+                merged.add(message.deepCopy());
+            }
+        }
+        return merged;
+    }
+
+    private ObjectNode claudeMessage(String role, ArrayNode content) {
+        ObjectNode message = json.objectNode();
+        message.put("role", role);
+        message.set("content", content);
+        return message;
     }
 
     private String chatContentToSystemText(JsonNode content) {
@@ -1936,6 +2107,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         ArrayNode resultContent = chatContentBlocksToClaude(message.get("content"));
         if (!resultContent.isEmpty()) {
             toolResult.set("content", resultContent);
+        } else {
+            toolResult.put("content", EMPTY_TOOL_RESULT);
         }
         content.add(toolResult);
         mapped.set("content", content);
@@ -3037,7 +3210,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private ObjectNode chatResponseToClaude(JsonNode source) {
         ObjectNode target = json.objectNode();
         JsonNode choice = source.path("choices").path(0);
-        target.put("id", source.path("id").asText("msg_api2api"));
+        String responseId = source.path("id").asText("");
+        target.put("id", responseId.isBlank()
+                ? "msg_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16)
+                : responseId);
         target.put("type", "message");
         target.put("role", "assistant");
         target.put("model", source.path("model").asText(""));
@@ -3136,7 +3312,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return switch (finishReason) {
             case "length" -> "max_tokens";
             case "tool_calls", "function_call" -> "tool_use";
-            case "content_filter" -> "refusal";
+            case "content_filter" -> hasToolCalls ? "tool_use" : "refusal";
             case "stop" -> hasToolCalls ? "tool_use" : "end_turn";
             default -> hasToolCalls ? "tool_use" : "end_turn";
         };

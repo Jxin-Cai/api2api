@@ -177,6 +177,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("content[].type=tool_result", "role=tool message", "工具结果转为 tool 角色消息", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("content[].tool_use_id", "tool_call_id", "关联工具调用 ID", MappingLossiness.NONE, "TOOL", "RENAME"),
                 mapping("content[].content", "content", "工具结果文本写入 content", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("content[].type=thinking", "reasoning_content", "仅在同一 assistant 消息包含 tool_use 时回放明文 thinking，维持推理模型工具循环", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
                 unmapped("content[].is_error", "Chat Completions 没有独立错误标记", "TOOL"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
                 mapping("max_tokens", "max_completion_tokens", "字段重命名，正数下限归一为 128", MappingLossiness.PARTIAL, "MODEL", "TRANSFORM"),
@@ -189,7 +190,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("tools[].description", "tools[].function.description", "工具描述映射为 function.description", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("tools[].input_schema", "tools[].function.parameters", "输入 Schema 映射为 function.parameters", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("tools[].strict", "tools[].function.strict", "严格模式映射为 function.strict", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("tool_choice", "tool_choice", "工具选择策略映射", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("tool_choice", "tool_choice", "工具选择策略映射；指向未声明工具或未知类型时省略，避免上游拒绝请求", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
                 mapping("tool_choice.disable_parallel_tool_use", "parallel_tool_calls", "布尔语义取反", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
                 mapping("thinking", "reasoning_effort", "thinking 配置转为 effort 级别", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
                 mapping("reasoning", "reasoning_effort", "reasoning 配置转为 effort 级别", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
@@ -197,7 +198,6 @@ final class ConverterFieldMappingDescriptions {
                 mapping("stream", "stream + stream_options", "流式开关加配套 options", MappingLossiness.NONE, "STREAMING", "RESHAPE"),
                 mapping("service_tier", "service_tier", "Direct passthrough", MappingLossiness.NONE, "METADATA", "DIRECT"),
                 mapping("metadata.user_id", "user", "用户标识字段提升", MappingLossiness.PARTIAL, "METADATA", "RESHAPE"),
-                unsupported("content[].type=thinking", "Chat Completions 没有可逆的推理 item", "REASONING"),
                 unsupported("content[].type=redacted_thinking", "Chat Completions 没有加密推理 item", "REASONING"),
                 unsupported("content[].type=compaction", "Chat Completions 没有压缩 item", "REASONING"),
                 unsupported("tools[].defer_loading", "Chat Completions 不支持 tool search", "TOOL"),
@@ -222,21 +222,21 @@ final class ConverterFieldMappingDescriptions {
                 mapping("usage.completion_tokens", "usage.output_tokens", "字段重命名", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.prompt_tokens_details.cached_tokens", "usage.cache_read_input_tokens", "缓存 token 路径映射", MappingLossiness.NONE, "USAGE", "RENAME"),
                 mapping("usage.prompt_tokens_details.cache_creation_tokens/cache_write_tokens", "usage.cache_creation_input_tokens", "同义缓存写入字段取其一（优先 cache_write_tokens），不相加", MappingLossiness.NONE, "USAGE", "TRANSFORM"),
-                mapping("id", "id", "响应 ID 透传", MappingLossiness.NONE, "METADATA", "DIRECT"),
+                mapping("id", "id", "响应 ID 透传；缺失或为空时生成有效 message ID", MappingLossiness.NONE, "METADATA", "DIRECT"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT")
         ));
 
         // ===== OpenAI Chat Completions → Claude Messages =====
         map.put(key(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "messages", "Chat 消息转为 Claude 消息格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages", "messages", "Chat 消息转为 Claude 消息格式，并修复 tool_use/tool_result 相邻关系及角色交替", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("messages[role=system]", "system", "系统消息提取为顶级 system 字段", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("model", "model", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
-                mapping("max_completion_tokens", "max_tokens", "字段重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
+                mapping("max_completion_tokens", "max_tokens", "字段重命名；缺失或非正数时补 Anthropic 必需的 8192 默认值", MappingLossiness.PARTIAL, "MODEL", "TRANSFORM"),
                 mapping("temperature", "temperature", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
                 mapping("top_p", "top_p", "Direct passthrough", MappingLossiness.NONE, "MODEL", "DIRECT"),
                 mapping("stop", "stop_sequences", "停止序列字段重命名", MappingLossiness.NONE, "MODEL", "RENAME"),
-                mapping("tools", "tools", "Chat function 工具转为 Claude 格式", MappingLossiness.NONE, "TOOL", "RESHAPE"),
-                mapping("tool_choice", "tool_choice", "工具选择策略映射", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("tools", "tools", "Chat function 工具转为 Claude 格式，并把 input_schema 归一为 object schema", MappingLossiness.NONE, "TOOL", "RESHAPE"),
+                mapping("tool_choice", "tool_choice", "工具选择策略映射；无工具或指向未声明工具时省略", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT")
         ));
 

@@ -1063,7 +1063,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
         if (!state.messageStartSent) {
             state.messageStartSent = true;
-            String msgId = chunk.path("id").asText("msg_api2api");
+            String chunkId = chunk.path("id").asText("");
+            String msgId = chunkId.isBlank() ? "msg_api2api" : chunkId;
             ObjectNode msgStart = objectNode();
             msgStart.put("type", "message_start");
             ObjectNode message = objectNode();
@@ -1220,11 +1221,11 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     private void mapChatFinishReason(String finishReason, ChatToClaudeStreamState state) {
         if (finishReason != null) {
-            boolean hasToolCalls = !state.announcedToolCalls.isEmpty();
+            boolean hasToolCalls = !state.blockToToolIndex.isEmpty();
             state.stopReason = switch (finishReason) {
                 case "length" -> "max_tokens";
                 case "tool_calls", "function_call" -> "tool_use";
-                case "content_filter" -> "refusal";
+                case "content_filter" -> hasToolCalls ? "tool_use" : "refusal";
                 case "stop" -> hasToolCalls ? "tool_use" : "end_turn";
                 default -> hasToolCalls ? "tool_use" : "end_turn";
             };

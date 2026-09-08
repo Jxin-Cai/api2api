@@ -350,6 +350,101 @@ class OpenAIChatToClaudeMessagesConversionTest {
         assertThat(result.body().at("/usage/cache_creation_input_tokens").asLong()).isEqualTo(5);
     }
 
+    @Test
+    void test_defaultsMaxTokens_when_chatRequestOmitsLimit() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"claude-sonnet-4-20250514","messages":[{"role":"user","content":"hello"}]}
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, false);
+
+        // Assert
+        assertThat(mapped.path("max_tokens").asInt()).isEqualTo(8192);
+    }
+
+    @Test
+    void test_groupsParallelToolResults_when_convertingChatHistoryToClaude() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-sonnet-4-20250514",
+                  "messages":[
+                    {"role":"assistant","content":null,"tool_calls":[
+                      {"id":"call_a","type":"function","function":{"name":"Read","arguments":"{}"}},
+                      {"id":"call_b","type":"function","function":{"name":"Read","arguments":"{}"}}
+                    ]},
+                    {"role":"tool","tool_call_id":"call_b","content":"B"},
+                    {"role":"tool","tool_call_id":"call_a","content":"A"}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.path("messages")).hasSize(2);
+        assertThat(mapped.at("/messages/1/content/0/tool_use_id").asText()).isEqualTo("call_a");
+        assertThat(mapped.at("/messages/1/content/1/tool_use_id").asText()).isEqualTo("call_b");
+    }
+
+    @Test
+    void test_dropsToolChoice_when_chatRequestDeclaresNoMatchingTool() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"claude-sonnet-4-20250514",
+                  "tools":[{"type":"function","function":{"name":"search","parameters":{"type":"object"}}}],
+                  "tool_choice":{"type":"function","function":{"name":"missing"}},
+                  "messages":[{"role":"user","content":"hello"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.has("tool_choice")).isFalse();
+    }
+
+    @Test
+    void test_generatesMessageId_when_chatResponseIdIsEmpty() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":"done"},"finish_reason":"stop"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertResponse(body).body();
+
+        // Assert
+        assertThat(mapped.path("id").asText()).startsWith("msg_");
+    }
+
+    @Test
+    void test_reportsToolUseStopReason_when_filteredResponseContainsToolCall() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "id":"chatcmpl_1","model":"deepseek-v4-pro",
+                  "choices":[{"message":{"role":"assistant","content":"partial","tool_calls":[
+                    {"id":"call_1","type":"function","function":{"name":"search","arguments":"{}"}}
+                  ]},"finish_reason":"content_filter"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertResponse(body).body();
+
+        // Assert
+        assertThat(mapped.path("stop_reason").asText()).isEqualTo("tool_use");
+    }
+
     private JsonNode convertRequest(String body, boolean toolCallingRequired) throws Exception {
         ProtocolMessageConverter converter = configuration.openAIChatToClaudeMessagesRequest(
                 json, new SseEventTransformer());

@@ -299,6 +299,33 @@ class UnifiedStreamingConversionAdapterTest {
     }
 
     @Test
+    void test_reportsToolUseStopReason_when_filteredStreamContainsToolCall() throws Exception {
+        // Arrange
+        String upstream = """
+                data: {"id":"chatcmpl_1","choices":[{"delta":{"tool_calls":[{"index":0,"id":"call_1","function":{"name":"Read","arguments":"{}"}}]},"finish_reason":null}]}
+
+                data: {"id":"chatcmpl_1","choices":[{"delta":{},"finish_reason":"content_filter"}]}
+
+                data: [DONE]
+
+                """;
+        ByteArrayOutputStream downstream = new ByteArrayOutputStream();
+
+        // Act
+        adapter.transform(
+                context(ProtocolType.OPENAI_CHAT_COMPLETIONS, ProtocolType.CLAUDE_MESSAGES),
+                new ByteArrayInputStream(upstream.getBytes(StandardCharsets.UTF_8)),
+                downstream
+        );
+
+        // Assert
+        List<JsonNode> events = dataEvents(downstream.toString(StandardCharsets.UTF_8));
+        assertThat(events.stream()
+                .filter(node -> "message_delta".equals(node.path("type").asText()))
+                .findFirst().orElseThrow().at("/delta/stop_reason").asText()).isEqualTo("tool_use");
+    }
+
+    @Test
     void test_prefersCacheWriteTokens_when_chatStreamReportsBothWriteFields() throws Exception {
         // Arrange
         String upstream = """
