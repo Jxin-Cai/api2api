@@ -36,14 +36,22 @@ final class ResponsesReasoningBridge {
             return Optional.empty();
         }
         try {
-            ObjectNode state = objectMapper.createObjectNode();
-            state.put("id", id);
-            state.put("encrypted_content", encryptedContent);
+            ObjectNode state = reasoningItem.deepCopy();
             return Optional.of(SIGNATURE_PREFIX + Base64.getUrlEncoder().withoutPadding()
                     .encodeToString(objectMapper.writeValueAsBytes(state)));
         } catch (JsonProcessingException exception) {
             throw new ProtocolConversionException("RESPONSES_REASONING_STATE_ENCODING_FAILED", exception);
         }
+    }
+
+    static String summaryText(JsonNode item) {
+        StringBuilder text = new StringBuilder();
+        for (JsonNode part : item.path("summary")) {
+            if (part.hasNonNull("text")) {
+                text.append(part.path("text").asText());
+            }
+        }
+        return text.toString();
     }
 
     static Optional<JsonNode> decode(ObjectMapper objectMapper, String signature) {

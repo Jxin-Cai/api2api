@@ -994,7 +994,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                                                  String role, ArrayNode messageContent, String assistantPhase) {
         String blockType = block.path("type").asText("");
         if ("redacted_thinking".equals(blockType)) {
-            throw new ProtocolConversionException("CLAUDE_RESPONSES_REDACTED_THINKING_NOT_SUPPORTED");
+            log.info("event=claude_responses_foreign_redacted_thinking_omitted");
+            return;
         }
         flushResponsesMessage(input, role, messageContent, assistantPhase);
         claudeThinkingToResponses(block).ifPresent(mappedThinking -> {
@@ -1264,13 +1265,16 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             return Optional.empty();
         }
         JsonNode state = decodedState.get();
+        if ("reasoning".equals(state.path("type").asText())) {
+            return Optional.of((ObjectNode) state.deepCopy());
+        }
         ObjectNode reasoning = json.objectNode();
         reasoning.put("type", "reasoning");
         reasoning.put("id", state.path("id").asText());
         reasoning.put("encrypted_content", state.path("encrypted_content").asText());
         ArrayNode summary = json.arrayNode();
         String thinking = block.path("thinking").asText("");
-        if (!thinking.isBlank()) {
+        if (!thinking.isBlank() && !RESPONSES_OPAQUE_STATE_PLACEHOLDER.equals(thinking)) {
             ObjectNode summaryText = json.objectNode();
             summaryText.put("type", "summary_text");
             summaryText.put("text", thinking);
@@ -1649,6 +1653,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
      * @return true if tool search is required by this MCP server (due to defer_loading)
      */
     private boolean mapMcpServerToResponses(JsonNode server, JsonNode tools, ArrayNode mappedTools) {
+        JsonNode legacyConfig = server.path("tool_configuration");
+        if (!legacyConfig.path("enabled").asBoolean(true)) {
+            return false;
+        }
         ObjectNode mapped = json.objectNode();
         mapped.put("type", "mcp");
         String name = server.path("name").asText("mcp");
@@ -1662,6 +1670,19 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             mapped.put("authorization", server.path("authorization_token").asText());
         }
         ArrayNode allowedTools = mcpAllowedTools(tools, name);
+        if (legacyConfig.path("allowed_tools").isArray()) {
+            ArrayNode legacyAllowed = json.arrayNode();
+            for (JsonNode toolName : legacyConfig.path("allowed_tools")) {
+                if (allowedTools == null || java.util.stream.StreamSupport.stream(allowedTools.spliterator(), false)
+                        .anyMatch(toolName::equals)) {
+                    legacyAllowed.add(toolName.deepCopy());
+                }
+            }
+            allowedTools = legacyAllowed;
+        }
+        if (allowedTools != null && allowedTools.isEmpty()) {
+            return false;
+        }
         if (allowedTools != null) {
             mapped.set("allowed_tools", allowedTools);
         }
@@ -1681,7 +1702,25 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         for (JsonNode tool : tools) {
             if ("mcp_toolset".equals(tool.path("type").asText(""))
                     && serverName.equals(tool.path("mcp_server_name").asText(""))) {
-                return tool.path("defer_loading").asBoolean(false);
+                JsonNode defaults = tool.path("default_config");
+                boolean defaultEnabled = defaults.path("enabled").asBoolean(true);
+                boolean defaultDeferred = defaults.path("defer_loading")
+                        .asBoolean(tool.path("defer_loading").asBoolean(false));
+                boolean anyEnabled = defaultEnabled;
+                boolean allDeferred = !defaultEnabled || defaultDeferred;
+                boolean anyDeferred = defaultEnabled && defaultDeferred;
+                for (JsonNode config : tool.path("configs")) {
+                    if (config.path("enabled").asBoolean(defaultEnabled)) {
+                        anyEnabled = true;
+                        boolean deferred = config.path("defer_loading").asBoolean(defaultDeferred);
+                        allDeferred &= deferred;
+                        anyDeferred |= deferred;
+                    }
+                }
+                if (anyDeferred && !allDeferred) {
+                    log.info("event=claude_responses_mcp_mixed_loading_eager_fallback");
+                }
+                return anyEnabled && allDeferred;
             }
         }
         return false;
@@ -3736,15 +3775,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             // that was tunneled through reasoning.encrypted_content.
             return (ObjectNode) bridgedBlock;
         }
-        StringBuilder summaryText = new StringBuilder();
-        JsonNode summary = item.get("summary");
-        if (summary != null && summary.isArray()) {
-            for (JsonNode part : summary) {
-                if (part.hasNonNull("text")) {
-                    summaryText.append(part.path("text").asText());
-                }
-            }
-        }
+        String summaryText = ResponsesReasoningBridge.summaryText(item);
         ObjectNode thinking = json.objectNode();
         thinking.put("type", "thinking");
         thinking.put("thinking", summaryText.isEmpty()
@@ -3804,7 +3835,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 if (ResponsesToolCallBridge.isToolCall(item.path("type").asText())) {
                     return "tool_use";
                 }
-                if ("message".equals(item.path("type").asText(""))) {
+                if ("message".equals(item.path("type").asText(""))
+                        && !"commentary".equals(item.path("phase").asText(""))) {
                     hasFinalMessage = true;
                 }
             }

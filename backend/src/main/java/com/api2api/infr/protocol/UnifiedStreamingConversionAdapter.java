@@ -153,31 +153,35 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     private void handleResponsesSseEvent(JsonNode event, ResponsesStreamState state, OutputStream clientBody) throws IOException {
         String type = event.path("type").asText("");
         int outputIndex = event.path("output_index").asInt(0);
+        int textIndex = state.contentIndexFor(outputIndex, event.path("content_index").asInt(0));
         switch (type) {
             case "response.output_text.delta" -> {
                 state.responseOutputSeen = true;
-                state.finalMessageSeen = true;
-                ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
-                writeClaudeContentDelta(outputIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
-                state.textDeltaIndexes.add(outputIndex);
+                state.messageFinality.putIfAbsent(state.contentOwners.getOrDefault(outputIndex, outputIndex), true);
+                ensureClaudeBlockStarted(textIndex, "text", null, null, state, clientBody);
+                writeClaudeContentDelta(textIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
+                state.textDeltaIndexes.add(textIndex);
             }
-            case "response.reasoning_summary_text.delta", "response.reasoning_text.delta" -> {
+            case "response.reasoning_summary_text.delta" -> writeResponsesSummaryText(
+                    outputIndex, event.path("summary_index").asInt(0), event.path("delta").asText(""),
+                    true, state, clientBody);
+            case "response.reasoning_text.delta" -> {
                 ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
                 writeClaudeContentDelta(outputIndex, "thinking_delta", "thinking", event.path("delta").asText(""), state, clientBody);
                 state.thinkingDeltaIndexes.add(outputIndex);
             }
             case "response.refusal.delta" -> {
                 state.responseOutputSeen = true;
-                state.finalMessageSeen = true;
-                ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
-                writeClaudeContentDelta(outputIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
-                state.textDeltaIndexes.add(outputIndex);
+                state.messageFinality.putIfAbsent(state.contentOwners.getOrDefault(outputIndex, outputIndex), true);
+                ensureClaudeBlockStarted(textIndex, "text", null, null, state, clientBody);
+                writeClaudeContentDelta(textIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
+                state.textDeltaIndexes.add(textIndex);
                 state.stopReason = "refusal";
             }
             case "response.output_item.added" -> {
                 JsonNode item = event.path("item");
                 String itemType = item.path("type").asText("");
-                markResponsesOutputItem(itemType, state);
+                markResponsesOutputItem(item, outputIndex, state);
                 if (ResponsesToolCallBridge.isToolCall(itemType)) {
                     rememberResponsesToolCall(outputIndex, item, state);
                     ensureClaudeBlockStarted(
@@ -201,24 +205,28 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             case "response.function_call_arguments.done", "response.custom_tool_call_input.done" ->
                     handleResponsesToolInputDone(event, outputIndex, state, clientBody);
             case "response.output_text.done" -> writeResponsesTextFallback(
-                    outputIndex, event.path("text").asText(""), false, state, clientBody);
+                    textIndex, event.path("text").asText(""), false, state, clientBody);
             case "response.refusal.done" -> writeResponsesTextFallback(
-                    outputIndex,
+                    textIndex,
                     event.path("refusal").asText(event.path("text").asText("")),
                     true,
                     state,
                     clientBody
             );
             case "response.content_part.done" -> handleResponsesContentPartDone(
-                    event.path("part"), outputIndex, state, clientBody);
-            case "response.reasoning_summary_text.done", "response.reasoning_text.done" ->
+                    event.path("part"), textIndex, state, clientBody);
+            case "response.reasoning_summary_text.done" -> writeResponsesSummaryText(
+                    outputIndex, event.path("summary_index").asInt(0), event.path("text").asText(""),
+                    false, state, clientBody);
+            case "response.reasoning_text.done" ->
                     writeResponsesThinkingFallback(
                             outputIndex, event.path("text").asText(""), state, clientBody);
             case "response.reasoning_summary_part.added", "response.reasoning_summary_part.done" -> {
                 JsonNode part = event.path("part");
                 if ("summary_text".equals(part.path("type").asText(""))) {
-                    writeResponsesThinkingFallback(
-                            outputIndex, part.path("text").asText(""), state, clientBody);
+                    writeResponsesSummaryText(
+                            outputIndex, event.path("summary_index").asInt(0), part.path("text").asText(""),
+                            false, state, clientBody);
                 }
             }
             case "response.output_item.done" -> handleResponsesOutputItemDone(
@@ -238,13 +246,18 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         state.toolNames.put(outputIndex, item.path("name").asText(""));
     }
 
-    private void markResponsesOutputItem(String itemType, ResponsesStreamState state) {
+    private void markResponsesOutputItem(JsonNode item, int outputIndex, ResponsesStreamState state) {
+        String itemType = item.path("type").asText("");
         if (itemType == null || itemType.isBlank()) {
             return;
         }
         state.responseOutputSeen = true;
         if ("message".equals(itemType)) {
-            state.finalMessageSeen = true;
+            if (item.hasNonNull("phase")) {
+                state.messageFinality.put(outputIndex, !"commentary".equals(item.path("phase").asText("")));
+            } else {
+                state.messageFinality.putIfAbsent(outputIndex, true);
+            }
         }
     }
 
@@ -369,7 +382,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             OutputStream clientBody
     ) throws IOException {
         state.responseOutputSeen = true;
-        state.finalMessageSeen = true;
+        state.messageFinality.putIfAbsent(state.contentOwners.getOrDefault(outputIndex, outputIndex), true);
         if (text == null || text.isEmpty() || state.textDeltaIndexes.contains(outputIndex)) {
             if (refusal) {
                 state.stopReason = "refusal";
@@ -382,6 +395,37 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (refusal) {
             state.stopReason = "refusal";
         }
+    }
+
+    private void writeResponsesSummaryText(
+            int outputIndex,
+            int summaryIndex,
+            String text,
+            boolean delta,
+            ResponsesStreamState state,
+            OutputStream clientBody
+    ) throws IOException {
+        if (text.isEmpty()) {
+            return;
+        }
+        String key = outputIndex + ":" + summaryIndex;
+        StringBuilder emitted = state.summaryTextBuffers.computeIfAbsent(key, ignored -> new StringBuilder());
+        String pending = text;
+        if (!delta) {
+            if (!text.startsWith(emitted.toString())) {
+                log.warn("event=responses_summary_completion_mismatch outputIndex={} summaryIndex={}",
+                        outputIndex, summaryIndex);
+                return;
+            }
+            pending = text.substring(emitted.length());
+        }
+        if (pending.isEmpty()) {
+            return;
+        }
+        ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+        writeClaudeContentDelta(outputIndex, "thinking_delta", "thinking", pending, state, clientBody);
+        emitted.append(pending);
+        state.thinkingDeltaIndexes.add(outputIndex);
     }
 
     private void writeResponsesThinkingFallback(
@@ -412,7 +456,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (isResponsesCompactionType(itemType)) {
             state.addedCompactionItems.remove(outputIndex);
         }
-        markResponsesOutputItem(itemType, state);
+        markResponsesOutputItem(item, outputIndex, state);
         state.completedOutputIndexes.add(outputIndex);
         try {
             if (ResponsesToolCallBridge.isToolCall(itemType)) {
@@ -438,6 +482,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                         clientBody
                 );
                 state.toolCallSeen = true;
+            } else if ("message".equals(itemType)) {
+                handleResponsesCompletionFallbackItem(item, outputIndex, state, clientBody);
             } else if ("reasoning".equals(itemType)) {
                 JsonNode bridgedBlock = ClaudeThinkingStateBridge.decode(
                         objectMapper, item.path("encrypted_content").asText("")).orElse(null);
@@ -452,6 +498,11 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                             bridgedBlock.path("signature").asText(""), state, clientBody);
                 } else {
                     ensureClaudeBlockStarted(outputIndex, "thinking", null, null, state, clientBody);
+                    JsonNode summary = item.path("summary");
+                    for (int summaryIndex = 0; summaryIndex < summary.size(); summaryIndex++) {
+                        writeResponsesSummaryText(outputIndex, summaryIndex,
+                                summary.get(summaryIndex).path("text").asText(""), false, state, clientBody);
+                    }
                     writeResponsesThinkingFallback(
                             outputIndex, RESPONSES_OPAQUE_STATE_PLACEHOLDER, state, clientBody);
                     String signature = ResponsesReasoningBridge.encode(objectMapper, item)
@@ -740,7 +791,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (output.isArray()) {
             for (int outputIndex = 0; outputIndex < output.size(); outputIndex++) {
                 JsonNode item = output.get(outputIndex);
-                markResponsesOutputItem(item.path("type").asText(""), state);
+                markResponsesOutputItem(item, outputIndex, state);
                 if (!state.completedOutputIndexes.contains(outputIndex)) {
                     handleResponsesCompletionFallbackItem(item, outputIndex, state, clientBody);
                 }
@@ -756,7 +807,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             state.stopReason = "max_tokens";
         } else if ("content_filter".equals(response.path("incomplete_details").path("reason").asText())) {
             state.stopReason = "refusal";
-        } else if (state.responseOutputSeen && !state.finalMessageSeen && !state.toolCallSeen) {
+        } else if (state.responseOutputSeen && !state.messageFinality.containsValue(true) && !state.toolCallSeen
+                && !"refusal".equals(state.stopReason)) {
             state.stopReason = "pause_turn";
         }
         state.terminalEventSeen = true;
@@ -774,8 +826,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         }
         JsonNode content = item.path("content");
         if (content.isArray()) {
-            for (JsonNode part : content) {
-                handleResponsesContentPartDone(part, outputIndex, state, clientBody);
+            for (int contentIndex = 0; contentIndex < content.size(); contentIndex++) {
+                int blockIndex = state.contentIndexFor(outputIndex, contentIndex);
+                handleResponsesContentPartDone(content.get(contentIndex), blockIndex, state, clientBody);
+                stopClaudeBlock(blockIndex, state, clientBody);
             }
         }
         state.completedOutputIndexes.add(outputIndex);
@@ -907,10 +961,13 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private boolean toolCallSeen;
         private boolean terminalEventSeen;
         private boolean responseOutputSeen;
-        private boolean finalMessageSeen;
+        private final Map<Integer, Boolean> messageFinality = new HashMap<>();
         private String stopReason = "end_turn";
         private UnifiedTokenUsage usage;
         private int nextClaudeIndex;
+        private int nextContentIndex = -1;
+        private final Map<String, Integer> contentIndexes = new HashMap<>();
+        private final Map<Integer, Integer> contentOwners = new HashMap<>();
         private final Map<Integer, String> blockTypes = new HashMap<>();
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
         private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
@@ -921,10 +978,23 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private final Set<Integer> toolInputCompletedIndexes = new HashSet<>();
         private final Set<Integer> textDeltaIndexes = new HashSet<>();
         private final Set<Integer> thinkingDeltaIndexes = new HashSet<>();
+        private final Map<String, StringBuilder> summaryTextBuffers = new HashMap<>();
         private final Set<Integer> completedOutputIndexes = new HashSet<>();
 
         private ResponsesStreamState(String clientModel) {
             this.clientModel = clientModel;
+        }
+
+        private int contentIndexFor(int outputIndex, int contentIndex) {
+            if (contentIndex == 0) {
+                return outputIndex;
+            }
+            String key = outputIndex + ":" + contentIndex;
+            return contentIndexes.computeIfAbsent(key, ignored -> {
+                int assigned = nextContentIndex--;
+                contentOwners.put(assigned, outputIndex);
+                return assigned;
+            });
         }
 
         private int claudeIndexFor(int responseOutputIndex) {

@@ -59,6 +59,17 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 
 `Read` 工具有一个专门兼容处理：如果 Responses/Codex 输出 `pages: ""`，非流式和流式转换都会删除该字段，避免 Claude Code 因空页码参数拒绝执行。
 
+### 六轮增量检查（2026-09-11）
+
+1. 推理往返保留完整 Responses reasoning item（含摘要分段、状态），仍可读取早期只包含 id/encrypted_content 的签名。只有完成事件的摘要也会展示。
+2. Responses `phase=commentary` 不再误报 `end_turn`；普通响应和 SSE 均返回 `pause_turn`。SSE 后到的 phase 可修正先前文本的默认判断，后续省略 phase 不会覆盖已知值。
+3. MCP 兼容旧 `tool_configuration.enabled/allowed_tools` 和新 `default_config.defer_loading/configs`；禁用服务器不发送，旧新允许列表取交集。混合加载模式降级为立即加载，避免工具不可见；denylist 仍不放宽权限。
+4. 从 Claude 切换到 Responses 模型时，历史中的原生 redacted thinking 不再使整个请求失败。密文不具备跨模型可用性，省略后推理连续性无法保证。
+5. SSE 按 `output_index + content_index` 独立跟踪正文，支持多段文本、混合 delta/done，以及仅 item.done 的正文补发，避免误去重丢段。
+6. SSE 按 `summary_index` 独立跟踪推理摘要；done 事件可补齐已发送前缀的剩余文字，重复完成事件不重复输出。
+
+协议依据：[Responses 请求与输入类型](https://developers.openai.com/api/reference/resources/responses/methods/create)、[Claude MCP 配置和迁移](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector)。这些桥接仍要求客户端回传网关生成的 thinking signature，缺失上游 encrypted state 的处理不变。
+
 ### 通过映射仍可工作的 Claude Code 功能
 
 - 常规编码工具循环：`Read`、`Write`、`Edit`、`Bash`、`Glob`、`Grep`、Todo/Task、plan mode、AskUserQuestion 等都作为普通 function tool 保留名称、schema、调用 id 和结果。
@@ -83,7 +94,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - Responses free-form custom tool 输入只有字符串，而 Claude `tool_use.input` 必须是对象；包装后的工具只有在 Claude Code 确实暴露同名且接受 `input` 字段时才可执行。
 - web search `blocked_domains`、Claude web-fetch/advisor/computer/browser toolset 等执行契约，以及 Claude 原生 server-tool 历史块仍没有完整对应；明确失败。bash/text-editor/memory 是客户端工具，已按前述版本支持，未知新版本仍需核对 schema。web search/code execution/MCP 只转换部分能力。
 - MCP “默认允许、逐项禁用”的 denylist 无法用 Responses `allowed_tools` allowlist 无损表达；明确失败。
-- 原生 Claude signed/redacted thinking 不能伪装成 OpenAI encrypted reasoning；外部 signed thinking 当前省略，redacted thinking 拒绝。只有本服务生成的版本化 Responses 签名可恢复上游推理状态。
+- 原生 Claude signed/redacted thinking 不能伪装成 OpenAI encrypted reasoning；外部 signed thinking 和 redacted thinking 省略，保留其余对话并对 redacted 降级记录结构化日志。只有本服务生成的版本化 Responses 签名可恢复上游推理状态。
 - Claude Messages 没有 `phase` 字段；当前按同一 assistant message 是否包含 `tool_use` 推断，第三方构造的复杂交错内容不能百分之百还原意图。
 - Claude citation 与 OpenAI annotation 的加密索引/来源结构不相同；正文保留，完整结构化引用元数据不伪造。
 - OpenAI 独有的 shell、apply_patch、skills、image generation、computer、file search、conversation/`previous_response_id` 等服务端能力，不能仅从 Claude Messages 请求无损表达。已出现在上游 output 中的未知 item 会 opaque 续传，但不冒充 Claude 原生工具。
