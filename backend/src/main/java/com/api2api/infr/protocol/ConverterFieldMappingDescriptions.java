@@ -71,6 +71,8 @@ final class ConverterFieldMappingDescriptions {
                 mapping("tools[].input_schema", "tools[].parameters", "输入 Schema 重命名为 parameters", MappingLossiness.NONE, "TOOL", "RENAME"),
                 mapping("tools[].strict", "tools[].strict", "custom 工具直接映射；内置客户端工具保留可选参数契约并显式记录 strict=false 的近似", MappingLossiness.PARTIAL, "TOOL", "TRANSFORM"),
                 mapping("tools[].defer_loading", "tools[].defer_loading + tool_search", "GPT-5.4+ 原生搜索；旧模型全量加载；已发现、已调用或强制选择的函数立即加载", MappingLossiness.PARTIAL, "TOOL", "TRANSFORM"),
+                mapping("tools[].type=computer_toolset_20260801/browser_toolset_20260801", "tools[].type=namespace", "补齐固定成员 schema；保留默认启用项、configs 与 direct caller，工具仍由原客户端执行", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
+                mapping("tool_use/tool_result.toolset_name", "function_call/function_call_output.namespace", "保留工具集身份，区分同名普通工具；缺失结果归属时按 call_id 从历史恢复", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("tools[].type=bash/text_editor/memory", "tools[].type=function", "为已知版本补齐客户端执行 schema，保留名称、调用 ID、参数与工具结果", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),
                 mapping("tools[].allowed_callers", "tools[].allowed_callers", "GPT-5.6+ 将 code_execution_* 转为 programmatic 调用者", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
                 mapping("tools[].input_examples", "tools[].description", "输入示例追加到工具描述以保留提示信息", MappingLossiness.PARTIAL, "TOOL", "RESHAPE"),

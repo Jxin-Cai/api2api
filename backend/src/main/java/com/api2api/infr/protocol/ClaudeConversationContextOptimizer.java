@@ -371,9 +371,11 @@ public final class ClaudeConversationContextOptimizer {
                 String type = block.path("type").asText("");
                 if (isToolUse(type)) {
                     String toolName = block.path("name").asText("unknown");
+                    String toolset = block.path("toolset_name").asText("");
+                    String toolIdentity = toolset.isBlank() ? toolName : toolset + "." + toolName;
                     toolCallsById.put(block.path("id").asText(""), new SuccessfulToolCall(
-                            toolName,
-                            toolName + ":" + digest(fingerprintInput(toolName, block)),
+                            toolIdentity,
+                            toolIdentity + ":" + digest(fingerprintInput(toolName, block)),
                             assistantIntent,
                             assistantTurn
                     ));

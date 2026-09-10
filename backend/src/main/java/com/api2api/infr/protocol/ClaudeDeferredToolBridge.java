@@ -14,11 +14,16 @@ final class ClaudeDeferredToolBridge {
 
     static void activateReferencedTools(ArrayNode tools, JsonNode messages, JsonNode toolChoice) {
         Set<String> referenced = new HashSet<>();
+        Set<String> referencedNamespaces = new HashSet<>();
         if (messages != null && messages.isArray()) {
             for (JsonNode message : messages) {
                 for (JsonNode block : message.path("content")) {
                     if ("tool_use".equals(block.path("type").asText())) {
-                        referenced.add(block.path("name").asText());
+                        if (block.hasNonNull("toolset_name")) {
+                            referencedNamespaces.add(block.path("toolset_name").asText());
+                        } else {
+                            referenced.add(block.path("name").asText());
+                        }
                     } else if ("tool_result".equals(block.path("type").asText())
                             && !block.path("is_error").asBoolean(false)) {
                         for (JsonNode part : block.path("content")) {
@@ -37,6 +42,19 @@ final class ClaudeDeferredToolBridge {
             if ("function".equals(tool.path("type").asText())
                     && referenced.contains(tool.path("name").asText())) {
                 ((ObjectNode) tool).remove("defer_loading");
+            } else if ("namespace".equals(tool.path("type").asText())
+                    && (referencedNamespaces.contains(tool.path("name").asText())
+                        || referenced.contains(tool.path("name").asText()))) {
+                eagerlyLoadTools((ArrayNode) tool.path("tools"));
+            }
+        }
+    }
+
+    static void eagerlyLoadTools(ArrayNode tools) {
+        for (JsonNode tool : tools) {
+            ((ObjectNode) tool).remove("defer_loading");
+            if ("namespace".equals(tool.path("type").asText())) {
+                eagerlyLoadTools((ArrayNode) tool.path("tools"));
             }
         }
     }

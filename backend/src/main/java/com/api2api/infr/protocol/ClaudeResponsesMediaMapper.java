@@ -279,6 +279,11 @@ final class ClaudeResponsesMediaMapper {
     ) {
         addCompanionText(json, content, block, false);
         JsonNode nested = block.path("source").get("content");
+        if (nested != null && nested.isTextual()) {
+            ObjectNode text = json.objectNode().put("type", "input_text").put("text", nested.asText());
+            content.add(text);
+            return Optional.of(text);
+        }
         if (nested == null || !nested.isArray() || nested.isEmpty()) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_DOCUMENT_CONTENT_REQUIRED");
         }

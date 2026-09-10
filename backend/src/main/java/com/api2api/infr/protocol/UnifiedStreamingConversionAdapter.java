@@ -244,6 +244,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     private void rememberResponsesToolCall(int outputIndex, JsonNode item, ResponsesStreamState state) {
         state.toolNames.put(outputIndex, item.path("name").asText(""));
+        if (item.hasNonNull("namespace")) {
+            state.toolNamespaces.put(outputIndex, item.path("namespace").asText());
+        }
     }
 
     private void markResponsesOutputItem(JsonNode item, int outputIndex, ResponsesStreamState state) {
@@ -271,6 +274,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         String name = event.path("name").asText(state.toolNames.getOrDefault(outputIndex, ""));
         String callId = event.path("call_id").asText(event.path("item_id").asText(""));
         ObjectNode item = responsesToolItem(custom, callId, name);
+        if (event.hasNonNull("namespace")) {
+            item.set("namespace", event.get("namespace"));
+        }
         rememberResponsesToolCall(outputIndex, item, state);
         String delta = event.path("delta").asText("");
         state.toolInputBuffers.computeIfAbsent(outputIndex, ignored -> new StringBuilder()).append(delta);
@@ -287,7 +293,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 state,
                 clientBody
         );
-        if (!custom && !name.isBlank() && !"Read".equals(name) && !delta.isEmpty()) {
+        if (!custom && !name.isBlank() && !"Read".equals(name) && !delta.isEmpty()
+                && !state.toolNamespaces.containsKey(outputIndex)) {
             writeClaudeContentDelta(
                     outputIndex, "input_json_delta", "partial_json", delta, state, clientBody);
             state.toolInputDeltaIndexes.add(outputIndex);
@@ -304,6 +311,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         String name = event.path("name").asText(state.toolNames.getOrDefault(outputIndex, ""));
         String callId = event.path("call_id").asText(event.path("item_id").asText(""));
         ObjectNode item = responsesToolItem(custom, callId, name);
+        if (event.hasNonNull("namespace")) {
+            item.set("namespace", event.get("namespace"));
+        }
         rememberResponsesToolCall(outputIndex, item, state);
         ensureClaudeBlockStarted(
                 outputIndex,
@@ -727,6 +737,10 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         } else {
             block.put("id", id == null ? "" : id);
             block.put("name", name == null ? "" : name);
+            String namespace = state.toolNamespaces.get(index);
+            if (namespace != null) {
+                block.put("toolset_name", namespace);
+            }
             block.set("input", objectNode());
             try {
                 ObjectNode claudeCaller = ResponsesProgrammaticToolBridge.toClaudeCaller(
@@ -972,6 +986,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
         private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
         private final Map<Integer, String> toolNames = new HashMap<>();
+        private final Map<Integer, String> toolNamespaces = new HashMap<>();
         private final Map<Integer, StringBuilder> toolInputBuffers = new HashMap<>();
         private final Map<Integer, JsonNode> addedCompactionItems = new HashMap<>();
         private final Set<Integer> toolInputDeltaIndexes = new HashSet<>();

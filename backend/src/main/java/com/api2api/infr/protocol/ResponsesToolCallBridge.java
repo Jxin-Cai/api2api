@@ -76,6 +76,9 @@ final class ResponsesToolCallBridge {
         call.put("type", custom ? CUSTOM_TOOL_CALL : FUNCTION_CALL);
         call.put("call_id", toResponsesCallId(toolUseId));
         call.put("name", block.path("name").asText(""));
+        if (block.hasNonNull("toolset_name")) {
+            call.put("namespace", block.path("toolset_name").asText());
+        }
         JsonNode input = block.get("input");
         if (custom) {
             call.put("input", customInputValue(input));

@@ -70,6 +70,19 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 
 协议依据：[Responses 请求与输入类型](https://developers.openai.com/api/reference/resources/responses/methods/create)、[Claude MCP 配置和迁移](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector)。这些桥接仍要求客户端回传网关生成的 thinking signature，缺失上游 encrypted state 的处理不变。
 
+### 客户端工具集桥接：第二轮六次检查（2026-09-11）
+
+1. `namespace ↔ toolset_name`：函数调用及结果保留工具集身份；没有在结果上重复声明身份时，按 call_id 从历史恢复。SSE 保留身份并将成员参数聚合为一次完整 `input_json_delta`。
+2. `computer_toolset_20260801`：将 17 个客户端成员映射到 Responses `computer` namespace，包含截图、缩放、点击、拖拽、输入、按键、滚动等；坐标使用客户端截图像素。
+3. `browser_toolset_20260801`：支持 31 个成员的 schema，默认开放 27 项。`javascript_exec/file_upload/read_console/read_network` 只有显式 enabled 才开放；保留 tab_id、坐标/元素 ref target、文件路径/文档 ID 等参数契约。
+4. 延迟加载：映射到 namespace 内各 function 的 defer_loading，调用过或已检索到的工具集整体激活；不会激活同名普通函数。GPT-5.4 之前的目标移除内部延迟标记，立即加载。未知配置、混合加载状态、空工具集、重复工具集/保留名称冲突、非 direct caller 继续报错。
+5. 文档：`source:{type:content,content:"..."}` 与数组形式均可用于正文和 tool_result，转成 input_text，并保留 title/context。
+6. 循环保护：按工具集与工具名共同区分操作，避免 computer/browser/custom 同名成员互相触发判重；同一工具的重复限制继续有效。
+
+工具定义来自固定版本的官方执行契约，保存在 `backend/src/main/resources/protocol/claude-client-toolsets-20260801.json`。Responses 的非 strict function schema 用于保留可选参数语义；实际动作仍由客户端执行器验证和执行。本次没有调用真实桌面或浏览器执行器，也未用付费上游请求验证代理兼容性。上游必须支持 Responses namespace；旧 `computer_20251124` 等单工具版本未在本轮接入。工具集禁止的强制成员 tool_choice 和 programmatic caller 未被放宽。
+
+依据：[Claude computer 工具集](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool)、[Claude browser 工具集](https://platform.claude.com/docs/en/agents-and-tools/tool-use/browser-use-tool)、[工具集公共约束](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference#client-toolsets)、[Responses namespace](https://developers.openai.com/api/docs/guides/function-calling#defining-namespaces)。
+
 ### 通过映射仍可工作的 Claude Code 功能
 
 - 常规编码工具循环：`Read`、`Write`、`Edit`、`Bash`、`Glob`、`Grep`、Todo/Task、plan mode、AskUserQuestion 等都作为普通 function tool 保留名称、schema、调用 id 和结果。
@@ -78,7 +91,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - Claude Code 的 deferred tools/tool search；GPT-5.4+ 可使用 Responses 原生能力。
 - Claude programmatic tool calling；GPT-5.6+ 可让 Responses program 调用 Claude Code 暴露的函数，并在结果回传时保留 `caller`。
 - 普通远程 MCP、Responses web search/code interpreter 的模型侧能力和跨轮状态。后两者的完整托管事件不会原生显示在 Claude Code UI。
-- 已知版本的 Anthropic bash、text editor、memory 客户端工具；工具内的检索结果和浏览器状态文本；已发现 deferred 工具的继续调用。
+- 20260801 版 computer/browser 客户端工具集，通过 namespace 保留成员路由；已知版本的 Anthropic bash、text editor、memory 客户端工具；工具内的检索结果和浏览器状态文本；已发现 deferred 工具的继续调用。
 - 自动/显式 prompt caching、Responses server-side compaction，以及 Claude readable compaction summary 的降级续传。
 - JSON Schema 输出、图片、PDF/文件输入、fast/service tier 和精确 cache usage。
 
@@ -92,7 +105,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - Programmatic 的 runtime 并非同一个实现：OpenAI 执行 JavaScript program，Claude 原生 code execution 以 Python/bash container 为主。服务会生成可见的 Claude code-execution call/result 并用 opaque signature 精确续传 OpenAI fingerprint，但 container 生命周期、语言/runtime 不能伪装成同一个；GPT-5.5 及更早模型不启用该映射。
 - Programmatic client tool result 在两边都必须是字符串或 text blocks；图片、文档等结果不能交给正在等待的 program，转换器会明确失败。Claude 工具协议没有 OpenAI function `output_schema` 字段，结构化返回格式只能继续依赖工具 description。
 - Responses free-form custom tool 输入只有字符串，而 Claude `tool_use.input` 必须是对象；包装后的工具只有在 Claude Code 确实暴露同名且接受 `input` 字段时才可执行。
-- web search `blocked_domains`、Claude web-fetch/advisor/computer/browser toolset 等执行契约，以及 Claude 原生 server-tool 历史块仍没有完整对应；明确失败。bash/text-editor/memory 是客户端工具，已按前述版本支持，未知新版本仍需核对 schema。web search/code execution/MCP 只转换部分能力。
+- web search `blocked_domains`、Claude web-fetch/advisor 和旧 computer 单工具版本等执行契约，以及 Claude 原生 server-tool 历史块仍没有完整对应；明确失败。bash/text-editor/memory 是客户端工具，已按前述版本支持，未知新版本仍需核对 schema。web search/code execution/MCP 只转换部分能力。
 - MCP “默认允许、逐项禁用”的 denylist 无法用 Responses `allowed_tools` allowlist 无损表达；明确失败。
 - 原生 Claude signed/redacted thinking 不能伪装成 OpenAI encrypted reasoning；外部 signed thinking 和 redacted thinking 省略，保留其余对话并对 redacted 降级记录结构化日志。只有本服务生成的版本化 Responses 签名可恢复上游推理状态。
 - Claude Messages 没有 `phase` 字段；当前按同一 assistant message 是否包含 `tool_use` 推断，第三方构造的复杂交错内容不能百分之百还原意图。

@@ -947,7 +947,23 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             }
             flushResponsesMessage(input, role, messageContent, assistantPhase);
         }
+        restoreToolOutputNamespaces(input);
         return input;
+    }
+
+    private void restoreToolOutputNamespaces(ArrayNode input) {
+        Map<String, String> namespaces = new HashMap<>();
+        for (JsonNode item : input) {
+            if (ResponsesToolCallBridge.isToolCall(item.path("type").asText()) && item.hasNonNull("namespace")) {
+                namespaces.put(item.path("call_id").asText(), item.path("namespace").asText());
+            } else if ("function_call_output".equals(item.path("type").asText())
+                    || "custom_tool_call_output".equals(item.path("type").asText())) {
+                String namespace = namespaces.get(item.path("call_id").asText());
+                if (namespace != null) {
+                    ((ObjectNode) item).put("namespace", namespace);
+                }
+            }
+        }
     }
 
     private void convertTextBlockToResponses(JsonNode block, ArrayNode messageContent,
@@ -1319,6 +1335,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         boolean custom = ResponsesToolCallBridge.isCustomClaudeToolUseId(toolUseId);
         result.put("type", custom ? "custom_tool_call_output" : "function_call_output");
         result.put("call_id", ResponsesToolCallBridge.toResponsesCallId(toolUseId));
+        if (block.hasNonNull("toolset_name")) {
+            result.put("namespace", block.path("toolset_name").asText());
+        }
         ObjectNode caller = ResponsesProgrammaticToolBridge.toResponsesCaller(
                 json.objectMapper(), toolCallers.get(toolUseId));
         JsonNode output = caller == null
@@ -1511,6 +1530,17 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         boolean programmaticToolCallingRequired = false;
         if (tools != null && tools.isArray()) {
             for (JsonNode tool : tools) {
+                ObjectNode namespace = ClaudeToolsetBridge.toNamespace(json, tool).orElse(null);
+                if (namespace != null) {
+                    if (tool.hasNonNull("cache_control")) {
+                        validateClaudeCacheControl(tool.path("cache_control"));
+                    }
+                    if (!namespace.path("tools").isEmpty()) {
+                        mappedTools.add(namespace);
+                        toolSearchRequired |= ClaudeToolsetBridge.hasDeferredMembers(namespace);
+                    }
+                    continue;
+                }
                 JsonNode executableTool = ClaudeClientToolBridge.toCustomTool(json, tool).orElse(null);
                 if (executableTool != null) {
                     CustomToolMappingResult result = mapCustomToolToResponses(executableTool, model, mappedTools);
@@ -1547,13 +1577,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 toolSearchRequired |= mapMcpServerToResponses(server, tools, mappedTools);
             }
         }
+        ClaudeToolsetBridge.validateNamespaceNames(mappedTools);
         if (toolSearchRequired) {
             if (supportsResponsesToolSearch(model)) {
                 mappedTools.insert(0, json.objectNode().put("type", "tool_search"));
             } else {
-                for (JsonNode mappedTool : mappedTools) {
-                    ((ObjectNode) mappedTool).remove("defer_loading");
-                }
+                ClaudeDeferredToolBridge.eagerlyLoadTools(mappedTools);
                 log.info("event=claude_responses_tool_search_eager_fallback toolCount={}", mappedTools.size());
             }
         }
@@ -3729,6 +3758,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 toolUse.put("type", "tool_use");
                 toolUse.put("id", ResponsesToolCallBridge.toClaudeToolUseId(item));
                 toolUse.put("name", item.path("name").asText(""));
+                if (item.hasNonNull("namespace")) {
+                    toolUse.put("toolset_name", item.path("namespace").asText());
+                }
                 toolUse.set("input", ResponsesToolCallBridge.toClaudeToolInput(json.objectMapper(), item));
                 ObjectNode caller = ResponsesProgrammaticToolBridge.toClaudeCaller(
                         json.objectMapper(), item.get("caller"));
