@@ -782,6 +782,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 source.get("container"),
                 model
         );
+        ClaudeDeferredToolBridge.activateReferencedTools(mappedTools, optimizedMessages, source.get("tool_choice"));
         if (!mappedTools.isEmpty()) {
             target.set("tools", mappedTools);
         }
@@ -790,7 +791,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             if (toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
                 target.put("parallel_tool_calls", false);
             }
-            JsonNode mappedChoice = claudeToolChoiceToResponses(toolChoice);
+            JsonNode mappedChoice = claudeToolChoiceToResponses(toolChoice, mappedTools, source.get("tools"));
             if (mappedChoice != null && !mappedChoice.isNull()) {
                 target.set("tool_choice", mappedChoice);
             }
@@ -1319,6 +1320,14 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         JsonNode output = caller == null
                 ? claudeToolResultOutputToResponses(block.get("content"), model)
                 : claudeProgrammaticToolResultToResponses(block.get("content"));
+        if (block.path("is_error").asBoolean(false)) {
+            if (output.isArray()) {
+                ((ArrayNode) output).insert(0, json.objectNode().put("type", "input_text")
+                        .put("text", "[Tool execution failed]"));
+            } else {
+                output = json.valueToTree("[Tool execution failed]\n" + output.asText(""));
+            }
+        }
         if (output.isArray()) {
             ObjectNode cacheablePart = lastResponsesCacheableContentPart((ArrayNode) output);
             if (cacheablePart != null) {
@@ -1352,6 +1361,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 }
                 case "image" -> addClaudeImagePart(output, block, model);
                 case "document" -> addClaudeDocumentPart(output, block, model);
+                case "search_result" -> addClaudeSearchResultPart(output, block, "input_text", model);
+                case "browser_state" -> {
+                    ObjectNode state = block.deepCopy();
+                    state.remove(List.of("type", "cache_control"));
+                    addClaudeTextPart(output, "Browser state: " + state, "input_text", block, model);
+                }
                 case "tool_reference" -> {
                     ObjectNode text = json.objectNode();
                     text.put("type", "input_text");
@@ -1393,7 +1408,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         return result;
     }
 
-    private JsonNode claudeToolChoiceToResponses(JsonNode toolChoice) {
+    private JsonNode claudeToolChoiceToResponses(JsonNode toolChoice, ArrayNode tools, JsonNode claudeTools) {
         String type = toolChoice.isTextual() ? toolChoice.asText("auto") : toolChoice.path("type").asText("auto");
         if ("auto".equals(type)) {
             return json.valueToTree("auto");
@@ -1402,10 +1417,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             return json.valueToTree("required");
         }
         if ("tool".equals(type)) {
-            ObjectNode choice = json.objectNode();
-            choice.put("type", "function");
-            choice.put("name", toolChoice.path("name").asText(""));
-            return choice;
+            return ClaudeDeferredToolBridge.namedChoice(json, toolChoice.path("name").asText(""), tools, claudeTools);
         }
         return json.valueToTree("none".equals(type) ? "none" : "auto");
     }
@@ -1495,6 +1507,13 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         boolean programmaticToolCallingRequired = false;
         if (tools != null && tools.isArray()) {
             for (JsonNode tool : tools) {
+                JsonNode executableTool = ClaudeClientToolBridge.toCustomTool(json, tool).orElse(null);
+                if (executableTool != null) {
+                    CustomToolMappingResult result = mapCustomToolToResponses(executableTool, model, mappedTools);
+                    toolSearchRequired |= result.toolSearchRequired();
+                    programmaticToolCallingRequired |= result.programmaticToolCallingRequired();
+                    continue;
+                }
                 String type = tool.path("type").asText("custom");
                 if ("mcp_toolset".equals(type)) {
                     continue;
@@ -1525,10 +1544,14 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             }
         }
         if (toolSearchRequired) {
-            if (!supportsResponsesToolSearch(model)) {
-                throw new ProtocolConversionException("CLAUDE_RESPONSES_TARGET_MODEL_DOES_NOT_SUPPORT_TOOL_SEARCH");
+            if (supportsResponsesToolSearch(model)) {
+                mappedTools.insert(0, json.objectNode().put("type", "tool_search"));
+            } else {
+                for (JsonNode mappedTool : mappedTools) {
+                    ((ObjectNode) mappedTool).remove("defer_loading");
+                }
+                log.info("event=claude_responses_tool_search_eager_fallback toolCount={}", mappedTools.size());
             }
-            mappedTools.insert(0, json.objectNode().put("type", "tool_search"));
         }
         if (programmaticToolCallingRequired) {
             if (!supportsResponsesProgrammaticToolCalling(model)) {
