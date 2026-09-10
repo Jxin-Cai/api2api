@@ -281,6 +281,51 @@ class RoutingPolicyServiceTest {
     }
 
     @Test
+    void test_selectsChatCompletionsCandidate_when_claudeStreamingRequiresFullChatBridge() {
+        ProviderChannel channel = ProviderChannel.rehydrate(
+                ProviderChannelId.of(1L),
+                ProviderChannelName.of("chatgpt2api"),
+                ProviderHost.of("http://chatgpt2api"),
+                ProviderKeyRef.of("sk-test"),
+                ProviderModelsPath.DEFAULT,
+                10,
+                Set.of(ChannelProtocolMapping.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_CHAT_COMPLETIONS)),
+                List.of(model(1L, "gpt-5.6-sol-wm", "gpt-5.6-sol-wm", ProtocolType.OPENAI_CHAT_COMPLETIONS, 1, true)),
+                ProviderChannelStatus.ENABLED,
+                NOW,
+                NOW
+        );
+
+        RoutePlan plan = service.buildRoutePlan(
+                RoutingRequest.of(
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ModelName.of("gpt-5.6-sol-wm"),
+                        ConversionRequirement.of(true, true, true)
+                ),
+                List.of(channel),
+                List.of(definition(
+                        1L,
+                        ProtocolType.CLAUDE_MESSAGES,
+                        ProtocolType.OPENAI_CHAT_COMPLETIONS,
+                        ConversionCapability.of(true, true, true, true, true, Set.of(
+                                ContentMappingType.TEXT,
+                                ContentMappingType.TOOL_CALL,
+                                ContentMappingType.REASONING,
+                                ContentMappingType.USAGE,
+                                ContentMappingType.STREAM_EVENT
+                        ))
+                )),
+                NOW
+        );
+
+        assertThat(plan.candidates()).singleElement().satisfies(candidate -> {
+            assertThat(candidate.clientProtocol()).isEqualTo(ProtocolType.CLAUDE_MESSAGES);
+            assertThat(candidate.upstreamProtocol()).isEqualTo(ProtocolType.OPENAI_CHAT_COMPLETIONS);
+            assertThat(candidate.requestedModel().value()).isEqualTo("gpt-5.6-sol-wm");
+        });
+    }
+
+    @Test
     void test_doesNotDeriveCandidate_when_conversionCapabilityDoesNotSatisfyRequirement() {
         ProviderChannel channel = ProviderChannel.rehydrate(
                 ProviderChannelId.of(1L),
@@ -413,11 +458,25 @@ class RoutingPolicyServiceTest {
     }
 
     private ProtocolConversionDefinition definition(long id, ProtocolType sourceProtocol, ProtocolType targetProtocol) {
+        return definition(
+                id,
+                sourceProtocol,
+                targetProtocol,
+                ConversionCapability.of(false, false, false, true, true, Set.of(ContentMappingType.TEXT))
+        );
+    }
+
+    private ProtocolConversionDefinition definition(
+            long id,
+            ProtocolType sourceProtocol,
+            ProtocolType targetProtocol,
+            ConversionCapability capability
+    ) {
         return ProtocolConversionDefinition.create(
                 ProtocolConversionDefinitionId.of(id),
                 sourceProtocol,
                 targetProtocol,
-                ConversionCapability.of(false, false, false, true, true, Set.of(ContentMappingType.TEXT)),
+                capability,
                 mapping(MappingDirection.REQUEST),
                 mapping(MappingDirection.RESPONSE),
                 ConversionImplementationStatus.IMPLEMENTED,
