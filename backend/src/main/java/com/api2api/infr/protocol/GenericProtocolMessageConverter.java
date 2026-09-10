@@ -187,26 +187,30 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private void mapClaudeToChatTools(JsonNode source, ObjectNode target) {
         JsonNode tools = source.get("tools");
-        if (tools != null && tools.isArray() && !tools.isEmpty()) {
-            ArrayNode mappedTools = claudeToolsToChat(tools);
-            target.set("tools", mappedTools);
-            target.put("parallel_tool_calls", true);
-            JsonNode toolChoice = source.get("tool_choice");
-            if (toolChoice != null && !toolChoice.isNull()) {
-                Set<String> declaredToolNames = new HashSet<>();
-                for (JsonNode tool : mappedTools) {
-                    String name = tool.path("function").path("name").asText("");
-                    if (!name.isBlank()) {
-                        declaredToolNames.add(name);
-                    }
+        if (tools == null || !tools.isArray() || tools.isEmpty()) {
+            return;
+        }
+        ArrayNode mappedTools = claudeToolsToChat(tools);
+        if (mappedTools.isEmpty()) {
+            return;
+        }
+        target.set("tools", mappedTools);
+        target.put("parallel_tool_calls", true);
+        JsonNode toolChoice = source.get("tool_choice");
+        if (toolChoice != null && !toolChoice.isNull()) {
+            Set<String> declaredToolNames = new HashSet<>();
+            for (JsonNode tool : mappedTools) {
+                String name = tool.path("function").path("name").asText("");
+                if (!name.isBlank()) {
+                    declaredToolNames.add(name);
                 }
-                JsonNode mappedToolChoice = claudeToolChoiceToChat(toolChoice, declaredToolNames);
-                if (mappedToolChoice != null) {
-                    target.set("tool_choice", mappedToolChoice);
-                }
-                if (toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
-                    target.put("parallel_tool_calls", false);
-                }
+            }
+            JsonNode mappedToolChoice = claudeToolChoiceToChat(toolChoice, declaredToolNames);
+            if (mappedToolChoice != null) {
+                target.set("tool_choice", mappedToolChoice);
+            }
+            if (toolChoice.path("disable_parallel_tool_use").asBoolean(false)) {
+                target.put("parallel_tool_calls", false);
             }
         }
     }
@@ -280,6 +284,13 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (text.isEmpty() || isAnthropicBillingHeader(text)) {
             return;
         }
+        appendJoinedText(target, text);
+    }
+
+    private void appendJoinedText(StringBuilder target, String text) {
+        if (text.isEmpty()) {
+            return;
+        }
         if (!target.isEmpty()) {
             target.append("\n\n");
         }
@@ -314,6 +325,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         ArrayNode result = json.arrayNode();
         for (JsonNode tool : tools) {
             String type = tool.path("type").asText("custom");
+            // Chat Completions 没有托管搜索等价能力，与 sub2api 一样直接丢弃 web_search_*。
+            if (type.startsWith("web_search")) {
+                continue;
+            }
             if (!"custom".equals(type) && !type.isBlank()) {
                 throw new ProtocolConversionException("CLAUDE_CHAT_TOOL_NOT_SUPPORTED: " + type);
             }
@@ -406,20 +421,26 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             result.add(msg);
             return result;
         }
+        if (!content.isArray()) {
+            ObjectNode msg = json.objectNode();
+            msg.put("role", "assistant");
+            msg.putNull("content");
+            result.add(msg);
+            return result;
+        }
         StringBuilder textParts = new StringBuilder();
         StringBuilder thinkingParts = new StringBuilder();
         ArrayNode toolCalls = json.arrayNode();
         for (JsonNode block : content) {
             String type = block.path("type").asText("");
             switch (type) {
-                case "text" -> appendSeparatedText(textParts, block.path("text").asText(""));
+                case "text" -> appendJoinedText(textParts, block.path("text").asText(""));
                 case "thinking" -> appendReasoningText(
                         thinkingParts, block.path("thinking").asText(""));
                 case "tool_use" -> toolCalls.add(claudeToolUseToChatFunctionCall(block));
-                case "server_tool_use", "mcp_tool_use", "program", "code_execution_tool_use" ->
-                        throw new ProtocolConversionException(
-                                "CLAUDE_CHAT_SERVER_TOOL_HISTORY_NOT_SUPPORTED: " + type);
-                default -> {} // skip thinking, redacted_thinking etc.
+                default -> {
+                    // 跳过 thinking 签名占位、redacted_thinking，以及无 Chat 等价物的托管工具轨迹
+                }
             }
         }
         ObjectNode msg = json.objectNode();
@@ -465,84 +486,108 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             result.add(msg);
             return result;
         }
+        if (!content.isArray()) {
+            return result;
+        }
+
+        ArrayNode toolMessages = json.arrayNode();
+        ArrayNode toolResultImages = json.arrayNode();
+        for (JsonNode block : content) {
+            if (!"tool_result".equals(block.path("type").asText(""))) {
+                continue;
+            }
+            ObjectNode toolMsg = json.objectNode();
+            toolMsg.put("role", "tool");
+            toolMsg.put("tool_call_id", block.path("tool_use_id").asText(""));
+            toolMsg.put("content", extractToolResultContent(block));
+            toolMessages.add(toolMsg);
+            toolResultImages.addAll(extractToolResultImages(block));
+        }
+
         ArrayNode userParts = json.arrayNode();
+        StringBuilder textParts = new StringBuilder();
+        boolean hasNonText = false;
         for (JsonNode block : content) {
             String type = block.path("type").asText("");
             switch (type) {
-                case "text" -> {
-                    ObjectNode part = json.objectNode();
-                    part.put("type", "text");
-                    part.put("text", block.path("text").asText(""));
-                    userParts.add(part);
-                }
-                case "image" -> claudeImageSourceToChatImageUrl(block).ifPresent(userParts::add);
-                case "document" -> appendChatDocumentPart(userParts, block);
-                case "search_result" -> {
-                    ObjectNode part = json.objectNode();
-                    part.put("type", "text");
-                    part.put("text", "Source: " + block.path("source").asText("")
-                            + "\nTitle: " + block.path("title").asText("")
-                            + "\n" + extractOpenAiContentText(block.get("content")));
-                    userParts.add(part);
-                }
-                case "tool_result" -> {
-                    if (!userParts.isEmpty()) {
-                        ObjectNode userMsg = json.objectNode();
-                        userMsg.put("role", "user");
-                        userMsg.set("content", userParts.deepCopy());
-                        result.add(userMsg);
-                        userParts.removeAll();
-                    }
-                    ObjectNode toolMsg = json.objectNode();
-                    toolMsg.put("role", "tool");
-                    toolMsg.put("tool_call_id", block.path("tool_use_id").asText(""));
-                    toolMsg.put("content", extractToolResultContent(block));
-                    result.add(toolMsg);
-                    ArrayNode toolResultImages = extractToolResultImages(block);
-                    if (!toolResultImages.isEmpty()) {
-                        ObjectNode imgMsg = json.objectNode();
-                        imgMsg.put("role", "user");
-                        imgMsg.set("content", toolResultImages);
-                        result.add(imgMsg);
+                case "text" -> appendChatUserText(userParts, textParts, block.path("text").asText(""));
+                case "image" -> {
+                    Optional<ObjectNode> image = claudeImageSourceToChatImageUrl(block);
+                    if (image.isPresent()) {
+                        hasNonText = true;
+                        userParts.add(image.get());
                     }
                 }
-                case "server_tool_result", "mcp_tool_result", "web_search_tool_result",
-                     "web_fetch_tool_result", "code_execution_tool_result",
-                     "bash_code_execution_tool_result", "text_editor_code_execution_tool_result" ->
-                        throw new ProtocolConversionException(
-                                "CLAUDE_CHAT_SERVER_TOOL_HISTORY_NOT_SUPPORTED: " + type);
-                default -> {} // skip thinking etc.
+                case "document" -> hasNonText |= appendChatDocumentPart(userParts, textParts, block);
+                case "search_result" -> appendChatUserText(userParts, textParts, formatClaudeSearchResult(block));
+                default -> {
+                    // tool_result 已在第一遍提取；托管工具结果与未知块直接跳过
+                }
             }
+        }
+        if (!toolResultImages.isEmpty()) {
+            hasNonText = true;
+            userParts.addAll(toolResultImages);
+        }
+
+        result.addAll(toolMessages);
+        if (!hasNonText) {
+            if (!textParts.isEmpty()) {
+                ObjectNode userMsg = json.objectNode();
+                userMsg.put("role", "user");
+                userMsg.put("content", textParts.toString());
+                result.add(userMsg);
+            }
+            return result;
         }
         if (!userParts.isEmpty()) {
             ObjectNode userMsg = json.objectNode();
             userMsg.put("role", "user");
-            if (userParts.size() == 1 && "text".equals(userParts.get(0).path("type").asText(""))) {
-                userMsg.put("content", userParts.get(0).path("text").asText(""));
-            } else {
-                userMsg.set("content", userParts);
-            }
+            userMsg.set("content", userParts);
             result.add(userMsg);
         }
         return result;
     }
 
-    private void appendChatDocumentPart(ArrayNode parts, JsonNode block) {
+    private void appendChatUserText(ArrayNode userParts, StringBuilder textParts, String text) {
+        if (text.isEmpty()) {
+            return;
+        }
+        appendJoinedText(textParts, text);
+        userParts.add(chatTextPart(text));
+    }
+
+    private ObjectNode chatTextPart(String text) {
+        ObjectNode part = json.objectNode();
+        part.put("type", "text");
+        part.put("text", text);
+        return part;
+    }
+
+    private String formatClaudeSearchResult(JsonNode block) {
+        return "Source: " + block.path("source").asText("")
+                + "\nTitle: " + block.path("title").asText("")
+                + "\n" + extractOpenAiContentText(block.get("content"));
+    }
+
+    /**
+     * @return true 当文档被映射为 Chat file 部件（迫使 user content 使用 parts 数组）
+     */
+    private boolean appendChatDocumentPart(ArrayNode parts, StringBuilder textParts, JsonNode block) {
         JsonNode source = block.path("source");
         String sourceType = source.path("type").asText("");
         if ("text".equals(sourceType) || "content".equals(sourceType)) {
-            ObjectNode text = json.objectNode();
-            text.put("type", "text");
-            text.put("text", "text".equals(sourceType)
+            String text = "text".equals(sourceType)
                     ? source.path("data").asText("")
-                    : extractOpenAiContentText(source.get("content")));
-            parts.add(text);
-            return;
+                    : extractOpenAiContentText(source.get("content"));
+            appendChatUserText(parts, textParts, text);
+            return false;
         }
         if ("url".equals(sourceType)) {
             throw new ProtocolConversionException("CLAUDE_CHAT_DOCUMENT_URL_NOT_SUPPORTED");
         }
         parts.add(ClaudeResponsesMediaMapper.toChatFilePart(json, block));
+        return true;
     }
 
     private String extractToolResultContent(JsonNode toolResult) {
@@ -555,7 +600,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             StringBuilder sb = new StringBuilder();
             for (JsonNode item : content) {
                 if ("text".equals(item.path("type").asText(""))) {
-                    appendSeparatedText(sb, item.path("text").asText(""));
+                    appendJoinedText(sb, item.path("text").asText(""));
                 }
             }
             return sb.isEmpty() ? EMPTY_TOOL_RESULT : sb.toString();

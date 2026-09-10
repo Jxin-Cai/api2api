@@ -103,7 +103,7 @@ class ClaudeMessagesOpenAIChatConversionTest {
         assertThat(mapped.at("/messages/0/tool_calls/0/id").asText()).isEqualTo("call_a");
         assertThat(mapped.at("/messages/1/tool_call_id").asText()).isEqualTo("call_a");
         assertThat(mapped.at("/messages/2/tool_call_id").asText()).isEqualTo("call_b");
-        assertThat(mapped.at("/messages/3/content/0/text").asText()).isEqualTo("approval recorded");
+        assertThat(mapped.at("/messages/3/content").asText()).isEqualTo("approval recorded");
     }
 
     @Test
@@ -300,6 +300,160 @@ class ClaudeMessagesOpenAIChatConversionTest {
 
         // Assert
         assertThat(mapped.at("/messages/0").has("reasoning_content")).isFalse();
+    }
+
+    @Test
+    void test_foldsUserTextBlocksToString_when_contentHasNoImage() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "messages":[{"role":"user","content":[
+                    {"type":"text","text":"first"},
+                    {"type":"text","text":"second"}
+                  ]}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, false);
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content").isTextual()).isTrue();
+        assertThat(mapped.at("/messages/0/content").asText()).isEqualTo("first\n\nsecond");
+    }
+
+    @Test
+    void test_keepsUserContentAsParts_when_imageIsPresent() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "messages":[{"role":"user","content":[
+                    {"type":"text","text":"look"},
+                    {"type":"image","source":{"type":"url","url":"https://example.com/a.png"}}
+                  ]}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, false);
+
+        // Assert
+        assertThat(mapped.at("/messages/0/content").isArray()).isTrue();
+        assertThat(mapped.at("/messages/0/content/0/type").asText()).isEqualTo("text");
+        assertThat(mapped.at("/messages/0/content/0/text").asText()).isEqualTo("look");
+        assertThat(mapped.at("/messages/0/content/1/type").asText()).isEqualTo("image_url");
+        assertThat(mapped.at("/messages/0/content/1/image_url/url").asText())
+                .isEqualTo("https://example.com/a.png");
+    }
+
+    @Test
+    void test_mergesToolResultImagesIntoUserMessage_when_resultContainsImage() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "messages":[
+                    {"role":"assistant","content":[
+                      {"type":"tool_use","id":"call_1","name":"Read","input":{}}
+                    ]},
+                    {"role":"user","content":[
+                      {"type":"tool_result","tool_use_id":"call_1","content":[
+                        {"type":"text","text":"ok"},
+                        {"type":"image","source":{"type":"url","url":"https://example.com/shot.png"}}
+                      ]},
+                      {"type":"text","text":"look"}
+                    ]}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.at("/messages/1/role").asText()).isEqualTo("tool");
+        assertThat(mapped.at("/messages/1/content").asText()).isEqualTo("ok");
+        assertThat(mapped.at("/messages/2/role").asText()).isEqualTo("user");
+        assertThat(mapped.at("/messages/2/content/0/text").asText()).isEqualTo("look");
+        assertThat(mapped.at("/messages/2/content/1/type").asText()).isEqualTo("image_url");
+        assertThat(mapped.at("/messages/2/content/1/image_url/url").asText())
+                .isEqualTo("https://example.com/shot.png");
+    }
+
+    @Test
+    void test_skipsServerToolHistory_when_chatHasNoHostedToolEquivalent() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "messages":[
+                    {"role":"assistant","content":[
+                      {"type":"server_tool_use","id":"srv_1","name":"web_search","input":{}},
+                      {"type":"text","text":"done"}
+                    ]},
+                    {"role":"user","content":[
+                      {"type":"web_search_tool_result","tool_use_id":"srv_1","content":[]},
+                      {"type":"text","text":"continue"}
+                    ]}
+                  ]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, false);
+
+        // Assert
+        assertThat(mapped.path("messages")).hasSize(2);
+        assertThat(mapped.at("/messages/0/content").asText()).isEqualTo("done");
+        assertThat(mapped.at("/messages/0").has("tool_calls")).isFalse();
+        assertThat(mapped.at("/messages/1/content").asText()).isEqualTo("continue");
+    }
+
+    @Test
+    void test_dropsWebSearchServerTool_when_chatHasNoHostedSearch() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "tools":[
+                    {"type":"web_search_20250305","name":"web_search"},
+                    {"name":"get_weather","input_schema":{"type":"object"}}
+                  ],
+                  "tool_choice":{"type":"tool","name":"web_search"},
+                  "messages":[{"role":"user","content":"hello"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.path("tools")).hasSize(1);
+        assertThat(mapped.at("/tools/0/function/name").asText()).isEqualTo("get_weather");
+        assertThat(mapped.has("tool_choice")).isFalse();
+    }
+
+    @Test
+    void test_omitsToolsField_when_onlyServerSearchToolsArePresent() throws Exception {
+        // Arrange
+        String body = """
+                {
+                  "model":"deepseek-v4-pro",
+                  "tools":[{"type":"web_search_20250305","name":"web_search"}],
+                  "tool_choice":{"type":"auto"},
+                  "messages":[{"role":"user","content":"hello"}]
+                }
+                """;
+
+        // Act
+        JsonNode mapped = convertRequest(body, true);
+
+        // Assert
+        assertThat(mapped.has("tools")).isFalse();
+        assertThat(mapped.has("tool_choice")).isFalse();
+        assertThat(mapped.has("parallel_tool_calls")).isFalse();
     }
 
     @Test
