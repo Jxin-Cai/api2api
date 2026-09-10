@@ -49,6 +49,15 @@ class UsageRecordHttpConverterTest {
     }
 
     @Test
+    void test_includes_api_credential_name_when_rendering_usage_records() {
+        PagedUsageRecordViews page = pageWith(successfulRecord());
+
+        var response = converter.toPageResponse(page, false);
+
+        assertThat(response.getRecords().get(0).getApiCredentialName()).isEqualTo("credential-a");
+    }
+
+    @Test
     void test_includes_total_and_actual_tokens_when_rendering_usage_page() {
         PagedUsageRecordViews page = pageWith(successfulRecord());
 
@@ -79,6 +88,8 @@ class UsageRecordHttpConverterTest {
                 UserAccountId.of(1L),
                 ApiCredentialId.of(1L),
                 ModelName.of("claude-sonnet"),
+                "127.0.0.1",
+                8L,
                 ModelName.of("gpt-4.1"),
                 ProtocolType.CLAUDE_MESSAGES,
                 ProtocolType.OPENAI_RESPONSES,

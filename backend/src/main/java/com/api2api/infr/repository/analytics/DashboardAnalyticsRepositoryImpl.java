@@ -132,14 +132,14 @@ public class DashboardAnalyticsRepositoryImpl implements DashboardAnalyticsRepos
     public List<UsageDistributionItem> findModelDistribution(UserAccountId userAccountId, AnalyticsTimeWindow window, int limit) {
         MapSqlParameterSource params = windowParams(window).addValue("userAccountId", userAccountId == null ? null : userAccountId.getValue()).addValue("limit", limit);
         String owner = userAccountId == null ? "" : " AND r.user_account_id = :userAccountId";
-        return jdbcTemplate.query("SELECT COALESCE(r.requested_model, 'Unknown') name, COUNT(*) value FROM usage_records r WHERE r.deleted = FALSE AND r.started_at >= :startTime AND r.started_at < :endTime" + owner + " GROUP BY r.requested_model ORDER BY value DESC, name ASC LIMIT :limit", params, (rs, n) -> new UsageDistributionItem(rs.getString("name"), rs.getLong("value")));
+        return jdbcTemplate.query("SELECT COALESCE(r.requested_model, 'Unknown') name, COALESCE(SUM(r.total_tokens), 0) value FROM usage_records r WHERE r.deleted = FALSE AND r.started_at >= :startTime AND r.started_at < :endTime" + owner + " GROUP BY r.requested_model ORDER BY value DESC, name ASC LIMIT :limit", params, (rs, n) -> new UsageDistributionItem(rs.getString("name"), rs.getLong("value")));
     }
 
     @Override
     public List<UsageDistributionItem> findChannelDistribution(UserAccountId userAccountId, AnalyticsTimeWindow window, int limit) {
         MapSqlParameterSource params = windowParams(window).addValue("userAccountId", userAccountId == null ? null : userAccountId.getValue()).addValue("limit", limit);
         String owner = userAccountId == null ? "" : " AND r.user_account_id = :userAccountId";
-        return jdbcTemplate.query("SELECT COALESCE(c.name, 'Unknown') name, COUNT(*) value FROM usage_records r LEFT JOIN provider_channels c ON c.id = r.provider_channel_id WHERE r.deleted = FALSE AND r.started_at >= :startTime AND r.started_at < :endTime" + owner + " GROUP BY c.name ORDER BY value DESC, name ASC LIMIT :limit", params, (rs, n) -> new UsageDistributionItem(rs.getString("name"), rs.getLong("value")));
+        return jdbcTemplate.query("SELECT COALESCE(c.name, 'Unknown') name, COALESCE(SUM(r.total_tokens), 0) value FROM usage_records r LEFT JOIN provider_channels c ON c.id = r.provider_channel_id WHERE r.deleted = FALSE AND r.started_at >= :startTime AND r.started_at < :endTime" + owner + " GROUP BY c.name ORDER BY value DESC, name ASC LIMIT :limit", params, (rs, n) -> new UsageDistributionItem(rs.getString("name"), rs.getLong("value")));
     }
 
     @Override

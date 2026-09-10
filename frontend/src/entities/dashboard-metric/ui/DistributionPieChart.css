@@ -48,8 +48,57 @@
 
 .dashboard-distribution-card .g2-tooltip {
   z-index: 40;
-  min-width: 132px;
+  min-width: 220px;
+  max-width: min(360px, calc(100vw - 24px));
+  padding: 10px 12px;
+  overflow: visible;
   pointer-events: none;
+  white-space: normal;
+}
+
+.dashboard-distribution-card .g2-tooltip-title,
+.dashboard-distribution-card .g2-tooltip-list-item,
+.dashboard-distribution-card .g2-tooltip-list-item-name,
+.dashboard-distribution-card .g2-tooltip-list-item-value {
+  max-width: none;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.dashboard-distribution-tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+  max-width: 320px;
+}
+
+.dashboard-distribution-tooltip__name {
+  color: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.dashboard-distribution-tooltip__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.dashboard-distribution-tooltip__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .dashboard-distribution-card__chart canvas,

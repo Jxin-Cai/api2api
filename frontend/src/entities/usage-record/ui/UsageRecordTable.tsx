@@ -29,7 +29,21 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
 
   const columns: ColumnsType<UsageRecordResponse> = [
     { title: '时间', dataIndex: 'createdAt', key: 'createdAt', width: 180, render: (value: string | number): string => formatDateTime(value) },
-    { title: 'API Key', dataIndex: 'apiCredentialName', key: 'apiCredentialName', width: 140, render: (_: unknown, record: UsageRecordResponse): string => record.apiCredentialName ?? record.apiCredentialId ?? '-' },
+    {
+      title: 'API Key 名称',
+      dataIndex: 'apiCredentialName',
+      key: 'apiCredentialName',
+      width: 180,
+      ellipsis: { showTitle: false },
+      render: (_: unknown, record: UsageRecordResponse): ReactElement => {
+        const name = record.apiCredentialName?.trim() || record.apiCredentialId || '-';
+        return (
+          <Tooltip title={name}>
+            <span>{name}</span>
+          </Tooltip>
+        );
+      },
+    },
     { title: '模型', dataIndex: 'model', key: 'model', width: 180 },
     { title: '协议', dataIndex: 'protocolType', key: 'protocolType', width: 180 },
     { title: 'Token', key: 'tokens', align: 'right', width: 120, render: (_: unknown, record: UsageRecordResponse): ReactElement => (
@@ -57,7 +71,7 @@ export function UsageRecordTable({ records, scope, loading = false, pagination, 
       dataSource={records}
       locale={{ emptyText: <Empty description={USAGE_EMPTY_TEXT} /> }}
       pagination={buildTablePagination(pagination, onPageChange, showSizeChanger)}
-      scroll={{ x: scope === 'admin' ? 1620 : 1380 }}
+      scroll={{ x: scope === 'admin' ? 1660 : 1420 }}
       expandable={scope === 'admin' ? {
         expandedRowKeys,
         onExpandedRowsChange: (keys: readonly React.Key[]): void => setExpandedRowKeys([...keys]),

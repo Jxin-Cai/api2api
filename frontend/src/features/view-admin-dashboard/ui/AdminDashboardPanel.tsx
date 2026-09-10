@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { DistributionPieChart, MetricCard, TopRankList, TrendChart, useAdminDashboardMetrics, useUsageDistributions } from '@entities/dashboard-metric';
 import { normalizeRankItems, normalizeTrendPoints } from '@shared/lib/chartData';
-import { formatTokenMillions } from '@shared/lib/formatters';
+import { formatTokenCompact } from '@shared/lib/formatters';
 import { getProtocolMeta } from '@shared/lib/protocols';
 import { resolveTimeZone } from '@shared/lib/timeZone';
 import { DashboardSummaryGrid, PageState } from '@shared/ui';
@@ -50,8 +50,8 @@ export function AdminDashboardPanel() {
           平台概览
         </Typography.Title>
         <DashboardSummaryGrid colProps={{ xs: 24, sm: 12 }}>
-          <MetricCard title="全平台今日 Token" value={formatTokenMillions(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={distributionQuery.isLoading} />
-          <MetricCard title="全平台本月 Token" value={formatTokenMillions(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={distributionQuery.isLoading} />
+          <MetricCard title="全平台今日 Token" value={formatTokenCompact(data?.todayTokens?.tokens)} rawValue={data?.todayTokens?.tokens} loading={distributionQuery.isLoading} />
+          <MetricCard title="全平台本月 Token" value={formatTokenCompact(data?.monthTokens?.tokens)} rawValue={data?.monthTokens?.tokens} loading={distributionQuery.isLoading} />
         </DashboardSummaryGrid>
       </section>
 

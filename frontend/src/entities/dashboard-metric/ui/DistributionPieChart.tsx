@@ -3,6 +3,7 @@ import { Empty, Skeleton, Tooltip } from 'antd';
 import { useMemo } from 'react';
 
 import { useThemeStore } from '@shared/config/stores/useThemeStore';
+import { formatTokenCompactParts } from '@shared/lib/formatters';
 import './DistributionPieChart.css';
 
 export interface DistributionItem { name: string; value: number }
@@ -73,6 +74,67 @@ function resolveSlicePercent(item: PieDatum, total: number): string {
   return formatSharePercent(Number(item.value ?? 0), total);
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
+
+function formatDistributionTokens(tokens: number): string {
+  if (!Number.isFinite(tokens)) {
+    return '-';
+  }
+  const exact = Math.round(tokens).toLocaleString('zh-CN');
+  const compact = formatTokenCompactParts(tokens);
+  if (compact != null && tokens >= 1_000_000) {
+    return `${exact}（${compact.value}${compact.unit}）`;
+  }
+  return exact;
+}
+
+interface TooltipRenderOptions {
+  title?: string;
+  items?: Array<{ name?: string; value?: string | number; d?: PieDatum; data?: PieDatum }>;
+}
+
+function resolveTooltipDatum(options: TooltipRenderOptions, slices: SliceItem[]): PieDatum {
+  const item = options.items?.[0];
+  const fromItem = item?.d ?? item?.data;
+  const name = resolveSliceName(fromItem ?? { name: options.title ?? item?.name });
+  const slice = slices.find((candidate) => candidate.name === name);
+  if (slice) {
+    return slice;
+  }
+  const rawValue = fromItem?.value ?? item?.value;
+  return {
+    name,
+    value: typeof rawValue === 'number' ? rawValue : Number(rawValue ?? 0),
+    percentLabel: fromItem?.percentLabel,
+  };
+}
+
+function renderSliceTooltip(options: TooltipRenderOptions, slices: SliceItem[], total: number): string {
+  const datum = resolveTooltipDatum(options, slices);
+  const name = escapeHtml(resolveSliceName(datum));
+  const tokens = escapeHtml(formatDistributionTokens(Number(datum.value ?? 0)));
+  const percent = escapeHtml(resolveSlicePercent(datum, total));
+  return `
+    <div class="dashboard-distribution-tooltip">
+      <div class="dashboard-distribution-tooltip__name">${name}</div>
+      <div class="dashboard-distribution-tooltip__row">
+        <span>Token</span>
+        <span class="dashboard-distribution-tooltip__value">${tokens}</span>
+      </div>
+      <div class="dashboard-distribution-tooltip__row">
+        <span>占比</span>
+        <span class="dashboard-distribution-tooltip__value">${percent}</span>
+      </div>
+    </div>
+  `.trim();
+}
+
 export function DistributionPieChart({ title, items, loading = false }: Props) {
   const themeMode = useThemeStore((state) => state.mode);
   const data = useMemo(
@@ -120,16 +182,48 @@ export function DistributionPieChart({ title, items, loading = false }: Props) {
               legend={false}
               label={false}
               tooltip={{
-                title: (datum: PieDatum | PieDatum[]) => resolveSliceName(firstPieDatum(datum)),
+                title: '',
                 items: [
-                  (datum: PieDatum | PieDatum[]) => ({
-                    name: '占比',
-                    value: resolveSlicePercent(firstPieDatum(datum), total),
-                  }),
+                  (datum: PieDatum | PieDatum[]) => {
+                    const item = firstPieDatum(datum);
+                    return {
+                      name: resolveSliceName(item),
+                      value: `${formatDistributionTokens(Number(item.value ?? 0))} · ${resolveSlicePercent(item, total)}`,
+                      d: item,
+                    };
+                  },
                 ],
                 position: 'top',
                 bounding: 'viewport',
                 offset: 12,
+                css: {
+                  '.g2-tooltip': {
+                    'min-width': '220px',
+                    'max-width': '360px',
+                    'white-space': 'normal',
+                  },
+                  '.g2-tooltip-title': {
+                    display: 'none',
+                  },
+                  '.g2-tooltip-list-item': {
+                    'white-space': 'normal',
+                    overflow: 'visible',
+                  },
+                  '.g2-tooltip-list-item-name': {
+                    'max-width': 'none',
+                    overflow: 'visible',
+                    'text-overflow': 'unset',
+                    'white-space': 'normal',
+                    'word-break': 'break-word',
+                  },
+                  '.g2-tooltip-list-item-value': {
+                    'max-width': 'none',
+                    overflow: 'visible',
+                    'text-overflow': 'unset',
+                    'white-space': 'normal',
+                  },
+                },
+                render: (_event: unknown, options: TooltipRenderOptions) => renderSliceTooltip(options, slices, total),
               }}
               style={{
                 stroke: chartTheme.surface,
@@ -140,7 +234,7 @@ export function DistributionPieChart({ title, items, loading = false }: Props) {
           <ul className="dashboard-distribution-card__legend" aria-label={`${title}图例`}>
             {slices.map((item) => (
               <li key={item.name} className="dashboard-distribution-card__legend-item">
-                <Tooltip title={`${resolveSliceName(item)} ${item.percentLabel}`}>
+                <Tooltip title={`${resolveSliceName(item)}  ${formatDistributionTokens(item.value)}  ${item.percentLabel}`}>
                   <span className="dashboard-distribution-card__legend-hit">
                     <span className="dashboard-distribution-card__legend-swatch" style={{ background: item.color }} />
                     <span className="dashboard-distribution-card__legend-label">{resolveSliceName(item)}</span>
