@@ -15,6 +15,7 @@ import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.protocolcontract.acl.ExecutableProtocolContract;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +66,9 @@ public class GatewayProtocolController {
 
     @NonNull
     private final MultipartFormPayloadCodec multipartFormPayloadCodec;
+
+    @NonNull
+    private final ResponsesImageBridge responsesImageBridge;
 
     @GetMapping({"/v1/model", "/v1/models"})
     public GatewayModelListResponse listModels(
@@ -132,7 +136,11 @@ public class GatewayProtocolController {
             @RequestHeader(value = "X-Request-Id", required = false) String xRequestId,
             HttpServletRequest httpRequest,
             HttpServletResponse httpResponse
-    ) {
+    ) throws IOException {
+        var bridged = responsesImageBridge.tryHandle(rawBody, authorization, apiKey, xRequestId,
+                InboundRequestContext.of(headers, httpRequest.getQueryString(), ProtocolOperation.INVOKE, resolveClientIp(httpRequest)),
+                httpResponse);
+        if (bridged.isPresent()) return bridged.get();
         return invokeProtocol(
                 ProtocolType.OPENAI_RESPONSES,
                 ProtocolOperation.INVOKE,

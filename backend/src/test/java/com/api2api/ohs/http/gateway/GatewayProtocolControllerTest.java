@@ -42,7 +42,8 @@ class GatewayProtocolControllerTest {
                 mock(GatewayStreamingResponseMapper.class),
                 new ProtocolContractRegistry(new ObjectMapper()),
                 mock(MultipartFormRequestReader.class),
-                mock(MultipartFormPayloadCodec.class)
+                mock(MultipartFormPayloadCodec.class),
+                mock(ResponsesImageBridge.class)
         );
 
         // Act
