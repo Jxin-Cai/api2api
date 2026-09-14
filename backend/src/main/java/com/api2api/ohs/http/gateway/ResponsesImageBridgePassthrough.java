@@ -1,6 +1,6 @@
 package com.api2api.ohs.http.gateway;
 
-/** Planner rejected the bridged request; JSON clients fall back to ordinary Responses passthrough. */
+/** Planner rejected the bridged request; JSON and streaming clients fall back to ordinary Responses passthrough. */
 final class ResponsesImageBridgePassthrough extends RuntimeException {
     private final int statusCode;
 

@@ -64,8 +64,10 @@ class ResponsesImageBridgeTest {
         ResponsesImageBridge bridge = new ResponsesImageBridge(json, new ResponsesImagePayloadMapper(json, multipart),
                 gateway, requestMapper, identifiers, responses, contract, credentials,
                 new StreamingPassthroughUsageExtractor(json), "gpt-image-2.5");
+        GatewayStreamingResponseMapper streamingResponses = new GatewayStreamingResponseMapper(
+                gateway, mock(GatewayStreamingConversionPort.class), new StreamingPassthroughUsageExtractor(json));
         GatewayProtocolController controller = new GatewayProtocolController(credentials, keyHelper, gateway,
-                requestMapper, responses, mock(GatewayStreamingResponseMapper.class), contract,
+                requestMapper, responses, streamingResponses, contract,
                 mock(MultipartFormRequestReader.class), multipart, bridge);
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GatewayProtocolExceptionAdvice(errors)).build();
@@ -488,17 +490,33 @@ class ResponsesImageBridgeTest {
     @Test
     void test_falls_back_to_passthrough_when_planner_rejects_bridged_tools() throws Exception {
         // Arrange
-        doAnswer(invocation -> {
-            InvokeGatewayCommand command = invocation.getArgument(0);
-            calls.add(command);
-            if (command.getRequestProtocol() == ProtocolType.OPENAI_RESPONSES
-                    && command.getRequestBody().contains("api2api_generate_image")) {
-                return outcome(command, 400, "{\"error\":{\"type\":\"invalid_request_error\",\"message\":\"unknown tool\"}}", Map.of());
-            }
-            return outcome(command, 200, command.getRequestProtocol() == ProtocolType.OPENAI_IMAGES ? imageResponse : plannerResponse, Map.of());
-        }).when(gateway).invokeOutcome(any());
+        rejectBridgedPlanner();
         // Act
         send(base()).andExpect(status().isOk()).andExpect(jsonPath("$.id").value("resp_upstream"));
+    }
+
+    @Test
+    void test_falls_back_to_passthrough_when_planner_rejects_bridged_tools_on_stream() throws Exception {
+        // Arrange
+        rejectBridgedPlanner();
+        streamResponses("event: response.completed\ndata: {\"type\":\"response.completed\","
+                + "\"response\":{\"id\":\"resp_upstream\",\"status\":\"completed\"}}\n\n");
+        // Act
+        List<JsonNode> events = stream(base().put("stream", true));
+        // Assert
+        assertThat(events).extracting(event -> event.path("type").asText())
+                .contains("response.completed").doesNotContain("response.failed");
+    }
+
+    @Test
+    void test_omits_bridged_function_when_stream_falls_back_after_planner_rejection() throws Exception {
+        // Arrange
+        rejectBridgedPlanner();
+        streamResponses("event: response.completed\ndata: {\"type\":\"response.completed\"}\n\n");
+        // Act
+        stream(base().put("stream", true));
+        // Assert
+        assertThat(calls.get(1).getRequestBody()).doesNotContain("api2api_generate_image");
     }
 
     @Test
@@ -534,6 +552,18 @@ class ResponsesImageBridgeTest {
         return request;
     }
 
+    private void rejectBridgedPlanner() {
+        doAnswer(invocation -> {
+            InvokeGatewayCommand command = invocation.getArgument(0);
+            calls.add(command);
+            if (command.getRequestProtocol() == ProtocolType.OPENAI_RESPONSES
+                    && command.getRequestBody().contains("api2api_generate_image")) {
+                return outcome(command, 400, "{\"error\":{\"type\":\"invalid_request_error\",\"message\":\"unknown tool\"}}", Map.of());
+            }
+            return outcome(command, 200, command.getRequestProtocol() == ProtocolType.OPENAI_IMAGES ? imageResponse : plannerResponse, Map.of());
+        }).when(gateway).invokeOutcome(any());
+    }
+
     private void selectImage() {
         ObjectNode response = json.createObjectNode().put("status", "completed");
         response.putArray("output").addObject().put("type", "function_call").put("id", "fc_internal")
@@ -556,6 +586,17 @@ class ResponsesImageBridgeTest {
             if (line.startsWith("data: ")) events.add(json.readTree(line.substring(6)));
         }
         return events;
+    }
+
+    private void streamResponses(String events) {
+        when(gateway.openStreaming(any())).thenAnswer(invocation -> {
+            InvokeGatewayCommand command = invocation.getArgument(0);
+            calls.add(command);
+            return GatewayStreamingInvocation.opened(mock(GatewayInvocation.class), command.getUsageRecordId(),
+                    mock(RouteCandidate.class), ProviderStreamingResponse.of(ProtocolType.OPENAI_RESPONSES, 200,
+                            Map.of("Content-Type", List.of("text/event-stream")),
+                            new ByteArrayInputStream(events.getBytes(StandardCharsets.UTF_8))));
+        });
     }
 
     private void streamImages(String events) {

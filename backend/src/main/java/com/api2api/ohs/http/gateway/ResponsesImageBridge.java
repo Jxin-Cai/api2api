@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
@@ -83,20 +84,29 @@ public class ResponsesImageBridge {
                 ? payloadMapper.map(request, request.prompt(), null) : null;
         log.info("Responses image bridge accepted, requestId: {}, model: {}, imageModel: {}, forced: {}, streaming: {}",
                 parent.getGatewayRequestId().value(), request.model(), request.imageModel(), request.forced(), request.streaming());
+        ObjectNode planned = null;
+        if (forcedImage == null) {
+            try {
+                planned = plan(parent, request);
+            } catch (ResponsesImageBridgePassthrough exception) {
+                log.warn("Responses image bridge skipped after planner rejection, requestId: {}, status: {}",
+                        parent.getGatewayRequestId().value(), exception.statusCode());
+                return Optional.empty();
+            } catch (ResponsesImageBridgeFailure exception) {
+                if (!request.streaming()) return Optional.of(exception.response().toResponseEntity());
+                startSse(httpResponse);
+                StreamingResponseBody failed = output -> failStream(request, output, errorBody(exception.response()));
+                return Optional.of(failed);
+            }
+        }
         if (request.streaming()) {
-            httpResponse.setStatus(200);
-            httpResponse.setContentType(MediaType.TEXT_EVENT_STREAM_VALUE);
-            httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
-            httpResponse.setHeader("X-Accel-Buffering", "no");
-            StreamingResponseBody body = stream -> {
-                ResponsesImageResponseWriter writer = new ResponsesImageResponseWriter(mapper, request, stream);
+            startSse(httpResponse);
+            ObjectNode plannedResponse = planned;
+            StreamingResponseBody body = output -> {
+                ResponsesImageResponseWriter writer = new ResponsesImageResponseWriter(mapper, request, output);
                 try {
                     writer.start();
-                    execute(parent, request, forcedImage, writer);
-                } catch (ResponsesImageBridgePassthrough exception) {
-                    writer.fail(mapper.createObjectNode().put("type", "api_error")
-                            .put("code", "image_bridge_unavailable")
-                            .put("message", exception.getMessage()));
+                    execute(parent, request, forcedImage, plannedResponse, writer);
                 } catch (ResponsesImageBridgeFailure exception) {
                     writer.fail(errorBody(exception.response()));
                 } catch (BusinessException exception) {
@@ -117,25 +127,21 @@ public class ResponsesImageBridge {
         }
         ResponsesImageResponseWriter writer = new ResponsesImageResponseWriter(mapper, request, null);
         try {
-            execute(parent, request, forcedImage, writer);
+            execute(parent, request, forcedImage, planned, writer);
             return Optional.of(GatewayRawResponse.of(writer.response().toString(), 200, MediaType.APPLICATION_JSON).toResponseEntity());
-        } catch (ResponsesImageBridgePassthrough exception) {
-            log.warn("Responses image bridge skipped after planner rejection, requestId: {}, status: {}",
-                    parent.getGatewayRequestId().value(), exception.statusCode());
-            return Optional.empty();
         } catch (ResponsesImageBridgeFailure exception) {
             return Optional.of(exception.response().toResponseEntity());
         }
     }
 
     private void execute(InvokeGatewayCommand parent, ResponsesImageRequest request,
-            ResponsesImagePayloadMapper.ImageRequest forcedImage, ResponsesImageResponseWriter writer) throws IOException {
+            ResponsesImagePayloadMapper.ImageRequest forcedImage, ObjectNode planned, ResponsesImageResponseWriter writer)
+            throws IOException {
         if (forcedImage != null) {
             generate(parent, forcedImage, writer);
             writer.finish(null);
             return;
         }
-        ObjectNode planned = plan(parent, request);
         writer.addUsage(planned.path("usage"), false);
         if (!planned.path("output").isArray()) throw ResponsesImageBridgeFailure.invalidUpstream("Responses planner is missing output");
         long imageCalls = 0;
@@ -245,6 +251,19 @@ public class ResponsesImageBridge {
         } catch (JsonProcessingException exception) {
             throw ResponsesImageBridgeFailure.invalidUpstream("Invalid upstream JSON response");
         }
+    }
+
+    private static void startSse(HttpServletResponse httpResponse) {
+        httpResponse.setStatus(200);
+        httpResponse.setContentType(MediaType.TEXT_EVENT_STREAM_VALUE);
+        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
+        httpResponse.setHeader("X-Accel-Buffering", "no");
+    }
+
+    private void failStream(ResponsesImageRequest request, OutputStream output, ObjectNode error) throws IOException {
+        ResponsesImageResponseWriter writer = new ResponsesImageResponseWriter(mapper, request, output);
+        writer.start();
+        writer.fail(error);
     }
 
     private ObjectNode errorBody(GatewayRawResponse response) {
