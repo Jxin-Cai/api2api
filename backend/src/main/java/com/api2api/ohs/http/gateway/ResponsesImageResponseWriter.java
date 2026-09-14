@@ -94,6 +94,13 @@ final class ResponsesImageResponseWriter {
             event("response.function_call_arguments.delta", fields);
             event("response.function_call_arguments.done", itemFields(index).put("arguments", complete.path("arguments").asText()));
         }
+        if ("image_generation_call".equals(type)) {
+            imageEvent("in_progress", index, mapper.createObjectNode());
+            if ("completed".equals(complete.path("status").asText()) && !complete.path("result").asText().isBlank()) {
+                imageEvent("generating", index, mapper.createObjectNode());
+                imageEvent("completed", index, mapper.createObjectNode());
+            }
+        }
         itemEvent("response.output_item.done", index, complete);
     }
 

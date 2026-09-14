@@ -10,9 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** Stateless Responses image-tool adaptation. Merely advertising a tool must not execute it. */
+/**
+ * Stateless Responses image-tool adaptation.
+ * The client-facing request may advertise or receive an injected {@code image_generation}
+ * hosted tool. The planner only sees a function, because a custom Responses upstream
+ * typically rejects hosted tools. Image execution always goes through the Images bridge.
+ * Advertising or injecting the tool must not execute it.
+ */
 final class ResponsesImageRequest {
     static final String IMAGE_TOOL = "image_generation";
+    static final String IMAGE_CALL = "image_generation_call";
     private final ObjectNode body;
     private final ObjectNode tool;
     private final String functionName;
@@ -31,16 +38,18 @@ final class ResponsesImageRequest {
         for (JsonNode tool : body.path("tools")) {
             if (IMAGE_TOOL.equals(tool.path("type").asText())) tools.add((ObjectNode) tool.deepCopy());
         }
-        if (tools.isEmpty()) return null;
+        if (tools.isEmpty()) {
+            if (!shouldInject(body)) return null;
+            ObjectNode injected = mapper.createObjectNode().put("type", IMAGE_TOOL);
+            ((ArrayNode) body.get("tools")).add(injected);
+            tools.add(injected.deepCopy());
+        }
         if (tools.size() != 1) throw invalid("Only one image_generation tool definition is supported");
         if (!body.path("model").isTextual() || body.path("model").asText().isBlank()) {
             throw invalid("model is required");
         }
-        for (String field : List.of("previous_response_id", "conversation")) {
-            if (body.hasNonNull(field)) throw invalid(field + " is unavailable for the stateless image bridge; resend input history");
-        }
-        if (body.path("background").asBoolean() || body.path("store").asBoolean()) {
-            throw invalid("The image bridge requires background=false and store=false");
+        if (isForced(body) && (body.hasNonNull("previous_response_id") || body.hasNonNull("conversation"))) {
+            throw invalid("previous_response_id and conversation are unavailable for a forced image call; resend input history");
         }
         ObjectNode tool = tools.get(0);
         if (!tool.hasNonNull("model")) tool.put("model", defaultModel);
@@ -70,32 +79,38 @@ final class ResponsesImageRequest {
     ObjectNode tool() { return tool.deepCopy(); }
 
     boolean forced() {
-        JsonNode choice = body.path("tool_choice");
-        return IMAGE_TOOL.equals(choice.path("type").asText())
-                || ("required".equals(choice.asText()) && body.path("tools").size() == 1)
-                || ("allowed_tools".equals(choice.path("type").asText())
-                    && "required".equals(choice.path("mode").asText()) && choice.path("tools").size() == 1
-                    && IMAGE_TOOL.equals(choice.path("tools").get(0).path("type").asText()));
+        return isForced(body);
     }
 
     boolean imageAllowed() {
-        JsonNode choice = body.path("tool_choice");
-        if (choice.isMissingNode() || choice.isNull()) return true;
-        if (choice.isTextual()) return List.of("auto", "required").contains(choice.asText());
-        if (IMAGE_TOOL.equals(choice.path("type").asText())) return true;
-        if ("allowed_tools".equals(choice.path("type").asText())) {
-            for (JsonNode selected : choice.path("tools")) {
-                if (IMAGE_TOOL.equals(selected.path("type").asText())) return true;
-            }
-        }
-        return false;
+        return imageChoiceAllows(body);
     }
 
     int maxImageCalls() { return Math.min(4, body.path("max_tool_calls").asInt(4)); }
 
     boolean isImageCall(JsonNode item) {
+        return isFunctionImageCall(item) || isHostedImageCall(item);
+    }
+
+    boolean isFunctionImageCall(JsonNode item) {
         return "function_call".equals(item.path("type").asText())
                 && functionName.equals(item.path("name").asText());
+    }
+
+    boolean isHostedImageCall(JsonNode item) {
+        return IMAGE_CALL.equals(item.path("type").asText());
+    }
+
+    String hostedImagePrompt(JsonNode item) {
+        for (String field : List.of("revised_prompt", "prompt")) {
+            if (!item.path(field).asText().isBlank()) return item.path(field).asText();
+        }
+        return prompt();
+    }
+
+    String hostedImageAction(JsonNode item) {
+        String action = item.path("action").asText();
+        return action.isBlank() ? null : action;
     }
 
     ObjectNode plannerRequest(ObjectMapper mapper) {
@@ -106,8 +121,11 @@ final class ResponsesImageRequest {
         ArrayNode tools = planned.putArray("tools");
         boolean disabled = !imageAllowed();
         for (JsonNode original : body.path("tools")) {
-            if (!IMAGE_TOOL.equals(original.path("type").asText())) tools.add(original.deepCopy());
-            else if (!disabled) tools.add(functionTool(mapper));
+            if (!IMAGE_TOOL.equals(original.path("type").asText())) {
+                tools.add(original.deepCopy());
+            } else if (!disabled) {
+                tools.add(functionTool(mapper));
+            }
         }
         if (tools.isEmpty()) {
             planned.remove("tools");
@@ -124,7 +142,7 @@ final class ResponsesImageRequest {
         if (planned.path("input").isArray()) {
             ArrayNode input = planned.putArray("input");
             for (JsonNode item : body.path("input")) {
-                if (!"image_generation_call".equals(item.path("type").asText())) {
+                if (!IMAGE_CALL.equals(item.path("type").asText())) {
                     input.add(item.deepCopy());
                 } else {
                     if (item.path("result").asText().isBlank()) throw invalid("Resend the result of prior image_generation_call items");
@@ -140,8 +158,10 @@ final class ResponsesImageRequest {
 
     private ObjectNode functionTool(ObjectMapper mapper) {
         ObjectNode function = mapper.createObjectNode().put("type", "function").put("name", functionName)
-                .put("description", "Generate or edit an image only when the user requests it. Supply a self-contained image prompt. "
-                        + "Use action=edit to modify images in the conversation, or generate for a new image.")
+                .put("description", "Fallback for the native image_generation hosted tool when the planner cannot "
+                        + "emit image_generation_call. Generate or edit an image only when the user requests it. "
+                        + "Supply a self-contained image prompt. Use action=edit to modify images in the conversation, "
+                        + "or generate for a new image.")
                 .put("strict", true);
         ObjectNode schema = function.putObject("parameters").put("type", "object").put("additionalProperties", false);
         ObjectNode properties = schema.putObject("properties");
@@ -172,7 +192,7 @@ final class ResponsesImageRequest {
     List<String> inputImages() {
         List<String> images = new ArrayList<>();
         for (JsonNode item : body.path("input")) {
-            if ("image_generation_call".equals(item.path("type").asText())) {
+            if (IMAGE_CALL.equals(item.path("type").asText())) {
                 if (item.path("result").asText().isBlank()) throw invalid("Resend the result of prior image_generation_call items");
                 images.add(resultDataUrl(item));
             }
@@ -203,6 +223,34 @@ final class ResponsesImageRequest {
 
     static GatewayProtocolException invalid(String message) {
         return GatewayProtocolException.badRequest(ProtocolType.OPENAI_RESPONSES, message);
+    }
+
+    private static boolean shouldInject(ObjectNode body) {
+        JsonNode tools = body.path("tools");
+        if (!tools.isArray() || tools.isEmpty()) return false;
+        return imageChoiceAllows(body);
+    }
+
+    private static boolean isForced(JsonNode body) {
+        JsonNode choice = body.path("tool_choice");
+        return IMAGE_TOOL.equals(choice.path("type").asText())
+                || ("required".equals(choice.asText()) && body.path("tools").size() == 1)
+                || ("allowed_tools".equals(choice.path("type").asText())
+                    && "required".equals(choice.path("mode").asText()) && choice.path("tools").size() == 1
+                    && IMAGE_TOOL.equals(choice.path("tools").get(0).path("type").asText()));
+    }
+
+    private static boolean imageChoiceAllows(JsonNode body) {
+        JsonNode choice = body.path("tool_choice");
+        if (choice.isMissingNode() || choice.isNull()) return true;
+        if (choice.isTextual()) return List.of("auto", "required").contains(choice.asText());
+        if (IMAGE_TOOL.equals(choice.path("type").asText())) return true;
+        if ("allowed_tools".equals(choice.path("type").asText())) {
+            for (JsonNode selected : choice.path("tools")) {
+                if (IMAGE_TOOL.equals(selected.path("type").asText())) return true;
+            }
+        }
+        return false;
     }
 
     private static boolean hasFunction(JsonNode tools, String name) {

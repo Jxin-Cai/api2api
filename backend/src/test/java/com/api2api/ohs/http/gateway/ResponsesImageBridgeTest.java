@@ -169,6 +169,17 @@ class ResponsesImageBridgeTest {
     }
 
     @Test
+    void test_does_not_inject_image_tool_when_tool_choice_is_none() throws Exception {
+        // Arrange
+        ObjectNode request = json.createObjectNode().put("model", "gpt-5.6-sol").put("input", "Hello").put("tool_choice", "none");
+        request.putArray("tools").addObject().put("type", "function").put("name", "shell");
+        // Act
+        send(request).andExpect(status().isOk());
+        // Assert
+        assertThat(json.readTree(calls.get(0).getRequestBody()).path("tools").toString()).doesNotContain("image_generation");
+    }
+
+    @Test
     void test_preserves_regular_responses_when_no_image_tool_is_declared() throws Exception {
         // Arrange
         ObjectNode request = base();
@@ -419,6 +430,86 @@ class ResponsesImageBridgeTest {
         stream(request);
         // Assert
         assertThat(json.readTree(calls.get(0).getRequestBody()).path("partial_images").asInt()).isEqualTo(2);
+    }
+
+    @Test
+    void test_sends_function_instead_of_hosted_tool_when_planner_selects_automatically() throws Exception {
+        // Arrange
+        ObjectNode request = base();
+        // Act
+        send(request).andExpect(status().isOk());
+        // Assert
+        JsonNode planned = json.readTree(calls.get(0).getRequestBody()).path("tools");
+        assertThat(planned.get(0).path("name").asText()).isEqualTo("api2api_generate_image");
+    }
+
+    @Test
+    void test_injects_hosted_image_tool_when_agent_tools_omit_it() throws Exception {
+        // Arrange
+        ObjectNode request = json.createObjectNode().put("model", "gpt-5.6-sol").put("input", "Draw a blue cat");
+        request.putArray("tools").addObject().put("type", "function").put("name", "shell");
+        // Act
+        send(request).andExpect(status().isOk());
+        // Assert
+        JsonNode planned = json.readTree(calls.get(0).getRequestBody()).path("tools");
+        assertThat(planned.get(1).path("name").asText()).isEqualTo("api2api_generate_image");
+    }
+
+    @Test
+    void test_fulfills_hosted_image_call_when_planner_emits_image_generation_call() throws Exception {
+        // Arrange
+        ObjectNode plan = json.createObjectNode().put("status", "completed");
+        plan.putArray("output").addObject().put("type", "image_generation_call").put("id", "ig_1")
+                .put("status", "in_progress").put("prompt", "A blue cat");
+        plan.putObject("usage").put("input_tokens", 5).put("output_tokens", 6).put("total_tokens", 11);
+        plannerResponse = plan.toString();
+        // Act
+        MvcResult result = send(base()).andExpect(status().isOk()).andReturn();
+        // Assert
+        assertThat(json.readTree(result.getResponse().getContentAsString()).at("/output/0/result").asText())
+                .isEqualTo("aW1hZ2U=");
+    }
+
+    @Test
+    void test_bridges_completed_hosted_image_call_when_planner_returns_result() throws Exception {
+        // Arrange
+        ObjectNode plan = json.createObjectNode().put("status", "completed");
+        plan.putArray("output").addObject().put("type", "image_generation_call").put("id", "ig_1")
+                .put("status", "completed").put("result", "dXBzdHJlYW0=");
+        plan.putObject("usage").put("input_tokens", 5).put("output_tokens", 6).put("total_tokens", 11);
+        plannerResponse = plan.toString();
+        // Act
+        MvcResult result = send(base()).andExpect(status().isOk()).andReturn();
+        // Assert
+        assertThat(json.readTree(result.getResponse().getContentAsString()).at("/output/0/result").asText())
+                .isEqualTo("aW1hZ2U=");
+    }
+
+    @Test
+    void test_falls_back_to_passthrough_when_planner_rejects_bridged_tools() throws Exception {
+        // Arrange
+        doAnswer(invocation -> {
+            InvokeGatewayCommand command = invocation.getArgument(0);
+            calls.add(command);
+            if (command.getRequestProtocol() == ProtocolType.OPENAI_RESPONSES
+                    && command.getRequestBody().contains("api2api_generate_image")) {
+                return outcome(command, 400, "{\"error\":{\"type\":\"invalid_request_error\",\"message\":\"unknown tool\"}}", Map.of());
+            }
+            return outcome(command, 200, command.getRequestProtocol() == ProtocolType.OPENAI_IMAGES ? imageResponse : plannerResponse, Map.of());
+        }).when(gateway).invokeOutcome(any());
+        // Act
+        send(base()).andExpect(status().isOk()).andExpect(jsonPath("$.id").value("resp_upstream"));
+    }
+
+    @Test
+    void test_forwards_previous_response_id_when_planner_selects_image() throws Exception {
+        // Arrange
+        ObjectNode request = base().put("previous_response_id", "resp_previous");
+        // Act
+        send(request).andExpect(status().isOk());
+        // Assert
+        assertThat(json.readTree(calls.get(0).getRequestBody()).path("previous_response_id").asText())
+                .isEqualTo("resp_previous");
     }
 
     @Test

@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
  * Endpoint orchestration: select a tool with the main model, invoke Images through the existing
  * gateway, then replace only the internal function calls with public image_generation_call items.
  * Both model invocations retain independent credentials, quota reservations and usage records.
+ * A custom Responses planner that rejects the bridged toolset fails closed into ordinary passthrough.
  */
 @Slf4j
 @Component
@@ -92,6 +93,10 @@ public class ResponsesImageBridge {
                 try {
                     writer.start();
                     execute(parent, request, forcedImage, writer);
+                } catch (ResponsesImageBridgePassthrough exception) {
+                    writer.fail(mapper.createObjectNode().put("type", "api_error")
+                            .put("code", "image_bridge_unavailable")
+                            .put("message", exception.getMessage()));
                 } catch (ResponsesImageBridgeFailure exception) {
                     writer.fail(errorBody(exception.response()));
                 } catch (BusinessException exception) {
@@ -114,6 +119,10 @@ public class ResponsesImageBridge {
         try {
             execute(parent, request, forcedImage, writer);
             return Optional.of(GatewayRawResponse.of(writer.response().toString(), 200, MediaType.APPLICATION_JSON).toResponseEntity());
+        } catch (ResponsesImageBridgePassthrough exception) {
+            log.warn("Responses image bridge skipped after planner rejection, requestId: {}, status: {}",
+                    parent.getGatewayRequestId().value(), exception.statusCode());
+            return Optional.empty();
         } catch (ResponsesImageBridgeFailure exception) {
             return Optional.of(exception.response().toResponseEntity());
         }
@@ -126,8 +135,7 @@ public class ResponsesImageBridge {
             writer.finish(null);
             return;
         }
-        ObjectNode planned = successfulJson(child(parent, ProtocolType.OPENAI_RESPONSES,
-                request.plannerRequest(mapper).toString(), ProtocolOperation.INVOKE));
+        ObjectNode planned = plan(parent, request);
         writer.addUsage(planned.path("usage"), false);
         if (!planned.path("output").isArray()) throw ResponsesImageBridgeFailure.invalidUpstream("Responses planner is missing output");
         long imageCalls = 0;
@@ -144,9 +152,13 @@ public class ResponsesImageBridge {
             if (!"completed".equals(planned.path("status").asText("completed"))) {
                 throw ResponsesImageBridgeFailure.invalidUpstream("Image tool selection did not complete");
             }
-            ObjectNode arguments = readUpstreamObject(item.path("arguments").asText());
-            ResponsesImagePayloadMapper.ImageRequest image = payloadMapper.map(request,
-                    arguments.path("prompt").asText(), arguments.path("action").asText());
+            ResponsesImagePayloadMapper.ImageRequest image;
+            if (request.isHostedImageCall(item)) {
+                image = payloadMapper.map(request, request.hostedImagePrompt(item), request.hostedImageAction(item));
+            } else {
+                ObjectNode arguments = readUpstreamObject(item.path("arguments").asText());
+                image = payloadMapper.map(request, arguments.path("prompt").asText(), arguments.path("action").asText());
+            }
             generate(parent, image, writer);
         }
         writer.finish(planned);
@@ -200,6 +212,23 @@ public class ResponsesImageBridge {
             throw ResponsesImageBridgeFailure.invalidUpstream("Images upstream stream was interrupted");
         }
         gateway.completeStreamingSuccess(invocation, usage);
+    }
+
+    private ObjectNode plan(InvokeGatewayCommand parent, ResponsesImageRequest request) {
+        try {
+            return successfulJson(child(parent, ProtocolType.OPENAI_RESPONSES,
+                    request.plannerRequest(mapper).toString(), ProtocolOperation.INVOKE));
+        } catch (ResponsesImageBridgeFailure exception) {
+            if (!request.forced() && isRecoverablePlannerFailure(exception)) {
+                throw new ResponsesImageBridgePassthrough(exception.response().statusCode());
+            }
+            throw exception;
+        }
+    }
+
+    private static boolean isRecoverablePlannerFailure(ResponsesImageBridgeFailure exception) {
+        int status = exception.response().statusCode();
+        return status >= 400 && status < 500 && status != 401 && status != 403 && status != 429;
     }
 
     private ObjectNode successfulJson(InvokeGatewayCommand command) {

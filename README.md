@@ -223,7 +223,10 @@ curl http://localhost:8989/v1/responses \
 ```
 
 - 指定 `tool_choice: {"type":"image_generation"}`，或只有图片工具时指定 `required`：直接调用 Images 渠道。
-- 不指定 `tool_choice` 或使用 `auto`：网关将图片工具转换为内部函数交给主模型选择，只有主模型实际选中时才调用 Images。其他工具调用仍返回给客户端执行。
+- 不指定 `tool_choice` 或使用 `auto`：网关把 `image_generation` 转成内部函数交给主模型，只有主模型实际选中时才走 Images 桥接。其他工具调用仍返回给客户端执行。
+- Codex 等客户端如果只声明了其他 tools、没有带上 `image_generation`，网关会在对外契约中注入该 hosted tool；发给主模型的仍是函数，避免自定义 Responses 上游因不认识 hosted tool 而整轮失败。
+- 主模型若返回 `image_generation_call`，也一律走 Images 桥接补全，不把上游未真正执行的 hosted 结果当成成功。
+- 自动选择路径上，主模型若因桥接工具集返回 4xx（非鉴权/限流），JSON 请求回退到普通 Responses 透传，流式请求则以 `response.failed` 正常结束。
 - 使用 `none` 或指定其他工具：不会执行图片调用。
 - 图片模型取 `tools[].model`；未指定时取环境变量 `API2API_RESPONSES_IMAGE_MODEL`，默认 `gpt-image-2.5`。
 - 返回的 `output[]` 中包含 `type: "image_generation_call"`、`status: "completed"` 和 base64 格式的 `result`。图片调用不暴露内部函数名称。
@@ -235,7 +238,9 @@ curl http://localhost:8989/v1/responses \
 可选的 `input_image_mask.image_url` 同样接受 data URL。编辑请求会转换为 multipart 后调用 `/v1/images/edits`。
 
 桥接采用无状态交互：后续编辑需重传会话内容及此前 `image_generation_call.result`，也可将图片作为 `input_image` 传入。
-暂不支持 `previous_response_id`、`conversation`、`store: true`、后台任务、远程图片 URL 或 Files API 的 `file_id`；这些请求会明确报错。
+强制生图（`tool_choice: image_generation`）仍不支持 `previous_response_id` 或 `conversation`，因为本地无法恢复上游历史。
+自动选择路径会把这些字段转给主模型；`store` / `background` 在桥接响应中仍按无状态处理。
+暂不支持远程图片 URL 或 Files API 的 `file_id`；这些请求会明确报错。
 单次最多执行 4 个图片调用，并遵守更小的 `max_tool_calls`；编辑最多 16 张输入图，单张上限 50 MiB、合计 100 MiB。
 自动工具选择阶段等待主模型的完整响应；图片生成阶段实时转发部分图片事件。
 
