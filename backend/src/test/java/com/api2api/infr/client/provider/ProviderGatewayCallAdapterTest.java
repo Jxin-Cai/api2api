@@ -180,7 +180,7 @@ class ProviderGatewayCallAdapterTest {
                 candidate(ProtocolType.OPENAI_RESPONSES),
                 "{}",
                 false,
-                InboundRequestContext.of(Map.of(), "beta=true", ProtocolOperation.INVOKE)
+                InboundRequestContext.of(Map.of(), "beta=true", ProtocolOperation.INVOKE, null)
         );
 
         // Assert
@@ -199,7 +199,7 @@ class ProviderGatewayCallAdapterTest {
                 candidate(ProtocolType.CLAUDE_MESSAGES),
                 "{}",
                 false,
-                InboundRequestContext.of(Map.of(), null, ProtocolOperation.COUNT_TOKENS)
+                InboundRequestContext.of(Map.of(), null, ProtocolOperation.COUNT_TOKENS, null)
         );
 
         // Assert
@@ -226,7 +226,7 @@ class ProviderGatewayCallAdapterTest {
                 candidate(ProtocolType.OPENAI_IMAGES),
                 envelope,
                 false,
-                InboundRequestContext.of(Map.of(), null, ProtocolOperation.IMAGE_EDITS)
+                InboundRequestContext.of(Map.of(), null, ProtocolOperation.IMAGE_EDITS, null)
         );
 
         // Assert
@@ -250,7 +250,7 @@ class ProviderGatewayCallAdapterTest {
                 candidate(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES),
                 "{}",
                 false,
-                InboundRequestContext.of(Map.of(), "beta=true", ProtocolOperation.INVOKE)
+                InboundRequestContext.of(Map.of(), "beta=true", ProtocolOperation.INVOKE, null)
         );
 
         // Assert

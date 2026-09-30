@@ -45,7 +45,7 @@ class GatewayRequestMapperTest {
                 null,
                 "req-1",
                 ProtocolType.CLAUDE_MESSAGES,
-                InboundRequestContext.of(java.util.Map.of(), "beta=true", ProtocolOperation.COUNT_TOKENS)
+                InboundRequestContext.of(java.util.Map.of(), "beta=true", ProtocolOperation.COUNT_TOKENS, null)
         );
 
         // Assert

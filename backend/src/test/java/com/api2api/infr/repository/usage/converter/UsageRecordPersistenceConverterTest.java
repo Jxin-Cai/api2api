@@ -43,6 +43,8 @@ class UsageRecordPersistenceConverterTest {
                 UserAccountId.of(1L),
                 ApiCredentialId.of(1L),
                 ModelName.of("claude-sonnet"),
+                null, // client IP is not relevant to this fixture
+                null, // first token latency is not relevant to this fixture
                 ModelName.of("gpt-4.1"),
                 ProtocolType.CLAUDE_MESSAGES,
                 ProtocolType.OPENAI_RESPONSES,

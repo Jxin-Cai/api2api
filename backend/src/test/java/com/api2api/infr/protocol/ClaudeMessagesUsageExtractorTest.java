@@ -12,12 +12,26 @@ class ClaudeMessagesUsageExtractorTest {
     private final ClaudeMessagesUsageExtractor extractor = new ClaudeMessagesUsageExtractor();
 
     @Test
-    void test_mapsCachedTokensToCacheRead_when_standardCacheReadIsZero() throws Exception {
+    void test_preservesZeroCacheRead_when_standardFieldExplicitlyReportsZero() throws Exception {
         // Arrange
         var payload = objectMapper.readTree("""
                 {"usage":{"input_tokens":0,"output_tokens":0,
                   "cache_creation_input_tokens":0,"cache_read_input_tokens":0,
                   "cached_tokens":233000}}
+                """);
+
+        // Act
+        UnifiedTokenUsage usage = extractor.extract(payload);
+
+        // Assert
+        assertThat(usage.cacheReadInputTokens()).isZero();
+    }
+
+    @Test
+    void test_mapsCachedTokensToCacheRead_when_standardCacheReadIsMissing() throws Exception {
+        // Arrange
+        var payload = objectMapper.readTree("""
+                {"usage":{"input_tokens":0,"output_tokens":0,"cached_tokens":233000}}
                 """);
 
         // Act

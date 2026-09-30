@@ -5,21 +5,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocolmetadata.model.FieldSection;
 import com.api2api.domain.protocolmetadata.model.ProtocolMetadata;
+import com.api2api.domain.protocolmetadata.model.ProtocolFieldDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.api2api.infr.protocol.contract.ProtocolContractRegistry;
+import com.api2api.infr.protocol.contract.ProtocolFieldRef;
 import org.junit.jupiter.api.Test;
 
 class ProtocolMetadataRepositoryImplTest {
 
     @Test
-    void test_loads_claude_messages_metadata_when_content_block_section_is_configured() {
+    void test_loadsAllContractFields_when_claudeMessagesMetadataIsRequested() {
         // Arrange
-        ProtocolMetadataRepositoryImpl repository = new ProtocolMetadataRepositoryImpl(new ProtocolContractRegistry(new ObjectMapper()));
+        ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
+        ProtocolMetadataRepositoryImpl repository = new ProtocolMetadataRepositoryImpl(registry);
+        var expectedPaths = registry.contracts().stream()
+                .filter(contract -> contract.protocolType() == ProtocolType.CLAUDE_MESSAGES)
+                .findFirst().orElseThrow().fields().stream().map(ProtocolFieldRef::path).toList();
 
         // Act
-        // Assert
         ProtocolMetadata metadata = repository.findByProtocolType(ProtocolType.CLAUDE_MESSAGES).orElseThrow();
-        assertThat(metadata.fieldCount()).isEqualTo(114);
+
+        // Assert
+        assertThat(metadata.fieldDefinitions()).extracting(ProtocolFieldDefinition::fieldPath)
+                .containsExactlyElementsOf(expectedPaths);
     }
 
     @Test

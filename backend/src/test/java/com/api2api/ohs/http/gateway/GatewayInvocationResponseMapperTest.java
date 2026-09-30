@@ -89,6 +89,7 @@ class GatewayInvocationResponseMapperTest {
                 ApiCredentialId.of(1L),
                 ProtocolType.CLAUDE_MESSAGES,
                 ModelName.of("claude-opus-4-6"),
+                null,
                 ConversionRequirement.of(true, true, true),
                 NOW
         );
