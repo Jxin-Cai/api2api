@@ -19,12 +19,17 @@ class ClaudeResponsesCurrentSchemaTest {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Test
-    void test_usesEasyInputMessage_when_claudeAssistantHistoryHasNoProviderOutputId() throws Exception {
+    @ParameterizedTest
+    @CsvSource({"false,false", "false,true", "true,false", "true,true"})
+    void test_usesOutputText_when_claudeAssistantHistoryIsConverted(boolean blockContent, boolean streaming) throws Exception {
         // Arrange
-        ObjectNode request = request("gpt-6-astra");
-        request.withArray("messages").addObject().put("role", "assistant")
-                .putArray("content").addObject().put("type", "text").put("text", "previous answer");
+        ObjectNode request = request("gpt-6-astra").put("stream", streaming);
+        ObjectNode message = request.withArray("messages").addObject().put("role", "assistant");
+        if (blockContent) {
+            message.putArray("content").addObject().put("type", "text").put("text", "previous answer");
+        } else {
+            message.put("content", "previous answer");
+        }
 
         // Act
         JsonNode result = convert(request, false);
@@ -32,8 +37,106 @@ class ClaudeResponsesCurrentSchemaTest {
         // Assert
         assertThat(result.at("/input/1")).isEqualTo(mapper.readTree("""
                 {"type":"message","role":"assistant","phase":"final_answer",
-                 "content":[{"type":"input_text","text":"previous answer"}]}
+                 "content":[{"type":"output_text","text":"previous answer"}]}
                 """));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"user", "system", "developer"})
+    void test_keepsInputText_when_historyIsNotAssistant(String role) throws Exception {
+        // Arrange
+        ObjectNode request = request("gpt-6-astra");
+        request.putArray("messages").addObject().put("role", role).put("content", "first");
+        request.withArray("messages").addObject().put("role", role)
+                .putArray("content").addObject().put("type", "text").put("text", "second");
+
+        // Act
+        JsonNode result = convert(request, false);
+
+        // Assert
+        assertThat(result.path("input")).isEqualTo(mapper.readTree("""
+                [{"type":"message","role":"%s","content":[{"type":"input_text","text":"first"}]},
+                 {"type":"message","role":"%s","content":[{"type":"input_text","text":"second"}]}]
+                """.formatted(role, role)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void test_preservesRoleSpecificContent_when_historyContainsToolContinuation(boolean streaming) throws Exception {
+        // Arrange
+        ObjectNode request = request("gpt-6-astra").put("stream", streaming);
+        request.set("messages", mapper.readTree("""
+                [{"role":"assistant","content":[
+                   {"type":"text","text":"Checking"},
+                   {"type":"tool_use","id":"call_1","name":"lookup","input":{}},
+                   {"type":"text","text":"Waiting"}]},
+                 {"role":"user","content":[
+                   {"type":"tool_result","tool_use_id":"call_1","content":[{"type":"text","text":"Found"}]},
+                   {"type":"text","text":"Continue"}]}]
+                """));
+
+        // Act
+        JsonNode result = convert(request, false);
+
+        // Assert: assistant blocks flushed around calls remain output; tool results remain input.
+        assertThat(result.path("input")).isEqualTo(mapper.readTree("""
+                [{"type":"message","role":"assistant","phase":"commentary",
+                  "content":[{"type":"output_text","text":"Checking"}]},
+                 {"type":"function_call","call_id":"call_1","name":"lookup","arguments":"{}"},
+                 {"type":"message","role":"assistant","phase":"commentary",
+                  "content":[{"type":"output_text","text":"Waiting"}]},
+                 {"type":"function_call_output","call_id":"call_1","output":[{"type":"input_text","text":"Found"}]},
+                 {"type":"message","role":"user","content":[{"type":"input_text","text":"Continue"}]}]
+                """));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"assistant,output_text", "user,input_text"})
+    void test_usesRoleSpecificSearchText_when_searchResultAppearsInHistory(String role, String textType) throws Exception {
+        // Arrange
+        ObjectNode request = request("gpt-6-astra");
+        request.withArray("messages").addObject().put("role", role).putArray("content").add(mapper.readTree("""
+                {"type":"search_result","source":"https://example.com/docs","title":"Guide",
+                 "content":[{"type":"text","text":"Details"}]}
+                """));
+
+        // Act
+        JsonNode result = convert(request, false);
+
+        // Assert
+        assertThat(result.at("/input/1/content/0/type").asText()).isEqualTo(textType);
+    }
+
+    @Test
+    void test_usesOutputText_when_assistantCompactionSummaryIsReplayed() throws Exception {
+        // Arrange
+        ObjectNode request = request("gpt-6-astra");
+        request.withArray("messages").addObject().put("role", "assistant")
+                .putArray("content").addObject().put("type", "compaction").put("content", "Work so far");
+
+        // Act
+        JsonNode result = convert(request, false);
+
+        // Assert
+        assertThat(result.path("input")).isEqualTo(mapper.readTree("""
+                [{"type":"message","role":"assistant","phase":"commentary",
+                  "content":[{"type":"output_text","text":"Work so far"}]}]
+                """));
+    }
+
+    @Test
+    void test_omitsInputOnlyCacheBreakpoint_when_assistantTextHasCacheControl() throws Exception {
+        // Arrange
+        ObjectNode request = request("gpt-6-astra");
+        request.withArray("messages").addObject().put("role", "assistant").putArray("content")
+                .addObject().put("type", "text").put("text", "previous answer")
+                .putObject("cache_control").put("type", "ephemeral");
+
+        // Act
+        JsonNode result = convert(request, true);
+
+        // Assert
+        assertThat(result.at("/input/1/content/0").has("prompt_cache_breakpoint")).isFalse();
     }
 
     @Test
@@ -210,7 +313,7 @@ class ClaudeResponsesCurrentSchemaTest {
         ProtocolMessageConverter converter = new ProtocolConverterConfiguration(properties)
                 .claudeMessagesToOpenAIResponsesRequest(new ProtocolJsonSupport(mapper), new SseEventTransformer());
         return mapper.readTree(converter.convert(
-                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, request.toString(), false),
-                ProtocolConversionRequest.of(false, false, true)).body());
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, request.toString(), request.path("stream").asBoolean()),
+                ProtocolConversionRequest.of(request.path("stream").asBoolean(), false, true)).body());
     }
 }

@@ -30,8 +30,8 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 
 **转换归属**：`ProtocolContractDefinitions` 只描述原生协议，`DefaultProtocolConversionServiceAdapter` 只查找路由并调度转换器。Messages → Responses 的参数和历史映射在 `GenericProtocolMessageConverter` 对应方向执行；同协议请求兼容在注册的 `OpenAIResponsesRequestConverter` 执行。后者的输入项映射由生成 Responses 请求的转换器复用，不挂在协议解析器、HTTP 控制器或通用适配层。
 
-- **修复 `input[158].author` 400/502**：删除 Responses `input[]` 条目顶层的非标准 `author`，覆盖 JSON/stream 请求和从 Messages thinking signature 恢复的历史。不会递归删除工具参数、工具结果、metadata 或 JSON Schema 内的业务 `author`，也不会白名单裁剪新字段。没有该扩展的原生 Responses 请求逐字节保留。
-- **合法 assistant 历史**：从 Claude 文本合成的历史使用 `EasyInputMessage` + `input_text`，保留 assistant 的 `commentary/final_answer` phase。直接回放的原生 `ResponseOutputMessage` 保留其 output_text、id、status、annotations；不为 Claude 历史伪造 provider 输出 ID。
+- **修复 `input[158].author` 400/502**：删除 Responses `input[]` 条目顶层的非标准 `author`，覆盖 JSON/stream 请求和从 Messages thinking signature 恢复的历史。不会递归删除工具参数、工具结果、metadata 或 JSON Schema 内的业务 `author`，也不会白名单裁剪新字段。不需要历史兼容处理的原生 Responses 请求逐字节保留。
+- **修复 assistant 历史的 `Invalid value: 'input_text'`**：Claude assistant 历史文本使用 `output_text`，保留 `commentary/final_answer` phase；用户、系统和工具结果文本使用 `input_text`。该规则覆盖字符串、文本块、检索结果展开和压缩摘要，避免上游按 assistant 输出内容校验时拒绝请求。直接调用 `/v1/responses` 时，`OpenAIResponsesRequestConverter` 同样将 assistant 数组内的 `input_text` 归一为 `output_text`，移除该块仅输入支持的 `prompt_cache_breakpoint`，并保留文本及消息状态。原生 `output_text/refusal`、id、status、annotations 和字符串简写保持不变；不为 Claude 历史伪造 provider 输出 ID。
 - **推理与格式**：disabled thinking 在非推理模型上不发送 reasoning，在推理模型上不再请求 summary；保留 `output_config.effort` 与旧 `output_format` 并用的格式；text/json_object 只输出合法 type，不残留 schema/name。未知 effort/tool_choice 明确失败。
 - **缓存**：`API2API_RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED=true` 可启用 GPT-5.6+ 的显式断点与 `prompt_cache_options:{mode:explicit,ttl:30m}`。默认 false，适配尚未支持此结构的 Responses 代理；Claude 5m/1h 和 OpenAI 30m 语义不同。原生 Responses 请求已有的缓存参数始终保留。
 - **能力识别**：Responses 历史中的工具/推理 item 直接参与路由能力判断，不再要求顶级 tools/reasoning 存在才能识别。
@@ -54,7 +54,7 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 | 能力 | Claude Messages 字段/块 | OpenAI Responses 字段/item | 当前转换行为 |
 | --- | --- | --- | --- |
 | 系统指令 | `system` text/block | `input[].role=developer` + `input_text` | 保留块顺序；当前依赖隐式缓存，不发送显式 breakpoint |
-| 普通对话 | `messages[].role/content` | `input[]` message | 合成历史统一使用 EasyInputMessage 的 `input_text`，保留 role/phase |
+| 普通对话 | `messages[].role/content` | `input[]` message | assistant 文本使用 `output_text`，其他角色使用 `input_text`，保留 role/phase |
 | 工具前导语/计划文字 | assistant text 与 `tool_use` 同消息 | message `phase=commentary` | 无工具调用的完成文本使用 `phase=final_answer` |
 | 客户端工具 | `tools[].name/input_schema/strict`、bash/text-editor/memory 定义 | function `name/parameters/strict` | custom schema 保留；已知内置客户端工具补 schema，strict 的差异见上节；`input_examples` 追加到 description |
 | 延迟工具 | `tool_search_tool_*`、`defer_loading`、`tool_reference` | `tool_search`、`defer_loading` | GPT-5.4+ 原生映射；已发现函数立即加载；旧模型全量加载 function/MCP |

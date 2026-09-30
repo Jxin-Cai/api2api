@@ -3,6 +3,7 @@ package com.api2api.infr.protocol;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.api2api.domain.channel.model.ProtocolType;
+import com.api2api.domain.protocol.model.ProtocolConversionRequest;
 import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,11 +11,78 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class OpenAIResponsesRequestConverterTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @ParameterizedTest
+    @CsvSource({"false,false", "false,true", "true,false", "true,true"})
+    void test_normalizesAssistantText_when_clientReplaysInputText(boolean explicitMessageType, boolean streaming) throws Exception {
+        // Arrange
+        String body = """
+                {"model":"gpt-6-astra","input":[
+                  {"role":"assistant","id":"msg_1","status":"completed","phase":"commentary","author":"client",
+                   "content":[{"type":"input_text","text":"Working","prompt_cache_breakpoint":{"mode":"explicit"}},
+                              {"type":"output_text","text":"Done","annotations":[]},
+                              {"type":"refusal","refusal":"Cannot comply"}]},
+                  {"role":"user","content":[{"type":"input_text","text":"Continue"}]},
+                  {"type":"function_call_output","call_id":"call_1","output":[{"type":"input_text","text":"Result"}]}]}
+                """;
+        ObjectNode request = (ObjectNode) objectMapper.readTree(body);
+        if (explicitMessageType) {
+            ((ObjectNode) request.at("/input/0")).put("type", "message");
+        }
+        ObjectNode expected = request.deepCopy();
+        ((ObjectNode) expected.at("/input/0")).remove("author");
+        ((ObjectNode) expected.at("/input/0/content/0")).put("type", "output_text").remove("prompt_cache_breakpoint");
+
+        // Act
+        ProtocolConversionResult result = new OpenAIResponsesRequestConverter(new ProtocolJsonSupport(objectMapper)).convert(
+                ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, request.toString(), streaming),
+                ProtocolConversionRequest.of(streaming, true, true));
+
+        // Assert
+        assertThat(objectMapper.readTree(result.body())).isEqualTo(expected);
+    }
+
+    @Test
+    void test_preservesExactBytes_when_historyAlreadyUsesRoleCompatibleContent() {
+        // Arrange
+        String body = """
+                { "model":"gpt-6-astra", "input":[
+                  {"role":"assistant","content":"text shorthand"},
+                  {"role":"assistant","phase":"final_answer","content":[
+                    {"type":"output_text","text":"Done","annotations":[]},{"type":"refusal","refusal":"No"}]},
+                  {"role":"developer","content":[{"type":"input_text","text":"Instructions"}]},
+                  {"role":"system","content":[{"type":"input_text","text":"Instructions"}]},
+                  {"role":"user","content":[{"type":"input_text","text":"Question"}]},
+                  {"type":"function_call_output","call_id":"call_1","output":[{"type":"input_text","text":"Result"}]}] }
+                """;
+
+        // Act
+        ProtocolConversionResult result = convert(passthrough(body, false));
+
+        // Assert
+        assertThat(result.body()).isEqualTo(body);
+    }
+
+    @Test
+    void test_preservesSourceTree_when_normalizingAssistantHistory() throws Exception {
+        // Arrange
+        var source = objectMapper.readTree("""
+                {"input":[{"role":"assistant","content":[{"type":"input_text","text":"Answer"}]}]}
+                """);
+        var expected = source.deepCopy();
+
+        // Act
+        OpenAIResponsesRequestConverter.normalizeInputItems(source);
+
+        // Assert
+        assertThat(source).isEqualTo(expected);
+    }
 
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
@@ -103,7 +171,9 @@ class OpenAIResponsesRequestConverterTest {
     void test_isIdempotent_when_historyWasAlreadyNormalized() {
         // Arrange
         ProtocolConversionResult source = convert(
-                passthrough("{\"input\":[{\"role\":\"user\",\"content\":\"hi\",\"author\":null}]}", false));
+                passthrough("""
+                        {"input":[{"role":"assistant","content":[{"type":"input_text","text":"hi"}],"author":null}]}
+                        """, false));
 
         // Act
         ProtocolConversionResult result = convert(source);

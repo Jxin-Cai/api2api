@@ -23,11 +23,11 @@ final class ConverterFieldMappingDescriptions {
 
         // ===== Claude Messages → OpenAI Responses =====
         map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "input", "消息转 EasyInputMessage（含 assistant）；工具/推理转独立输入项，移除回放条目上的 author 扩展", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages", "input", "消息按角色映射文本类型；工具/推理转独立输入项，移除回放条目上的 author 扩展", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("messages[].role", "input[].role", "Direct passthrough", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
                 mapping("messages[].content", "input[].content", "内容块转为 Responses 内容格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("system", "input[developer message]", "系统提示词映射为 developer 角色消息", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
-                mapping("content[].type=text", "input[].content[].type=input_text", "文本块类型名转换", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
+                mapping("content[].type=text", "input[].content[].type=input_text|output_text", "assistant 历史使用 output_text，其余角色使用 input_text", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
                 mapping("content[].type=image", "input[].content[].type=input_image", "图片块格式转换 (base64→data URI)", MappingLossiness.NONE, "CONTENT_BLOCK", "RESHAPE"),
                 mapping("content[].source.media_type", "input[].content[].image_url", "作为 data URI 的 MIME 类型部分", MappingLossiness.NONE, "CONTENT_BLOCK", "TRANSFORM"),
                 mapping("content[].source.data", "input[].content[].image_url", "base64 数据组装为 data URI", MappingLossiness.NONE, "CONTENT_BLOCK", "TRANSFORM"),

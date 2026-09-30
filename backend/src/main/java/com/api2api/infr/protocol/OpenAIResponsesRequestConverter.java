@@ -11,6 +11,7 @@ import com.api2api.domain.protocol.model.ProtocolConversionResult;
 import com.api2api.domain.protocol.model.ProtocolPayload;
 import com.api2api.infr.protocol.conversion.ProtocolConversionProgram;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.EnumSet;
 import java.util.List;
@@ -27,7 +28,9 @@ final class OpenAIResponsesRequestConverter implements ProtocolMessageConverter 
             ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST,
             "Responses client history compatibility", (source, requirement) -> normalizeInputItems(source),
             List.of(FieldMapping.of("input[].author", "input[]",
-                    "移除客户端历史封装的 author；保留原生 Responses 字段与工具数据", MappingLossiness.PARTIAL)));
+                    "移除客户端历史封装的 author；保留原生 Responses 字段与工具数据", MappingLossiness.PARTIAL),
+                    FieldMapping.of("input[role=assistant].content[].type=input_text", "input[].content[].type=output_text",
+                            "assistant 结构化历史使用输出文本类型，并移除仅输入块支持的缓存断点", MappingLossiness.PARTIAL)));
 
     private final ProtocolJsonSupport json;
 
@@ -65,21 +68,50 @@ final class OpenAIResponsesRequestConverter implements ProtocolMessageConverter 
             return request;
         }
         ObjectNode normalized = null;
-        int removedFields = 0;
+        int normalizedItems = 0;
         for (int index = 0; index < input.size(); index++) {
-            // Do not recurse into tool arguments, output data, metadata or JSON Schemas:
-            // an application property named author is valid in all of those locations.
-            if (input.get(index).isObject() && input.get(index).has("author")) {
-                if (normalized == null) {
-                    normalized = request.deepCopy();
-                }
-                ((ObjectNode) normalized.path("input").get(index)).remove("author");
-                removedFields++;
+            if (!(input.get(index) instanceof ObjectNode item)) {
+                continue;
             }
+            ObjectNode normalizedItem = normalizeInputItem(item);
+            if (normalizedItem == item) {
+                continue;
+            }
+            if (normalized == null) {
+                normalized = request.deepCopy();
+            }
+            ((ArrayNode) normalized.path("input")).set(index, normalizedItem);
+            normalizedItems++;
         }
         if (normalized != null) {
-            log.info("event=responses_request_history_normalized field=author removedCount={}", removedFields);
+            log.info("event=responses_request_history_normalized itemCount={}", normalizedItems);
         }
         return normalized == null ? request : normalized;
+    }
+
+    private static ObjectNode normalizeInputItem(ObjectNode item) {
+        ObjectNode normalized = null;
+        // Only strip envelope metadata, never application fields in tool data or schemas.
+        if (item.has("author")) {
+            normalized = item.deepCopy();
+            normalized.remove("author");
+        }
+        JsonNode content = item.path("content");
+        if ("message".equals(item.path("type").asText("message"))
+                && "assistant".equals(item.path("role").asText()) && content.isArray()) {
+            for (int index = 0; index < content.size(); index++) {
+                JsonNode part = content.get(index);
+                if (!part.isObject() || !"input_text".equals(part.path("type").asText())) {
+                    continue;
+                }
+                if (normalized == null) {
+                    normalized = item.deepCopy();
+                }
+                ObjectNode text = (ObjectNode) normalized.path("content").get(index);
+                text.put("type", "output_text");
+                text.remove("prompt_cache_breakpoint");
+            }
+        }
+        return normalized == null ? item : normalized;
     }
 }

@@ -90,6 +90,25 @@ class DefaultProtocolConversionServiceAdapterTest {
     }
 
     @Test
+    void test_normalizesAssistantText_when_responsesRequestUsesSameProtocolRoute() throws Exception {
+        // Arrange
+        ObjectMapper mapper = new ObjectMapper();
+        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, """
+                {"model":"gpt-6-astra","input":[{"role":"assistant","phase":"final_answer",
+                  "content":[{"type":"input_text","text":"Earlier answer"}]}]}
+                """, false);
+
+        // Act
+        ProtocolConversionResult result = adapter.convertRequest(payload, ProtocolType.OPENAI_RESPONSES,
+                requirement(), List.of(definition(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)));
+
+        // Assert
+        assertThat(mapper.readTree(result.body()).at("/input/0")).isEqualTo(mapper.readTree("""
+                {"role":"assistant","phase":"final_answer","content":[{"type":"output_text","text":"Earlier answer"}]}
+                """));
+    }
+
+    @Test
     void test_normalizesReplayedReasoning_when_messagesConvertToResponses() throws Exception {
         // Arrange
         ObjectMapper mapper = new ObjectMapper();

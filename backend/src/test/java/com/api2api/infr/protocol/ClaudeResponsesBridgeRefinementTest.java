@@ -157,7 +157,7 @@ class ClaudeResponsesBridgeRefinementTest {
         // Assert: only the unusable provider-specific state is omitted.
         assertThat(result.path("input")).isEqualTo(mapper.readTree("""
                 [{"type":"message","role":"assistant","phase":"final_answer",
-                  "content":[{"type":"input_text","text":"Earlier answer"}]},
+                  "content":[{"type":"output_text","text":"Earlier answer"}]},
                  {"type":"message","role":"user","content":[{"type":"input_text","text":"Continue"}]}]
                 """));
     }

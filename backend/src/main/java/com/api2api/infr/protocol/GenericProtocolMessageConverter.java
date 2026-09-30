@@ -903,6 +903,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         Map<String, JsonNode> toolCallers = collectClaudeToolCallers(messages);
         for (JsonNode message : messages) {
             String role = message.path("role").asText("user");
+            // Structured assistant history is validated as output content by Responses upstreams.
+            String textType = "assistant".equals(role) ? "output_text" : "input_text";
             if (message.hasNonNull("output_config") && !message.path("output_config").isEmpty()) {
                 throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_OUTPUT_CONFIG_NOT_SUPPORTED");
             }
@@ -918,7 +920,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                     mapped.put("phase", "final_answer");
                 }
                 ArrayNode parts = json.arrayNode();
-                addClaudeTextPart(parts, content == null ? "" : content.asText(""), "input_text");
+                addClaudeTextPart(parts, content == null ? "" : content.asText(""), textType);
                 mapped.set("content", parts);
                 input.add(mapped);
                 continue;
@@ -934,10 +936,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             for (JsonNode block : content) {
                 switch (block.path("type").asText("")) {
                     case "text" -> convertTextBlockToResponses(
-                            block, messageContent, containsCompactionState, model);
+                            block, messageContent, textType, containsCompactionState, model);
                     case "image" -> addClaudeImagePart(messageContent, block, model);
                     case "document" -> addClaudeDocumentPart(messageContent, block, model);
-                    case "search_result" -> addClaudeSearchResultPart(messageContent, block, "input_text", model);
+                    case "search_result" -> addClaudeSearchResultPart(messageContent, block, textType, model);
                     case "tool_use", "server_tool_use" -> convertToolUseBlockToResponses(
                             block, input, role, messageContent, assistantPhase);
                     case "tool_result", "code_execution_tool_result" -> convertToolResultBlockToResponses(
@@ -982,14 +984,11 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
     }
 
-    private void convertTextBlockToResponses(JsonNode block, ArrayNode messageContent,
+    private void convertTextBlockToResponses(JsonNode block, ArrayNode messageContent, String textType,
                                                boolean containsCompactionState, String model) {
         String text = block.path("text").asText("");
         if (!(containsCompactionState && RESPONSES_COMPACTION_VISIBLE_TEXT.equals(text))) {
-            // Use EasyInputMessage for synthetic history, including assistant turns.
-            // A replayed ResponseOutputMessage with output_text instead requires its
-            // provider-issued id/status and output annotations, which Claude lacks.
-            addClaudeTextPart(messageContent, text, "input_text", block, model);
+            addClaudeTextPart(messageContent, text, textType, block, model);
         }
     }
 
@@ -1333,7 +1332,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         message.put("role", "assistant");
         message.put("phase", "commentary");
         ArrayNode content = json.arrayNode();
-        addClaudeTextPart(content, summary, "input_text");
+        addClaudeTextPart(content, summary, "output_text");
         message.set("content", content);
         return message;
     }
