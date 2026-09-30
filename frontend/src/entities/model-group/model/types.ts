@@ -5,6 +5,8 @@ export interface ModelGroupResponse {
   id: string;
   name: string;
   modelWhitelist: string[];
+  /** 白名单内当前至少有一个已启用渠道支持的模型 */
+  effectiveModels: string[];
   /** 已配置每日上限的模型及其上限 */
   modelDailyLimits: ModelDailyLimits;
   /** 已配置上限的模型当天（跨分组内所有 Key）已消耗的加权 Token */

@@ -102,7 +102,7 @@ export function ModelGroupFormModal({ open, group, modelOptions, onClose, onSave
         <Form.Item label="分组名称" required validateStatus={!form.name.trim() ? 'error' : undefined} help={!form.name.trim() ? '请输入分组名称' : undefined}>
           <Input autoFocus value={form.name} maxLength={100} onChange={(event): void => setForm((current) => ({ ...current, name: event.target.value }))} placeholder="例如：生产环境标准模型" disabled={mutation.isPending} />
         </Form.Item>
-        <Form.Item label="允许的大模型" extra="留空表示该分组禁止调用所有模型。修改后会立即作用于该分组下的全部 Key。">
+        <Form.Item label="允许的大模型" extra="留空表示该分组禁止调用所有模型。模型需有已启用渠道支持才会生效；渠道禁用时保留白名单和每日上限，恢复支持后自动生效。">
           <Select
             mode="tags"
             value={form.modelWhitelist}

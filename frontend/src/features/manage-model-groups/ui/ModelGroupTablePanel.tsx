@@ -73,7 +73,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
       ),
     },
     {
-      title: '允许的大模型',
+      title: '已配置的模型',
       dataIndex: 'modelWhitelist',
       key: 'modelWhitelist',
       render: (models: string[]): ReactElement => (
@@ -82,6 +82,27 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
           {models.length > 4 ? <Tooltip title={models.slice(4).join(', ')}><Tag>+{models.length - 4}</Tag></Tooltip> : null}
         </Space>
       ),
+    },
+    {
+      title: '当前支持',
+      key: 'effectiveModels',
+      render: (_: unknown, group): ReactElement => {
+        const effective = new Set(group.effectiveModels);
+        const unavailable = group.modelWhitelist.filter((model) => !effective.has(model));
+        return (
+          <Space direction="vertical" size={4}>
+            <Space size={[4, 6]} wrap>
+              {group.effectiveModels.length === 0 ? <Typography.Text type="secondary">暂无有效支持</Typography.Text> : group.effectiveModels.slice(0, 4).map((model) => <Tag key={model} color="green">{model}</Tag>)}
+              {group.effectiveModels.length > 4 ? <Tooltip title={group.effectiveModels.slice(4).join(', ')}><Tag>+{group.effectiveModels.length - 4}</Tag></Tooltip> : null}
+            </Space>
+            {unavailable.length > 0 ? (
+              <Tooltip title={`${unavailable.join(', ')}：暂无可用渠道，配置已保留，渠道恢复支持后自动生效。`}>
+                <Typography.Text type="secondary">{unavailable.length} 个模型暂不可用</Typography.Text>
+              </Tooltip>
+            ) : null}
+          </Space>
+        );
+      },
     },
     {
       title: '模型每日上限',
@@ -141,7 +162,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
 
   return (
     <>
-      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。修改分组白名单后，组内所有 Key 的可用模型会立即同步；模型每日上限按分组内所有 Key 当天合计消耗计算，达到后该模型对全组 Key 限流。" style={{ marginBottom: 16 }} />
+      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。当前支持取分组白名单与已启用渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。模型每日上限按全组 Key 合计消耗计算，达到后全组限流。" style={{ marginBottom: 16 }} />
       <Card className="api-credential-table-card">
         <div className="api-credential-toolbar">
           <div className="api-credential-toolbar__copy">
@@ -153,7 +174,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
             <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>创建分组</Button>
           </Space>
         </div>
-        <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 1020 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
+        <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 1220 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
       </Card>
       <ModelGroupFormModal open={formOpen} group={editing} modelOptions={modelOptions} onClose={(): void => setFormOpen(false)} onSaved={(): void => undefined} />
     </>

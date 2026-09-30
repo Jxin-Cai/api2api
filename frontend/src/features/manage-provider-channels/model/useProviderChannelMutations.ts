@@ -9,11 +9,17 @@ import {
   updateProviderChannel,
 } from '@entities/provider-channel';
 import type { AdminUpdateProviderChannelRequest } from '@entities/provider-channel';
+import { MODEL_GROUPS_QUERY_KEY } from '@entities/model-group';
+import { providerModelQueryKeys } from '@entities/provider-model';
 
 export function useProviderChannelMutations() {
   const queryClient = useQueryClient();
-  function invalidate(): Promise<void> {
-    return queryClient.invalidateQueries({ queryKey: providerChannelQueryKeys.all });
+  async function invalidate(): Promise<void> {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: providerChannelQueryKeys.all }),
+      queryClient.invalidateQueries({ queryKey: providerModelQueryKeys.all }),
+      queryClient.invalidateQueries({ queryKey: MODEL_GROUPS_QUERY_KEY }),
+    ]);
   }
 
   const createMutation = useMutation({ mutationFn: createProviderChannel, onSuccess: invalidate });

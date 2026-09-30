@@ -15,6 +15,8 @@ export function useModelGroups(): UseModelGroupsResult {
   const query = useQuery({
     queryKey: MODEL_GROUPS_QUERY_KEY,
     queryFn: async (): Promise<ModelGroupListResponse> => (await listModelGroups()).data,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
   const groups = query.data?.groups ?? [];
   const options = groups.map((group) => ({ label: group.name, value: group.id }));

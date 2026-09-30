@@ -62,6 +62,7 @@ public class ModelGroupHttpConverter {
                 .id(group.getId().value())
                 .name(group.getName().getValue())
                 .modelWhitelist(group.getModelWhitelist().getModels().stream().map(ModelName::getValue).sorted().toList())
+                .effectiveModels(view.effectiveModels().stream().map(ModelName::getValue).sorted().toList())
                 .modelDailyLimits(toDailyLimitsResponse(group.getModelDailyLimits()))
                 .modelDailyUsage(usage)
                 .rateLimitedModels(view.rateLimitedModels().stream().map(ModelName::getValue).sorted().toList())

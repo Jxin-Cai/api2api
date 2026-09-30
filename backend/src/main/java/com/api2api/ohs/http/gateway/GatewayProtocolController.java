@@ -1,5 +1,6 @@
 package com.api2api.ohs.http.gateway;
 
+import com.api2api.application.channel.ProviderModelAvailabilityService;
 import com.api2api.application.credential.ApiCredentialApplicationService;
 import com.api2api.application.gateway.GatewayInvocationApplicationService;
 import com.api2api.application.gateway.GatewayInvocationOutcome;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +72,9 @@ public class GatewayProtocolController {
     @NonNull
     private final ResponsesImageBridge responsesImageBridge;
 
+    @NonNull
+    private final ProviderModelAvailabilityService modelAvailabilityService;
+
     @GetMapping({"/v1/model", "/v1/models"})
     public GatewayModelListResponse listModels(
             @RequestHeader(value = "Authorization", required = false) String authorization,
@@ -77,8 +82,10 @@ public class GatewayProtocolController {
     ) {
         ApiKeyHash keyHash = apiKeyHashHelper.hashGatewayApiKey(authorization, apiKey);
         ApiCredential credential = apiCredentialApplicationService.authenticateForModelListing(keyHash);
+        Set<ModelName> availableModels = modelAvailabilityService.availableModels();
         long createdAt = credential.getCreatedAt().getEpochSecond();
         List<GatewayModelResponse> models = credential.getModelWhitelist().models().stream()
+                .filter(availableModels::contains)
                 .map(ModelName::value)
                 .sorted()
                 .map(model -> new GatewayModelResponse(

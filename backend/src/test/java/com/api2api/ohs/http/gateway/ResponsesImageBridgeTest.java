@@ -68,7 +68,8 @@ class ResponsesImageBridgeTest {
                 gateway, mock(GatewayStreamingConversionPort.class), new StreamingPassthroughUsageExtractor(json));
         GatewayProtocolController controller = new GatewayProtocolController(credentials, keyHelper, gateway,
                 requestMapper, responses, streamingResponses, contract,
-                mock(MultipartFormRequestReader.class), multipart, bridge);
+                mock(MultipartFormRequestReader.class), multipart, bridge,
+                mock(com.api2api.application.channel.ProviderModelAvailabilityService.class));
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GatewayProtocolExceptionAdvice(errors)).build();
         when(gateway.invokeOutcome(any())).thenAnswer(invocation -> {

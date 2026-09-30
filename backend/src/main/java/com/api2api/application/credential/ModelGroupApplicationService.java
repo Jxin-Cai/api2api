@@ -1,6 +1,7 @@
 package com.api2api.application.credential;
 
 import com.api2api.application.BusinessException;
+import com.api2api.application.channel.ProviderModelAvailabilityService;
 import com.api2api.application.credential.command.CreateModelGroupCommand;
 import com.api2api.application.credential.command.DeleteModelGroupCommand;
 import com.api2api.application.credential.command.UpdateModelGroupCommand;
@@ -19,6 +20,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class ModelGroupApplicationService {
     @NonNull private final UserAccountRepository userAccountRepository;
     @NonNull private final ModelGroupRepository modelGroupRepository;
     @NonNull private final ModelGroupDailyUsageService dailyUsageService;
+    @NonNull private final ProviderModelAvailabilityService modelAvailabilityService;
     @NonNull private final Clock clock;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -43,8 +46,9 @@ public class ModelGroupApplicationService {
     public List<ModelGroupView> listMyGroupViews(UserAccountId ownerUserId) {
         List<ModelGroup> groups = listMyGroups(ownerUserId);
         Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup = dailyUsageService.loadTodayUsageByGroup(ownerUserId);
+        Set<ModelName> availableModels = modelAvailabilityService.availableModels();
         return groups.stream()
-                .map(group -> ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of())))
+                .map(group -> ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()), availableModels))
                 .toList();
     }
 
@@ -52,7 +56,8 @@ public class ModelGroupApplicationService {
     public ModelGroupView viewGroup(ModelGroup group) {
         Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup =
                 dailyUsageService.loadTodayUsageByGroup(group.getOwnerUserId());
-        return ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()));
+        return ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()),
+                modelAvailabilityService.availableModels());
     }
 
     @Transactional(rollbackFor = Exception.class)

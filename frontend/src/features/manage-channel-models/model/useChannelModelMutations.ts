@@ -2,11 +2,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModels, removeChannelModel, upsertChannelModel } from '@entities/channel-model-support';
 import type { AdminBatchUpsertChannelModelsRequest, AdminFetchProviderChannelModelPreviewRequest, AdminFetchProviderModelsRequest, AdminRemoveChannelModelRequest, AdminUpsertChannelModelRequest } from '@entities/channel-model-support';
 import { providerChannelQueryKeys } from '@entities/provider-channel';
+import { MODEL_GROUPS_QUERY_KEY } from '@entities/model-group';
+import { providerModelQueryKeys } from '@entities/provider-model';
 
 export function useChannelModelMutations() {
   const queryClient = useQueryClient();
-  function invalidate(): Promise<void> {
-    return queryClient.invalidateQueries({ queryKey: providerChannelQueryKeys.all });
+  async function invalidate(): Promise<void> {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: providerChannelQueryKeys.all }),
+      queryClient.invalidateQueries({ queryKey: providerModelQueryKeys.all }),
+      queryClient.invalidateQueries({ queryKey: MODEL_GROUPS_QUERY_KEY }),
+    ]);
   }
 
   const fetchMutation = useMutation({
