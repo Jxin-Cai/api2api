@@ -23,6 +23,7 @@ import com.api2api.ohs.http.admin.dto.ChannelEvaluationScheduleResponse;
 import com.api2api.ohs.http.admin.dto.ChannelEvaluationSubmitResponse;
 import com.api2api.ohs.http.admin.dto.QueryChannelEvaluationHistoryRequest;
 import com.api2api.ohs.http.converter.MapStructConfig;
+import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -196,7 +197,7 @@ public interface ChannelEvaluationHttpConverter {
         }
         try {
             return ZoneId.of(value.trim());
-        } catch (RuntimeException exception) {
+        } catch (DateTimeException exception) {
             throw new IllegalArgumentException("Evaluation cron zone is invalid: " + value, exception);
         }
     }

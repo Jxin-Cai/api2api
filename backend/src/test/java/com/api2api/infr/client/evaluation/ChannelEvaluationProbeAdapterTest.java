@@ -19,6 +19,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ChannelEvaluationProbeAdapterTest {
 
@@ -116,6 +118,29 @@ class ChannelEvaluationProbeAdapterTest {
                 .isInstanceOf(BusinessException.class)
                 .extracting(exception -> ((BusinessException) exception).code())
                 .isEqualTo("EVALUATION_PROBE_RUN_ID_MISSING");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"\"not-a-date\"", "42", "null"})
+    void test_omitsCompletionTime_when_probeTimestampIsInvalid(String timestamp) throws IOException {
+        // Arrange
+        server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/api/probe/run/run-42", exchange -> {
+            byte[] response = ("{\"status\":\"completed\",\"score\":87,\"completedAt\":" + timestamp + "}")
+                    .getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, response.length);
+            exchange.getResponseBody().write(response);
+            exchange.close();
+        });
+        server.start();
+        ChannelEvaluationProbeAdapter adapter = adapter("http://127.0.0.1:" + server.getAddress().getPort());
+
+        // Act
+        ProbeRunSnapshot snapshot = adapter.fetch("run-42");
+
+        // Assert
+        assertThat(snapshot.findOutcome().orElseThrow().completedAt()).isNull();
     }
 
     private ChannelEvaluationProbeAdapter adapter(String baseUrl) {

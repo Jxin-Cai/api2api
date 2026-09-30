@@ -45,3 +45,5 @@
 - 第 5 步：签发和网关认证共用 `ApiKeyHasher`，保留 UTF-8、SHA-256、小写 64 位十六进制格式。用固定摘要及新签发密钥的认证一致性覆盖兼容性；7 个相关测试通过。
 
 - 第 6 步：6 个方向的响应 Token 字段映射原样迁移到 `ProtocolResponseUsageMapper`；主转换器减少 85 行，不改缓存读写计算与输出结构。`mvn test`：765 个用例全部通过。
+
+- 第 7a 步：先以 12 个相关用例固定时区和探测时间戳行为，再将捕获类型收窄为 `DateTimeException` / `DateTimeParseException`；修改前后均通过。

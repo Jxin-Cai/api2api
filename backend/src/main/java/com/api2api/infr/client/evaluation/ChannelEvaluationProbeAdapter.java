@@ -18,6 +18,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -260,7 +261,7 @@ public class ChannelEvaluationProbeAdapter implements ChannelEvaluationProbePort
         }
         try {
             return Instant.parse(node.asText());
-        } catch (RuntimeException exception) {
+        } catch (DateTimeParseException exception) {
             return null;
         }
     }
