@@ -16,6 +16,10 @@ import com.api2api.domain.user.model.UserAccountId;
 import com.api2api.infr.repository.usage.po.UsageRecordPO;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class UsageRecordPersistenceConverterTest {
 
@@ -24,6 +28,58 @@ class UsageRecordPersistenceConverterTest {
     private static final Instant CREATED_AT = Instant.parse("2026-07-08T10:00:02Z");
 
     private final UsageRecordPersistenceConverter converter = new UsageRecordPersistenceConverter();
+
+    @ParameterizedTest
+    @EnumSource(UsageRecordStatus.class)
+    void test_preservesPersistedFields_when_rehydratingEachLifecycleState(UsageRecordStatus status) {
+        // Arrange
+        UsageRecordPO original = po();
+        original.setUserAccountId(2L);
+        original.setApiCredentialId(3L);
+        original.setProviderChannelId(7L);
+        original.setClientIp("192.0.2.1");
+        original.setFirstTokenMillis(63L);
+        original.setStreaming(true);
+        original.setStatus(status.name());
+        if (status == UsageRecordStatus.PENDING) {
+            original.setUpstreamModel(null);
+            original.setUpstreamProtocol(null);
+            original.setProviderChannelId(null);
+            original.setFirstTokenMillis(null);
+            original.setEndedTime(STARTED_AT);
+            original.setDurationMillis(0L);
+            original.setInputTokens(4096L);
+            original.setOutputTokens(0L);
+            original.setCacheCreationInputTokens(0L);
+            original.setCacheReadInputTokens(0L);
+            original.setTotalTokens(4096L);
+        } else if (status == UsageRecordStatus.FAILED) {
+            original.setErrorType("UPSTREAM_FAILED");
+            original.setErrorMessage("Upstream unavailable");
+            original.setRouteFailuresJson("[]");
+        }
+
+        // Act
+        UsageRecordPO restored = converter.toPO(converter.toDomain(original));
+
+        // Assert
+        assertThat(restored).usingRecursiveComparison().isEqualTo(original);
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(longs = {0, 125})
+    void test_preservesFirstTokenLatency_when_latencyIsAbsentOrMeasured(Long latency) {
+        // Arrange
+        UsageRecordPO original = po();
+        original.setFirstTokenMillis(latency);
+
+        // Act
+        UsageRecordPO restored = converter.toPO(converter.toDomain(original));
+
+        // Assert
+        assertThat(restored.getFirstTokenMillis()).isEqualTo(latency);
+    }
 
     @Test
     void toDomainRecalculatesDurationFromTimestampsWhenPersistedDurationIsStale() {
@@ -37,27 +93,27 @@ class UsageRecordPersistenceConverterTest {
 
     @Test
     void toPOPersistsDomainDuration() {
-        UsageRecord record = UsageRecord.rehydrate(
-                UsageRecordId.of(1L),
-                GatewayRequestId.of("request-1"),
-                UserAccountId.of(1L),
-                ApiCredentialId.of(1L),
-                ModelName.of("claude-sonnet"),
-                null, // client IP is not relevant to this fixture
-                null, // first token latency is not relevant to this fixture
-                ModelName.of("gpt-4.1"),
-                ProtocolType.CLAUDE_MESSAGES,
-                ProtocolType.OPENAI_RESPONSES,
-                ProviderChannelId.of(1L),
-                UsageRecordStatus.SUCCESS,
-                UsageTokenBreakdown.known(1L, 2L, 3L, 4L),
-                false,
-                STARTED_AT,
-                ENDED_AT,
-                UsageDuration.between(STARTED_AT, ENDED_AT),
-                null,
-                CREATED_AT
-        );
+        UsageRecord record = UsageRecord.rehydrate()
+                .id(UsageRecordId.of(1L))
+                .requestId(GatewayRequestId.of("request-1"))
+                .userAccountId(UserAccountId.of(1L))
+                .apiCredentialId(ApiCredentialId.of(1L))
+                .requestedModel(ModelName.of("claude-sonnet"))
+                .clientIp(null)
+                .firstTokenMillis(null)
+                .upstreamModel(ModelName.of("gpt-4.1"))
+                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)
+                .upstreamProtocol(ProtocolType.OPENAI_RESPONSES)
+                .providerChannelId(ProviderChannelId.of(1L))
+                .status(UsageRecordStatus.SUCCESS)
+                .tokenUsage(UsageTokenBreakdown.known(1L, 2L, 3L, 4L))
+                .streaming(false)
+                .startedAt(STARTED_AT)
+                .endedAt(ENDED_AT)
+                .duration(UsageDuration.between(STARTED_AT, ENDED_AT))
+                .errorDiagnostic(null)
+                .createdAt(CREATED_AT)
+                .build();
 
         UsageRecordPO po = converter.toPO(record);
 

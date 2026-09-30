@@ -11,6 +11,7 @@ import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.user.model.UserAccountId;
 import java.time.Instant;
 import java.util.Objects;
+import lombok.Builder;
 
 /**
  * Aggregate root that represents one gateway invocation's usage lifecycle.
@@ -43,6 +44,7 @@ public final class UsageRecord {
     private final UsageErrorDiagnostic errorDiagnostic;
     private final Instant createdAt;
 
+    @Builder(builderClassName = "Rehydrator", builderMethodName = "rehydrate")
     private UsageRecord(
             UsageRecordId id,
             GatewayRequestId requestId,
@@ -189,50 +191,6 @@ public final class UsageRecord {
                 UsageDuration.between(startedAt, startedAt),
                 null,           // no error diagnostic for PENDING
                 Objects.requireNonNull(now, "Current time must not be null")
-        );
-    }
-
-    public static UsageRecord rehydrate(
-            UsageRecordId id,
-            GatewayRequestId requestId,
-            UserAccountId userAccountId,
-            ApiCredentialId apiCredentialId,
-            ModelName requestedModel,
-            String clientIp,
-            Long firstTokenMillis,
-            ModelName upstreamModel,
-            ProtocolType requestProtocol,
-            ProtocolType upstreamProtocol,
-            ProviderChannelId providerChannelId,
-            UsageRecordStatus status,
-            UsageTokenBreakdown tokenUsage,
-            boolean streaming,
-            Instant startedAt,
-            Instant endedAt,
-            UsageDuration duration,
-            UsageErrorDiagnostic errorDiagnostic,
-            Instant createdAt
-    ) {
-        return new UsageRecord(
-                id,
-                requestId,
-                userAccountId,
-                apiCredentialId,
-                requestedModel,
-                clientIp,
-                firstTokenMillis,
-                upstreamModel,
-                requestProtocol,
-                upstreamProtocol,
-                providerChannelId,
-                status,
-                tokenUsage,
-                streaming,
-                startedAt,
-                endedAt,
-                duration,
-                errorDiagnostic,
-                createdAt
         );
     }
 

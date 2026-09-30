@@ -30,27 +30,27 @@ class DashboardResponseConverterTest {
 
     @Test
     void test_mapsUsageRecordFields_when_renderingRecentCall() {
-        UsageRecord record = UsageRecord.rehydrate(
-                UsageRecordId.of(8L),
-                GatewayRequestId.of("request-8"),
-                UserAccountId.of(2L),
-                ApiCredentialId.of(3L),
-                ModelName.of("claude-sonnet"),
-                null, // client IP is not relevant to this fixture
-                null, // first token latency is not relevant to this fixture
-                ModelName.of("gpt-4.1"),
-                ProtocolType.CLAUDE_MESSAGES,
-                ProtocolType.OPENAI_RESPONSES,
-                ProviderChannelId.of(7L),
-                UsageRecordStatus.SUCCESS,
-                UsageTokenBreakdown.known(100L, 20L, 30L, 40L),
-                false,
-                STARTED_AT,
-                ENDED_AT,
-                UsageDuration.between(STARTED_AT, ENDED_AT),
-                null,
-                CREATED_AT
-        );
+        UsageRecord record = UsageRecord.rehydrate()
+                .id(UsageRecordId.of(8L))
+                .requestId(GatewayRequestId.of("request-8"))
+                .userAccountId(UserAccountId.of(2L))
+                .apiCredentialId(ApiCredentialId.of(3L))
+                .requestedModel(ModelName.of("claude-sonnet"))
+                .clientIp(null)
+                .firstTokenMillis(null)
+                .upstreamModel(ModelName.of("gpt-4.1"))
+                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)
+                .upstreamProtocol(ProtocolType.OPENAI_RESPONSES)
+                .providerChannelId(ProviderChannelId.of(7L))
+                .status(UsageRecordStatus.SUCCESS)
+                .tokenUsage(UsageTokenBreakdown.known(100L, 20L, 30L, 40L))
+                .streaming(false)
+                .startedAt(STARTED_AT)
+                .endedAt(ENDED_AT)
+                .duration(UsageDuration.between(STARTED_AT, ENDED_AT))
+                .errorDiagnostic(null)
+                .createdAt(CREATED_AT)
+                .build();
 
         var response = converter.toRecentCallResponse(record);
 

@@ -42,26 +42,26 @@ class UsageRecordTest {
     }
 
     private UsageRecord usageRecord(UsageDuration duration, Instant endedAt) {
-        return UsageRecord.rehydrate(
-                UsageRecordId.of(1L),
-                GatewayRequestId.of("request-1"),
-                UserAccountId.of(1L),
-                ApiCredentialId.of(1L),
-                ModelName.of("claude-sonnet"),
-                null, // client IP is not relevant to this fixture
-                null, // first token latency is not relevant to this fixture
-                ModelName.of("gpt-4.1"),
-                ProtocolType.CLAUDE_MESSAGES,
-                ProtocolType.OPENAI_RESPONSES,
-                ProviderChannelId.of(1L),
-                UsageRecordStatus.SUCCESS,
-                UsageTokenBreakdown.known(1L, 2L, 3L, 4L),
-                false,
-                STARTED_AT,
-                endedAt,
-                duration,
-                null,
-                CREATED_AT
-        );
+        return UsageRecord.rehydrate()
+                .id(UsageRecordId.of(1L))
+                .requestId(GatewayRequestId.of("request-1"))
+                .userAccountId(UserAccountId.of(1L))
+                .apiCredentialId(ApiCredentialId.of(1L))
+                .requestedModel(ModelName.of("claude-sonnet"))
+                .clientIp(null)
+                .firstTokenMillis(null)
+                .upstreamModel(ModelName.of("gpt-4.1"))
+                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)
+                .upstreamProtocol(ProtocolType.OPENAI_RESPONSES)
+                .providerChannelId(ProviderChannelId.of(1L))
+                .status(UsageRecordStatus.SUCCESS)
+                .tokenUsage(UsageTokenBreakdown.known(1L, 2L, 3L, 4L))
+                .streaming(false)
+                .startedAt(STARTED_AT)
+                .endedAt(endedAt)
+                .duration(duration)
+                .errorDiagnostic(null)
+                .createdAt(CREATED_AT)
+                .build();
     }
 }

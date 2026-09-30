@@ -65,27 +65,27 @@ class UsageQueryApplicationServiceTest {
                 STARTED_AT
         );
         ApiCredential credential = mock(ApiCredential.class);
-        UsageRecord record = UsageRecord.rehydrate(
-                UsageRecordId.of(3L),
-                GatewayRequestId.of("request-3"),
-                userId,
-                credentialId,
-                ModelName.of("claude-sonnet"),
-                "127.0.0.1",
-                12L,
-                ModelName.of("claude-sonnet"),
-                ProtocolType.CLAUDE_MESSAGES,
-                ProtocolType.CLAUDE_MESSAGES,
-                ProviderChannelId.of(7L),
-                UsageRecordStatus.SUCCESS,
-                UsageTokenBreakdown.known(10L, 20L, 0L, 0L),
-                false,
-                STARTED_AT,
-                ENDED_AT,
-                UsageDuration.between(STARTED_AT, ENDED_AT),
-                null,
-                ENDED_AT
-        );
+        UsageRecord record = UsageRecord.rehydrate()
+                .id(UsageRecordId.of(3L))
+                .requestId(GatewayRequestId.of("request-3"))
+                .userAccountId(userId)
+                .apiCredentialId(credentialId)
+                .requestedModel(ModelName.of("claude-sonnet"))
+                .clientIp("127.0.0.1")
+                .firstTokenMillis(12L)
+                .upstreamModel(ModelName.of("claude-sonnet"))
+                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)
+                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)
+                .providerChannelId(ProviderChannelId.of(7L))
+                .status(UsageRecordStatus.SUCCESS)
+                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))
+                .streaming(false)
+                .startedAt(STARTED_AT)
+                .endedAt(ENDED_AT)
+                .duration(UsageDuration.between(STARTED_AT, ENDED_AT))
+                .errorDiagnostic(null)
+                .createdAt(ENDED_AT)
+                .build();
         when(userAccountRepository.findById(userId)).thenReturn(Optional.of(user));
         when(credential.getName()).thenReturn(ApiCredentialName.of("生产 Key"));
         when(apiCredentialRepository.findById(credentialId)).thenReturn(Optional.of(credential));

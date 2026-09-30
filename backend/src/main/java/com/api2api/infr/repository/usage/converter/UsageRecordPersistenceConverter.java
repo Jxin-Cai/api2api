@@ -73,33 +73,33 @@ public class UsageRecordPersistenceConverter {
         }
         Instant startedAt = safeStartedAt(po);
         Instant endedAt = safeEndedAt(po, startedAt);
-        return UsageRecord.rehydrate(
-                UsageRecordId.of(po.getId()),
-                GatewayRequestId.of(safeText(po.getRequestId(), "unknown-" + po.getId())),
-                UserAccountId.of(po.getUserAccountId()),
-                ApiCredentialId.of(po.getApiCredentialId()),
-                ModelName.of(safeText(po.getRequestedModel(), "unknown")),
-                po.getClientIp(),
-                po.getFirstTokenMillis(),
-                safeModelName(po.getUpstreamModel(), status),
-                parseProtocol(po.getRequestProtocol(), ProtocolType.CLAUDE_MESSAGES),
-                parseUpstreamProtocol(po.getUpstreamProtocol(), status),
-                safeProviderChannelId(po.getProviderChannelId(), status),
-                status,
-                normalizedTokenBreakdown(
+        return UsageRecord.rehydrate()
+                .id(UsageRecordId.of(po.getId()))
+                .requestId(GatewayRequestId.of(safeText(po.getRequestId(), "unknown-" + po.getId())))
+                .userAccountId(UserAccountId.of(po.getUserAccountId()))
+                .apiCredentialId(ApiCredentialId.of(po.getApiCredentialId()))
+                .requestedModel(ModelName.of(safeText(po.getRequestedModel(), "unknown")))
+                .clientIp(po.getClientIp())
+                .firstTokenMillis(po.getFirstTokenMillis())
+                .upstreamModel(safeModelName(po.getUpstreamModel(), status))
+                .requestProtocol(parseProtocol(po.getRequestProtocol(), ProtocolType.CLAUDE_MESSAGES))
+                .upstreamProtocol(parseUpstreamProtocol(po.getUpstreamProtocol(), status))
+                .providerChannelId(safeProviderChannelId(po.getProviderChannelId(), status))
+                .status(status)
+                .tokenUsage(normalizedTokenBreakdown(
                         po.getInputTokens(),
                         po.getOutputTokens(),
                         po.getCacheCreationInputTokens(),
                         po.getCacheReadInputTokens(),
                         po.isUsageKnown()
-                ),
-                po.isStreaming(),
-                startedAt,
-                endedAt,
-                UsageDuration.between(startedAt, endedAt),
-                diagnostic,
-                po.getCreatedTime() == null ? startedAt : po.getCreatedTime()
-        );
+                ))
+                .streaming(po.isStreaming())
+                .startedAt(startedAt)
+                .endedAt(endedAt)
+                .duration(UsageDuration.between(startedAt, endedAt))
+                .errorDiagnostic(diagnostic)
+                .createdAt(po.getCreatedTime() == null ? startedAt : po.getCreatedTime())
+                .build();
     }
 
     private UsageRecordStatus parseStatus(UsageRecordPO po) {
