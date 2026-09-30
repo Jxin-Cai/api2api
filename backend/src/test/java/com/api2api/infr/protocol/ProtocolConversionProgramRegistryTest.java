@@ -18,8 +18,8 @@ class ProtocolConversionProgramRegistryTest {
     private final ProtocolConversionProgramRegistry registry = new ProtocolConversionProgramRegistry(allConverters);
 
     @Test
-    void test_registryIndexesAllConverters_when_allFourteenRegistered() {
-        assertThat(allConverters).hasSize(14);
+    void test_registryIndexesAllConverters_when_allFifteenRegistered() {
+        assertThat(allConverters).hasSize(15);
     }
 
     @ParameterizedTest(name = "{0}→{1} {2}")
@@ -132,6 +132,7 @@ class ProtocolConversionProgramRegistryTest {
 
     static Stream<Arguments> allConverterDirections() {
         return Stream.of(
+                Arguments.of(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST),
                 // Generic converters (12)
                 Arguments.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST),
                 Arguments.of(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.RESPONSE),
@@ -162,6 +163,9 @@ class ProtocolConversionProgramRegistryTest {
 
     private static ProtocolMessageConverter stubConverter(
             ProtocolType source, ProtocolType target, ProtocolConversionDirection direction) {
+        if (source == ProtocolType.OPENAI_RESPONSES && target == source) {
+            return new OpenAIResponsesRequestConverter(new ProtocolJsonSupport(new com.fasterxml.jackson.databind.ObjectMapper()));
+        }
         return new ProtocolMessageConverter() {
             @Override public ProtocolType sourceProtocol() { return source; }
             @Override public ProtocolType targetProtocol() { return target; }

@@ -18,6 +18,96 @@ class ProtocolContractRegistryTest {
     private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
+    void test_acceptsStateReferenceWithoutInput_when_responsesUsesPreviousResponse() {
+        // Arrange
+        String body = "{\"model\":\"gpt-6-astra\",\"previous_response_id\":\"resp_1\"}";
+
+        // Act
+        ParsedGatewayRequest parsed = registry.parseRequest(ProtocolType.OPENAI_RESPONSES, body);
+
+        // Assert
+        assertEquals("gpt-6-astra", parsed.model());
+    }
+
+    @Test
+    void test_detectsToolCapability_when_responsesHistoryContainsToolResultWithoutTools() {
+        // Arrange
+        String body = """
+                {"model":"gpt-6-astra","input":[
+                  {"type":"function_call_output","call_id":"call_1","output":"ok"}]}
+                """;
+
+        // Act
+        ParsedGatewayRequest parsed = registry.parseGatewayRequest(ProtocolType.OPENAI_RESPONSES, body);
+
+        // Assert
+        assertTrue(parsed.toolCallingRequired());
+    }
+
+    @Test
+    void test_detectsReasoningCapability_when_responsesHistoryContainsEncryptedReasoning() {
+        // Arrange
+        String body = """
+                {"model":"gpt-6-astra","input":[
+                  {"type":"reasoning","id":"rs_1","encrypted_content":"opaque","summary":[]}]}
+                """;
+
+        // Act
+        ParsedGatewayRequest parsed = registry.parseGatewayRequest(ProtocolType.OPENAI_RESPONSES, body);
+
+        // Assert
+        assertTrue(parsed.reasoningRequired());
+    }
+
+    @Test
+    void test_acceptsTypedHistoryUnion_when_responsesUsesCurrentItems() {
+        // Arrange
+        String body = """
+                {"model":"gpt-6-astra","input":[
+                  {"type":"message","role":"assistant","phase":"commentary","content":"working"},
+                  {"type":"configuration_update","reasoning":{"effort":"max"}},
+                  {"type":"tool_search_call","arguments":{"query":"find"}},
+                  {"type":"computer_call_output","call_id":"call_1",
+                   "output":{"type":"computer_screenshot","image_url":"data:image/png;base64,AA=="}},
+                  {"type":"function_call_output","call_id":"call_2",
+                   "output":[{"type":"input_text","text":"result"}]}],
+                 "reasoning":{"context":"all_turns","mode":"pro"},
+                 "prompt_cache_options":{"mode":"implicit","ttl":"30m"},
+                 "access_programs":{"cyber":"standard"}}
+                """;
+
+        // Act
+        ParsedGatewayRequest parsed = registry.parseRequest(ProtocolType.OPENAI_RESPONSES, body);
+
+        // Assert
+        assertEquals("gpt-6-astra", parsed.model());
+    }
+
+    @Test
+    void test_keepsNativeContractUnchanged_when_clientContainsCompatibilityExtension() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"gpt-6-astra","input":[{"role":"user","content":"hi","author":"client"}]}
+                """;
+
+        // Act
+        var parsed = registry.require(ProtocolType.OPENAI_RESPONSES).parseRequestNode(body);
+
+        // Assert
+        assertEquals(new ObjectMapper().readTree(body), parsed);
+    }
+
+    @Test
+    void test_exposesCurrentMessagesFields_when_nativeSchemaIsRequested() {
+        // Arrange / Act
+        List<String> fields = fieldPaths(ProtocolType.CLAUDE_MESSAGES);
+
+        // Assert
+        assertTrue(fields.containsAll(List.of("compaction.type", "compaction.instructions",
+                "messages[].clear_at", "messages[].output_config.effort", "response.diagnostics")));
+    }
+
+    @Test
     void test_registry_contains_executable_shapes_when_five_protocols_are_registered() {
         assertEquals(5, registry.contracts().size());
         for (ProtocolContract contract : registry.contracts()) {
@@ -120,9 +210,9 @@ class ProtocolContractRegistryTest {
 
     @Test
     void test_reports_official_api_versions_when_five_protocols_are_registered() {
-        assertEquals("Anthropic API 2023-06-01 · SDK 0.111.0",
+        assertEquals("Anthropic API 2023-06-01 · schema 2026-09-30",
                 registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
-        assertEquals("OpenAI API v1 · SDK 6.47.0",
+        assertEquals("OpenAI API v1 · schema 2026-09-30",
                 registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
         assertEquals("OpenAI API v1 · SDK 6.47.0",
                 registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());

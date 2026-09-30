@@ -24,6 +24,17 @@ public final class ProtocolContract {
     private static final Set<String> REASONING_CONTENT_TYPES = Set.of(
             "thinking", "redacted_thinking", "reasoning"
     );
+    private static final Set<String> RESPONSES_TOOL_ITEM_TYPES = Set.of(
+            "function_call", "function_call_output", "custom_tool_call", "custom_tool_call_output",
+            "tool_search_call", "tool_search_output", "additional_tools", "computer_call", "computer_call_output",
+            "web_search_call", "file_search_call", "code_interpreter_call", "image_generation_call",
+            "local_shell_call", "local_shell_call_output", "shell_call", "shell_call_output",
+            "apply_patch_call", "apply_patch_call_output", "mcp_call", "mcp_list_tools",
+            "mcp_approval_request", "mcp_approval_response", "program", "program_output"
+    );
+    private static final Set<String> RESPONSES_REASONING_ITEM_TYPES = Set.of(
+            "reasoning", "compaction", "compaction_trigger", "configuration_update"
+    );
 
     private final ProtocolType protocolType;
     private final String displayName;
@@ -145,6 +156,11 @@ public final class ProtocolContract {
         boolean toolCalling = false;
         boolean reasoning = false;
         for (JsonNode message : messages) {
+            if (protocolType == ProtocolType.OPENAI_RESPONSES) {
+                String itemType = message.path("type").asText("");
+                toolCalling |= RESPONSES_TOOL_ITEM_TYPES.contains(itemType);
+                reasoning |= RESPONSES_REASONING_ITEM_TYPES.contains(itemType);
+            }
             JsonNode content = message.path("content");
             if (!content.isArray()) {
                 continue;

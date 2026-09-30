@@ -14,6 +14,11 @@ class ProtocolConverterConfiguration {
     private final ProtocolConversionProperties protocolConversionProperties;
 
     @Bean
+    ProtocolMessageConverter openAIResponsesRequest(ProtocolJsonSupport json) {
+        return new OpenAIResponsesRequestConverter(json);
+    }
+
+    @Bean
     ProtocolMessageConverter claudeMessagesToOpenAIResponsesRequest(ProtocolJsonSupport json, SseEventTransformer sseEventTransformer) {
         return converter(json, null, ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST, sseEventTransformer);
     }

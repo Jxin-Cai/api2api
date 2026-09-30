@@ -28,8 +28,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private static final Logger log = LoggerFactory.getLogger(GenericProtocolMessageConverter.class);
 
-    private static final boolean RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED = false;
     private static final int MIN_CHAT_COMPLETION_TOKENS = 128;
+    private static final int MIN_RESPONSES_OUTPUT_TOKENS = 16;
     private static final int DEFAULT_CLAUDE_MAX_TOKENS = 8192;
     private static final String EMPTY_TOOL_RESULT = "(empty)";
     private static final String ANTHROPIC_BILLING_HEADER_PREFIX = "x-anthropic-billing-header: ";
@@ -38,7 +38,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             "model", "messages", "max_tokens", "system", "stream", "temperature", "top_p", "top_k",
             "stop_sequences", "metadata", "service_tier", "speed", "thinking", "reasoning", "tool_choice",
             "tools", "cache_control", "output_config", "output_format", "context_management", "container", "mcp_servers",
-            "inference_geo", "diagnostics"
+            "inference_geo", "diagnostics", "compaction"
     );
 
     private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = ResponsesProtocolConstants.OPAQUE_STATE_PLACEHOLDER;
@@ -50,6 +50,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private final boolean fullStreamingSupport;
     private final List<String> reasoningModelPrefixes;
     private final List<String> reasoningModelContains;
+    private final boolean responsesExplicitCacheBreakpointsEnabled;
     private final ResponsesToClaudeRequestConverter responsesToClaudeRequestConverter;
 
     GenericProtocolMessageConverter(
@@ -67,6 +68,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         this.fullStreamingSupport = isFullStreamingPair(sourceProtocol, targetProtocol);
         this.reasoningModelPrefixes = properties.getReasoningModelPrefixes();
         this.reasoningModelContains = properties.getReasoningModelContains();
+        this.responsesExplicitCacheBreakpointsEnabled = properties.isResponsesExplicitCacheBreakpointsEnabled();
         this.responsesToClaudeRequestConverter = new ResponsesToClaudeRequestConverter(json);
     }
 
@@ -108,7 +110,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     @Override
     protected JsonNode convertRequestJson(JsonNode source, ProtocolConversionRequest requirement) {
-        return requestConverter.apply(source);
+        JsonNode target = requestConverter.apply(source);
+        return targetProtocol() == ProtocolType.OPENAI_RESPONSES
+                ? OpenAIResponsesRequestConverter.normalizeInputItems(target) : target;
     }
 
     @Override
@@ -217,7 +221,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private void mapClaudeToChatOutputFormat(JsonNode source, ObjectNode target) {
         JsonNode outputConfig = source.get("output_config");
-        JsonNode format = outputConfig != null && outputConfig.isObject()
+        JsonNode format = outputConfig != null && outputConfig.hasNonNull("format")
                 ? outputConfig.get("format") : source.get("output_format");
         if (format != null && !format.isNull() && format.isObject()) {
             String formatType = format.path("type").asText("");
@@ -720,8 +724,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private ObjectNode claudeRequestToResponses(JsonNode source) {
         validateClaudeResponsesRequest(source);
-        if (source.path("max_tokens").isNumber() && source.path("max_tokens").asInt() == 0) {
+        if (source.path("max_tokens").isIntegralNumber() && source.path("max_tokens").asLong() == 0) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_ONLY_REQUEST_NOT_SUPPORTED");
+        }
+        if (source.hasNonNull("max_tokens") && (!source.path("max_tokens").isIntegralNumber()
+                || source.path("max_tokens").asLong() < MIN_RESPONSES_OUTPUT_TOKENS)) {
+            throw new ProtocolConversionException("CLAUDE_RESPONSES_MAX_OUTPUT_TOKENS_MUST_BE_AT_LEAST_16");
         }
         String model = source.path("model").asText("");
         ObjectNode target = json.objectNode();
@@ -761,7 +769,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         target.set("include", include);
         ObjectNode text = json.objectNode();
         JsonNode outputConfig = source.get("output_config");
-        JsonNode format = outputConfig != null && outputConfig.isObject()
+        JsonNode format = outputConfig != null && outputConfig.hasNonNull("format")
                 ? outputConfig.get("format") : source.get("output_format");
         if (format != null && !format.isNull()) {
             text.set("format", ensureResponseTextFormat(format));
@@ -803,7 +811,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             }
             target.set("reasoning", reasoning);
         }
-        if (RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED && containsResponsesCacheBreakpoint(input)) {
+        if (supportsExplicitResponsesCache(model) && containsResponsesCacheBreakpoint(input)) {
             ObjectNode options = json.objectNode();
             options.put("mode", "explicit");
             options.put("ttl", "30m");
@@ -837,6 +845,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
         if (source.hasNonNull("diagnostics")) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_DIAGNOSTICS_NOT_SUPPORTED");
+        }
+        if (source.hasNonNull("compaction")) {
+            throw new ProtocolConversionException("CLAUDE_RESPONSES_EXPLICIT_COMPACTION_NOT_SUPPORTED");
         }
     }
 
@@ -892,6 +903,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         Map<String, JsonNode> toolCallers = collectClaudeToolCallers(messages);
         for (JsonNode message : messages) {
             String role = message.path("role").asText("user");
+            if (message.hasNonNull("output_config") && !message.path("output_config").isEmpty()) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_OUTPUT_CONFIG_NOT_SUPPORTED");
+            }
+            if (message.hasNonNull("clear_at") && !"never".equals(message.path("clear_at").asText())) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_CLEAR_AT_NOT_SUPPORTED");
+            }
             JsonNode content = message.get("content");
             if (content == null || content.isTextual()) {
                 ObjectNode mapped = json.objectNode();
@@ -901,7 +918,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                     mapped.put("phase", "final_answer");
                 }
                 ArrayNode parts = json.arrayNode();
-                addClaudeTextPart(parts, content == null ? "" : content.asText(""), "assistant".equals(role) ? "output_text" : "input_text");
+                addClaudeTextPart(parts, content == null ? "" : content.asText(""), "input_text");
                 mapped.set("content", parts);
                 input.add(mapped);
                 continue;
@@ -917,11 +934,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             for (JsonNode block : content) {
                 switch (block.path("type").asText("")) {
                     case "text" -> convertTextBlockToResponses(
-                            block, messageContent, role, containsCompactionState, model);
+                            block, messageContent, containsCompactionState, model);
                     case "image" -> addClaudeImagePart(messageContent, block, model);
                     case "document" -> addClaudeDocumentPart(messageContent, block, model);
-                    case "search_result" -> addClaudeSearchResultPart(messageContent, block,
-                            "assistant".equals(role) ? "output_text" : "input_text", model);
+                    case "search_result" -> addClaudeSearchResultPart(messageContent, block, "input_text", model);
                     case "tool_use", "server_tool_use" -> convertToolUseBlockToResponses(
                             block, input, role, messageContent, assistantPhase);
                     case "tool_result", "code_execution_tool_result" -> convertToolResultBlockToResponses(
@@ -967,11 +983,13 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     }
 
     private void convertTextBlockToResponses(JsonNode block, ArrayNode messageContent,
-                                               String role, boolean containsCompactionState, String model) {
+                                               boolean containsCompactionState, String model) {
         String text = block.path("text").asText("");
         if (!(containsCompactionState && RESPONSES_COMPACTION_VISIBLE_TEXT.equals(text))) {
-            addClaudeTextPart(messageContent, text,
-                    "assistant".equals(role) ? "output_text" : "input_text", block, model);
+            // Use EasyInputMessage for synthetic history, including assistant turns.
+            // A replayed ResponseOutputMessage with output_text instead requires its
+            // provider-issued id/status and output annotations, which Claude lacks.
+            addClaudeTextPart(messageContent, text, "input_text", block, model);
         }
     }
 
@@ -1148,7 +1166,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             return;
         }
         validateClaudeCacheControl(cacheControl);
-        if (!RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED || !isResponsesCacheablePart(target)) {
+        if (!supportsExplicitResponsesCache(model) || !isResponsesCacheablePart(target)) {
             return;
         }
         ObjectNode breakpoint = json.objectNode();
@@ -1161,7 +1179,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             return;
         }
         validateClaudeCacheControl(cacheControl);
-        if (!RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED) {
+        if (!supportsExplicitResponsesCache(model)) {
             return;
         }
         ObjectNode target = lastResponsesCacheablePart(input);
@@ -1204,6 +1222,11 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             case "input_text", "input_image", "input_file" -> true;
             default -> false;
         };
+    }
+
+    private boolean supportsExplicitResponsesCache(String model) {
+        return responsesExplicitCacheBreakpointsEnabled
+                && GptModelVersion.isAtLeast(model, GptModelVersion.GPT_5_6);
     }
 
     private void validateClaudeCacheControl(JsonNode cacheControl) {
@@ -1310,7 +1333,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         message.put("role", "assistant");
         message.put("phase", "commentary");
         ArrayNode content = json.arrayNode();
-        addClaudeTextPart(content, summary, "output_text");
+        addClaudeTextPart(content, summary, "input_text");
         message.set("content", content);
         return message;
     }
@@ -1442,7 +1465,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if ("tool".equals(type)) {
             return ClaudeDeferredToolBridge.namedChoice(json, toolChoice.path("name").asText(""), tools, claudeTools);
         }
-        return json.valueToTree("none".equals(type) ? "none" : "auto");
+        if ("none".equals(type)) {
+            return json.valueToTree("none");
+        }
+        throw new ProtocolConversionException("CLAUDE_RESPONSES_INVALID_TOOL_CHOICE: " + type);
     }
 
     private ObjectNode responsesReasoningConfig(JsonNode source) {
@@ -1456,7 +1482,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 case "max" -> supportsMaxReasoningEffort(source.path("model").asText(""))
                         ? "max"
                         : "xhigh";
-                default -> "medium";
+                case "medium" -> "medium";
+                default -> throw new ProtocolConversionException("CLAUDE_RESPONSES_INVALID_REASONING_EFFORT");
             };
             reasoning.put("effort", effort);
         }
@@ -1464,18 +1491,24 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (thinking != null && thinking.isObject()) {
             String type = thinking.path("type").asText("");
             if ("disabled".equals(type)) {
-                reasoning.put("effort", "none");
+                reasoning.removeAll();
+                if (isReasoningModel(source.path("model").asText(""))) {
+                    reasoning.put("effort", "none");
+                }
             } else if (!reasoning.has("effort") && "adaptive".equals(type)) {
                 reasoning.put("effort", "high");
             } else if (!reasoning.has("effort") && "enabled".equals(type)) {
                 reasoning.put("effort", reasoningEffortFromBudget(thinking.path("budget_tokens").asInt(0)));
+            }
+            if (!Set.of("enabled", "disabled", "adaptive").contains(type)) {
+                throw new ProtocolConversionException("CLAUDE_RESPONSES_THINKING_TYPE_NOT_SUPPORTED: " + type);
             }
         }
         if (containsResponsesReasoningState(source.get("messages"))
                 && supportsPersistedReasoning(source.path("model").asText(""))) {
             reasoning.put("context", "all_turns");
         }
-        if (!reasoning.isEmpty()) {
+        if (!reasoning.isEmpty() && !"none".equals(reasoning.path("effort").asText())) {
             String display = thinking != null && thinking.isObject()
                     ? thinking.path("display").asText("")
                     : "";
@@ -1813,11 +1846,10 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             type = "json_schema";
         }
         if ("json".equals(type)) {
-            normalized.put("type", "json_object");
-            return normalized;
+            return json.objectNode().put("type", "json_object");
         }
         if ("text".equals(type) || "json_object".equals(type)) {
-            return normalized;
+            return json.objectNode().put("type", type);
         }
         if (!"json_schema".equals(type)) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_TYPE_NOT_SUPPORTED: " + type);

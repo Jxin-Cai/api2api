@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,10 +42,9 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
     }
 
     /**
-     * Rewrites the request only when the client and upstream protocols actually differ. A payload
-     * that needs no conversion is forwarded byte for byte: any edit to the message history — even a
-     * semantically equivalent one — invalidates the provider's prompt cache for every later turn of
-     * the conversation, which multiplies billed input tokens and the rate limiting that follows.
+     * Dispatches request conversion to the registered strategy. Same-protocol routes
+     * use their converter when present; otherwise they preserve the original payload.
+     * All protocol-specific transformations belong to the converters.
      */
     @Override
     public ProtocolConversionResult convertRequest(
@@ -54,12 +54,15 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
             List<ProtocolConversionDefinition> definitions
     ) {
         ConversionRoute route = resolve(payload.protocol(), targetProtocol, requirement, definitions);
+        Optional<ProtocolMessageConverter> converter = registeredConverter(
+                payload.protocol(), targetProtocol, ProtocolConversionDirection.REQUEST, requirement);
+        if (converter.isPresent()) {
+            return converter.get().convert(payload, requirement);
+        }
         if (payload.protocol() == targetProtocol || route.passthrough()) {
             return ProtocolConversionResult.passthrough(payload);
         }
-        ProtocolPayload sanitized = ClaudeRequestSanitizer.sanitize(objectMapper, payload, targetProtocol);
-        return findConverter(payload.protocol(), targetProtocol, ProtocolConversionDirection.REQUEST, requirement)
-                .convert(sanitized, requirement);
+        throw new ProtocolConversionException("PROTOCOL_CONVERSION_NOT_IMPLEMENTED");
     }
 
     @Override
@@ -89,13 +92,20 @@ public class DefaultProtocolConversionServiceAdapter extends DefaultProtocolConv
             ProtocolConversionDirection direction,
             ProtocolConversionRequest requirement
     ) {
+        return registeredConverter(sourceProtocol, targetProtocol, direction, requirement)
+                .orElseThrow(() -> new ProtocolConversionException("PROTOCOL_CONVERSION_NOT_IMPLEMENTED"));
+    }
+
+    private Optional<ProtocolMessageConverter> registeredConverter(
+            ProtocolType sourceProtocol, ProtocolType targetProtocol,
+            ProtocolConversionDirection direction, ProtocolConversionRequest requirement
+    ) {
         return converters.stream()
                 .filter(converter -> converter.sourceProtocol() == sourceProtocol)
                 .filter(converter -> converter.targetProtocol() == targetProtocol)
                 .filter(converter -> converter.direction() == direction)
                 .filter(converter -> converter.supports(requirement))
-                .findFirst()
-                .orElseThrow(() -> new ProtocolConversionException("PROTOCOL_CONVERSION_NOT_IMPLEMENTED"));
+                .findFirst();
     }
 
     private UnifiedTokenUsage extractUsage(ProtocolPayload payload) {

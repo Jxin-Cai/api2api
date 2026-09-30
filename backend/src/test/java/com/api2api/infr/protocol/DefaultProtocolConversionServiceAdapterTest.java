@@ -26,7 +26,9 @@ class DefaultProtocolConversionServiceAdapterTest {
     private static final Instant NOW = Instant.parse("2026-08-19T00:00:00Z");
 
     private final DefaultProtocolConversionServiceAdapter adapter =
-            new DefaultProtocolConversionServiceAdapter(List.of(), List.of(), new ObjectMapper());
+            new DefaultProtocolConversionServiceAdapter(
+                    List.of(new OpenAIResponsesRequestConverter(new ProtocolJsonSupport(new ObjectMapper()))),
+                    List.of(), new ObjectMapper());
 
     @Test
     void test_forwardsBodyUnchanged_when_clientAndUpstreamProtocolsMatch() {
@@ -69,6 +71,51 @@ class DefaultProtocolConversionServiceAdapterTest {
 
     private ProtocolConversionRequest requirement() {
         return ProtocolConversionRequest.of(false, false, false);
+    }
+
+    @Test
+    void test_removesAuthor_when_responsesRequestPassesThrough() throws Exception {
+        // Arrange
+        ObjectMapper mapper = new ObjectMapper();
+        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES,
+                "{\"model\":\"gpt-6-astra\",\"input\":[{\"role\":\"user\",\"content\":\"hi\",\"author\":\"client\"}]}", false);
+
+        // Act
+        ProtocolConversionResult result = adapter.convertRequest(payload, ProtocolType.OPENAI_RESPONSES,
+                requirement(), List.of(definition(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)));
+
+        // Assert
+        assertThat(mapper.readTree(result.body()).at("/input/0")).isEqualTo(
+                mapper.readTree("{\"role\":\"user\",\"content\":\"hi\"}"));
+    }
+
+    @Test
+    void test_normalizesReplayedReasoning_when_messagesConvertToResponses() throws Exception {
+        // Arrange
+        ObjectMapper mapper = new ObjectMapper();
+        var item = mapper.readTree("""
+                {"type":"reasoning","id":"rs_1","encrypted_content":"opaque","summary":[],
+                 "status":"completed","author":"upstream-extension"}
+                """);
+        String signature = ResponsesReasoningBridge.encode(mapper, item).orElseThrow();
+        var request = mapper.createObjectNode().put("model", "gpt-6-astra").put("max_tokens", 128);
+        request.putArray("messages").addObject().put("role", "assistant").putArray("content")
+                .addObject().put("type", "thinking").put("thinking", "summary").put("signature", signature);
+        ProtocolMessageConverter converter = new ProtocolConverterConfiguration(new ProtocolConversionProperties())
+                .claudeMessagesToOpenAIResponsesRequest(new ProtocolJsonSupport(mapper), new SseEventTransformer());
+        DefaultProtocolConversionServiceAdapter bridge = new DefaultProtocolConversionServiceAdapter(
+                List.of(converter), List.of(), mapper);
+
+        // Act
+        ProtocolConversionResult result = bridge.convertRequest(
+                ProtocolPayload.of(ProtocolType.CLAUDE_MESSAGES, request.toString(), false), ProtocolType.OPENAI_RESPONSES,
+                ProtocolConversionRequest.of(false, false, true),
+                List.of(definition(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)));
+
+        // Assert
+        assertThat(mapper.readTree(result.body()).at("/input/0")).isEqualTo(mapper.readTree("""
+                {"type":"reasoning","id":"rs_1","encrypted_content":"opaque","summary":[],"status":"completed"}
+                """));
     }
 
     private ProtocolConversionDefinition definition(ProtocolType sourceProtocol, ProtocolType targetProtocol) {

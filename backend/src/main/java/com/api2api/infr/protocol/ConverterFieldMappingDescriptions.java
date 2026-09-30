@@ -23,7 +23,7 @@ final class ConverterFieldMappingDescriptions {
 
         // ===== Claude Messages → OpenAI Responses =====
         map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "input", "消息数组结构转换为 input 数组", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages", "input", "消息转 EasyInputMessage（含 assistant）；工具/推理转独立输入项，移除回放条目上的 author 扩展", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("messages[].role", "input[].role", "Direct passthrough", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
                 mapping("messages[].content", "input[].content", "内容块转为 Responses 内容格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("system", "input[developer message]", "系统提示词映射为 developer 角色消息", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
@@ -83,7 +83,7 @@ final class ConverterFieldMappingDescriptions {
                 mapping("tool_choice.disable_parallel_tool_use", "parallel_tool_calls", "布尔语义取反", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
                 mapping("thinking", "reasoning", "thinking 配置转为 Responses reasoning 格式", MappingLossiness.PARTIAL, "REASONING", "RESHAPE"),
                 mapping("reasoning", "reasoning", "reasoning 配置归一化后映射", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
-                mapping("thinking.type", "reasoning.effort", "adaptive thinking 映射为 effort", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
+                mapping("thinking.type", "reasoning.effort", "adaptive/enabled 映射为 effort；disabled 不请求 summary，between_tools 明确拒绝", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
                 mapping("thinking.display", "reasoning.summary", "summarized/omitted 映射为摘要策略", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
                 mapping("output_config.effort", "reasoning.effort", "low/medium/high/xhigh/max 按目标模型能力转换", MappingLossiness.NONE, "REASONING", "RENAME"),
                 mapping("stream", "stream", "Direct passthrough", MappingLossiness.NONE, "STREAMING", "DIRECT"),
@@ -91,12 +91,15 @@ final class ConverterFieldMappingDescriptions {
                 mapping("service_tier", "service_tier", "服务层级映射", MappingLossiness.NONE, "METADATA", "TRANSFORM"),
                 mapping("speed=fast", "service_tier=priority", "Claude fast mode 映射为 Responses priority 服务层级", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
                 mapping("container", "tools[].container", "容器标识绑定到 code_interpreter 工具", MappingLossiness.PARTIAL, "METADATA", "RESHAPE"),
-                mapping("cache_control", "prompt_cache_key", "显式断点与 prompt_cache_options 当前关闭，使用隐式缓存", MappingLossiness.PARTIAL, "METADATA", "RESHAPE"),
+                mapping("cache_control", "prompt_cache_key", "默认使用稳定 key 与隐式缓存；配置启用后 GPT-5.6+ 映射 explicit breakpoint 和 30m TTL", MappingLossiness.PARTIAL, "METADATA", "RESHAPE"),
                 mapping("context_management.edits", "context_management", "clear 策略由网关执行；compact 映射为 Responses compaction", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
                 mapping("output_config.format", "text.format", "输出格式约束映射", MappingLossiness.NONE, "MODEL", "RESHAPE"),
                 unsupported("output_config.task_budget", "Responses 无跨上下文总任务预算字段", "REASONING"),
                 unsupported("inference_geo", "Responses 无请求级推理地域字段", "METADATA"),
-                unsupported("diagnostics", "Responses 无 Claude prompt-cache 差异诊断字段", "METADATA"),
+                unsupported("diagnostics", "Claude message ID 不能直接用于 Responses comparison_response_id", "METADATA"),
+                unsupported("compaction", "显式 summarize 请求不能等价转换为普通 Responses 创建请求", "METADATA"),
+                unsupported("messages[].clear_at", "不支持 next_user_message 的逐轮生命周期；never 保持历史", "MESSAGE"),
+                unsupported("messages[].output_config", "逐轮配置不等同于顶级 reasoning 配置", "REASONING"),
                 unsupported("fallbacks", "Responses 无等价的按拒绝原因服务端模型链", "MODEL")
         ));
 

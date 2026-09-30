@@ -4,7 +4,7 @@
 
 Bedrock InvokeModel 不托管执行 Anthropic `web_search_20250305`。该工具在 Bedrock 路径会转换成客户端执行的同名 `custom` 工具，输入 schema 要求 `query`；`max_uses`、`allowed_domains` / `blocked_domains` 与 `user_location` 会写入工具契约描述，避免把不受支持的 server tool type 原样发送给 Bedrock。上游返回普通 `tool_use`，调用方须执行搜索并以 `tool_result` 继续工具循环；若必须由模型提供商托管搜索，应选择原生支持 web search 的渠道，而不是 Bedrock InvokeModel。
 
-本次协议复核：2026-09-11，直接对照 Anthropic Messages 和 OpenAI Responses 官方 API 文档。此前的 SDK 审计基线为 2026-07-16（Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0），这些版本不代表当前最新版。
+本次协议复核：2026-09-30，直接对照 Anthropic Messages 和 OpenAI Responses 官方 API 文档。此前的 SDK 审计基线为 2026-07-16（Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0），这些版本不代表当前最新版。
 
 ## OpenAI Chat Completions
 
@@ -15,6 +15,27 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 ## OpenAI Responses
 
 已映射：system/developer 消息、文本/URL 或 base64 图片、URL/base64/file 文档、普通函数与 free-form custom tool、bash/text-editor/memory 客户端工具、custom tool strict schema、tool choice、并行工具、tool search、web search、code interpreter、远程 MCP、programmatic tool calling、thinking/effort、加密 reasoning、隐式 prompt cache key、JSON Schema 输出、compaction、metadata、service tier/fast mode、cache usage、完整流式结束和上游错误。
+
+### 2026-09-30 协议结构与请求转换更新
+
+协议基线来自 [OpenAI Responses Create](https://developers.openai.com/api/reference/resources/responses/methods/create/)、[Anthropic Messages Create](https://platform.claude.com/docs/en/api/messages/create) 和 [Messages Beta Create](https://platform.claude.com/docs/en/api/beta/messages/create)。两端仍使用 `/v1/messages` 和 `/v1/responses`；Messages 的 API 版本头仍是 `2023-06-01`。后台的协议版本标记改为文档快照日期，不把旧 SDK 版本标成最新版。
+
+| 层次 | Messages | Responses |
+| --- | --- | --- |
+| 请求与历史 | `model/max_tokens/messages`；顶级 `system`；消息内 content block | `model/input`；input 可为字符串或异构 item 数组；状态续接可省略 input，但本网关路由仍要求 model |
+| 工具循环 | assistant `tool_use`、user `tool_result` | 独立 `function_call/function_call_output` 或 `custom_tool_call/custom_tool_call_output`；使用 call_id 关联 |
+| 推理 | `thinking`、`output_config.effort`、带 signature 的 thinking block | `reasoning.effort/summary/context/mode`、带 encrypted_content 的 reasoning item |
+| 新增结构 | Beta `compaction`、系统消息 `clear_at/output_config`、diagnostics | phase、namespace/caller、configuration_update、additional_tools、access_programs、prompt_cache_options 子字段 |
+| 输出与流 | Message.content、stop_reason、usage；content/message SSE | Response.output、status、usage；typed SSE，含 failed/incomplete 和工具/摘要增量 |
+
+**转换归属**：`ProtocolContractDefinitions` 只描述原生协议，`DefaultProtocolConversionServiceAdapter` 只查找路由并调度转换器。Messages → Responses 的参数和历史映射在 `GenericProtocolMessageConverter` 对应方向执行；同协议请求兼容在注册的 `OpenAIResponsesRequestConverter` 执行。后者的输入项映射由生成 Responses 请求的转换器复用，不挂在协议解析器、HTTP 控制器或通用适配层。
+
+- **修复 `input[158].author` 400/502**：删除 Responses `input[]` 条目顶层的非标准 `author`，覆盖 JSON/stream 请求和从 Messages thinking signature 恢复的历史。不会递归删除工具参数、工具结果、metadata 或 JSON Schema 内的业务 `author`，也不会白名单裁剪新字段。没有该扩展的原生 Responses 请求逐字节保留。
+- **合法 assistant 历史**：从 Claude 文本合成的历史使用 `EasyInputMessage` + `input_text`，保留 assistant 的 `commentary/final_answer` phase。直接回放的原生 `ResponseOutputMessage` 保留其 output_text、id、status、annotations；不为 Claude 历史伪造 provider 输出 ID。
+- **推理与格式**：disabled thinking 在非推理模型上不发送 reasoning，在推理模型上不再请求 summary；保留 `output_config.effort` 与旧 `output_format` 并用的格式；text/json_object 只输出合法 type，不残留 schema/name。未知 effort/tool_choice 明确失败。
+- **缓存**：`API2API_RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED=true` 可启用 GPT-5.6+ 的显式断点与 `prompt_cache_options:{mode:explicit,ttl:30m}`。默认 false，适配尚未支持此结构的 Responses 代理；Claude 5m/1h 和 OpenAI 30m 语义不同。原生 Responses 请求已有的缓存参数始终保留。
+- **能力识别**：Responses 历史中的工具/推理 item 直接参与路由能力判断，不再要求顶级 tools/reasoning 存在才能识别。
+- **明确的转换边界**：`between_tools`、显式 `compaction:summarize`、逐轮 `output_config` 与临时系统消息 `clear_at:next_user_message` 当前只支持原生同协议请求，Messages → Responses 明确报转换不支持，不默默丢弃。Claude diagnostics 引用的是 message ID，不能直接充当 Responses comparison_response_id。`max_tokens:0` 仍拒绝；1–15 的预算无法满足当前 Responses 最小 16 的约束，也不会被擅自放大。
 
 ### 2026-09 工具兼容增强
 
@@ -33,7 +54,7 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 | 能力 | Claude Messages 字段/块 | OpenAI Responses 字段/item | 当前转换行为 |
 | --- | --- | --- | --- |
 | 系统指令 | `system` text/block | `input[].role=developer` + `input_text` | 保留块顺序；当前依赖隐式缓存，不发送显式 breakpoint |
-| 普通对话 | `messages[].role/content` | `input[]` message | assistant 使用 `output_text`，user 使用 `input_text` |
+| 普通对话 | `messages[].role/content` | `input[]` message | 合成历史统一使用 EasyInputMessage 的 `input_text`，保留 role/phase |
 | 工具前导语/计划文字 | assistant text 与 `tool_use` 同消息 | message `phase=commentary` | 无工具调用的完成文本使用 `phase=final_answer` |
 | 客户端工具 | `tools[].name/input_schema/strict`、bash/text-editor/memory 定义 | function `name/parameters/strict` | custom schema 保留；已知内置客户端工具补 schema，strict 的差异见上节；`input_examples` 追加到 description |
 | 延迟工具 | `tool_search_tool_*`、`defer_loading`、`tool_reference` | `tool_search`、`defer_loading` | GPT-5.4+ 原生映射；已发现函数立即加载；旧模型全量加载 function/MCP |
@@ -44,8 +65,8 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 | 推理强度 | `thinking`、`output_config.effort` | `reasoning.effort/summary/context` | manual budget 近似为档位；GPT-5.6+ 支持 `max` 和 `context=all_turns` |
 | 推理连续性 | `thinking{signature}` | `reasoning{id,encrypted_content}` | 用版本化 signature 双向封装；缺失加密状态会明确失败，不假装成功 |
 | 上下文治理 | `clear_thinking`、`clear_tool_uses`、`compact_*`、`compaction` block | 网关本地编辑 + `context_management[{type:compaction}]`、encrypted compaction item | clear 策略在转换前执行；OpenAI encrypted compaction item 用 opaque thinking signature 回传并删除其前方历史；仅有压缩状态而无 final message 时返回 `pause_turn` |
-| Prompt cache | `cache_control`、5m/1h | `prompt_cache_key` | 当前显式 breakpoint/options 开关关闭，使用稳定 key 与上游隐式缓存，不保证 Claude TTL/断点语义 |
-| 结构化输出 | `output_config.format` | `text.format` | JSON Schema 缺 name 时补稳定默认名 |
+| Prompt cache | `cache_control`、5m/1h | `prompt_cache_key` | 默认稳定 key + 隐式缓存；配置启用后 GPT-5.6+ 使用 explicit breakpoint/30m，不保证 Claude TTL 等价 |
+| 结构化输出 | `output_config.format` | `text.format` | JSON Schema 缺 name 时补稳定默认名；兼容 effort 与旧 output_format 并用 |
 | Web search | `web_search_*` + domain/location | `web_search` + filters/location | allowed domains 和 location 映射；托管调用状态用 opaque signature 续传 |
 | Code execution | `code_execution_*` | `code_interpreter` | container 可保留；托管 output item 用 opaque signature 续传 |
 | 远程 MCP | `mcp_servers`、`mcp_toolset` | `mcp` tool、`allowed_tools`、`defer_loading` | URL、authorization、allowlist、deferred loading 映射；托管状态 opaque 续传 |
@@ -55,7 +76,7 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 
 Responses 的 `reasoning`、`program`、`program_output`、web search、code interpreter、MCP 等 provider-hosted item，在 Claude 没有完全同构的内容块。服务把原始 item 封装进带版本前缀的 Claude thinking signature；Claude Code 下一轮回传后恢复为原始 Responses input item。对于 `program`/`program_output`，还会额外生成配对的 Claude `server_tool_use(code_execution)` / `code_execution_tool_result`，使 `caller.tool_id` 有真实可见的对应块；opaque signature 负责保留 OpenAI 的 JavaScript fingerprint 和完整回放状态。其他托管工具的完整内部事件仍不会原生展示在 Claude Code UI。
 
-`mid_conv_system` 会按原消息位置转换为 Responses developer item；显式 cache breakpoint 当前不发送。Claude beta 的 `fallback` 回放块按官方定义不会进入提示词，Responses 路径会兼容接收并省略它；`fallbacks` 模型链本身没有 Responses 等价物，仍会明确失败，不能伪造为同一模型路由策略。
+`mid_conv_system` 会按原消息位置转换为 Responses developer item；显式 cache breakpoint 默认不发送，可按上节配置启用。Claude beta 的 `fallback` 回放块按官方定义不会进入提示词，Responses 路径会兼容接收并省略它；`fallbacks` 模型链本身没有 Responses 等价物，仍会明确失败，不能伪造为同一模型路由策略。
 
 `Read` 工具有一个专门兼容处理：如果 Responses/Codex 输出 `pages: ""`，非流式和流式转换都会删除该字段，避免 Claude Code 因空页码参数拒绝执行。
 
@@ -100,7 +121,7 @@ Responses 的 `reasoning`、`program`、`program_output`、web search、code int
 - `stop_sequences` 与 `top_k`：Responses 没有对应参数，请求明确失败。
 - `output_config.task_budget`：Responses 没有等价预算参数，请求明确失败。
 - manual thinking 的精确 `budget_tokens`：只能近似为 OpenAI reasoning effort 档位。
-- cache TTL：OpenAI 官方已支持 GPT-5.6+ explicit breakpoint 与 `prompt_cache_options`，但当前代码的兼容开关关闭，未发送这些字段；只生成稳定 `prompt_cache_key` 并依赖上游隐式缓存。Claude 5m/1h TTL 不被保证。`max_tokens: 0` cache-only 与 Claude cache diagnostics 没有等价语义，会明确失败。
+- cache TTL：OpenAI 官方已支持 GPT-5.6+ explicit breakpoint 与 `prompt_cache_options`，默认关闭，可用环境变量显式启用；默认只生成稳定 `prompt_cache_key` 并依赖上游隐式缓存。Claude 5m/1h TTL 不被保证。`max_tokens: 0` cache-only 与 Claude cache diagnostics 没有等价语义，会明确失败。
 - compaction 表示：Claude 原生 compaction 是可读 summary，OpenAI 是不可读 encrypted item，不能伪装为同一内容块；服务保留上下文效果和可重放状态，但 UI 形态不同。`clear_tool_uses_20250919` 和 `clear_thinking_20251015` 由网关本地执行；compaction instructions、pause 及未知 memory edits 仍会明确失败。
 - Programmatic 的 runtime 并非同一个实现：OpenAI 执行 JavaScript program，Claude 原生 code execution 以 Python/bash container 为主。服务会生成可见的 Claude code-execution call/result 并用 opaque signature 精确续传 OpenAI fingerprint，但 container 生命周期、语言/runtime 不能伪装成同一个；GPT-5.5 及更早模型不启用该映射。
 - Programmatic client tool result 在两边都必须是字符串或 text blocks；图片、文档等结果不能交给正在等待的 program，转换器会明确失败。Claude 工具协议没有 OpenAI function `output_schema` 字段，结构化返回格式只能继续依赖工具 description。

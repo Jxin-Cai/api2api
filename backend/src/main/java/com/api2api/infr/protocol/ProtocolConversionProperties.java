@@ -16,4 +16,7 @@ class ProtocolConversionProperties {
      */
     private List<String> reasoningModelPrefixes = List.of("o1", "o3", "o4");
     private List<String> reasoningModelContains = List.of("codex");
+
+    /** Enable only for upstreams implementing the GPT-5.6+ prompt cache API. */
+    private boolean responsesExplicitCacheBreakpointsEnabled;
 }
