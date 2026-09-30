@@ -84,7 +84,9 @@
 | 顺序 | 已确认问题 | 本轮边界 | 状态 |
 | --- | --- | --- | --- |
 | 8 | `UsageRecord.rehydrate` 的 19 个位置参数散布在持久化转换及测试夹具中 | 复用项目已有的 `Rehydrator` 具名构造约定，保留构造校验与数据库字段；先补持久化往返覆盖 | 完成 |
-| 9 | `UnifiedStreamingConversionAdapter` 同时负责二进制帧解码和协议事件转换 | 单独提取 Bedrock 帧读取器，保持当前线格式、异常与终止行为 | 待处理 |
+| 9 | `UnifiedStreamingConversionAdapter` 同时负责二进制帧解码和协议事件转换 | 单独提取 Bedrock 帧读取器，保持当前线格式、异常与终止行为 | 完成 |
 | 10 | `ProviderChannelFormDrawer` 内嵌协议映射、Key 脱敏判定、候选模型合并等规则 | 将纯配置逻辑提取到 model 层并补边界测试，保持表单交互和保存顺序 | 待处理 |
 
 - 第 8 步：删除 19 参数的公开重建工厂，6 处调用改为具名 `Rehydrator`；构造器和状态校验未改。新增 PENDING / SUCCESS / FAILED 全字段持久化往返、首 Token 延迟 null / 0 / 正值覆盖。修改前后 19 个相关测试全部通过。
+
+- 第 9 步：新增 10 个二进制帧解析用例，与 41 个已有流式转换用例在提取前后均通过；将帧解析原样移入 `BedrockEventStreamReader`，主转换器减少 94 行。保留原有 CRC 跳读与 EOF 规则，本步不改变线协议。
