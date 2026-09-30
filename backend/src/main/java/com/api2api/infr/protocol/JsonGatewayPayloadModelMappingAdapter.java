@@ -4,6 +4,7 @@ import com.api2api.application.gateway.GatewayPayloadModelMappingPort;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.protocol.model.ProtocolConversionException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -41,10 +42,8 @@ public class JsonGatewayPayloadModelMappingAdapter implements GatewayPayloadMode
             ObjectNode object = (ObjectNode) root;
             object.put("model", modelName.value());
             return objectMapper.writeValueAsString(object);
-        } catch (ProtocolConversionException exception) {
-            throw exception;
-        } catch (Exception exception) {
-            throw new ProtocolConversionException("MODEL_MAPPING_FAILED");
+        } catch (JsonProcessingException exception) {
+            throw new ProtocolConversionException("MODEL_MAPPING_FAILED", exception);
         }
     }
 }

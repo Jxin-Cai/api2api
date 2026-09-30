@@ -19,12 +19,12 @@
 | 4 | `shared/api/http.ts` 与 `shared/lib/queryString.ts` 重复处理数组、空值和 URL 编码 | 复用一个序列化实现，用边界用例锁定行为 | 完成 |
 | 5 | `GatewayApiKeyHashHelper` 与 `ApiKeyMaterialHelper` 各自实现 SHA-256 / 十六进制编码 | 合并底层哈希计算，保持密钥生成及请求头优先级不变 | 完成 |
 | 6 | `GenericProtocolMessageConverter` 4035 行，同时负责请求、响应、模型判定、用量结构转换 | 先提取独立的用量转换职责，通过现有协议回归验证；后续按协议方向继续拆分 | 本次提取完成 |
-| 7 | 评估时区 / 时间戳解析捕获 `RuntimeException`，错误响应构造捕获全部 `Exception` 且静默兜底 | 收窄到明确解析/序列化异常，补充异常路径测试 | 待处理 |
+| 7 | 评估时区 / 时间戳解析捕获 `RuntimeException`，错误响应构造捕获全部 `Exception` 且静默兜底 | 收窄到明确解析/序列化异常，补充异常路径测试 | 完成 |
 
 ## 需要持续治理的较大问题
 
 - `UnifiedStreamingConversionAdapter`（1661 行）、`GatewayInvocationApplicationService`（1037 行）存在多职责与重复流程。流式生命周期、重试、额度预留相互关联，需要分批建立状态转换测试后再拆，不能用机械替换完成。
-- `ProviderChannelFormDrawer`（511 行）混合表单、模型预览、协议映射与保存流程；前端当前只有一个测试文件（8 个用例），UI 交互覆盖不足。
+- `ProviderChannelFormDrawer`（511 行）混合表单、模型预览、协议映射与保存流程；前端盘点时只有一个测试文件（8 个用例），本轮增加了纯函数回归，但 UI 交互覆盖仍不足。
 - `UsageRecord.rehydrate` 有 19 个参数，调用方易遗漏新增参数，本次测试基线故障就是实例。后续适合引入明确的参数对象，同时保留持久化转换的回归覆盖。
 - 前端构建已存在超过 500 kB 的 chunk 警告，属于性能治理项；不能凭未引用页面判断图表依赖或运行时模块是死代码。
 - 前端多处 `refetch().catch(() => undefined)` 需结合 TanStack Query 的错误状态与 UI 提示核实，不能直接删捕获而引入未处理 Promise。
@@ -49,3 +49,5 @@
 - 第 7a 步：先以 12 个相关用例固定时区和探测时间戳行为，再将捕获类型收窄为 `DateTimeException` / `DateTimeParseException`；修改前后均通过。
 
 - 第 7b 步：错误响应只捕获 JSON 序列化异常并记录堆栈；删除重复的全异常兜底。上游非 JSON 报错仍保留原消息，程序错误继续抛出。网关相关 29 个测试通过，覆盖两类协议的序列化失败和意外异常传播。
+
+- 第 7c 步：模型映射只包装预期的 JSON 处理异常并保留 cause，移除捕获后原样重抛与丢失堆栈的重复处理。5 个相关测试通过。
