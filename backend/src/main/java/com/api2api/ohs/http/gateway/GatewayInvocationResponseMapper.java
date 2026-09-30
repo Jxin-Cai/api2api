@@ -13,9 +13,9 @@ import com.api2api.domain.gateway.model.InvocationStatus;
 import com.api2api.domain.protocol.model.ConversionResult;
 import com.api2api.domain.routing.model.RouteFailure;
 import com.api2api.domain.routing.model.RouteFailureType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import java.util.Objects;
 import lombok.NonNull;
@@ -129,8 +129,9 @@ public class GatewayInvocationResponseMapper {
                     return candidate.asText();
                 }
             }
-        } catch (Exception ignored) {
+        } catch (JsonProcessingException exception) {
             // Preserve plain-text upstream errors as the message.
+            return body;
         }
         return body;
     }
@@ -207,15 +208,11 @@ public class GatewayInvocationResponseMapper {
     }
 
     private String buildProtocolErrorBody(ProtocolType protocol, InvocationError error) {
-        try {
-            return switch (protocol) {
-                case CLAUDE_MESSAGES -> buildClaudeErrorBody(error);
-                case OPENAI_RESPONSES, OPENAI_CHAT_COMPLETIONS, OPENAI_IMAGES -> buildOpenAIErrorBody(error);
-                case AWS_BEDROCK_CLAUDE_MESSAGES -> buildOpenAIErrorBody(error);
-            };
-        } catch (Exception exception) {
-            return buildFallbackErrorBody(error);
-        }
+        return switch (protocol) {
+            case CLAUDE_MESSAGES -> buildClaudeErrorBody(error);
+            case OPENAI_RESPONSES, OPENAI_CHAT_COMPLETIONS, OPENAI_IMAGES -> buildOpenAIErrorBody(error);
+            case AWS_BEDROCK_CLAUDE_MESSAGES -> buildOpenAIErrorBody(error);
+        };
     }
 
     private String buildClaudeErrorBody(InvocationError error) {
@@ -256,13 +253,4 @@ public class GatewayInvocationResponseMapper {
         return failures.get(failures.size() - 1).failureType();
     }
 
-    private String buildFallbackErrorBody(InvocationError error) {
-        try {
-            ObjectNode errorNode = objectMapper.createObjectNode();
-            errorNode.put("error", error.message());
-            return objectMapper.writeValueAsString(errorNode);
-        } catch (Exception exception) {
-            return "{\"error\":\"Internal server error\"}";
-        }
-    }
 }

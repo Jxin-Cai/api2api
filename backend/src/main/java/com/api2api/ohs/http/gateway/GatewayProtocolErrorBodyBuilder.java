@@ -1,9 +1,11 @@
 package com.api2api.ohs.http.gateway;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 class GatewayProtocolErrorBodyBuilder {
 
     @NonNull
@@ -33,7 +36,8 @@ class GatewayProtocolErrorBodyBuilder {
             error.put("message", message);
             root.set("error", error);
             return objectMapper.writeValueAsString(root);
-        } catch (Exception exception) {
+        } catch (JsonProcessingException exception) {
+            log.error("event=gateway_error_body_serialization_failed protocol=CLAUDE_MESSAGES", exception);
             return "{\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Internal server error\"}}";
         }
     }
@@ -48,7 +52,8 @@ class GatewayProtocolErrorBodyBuilder {
             error.putNull("code");
             root.set("error", error);
             return objectMapper.writeValueAsString(root);
-        } catch (Exception exception) {
+        } catch (JsonProcessingException exception) {
+            log.error("event=gateway_error_body_serialization_failed protocol=OPENAI", exception);
             return "{\"error\":{\"message\":\"Internal server error\",\"type\":\"api_error\"}}";
         }
     }

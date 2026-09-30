@@ -1,15 +1,61 @@
 package com.api2api.ohs.http.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
 
+import com.api2api.domain.channel.model.ProtocolType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class GatewayProtocolErrorBodyBuilderTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final GatewayProtocolErrorBodyBuilder builder = new GatewayProtocolErrorBodyBuilder(objectMapper);
+
+    @ParameterizedTest
+    @EnumSource(value = ProtocolType.class, names = {"CLAUDE_MESSAGES", "OPENAI_RESPONSES"})
+    void test_returnsProtocolFallback_when_jsonSerializationFails(ProtocolType protocol) throws Exception {
+        // Arrange
+        ObjectMapper failingMapper = spy(new ObjectMapper());
+        doThrow(new JsonProcessingException("synthetic serialization failure") { })
+                .when(failingMapper).writeValueAsString(any());
+        var failingBuilder = new GatewayProtocolErrorBodyBuilder(failingMapper);
+        String expected = protocol == ProtocolType.CLAUDE_MESSAGES
+                ? "{\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Internal server error\"}}"
+                : "{\"error\":{\"message\":\"Internal server error\",\"type\":\"api_error\"}}";
+
+        // Act
+        String body = buildErrorBody(failingBuilder, protocol);
+
+        // Assert
+        assertThat(objectMapper.readTree(body)).isEqualTo(objectMapper.readTree(expected));
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = ProtocolType.class, names = {"CLAUDE_MESSAGES", "OPENAI_RESPONSES"})
+    void test_propagatesUnexpectedFailure_when_jsonMapperHasProgrammingError(ProtocolType protocol) {
+        // Arrange
+        ObjectMapper failingMapper = spy(new ObjectMapper());
+        var failure = new IllegalStateException("synthetic mapper failure");
+        doThrow(failure).when(failingMapper).createObjectNode();
+        var failingBuilder = new GatewayProtocolErrorBodyBuilder(failingMapper);
+
+        // Act / Assert
+        assertThatThrownBy(() -> buildErrorBody(failingBuilder, protocol)).isSameAs(failure);
+    }
+
+    private String buildErrorBody(GatewayProtocolErrorBodyBuilder target, ProtocolType protocol) {
+        return protocol == ProtocolType.CLAUDE_MESSAGES
+                ? target.buildClaudeErrorBody("api_error", "failure")
+                : target.buildOpenAIErrorBody("api_error", "failure");
+    }
 
     @Test
     void test_returnsClaudeErrorShape_when_buildClaudeErrorBodyCalled() throws Exception {

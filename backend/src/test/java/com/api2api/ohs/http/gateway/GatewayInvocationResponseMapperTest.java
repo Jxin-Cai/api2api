@@ -1,7 +1,13 @@
 package com.api2api.ohs.http.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
 
+import com.api2api.application.gateway.GatewayInvocationOutcome;
+import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.UpstreamResponseMetadata;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
@@ -23,6 +29,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class GatewayInvocationResponseMapperTest {
 
@@ -30,6 +38,55 @@ class GatewayInvocationResponseMapperTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final GatewayProtocolErrorBodyBuilder errorBodyBuilder = new GatewayProtocolErrorBodyBuilder(objectMapper);
     private final GatewayInvocationResponseMapper mapper = new GatewayInvocationResponseMapper(objectMapper, errorBodyBuilder);
+
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "upstream unavailable | upstream unavailable",
+            "{\"error\":{\"message\":\"rate limited\"}} | rate limited",
+            "{\"detail\":\"rate limited\"} | rate limited",
+            "null | null"
+    })
+    void test_preservesUpstreamErrorMessage_when_translatingFailure(String upstreamBody, String expected) throws Exception {
+        // Arrange
+        var outcome = failedProviderOutcome(upstreamBody);
+
+        // Act
+        JsonNode body = objectMapper.readTree(mapper.toRawResponse(outcome).body());
+
+        // Assert
+        assertThat(body.at("/error/message").asText()).isEqualTo(expected);
+    }
+
+    @Test
+    void test_propagatesUnexpectedFailure_when_upstreamErrorParserFails() throws Exception {
+        // Arrange
+        var failure = new IllegalStateException("synthetic parser failure");
+        var failingMapper = spy(new ObjectMapper());
+        doThrow(failure).when(failingMapper).readTree(anyString());
+        var responseMapper = new GatewayInvocationResponseMapper(failingMapper, errorBodyBuilder);
+        var outcome = failedProviderOutcome("{}");
+
+        // Act / Assert
+        assertThatThrownBy(() -> responseMapper.toRawResponse(outcome)).isSameAs(failure);
+    }
+
+    @Test
+    void test_propagatesUnexpectedFailure_when_errorBodyBuilderFails() {
+        // Arrange
+        var failure = new IllegalStateException("synthetic builder failure");
+        var failingBuilder = spy(errorBodyBuilder);
+        doThrow(failure).when(failingBuilder).buildClaudeErrorBody(anyString(), anyString());
+        var responseMapper = new GatewayInvocationResponseMapper(objectMapper, failingBuilder);
+        var invocation = failedClaudeInvocation(RouteFailureType.RATE_LIMITED);
+
+        // Act / Assert
+        assertThatThrownBy(() -> responseMapper.toRawResponse(invocation)).isSameAs(failure);
+    }
+
+    private GatewayInvocationOutcome failedProviderOutcome(String body) {
+        return GatewayInvocationOutcome.of(failedClaudeInvocation(RouteFailureType.RATE_LIMITED),
+                ProviderGatewayResponse.of(ProtocolType.OPENAI_RESPONSES, 429, Map.of(), body, false));
+    }
 
     @Test
     void test_returnsTooManyRequests_when_latestUpstreamFailureIsRateLimited() {
