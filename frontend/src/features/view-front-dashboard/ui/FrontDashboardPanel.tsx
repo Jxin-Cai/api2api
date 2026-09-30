@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row, Select, Space, Typography } from 'antd';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useApiCredentials } from '@entities/api-credential';
