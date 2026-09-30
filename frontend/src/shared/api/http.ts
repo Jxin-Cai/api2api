@@ -1,4 +1,5 @@
-import type { QueryParams, QueryValue } from './types';
+import { toQueryString } from '../lib/queryString';
+import type { QueryParams } from './types';
 
 export function appendQuery(path: string, params?: QueryParams): string {
   if (!params) {
@@ -6,17 +7,7 @@ export function appendQuery(path: string, params?: QueryParams): string {
   }
 
   const [pathname, existingQuery = ''] = path.split('?');
-  const search = new URLSearchParams(existingQuery);
-  Object.entries(params).forEach(([key, value]: [string, QueryValue | readonly QueryValue[]]): void => {
-    const values: readonly QueryValue[] = Array.isArray(value) ? value : [value];
-    values.forEach((item: QueryValue): void => {
-      if (item !== undefined && item !== null && item !== '') {
-        search.append(key, String(item));
-      }
-    });
-  });
-
-  const query = search.toString();
+  const query = toQueryString(params, existingQuery);
   return query ? `${pathname}?${query}` : pathname;
 }
 

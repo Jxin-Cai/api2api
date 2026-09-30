@@ -16,7 +16,7 @@
 | 1 | 后端测试基线失效：6 个测试文件仍使用增加 clientIp / firstTokenMillis 之前的签名，`mvn test` 报 13 条编译错误 | 更新测试夹具及历史变更后的陈旧断言，恢复完整回归 | 完成 |
 | 2 | 后端 `ChannelName` 无引用；包内静态工具 `ClaudeRequestSanitizer` 仅被自身测试调用，无生产入口 | 删除类及只覆盖不可达实现的测试 | 完成 |
 | 3 | 前端评估模块 8 个文件从 `main.tsx`（含动态 import / 桶导出）不可达；另有 4 个组件只有声明和桶导出；`FrontDashboardPanel` 有未使用 import | 删除不可达前端代码及失效导出，保留后端评估接口；启用编译器未使用检查 | 完成 |
-| 4 | `shared/api/http.ts` 与 `shared/lib/queryString.ts` 重复处理数组、空值和 URL 编码 | 复用一个序列化实现，用边界用例锁定行为 | 待处理 |
+| 4 | `shared/api/http.ts` 与 `shared/lib/queryString.ts` 重复处理数组、空值和 URL 编码 | 复用一个序列化实现，用边界用例锁定行为 | 完成 |
 | 5 | `GatewayApiKeyHashHelper` 与 `ApiKeyMaterialHelper` 各自实现 SHA-256 / 十六进制编码 | 合并底层哈希计算，保持密钥生成及请求头优先级不变 | 待处理 |
 | 6 | `GenericProtocolMessageConverter` 4035 行，同时负责请求、响应、模型判定、用量结构转换 | 先提取独立的用量转换职责，通过现有协议回归验证；后续按协议方向继续拆分 | 待处理 |
 | 7 | 评估时区 / 时间戳解析捕获 `RuntimeException`，错误响应构造捕获全部 `Exception` 且静默兜底 | 收窄到明确解析/序列化异常，补充异常路径测试 | 待处理 |
@@ -39,3 +39,5 @@
 - 第 2 步：删除 2 个无生产调用的类及旧清理器的 5 个测试；全仓核对无剩余引用。`mvn clean test`：763 个用例全部通过，clean 确保没有旧 class 掩盖误删。
 
 - 第 3 步：删除 8 个不可达评估模块文件、其独占的契约类型文件、4 个只被桶导出的组件；清除失效导出与未使用 import。启用 `noUnusedLocals` / `noUnusedParameters`。`npm test`：8 个用例通过；`npm run build` 通过，既有大包警告保留。
+
+- 第 4 步：HTTP 与用量筛选共用查询参数序列化和类型；保持已有参数追加、空值过滤、编码及零值行为。测试运行器自动发现 `tests/*.test.ts`，避免新增测试未执行。`npm test`：15 个用例通过；`npm run typecheck` 通过。

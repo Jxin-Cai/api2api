@@ -24,5 +24,4 @@ export interface PageResponse<TItem> {
   pageSize: 50 | 100 | 200;
 }
 
-export type QueryValue = string | number | boolean | null | undefined;
-export type QueryParams = Record<string, QueryValue | readonly QueryValue[]>;
+export type { QueryPrimitive as QueryValue, QueryObject as QueryParams } from '../lib/queryString';
