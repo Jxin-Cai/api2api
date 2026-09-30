@@ -2,11 +2,21 @@ import { useEffect, useState, type Key } from 'react';
 import { Alert, App, Button, Divider, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { batchUpsertChannelModels, fetchProviderChannelModelPreview, fetchProviderModelPreview, type ChannelModelSupportResponse } from '@entities/channel-model-support';
-import type { ProviderChannelResponse, ProtocolMappingRequest } from '@entities/provider-channel';
+import type { ProviderChannelResponse } from '@entities/provider-channel';
 import { getApiErrorMessage } from '@shared/api';
 import { PROTOCOL_OPTIONS, UPSTREAM_PROTOCOL_OPTIONS, formatProtocolDirection, getProtocolMeta } from '@shared/lib/protocols';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
 import type { ProviderChannelFormState } from '../model/types';
+import {
+  derivePreviewUpstreamProtocols,
+  deriveSupportedProtocols,
+  isFormValidationError,
+  isHttpHost,
+  mergeWithExistingModels,
+  modelKey,
+  normalizeProtocolMappings,
+  sanitizeEditableKey,
+} from '../model/providerChannelForm';
 
 type ProviderChannelFormMode = 'create' | 'edit' | 'copy';
 
@@ -31,52 +41,6 @@ const DEFAULT_FORM: ProviderChannelFormState = {
   supportedProtocols: [],
   protocolMappings: [],
 };
-
-function isHttpHost(host: string): boolean {
-  return /^https?:\/\//i.test(host.trim());
-}
-
-function isFormValidationError(error: unknown): boolean {
-  return typeof error === 'object' && error !== null && 'errorFields' in error;
-}
-
-function normalizeProtocolMappings(protocols: string[], mappings?: ProtocolMappingRequest[]): ProtocolMappingRequest[] {
-  const existing = new Map((mappings ?? []).map((mapping) => [mapping.requestProtocol, mapping.upstreamProtocol]));
-  return protocols.map((protocol) => ({
-    requestProtocol: protocol,
-    upstreamProtocol: existing.get(protocol) ?? protocol,
-  }));
-}
-
-function derivePreviewUpstreamProtocols(protocols: string[], mappings?: ProtocolMappingRequest[]): string[] {
-  const normalizedMappings = normalizeProtocolMappings(protocols, mappings);
-  return Array.from(new Set(normalizedMappings.map((mapping) => mapping.upstreamProtocol)));
-}
-
-function deriveSupportedProtocols(channel: ProviderChannelResponse): string[] {
-  const mappings = channel.protocolMappings ?? [];
-  if (mappings.length > 0) {
-    return mappings.map((mapping) => mapping.requestProtocol);
-  }
-  return channel.supportedProtocols ?? [];
-}
-
-function modelKey(model: Pick<ChannelModelSupportResponse, 'requestedModel' | 'upstreamProtocol'>): string {
-  return `${model.requestedModel}::${model.upstreamProtocol}`;
-}
-
-function isMaskedKey(value: string | undefined, keyMasked?: string): boolean {
-  const trimmed = value?.trim();
-  if (!trimmed) {
-    return false;
-  }
-  return trimmed.includes('****') || Boolean(keyMasked && trimmed === keyMasked);
-}
-
-function sanitizeEditableKey(value: string | undefined, keyMasked?: string): string {
-  const trimmed = value?.trim() ?? '';
-  return isMaskedKey(trimmed, keyMasked) ? '' : trimmed;
-}
 
 export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose, onSaved }: ProviderChannelFormDrawerProps) {
   const { message } = App.useApp();
@@ -121,27 +85,6 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
 
   function findExistingModel(model: Pick<ChannelModelSupportResponse, 'requestedModel' | 'upstreamProtocol'>): ChannelModelSupportResponse | undefined {
     return existingModels.find((item) => modelKey(item) === modelKey(model));
-  }
-
-  /**
-   * 上游返回的候选合并已保存配置；已保存但上游未返回的模型继续保留为候选，
-   * 是否生效由用户勾选决定，避免替换保存时被静默删除。
-   */
-  function mergeWithExistingModels(models: ChannelModelSupportResponse[]): ChannelModelSupportResponse[] {
-    const fetchedKeys = new Set(models.map(modelKey));
-    const merged = models.map((model) => {
-      const existing = findExistingModel(model);
-      return existing ? {
-        ...model,
-        id: existing.id,
-        priority: existing.priority,
-        preferred: existing.preferred,
-        source: existing.source,
-        status: existing.status,
-      } : model;
-    });
-    const retained = existingModels.filter((model) => !fetchedKeys.has(modelKey(model)));
-    return [...merged, ...retained];
   }
 
   function handleSupportedProtocolsChange(protocols: string[]): void {
@@ -197,7 +140,7 @@ export function ProviderChannelFormDrawer({ open, mode, channel = null, onClose,
         const response = mode === 'edit' && channel && !keyRef
           ? await fetchProviderChannelModelPreview(channel.id, commonParams)
           : await fetchProviderModelPreview({ ...commonParams, keyRef });
-        const mergedModels = mergeWithExistingModels(response.data.models);
+        const mergedModels = mergeWithExistingModels(response.data.models, existingModels);
         setPreviewModels(mergedModels);
         setSelectedModelIds(mergedModels.filter((model) => findExistingModel(model)?.status === 'ENABLED').map((model) => model.id));
         setModelsDirty(true);
