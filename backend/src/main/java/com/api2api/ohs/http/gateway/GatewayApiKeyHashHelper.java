@@ -1,10 +1,7 @@
 package com.api2api.ohs.http.gateway;
 
 import com.api2api.domain.credential.model.ApiKeyHash;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HexFormat;
+import com.api2api.ohs.http.ApiKeyHasher;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +14,7 @@ public class GatewayApiKeyHashHelper {
 
     public ApiKeyHash hashGatewayApiKey(String authorizationHeader, String apiKeyHeader) {
         String apiKey = extractGatewayApiKey(authorizationHeader, apiKeyHeader);
-        return ApiKeyHash.of(sha256Hex(apiKey));
+        return ApiKeyHasher.hash(apiKey);
     }
 
     public ApiKeyHash hashBearerToken(String authorizationHeader) {
@@ -50,13 +47,4 @@ public class GatewayApiKeyHashHelper {
         return token;
     }
 
-    private String sha256Hex(String value) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
-            return HexFormat.of().formatHex(hash);
-        } catch (NoSuchAlgorithmException exception) {
-            throw new IllegalStateException("SHA-256 algorithm is unavailable", exception);
-        }
-    }
 }

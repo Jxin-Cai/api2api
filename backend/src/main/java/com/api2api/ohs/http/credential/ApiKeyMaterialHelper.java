@@ -2,11 +2,9 @@ package com.api2api.ohs.http.credential;
 
 import com.api2api.domain.credential.model.ApiKeyHash;
 import com.api2api.domain.credential.model.ApiKeyPreview;
+import com.api2api.ohs.http.ApiKeyHasher;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -63,14 +61,7 @@ public class ApiKeyMaterialHelper {
     }
 
     public ApiKeyHash hashKey(String plaintextKey) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(plaintextKey.getBytes(StandardCharsets.UTF_8));
-            String hashHex = bytesToHex(hashBytes);
-            return ApiKeyHash.of(hashHex);
-        } catch (NoSuchAlgorithmException exception) {
-            throw new IllegalStateException("SHA-256 algorithm not available", exception);
-        }
+        return ApiKeyHasher.hash(plaintextKey);
     }
 
     private ApiKeyPreview createPreview(String plaintextKey) {
@@ -81,15 +72,4 @@ public class ApiKeyMaterialHelper {
         return ApiKeyPreview.of(visiblePart + "***");
     }
 
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder(2 * bytes.length);
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
 }
