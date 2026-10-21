@@ -18,6 +18,22 @@ class ProtocolContractRegistryTest {
     private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
+    void test_detectsReasoningCapability_when_claudeHasOnlyMessageEffort() {
+        // Arrange
+        String body = """
+                {"model":"gpt-6.1-sol","max_tokens":1024,"messages":[
+                  {"role":"user","content":"hi"},
+                  {"role":"system","content":[],"output_config":{"effort":"high"}}]}
+                """;
+
+        // Act
+        ParsedGatewayRequest parsed = registry.parseGatewayRequest(ProtocolType.CLAUDE_MESSAGES, body);
+
+        // Assert
+        assertTrue(parsed.reasoningRequired());
+    }
+
+    @Test
     void test_acceptsStateReferenceWithoutInput_when_responsesUsesPreviousResponse() {
         // Arrange
         String body = "{\"model\":\"gpt-6-astra\",\"previous_response_id\":\"resp_1\"}";
@@ -210,9 +226,9 @@ class ProtocolContractRegistryTest {
 
     @Test
     void test_reports_official_api_versions_when_five_protocols_are_registered() {
-        assertEquals("Anthropic API 2023-06-01 · schema 2026-09-30",
+        assertEquals("Anthropic API 2023-06-01 · schema 2026-10-21",
                 registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
-        assertEquals("OpenAI API v1 · schema 2026-09-30",
+        assertEquals("OpenAI API v1 · schema 2026-10-21",
                 registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
         assertEquals("OpenAI API v1 · SDK 6.47.0",
                 registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());

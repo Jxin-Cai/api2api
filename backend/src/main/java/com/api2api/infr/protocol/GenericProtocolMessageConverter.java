@@ -726,6 +726,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
 
     private ObjectNode claudeRequestToResponses(JsonNode source) {
         validateClaudeResponsesRequest(source);
+        source = ConversationEffortBridge.resolveClaudeRequest(source);
         if (source.path("max_tokens").isIntegralNumber() && source.path("max_tokens").asLong() == 0) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_CACHE_ONLY_REQUEST_NOT_SUPPORTED");
         }
@@ -907,13 +908,15 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             String role = message.path("role").asText("user");
             // Structured assistant history is validated as output content by Responses upstreams.
             String textType = "assistant".equals(role) ? "output_text" : "input_text";
-            if (message.hasNonNull("output_config") && !message.path("output_config").isEmpty()) {
-                throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_OUTPUT_CONFIG_NOT_SUPPORTED");
-            }
             if (message.hasNonNull("clear_at") && !"never".equals(message.path("clear_at").asText())) {
                 throw new ProtocolConversionException("CLAUDE_RESPONSES_MESSAGE_CLEAR_AT_NOT_SUPPORTED");
             }
             JsonNode content = message.get("content");
+            // Effort-only system messages carry no prompt text.
+            if ("system".equals(role) && (content == null || content.isNull()
+                    || (content.isTextual() && content.asText().isEmpty()))) {
+                continue;
+            }
             if (content == null || content.isTextual()) {
                 ObjectNode mapped = json.objectNode();
                 mapped.put("type", "message");

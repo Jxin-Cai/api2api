@@ -15,12 +15,12 @@ final class ProtocolContractDefinitions {
     static List<ProtocolContract> create(ObjectMapper objectMapper) {
         return List.of(
                 new ProtocolContract(
-                        ProtocolType.CLAUDE_MESSAGES, "Claude Messages", "Anthropic API 2023-06-01 · schema 2026-09-30",
+                        ProtocolType.CLAUDE_MESSAGES, "Claude Messages", "Anthropic API 2023-06-01 · schema 2026-10-21",
                         "Anthropic Claude Messages API，支持多轮对话、工具调用、推理（adaptive thinking）、流式响应、上下文缓存、代码执行、Web 搜索等能力。", "/v1/messages", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("messages[].clear_at", "messages[].clear_at", FieldType.ENUM, false, FieldSection.MESSAGE, UsageDirection.INPUT, "系统消息生效期限（Beta）", "系统消息生效期限（Beta）", "never 或 next_user_message；仅 role=system"),
                         ProtocolFieldRef.of("messages[].output_config", "messages[].output_config", FieldType.OBJECT, false, FieldSection.MESSAGE, UsageDirection.INPUT, "逐轮输出配置（Beta）", "逐轮输出配置（Beta）", "仅 role=system；format 仍须位于顶层"),
-                        ProtocolFieldRef.of("messages[].output_config.effort", "messages[].output_config.effort", FieldType.ENUM, false, FieldSection.REASONING, UsageDirection.INPUT, "逐轮推理强度（Beta）", "逐轮推理强度（Beta）", "low、medium、high、xhigh、max"),
+                        ProtocolFieldRef.of("messages[].output_config.effort", "messages[].output_config.effort", FieldType.ENUM, false, FieldSection.REASONING, UsageDirection.INPUT, "逐轮推理强度（Beta）", "逐轮推理强度（Beta）", "low、medium、high、xhigh、max；新用户输入后生效并持续，纯工具结果不激活更新"),
                         ProtocolFieldRef.of("compaction", "compaction", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "显式压缩请求（Beta）", "显式压缩请求（Beta）", "与 context_management 互斥；返回 compaction 内容块"),
                         ProtocolFieldRef.of("compaction.type", "compaction.type", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.INPUT, "显式压缩类型", "显式压缩类型", "summarize"),
                         ProtocolFieldRef.of("compaction.instructions", "compaction.instructions", FieldType.STRING, false, FieldSection.METADATA, UsageDirection.INPUT, "压缩指令", "压缩指令", "最多 16384 字符"),
@@ -143,7 +143,7 @@ final class ProtocolContractDefinitions {
                         )
                 ),
                 new ProtocolContract(
-                        ProtocolType.OPENAI_RESPONSES, "OpenAI Responses", "OpenAI API v1 · schema 2026-09-30",
+                        ProtocolType.OPENAI_RESPONSES, "OpenAI Responses", "OpenAI API v1 · schema 2026-10-21",
                         "OpenAI Responses API，支持多模态输入、内置工具（web_search、code_interpreter、file_search）、MCP 工具、推理（reasoning）、流式响应等能力。", "/v1/responses", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("input[].type", "input[].type", FieldType.STRING, false, FieldSection.MESSAGE, UsageDirection.INPUT, "输入项联合类型", "输入项联合类型", "message、function_call、function_call_output、reasoning、compaction、item_reference 等；消息简写可省略"),
@@ -159,7 +159,8 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("input[].caller", "input[].caller", FieldType.OBJECT, false, FieldSection.TOOL, UsageDirection.INPUT, "调用来源", "调用来源", "direct 或 program；程序调用使用 caller_id"),
                         ProtocolFieldRef.of("input[].encrypted_content", "input[].encrypted_content", FieldType.STRING, false, FieldSection.REASONING, UsageDirection.INPUT, "加密历史状态", "加密历史状态", "reasoning/compaction 原样回放，不解密或改写"),
                         ProtocolFieldRef.of("input[].summary", "input[].summary", FieldType.ARRAY, false, FieldSection.REASONING, UsageDirection.INPUT, "推理摘要列表", "推理摘要列表", "reasoning 的 summary_text 块"),
-                        ProtocolFieldRef.of("input[].reasoning", "input[].reasoning", FieldType.OBJECT, false, FieldSection.REASONING, UsageDirection.INPUT, "会话推理配置更新", "会话推理配置更新", "type=configuration_update 时包含 effort"),
+                        ProtocolFieldRef.of("input[].reasoning", "input[].reasoning", FieldType.OBJECT, false, FieldSection.REASONING, UsageDirection.INPUT, "会话推理配置更新", "会话推理配置更新", "type=configuration_update 时仅更新 effort；GPT-6 标准单代理模式；不得与自动压缩/截断并用"),
+                        ProtocolFieldRef.of("input[].reasoning.effort", "input[].reasoning.effort", FieldType.ENUM, false, FieldSection.REASONING, UsageDirection.INPUT, "会话推理强度", "从下一次响应起覆盖推理强度，直到后续更新", "configuration_update 按原位置回放；实际强度取决于模型支持"),
                         ProtocolFieldRef.of("input[].tools", "input[].tools", FieldType.ARRAY, false, FieldSection.TOOL, UsageDirection.INPUT, "追加工具定义", "追加工具定义", "type=additional_tools 或 tool_search_output"),
                         ProtocolFieldRef.of("input[].content[].refusal", "input[].content[].refusal", FieldType.STRING, false, FieldSection.CONTENT_BLOCK, UsageDirection.INPUT, "历史拒绝文本", "历史拒绝文本", "type=refusal"),
                         ProtocolFieldRef.of("output[].phase", "output[].phase", FieldType.ENUM, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "assistant 输出阶段", "assistant 输出阶段", "commentary 或 final_answer"),

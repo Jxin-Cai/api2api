@@ -99,7 +99,7 @@ final class ConverterFieldMappingDescriptions {
                 unsupported("diagnostics", "Claude message ID 不能直接用于 Responses comparison_response_id", "METADATA"),
                 unsupported("compaction", "显式 summarize 请求不能等价转换为普通 Responses 创建请求", "METADATA"),
                 unsupported("messages[].clear_at", "不支持 next_user_message 的逐轮生命周期；never 保持历史", "MESSAGE"),
-                unsupported("messages[].output_config", "逐轮配置不等同于顶级 reasoning 配置", "REASONING"),
+                mapping("messages[].output_config.effort", "reasoning.effort", "按新用户输入边界解析当前强度；工具结果续传不激活待定更新；折叠到顶层可能影响缓存", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
                 unsupported("fallbacks", "Responses 无等价的按拒绝原因服务端模型链", "MODEL")
         ));
 
@@ -141,7 +141,8 @@ final class ConverterFieldMappingDescriptions {
                 mapping("tools[].allowed_callers", "tools[].allowed_callers", "programmatic 调用者映射为 code_execution caller", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
                 mapping("tool_choice", "tool_choice", "auto/none/required/function 策略映射", MappingLossiness.NONE, "TOOL", "RESHAPE"),
                 mapping("parallel_tool_calls", "tool_choice.disable_parallel_tool_use", "布尔语义取反", MappingLossiness.NONE, "TOOL", "TRANSFORM"),
-                mapping("reasoning.effort", "thinking + output_config.effort", "effort 映射为 thinking budget_tokens 与 effort；none/minimal 关闭 thinking", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
+                mapping("reasoning.effort", "thinking + output_config.effort", "现代 Claude 使用 adaptive，旧模型使用 budget_tokens；none/minimal 关闭 thinking", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
+                mapping("input[].reasoning.effort (configuration_update)", "output_config.effort", "按顺序解析最后一次更新并折叠为当前请求强度；历史缓存前缀不保证等价", MappingLossiness.PARTIAL, "REASONING", "TRANSFORM"),
                 mapping("text.format (json_schema)", "output_config.format", "结构化输出 schema 映射", MappingLossiness.NONE, "MODEL", "RESHAPE"),
                 mapping("metadata.user_id / safety_identifier / user", "metadata.user_id", "用户标识按优先级归一", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),
                 mapping("service_tier", "service_tier", "auto/default 映射；flex/priority/scale 无等价语义丢弃", MappingLossiness.PARTIAL, "METADATA", "TRANSFORM"),

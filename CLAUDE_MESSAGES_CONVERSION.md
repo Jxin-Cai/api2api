@@ -4,7 +4,7 @@
 
 Bedrock InvokeModel 不托管执行 Anthropic `web_search_20250305`。该工具在 Bedrock 路径会转换成客户端执行的同名 `custom` 工具，输入 schema 要求 `query`；`max_uses`、`allowed_domains` / `blocked_domains` 与 `user_location` 会写入工具契约描述，避免把不受支持的 server tool type 原样发送给 Bedrock。上游返回普通 `tool_use`，调用方须执行搜索并以 `tool_result` 继续工具循环；若必须由模型提供商托管搜索，应选择原生支持 web search 的渠道，而不是 Bedrock InvokeModel。
 
-本次协议复核：2026-09-30，直接对照 Anthropic Messages 和 OpenAI Responses 官方 API 文档。此前的 SDK 审计基线为 2026-07-16（Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0），这些版本不代表当前最新版。
+本次协议复核：2026-10-21（会话内 effort 与现代 Claude thinking）；上一轮完整字段复核：2026-09-30，直接对照 Anthropic Messages 和 OpenAI Responses 官方 API 文档。此前的 SDK 审计基线为 2026-07-16（Claude Code 2.1.210、Anthropic TypeScript SDK 0.111.0、OpenAI SDK 6.47.0），这些版本不代表当前最新版。
 
 ## OpenAI Chat Completions
 
@@ -15,6 +15,17 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 ## OpenAI Responses
 
 已映射：system/developer 消息、文本/URL 或 base64 图片、URL/base64/file 文档、普通函数与 free-form custom tool、bash/text-editor/memory 客户端工具、custom tool strict schema、tool choice、并行工具、tool search、web search、code interpreter、远程 MCP、programmatic tool calling、thinking/effort、加密 reasoning、隐式 prompt cache key、JSON Schema 输出、compaction、metadata、service tier/fast mode、cache usage、完整流式结束和上游错误。
+
+### 2026-10-21 会话配置兼容更新
+
+修复 `CLAUDE_RESPONSES_MESSAGE_OUTPUT_CONFIG_NOT_SUPPORTED`：Claude Code 在 `messages[]` 中发送 `role=system`、`output_config.effort` 时，不再一律拒绝。已验证目标包括 `gpt-6.1-sol`，流式与非流式共用请求转换。
+
+- **Messages → Responses**：依据 [Claude effort 生效规则](https://platform.claude.com/docs/en/build-with-claude/effort#change-effort-mid-conversation-beta)，紧随新用户输入的更新立即生效；放在 assistant 之后、工具循环内或会话开头的更新，等下一条带新输入的 user 消息才生效。纯 `tool_result` 不触发切换，带新文本/图片等输入的 user 消息可以触发。更新生效后持续到后续更新。解析发生在历史优化之前，避免裁剪历史改变轮次语义。
+- **代理兼容**：把当前已生效的 effort 折叠到顶层 `reasoning.effort`，不向兼容代理强制发送新 `configuration_update` item。保留同消息中的系统文字、顶级结构化输出和旧模型 effort 映射；仅配置的空系统消息不产生空 input message。待定更新仍由客户端保存的原始历史在下一轮重新解析。
+- **Responses → Messages**：接受 `input[].type=configuration_update`，按顺序把最新 `reasoning.effort` 合入当前配置；更新项不变成对话文本、不打断工具配对。对 Opus/Sonnet 4.6+、Haiku 5+、Fable/Mythos 使用 `thinking.type=adaptive`，避免现代 Claude 拒绝旧 `enabled/budget_tokens`。现代模型保留 xhigh；4.6 和旧模型仍使用原有 max 近似。旧模型继续使用 token budget。
+- **校验与路由**：消息级配置仅允许 system 角色和 effort 字段，错误类型、未知 effort、消息级 format/task_budget、临时 system 上的配置会明确失败。Responses 配置更新也只接受 effort，避免静默丢失未知控制字段。仅包含消息级 effort 的请求会正确声明 reasoning 路由能力。
+
+**语义差异**：折叠保留当前请求的有效推理强度，但不能保留配置变化前的缓存前缀、模型看到的历史配置或跨提供商的推理质量。不是无损转换。原生同协议请求仍保留原始配置历史。[Responses 原生 configuration_update](https://developers.openai.com/api/docs/guides/reasoning#change-reasoning-mid-conversation) 仅限 GPT-6 标准单代理模式，不能与自动 compaction/truncation 并用；本次跨协议实现不依赖此能力。`clear_at=next_user_message` 等其他边界保持明确拒绝。
 
 ### 2026-09-30 协议结构与请求转换更新
 
@@ -35,7 +46,7 @@ Messages 与 Chat Completions 使用直接双向桥接，不经过 Responses 中
 - **推理与格式**：disabled thinking 在非推理模型上不发送 reasoning，在推理模型上不再请求 summary；保留 `output_config.effort` 与旧 `output_format` 并用的格式；text/json_object 只输出合法 type，不残留 schema/name。未知 effort/tool_choice 明确失败。
 - **缓存**：`API2API_RESPONSES_EXPLICIT_CACHE_BREAKPOINTS_ENABLED=true` 可启用 GPT-5.6+ 的显式断点与 `prompt_cache_options:{mode:explicit,ttl:30m}`。默认 false，适配尚未支持此结构的 Responses 代理；Claude 5m/1h 和 OpenAI 30m 语义不同。原生 Responses 请求已有的缓存参数始终保留。
 - **能力识别**：Responses 历史中的工具/推理 item 直接参与路由能力判断，不再要求顶级 tools/reasoning 存在才能识别。
-- **明确的转换边界**：`between_tools`、显式 `compaction:summarize`、逐轮 `output_config` 与临时系统消息 `clear_at:next_user_message` 当前只支持原生同协议请求，Messages → Responses 明确报转换不支持，不默默丢弃。Claude diagnostics 引用的是 message ID，不能直接充当 Responses comparison_response_id。`max_tokens:0` 仍拒绝；1–15 的预算无法满足当前 Responses 最小 16 的约束，也不会被擅自放大。
+- **明确的转换边界**：`between_tools`、显式 `compaction:summarize` 与临时系统消息 `clear_at:next_user_message` 当前只支持原生同协议请求，Messages → Responses 明确报转换不支持，不默默丢弃。Claude diagnostics 引用的是 message ID，不能直接充当 Responses comparison_response_id。`max_tokens:0` 仍拒绝；1–15 的预算无法满足当前 Responses 最小 16 的约束，也不会被擅自放大。
 
 ### 2026-09 工具兼容增强
 

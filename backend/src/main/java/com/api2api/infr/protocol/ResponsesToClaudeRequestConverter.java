@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Direct OpenAI Responses -> Claude Messages request conversion.
@@ -35,6 +36,9 @@ final class ResponsesToClaudeRequestConverter {
     private static final String CLAUDE_WEB_SEARCH_TOOL_TYPE = "web_search_20250305";
     private static final String CLAUDE_CODE_EXECUTION_TOOL_TYPE = "code_execution_20250522";
     private static final String CLAUDE_CODE_EXECUTION_CALLER = "code_execution_20260521";
+    private static final Pattern ADAPTIVE_THINKING_MODEL = Pattern.compile(
+            "^claude-(?:(?:opus|sonnet)-4[.-](?:[6-9]|[1-9][0-9]+)(?:[.-]|$)"
+                    + "|(?:opus|sonnet|haiku)-(?:[5-9]|[1-9][0-9]+)(?:[.-]|$)|fable-|mythos-)");
 
     /**
      * Provider-executed Responses history items with no Claude equivalent.
@@ -64,8 +68,11 @@ final class ResponsesToClaudeRequestConverter {
         ObjectNode target = json.objectNode();
         copyIfPresent(source, target, "model");
         copyIfPresent(source, target, "stream");
-        copyIfPresent(source, target, "temperature");
-        copyIfPresent(source, target, "top_p");
+        String model = source.path("model").asText();
+        if (!usesAdaptiveThinking(model) || isLegacyAdaptiveModel(model)) {
+            copyIfPresent(source, target, "temperature");
+            copyIfPresent(source, target, "top_p");
+        }
         int maxTokens = resolveMaxTokens(source);
         target.put("max_tokens", maxTokens);
 
@@ -87,7 +94,7 @@ final class ResponsesToClaudeRequestConverter {
 
         applyTools(source.get("tools"), target);
         applyToolChoice(source, target);
-        applyReasoning(source.get("reasoning"), target, maxTokens);
+        applyReasoning(ConversationEffortBridge.resolveResponsesReasoning(json, source), target, maxTokens);
         applyTextFormat(source.get("text"), target);
         applyMetadata(source, target);
         applyServiceTier(source, target);
@@ -135,6 +142,10 @@ final class ResponsesToClaudeRequestConverter {
             throw new ProtocolConversionException("RESPONSES_CLAUDE_INPUT_MUST_BE_TEXT_OR_ARRAY");
         }
         for (JsonNode item : input) {
+            if (ConversationEffortBridge.isResponsesUpdate(item)) {
+                // Validated and resolved into this request's effective reasoning configuration.
+                continue;
+            }
             String type = item.path("type").asText("");
             String role = item.path("role").asText("");
             if ("system".equals(role) || "developer".equals(role)) {
@@ -734,7 +745,8 @@ final class ResponsesToClaudeRequestConverter {
             case "low" -> "low";
             case "medium" -> "medium";
             case "high" -> "high";
-            case "xhigh", "max" -> "max";
+            case "xhigh" -> supportsXhighEffort(target.path("model").asText()) ? "xhigh" : "max";
+            case "max" -> "max";
             default -> throw new ProtocolConversionException(
                     "RESPONSES_CLAUDE_REASONING_EFFORT_NOT_SUPPORTED: " + effort);
         };
@@ -743,6 +755,10 @@ final class ResponsesToClaudeRequestConverter {
                 : json.objectNode();
         outputConfig.put("effort", claudeEffort);
         target.set("output_config", outputConfig);
+        if (usesAdaptiveThinking(target.path("model").asText())) {
+            target.putObject("thinking").put("type", "adaptive");
+            return;
+        }
         int budget = Math.min(thinkingBudgetForEffort(claudeEffort), maxTokens - 1);
         if (budget >= MIN_THINKING_BUDGET_TOKENS) {
             ObjectNode thinking = json.objectNode();
@@ -750,6 +766,18 @@ final class ResponsesToClaudeRequestConverter {
             thinking.put("budget_tokens", budget);
             target.set("thinking", thinking);
         }
+    }
+
+    private boolean usesAdaptiveThinking(String model) {
+        return ADAPTIVE_THINKING_MODEL.matcher(model).find();
+    }
+
+    private boolean supportsXhighEffort(String model) {
+        return usesAdaptiveThinking(model) && !isLegacyAdaptiveModel(model);
+    }
+
+    private boolean isLegacyAdaptiveModel(String model) {
+        return model.matches("^claude-(?:opus|sonnet)-4[.-]6(?:[.-].*)?$");
     }
 
     private int thinkingBudgetForEffort(String claudeEffort) {

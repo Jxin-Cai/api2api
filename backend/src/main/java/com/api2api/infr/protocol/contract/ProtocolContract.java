@@ -156,6 +156,7 @@ public final class ProtocolContract {
         boolean toolCalling = false;
         boolean reasoning = false;
         for (JsonNode message : messages) {
+            reasoning |= message.path("output_config").hasNonNull("effort");
             if (protocolType == ProtocolType.OPENAI_RESPONSES) {
                 String itemType = message.path("type").asText("");
                 toolCalling |= RESPONSES_TOOL_ITEM_TYPES.contains(itemType);

@@ -290,15 +290,17 @@ class ClaudeResponsesCurrentSchemaTest {
     }
 
     @Test
-    void test_rejectsPerMessageEffort_when_turnConfigurationCannotBePreserved() {
+    void test_mapsPerMessageEffort_when_configurationFollowsNewUserInput() throws Exception {
         // Arrange
         ObjectNode request = request("gpt-6-astra");
         request.withArray("messages").addObject().put("role", "system")
                 .put("content", "work").putObject("output_config").put("effort", "max");
 
-        // Act / Assert
-        assertThatThrownBy(() -> convert(request, false))
-                .hasMessageContaining("CLAUDE_RESPONSES_MESSAGE_OUTPUT_CONFIG_NOT_SUPPORTED");
+        // Act
+        JsonNode result = convert(request, false);
+
+        // Assert
+        assertThat(result.at("/reasoning/effort").asText()).isEqualTo("max");
     }
 
     private ObjectNode request(String model) {
