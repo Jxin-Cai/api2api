@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -3382,10 +3381,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private ObjectNode chatResponseToClaude(JsonNode source) {
         ObjectNode target = json.objectNode();
         JsonNode choice = source.path("choices").path(0);
-        String responseId = source.path("id").asText("");
-        target.put("id", responseId.isBlank()
-                ? "msg_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16)
-                : responseId);
+        target.put("id", ClaudeMessageIds.preserveOrCreate(source.path("id").asText("")));
         target.put("type", "message");
         target.put("role", "assistant");
         target.put("model", source.path("model").asText(""));
@@ -3698,7 +3694,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
     private ObjectNode responsesResponseToClaude(JsonNode source) {
         throwIfResponsesFailed(source);
         ObjectNode target = json.objectNode();
-        target.put("id", source.path("id").asText("msg_api2api"));
+        target.put("id", ClaudeMessageIds.preserveOrCreate(source.path("id").asText("")));
         target.put("type", "message");
         target.put("role", "assistant");
         target.put("model", source.path("model").asText(""));

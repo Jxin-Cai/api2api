@@ -693,7 +693,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     private void writeClaudeMessageStart(OutputStream clientBody, ResponsesStreamState state) throws IOException {
         ObjectNode message = objectNode();
-        message.put("id", "msg_api2api_responses_stream");
+        message.put("id", state.messageId);
         message.put("type", "message");
         message.put("role", "assistant");
         message.put("model", state.clientModel);
@@ -877,6 +877,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     private static final class ResponsesStreamState {
         private final String clientModel;
+        private final String messageId = ClaudeMessageIds.create();
         private boolean messageStarted;
         private boolean toolCallSeen;
         private boolean terminalEventSeen;
@@ -1054,8 +1055,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
         if (!state.messageStartSent) {
             state.messageStartSent = true;
-            String chunkId = chunk.path("id").asText("");
-            String msgId = chunkId.isBlank() ? "msg_api2api" : chunkId;
+            String msgId = ClaudeMessageIds.preserveOrCreate(chunk.path("id").asText(""));
             ObjectNode msgStart = objectNode();
             msgStart.put("type", "message_start");
             ObjectNode message = objectNode();
