@@ -63,6 +63,7 @@ class ResponsesImageRoutingTest {
     private final ProviderChannelRepository channels = mock(ProviderChannelRepository.class);
     private final ApiCredentialRepository credentials = mock(ApiCredentialRepository.class);
     private ResponsesImageBridge bridge;
+    private final com.api2api.application.quota.TokenQuotaService quotas = mock(com.api2api.application.quota.TokenQuotaService.class);
 
     @BeforeEach
     void setUp() {
@@ -76,8 +77,9 @@ class ResponsesImageRoutingTest {
         when(definitions.findAll()).thenReturn(List.of(definition()));
         PlatformTransactionManager transactions = mock(PlatformTransactionManager.class);
         when(transactions.getTransaction(any())).thenReturn(new SimpleTransactionStatus());
+        when(quotas.lockCredential(any())).thenAnswer(call -> call.getArgument(0));
         GatewayInvocationApplicationService gateway = new GatewayInvocationApplicationService(credentials,
-                mock(ModelGroupRepository.class), new ModelDailyLimitWindow(clock, "UTC"), usage, channels, definitions,
+                quotas, usage, channels, definitions,
                 new DefaultRoutingPolicyService(),
                 new DefaultProtocolConversionServiceAdapter(List.of(), List.of(new OpenAIImagesUsageExtractor()), json),
                 new DefaultGatewayInvocationService(), upstream, mock(GatewayPayloadModelMappingPort.class),
@@ -91,6 +93,31 @@ class ResponsesImageRoutingTest {
         when(upstream.forward(any(), anyString(), anyBoolean(), any())).thenReturn(ProviderGatewayResponse.of(
                 ProtocolType.OPENAI_IMAGES, 200, Map.of(),
                 "{\"data\":[{\"b64_json\":\"aW1hZ2U=\"}],\"usage\":{\"input_tokens\":10,\"output_tokens\":20}}", false));
+    }
+
+    @Test
+    void test_keeps_channel_available_when_upstream_returns_user_concurrency_limit() throws Exception {
+        // Arrange
+        when(upstream.forward(any(), anyString(), anyBoolean(), any())).thenReturn(ProviderGatewayResponse.of(
+                ProtocolType.OPENAI_IMAGES, 429, Map.of(),
+                "{\"error\":{\"code\":\"gateway_concurrency_limit\",\"type\":\"rate_limit_error\"}}", false));
+        // Act
+        invoke(false, 429);
+        // Assert
+        verify(channels, org.mockito.Mockito.never()).markModelRateLimited(any(), any(), any(), any());
+    }
+
+    @Test
+    void test_skips_channel_routing_when_group_budget_is_exhausted() {
+        // Arrange
+        var rule = new com.api2api.domain.quota.TokenQuotaRule(1, com.api2api.domain.quota.QuotaScope.MODEL_GROUP,
+                1, "", com.api2api.domain.quota.QuotaPeriod.DAY, BigDecimal.ONE, true);
+        org.mockito.Mockito.doThrow(new com.api2api.application.quota.TokenQuotaExceededException(rule, NOW.plusSeconds(60)))
+                .when(quotas).assertAvailable(any(), any());
+        // Act / Assert
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> invoke(false))
+                .isInstanceOf(com.api2api.application.quota.TokenQuotaExceededException.class);
+        org.mockito.Mockito.verifyNoInteractions(upstream);
     }
 
     @Test
@@ -174,11 +201,15 @@ class ResponsesImageRoutingTest {
     }
 
     private Object invoke(boolean stream) throws Exception {
+        return invoke(stream, 200);
+    }
+
+    private Object invoke(boolean stream, int expectedStatus) throws Exception {
         String request = "{\"model\":\"gpt-5.6-sol\",\"input\":\"Draw a blue cat\",\"stream\":" + stream
                 + ",\"tools\":[{\"type\":\"image_generation\"}],\"tool_choice\":{\"type\":\"image_generation\"}}";
         Object result = bridge.tryHandle(request, "Bearer test-key", null, null,
                 InboundRequestContext.empty(), new MockHttpServletResponse()).orElseThrow();
-        if (result instanceof ResponseEntity<?> entity) assertThat(entity.getStatusCode().value()).isEqualTo(200);
+        if (result instanceof ResponseEntity<?> entity) assertThat(entity.getStatusCode().value()).isEqualTo(expectedStatus);
         return result;
     }
 

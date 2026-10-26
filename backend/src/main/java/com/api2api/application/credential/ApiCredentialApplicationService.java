@@ -1,9 +1,10 @@
 package com.api2api.application.credential;
 
 import com.api2api.application.BusinessException;
+import com.api2api.application.quota.TokenQuotaService;
+import com.api2api.domain.credential.model.TokenLimit;
 import com.api2api.application.credential.command.AuthenticateApiCredentialCommand;
 import com.api2api.application.credential.command.ChangeApiCredentialStatusCommand;
-import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.ChangeModelGroupCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.DeleteApiCredentialCommand;
@@ -33,10 +34,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +62,7 @@ public class ApiCredentialApplicationService {
     private final ApiKeyMaterialProtector apiKeyMaterialProtector;
 
     @NonNull
-    private final ModelGroupDailyUsageService dailyUsageService;
+    private final TokenQuotaService tokenQuotaService;
 
     @NonNull
     private final Clock clock;
@@ -71,7 +70,7 @@ public class ApiCredentialApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public ApiCredential createCredential(CreateApiCredentialCommand command) {
         assertUserPortal(command.getOwnerUserId());
-        ModelGroup modelGroup = loadOwnedModelGroup(command.getModelGroupId(), command.getOwnerUserId());
+        ModelGroup modelGroup = loadModelGroup(command.getModelGroupId());
 
         ApiCredential apiCredential = ApiCredential.create(
                 command.getApiCredentialId(),
@@ -82,7 +81,7 @@ public class ApiCredentialApplicationService {
                 command.getEncryptedKeyMaterial(),
                 modelGroup.getId(),
                 modelGroup.getModelWhitelist(),
-                command.getTokenLimit(),
+                TokenLimit.unlimited(),
                 now()
         );
         apiCredentialRepository.save(apiCredential);
@@ -101,26 +100,13 @@ public class ApiCredentialApplicationService {
             UsageTimeRange todayTimeRange
     ) {
         List<ApiCredential> credentials = listMyCredentials(ownerUserId);
-        Map<ModelGroupId, Set<ModelName>> rateLimitedModelsByGroup = rateLimitedModelsByGroup(ownerUserId);
         return credentials.stream()
                 .map(credential -> usageView(
                         ownerUserId,
                         credential,
                         todayTimeRange,
-                        rateLimitedModelsByGroup.getOrDefault(credential.getModelGroupId(), Set.of())))
+                        tokenQuotaService.limitedModels(credential)))
                 .toList();
-    }
-
-    private Map<ModelGroupId, Set<ModelName>> rateLimitedModelsByGroup(UserAccountId ownerUserId) {
-        Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup = dailyUsageService.loadTodayUsageByGroup(ownerUserId);
-        Map<ModelGroupId, Set<ModelName>> limitedByGroup = new HashMap<>();
-        for (ModelGroup group : modelGroupRepository.findByOwnerUserId(ownerUserId)) {
-            Set<ModelName> limited = group.rateLimitedModels(usageByGroup.getOrDefault(group.getId(), Map.of()));
-            if (!limited.isEmpty()) {
-                limitedByGroup.put(group.getId(), limited);
-            }
-        }
-        return limitedByGroup;
     }
 
     private ApiCredentialUsageView usageView(
@@ -171,20 +157,8 @@ public class ApiCredentialApplicationService {
         assertUserPortal(command.getOwnerUserId());
         ApiCredential apiCredential = loadCredential(command.getApiCredentialId());
         apiCredential.assertOwnedBy(command.getOwnerUserId());
-        ModelGroup modelGroup = loadOwnedModelGroup(command.getModelGroupId(), command.getOwnerUserId());
+        ModelGroup modelGroup = loadModelGroup(command.getModelGroupId());
         apiCredential.changeModelGroup(modelGroup.getId(), modelGroup.getModelWhitelist(), now());
-        apiCredentialRepository.save(apiCredential);
-        return apiCredential;
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public ApiCredential changeTokenLimit(ChangeTokenLimitCommand command) {
-        assertUserPortal(command.getOwnerUserId());
-        ApiCredential apiCredential = loadCredential(command.getApiCredentialId());
-
-        apiCredential.assertOwnedBy(command.getOwnerUserId());
-        BigDecimal currentConsumedTokens = currentConsumedTokens(command.getApiCredentialId());
-        apiCredential.changeTokenLimit(command.getTokenLimit(), currentConsumedTokens, now());
         apiCredentialRepository.save(apiCredential);
         return apiCredential;
     }
@@ -253,11 +227,9 @@ public class ApiCredentialApplicationService {
                 .orElseThrow(() -> new BusinessException("API_CREDENTIAL_NOT_FOUND"));
     }
 
-    private ModelGroup loadOwnedModelGroup(ModelGroupId modelGroupId,
-                                           UserAccountId ownerUserId) {
+    private ModelGroup loadModelGroup(ModelGroupId modelGroupId) {
         ModelGroup modelGroup = modelGroupRepository.findById(modelGroupId)
                 .orElseThrow(() -> new BusinessException("MODEL_GROUP_NOT_FOUND"));
-        modelGroup.assertOwnedBy(ownerUserId);
         return modelGroup;
     }
 

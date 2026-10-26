@@ -7,6 +7,7 @@ import com.api2api.application.credential.command.DeleteModelGroupCommand;
 import com.api2api.application.credential.command.UpdateModelGroupCommand;
 import com.api2api.application.credential.dto.ModelGroupView;
 import com.api2api.domain.credential.model.ModelGroup;
+import com.api2api.domain.credential.model.ModelDailyLimits;
 import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelGroupName;
 import com.api2api.domain.credential.model.ModelName;
@@ -39,7 +40,7 @@ public class ModelGroupApplicationService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ModelGroup> listMyGroups(UserAccountId ownerUserId) {
         assertUserPortal(ownerUserId);
-        return modelGroupRepository.findByOwnerUserId(ownerUserId);
+        return modelGroupRepository.findAll();
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -53,6 +54,12 @@ public class ModelGroupApplicationService {
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<ModelGroupView> listAdminGroupViews(UserAccountId operator) {
+        assertAdmin(operator);
+        return listMyGroupViews(operator);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ModelGroupView viewGroup(ModelGroup group) {
         Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup =
                 dailyUsageService.loadTodayUsageByGroup(group.getOwnerUserId());
@@ -62,39 +69,43 @@ public class ModelGroupApplicationService {
 
     @Transactional(rollbackFor = Exception.class)
     public ModelGroup createGroup(CreateModelGroupCommand command) {
-        assertUserPortal(command.getOwnerUserId());
-        assertNameAvailable(command.getOwnerUserId(), command.getName(), command.getModelGroupId());
+        assertAdmin(command.getOwnerUserId());
+        assertNameAvailable(command.getName(), command.getModelGroupId());
         ModelGroup group = ModelGroup.create(command.getModelGroupId(), command.getOwnerUserId(),
-                command.getName(), command.getModelWhitelist(), command.getModelDailyLimits(), now());
+                command.getName(), command.getModelWhitelist(), ModelDailyLimits.empty(), now());
         modelGroupRepository.save(group);
         return group;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ModelGroup updateGroup(UpdateModelGroupCommand command) {
-        assertUserPortal(command.getOwnerUserId());
-        ModelGroup group = loadOwnedGroup(command.getModelGroupId(), command.getOwnerUserId());
-        assertNameAvailable(command.getOwnerUserId(), command.getName(), command.getModelGroupId());
-        group.update(command.getName(), command.getModelWhitelist(), command.getModelDailyLimits(), now());
+        assertAdmin(command.getOwnerUserId());
+        ModelGroup group = loadGroup(command.getModelGroupId());
+        assertNameAvailable(command.getName(), command.getModelGroupId());
+        group.update(command.getName(), command.getModelWhitelist(), ModelDailyLimits.empty(), now());
         modelGroupRepository.save(group);
         return group;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteGroup(DeleteModelGroupCommand command) {
-        assertUserPortal(command.getOwnerUserId());
-        ModelGroup group = loadOwnedGroup(command.getModelGroupId(), command.getOwnerUserId());
+        assertAdmin(command.getOwnerUserId());
+        ModelGroup group = loadGroup(command.getModelGroupId());
         if (modelGroupRepository.existsCredentialBinding(group.getId())) {
             throw new BusinessException("MODEL_GROUP_IN_USE");
         }
         modelGroupRepository.softDeleteById(group.getId(), now());
     }
 
-    private ModelGroup loadOwnedGroup(ModelGroupId id, UserAccountId ownerUserId) {
+    private ModelGroup loadGroup(ModelGroupId id) {
         ModelGroup group = modelGroupRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("MODEL_GROUP_NOT_FOUND"));
-        group.assertOwnedBy(ownerUserId);
         return group;
+    }
+
+    private void assertAdmin(UserAccountId operator) {
+        userAccountRepository.findById(operator).orElseThrow(() -> new BusinessException("USER_NOT_FOUND"))
+                .assertCanAccess(AccessScope.ADMIN_BACKOFFICE);
     }
 
     private void assertUserPortal(UserAccountId ownerUserId) {
@@ -103,10 +114,9 @@ public class ModelGroupApplicationService {
         user.assertCanAccess(AccessScope.USER_PORTAL);
     }
 
-    private void assertNameAvailable(UserAccountId ownerUserId,
-                                     ModelGroupName name,
+    private void assertNameAvailable(ModelGroupName name,
                                      ModelGroupId excludedId) {
-        if (modelGroupRepository.existsByOwnerAndNameExcludingId(ownerUserId, name, excludedId)) {
+        if (modelGroupRepository.findAll().stream().anyMatch(group -> !group.getId().equals(excludedId) && group.getName().equals(name))) {
             throw new BusinessException("MODEL_GROUP_NAME_EXISTS");
         }
     }

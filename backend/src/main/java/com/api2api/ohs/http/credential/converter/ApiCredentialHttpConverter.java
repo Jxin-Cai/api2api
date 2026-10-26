@@ -54,7 +54,7 @@ public abstract class ApiCredentialHttpConverter {
                 .keyPreview(keyMaterial.getKeyPreview())
                 .encryptedKeyMaterial(encryptedKeyMaterial)
                 .modelGroupId(ModelGroupId.of(request.getModelGroupId()))
-                .tokenLimit(TokenLimit.of(request.getTokenLimit()))
+                .tokenLimit(TokenLimit.unlimited())
                 .build();
     }
 

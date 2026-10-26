@@ -23,6 +23,11 @@ public class ModelGroupRepositoryImpl implements ModelGroupRepository {
     private final ModelGroupMapper mapper;
 
     @Override
+    public List<ModelGroup> findAll() {
+        return mapper.selectAll().stream().map(this::toDomain).toList();
+    }
+
+    @Override
     public void save(ModelGroup group) {
         Objects.requireNonNull(group, "Model group must not be null");
         ModelGroupPO po = toPO(group);

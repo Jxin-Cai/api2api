@@ -1,5 +1,5 @@
 import { CopyOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { App, Button, Card, Dropdown, Empty, Modal, Progress, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import { App, Button, Card, Dropdown, Empty, Modal, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
@@ -128,25 +128,10 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
   }
 
   function renderTokenUsage(credential: ApiCredentialResponse): ReactElement {
-    const consumedTokens = credential.consumedTokens ?? 0;
-    if (credential.tokenLimit === 0) {
-      return (
-        <Space direction="vertical" size={0}>
-          <Typography.Text>实际 {formatTokenMillions(consumedTokens)} / 不限</Typography.Text>
-          <Typography.Text type="secondary">总 Token {formatTokenMillions(credential.totalTokens ?? 0)}</Typography.Text>
-          <Typography.Text type="secondary">剩余不限</Typography.Text>
-        </Space>
-      );
-    }
-    const percent = credential.tokenLimit > 0 ? Math.min(100, Math.round((consumedTokens / credential.tokenLimit) * 100)) : 0;
-    return (
-      <Space direction="vertical" size={0} style={{ minWidth: 160 }}>
-        <Typography.Text>实际 {formatTokenMillions(consumedTokens)} / {formatTokenMillions(credential.tokenLimit)}</Typography.Text>
-        <Typography.Text type="secondary">总 Token {formatTokenMillions(credential.totalTokens ?? 0)}</Typography.Text>
-        <Progress percent={percent} size="small" status={percent >= 100 ? 'exception' : 'normal'} />
-        <Typography.Text type="secondary">剩余 {formatTokenMillions(credential.remainingTokens)}</Typography.Text>
-      </Space>
-    );
+    return <Space direction="vertical" size={0}>
+      <Typography.Text>实际 {formatTokenMillions(credential.consumedTokens ?? 0)}</Typography.Text>
+      <Typography.Text type="secondary">总 Token {formatTokenMillions(credential.totalTokens ?? 0)}</Typography.Text>
+    </Space>;
   }
 
   const columns: ColumnsType<ApiCredentialResponse> = [
@@ -183,7 +168,7 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
           <div className="api-credential-models">
             {ordered.length
               ? ordered.slice(0, 2).map((model) => (throttled.has(model)
-                ? <Tooltip key={model} title="所属分组今日该模型已达每日上限，调用将返回限流错误"><Tag color="red">{model} · 限流中</Tag></Tooltip>
+                ? <Tooltip key={model} title="分组或此 Key 的额度已达上限，调用将返回 429；额度由管理员配置"><Tag color="red">{model} · 限流中</Tag></Tooltip>
                 : <Tag key={model}>{model}</Tag>))
               : <Typography.Text type="secondary">全部禁用</Typography.Text>}
             {ordered.length > 2 ? <Tooltip title={ordered.slice(2).map((model) => (throttled.has(model) ? `${model}（限流中）` : model)).join(', ')}><Tag>+{ordered.length - 2}</Tag></Tooltip> : null}
@@ -191,7 +176,7 @@ export function ApiCredentialTablePanel({ groupOptions = [] }: ApiCredentialTabl
         );
       },
     },
-    { title: '累计用量 / 限额', key: 'tokenUsage', width: 220, render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
+    { title: '累计用量', key: 'tokenUsage', width: 220, render: (_: unknown, credential: ApiCredentialResponse): ReactElement => renderTokenUsage(credential) },
     {
       title: '今日 Token',
       dataIndex: 'todayConsumedTokens',

@@ -1,4 +1,4 @@
-import { Alert, App, Button, Descriptions, Drawer, Input, InputNumber, Select, Space, Tabs } from 'antd';
+import { Alert, App, Button, Descriptions, Drawer, Input, Select, Space, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ApiCredentialStatusTag, type ApiCredentialResponse } from '@entities/api-credential';
@@ -21,22 +21,20 @@ interface ApiCredentialEditDrawerProps {
 
 export function ApiCredentialEditDrawer({ open, credential, onClose, groupOptions = [], onUpdated }: ApiCredentialEditDrawerProps) {
   const { message } = App.useApp();
-  const { renameMutation, groupMutation, limitMutation } = useApiCredentialMutations();
+  const { renameMutation, groupMutation } = useApiCredentialMutations();
   const [activeSection, setActiveSection] = useState<ApiCredentialEditSection>('name');
   const [nameDraft, setNameDraft] = useState('');
   const [modelGroupIdDraft, setModelGroupIdDraft] = useState('');
-  const [tokenLimitDraft, setTokenLimitDraft] = useState(0);
 
   useEffect((): void => {
     if (credential) {
       setNameDraft(credential.name);
       setModelGroupIdDraft(credential.modelGroupId);
-      setTokenLimitDraft(credential.tokenLimit);
       setActiveSection('name');
     }
   }, [credential]);
 
-  const submitting = renameMutation.isPending || groupMutation.isPending || limitMutation.isPending;
+  const submitting = renameMutation.isPending || groupMutation.isPending;
 
   async function handleSaveName(): Promise<void> {
     if (!credential || !nameDraft.trim()) {
@@ -53,15 +51,6 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, groupOption
     }
     const updated = await groupMutation.mutateAsync({ id: credential.id, params: { modelGroupId: modelGroupIdDraft } });
     message.success('模型分组已更新');
-    onUpdated(updated);
-  }
-
-  async function handleSaveLimit(): Promise<void> {
-    if (!credential || tokenLimitDraft < 0) {
-      return;
-    }
-    const updated = await limitMutation.mutateAsync({ id: credential.id, params: { tokenLimit: tokenLimitDraft } });
-    message.success('Token 上限已更新');
     onUpdated(updated);
   }
 
@@ -98,16 +87,6 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, groupOption
                   <Space direction="vertical" style={{ width: '100%' }}>
                     <Select value={modelGroupIdDraft || undefined} onChange={setModelGroupIdDraft} options={groupOptions} disabled={submitting} placeholder="选择模型分组" />
                     <Button type="primary" onClick={handleSaveGroup} loading={groupMutation.isPending} disabled={!modelGroupIdDraft}>保存分组</Button>
-                  </Space>
-                ),
-              },
-              {
-                key: 'limit',
-                label: 'Token 上限',
-                children: (
-                  <Space direction="vertical" style={{ width: '100%' }}>
-                    <InputNumber min={0} precision={0} value={tokenLimitDraft} onChange={(value): void => setTokenLimitDraft(value ?? 0)} style={{ width: '100%' }} disabled={submitting} />
-                    <Button type="primary" onClick={handleSaveLimit} loading={limitMutation.isPending} disabled={tokenLimitDraft < 0}>保存上限</Button>
                   </Space>
                 ),
               },

@@ -1,4 +1,4 @@
-import { Alert, App, Button, Checkbox, Form, Input, InputNumber, Modal, Result, Select, Space } from 'antd';
+import { Alert, App, Button, Checkbox, Form, Input, Modal, Result, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ApiKeySecretBlock, type CreateApiCredentialRequest, type CreateApiCredentialResponse } from '@entities/api-credential';
@@ -16,7 +16,7 @@ interface ApiCredentialCreateModalProps {
   groupOptions?: Array<{ label: string; value: string }>;
 }
 
-const INITIAL_FORM: CreateApiCredentialRequest = { name: '', modelGroupId: '', tokenLimit: 0 };
+const INITIAL_FORM: CreateApiCredentialRequest = { name: '', modelGroupId: '' };
 
 export function ApiCredentialCreateModal({ open, onClose, onCreated, groupOptions = [] }: ApiCredentialCreateModalProps) {
   const { modal } = App.useApp();
@@ -52,12 +52,12 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, groupOption
     if (!normalizedName) {
       return;
     }
-    const result = await createMutation.mutateAsync({ ...form, name: normalizedName, tokenLimit: Math.max(0, form.tokenLimit) });
+    const result = await createMutation.mutateAsync({ ...form, name: normalizedName });
     setCreatedResult(result);
     onCreated(result);
   }
 
-  const canSubmit = form.name.trim().length > 0 && Boolean(form.modelGroupId) && form.tokenLimit >= 0;
+  const canSubmit = form.name.trim().length > 0 && Boolean(form.modelGroupId);
 
   return (
     <Modal
@@ -89,10 +89,7 @@ export function ApiCredentialCreateModal({ open, onClose, onCreated, groupOption
               placeholder="选择此 Key 使用的模型分组"
               disabled={createMutation.isPending}
             />
-            {groupOptions.length === 0 ? <Alert style={{ marginTop: 8 }} type="warning" showIcon message="暂无模型分组，请先在“模型分组”页签中创建。" /> : null}
-          </Form.Item>
-          <Form.Item label="累计 Token 上限" required>
-            <InputNumber min={0} precision={0} value={form.tokenLimit} onChange={(value): void => setForm((current) => ({ ...current, tokenLimit: value ?? 0 }))} style={{ width: '100%' }} disabled={createMutation.isPending} />
+            {groupOptions.length === 0 ? <Alert style={{ marginTop: 8 }} type="warning" showIcon message="暂无模型分组，请联系管理员创建。" /> : null}
           </Form.Item>
           {createMutation.isError ? <Alert type="error" showIcon message="创建失败" description={createMutation.error.message} style={{ marginBottom: 16 }} /> : null}
           <Space style={{ width: '100%', justifyContent: 'flex-end' }}>

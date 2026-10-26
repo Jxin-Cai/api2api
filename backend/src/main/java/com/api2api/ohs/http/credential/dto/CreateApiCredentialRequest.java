@@ -22,7 +22,6 @@ public class CreateApiCredentialRequest {
     @NotNull(message = "Model group id must not be null")
     private Long modelGroupId;
 
-    @NotNull(message = "Token limit must not be null")
-    @Min(value = 0, message = "Token limit must not be negative")
+    @jakarta.validation.constraints.Null(message = "Token limits are managed by administrators")
     private Long tokenLimit;
 }

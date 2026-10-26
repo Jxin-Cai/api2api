@@ -76,8 +76,8 @@ public class JdbcUsageRecordMapper implements UsageRecordMapper {
     @Override
     public int insert(UsageRecordPO usageRecord) {
         return jdbcTemplate.update("""
-                INSERT INTO usage_records (id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, first_token_millis, client_ip, error_type, error_message, route_failures_json, created_at, updated_at, deleted)
-                VALUES (:id, :requestId, :userAccountId, :apiCredentialId, :requestedModel, :upstreamModel, :requestProtocol, :upstreamProtocol, :providerChannelId, :status, :inputTokens, :outputTokens, :cacheCreationInputTokens, :cacheReadInputTokens, :totalTokens, :usageKnown, :streaming, :startedTime, :endedTime, :durationMillis, :firstTokenMillis, :clientIp, :errorType, :errorMessage, :routeFailuresJson, :createdTime, :updatedTime, :deleted)
+                INSERT INTO usage_records (id, request_id, user_account_id, api_credential_id, requested_model, upstream_model, request_protocol, upstream_protocol, provider_channel_id, status, input_tokens, output_tokens, cache_creation_input_tokens, cache_read_input_tokens, total_tokens, usage_known, streaming, started_at, ended_at, duration_millis, first_token_millis, client_ip, error_type, error_message, route_failures_json, created_at, updated_at, deleted, model_group_id)
+                VALUES (:id, :requestId, :userAccountId, :apiCredentialId, :requestedModel, :upstreamModel, :requestProtocol, :upstreamProtocol, :providerChannelId, :status, :inputTokens, :outputTokens, :cacheCreationInputTokens, :cacheReadInputTokens, :totalTokens, :usageKnown, :streaming, :startedTime, :endedTime, :durationMillis, :firstTokenMillis, :clientIp, :errorType, :errorMessage, :routeFailuresJson, :createdTime, :updatedTime, :deleted, (SELECT model_group_id FROM api_credentials WHERE id=:apiCredentialId))
                 """, params(usageRecord));
     }
 

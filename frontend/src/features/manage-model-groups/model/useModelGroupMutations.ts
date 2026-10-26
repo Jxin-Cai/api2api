@@ -1,3 +1,4 @@
+import { QUOTA_QUERY_KEY } from '@entities/token-quota';
 import { useMutation, useQueryClient, type UseMutationResult } from '@tanstack/react-query';
 
 import {
@@ -22,11 +23,13 @@ export function useModelGroupMutations(): UseModelGroupMutationsResult {
   const queryClient = useQueryClient();
   const invalidateGroups = async (): Promise<void> => {
     await queryClient.invalidateQueries({ queryKey: MODEL_GROUPS_QUERY_KEY });
+    await queryClient.invalidateQueries({ queryKey: QUOTA_QUERY_KEY });
   };
   const invalidateGroupPermissions = async (): Promise<void> => {
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: MODEL_GROUPS_QUERY_KEY }),
       queryClient.invalidateQueries({ queryKey: API_CREDENTIALS_QUERY_KEY }),
+      queryClient.invalidateQueries({ queryKey: QUOTA_QUERY_KEY }),
     ]);
   };
 

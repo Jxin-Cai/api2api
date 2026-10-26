@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ModelGroupMapper {
     int insert(ModelGroupPO modelGroup);
+    List<ModelGroupPO> selectAll();
     int update(ModelGroupPO modelGroup);
     ModelGroupPO selectById(Long id);
     List<ModelGroupPO> selectByOwnerUserId(Long ownerUserId);

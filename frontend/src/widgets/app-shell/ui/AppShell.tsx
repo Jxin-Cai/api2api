@@ -42,6 +42,8 @@ const MENU_ICONS: Record<string, ReactNode> = {
   'admin-operations': <MonitorOutlined />,
   'admin-usage': <BarChartOutlined />,
   'admin-users': <TeamOutlined />,
+  'admin-model-groups': <TeamOutlined />,
+  'admin-token-quotas': <BarChartOutlined />,
   'admin-channels': <ApiOutlined />,
   'admin-model-mappings': <SwapOutlined />,
   'admin-conversions': <SwapOutlined />,

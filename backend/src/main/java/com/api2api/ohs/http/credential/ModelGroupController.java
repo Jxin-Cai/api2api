@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/model-groups")
+@RequestMapping("/api/admin/model-groups")
 @RequiredArgsConstructor
 public class ModelGroupController {
 
@@ -38,7 +38,7 @@ public class ModelGroupController {
     @GetMapping
     public ApiResponse<ModelGroupListResponse> listMyGroups(HttpServletRequest request) {
         UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
-        return ApiResponse.success(converter.toListResponse(applicationService.listMyGroupViews(ownerUserId)));
+        return ApiResponse.success(converter.toListResponse(applicationService.listAdminGroupViews(ownerUserId)));
     }
 
     @PostMapping

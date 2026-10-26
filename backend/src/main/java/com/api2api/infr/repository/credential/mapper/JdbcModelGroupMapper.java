@@ -37,6 +37,11 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
             .build();
 
     @Override
+    public List<ModelGroupPO> selectAll() {
+        return jdbcTemplate.query("SELECT " + COLUMNS + " FROM model_groups WHERE NOT deleted ORDER BY created_at DESC, id DESC", rowMapper);
+    }
+
+    @Override
     public int insert(ModelGroupPO group) {
         return jdbcTemplate.update("""
                 INSERT INTO model_groups (id, owner_user_id, name, model_whitelist, model_daily_limits, created_at, updated_at, deleted)

@@ -336,7 +336,7 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             String responseBody,
             UpstreamResponseMetadata responseMetadata
     ) {
-        RouteFailureType failureType = UpstreamFailureClassifier.fromHttpStatus(statusCode);
+        RouteFailureType failureType = RouteFailureType.fromHttpResponse(statusCode, responseBody);
         boolean retryable;
         if (failureType == RouteFailureType.AUTHORIZATION_ERROR) {
             retryable = false;

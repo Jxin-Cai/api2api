@@ -46,7 +46,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
-        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
+        com.api2api.application.quota.TokenQuotaService dailyUsageService = mock(com.api2api.application.quota.TokenQuotaService.class);
         ApiCredential credential = mock(ApiCredential.class);
         ApiKeyHash keyHash = ApiKeyHash.of("a".repeat(64));
         when(apiCredentialRepository.findByKeyHash(keyHash)).thenReturn(Optional.of(credential));
@@ -76,7 +76,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
-        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
+        com.api2api.application.quota.TokenQuotaService dailyUsageService = mock(com.api2api.application.quota.TokenQuotaService.class);
         UserAccount userAccount = mock(UserAccount.class);
         ApiCredential credential = mock(ApiCredential.class);
         UserAccountId userAccountId = UserAccountId.of(1L);
@@ -113,7 +113,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
-        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
+        com.api2api.application.quota.TokenQuotaService dailyUsageService = mock(com.api2api.application.quota.TokenQuotaService.class);
         UserAccount userAccount = mock(UserAccount.class);
         ApiCredential credential = mock(ApiCredential.class);
         UserAccountId userAccountId = UserAccountId.of(1L);
@@ -160,7 +160,7 @@ class ApiCredentialApplicationServiceTest {
         ModelGroupRepository modelGroupRepository = mock(ModelGroupRepository.class);
         UsageRecordRepository usageRecordRepository = mock(UsageRecordRepository.class);
         ApiKeyMaterialProtector apiKeyMaterialProtector = mock(ApiKeyMaterialProtector.class);
-        ModelGroupDailyUsageService dailyUsageService = mock(ModelGroupDailyUsageService.class);
+        com.api2api.application.quota.TokenQuotaService dailyUsageService = mock(com.api2api.application.quota.TokenQuotaService.class);
         UserAccount userAccount = mock(UserAccount.class);
         ApiCredential credential = mock(ApiCredential.class);
         UserAccountId userAccountId = UserAccountId.of(1L);
@@ -181,8 +181,7 @@ class ApiCredentialApplicationServiceTest {
         when(credential.getModelGroupId()).thenReturn(groupId);
         when(usageRecordRepository.sumActualTokensByApiCredential(credentialId)).thenReturn(BigDecimal.ZERO);
         when(usageRecordRepository.sumTokens(any())).thenReturn(UsageTokenBreakdown.zeroKnown());
-        when(dailyUsageService.loadTodayUsageByGroup(userAccountId))
-                .thenReturn(Map.of(groupId, Map.of(cappedModel, new BigDecimal("1000"))));
+        when(dailyUsageService.limitedModels(credential)).thenReturn(Set.of(cappedModel));
         ApiCredentialApplicationService service = new ApiCredentialApplicationService(
                 userAccountRepository,
                 apiCredentialRepository,

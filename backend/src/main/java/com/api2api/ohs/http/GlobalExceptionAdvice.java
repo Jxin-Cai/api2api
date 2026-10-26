@@ -72,6 +72,9 @@ public class GlobalExceptionAdvice {
             MethodArgumentTypeMismatchException.class
     })
     public ResponseEntity<ApiResponse<Void>> handleBadRequest(RuntimeException exception) {
+        if (exception.getMessage() != null && exception.getMessage().startsWith("ACCESS_DENIED:")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.failure("ACCESS_DENIED", exception.getMessage()));
+        }
         return badRequest(defaultMessage(exception.getMessage()));
     }
 

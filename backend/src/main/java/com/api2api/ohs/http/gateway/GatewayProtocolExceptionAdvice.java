@@ -35,6 +35,17 @@ public class GatewayProtocolExceptionAdvice {
                 .body(buildErrorBody(exception.protocol(), exception.errorType(), exception.getMessage()));
     }
 
+    @ExceptionHandler(com.api2api.application.quota.TokenQuotaExceededException.class)
+    public ResponseEntity<String> handleTokenQuota(com.api2api.application.quota.TokenQuotaExceededException exception,
+                                                   HttpServletRequest request) {
+        var response = ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).contentType(MediaType.APPLICATION_JSON);
+        if (exception.resetAt() != null) {
+            long seconds = Math.max(1, java.time.Duration.between(java.time.Instant.now(), exception.resetAt()).toSeconds());
+            response.header("Retry-After", Long.toString(seconds));
+        }
+        return response.body(buildErrorBody(protocolOf(request), "rate_limit_error", exception.getMessage()));
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<String> handleBusiness(BusinessException exception, HttpServletRequest request) {
         ProtocolType protocol = protocolOf(request);

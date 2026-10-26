@@ -193,7 +193,7 @@ public class GatewayInvocationResponseMapper {
     private HttpStatus mapErrorToHttpStatus(InvocationError error) {
         if (error.errorType() == InvocationErrorType.UPSTREAM_FAILED) {
             return switch (latestRouteFailureType(error)) {
-                case RATE_LIMITED -> HttpStatus.TOO_MANY_REQUESTS;
+                case RATE_LIMITED, CALLER_RATE_LIMITED -> HttpStatus.TOO_MANY_REQUESTS;
                 case TIMEOUT -> HttpStatus.GATEWAY_TIMEOUT;
                 case CHANNEL_UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE;
                 default -> HttpStatus.BAD_GATEWAY;
@@ -222,7 +222,7 @@ public class GatewayInvocationResponseMapper {
             case QUOTA_EXHAUSTED -> "rate_limit_error";
             case CONVERSION_FAILED -> "invalid_request_error";
             case NO_AVAILABLE_CHANNEL -> "api_error";
-            case UPSTREAM_FAILED -> latestRouteFailureType(error) == RouteFailureType.RATE_LIMITED
+            case UPSTREAM_FAILED -> latestRouteFailureType(error).isRateLimited()
                     ? "rate_limit_error"
                     : "api_error";
         };
@@ -239,7 +239,7 @@ public class GatewayInvocationResponseMapper {
             case QUOTA_EXHAUSTED -> "rate_limit_error";
             case NO_AVAILABLE_CHANNEL -> "service_unavailable";
             case CONVERSION_FAILED -> "invalid_request_error";
-            case UPSTREAM_FAILED -> latestRouteFailureType(error) == RouteFailureType.RATE_LIMITED
+            case UPSTREAM_FAILED -> latestRouteFailureType(error).isRateLimited()
                     ? "rate_limit_error"
                     : "api_error";
         };

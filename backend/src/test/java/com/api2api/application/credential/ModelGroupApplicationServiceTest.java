@@ -76,7 +76,7 @@ class ModelGroupApplicationServiceTest {
         // Arrange
         ModelGroup group = configuredGroup();
         when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
-        when(groups.findByOwnerUserId(owner)).thenReturn(List.of(group));
+        when(groups.findAll()).thenReturn(List.of(group));
         when(availability.availableModels()).thenReturn(Set.of(MODEL)).thenReturn(Set.of()).thenReturn(Set.of(MODEL));
 
         // Act

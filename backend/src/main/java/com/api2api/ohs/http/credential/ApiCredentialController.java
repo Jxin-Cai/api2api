@@ -2,7 +2,6 @@ package com.api2api.ohs.http.credential;
 
 import com.api2api.application.credential.ApiCredentialApplicationService;
 import com.api2api.application.credential.command.ChangeApiCredentialStatusCommand;
-import com.api2api.application.credential.command.ChangeTokenLimitCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
@@ -21,7 +20,6 @@ import com.api2api.application.credential.ApiKeyMaterialProtector;
 import com.api2api.ohs.http.credential.converter.ApiCredentialHttpConverter;
 import com.api2api.ohs.http.credential.dto.ApiCredentialListResponse;
 import com.api2api.ohs.http.credential.dto.ApiCredentialResponse;
-import com.api2api.ohs.http.credential.dto.ChangeTokenLimitRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialResponse;
 import com.api2api.ohs.http.credential.dto.RenameApiCredentialRequest;
@@ -150,20 +148,6 @@ public class ApiCredentialController {
         ChangeModelGroupCommand command = apiCredentialHttpConverter.toChangeModelGroupCommand(
                 changeRequest, ownerUserId, apiCredentialId);
         ApiCredential credential = apiCredentialApplicationService.changeModelGroup(command);
-        return ApiResponse.success(apiCredentialHttpConverter.toResponse(credential));
-    }
-
-    @PutMapping("/{api-credential-id}/token-limit")
-    public ApiResponse<ApiCredentialResponse> changeTokenLimit(
-            @PathVariable("api-credential-id") Long credentialId,
-            @Valid @RequestBody ChangeTokenLimitRequest changeRequest,
-            HttpServletRequest request
-    ) {
-        UserAccountId ownerUserId = currentUserContextResolver.resolveCurrentUserId(request);
-        ApiCredentialId apiCredentialId = ApiCredentialId.of(credentialId);
-        ChangeTokenLimitCommand command = apiCredentialHttpConverter.toChangeTokenLimitCommand(
-                changeRequest, ownerUserId, apiCredentialId);
-        ApiCredential credential = apiCredentialApplicationService.changeTokenLimit(command);
         return ApiResponse.success(apiCredentialHttpConverter.toResponse(credential));
     }
 

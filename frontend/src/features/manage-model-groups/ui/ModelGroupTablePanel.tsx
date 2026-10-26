@@ -1,9 +1,9 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Alert, App, Button, Card, Empty, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import { Alert, App, Button, Card, Empty, Space, Table, Tag, Tooltip, Typography, theme } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
-import { useApiCredentials, type ApiCredentialResponse } from '@entities/api-credential';
+import { useTokenQuotas } from '@entities/token-quota';
 import { useModelGroups, type ModelGroupResponse } from '@entities/model-group';
 import { PageState } from '@shared/ui';
 
@@ -14,19 +14,17 @@ interface ModelGroupTablePanelProps {
   modelOptions: Array<{ label: string; value: string }>;
 }
 
-function formatTokens(value: number): string {
-  return Math.round(value).toLocaleString();
-}
-
 export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps) {
+  const { token } = theme.useToken();
   const { message, modal } = App.useApp();
   const { groups, query } = useModelGroups();
-  const { credentials } = useApiCredentials();
+  const { targets } = useTokenQuotas();
+  const credentials = useMemo(() => targets.filter((target) => target.scope === 'API_KEY'), [targets]);
   const { deleteMutation } = useModelGroupMutations();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<ModelGroupResponse | null>(null);
 
-  const bindingCounts = useMemo(() => credentials.reduce((counts, credential: ApiCredentialResponse) => {
+  const bindingCounts = useMemo(() => credentials.reduce((counts, credential) => {
     counts.set(credential.modelGroupId, (counts.get(credential.modelGroupId) ?? 0) + 1);
     return counts;
   }, new Map<string, number>()), [credentials]);
@@ -105,36 +103,6 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
       },
     },
     {
-      title: '模型每日上限',
-      key: 'modelDailyLimits',
-      width: 260,
-      render: (_: unknown, group): ReactElement => {
-        const entries = Object.entries(group.modelDailyLimits);
-        if (entries.length === 0) {
-          return <Typography.Text type="secondary">未设置</Typography.Text>;
-        }
-        const rateLimited = new Set(group.rateLimitedModels);
-        return (
-          <Space direction="vertical" size={2}>
-            {entries.map(([model, limit]) => {
-              const used = group.modelDailyUsage[model] ?? 0;
-              const throttled = rateLimited.has(model);
-              return (
-                <Tooltip key={model} title={`${model} 今日已用 ${formatTokens(used)} / 上限 ${formatTokens(limit)}${throttled ? '，已限流' : ''}`}>
-                  <Space size={4}>
-                    <Tag color={throttled ? 'red' : undefined} style={{ marginInlineEnd: 0 }}>{model}</Tag>
-                    <Typography.Text type={throttled ? 'danger' : 'secondary'} style={{ fontSize: 12 }}>
-                      {formatTokens(used)} / {formatTokens(limit)}{throttled ? ' 限流中' : ''}
-                    </Typography.Text>
-                  </Space>
-                </Tooltip>
-              );
-            })}
-          </Space>
-        );
-      },
-    },
-    {
       title: '已绑定 Key',
       key: 'bindings',
       width: 120,
@@ -162,7 +130,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
 
   return (
     <>
-      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。当前支持取分组白名单与已启用渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。模型每日上限按全组 Key 合计消耗计算，达到后全组限流。" style={{ marginBottom: 16 }} />
+      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。当前支持取分组白名单与已启用渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。在“限流”页设置分组共享额度或 Key 专属额度。" style={{ marginBottom: 16, background: token.colorBgContainer, borderColor: token.colorBorder }} />
       <Card className="api-credential-table-card">
         <div className="api-credential-toolbar">
           <div className="api-credential-toolbar__copy">
@@ -174,7 +142,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
             <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>创建分组</Button>
           </Space>
         </div>
-        <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 1220 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
+        <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 960 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
       </Card>
       <ModelGroupFormModal open={formOpen} group={editing} modelOptions={modelOptions} onClose={(): void => setFormOpen(false)} onSaved={(): void => undefined} />
     </>

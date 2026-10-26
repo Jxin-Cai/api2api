@@ -19,7 +19,7 @@ export function ApiCredentialToolbar({ search, onSearchChange, onCreateClick, on
     <div className="api-credential-toolbar">
       <div className="api-credential-toolbar__copy">
         <Typography.Title level={4} className="api-credential-toolbar__title">凭证</Typography.Title>
-        <Typography.Text type="secondary">管理密钥权限、限额与启用状态</Typography.Text>
+        <Typography.Text type="secondary">选择模型分组，管理密钥名称与启用状态</Typography.Text>
       </div>
       <Space wrap className="api-credential-toolbar__actions">
         <Input

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface ModelGroupRepository {
     void save(ModelGroup modelGroup);
+    List<ModelGroup> findAll();
     Optional<ModelGroup> findById(ModelGroupId id);
     List<ModelGroup> findByOwnerUserId(UserAccountId ownerUserId);
     boolean existsByOwnerAndNameExcludingId(UserAccountId ownerUserId, ModelGroupName name, ModelGroupId excludedId);

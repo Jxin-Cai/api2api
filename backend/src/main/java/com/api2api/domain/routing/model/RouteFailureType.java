@@ -9,6 +9,10 @@ import java.util.Locale;
 public enum RouteFailureType {
     UPSTREAM_ERROR(List.of()),
     TIMEOUT(List.of("TIMEOUT", "TIMED_OUT")),
+    CALLER_RATE_LIMITED(List.of("GATEWAY_CONCURRENCY_LIMIT", "USER_CONCURRENCY", "GROUP_RATE_LIMIT",
+            "GROUP_QUOTA", "USER_RATE_LIMIT", "USER_QUOTA", "API_KEY_RATE_LIMIT", "KEY_QUOTA",
+            "TOKEN_RATE_LIMIT_EXCEEDED", "MODEL_DAILY_LIMIT_EXCEEDED", "TOKEN_QUOTA_EXHAUSTED",
+            "CONCURRENCY LIMIT EXCEEDED FOR USER", "CONCURRENCY LIMIT EXCEEDED FOR GROUP")),
     RATE_LIMITED(List.of("RATE_LIMIT", "RATE LIMITED", "TOO_MANY_REQUESTS")),
     CHANNEL_UNAVAILABLE(List.of("UNAVAILABLE", "CHANNEL_UNAVAILABLE", "SERVICE_UNAVAILABLE")),
     CONVERSION_ERROR(List.of()),
@@ -36,9 +40,18 @@ public enum RouteFailureType {
 
     public boolean isRetryableByDefault() {
         return switch (this) {
-            case UPSTREAM_ERROR, TIMEOUT, RATE_LIMITED, CHANNEL_UNAVAILABLE -> true;
+            case UPSTREAM_ERROR, TIMEOUT, RATE_LIMITED, CALLER_RATE_LIMITED, CHANNEL_UNAVAILABLE -> true;
             case CONVERSION_ERROR, AUTHORIZATION_ERROR -> false;
         };
+    }
+
+    public boolean isRateLimited() {
+        return this == RATE_LIMITED || this == CALLER_RATE_LIMITED;
+    }
+
+    public static RouteFailureType fromHttpResponse(int statusCode, String body) {
+        if (statusCode == 429 && fromExceptionMessage(body) == CALLER_RATE_LIMITED) return CALLER_RATE_LIMITED;
+        return fromHttpStatus(statusCode);
     }
 
     public static RouteFailureType fromHttpStatus(int statusCode) {

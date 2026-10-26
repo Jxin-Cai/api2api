@@ -26,7 +26,6 @@ export interface ModelGroupListResponse {
 export interface SaveModelGroupRequest {
   name: string;
   modelWhitelist: string[];
-  modelDailyLimits: ModelDailyLimits;
 }
 
 export interface ModelGroupOption {

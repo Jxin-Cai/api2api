@@ -5,7 +5,7 @@ export interface ApiCredentialResponse {
   name: string;
   modelGroupId: string;
   modelWhitelist: string[];
-  /** 因所属分组每日上限已触发而在当天被限流的模型 */
+  /** 因分组或 Key 周期额度耗尽而限流的模型 */
   rateLimitedModels: string[];
   tokenLimit: number;
   consumedTokens?: number;
@@ -27,7 +27,6 @@ export interface ApiCredentialListResponse {
 export interface CreateApiCredentialRequest {
   name: string;
   modelGroupId: string;
-  tokenLimit: number;
 }
 
 export interface CreateApiCredentialBackendResponse {
@@ -51,10 +50,6 @@ export interface RenameApiCredentialRequest {
 
 export interface ChangeModelGroupRequest {
   modelGroupId: string;
-}
-
-export interface ChangeTokenLimitRequest {
-  tokenLimit: number;
 }
 
 export interface ApiCredentialOption {

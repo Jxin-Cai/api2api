@@ -40,15 +40,15 @@ export async function listModelGroups(): Promise<ApiResponse<ModelGroupListRespo
 }
 
 export async function createModelGroup(params: SaveModelGroupRequest): Promise<ApiResponse<ModelGroupResponse>> {
-  const response = await apiClient.post<ModelGroupBackendResponse>('/api/model-groups', params);
+  const response = await apiClient.post<ModelGroupBackendResponse>('/api/admin/model-groups', params);
   return { ...response, data: normalizeGroup(response.data) };
 }
 
 export async function updateModelGroup(id: string, params: SaveModelGroupRequest): Promise<ApiResponse<ModelGroupResponse>> {
-  const response = await apiClient.put<ModelGroupBackendResponse>(`/api/model-groups/${encodeURIComponent(id)}`, params);
+  const response = await apiClient.put<ModelGroupBackendResponse>(`/api/admin/model-groups/${encodeURIComponent(id)}`, params);
   return { ...response, data: normalizeGroup(response.data) };
 }
 
 export async function deleteModelGroup(id: string): Promise<ApiResponse<void>> {
-  return apiClient.delete<void>(`/api/model-groups/${encodeURIComponent(id)}`);
+  return apiClient.delete<void>(`/api/admin/model-groups/${encodeURIComponent(id)}`);
 }

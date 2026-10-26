@@ -19,5 +19,6 @@ public class ModelGroupRequest {
     private List<String> modelWhitelist;
 
     /** Optional per-model daily caps in weighted tokens: {@code {"gpt-4.1": 1000000}}. */
+    @jakarta.validation.constraints.Null(message = "Manage token limits on the admin rate limits page")
     private Map<String, Long> modelDailyLimits;
 }

@@ -4,7 +4,6 @@ import { browserTimeZone } from '@shared/lib/timeZone';
 import type {
   ApiCredentialListResponse,
   ApiCredentialResponse,
-  ChangeTokenLimitRequest,
   CreateApiCredentialBackendResponse,
   CreateApiCredentialRequest,
   CreateApiCredentialResponse,
@@ -110,14 +109,6 @@ export async function changeApiCredentialModelGroup(
   params: ChangeModelGroupRequest
 ): Promise<ApiResponse<ApiCredentialResponse>> {
   const response = await apiClient.put<ApiCredentialBackendResponse>(credentialPath(credentialId, '/model-group'), params);
-  return { ...response, data: normalizeCredential(response.data) };
-}
-
-export async function changeApiCredentialTokenLimit(
-  credentialId: string,
-  params: ChangeTokenLimitRequest
-): Promise<ApiResponse<ApiCredentialResponse>> {
-  const response = await apiClient.put<ApiCredentialBackendResponse>(credentialPath(credentialId, '/token-limit'), params);
   return { ...response, data: normalizeCredential(response.data) };
 }
 
