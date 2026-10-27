@@ -1,0 +1,265 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/features/manage-user-accounts/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/features/manage-user-accounts/model/types.ts",
+      "summary": "定义用户创建表单和最近操作结果的前端状态结构。",
+      "tags": [
+        "用户管理",
+        "类型定义",
+        "表单状态"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "type": "file",
+      "name": "useUserAccountMutations.ts",
+      "filePath": "frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "summary": "组合创建用户、修改显示名或角色、启用和禁用操作，成功后记录结果并使用户查询缓存失效。",
+      "tags": [
+        "用户管理",
+        "变更钩子",
+        "缓存刷新"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts:useUserAccountMutations",
+      "type": "function",
+      "name": "useUserAccountMutations",
+      "filePath": "frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "lineRange": [
+        15,
+        69
+      ],
+      "summary": "统一管理五类用户变更与最近结果，在操作成功时刷新用户查询缓存。",
+      "tags": [
+        "用户管理",
+        "变更钩子",
+        "方法"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "type": "file",
+      "name": "UserAccountActionPanel.tsx",
+      "filePath": "frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "summary": "展示用户列表与最近操作对象，协调创建弹窗及按用户标识打开的编辑抽屉。",
+      "tags": [
+        "用户管理",
+        "操作面板",
+        "界面编排"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx:UserAccountActionPanel",
+      "type": "function",
+      "name": "UserAccountActionPanel",
+      "filePath": "frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "lineRange": [
+        15,
+        94
+      ],
+      "summary": "渲染用户操作入口和列表，维护创建及编辑界面的打开状态并刷新更新后的用户数据。",
+      "tags": [
+        "用户管理",
+        "操作面板",
+        "方法"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "type": "file",
+      "name": "UserCreateModal.tsx",
+      "filePath": "frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "summary": "提供用户名、显示名、密码和角色的创建表单，重置弹窗状态并在创建成功后回调。",
+      "tags": [
+        "用户管理",
+        "创建弹窗",
+        "表单校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx:UserCreateModal",
+      "type": "function",
+      "name": "UserCreateModal",
+      "filePath": "frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "lineRange": [
+        16,
+        54
+      ],
+      "summary": "初始化创建表单，校验必填输入并提交用户创建请求，展示创建结果。",
+      "tags": [
+        "用户管理",
+        "创建弹窗",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "type": "file",
+      "name": "UserEditDrawer.tsx",
+      "filePath": "frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "summary": "按目标用户加载详情，提供显示名、角色及启停状态编辑，并显示异步操作反馈。",
+      "tags": [
+        "用户管理",
+        "编辑抽屉",
+        "操作反馈"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx:UserEditDrawer",
+      "type": "function",
+      "name": "UserEditDrawer",
+      "filePath": "frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "lineRange": [
+        26,
+        96
+      ],
+      "summary": "加载用户详情并同步编辑草稿，分别提交显示名、角色和启停操作并反馈结果。",
+      "tags": [
+        "用户管理",
+        "编辑抽屉",
+        "方法"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "target": "function:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts:useUserAccountMutations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "target": "function:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts:useUserAccountMutations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "target": "file:frontend/src/features/manage-user-accounts/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx:UserAccountActionPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx:UserAccountActionPanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "target": "file:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "target": "file:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx:UserCreateModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx:UserCreateModal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "target": "file:frontend/src/features/manage-user-accounts/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "target": "file:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx:UserEditDrawer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx:UserEditDrawer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "target": "file:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx:UserCreateModal",
+      "target": "function:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts:useUserAccountMutations",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx:UserAccountActionPanel",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx:UserCreateModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx:UserEditDrawer",
+      "target": "function:frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts:useUserAccountMutations",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx:UserAccountActionPanel",
+      "target": "function:frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx:UserEditDrawer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ]
+}

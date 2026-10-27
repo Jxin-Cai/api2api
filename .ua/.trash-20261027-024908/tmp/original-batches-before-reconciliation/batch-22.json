@@ -1,0 +1,926 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "file",
+      "name": "MultipartFormPayload.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "summary": "以不可变的有序文本字段及文件部分表示 multipart/form-data 载荷，保留重复字段和文件顺序以支持 image[] 等位置敏感参数。",
+      "tags": [
+        "数据模型",
+        "multipart",
+        "有序载荷"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java:MultipartFormPayload",
+      "type": "class",
+      "name": "MultipartFormPayload",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "lineRange": [
+        12,
+        55
+      ],
+      "summary": "以不可变的有序文本字段及文件部分表示 multipart/form-data 载荷，保留重复字段和文件顺序以支持 image[] 等位置敏感参数。",
+      "tags": [
+        "数据模型",
+        "multipart",
+        "有序载荷"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java:hasPart",
+      "type": "function",
+      "name": "hasPart",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "lineRange": [
+        19,
+        22
+      ],
+      "summary": "在MultipartFormPayload中执行 hasPart 操作。协调 fields.stream().anyMatch、fields.stream、field.name().equals、field.name、files.stream().anyMatch 等调用处理输入与状态。",
+      "tags": [
+        "数据模型",
+        "multipart",
+        "有序载荷"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "type": "file",
+      "name": "MultipartFormPayloadCodec.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "summary": "定义多段表单与网关 JSON 信封之间的转换端口，文本字段保留在顶层以兼容模型读取、stream 判断及路由模型改写。",
+      "tags": [
+        "端口接口",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java:MultipartFormPayloadCodec",
+      "type": "class",
+      "name": "MultipartFormPayloadCodec",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "lineRange": [
+        11,
+        16
+      ],
+      "summary": "定义多段表单与网关 JSON 信封之间的转换端口，文本字段保留在顶层以兼容模型读取、stream 判断及路由模型改写。",
+      "tags": [
+        "端口接口",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "type": "file",
+      "name": "MultipartFormBodyWriter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "summary": "把已解析的表单重新序列化为 RFC 7578 请求体，生成新 boundary 并编码可能破坏 Content-Disposition 引号结构的字符。",
+      "tags": [
+        "请求编码",
+        "multipart",
+        "上游请求"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java:MultipartFormBodyWriter",
+      "type": "class",
+      "name": "MultipartFormBodyWriter",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "lineRange": [
+        19,
+        73
+      ],
+      "summary": "把已解析的表单重新序列化为 RFC 7578 请求体，生成新 boundary 并编码可能破坏 Content-Disposition 引号结构的字符。",
+      "tags": [
+        "请求编码",
+        "multipart",
+        "上游请求"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java:write",
+      "type": "function",
+      "name": "write",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "lineRange": [
+        28,
+        50
+      ],
+      "summary": "按字段和文件顺序写入新 boundary、多段头部及内容，返回字节请求体与 Content-Type。",
+      "tags": [
+        "请求编码",
+        "multipart",
+        "上游请求"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "type": "file",
+      "name": "JsonMultipartFormPayloadCodec.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "summary": "以 JSON 顶层成员存储文本字段，重复值保存为数组，true/false 转为布尔值供协议契约识别；文件保存于保留成员并使用 base64 编码。",
+      "tags": [
+        "序列化",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:JsonMultipartFormPayloadCodec",
+      "type": "class",
+      "name": "JsonMultipartFormPayloadCodec",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "lineRange": [
+        29,
+        140
+      ],
+      "summary": "以 JSON 顶层成员存储文本字段，重复值保存为数组，true/false 转为布尔值供协议契约识别；文件保存于保留成员并使用 base64 编码。",
+      "tags": [
+        "序列化",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:JsonMultipartFormPayloadCodec",
+      "type": "function",
+      "name": "JsonMultipartFormPayloadCodec",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "初始化 JsonMultipartFormPayloadCodec 的状态并建立构造约束。",
+      "tags": [
+        "序列化",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:encode",
+      "type": "function",
+      "name": "encode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "lineRange": [
+        44,
+        69
+      ],
+      "summary": "将文本字段和文件部分编码为 JSON 信封，保留重复字段并将文件内容 base64 化。",
+      "tags": [
+        "序列化",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:decode",
+      "type": "function",
+      "name": "decode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "lineRange": [
+        71,
+        98
+      ],
+      "summary": "解析信封并恢复有序文本字段和文件，布尔值恢复为原始文本形式。",
+      "tags": [
+        "序列化",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:readEnvelope",
+      "type": "function",
+      "name": "readEnvelope",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "lineRange": [
+        100,
+        113
+      ],
+      "summary": "校验信封非空且为 JSON 对象，解析失败显式抛出异常。",
+      "tags": [
+        "序列化",
+        "multipart",
+        "json-信封"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "type": "file",
+      "name": "MultipartFormRequestReader.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "summary": "通过 Servlet Part API 读取网关多段请求，区分文本与文件并保留顺序，避免把查询字符串误当成表单字段。",
+      "tags": [
+        "http-适配",
+        "multipart",
+        "请求解析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:MultipartFormRequestReader",
+      "type": "class",
+      "name": "MultipartFormRequestReader",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "lineRange": [
+        26,
+        79
+      ],
+      "summary": "通过 Servlet Part API 读取网关多段请求，区分文本与文件并保留顺序，避免把查询字符串误当成表单字段。",
+      "tags": [
+        "http-适配",
+        "multipart",
+        "请求解析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:read",
+      "type": "function",
+      "name": "read",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "lineRange": [
+        29,
+        44
+      ],
+      "summary": "拒绝非 multipart/form-data 请求，遍历 Part 并分别构造文本字段及文件列表。",
+      "tags": [
+        "http-适配",
+        "multipart",
+        "请求解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:charsetOf",
+      "type": "function",
+      "name": "charsetOf",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "lineRange": [
+        67,
+        78
+      ],
+      "summary": "从 Part Content-Type 提取字符集，缺省或无法识别时采用 UTF-8。",
+      "tags": [
+        "http-适配",
+        "multipart",
+        "请求解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "type": "file",
+      "name": "ResponsesImagePayloadMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "summary": "将 Responses 图片工具输入映射为图片生成 JSON 或编辑用 multipart 信封，校验动作、图片数量、MIME 类型和大小；编辑图片仅支持 base64 data URL。",
+      "tags": [
+        "协议适配",
+        "图片请求",
+        "载荷校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:ResponsesImagePayloadMapper",
+      "type": "class",
+      "name": "ResponsesImagePayloadMapper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "lineRange": [
+        20,
+        87
+      ],
+      "summary": "将 Responses 图片工具输入映射为图片生成 JSON 或编辑用 multipart 信封，校验动作、图片数量、MIME 类型和大小；编辑图片仅支持 base64 data URL。",
+      "tags": [
+        "协议适配",
+        "图片请求",
+        "载荷校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:map",
+      "type": "function",
+      "name": "map",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "lineRange": [
+        32,
+        66
+      ],
+      "summary": "根据已选动作构造生成或编辑载荷，拒绝空提示、无效 mask、缺少输入图及总大小越界。",
+      "tags": [
+        "协议适配",
+        "图片请求",
+        "载荷校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:decodeImage",
+      "type": "function",
+      "name": "decodeImage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "lineRange": [
+        68,
+        84
+      ],
+      "summary": "解析 PNG、JPEG 或 WebP 的 base64 data URL，校验内容及 50 MiB 单图限制并生成文件部分。",
+      "tags": [
+        "协议适配",
+        "图片请求",
+        "载荷校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "type": "file",
+      "name": "MultipartFormBodyWriterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "summary": "验证多段写入声明 boundary，保留文本与文件属性，缺省文件类型使用 octet-stream，并安全处理文件名引号。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:MultipartFormBodyWriterTest",
+      "type": "class",
+      "name": "MultipartFormBodyWriterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "lineRange": [
+        12,
+        88
+      ],
+      "summary": "验证多段写入声明 boundary，保留文本与文件属性，缺省文件类型使用 octet-stream，并安全处理文件名引号。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_declaresBoundaryInContentType_when_writingForm",
+      "type": "function",
+      "name": "test_declaresBoundaryInContentType_when_writingForm",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "lineRange": [
+        14,
+        28
+      ],
+      "summary": "验证 test_declaresBoundaryInContentType_when_writingForm 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+      "type": "function",
+      "name": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "lineRange": [
+        30,
+        40
+      ],
+      "summary": "验证 test_writesTextFieldAsFormDataPart_when_fieldIsPresent 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+      "type": "function",
+      "name": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "lineRange": [
+        42,
+        57
+      ],
+      "summary": "验证 test_writesFilePartWithFilenameAndContentType_when_fileIsPresent 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_fallsBackToOctetStream_when_fileHasNoContentType",
+      "type": "function",
+      "name": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "lineRange": [
+        59,
+        72
+      ],
+      "summary": "验证 test_fallsBackToOctetStream_when_fileHasNoContentType 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_escapesQuotes_when_filenameContainsQuote",
+      "type": "function",
+      "name": "test_escapesQuotes_when_filenameContainsQuote",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "lineRange": [
+        74,
+        87
+      ],
+      "summary": "验证 test_escapesQuotes_when_filenameContainsQuote 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "type": "file",
+      "name": "MultipartFormRequestReaderTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "summary": "验证 Servlet 多段读取正确区分文本和文件、忽略查询参数，并拒绝非多段请求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:MultipartFormRequestReaderTest",
+      "type": "class",
+      "name": "MultipartFormRequestReaderTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "lineRange": [
+        13,
+        84
+      ],
+      "summary": "验证 Servlet 多段读取正确区分文本和文件、忽略查询参数，并拒绝非多段请求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_readsTextPartsAsFields_when_partHasNoFilename",
+      "type": "function",
+      "name": "test_readsTextPartsAsFields_when_partHasNoFilename",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "lineRange": [
+        17,
+        31
+      ],
+      "summary": "验证 test_readsTextPartsAsFields_when_partHasNoFilename 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_readsFileParts_when_partHasFilename",
+      "type": "function",
+      "name": "test_readsFileParts_when_partHasFilename",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "lineRange": [
+        33,
+        50
+      ],
+      "summary": "验证 test_readsFileParts_when_partHasFilename 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_ignoresQueryParameters_when_readingFormFields",
+      "type": "function",
+      "name": "test_ignoresQueryParameters_when_readingFormFields",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "lineRange": [
+        52,
+        65
+      ],
+      "summary": "验证 test_ignoresQueryParameters_when_readingFormFields 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_rejectsRequest_when_contentTypeIsNotMultipart",
+      "type": "function",
+      "name": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "lineRange": [
+        67,
+        77
+      ],
+      "summary": "验证 test_rejectsRequest_when_contentTypeIsNotMultipart 描述的行为和边界条件，使用测试夹具检查结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保障"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java:MultipartFormPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java:MultipartFormPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java:hasPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java:hasPart",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java:MultipartFormPayloadCodec",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java:MultipartFormPayloadCodec",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java:MultipartFormBodyWriter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java:write",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:JsonMultipartFormPayloadCodec",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:JsonMultipartFormPayloadCodec",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:JsonMultipartFormPayloadCodec",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:JsonMultipartFormPayloadCodec",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:encode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:encode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:decode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:decode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:readEnvelope",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:MultipartFormRequestReader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:MultipartFormRequestReader",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:read",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:read",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:charsetOf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:ResponsesImagePayloadMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:ResponsesImagePayloadMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:map",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:decodeImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:MultipartFormBodyWriterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_declaresBoundaryInContentType_when_writingForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_fallsBackToOctetStream_when_fileHasNoContentType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java:test_escapesQuotes_when_filenameContainsQuote",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:MultipartFormRequestReaderTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_readsTextPartsAsFields_when_partHasNoFilename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_readsFileParts_when_partHasFilename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_ignoresQueryParameters_when_readingFormFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java:test_rejectsRequest_when_contentTypeIsNotMultipart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:decode",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java:readEnvelope",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:read",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java:charsetOf",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:map",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java:decodeImage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

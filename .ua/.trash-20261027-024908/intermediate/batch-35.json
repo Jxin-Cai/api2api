@@ -1,0 +1,121 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/features/filter-usage-records/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/features/filter-usage-records/model/types.ts",
+      "summary": "复用用量实体与分页类型，并定义筛选钩子的状态更新和分页接口。",
+      "tags": [
+        "用量筛选",
+        "类型定义",
+        "状态接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "type": "file",
+      "name": "useUsageFilters.ts",
+      "filePath": "frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "summary": "从地址查询参数解析凭据、模型、协议、时间和分页条件，校验值后通过替换历史记录同步更新。",
+      "tags": [
+        "用量筛选",
+        "地址同步",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/filter-usage-records/model/useUsageFilters.ts:useUsageFilters",
+      "type": "function",
+      "name": "useUsageFilters",
+      "filePath": "frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "lineRange": [
+        62,
+        105
+      ],
+      "summary": "解析并验证地址中的筛选与分页条件，提供单项、批量、重置和分页更新方法。",
+      "tags": [
+        "用量筛选",
+        "地址同步",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "type": "file",
+      "name": "UsageRecordFilterBar.tsx",
+      "filePath": "frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "summary": "提供凭据、模型、协议及时间范围筛选，管理员额外可按用户和供应商渠道过滤。",
+      "tags": [
+        "用量筛选",
+        "筛选组件",
+        "权限范围"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx:UsageRecordFilterBar",
+      "type": "function",
+      "name": "UsageRecordFilterBar",
+      "filePath": "frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "lineRange": [
+        38,
+        126
+      ],
+      "summary": "加载凭据、模型及管理员渠道选项，渲染对应范围的筛选控件并提交变更回调。",
+      "tags": [
+        "用量筛选",
+        "筛选组件",
+        "方法"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "target": "function:frontend/src/features/filter-usage-records/model/useUsageFilters.ts:useUsageFilters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "target": "function:frontend/src/features/filter-usage-records/model/useUsageFilters.ts:useUsageFilters",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "target": "file:frontend/src/features/filter-usage-records/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "target": "function:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx:UsageRecordFilterBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "target": "function:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx:UsageRecordFilterBar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "target": "file:frontend/src/features/filter-usage-records/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

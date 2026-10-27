@@ -1,0 +1,166 @@
+{
+  "nodes": [
+    {
+      "id": "config:.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": ".env.example",
+      "summary": "提供 Docker Compose 运行变量示例，用于配置镜像、服务和运行环境。",
+      "tags": [
+        "环境变量示例",
+        "运行配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "记录仓库分支协作、异常处理、配置安全、日志、测试和代码质量规范，供开发协作参考。",
+      "tags": [
+        "协作规范",
+        "开发约定"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "记录仓库分支协作、异常处理、配置安全、日志、测试和代码质量规范，供开发协作参考。",
+      "tags": [
+        "协作规范",
+        "开发约定"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "介绍多协议 AI 网关的能力、前后端技术栈及开发部署方式，是理解项目用途与入口的概览。",
+      "tags": [
+        "项目概览",
+        "使用文档"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "service:docker-compose.yml",
+      "type": "service",
+      "name": "docker-compose.yml",
+      "filePath": "docker-compose.yml",
+      "summary": "编排数据库、后端与前端容器，声明运行环境、端口、数据卷及服务依赖。",
+      "tags": [
+        "容器编排",
+        "运行环境",
+        "Docker Compose"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:docker-compose.yml:postgres",
+      "type": "service",
+      "name": "postgres",
+      "filePath": "docker-compose.yml",
+      "summary": "声明 postgres 容器的镜像或构建配置、运行变量及服务依赖。",
+      "tags": [
+        "容器服务",
+        "部署配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:docker-compose.yml:backend",
+      "type": "service",
+      "name": "backend",
+      "filePath": "docker-compose.yml",
+      "summary": "声明 backend 容器的镜像或构建配置、运行变量及服务依赖。",
+      "tags": [
+        "容器服务",
+        "部署配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:docker-compose.yml:frontend",
+      "type": "service",
+      "name": "frontend",
+      "filePath": "docker-compose.yml",
+      "summary": "声明 frontend 容器的镜像或构建配置、运行变量及服务依赖。",
+      "tags": [
+        "容器服务",
+        "部署配置"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "config:.env.example",
+      "target": "service:docker-compose.yml",
+      "type": "configures",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "document:README.md",
+      "target": "service:docker-compose.yml",
+      "type": "documents",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "type": "documents",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:frontend/src/main.tsx",
+      "type": "documents",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:docker-compose.yml:postgres",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:docker-compose.yml:backend",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:docker-compose.yml:frontend",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:backend/Dockerfile",
+      "type": "deploys",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:frontend/Dockerfile",
+      "type": "deploys",
+      "weight": 0.7,
+      "direction": "forward"
+    }
+  ]
+}

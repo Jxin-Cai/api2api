@@ -1,0 +1,664 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "type": "file",
+      "name": "UsageRecordController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "summary": "提供用户和管理员用量分页 HTTP 查询，将请求及当前会话用户转换为查询命令，并按视图权限输出结果。",
+      "tags": [
+        "用量接口",
+        "用户门户",
+        "管理后台"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:UsageRecordController",
+      "type": "class",
+      "name": "UsageRecordController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "summary": "提供用户和管理员用量分页 HTTP 查询，将请求及当前会话用户转换为查询命令，并按视图权限输出结果。",
+      "tags": [
+        "用量接口",
+        "用户门户",
+        "管理后台"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        60
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "type": "function",
+      "name": "queryMyUsageRecords",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "summary": "绑定当前会话用户，转换门户查询命令并返回受本人权限限制的用量分页。",
+      "tags": [
+        "业务方法",
+        "用量接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        39,
+        48
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "type": "function",
+      "name": "queryAdminUsageRecords",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "summary": "绑定当前操作者，转换后台筛选命令并返回管理员可见的用量分页。",
+      "tags": [
+        "业务方法",
+        "用量接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        50,
+        59
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "type": "file",
+      "name": "UsageRecordHttpConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "summary": "转换用量筛选请求与应用命令，映射分页及令牌汇总响应，对普通用户隐藏渠道信息并限制页面大小。",
+      "tags": [
+        "接口转换",
+        "数据隔离",
+        "分页校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:UsageRecordHttpConverter",
+      "type": "class",
+      "name": "UsageRecordHttpConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "summary": "转换用量筛选请求与应用命令，映射分页及令牌汇总响应，对普通用户隐藏渠道信息并限制页面大小。",
+      "tags": [
+        "接口转换",
+        "数据隔离",
+        "分页校验"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        25,
+        167
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryMyCommand",
+      "type": "function",
+      "name": "toQueryMyCommand",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "summary": "将门户请求参数及当前用户转换为本人用量查询命令。",
+      "tags": [
+        "业务方法",
+        "接口转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        45
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryAdminCommand",
+      "type": "function",
+      "name": "toQueryAdminCommand",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "summary": "将后台筛选参数及当前操作者转换为管理员用量查询命令。",
+      "tags": [
+        "业务方法",
+        "接口转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        63
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toPageResponse",
+      "type": "function",
+      "name": "toPageResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "summary": "映射记录视图、分页元信息和原始及加权令牌汇总，标明视图权限。",
+      "tags": [
+        "业务方法",
+        "接口转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        65,
+        78
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toRecordResponse",
+      "type": "function",
+      "name": "toRecordResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "summary": "映射调用用量明细及关联名称，按管理员视图保留或隐藏渠道字段。",
+      "tags": [
+        "业务方法",
+        "接口转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        89,
+        108
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "type": "file",
+      "name": "QueryAdminUsageRecordsRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "summary": "定义管理员用量筛选请求，支持用户、密钥、模型、渠道、协议、时间及分页参数。",
+      "tags": [
+        "请求模型",
+        "管理后台",
+        "用量筛选"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java:QueryAdminUsageRecordsRequest",
+      "type": "class",
+      "name": "QueryAdminUsageRecordsRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "summary": "定义管理员用量筛选请求，支持用户、密钥、模型、渠道、协议、时间及分页参数。",
+      "tags": [
+        "请求模型",
+        "管理后台",
+        "用量筛选"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        32
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "type": "file",
+      "name": "QueryMyUsageRecordsRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "summary": "定义用户本人用量筛选请求，支持密钥、模型、协议、时间及分页参数。",
+      "tags": [
+        "请求模型",
+        "用户门户",
+        "用量筛选"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java:QueryMyUsageRecordsRequest",
+      "type": "class",
+      "name": "QueryMyUsageRecordsRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "summary": "定义用户本人用量筛选请求，支持密钥、模型、协议、时间及分页参数。",
+      "tags": [
+        "请求模型",
+        "用户门户",
+        "用量筛选"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        30
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "type": "file",
+      "name": "UsageRecordPageResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "summary": "返回用量记录分页、总记录数和总页数，附带筛选后的原始及加权令牌合计和管理员视图标志。",
+      "tags": [
+        "响应模型",
+        "分页结果",
+        "令牌汇总"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java:UsageRecordPageResponse",
+      "type": "class",
+      "name": "UsageRecordPageResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "summary": "返回用量记录分页、总记录数和总页数，附带筛选后的原始及加权令牌合计和管理员视图标志。",
+      "tags": [
+        "响应模型",
+        "分页结果",
+        "令牌汇总"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        27
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:UsageRecordController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:UsageRecordController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:UsageRecordHttpConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:UsageRecordHttpConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryMyCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryMyCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryAdminCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryAdminCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toPageResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toPageResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toRecordResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java:QueryAdminUsageRecordsRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java:QueryAdminUsageRecordsRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java:QueryMyUsageRecordsRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java:QueryMyUsageRecordsRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java:UsageRecordPageResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java:UsageRecordPageResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryMyCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toPageResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toQueryAdminCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toPageResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toPageResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java:toRecordResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,490 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/filter-usage-records/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "exports": [
+        {
+          "name": "UsageFilterOption",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "UsagePageSize",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "UsageQueryParams",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "UsageQueryValue",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecordFilters",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "UsageScope",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/filter-usage-records/model/useUsageFilters.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "getOptionalString",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "searchParams",
+            "key"
+          ]
+        },
+        {
+          "name": "getOptionalPositiveInteger",
+          "startLine": 25,
+          "endLine": 31,
+          "params": [
+            "searchParams",
+            "key"
+          ]
+        },
+        {
+          "name": "getOptionalProtocol",
+          "startLine": 33,
+          "endLine": 36,
+          "params": [
+            "searchParams",
+            "key"
+          ]
+        },
+        {
+          "name": "getOptionalIsoDate",
+          "startLine": 38,
+          "endLine": 45,
+          "params": [
+            "searchParams",
+            "key"
+          ]
+        },
+        {
+          "name": "parsePositivePage",
+          "startLine": 47,
+          "endLine": 50,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "serializeFilters",
+          "startLine": 52,
+          "endLine": 60,
+          "params": [
+            "filters"
+          ]
+        },
+        {
+          "name": "useUsageFilters",
+          "startLine": 62,
+          "endLine": 105,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useUsageFilters",
+          "line": 62,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getOptionalString",
+          "callee": "searchParams.get",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getOptionalString",
+          "callee": "value.trim",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getOptionalString",
+          "callee": "value.trim",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getOptionalPositiveInteger",
+          "callee": "getOptionalString",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getOptionalPositiveInteger",
+          "callee": "/^\\d+$/.test",
+          "lineNumber": 27
+        },
+        {
+          "caller": "getOptionalPositiveInteger",
+          "callee": "Number",
+          "lineNumber": 30
+        },
+        {
+          "caller": "getOptionalProtocol",
+          "callee": "getOptionalString",
+          "lineNumber": 34
+        },
+        {
+          "caller": "getOptionalProtocol",
+          "callee": "VALID_PROTOCOLS.has",
+          "lineNumber": 35
+        },
+        {
+          "caller": "getOptionalIsoDate",
+          "callee": "getOptionalString",
+          "lineNumber": 39
+        },
+        {
+          "caller": "getOptionalIsoDate",
+          "callee": "Date.parse",
+          "lineNumber": 43
+        },
+        {
+          "caller": "getOptionalIsoDate",
+          "callee": "Number.isNaN",
+          "lineNumber": 44
+        },
+        {
+          "caller": "getOptionalIsoDate",
+          "callee": "new Date(time).toISOString",
+          "lineNumber": 44
+        },
+        {
+          "caller": "parsePositivePage",
+          "callee": "Number",
+          "lineNumber": 48
+        },
+        {
+          "caller": "parsePositivePage",
+          "callee": "Number.isFinite",
+          "lineNumber": 49
+        },
+        {
+          "caller": "parsePositivePage",
+          "callee": "Math.floor",
+          "lineNumber": 49
+        },
+        {
+          "caller": "serializeFilters",
+          "callee": "Object.entries(filters).forEach",
+          "lineNumber": 54
+        },
+        {
+          "caller": "serializeFilters",
+          "callee": "Object.entries",
+          "lineNumber": 54
+        },
+        {
+          "caller": "serializeFilters",
+          "callee": "nextParams.set",
+          "lineNumber": 56
+        },
+        {
+          "caller": "serializeFilters",
+          "callee": "String",
+          "lineNumber": 56
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "useSearchParams",
+          "lineNumber": 63
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "useMemo",
+          "lineNumber": 65
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalIsoDate",
+          "lineNumber": 66
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalIsoDate",
+          "lineNumber": 67
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "Date.parse",
+          "lineNumber": 68
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "Date.parse",
+          "lineNumber": 68
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalPositiveInteger",
+          "lineNumber": 70
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalString",
+          "lineNumber": 71
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalProtocol",
+          "lineNumber": 72
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalPositiveInteger",
+          "lineNumber": 75
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalPositiveInteger",
+          "lineNumber": 76
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "getOptionalString",
+          "lineNumber": 77
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "parsePositivePage",
+          "lineNumber": 78
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "searchParams.get",
+          "lineNumber": 78
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "normalizeUsagePageSize",
+          "lineNumber": 79
+        },
+        {
+          "caller": "useUsageFilters",
+          "callee": "searchParams.get",
+          "lineNumber": 79
+        },
+        {
+          "caller": "updateFilters",
+          "callee": "setSearchParams",
+          "lineNumber": 84
+        },
+        {
+          "caller": "updateFilters",
+          "callee": "serializeFilters",
+          "lineNumber": 84
+        },
+        {
+          "caller": "setFilter",
+          "callee": "updateFilters",
+          "lineNumber": 88
+        },
+        {
+          "caller": "setFilters",
+          "callee": "updateFilters",
+          "lineNumber": 92
+        },
+        {
+          "caller": "resetFilters",
+          "callee": "updateFilters",
+          "lineNumber": 96
+        },
+        {
+          "caller": "setPage",
+          "callee": "Math.floor",
+          "lineNumber": 100
+        },
+        {
+          "caller": "setPage",
+          "callee": "updateFilters",
+          "lineNumber": 101
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/filter-usage-records/ui/UsageRecordFilterBar.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 126,
+      "nonEmptyLines": 119,
+      "functions": [
+        {
+          "name": "toIsoString",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "withCurrentModelOption",
+          "startLine": 31,
+          "endLine": 36,
+          "params": [
+            "options",
+            "currentModel"
+          ]
+        },
+        {
+          "name": "UsageRecordFilterBar",
+          "startLine": 38,
+          "endLine": 126,
+          "params": [
+            "{ scope, filters, onFilterChange, onFiltersChange, onReset, disabled = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageRecordFilterBar",
+          "line": 38,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toIsoString",
+          "callee": "value.toISOString",
+          "lineNumber": 28
+        },
+        {
+          "caller": "withCurrentModelOption",
+          "callee": "options.some",
+          "lineNumber": 32
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "useApiCredentials",
+          "lineNumber": 40
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "useProviderModels",
+          "lineNumber": 41
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "useProviderChannels",
+          "lineNumber": 42
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "channelOptions.map",
+          "lineNumber": 43
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "String",
+          "lineNumber": 45
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "useMemo",
+          "lineNumber": 47
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "withCurrentModelOption",
+          "lineNumber": 48
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "onFilterChange",
+          "lineNumber": 64
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "onFilterChange",
+          "lineNumber": 78
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "onFilterChange",
+          "lineNumber": 87
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "onFiltersChange",
+          "lineNumber": 93
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "toIsoString",
+          "lineNumber": 94
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "toIsoString",
+          "lineNumber": 95
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "onFilterChange",
+          "lineNumber": 107
+        },
+        {
+          "caller": "UsageRecordFilterBar",
+          "callee": "onFilterChange",
+          "lineNumber": 119
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    }
+  ]
+}

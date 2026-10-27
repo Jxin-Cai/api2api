@@ -1,0 +1,621 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/manage-user-accounts/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-user-accounts/model/useUserAccountMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 60,
+      "functions": [
+        {
+          "name": "useUserAccountMutations",
+          "startLine": 15,
+          "endLine": 69,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useUserAccountMutations",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 16
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "invalidateUsers",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 20
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useMutation",
+          "lineNumber": 23
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "setLastResult",
+          "lineNumber": 26
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "invalidateUsers",
+          "lineNumber": 27
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useMutation",
+          "lineNumber": 31
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "changeUserDisplayName",
+          "lineNumber": 33
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "setLastResult",
+          "lineNumber": 35
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "invalidateUsers",
+          "lineNumber": 36
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useMutation",
+          "lineNumber": 40
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "changeUserRole",
+          "lineNumber": 41
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "setLastResult",
+          "lineNumber": 43
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "invalidateUsers",
+          "lineNumber": 44
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useMutation",
+          "lineNumber": 48
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "setLastResult",
+          "lineNumber": 51
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "invalidateUsers",
+          "lineNumber": 52
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "useMutation",
+          "lineNumber": 56
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "setLastResult",
+          "lineNumber": 59
+        },
+        {
+          "caller": "useUserAccountMutations",
+          "callee": "invalidateUsers",
+          "lineNumber": 60
+        },
+        {
+          "caller": "setResult",
+          "callee": "setLastResult",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-user-accounts/ui/UserAccountActionPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 94,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "UserAccountActionPanel",
+          "startLine": 15,
+          "endLine": 94,
+          "params": [
+            "{ onCreateClick, lastResult = null }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountActionPanel",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "useUserAccounts",
+          "lineNumber": 16
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "useState",
+          "lineNumber": 19
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "useState",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleCreateClick",
+          "callee": "onCreateClick",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleCreateClick",
+          "callee": "setCreateOpen",
+          "lineNumber": 24
+        },
+        {
+          "caller": "handleEditClick",
+          "callee": "targetUserId.trim",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleEditClick",
+          "callee": "String",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleEditClick",
+          "callee": "message.warning",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleEditClick",
+          "callee": "setTargetUserId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleEditClick",
+          "callee": "setEditOpen",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleUserChanged",
+          "callee": "setRecent",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleUserChanged",
+          "callee": "refetch",
+          "lineNumber": 39
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "String",
+          "lineNumber": 51
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "handleEditClick",
+          "lineNumber": 73
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "setTargetUserId",
+          "lineNumber": 81
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "handleEditClick",
+          "lineNumber": 82
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "refetch",
+          "lineNumber": 83
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "setCreateOpen",
+          "lineNumber": 90
+        },
+        {
+          "caller": "UserAccountActionPanel",
+          "callee": "setEditOpen",
+          "lineNumber": 91
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-user-accounts/ui/UserCreateModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 48,
+      "functions": [
+        {
+          "name": "UserCreateModal",
+          "startLine": 16,
+          "endLine": 54,
+          "params": [
+            "{ open, onClose, onCreated }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserCreateModal",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UserCreateModal",
+          "callee": "useUserAccountMutations",
+          "lineNumber": 17
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "useState",
+          "lineNumber": 19
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "useEffect",
+          "lineNumber": 21
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "setForm",
+          "lineNumber": 23
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "setCreated",
+          "lineNumber": 24
+        },
+        {
+          "caller": "updateForm",
+          "callee": "setForm",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "form.username.trim",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "form.displayName.trim",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "message.warning",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "createMutation.mutateAsync",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "form.username.trim",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "form.displayName.trim",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setCreated",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "onCreated",
+          "lineNumber": 39
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "updateForm",
+          "lineNumber": 45
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "updateForm",
+          "lineNumber": 46
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "updateForm",
+          "lineNumber": 47
+        },
+        {
+          "caller": "UserCreateModal",
+          "callee": "updateForm",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-user-accounts/ui/UserEditDrawer.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 88,
+      "functions": [
+        {
+          "name": "getErrorMessage",
+          "startLine": 19,
+          "endLine": 24,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "UserEditDrawer",
+          "startLine": 26,
+          "endLine": 96,
+          "params": [
+            "{ open, targetUserId, onClose, onUpdated }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserEditDrawer",
+          "line": 26,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UserEditDrawer",
+          "callee": "useUserAccountMutations",
+          "lineNumber": 27
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "useUserAccountDetail",
+          "lineNumber": 28
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "useState",
+          "lineNumber": 29
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "useState",
+          "lineNumber": 30
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "useEffect",
+          "lineNumber": 32
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "setDisplayNameDraft",
+          "lineNumber": 36
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "setRoleDraft",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "displayNameDraft.trim",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "message.warning",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "displayNameMutation.mutateAsync",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "displayNameDraft.trim",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "onUpdated",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "message.success",
+          "lineNumber": 48
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "message.error",
+          "lineNumber": 50
+        },
+        {
+          "caller": "handleDisplayNameSave",
+          "callee": "getErrorMessage",
+          "lineNumber": 50
+        },
+        {
+          "caller": "handleRoleSave",
+          "callee": "roleMutation.mutateAsync",
+          "lineNumber": 56
+        },
+        {
+          "caller": "handleRoleSave",
+          "callee": "onUpdated",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handleRoleSave",
+          "callee": "message.success",
+          "lineNumber": 58
+        },
+        {
+          "caller": "handleRoleSave",
+          "callee": "message.error",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleRoleSave",
+          "callee": "getErrorMessage",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleStatusChange",
+          "callee": "enableMutation.mutateAsync",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handleStatusChange",
+          "callee": "disableMutation.mutateAsync",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handleStatusChange",
+          "callee": "onUpdated",
+          "lineNumber": 67
+        },
+        {
+          "caller": "handleStatusChange",
+          "callee": "message.success",
+          "lineNumber": 68
+        },
+        {
+          "caller": "handleStatusChange",
+          "callee": "message.error",
+          "lineNumber": 70
+        },
+        {
+          "caller": "handleStatusChange",
+          "callee": "getErrorMessage",
+          "lineNumber": 70
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "getErrorMessage",
+          "lineNumber": 79
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "setDisplayNameDraft",
+          "lineNumber": 81
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "handleStatusChange",
+          "lineNumber": 86
+        },
+        {
+          "caller": "UserEditDrawer",
+          "callee": "handleStatusChange",
+          "lineNumber": 89
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

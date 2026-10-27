@@ -1,0 +1,1369 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "type": "file",
+      "name": "UserAccountMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "summary": "定义账户新增、更新、按标识和用户名查询及列表读取的数据库接口。",
+      "tags": [
+        "数据访问接口",
+        "账户存储",
+        "持久化契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java:UserAccountMapper",
+      "type": "class",
+      "name": "UserAccountMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "summary": "定义账户新增、更新、按标识和用户名查询及列表读取的数据库接口。",
+      "tags": [
+        "数据访问接口",
+        "账户存储",
+        "持久化契约"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        21
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "type": "file",
+      "name": "UserAccountPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "summary": "保存用户表的标识、用户名、显示名、角色、状态、密码哈希和通用审计删除字段。",
+      "tags": [
+        "持久化对象",
+        "账户存储",
+        "审计字段"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java:UserAccountPO",
+      "type": "class",
+      "name": "UserAccountPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "summary": "保存用户表的标识、用户名、显示名、角色、状态、密码哈希和通用审计删除字段。",
+      "tags": [
+        "持久化对象",
+        "账户存储",
+        "审计字段"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        27
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "type": "file",
+      "name": "BCryptPasswordHasher.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "summary": "使用 BCrypt 对有效口令编码并验证明文与已存密码哈希的匹配，通过应用层接口隔离算法实现。",
+      "tags": [
+        "密码哈希",
+        "认证实现",
+        "口令校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:BCryptPasswordHasher",
+      "type": "class",
+      "name": "BCryptPasswordHasher",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "summary": "使用 BCrypt 对有效口令编码并验证明文与已存密码哈希的匹配，通过应用层接口隔离算法实现。",
+      "tags": [
+        "密码哈希",
+        "认证实现",
+        "口令校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        36
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:hash",
+      "type": "function",
+      "name": "hash",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "summary": "验证输入口令后以 BCrypt 编码为密码哈希值对象。",
+      "tags": [
+        "业务方法",
+        "密码哈希",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        14,
+        18
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:matches",
+      "type": "function",
+      "name": "matches",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "summary": "验证明文口令与已存 BCrypt 哈希的匹配，兼容缺失哈希输入。",
+      "tags": [
+        "业务方法",
+        "密码哈希",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        27
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "type": "file",
+      "name": "AdminUserController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "提供后台账户列表、创建、显示名与角色变更及启停接口，解析当前操作者并转交账户应用服务。",
+      "tags": [
+        "管理员接口",
+        "账户管理",
+        "请求适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:AdminUserController",
+      "type": "class",
+      "name": "AdminUserController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "提供后台账户列表、创建、显示名与角色变更及启停接口，解析当前操作者并转交账户应用服务。",
+      "tags": [
+        "管理员接口",
+        "账户管理",
+        "请求适配"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        35,
+        137
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:listUsers",
+      "type": "function",
+      "name": "listUsers",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "从会话读取操作者并查询后台用户列表，转换为统一响应。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        59
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:getUser",
+      "type": "function",
+      "name": "getUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "验证当前管理员并读取指定用户的账户详情。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        61,
+        69
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "type": "function",
+      "name": "createUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "生成用户标识，将管理员创建请求转换为命令并返回新账户。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        71,
+        82
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeDisplayName",
+      "type": "function",
+      "name": "changeDisplayName",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "绑定操作者与目标用户，将显示名请求转换为命令并返回更新账户。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        84,
+        96
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeRole",
+      "type": "function",
+      "name": "changeRole",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "绑定操作者与目标用户，提交新角色变更并返回更新账户。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        98,
+        110
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:disableUser",
+      "type": "function",
+      "name": "disableUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "由当前管理员禁用目标用户并返回统一响应。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        112,
+        123
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:enableUser",
+      "type": "function",
+      "name": "enableUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "summary": "由当前管理员启用目标用户并返回统一响应。",
+      "tags": [
+        "业务方法",
+        "管理员接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        125,
+        136
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "type": "file",
+      "name": "AdminUserHttpConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "summary": "使用 MapStruct 将管理员账户请求转为带操作者的应用命令，并将账户领域模型转换为列表及详情响应。",
+      "tags": [
+        "账户转换",
+        "命令映射",
+        "响应映射"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java:AdminUserHttpConverter",
+      "type": "class",
+      "name": "AdminUserHttpConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "summary": "使用 MapStruct 将管理员账户请求转为带操作者的应用命令，并将账户领域模型转换为列表及详情响应。",
+      "tags": [
+        "账户转换",
+        "命令映射",
+        "响应映射"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        24,
+        77
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "type": "file",
+      "name": "AdminChangeUserDisplayNameRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "summary": "承载管理员更新用户显示名的请求及参数约束。",
+      "tags": [
+        "请求模型",
+        "用户资料",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java:AdminChangeUserDisplayNameRequest",
+      "type": "class",
+      "name": "AdminChangeUserDisplayNameRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "summary": "承载管理员更新用户显示名的请求及参数约束。",
+      "tags": [
+        "请求模型",
+        "用户资料",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "type": "file",
+      "name": "AdminChangeUserRoleRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "summary": "承载管理员更新目标用户角色的请求参数。",
+      "tags": [
+        "请求模型",
+        "角色变更",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java:AdminChangeUserRoleRequest",
+      "type": "class",
+      "name": "AdminChangeUserRoleRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "summary": "承载管理员更新目标用户角色的请求参数。",
+      "tags": [
+        "请求模型",
+        "角色变更",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        19
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "type": "file",
+      "name": "AdminCreateUserRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "summary": "承载管理员创建账户的用户名、显示名、角色和口令请求，并检查必填字段。",
+      "tags": [
+        "请求模型",
+        "账户创建",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java:AdminCreateUserRequest",
+      "type": "class",
+      "name": "AdminCreateUserRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "summary": "承载管理员创建账户的用户名、显示名、角色和口令请求，并检查必填字段。",
+      "tags": [
+        "请求模型",
+        "账户创建",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        14,
+        31
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "type": "file",
+      "name": "UserAccountListResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "summary": "包装管理员账户列表中的账户详情响应。",
+      "tags": [
+        "响应模型",
+        "账户列表",
+        "数据传输"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java:UserAccountListResponse",
+      "type": "class",
+      "name": "UserAccountListResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "summary": "包装管理员账户列表中的账户详情响应。",
+      "tags": [
+        "响应模型",
+        "账户列表",
+        "数据传输"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        19
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "type": "file",
+      "name": "UserAccountResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "summary": "输出账户标识、用户名、显示名、角色、启用状态和审计时间。",
+      "tags": [
+        "响应模型",
+        "账户详情",
+        "数据传输"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java:UserAccountResponse",
+      "type": "class",
+      "name": "UserAccountResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "summary": "输出账户标识、用户名、显示名、角色、启用状态和审计时间。",
+      "tags": [
+        "响应模型",
+        "账户详情",
+        "数据传输"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        28
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java:UserAccountMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java:UserAccountMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java:UserAccountPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java:UserAccountPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:BCryptPasswordHasher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:BCryptPasswordHasher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:hash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:hash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:matches",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:AdminUserController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:AdminUserController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:listUsers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:listUsers",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:getUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:getUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeDisplayName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeDisplayName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:disableUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:disableUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:enableUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:enableUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java:AdminUserHttpConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java:AdminUserHttpConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java:AdminChangeUserDisplayNameRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java:AdminChangeUserDisplayNameRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java:AdminChangeUserRoleRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java:AdminChangeUserRoleRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java:AdminCreateUserRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java:AdminCreateUserRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java:UserAccountListResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java:UserAccountListResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java:UserAccountResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java:UserAccountResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:listUsers",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:listUsers",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:listUsers",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:listUsers",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:getUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:getUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newUserAccountId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:createUser",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:createUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeDisplayName",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeDisplayName",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeDisplayName",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeDisplayName",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeRole",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeRole",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeRole",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:changeRole",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:disableUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:disableUser",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:disableUser",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:disableUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:enableUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:enableUser",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:enableUser",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java:enableUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java:BCryptPasswordHasher",
+      "target": "class:backend/src/main/java/com/api2api/application/user/PasswordHasher.java:PasswordHasher",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

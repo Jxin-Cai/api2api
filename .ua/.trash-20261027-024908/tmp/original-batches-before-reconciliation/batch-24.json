@@ -1,0 +1,500 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/shared/api/authSession.ts",
+      "type": "file",
+      "name": "authSession.ts",
+      "filePath": "frontend/src/shared/api/authSession.ts",
+      "summary": "通过浏览器自定义事件发布与订阅会话过期信号，服务端会话 Cookie 仍作为鉴权状态来源，非浏览器环境安全返回。",
+      "tags": [
+        "会话事件",
+        "鉴权状态",
+        "浏览器工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/authSession.ts:notifyAuthExpired",
+      "type": "function",
+      "name": "notifyAuthExpired",
+      "filePath": "frontend/src/shared/api/authSession.ts",
+      "lineRange": [
+        7,
+        12
+      ],
+      "summary": "在authSession中执行 notifyAuthExpired 操作。协调 window.dispatchEvent 等调用处理输入与状态。",
+      "tags": [
+        "会话事件",
+        "鉴权状态",
+        "浏览器工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/authSession.ts:onAuthExpired",
+      "type": "function",
+      "name": "onAuthExpired",
+      "filePath": "frontend/src/shared/api/authSession.ts",
+      "lineRange": [
+        14,
+        20
+      ],
+      "summary": "在authSession中执行 onAuthExpired 操作。协调 window.addEventListener、window.removeEventListener 等调用处理输入与状态。",
+      "tags": [
+        "会话事件",
+        "鉴权状态",
+        "浏览器工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/api/client.ts",
+      "type": "file",
+      "name": "client.ts",
+      "filePath": "frontend/src/shared/api/client.ts",
+      "summary": "统一封装携带会话 Cookie 的 JSON HTTP 请求，处理标准业务响应、HTTP 与网络错误，并在未授权时广播会话过期信号。开发模式采用同源地址，生产地址由环境变量配置。",
+      "tags": [
+        "http-客户端",
+        "错误映射",
+        "会话认证"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/shared/api/client.ts:safeParseJson",
+      "type": "function",
+      "name": "safeParseJson",
+      "filePath": "frontend/src/shared/api/client.ts",
+      "lineRange": [
+        14,
+        31
+      ],
+      "summary": "对 204、空响应、非 JSON 内容或无效 JSON 返回空值，其他情况解析业务响应。",
+      "tags": [
+        "http-客户端",
+        "错误映射",
+        "会话认证"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/client.ts:parseResponse",
+      "type": "function",
+      "name": "parseResponse",
+      "filePath": "frontend/src/shared/api/client.ts",
+      "lineRange": [
+        33,
+        62
+      ],
+      "summary": "区分 HTTP 失败、空成功响应和业务失败，生成统一错误并对未授权广播会话过期事件。",
+      "tags": [
+        "http-客户端",
+        "错误映射",
+        "会话认证"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/client.ts:request",
+      "type": "function",
+      "name": "request",
+      "filePath": "frontend/src/shared/api/client.ts",
+      "lineRange": [
+        64,
+        91
+      ],
+      "summary": "附加查询参数和 JSON 请求体，携带 Cookie 发送 fetch 请求，保留结构化错误并把其他异常映射为 NETWORK_ERROR。",
+      "tags": [
+        "http-客户端",
+        "错误映射",
+        "会话认证"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/api/errorMessage.ts",
+      "type": "file",
+      "name": "errorMessage.ts",
+      "filePath": "frontend/src/shared/api/errorMessage.ts",
+      "summary": "将模型拉取和密钥展示错误码转换为中文提示，优先保留服务端明确业务消息，并支持调用方缺省文案。",
+      "tags": [
+        "错误提示",
+        "错误码映射",
+        "共享工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/errorMessage.ts:getApiErrorMessage",
+      "type": "function",
+      "name": "getApiErrorMessage",
+      "filePath": "frontend/src/shared/api/errorMessage.ts",
+      "lineRange": [
+        21,
+        30
+      ],
+      "summary": "在errorMessage中执行 getApiErrorMessage 操作。协调 isApiErrorShape、error.message.startsWith 等调用处理输入与状态。",
+      "tags": [
+        "错误提示",
+        "错误码映射",
+        "共享工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/api/http.ts",
+      "type": "file",
+      "name": "http.ts",
+      "filePath": "frontend/src/shared/api/http.ts",
+      "summary": "提供共享请求构造工具，合并既有与新增查询参数、编码路径段，并将可选对象序列化为 JSON 请求体。",
+      "tags": [
+        "http-工具",
+        "查询参数",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/http.ts:appendQuery",
+      "type": "function",
+      "name": "appendQuery",
+      "filePath": "frontend/src/shared/api/http.ts",
+      "lineRange": [
+        4,
+        12
+      ],
+      "summary": "在http中执行 appendQuery 操作。协调 path.split、toQueryString 等调用处理输入与状态。",
+      "tags": [
+        "http-工具",
+        "查询参数",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/http.ts:encodePathParam",
+      "type": "function",
+      "name": "encodePathParam",
+      "filePath": "frontend/src/shared/api/http.ts",
+      "lineRange": [
+        14,
+        16
+      ],
+      "summary": "在http中执行 encodePathParam 操作。协调 encodeURIComponent、String 等调用处理输入与状态。",
+      "tags": [
+        "http-工具",
+        "查询参数",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/api/http.ts:jsonBody",
+      "type": "function",
+      "name": "jsonBody",
+      "filePath": "frontend/src/shared/api/http.ts",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "在http中执行 jsonBody 操作。协调 JSON.stringify 等调用处理输入与状态。",
+      "tags": [
+        "http-工具",
+        "查询参数",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/api/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/shared/api/types.ts",
+      "summary": "定义统一业务响应、结构化错误和分页契约，复用共享查询参数类型并固定 SUCCESS 成功码。",
+      "tags": [
+        "类型定义",
+        "api-契约",
+        "分页"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/lib/queryString.ts",
+      "type": "file",
+      "name": "queryString.ts",
+      "filePath": "frontend/src/shared/lib/queryString.ts",
+      "summary": "统一 URL 查询序列化规则，忽略 null、undefined 和空字符串，保留零、false 及数组重复键，并在现有查询基础上追加。",
+      "tags": [
+        "工具函数",
+        "查询参数",
+        "url-编码"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/queryString.ts:toQueryString",
+      "type": "function",
+      "name": "toQueryString",
+      "filePath": "frontend/src/shared/lib/queryString.ts",
+      "lineRange": [
+        4,
+        15
+      ],
+      "summary": "在queryString中执行 toQueryString 操作。协调 Object.entries(params).forEach、Object.entries、Array.isArray、values.forEach、search.append 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "查询参数",
+        "url-编码"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/lib/usageQuery.ts",
+      "type": "file",
+      "name": "usageQuery.ts",
+      "filePath": "frontend/src/shared/lib/usageQuery.ts",
+      "summary": "为用量查询复用统一序列化规则，生成带问号的查询后缀，空条件返回空字符串。",
+      "tags": [
+        "工具函数",
+        "用量查询",
+        "查询参数"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/usageQuery.ts:buildAppUsageQuery",
+      "type": "function",
+      "name": "buildAppUsageQuery",
+      "filePath": "frontend/src/shared/lib/usageQuery.ts",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "在usageQuery中执行 buildAppUsageQuery 操作。协调 toQuery 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "用量查询",
+        "查询参数"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/tests/queryString.test.ts",
+      "type": "file",
+      "name": "queryString.test.ts",
+      "filePath": "frontend/tests/queryString.test.ts",
+      "summary": "验证查询参数在多处入口中一致序列化，覆盖空值、零与布尔、数组、Unicode 和特殊字符，以及既有查询追加和无参数原样保留。",
+      "tags": [
+        "测试",
+        "查询参数",
+        "编码边界"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/shared/api/authSession.ts",
+      "target": "function:frontend/src/shared/api/authSession.ts:notifyAuthExpired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/authSession.ts",
+      "target": "function:frontend/src/shared/api/authSession.ts:notifyAuthExpired",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/api/authSession.ts",
+      "target": "function:frontend/src/shared/api/authSession.ts:onAuthExpired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/authSession.ts",
+      "target": "function:frontend/src/shared/api/authSession.ts:onAuthExpired",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/api/client.ts",
+      "target": "function:frontend/src/shared/api/client.ts:safeParseJson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/client.ts",
+      "target": "function:frontend/src/shared/api/client.ts:parseResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/client.ts",
+      "target": "function:frontend/src/shared/api/client.ts:request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/client.ts",
+      "target": "file:frontend/src/shared/api/authSession.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/api/client.ts",
+      "target": "file:frontend/src/shared/api/http.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/api/client.ts",
+      "target": "file:frontend/src/shared/api/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/api/errorMessage.ts",
+      "target": "function:frontend/src/shared/api/errorMessage.ts:getApiErrorMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/errorMessage.ts",
+      "target": "function:frontend/src/shared/api/errorMessage.ts:getApiErrorMessage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/api/errorMessage.ts",
+      "target": "file:frontend/src/shared/api/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "function:frontend/src/shared/api/http.ts:appendQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "function:frontend/src/shared/api/http.ts:appendQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "function:frontend/src/shared/api/http.ts:encodePathParam",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "function:frontend/src/shared/api/http.ts:encodePathParam",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "function:frontend/src/shared/api/http.ts:jsonBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "function:frontend/src/shared/api/http.ts:jsonBody",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "file:frontend/src/shared/api/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/api/http.ts",
+      "target": "file:frontend/src/shared/lib/queryString.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/lib/queryString.ts",
+      "target": "function:frontend/src/shared/lib/queryString.ts:toQueryString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/queryString.ts",
+      "target": "function:frontend/src/shared/lib/queryString.ts:toQueryString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/usageQuery.ts",
+      "target": "function:frontend/src/shared/lib/usageQuery.ts:buildAppUsageQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/usageQuery.ts",
+      "target": "function:frontend/src/shared/lib/usageQuery.ts:buildAppUsageQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/usageQuery.ts",
+      "target": "file:frontend/src/shared/lib/queryString.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/queryString.test.ts",
+      "target": "file:frontend/src/shared/api/http.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/queryString.test.ts",
+      "target": "file:frontend/src/shared/lib/queryString.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/queryString.test.ts",
+      "target": "file:frontend/src/shared/lib/usageQuery.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

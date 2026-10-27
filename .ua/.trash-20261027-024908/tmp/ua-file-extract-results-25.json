@@ -1,0 +1,639 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 111,
+      "nonEmptyLines": 100,
+      "functions": [
+        {
+          "name": "cleanOptionalString",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "cleanPositiveInteger",
+          "startLine": 29,
+          "endLine": 35,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "cleanIsoDate",
+          "startLine": 37,
+          "endLine": 44,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "toTokenAmount",
+          "startLine": 46,
+          "endLine": 49,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "toBackendParams",
+          "startLine": 51,
+          "endLine": 66,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "toFrontendPage",
+          "startLine": 68,
+          "endLine": 88,
+          "params": [
+            "response"
+          ]
+        },
+        {
+          "name": "queryUsageRecords",
+          "startLine": 90,
+          "endLine": 99,
+          "params": [
+            "path",
+            "params"
+          ]
+        },
+        {
+          "name": "queryMyUsageRecords",
+          "startLine": 101,
+          "endLine": 105,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "queryAdminUsageRecords",
+          "startLine": 107,
+          "endLine": 111,
+          "params": [
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "queryMyUsageRecords",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "queryAdminUsageRecords",
+          "line": 107,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cleanOptionalString",
+          "callee": "value?.trim",
+          "lineNumber": 25
+        },
+        {
+          "caller": "cleanPositiveInteger",
+          "callee": "cleanOptionalString",
+          "lineNumber": 30
+        },
+        {
+          "caller": "cleanPositiveInteger",
+          "callee": "/^\\d+$/.test",
+          "lineNumber": 31
+        },
+        {
+          "caller": "cleanPositiveInteger",
+          "callee": "Number",
+          "lineNumber": 34
+        },
+        {
+          "caller": "cleanIsoDate",
+          "callee": "cleanOptionalString",
+          "lineNumber": 38
+        },
+        {
+          "caller": "cleanIsoDate",
+          "callee": "Date.parse",
+          "lineNumber": 42
+        },
+        {
+          "caller": "cleanIsoDate",
+          "callee": "Number.isNaN",
+          "lineNumber": 43
+        },
+        {
+          "caller": "cleanIsoDate",
+          "callee": "new Date(time).toISOString",
+          "lineNumber": 43
+        },
+        {
+          "caller": "toTokenAmount",
+          "callee": "Number",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toTokenAmount",
+          "callee": "Number.isFinite",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toTokenAmount",
+          "callee": "Math.max",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanIsoDate",
+          "lineNumber": 52
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanIsoDate",
+          "lineNumber": 53
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "Date.parse",
+          "lineNumber": 54
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "Date.parse",
+          "lineNumber": 54
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanPositiveInteger",
+          "lineNumber": 56
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanOptionalString",
+          "lineNumber": 57
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanOptionalString",
+          "lineNumber": 58
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanPositiveInteger",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toBackendParams",
+          "callee": "cleanPositiveInteger",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toFrontendPage",
+          "callee": "Array.isArray",
+          "lineNumber": 69
+        },
+        {
+          "caller": "toFrontendPage",
+          "callee": "Number.isFinite",
+          "lineNumber": 70
+        },
+        {
+          "caller": "toFrontendPage",
+          "callee": "Number.isFinite",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toFrontendPage",
+          "callee": "toTokenAmount",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toFrontendPage",
+          "callee": "toTokenAmount",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toFrontendPage",
+          "callee": "records.map",
+          "lineNumber": 76
+        },
+        {
+          "caller": "queryUsageRecords",
+          "callee": "await apiClient.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "queryUsageRecords",
+          "callee": "toBackendParams",
+          "lineNumber": 94
+        },
+        {
+          "caller": "queryUsageRecords",
+          "callee": "toFrontendPage",
+          "lineNumber": 97
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "queryUsageRecords",
+          "lineNumber": 104
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "queryUsageRecords",
+          "lineNumber": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 9,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/usage-record/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 37,
+      "exports": [
+        {
+          "name": "UsagePageSize",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecordPageResponse",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecordResponse",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "UsageTokenSummaryResponse",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "useUsageRecords",
+          "startLine": 18,
+          "endLine": 30,
+          "params": [
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "USAGE_RECORDS_QUERY_KEY",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "useUsageRecords",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useUsageRecords",
+          "callee": "useQuery",
+          "lineNumber": 21
+        },
+        {
+          "caller": "useUsageRecords",
+          "callee": "queryAdminUsageRecords",
+          "lineNumber": 25
+        },
+        {
+          "caller": "useUsageRecords",
+          "callee": "queryMyUsageRecords",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "statusMeta",
+          "startLine": 8,
+          "endLine": 20,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "UsageRecordStatusTag",
+          "startLine": 22,
+          "endLine": 29,
+          "params": [
+            "{ status }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageRecordStatusTag",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "statusMeta",
+          "callee": "status.toUpperCase",
+          "lineNumber": 9
+        },
+        {
+          "caller": "UsageRecordStatusTag",
+          "callee": "statusMeta",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 77,
+      "functions": [
+        {
+          "name": "UsageRecordTable",
+          "startLine": 27,
+          "endLine": 84,
+          "params": [
+            "{ records, scope, loading = false, pagination, showSizeChanger = true, onPageChange }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageRecordTable",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageRecordTable",
+          "callee": "useState",
+          "lineNumber": 28
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatDateTime",
+          "lineNumber": 31
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "record.apiCredentialName?.trim",
+          "lineNumber": 39
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "formatTokenThousands",
+          "lineNumber": 51
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "columns.splice",
+          "lineNumber": 60
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "columns.push",
+          "lineNumber": 61
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "columns.push",
+          "lineNumber": 62
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "buildTablePagination",
+          "lineNumber": 73
+        },
+        {
+          "caller": "UsageRecordTable",
+          "callee": "setExpandedRowKeys",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 104,
+      "nonEmptyLines": 97,
+      "functions": [
+        {
+          "name": "toSafeAmount",
+          "startLine": 21,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "averageTokens",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "total",
+            "recordCount"
+          ]
+        },
+        {
+          "name": "UsageTokenSummary",
+          "startLine": 29,
+          "endLine": 104,
+          "params": [
+            "{\n  totalTokens,\n  actualTokens,\n  recordCount = 0,\n  scope,\n  loading = false,\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageTokenSummary",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toSafeAmount",
+          "callee": "Number.isFinite",
+          "lineNumber": 22
+        },
+        {
+          "caller": "toSafeAmount",
+          "callee": "Math.max",
+          "lineNumber": 22
+        },
+        {
+          "caller": "averageTokens",
+          "callee": "(recordCount === 0 ? 0 : Math.round(total / recordCount)).toLocaleString",
+          "lineNumber": 26
+        },
+        {
+          "caller": "averageTokens",
+          "callee": "Math.round",
+          "lineNumber": 26
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "toSafeAmount",
+          "lineNumber": 36
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "toSafeAmount",
+          "lineNumber": 37
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "toSafeAmount",
+          "lineNumber": 38
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "formatTokenCompactParts",
+          "lineNumber": 39
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "formatTokenCompactParts",
+          "lineNumber": 40
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "safeRecordCount.toLocaleString",
+          "lineNumber": 41
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "averageTokens",
+          "lineNumber": 42
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "averageTokens",
+          "lineNumber": 43
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "safeActualTokens.toLocaleString",
+          "lineNumber": 76
+        },
+        {
+          "caller": "UsageTokenSummary",
+          "callee": "safeTotalTokens.toLocaleString",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    }
+  ]
+}

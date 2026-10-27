@@ -1,0 +1,728 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.css",
+      "type": "file",
+      "name": "ApiCredentialTablePanel.css",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.css",
+      "summary": "定义 API 凭证管理面板的统计网格、指标卡、工具栏和表格外观，统一主题色与紧凑布局。",
+      "tags": [
+        "组件样式",
+        "凭证管理",
+        "响应式布局"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-channel-models/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/manage-channel-models/index.ts",
+      "summary": "统一导出渠道模型管理类型、变更钩子、编辑表格、模型获取弹窗与映射管理面板。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-model-groups/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/manage-model-groups/index.ts",
+      "summary": "公开导出模型分组管理列表面板。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/manage-provider-channels/index.ts",
+      "summary": "统一导出提供方渠道管理类型、变更钩子、模型批量获取弹窗、表单抽屉与列表工具栏。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-user-accounts/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/manage-user-accounts/index.ts",
+      "summary": "统一导出用户账户管理类型、变更钩子、操作面板、创建弹窗与编辑抽屉。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/route-by-role/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/route-by-role/index.ts",
+      "summary": "公开导出登录态校验、角色权限校验与角色入口跳转组件。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/route-by-role/ui/RequireAuth.tsx",
+      "type": "file",
+      "name": "RequireAuth.tsx",
+      "filePath": "frontend/src/features/route-by-role/ui/RequireAuth.tsx",
+      "summary": "校验当前用户登录态，未登录时携带原路径跳转登录页，禁用账户显示错误状态，已登录有效账户才渲染子内容。",
+      "tags": [
+        "登录校验",
+        "路由守卫",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/route-by-role/ui/RequireAuth.tsx:RequireAuth",
+      "type": "function",
+      "name": "RequireAuth",
+      "filePath": "frontend/src/features/route-by-role/ui/RequireAuth.tsx",
+      "lineRange": [
+        12,
+        33
+      ],
+      "summary": "校验当前用户登录态，未登录时携带原路径跳转登录页，禁用账户显示错误状态，已登录有效账户才渲染子内容。",
+      "tags": [
+        "登录校验",
+        "路由守卫",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/route-by-role/ui/RequireRole.tsx",
+      "type": "file",
+      "name": "RequireRole.tsx",
+      "filePath": "frontend/src/features/route-by-role/ui/RequireRole.tsx",
+      "summary": "校验当前用户是否具有指定角色，未登录时跳转登录页，权限不符时展示禁止访问及返回前台操作。",
+      "tags": [
+        "角色校验",
+        "路由守卫",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/route-by-role/ui/RequireRole.tsx:RequireRole",
+      "type": "function",
+      "name": "RequireRole",
+      "filePath": "frontend/src/features/route-by-role/ui/RequireRole.tsx",
+      "lineRange": [
+        16,
+        40
+      ],
+      "summary": "校验当前用户是否具有指定角色，未登录时跳转登录页，权限不符时展示禁止访问及返回前台操作。",
+      "tags": [
+        "角色校验",
+        "路由守卫",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx",
+      "type": "file",
+      "name": "RoleLandingRedirect.tsx",
+      "filePath": "frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx",
+      "summary": "在登录后优先跳转经过站内路径校验的 redirect 参数，否则依据管理员或普通用户角色进入相应仪表盘。",
+      "tags": [
+        "登录跳转",
+        "路由导航",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx:RoleLandingRedirect",
+      "type": "function",
+      "name": "RoleLandingRedirect",
+      "filePath": "frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx",
+      "lineRange": [
+        11,
+        29
+      ],
+      "summary": "在登录后优先跳转经过站内路径校验的 redirect 参数，否则依据管理员或普通用户角色进入相应仪表盘。",
+      "tags": [
+        "登录跳转",
+        "路由导航",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/switch-portal-navigation/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/switch-portal-navigation/index.ts",
+      "summary": "公开导出管理员前后台门户导航切换组件。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx",
+      "type": "file",
+      "name": "PortalMenuSwitcher.tsx",
+      "filePath": "frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx",
+      "summary": "为管理员提供前台与后台门户切换，并为普通用户显示禁用的用户门户标识。",
+      "tags": [
+        "门户导航",
+        "角色展示",
+        "交互组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx:PortalMenuSwitcher",
+      "type": "function",
+      "name": "PortalMenuSwitcher",
+      "filePath": "frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx",
+      "lineRange": [
+        12,
+        28
+      ],
+      "summary": "为管理员提供前台与后台门户切换，并为普通用户显示禁用的用户门户标识。",
+      "tags": [
+        "门户导航",
+        "角色展示",
+        "交互组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-admin-dashboard/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/view-admin-dashboard/index.ts",
+      "summary": "公开导出管理端全平台仪表盘面板。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.css",
+      "type": "file",
+      "name": "AdminDashboardPanel.css",
+      "filePath": "frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.css",
+      "summary": "定义后台仪表盘分区、协议指标网格及图表块布局，使指标与排行在不同屏宽下保持整齐显示。",
+      "tags": [
+        "组件样式",
+        "仪表盘",
+        "响应式布局"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "type": "file",
+      "name": "AdminDashboardPanel.tsx",
+      "filePath": "frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "summary": "组合全平台令牌概览、协议请求速率、用户排行、模型渠道分布与七日趋势，统一时区及失败重试展示。",
+      "tags": [
+        "后台仪表盘",
+        "指标聚合",
+        "可视化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx:AdminDashboardPanel",
+      "type": "function",
+      "name": "AdminDashboardPanel",
+      "filePath": "frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "lineRange": [
+        16,
+        133
+      ],
+      "summary": "组合全平台令牌概览、协议请求速率、用户排行、模型渠道分布与七日趋势，统一时区及失败重试展示。",
+      "tags": [
+        "后台仪表盘",
+        "指标聚合",
+        "可视化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/view-front-dashboard/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/view-front-dashboard/index.ts",
+      "summary": "公开导出前台仪表盘面板类型及面板组件。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-front-dashboard/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/features/view-front-dashboard/model/types.ts",
+      "summary": "定义前台仪表盘面板的可选时区属性，供面板与页面组合时共享类型约束。",
+      "tags": [
+        "类型定义",
+        "仪表盘",
+        "时区配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.css",
+      "type": "file",
+      "name": "FrontDashboardPanel.css",
+      "filePath": "frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.css",
+      "summary": "为前台仪表盘趋势标题与凭证筛选器提供纵向排列和全宽布局。",
+      "tags": [
+        "组件样式",
+        "仪表盘",
+        "筛选布局"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "type": "file",
+      "name": "FrontDashboardPanel.tsx",
+      "filePath": "frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "summary": "展示当前用户令牌概览、模型渠道分布、凭证排行及最近调用，并支持按 API Key 多选筛选令牌趋势与并发曲线。",
+      "tags": [
+        "用户仪表盘",
+        "凭证筛选",
+        "可视化",
+        "用量记录"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx:FrontDashboardPanel",
+      "type": "function",
+      "name": "FrontDashboardPanel",
+      "filePath": "frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "lineRange": [
+        27,
+        123
+      ],
+      "summary": "展示当前用户令牌概览、模型渠道分布、凭证排行及最近调用，并支持按 API Key 多选筛选令牌趋势与并发曲线。",
+      "tags": [
+        "用户仪表盘",
+        "凭证筛选",
+        "可视化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "type": "file",
+      "name": "operationsApi.ts",
+      "filePath": "frontend/src/features/view-operations/api/operationsApi.ts",
+      "summary": "定义系统资源与流量快照类型，并提供可暂停的运维查询钩子，分别按十秒与三十秒轮询资源和请求统计。",
+      "tags": [
+        "运维监控",
+        "接口查询",
+        "定时轮询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/view-operations/api/operationsApi.ts:useSystemMetrics",
+      "type": "function",
+      "name": "useSystemMetrics",
+      "filePath": "frontend/src/features/view-operations/api/operationsApi.ts",
+      "lineRange": [
+        36,
+        44
+      ],
+      "summary": "查询管理员系统资源快照，自动模式每十秒刷新并跟随窗口聚焦刷新，暂停模式停止轮询。",
+      "tags": [
+        "运维监控",
+        "接口查询",
+        "定时轮询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/view-operations/api/operationsApi.ts:useOperationsTraffic",
+      "type": "function",
+      "name": "useOperationsTraffic",
+      "filePath": "frontend/src/features/view-operations/api/operationsApi.ts",
+      "lineRange": [
+        46,
+        55
+      ],
+      "summary": "按浏览器时区查询管理员流量快照，自动模式每三十秒刷新并禁用自动重试。",
+      "tags": [
+        "运维监控",
+        "接口查询",
+        "定时轮询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-operations/ui/OperationsPanel.css",
+      "type": "file",
+      "name": "OperationsPanel.css",
+      "filePath": "frontend/src/features/view-operations/ui/OperationsPanel.css",
+      "summary": "定义运维面板健康概览、采样信息、资源卡、说明与延迟表格样式，并处理移动端纵向排布。",
+      "tags": [
+        "组件样式",
+        "运维监控",
+        "响应式布局"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "type": "file",
+      "name": "OperationsPanel.tsx",
+      "filePath": "frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "summary": "展示系统健康、宿主机资源、JVM 与数据库连接池及请求流量，支持自动刷新切换、错误状态和最近六十个资源采样趋势。",
+      "tags": [
+        "运维监控",
+        "资源水位",
+        "定时轮询",
+        "可视化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:ResourceCard",
+      "type": "function",
+      "name": "ResourceCard",
+      "filePath": "frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "lineRange": [
+        37,
+        53
+      ],
+      "summary": "展示资源百分比、进度条与容量详情，依据普通资源或负载阈值标记正常、预警和高危状态。",
+      "tags": [
+        "运维监控",
+        "资源水位",
+        "定时轮询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:OperationsPanel",
+      "type": "function",
+      "name": "OperationsPanel",
+      "filePath": "frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "lineRange": [
+        55,
+        150
+      ],
+      "summary": "展示系统健康、宿主机资源、JVM 与数据库连接池及请求流量，支持自动刷新切换、错误状态和最近六十个资源采样趋势。",
+      "tags": [
+        "运维监控",
+        "资源水位",
+        "定时轮询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/view-protocol-conversions/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/view-protocol-conversions/index.ts",
+      "summary": "统一导出协议转换管理类型、变更钩子、详情抽屉、筛选条与列表面板。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-protocol-metadata/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/features/view-protocol-metadata/index.ts",
+      "summary": "公开导出协议元数据概览面板与详情面板。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "切片封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailModal.css",
+      "type": "file",
+      "name": "ProtocolMetadataDetailModal.css",
+      "filePath": "frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailModal.css",
+      "summary": "定义协议元数据详情弹窗的边界、滚动区域、标题、版本标记及事实区块样式，适配主题与视口尺寸。",
+      "tags": [
+        "组件样式",
+        "协议元数据",
+        "弹窗布局"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/main.tsx",
+      "type": "file",
+      "name": "main.tsx",
+      "filePath": "frontend/src/main.tsx",
+      "summary": "初始化 React 应用根节点、全局提供者与路由，首屏应用持久化主题，并处理 Vite 预加载分包错误及重载标记。",
+      "tags": [
+        "入口点",
+        "应用启动",
+        "主题初始化",
+        "分包恢复"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/features/route-by-role/ui/RequireAuth.tsx",
+      "target": "function:frontend/src/features/route-by-role/ui/RequireAuth.tsx:RequireAuth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/route-by-role/ui/RequireAuth.tsx",
+      "target": "function:frontend/src/features/route-by-role/ui/RequireAuth.tsx:RequireAuth",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/route-by-role/ui/RequireRole.tsx",
+      "target": "function:frontend/src/features/route-by-role/ui/RequireRole.tsx:RequireRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/route-by-role/ui/RequireRole.tsx",
+      "target": "function:frontend/src/features/route-by-role/ui/RequireRole.tsx:RequireRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx",
+      "target": "function:frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx:RoleLandingRedirect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx",
+      "target": "function:frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx:RoleLandingRedirect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx",
+      "target": "function:frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx:PortalMenuSwitcher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx",
+      "target": "function:frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx:PortalMenuSwitcher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "target": "function:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx:AdminDashboardPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "target": "function:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx:AdminDashboardPanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "target": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "target": "function:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx:FrontDashboardPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "target": "function:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx:FrontDashboardPanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "target": "file:frontend/src/features/view-front-dashboard/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "target": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "target": "function:frontend/src/features/view-operations/api/operationsApi.ts:useSystemMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "target": "function:frontend/src/features/view-operations/api/operationsApi.ts:useSystemMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "target": "function:frontend/src/features/view-operations/api/operationsApi.ts:useOperationsTraffic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "target": "function:frontend/src/features/view-operations/api/operationsApi.ts:useOperationsTraffic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "target": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:ResourceCard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "target": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:OperationsPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "target": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:OperationsPanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "target": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "target": "file:frontend/src/features/view-operations/ui/OperationsPanel.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:OperationsPanel",
+      "target": "function:frontend/src/features/view-operations/api/operationsApi.ts:useSystemMetrics",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/features/view-operations/ui/OperationsPanel.tsx:OperationsPanel",
+      "target": "function:frontend/src/features/view-operations/api/operationsApi.ts:useOperationsTraffic",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "target": "file:frontend/src/features/view-operations/api/operationsApi.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.css",
+      "target": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailModal.css",
+      "target": "file:frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailModal.tsx",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.css",
+      "target": "file:frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.css",
+      "target": "file:frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:frontend/src/features/view-operations/ui/OperationsPanel.css",
+      "target": "file:frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

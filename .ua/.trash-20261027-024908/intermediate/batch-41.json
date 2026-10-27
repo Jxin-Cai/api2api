@@ -1,0 +1,950 @@
+{
+  "nodes": [
+    {
+      "id": "table:backend/src/main/resources/db/migration/V10__add_bedrock_converse_protocol_definitions.sql",
+      "type": "table",
+      "name": "V10__add_bedrock_converse_protocol_definitions.sql",
+      "filePath": "backend/src/main/resources/db/migration/V10__add_bedrock_converse_protocol_definitions.sql",
+      "summary": "加入 AWS Bedrock Converse 上游协议的六个方向转换定义。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V11__enable_claude_bedrock_advanced_capabilities.sql",
+      "type": "table",
+      "name": "V11__enable_claude_bedrock_advanced_capabilities.sql",
+      "filePath": "backend/src/main/resources/db/migration/V11__enable_claude_bedrock_advanced_capabilities.sql",
+      "summary": "更新 Claude 与 Bedrock 转换能力声明，启用进阶能力配置。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V12__enable_openai_responses_bedrock_stream_reasoning.sql",
+      "type": "table",
+      "name": "V12__enable_openai_responses_bedrock_stream_reasoning.sql",
+      "filePath": "backend/src/main/resources/db/migration/V12__enable_openai_responses_bedrock_stream_reasoning.sql",
+      "summary": "更新 OpenAI Responses 与 Bedrock 的流式推理转换能力声明。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V13__enable_claude_responses_stream_tools.sql",
+      "type": "table",
+      "name": "V13__enable_claude_responses_stream_tools.sql",
+      "filePath": "backend/src/main/resources/db/migration/V13__enable_claude_responses_stream_tools.sql",
+      "summary": "启用 Claude Messages 与 OpenAI Responses 之间的流式工具调用转换能力。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V14__enable_responses_claude_response_features.sql",
+      "type": "table",
+      "name": "V14__enable_responses_claude_response_features.sql",
+      "filePath": "backend/src/main/resources/db/migration/V14__enable_responses_claude_response_features.sql",
+      "summary": "更新 Responses 与 Claude 之间的响应特性转换声明。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V15__describe_latest_claude_conversion_capabilities.sql",
+      "type": "table",
+      "name": "V15__describe_latest_claude_conversion_capabilities.sql",
+      "filePath": "backend/src/main/resources/db/migration/V15__describe_latest_claude_conversion_capabilities.sql",
+      "summary": "刷新 Claude 协议转换能力描述，使存储中的能力元数据反映新增支持。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V16__repair_usage_token_totals.sql",
+      "type": "table",
+      "name": "V16__repair_usage_token_totals.sql",
+      "filePath": "backend/src/main/resources/db/migration/V16__repair_usage_token_totals.sql",
+      "summary": "修复历史用量记录的令牌总量，使统计数据与输入、输出令牌记录一致。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V17__add_bedrock_claude_messages_protocol.sql",
+      "type": "table",
+      "name": "V17__add_bedrock_claude_messages_protocol.sql",
+      "filePath": "backend/src/main/resources/db/migration/V17__add_bedrock_claude_messages_protocol.sql",
+      "summary": "加入 Bedrock 原生 Claude Messages 协议定义，保留工具、推理、缓存及上下文管理语义。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "type": "table",
+      "name": "V18__add_model_groups.sql",
+      "filePath": "backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "summary": "建立模型组及其与 API 凭据的关联，为历史已删除凭据分配归档分组。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "table",
+      "name": "model_groups",
+      "filePath": "backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "summary": "定义 model_groups 数据表，保存 id、owner_user_id、name、model_whitelist、created_at、updated_at 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        1,
+        9
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V19__isolate_rate_limits_by_channel_model.sql",
+      "type": "table",
+      "name": "V19__isolate_rate_limits_by_channel_model.sql",
+      "filePath": "backend/src/main/resources/db/migration/V19__isolate_rate_limits_by_channel_model.sql",
+      "summary": "将速率限制隔离粒度调整为渠道与模型，并恢复旧逻辑隔离的渠道状态。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "type": "table",
+      "name": "V1__init_schema.sql",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "初始化渠道、模型选项、协议转换、API 凭据与用量记录等核心持久化表及索引。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:user_accounts",
+      "type": "table",
+      "name": "user_accounts",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "定义 user_accounts 数据表，保存 id、username、display_name、role、status、created_at 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        1,
+        10
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "table",
+      "name": "api_credentials",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "定义 api_credentials 数据表，保存 id、owner_user_id、name、key_hash、key_preview、model_whitelist 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        11,
+        25
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "table",
+      "name": "provider_channels",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "定义 provider_channels 数据表，保存 id、name、host、key_ref、supported_protocols、status 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        26,
+        37
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "table",
+      "name": "channel_model_supports",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "定义 channel_model_supports 数据表，保存 id、provider_channel_id、requested_model、upstream_model、upstream_protocol、priority 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        38,
+        50
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "table",
+      "name": "protocol_conversion_definitions",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "定义 protocol_conversion_definitions 数据表，保存 id、source_protocol、target_protocol、kind、status、implementation_status 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        51,
+        69
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "table",
+      "name": "usage_records",
+      "filePath": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "summary": "定义 usage_records 数据表，保存 id、request_id、user_account_id、api_credential_id、requested_model、upstream_model 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        70,
+        92
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "type": "table",
+      "name": "V20__remove_bedrock_claude_messages_protocol.sql",
+      "filePath": "backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "summary": "在该历史迁移版本中移除 Bedrock Claude Messages 配置，保留 Converse 入口。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V21__add_bedrock_claude_messages_protocol.sql",
+      "type": "table",
+      "name": "V21__add_bedrock_claude_messages_protocol.sql",
+      "filePath": "backend/src/main/resources/db/migration/V21__add_bedrock_claude_messages_protocol.sql",
+      "summary": "重新加入 Bedrock 原生 Claude Messages 协议及工具、推理、缓存和压缩能力配置。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "type": "table",
+      "name": "V22__remove_bedrock_converse_protocol.sql",
+      "filePath": "backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "summary": "从活动渠道与转换配置中移除已退役的 Bedrock Converse 协议，兼顾历史用量可查询性。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V23__enable_responses_claude_full_bridge.sql",
+      "type": "table",
+      "name": "V23__enable_responses_claude_full_bridge.sql",
+      "filePath": "backend/src/main/resources/db/migration/V23__enable_responses_claude_full_bridge.sql",
+      "summary": "启用 Responses 与 Claude 的完整能力桥接配置。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "type": "table",
+      "name": "V24__add_channel_evaluations.sql",
+      "filePath": "backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "summary": "创建渠道测评运行与结果数据结构，保存外部探测服务返回的测评信息。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql:channel_evaluations",
+      "type": "table",
+      "name": "channel_evaluations",
+      "filePath": "backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "summary": "定义 channel_evaluations 数据表，保存 id、provider_channel_id、requested_model、upstream_format、provider_run_id、status 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        2,
+        32
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql:channel_evaluation_schedules",
+      "type": "table",
+      "name": "channel_evaluation_schedules",
+      "filePath": "backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "summary": "定义 channel_evaluation_schedules 数据表，保存 id、provider_channel_id、cron_expression、zone_id、models、enabled 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        68
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V25__add_openai_images_protocol.sql",
+      "type": "table",
+      "name": "V25__add_openai_images_protocol.sql",
+      "filePath": "backend/src/main/resources/db/migration/V25__add_openai_images_protocol.sql",
+      "summary": "加入 OpenAI Images 入站协议及同协议透传定义，图像请求不转换到其他协议。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V26__add_model_group_daily_limits.sql",
+      "type": "table",
+      "name": "V26__add_model_group_daily_limits.sql",
+      "filePath": "backend/src/main/resources/db/migration/V26__add_model_group_daily_limits.sql",
+      "summary": "为模型组增加按模型配置的每日实际令牌上限，供组内多个凭据共享。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V27__add_usage_latency_and_client_ip.sql",
+      "type": "table",
+      "name": "V27__add_usage_latency_and_client_ip.sql",
+      "filePath": "backend/src/main/resources/db/migration/V27__add_usage_latency_and_client_ip.sql",
+      "summary": "为用量记录增加延迟与客户端 IP 字段，支持请求观测与追踪。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V28__enable_claude_chat_completions_full_bridge.sql",
+      "type": "table",
+      "name": "V28__enable_claude_chat_completions_full_bridge.sql",
+      "filePath": "backend/src/main/resources/db/migration/V28__enable_claude_chat_completions_full_bridge.sql",
+      "summary": "启用 Claude 与 Chat Completions 之间的完整能力桥接配置。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V2__align_persistence_schema.sql",
+      "type": "table",
+      "name": "V2__align_persistence_schema.sql",
+      "filePath": "backend/src/main/resources/db/migration/V2__align_persistence_schema.sql",
+      "summary": "对齐领域模型与持久化字段，调整标识符、渠道配置和用量记录的存储结构。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "type": "table",
+      "name": "V3__seed_development_data.sql",
+      "filePath": "backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "summary": "写入开发环境使用的初始渠道、协议转换配置及演示数据。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V4__enable_protocol_transform_conversions.sql",
+      "type": "table",
+      "name": "V4__enable_protocol_transform_conversions.sql",
+      "filePath": "backend/src/main/resources/db/migration/V4__enable_protocol_transform_conversions.sql",
+      "summary": "初始化并启用多协议请求和响应转换定义，为协议路由提供持久化配置。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V5__add_user_account_password_hash.sql",
+      "type": "table",
+      "name": "V5__add_user_account_password_hash.sql",
+      "filePath": "backend/src/main/resources/db/migration/V5__add_user_account_password_hash.sql",
+      "summary": "为用户账号增加密码哈希存储字段，支持账号身份认证。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V6__add_channel_priority_and_preferred_model.sql",
+      "type": "table",
+      "name": "V6__add_channel_priority_and_preferred_model.sql",
+      "filePath": "backend/src/main/resources/db/migration/V6__add_channel_priority_and_preferred_model.sql",
+      "summary": "增加渠道优先级及首选模型相关字段，支持模型路由配置。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "type": "table",
+      "name": "V7__add_provider_channel_protocol_mappings.sql",
+      "filePath": "backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "summary": "为供应商渠道增加协议映射配置，使渠道能够保存多协议路由信息。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql:provider_channel_protocol_mappings",
+      "type": "table",
+      "name": "provider_channel_protocol_mappings",
+      "filePath": "backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "summary": "定义 provider_channel_protocol_mappings 数据表，保存 provider_channel_id、request_protocol、upstream_protocol、created_at、updated_at 等字段。",
+      "tags": [
+        "关系数据表",
+        "持久化"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        3,
+        11
+      ]
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V8__add_api_key_encrypted_material.sql",
+      "type": "table",
+      "name": "V8__add_api_key_encrypted_material.sql",
+      "filePath": "backend/src/main/resources/db/migration/V8__add_api_key_encrypted_material.sql",
+      "summary": "增加 API 凭据加密材料字段，供持久化加密后的密钥内容使用。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V9__repair_usage_record_duration_millis.sql",
+      "type": "table",
+      "name": "V9__repair_usage_record_duration_millis.sql",
+      "filePath": "backend/src/main/resources/db/migration/V9__repair_usage_record_duration_millis.sql",
+      "summary": "修复历史用量记录的 duration_millis 数据，校正耗时统计。",
+      "tags": [
+        "数据库迁移",
+        "Flyway",
+        "PostgreSQL"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:backend/src/main/resources/db/migration/V10__add_bedrock_converse_protocol_definitions.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V11__enable_claude_bedrock_advanced_capabilities.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V12__enable_openai_responses_bedrock_stream_reasoning.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V13__enable_claude_responses_stream_tools.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V14__enable_responses_claude_response_features.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V15__describe_latest_claude_conversion_capabilities.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V16__repair_usage_token_totals.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V17__add_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "target": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "target": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V19__isolate_rate_limits_by_channel_model.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V19__isolate_rate_limits_by_channel_model.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:user_accounts",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:user_accounts",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql:provider_channel_protocol_mappings",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V21__add_bedrock_claude_messages_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql:provider_channel_protocol_mappings",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V23__enable_responses_claude_full_bridge.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "target": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql:channel_evaluations",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "target": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql:channel_evaluations",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "target": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql:channel_evaluation_schedules",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "target": "table:backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql:channel_evaluation_schedules",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V25__add_openai_images_protocol.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V26__add_model_group_daily_limits.sql",
+      "target": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V27__add_usage_latency_and_client_ip.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V28__enable_claude_chat_completions_full_bridge.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V2__align_persistence_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V2__align_persistence_schema.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:user_accounts",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V4__enable_protocol_transform_conversions.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:protocol_conversion_definitions",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V5__add_user_account_password_hash.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:user_accounts",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V6__add_channel_priority_and_preferred_model.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V6__add_channel_priority_and_preferred_model.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:channel_model_supports",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "target": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql:provider_channel_protocol_mappings",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "target": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql:provider_channel_protocol_mappings",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:provider_channels",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V8__add_api_key_encrypted_material.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "table:backend/src/main/resources/db/migration/V9__repair_usage_record_duration_millis.sql",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "migrates",
+      "weight": 0.7,
+      "direction": "forward"
+    }
+  ]
+}

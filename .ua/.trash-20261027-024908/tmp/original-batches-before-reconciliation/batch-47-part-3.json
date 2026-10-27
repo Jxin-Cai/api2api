@@ -1,0 +1,609 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java",
+      "type": "file",
+      "name": "BedrockClaudeMessagesResponseSanitizer.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java",
+      "summary": "移除 Bedrock 响应内指定的提供方扩展字段，避免扩展信息透传到兼容消息响应。",
+      "tags": [
+        "响应清理",
+        "平台兼容",
+        "字段过滤"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java:BedrockClaudeMessagesResponseSanitizer",
+      "type": "class",
+      "name": "BedrockClaudeMessagesResponseSanitizer",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java",
+      "lineRange": [
+        8,
+        29
+      ],
+      "summary": "移除 Bedrock 响应内指定的提供方扩展字段，避免扩展信息透传到兼容消息响应。",
+      "tags": [
+        "响应清理",
+        "平台兼容",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java:removeProviderExtensions",
+      "type": "function",
+      "name": "removeProviderExtensions",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java",
+      "lineRange": [
+        15,
+        28
+      ],
+      "summary": "在协议规定的响应位置移除提供方扩展字段，保留正常消息内容。",
+      "tags": [
+        "响应清理",
+        "平台兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeToolType.java",
+      "type": "file",
+      "name": "BedrockClaudeToolType.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeToolType.java",
+      "summary": "枚举 Bedrock 可接受的消息工具版本及其所需测试特性，按线协议类型名解析工具。",
+      "tags": [
+        "工具类型",
+        "平台兼容",
+        "版本枚举"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeToolType.java:BedrockClaudeToolType",
+      "type": "class",
+      "name": "BedrockClaudeToolType",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeToolType.java",
+      "lineRange": [
+        6,
+        36
+      ],
+      "summary": "枚举 Bedrock 可接受的消息工具版本及其所需测试特性，按线协议类型名解析工具。",
+      "tags": [
+        "工具类型",
+        "平台兼容",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "type": "file",
+      "name": "BedrockEventStreamReader.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "summary": "从二进制事件流中读取帧、校验长度并解码多类型头部及正文，供 Bedrock 流式响应解码使用。",
+      "tags": [
+        "事件流",
+        "二进制解码",
+        "帧解析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:BedrockEventStreamReader",
+      "type": "class",
+      "name": "BedrockEventStreamReader",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "lineRange": [
+        10,
+        109
+      ],
+      "summary": "从二进制事件流中读取帧、校验长度并解码多类型头部及正文，供 Bedrock 流式响应解码使用。",
+      "tags": [
+        "事件流",
+        "二进制解码",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:readEvent",
+      "type": "function",
+      "name": "readEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "lineRange": [
+        17,
+        44
+      ],
+      "summary": "读取完整帧并验证长度边界，从帧中拆出头部和消息正文。",
+      "tags": [
+        "事件流",
+        "二进制解码",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:parseHeaders",
+      "type": "function",
+      "name": "parseHeaders",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "lineRange": [
+        46,
+        65
+      ],
+      "summary": "依次解析头部名称及类型化值，构造事件头映射。",
+      "tags": [
+        "事件流",
+        "二进制解码",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:readHeaderValue",
+      "type": "function",
+      "name": "readHeaderValue",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "lineRange": [
+        67,
+        101
+      ],
+      "summary": "按类型标识解码布尔值、整数、字节、文本、时间戳及标识，拒绝未知类型。",
+      "tags": [
+        "事件流",
+        "二进制解码",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "type": "file",
+      "name": "BedrockStructuredOutputCompatibility.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "summary": "把结构化输出约束转换为强制工具调用，规范化模式与历史内容，并解包兼容工具结果返回目标 JSON。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "请求规范化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:BedrockStructuredOutputCompatibility",
+      "type": "class",
+      "name": "BedrockStructuredOutputCompatibility",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        7,
+        183
+      ],
+      "summary": "把结构化输出约束转换为强制工具调用，规范化模式与历史内容，并解包兼容工具结果返回目标 JSON。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeRequest",
+      "type": "function",
+      "name": "normalizeRequest",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        16,
+        34
+      ],
+      "summary": "校验并移除结构化输出格式，把其模式改写为网关兼容工具并强制选择该工具。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:isEnforcementRetry",
+      "type": "function",
+      "name": "isEnforcementRetry",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        36,
+        58
+      ],
+      "summary": "检查历史消息中是否存在结构化输出工具调用及对应的强制执行重试标记。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:forceStructuredOutputTool",
+      "type": "function",
+      "name": "forceStructuredOutputTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        60,
+        71
+      ],
+      "summary": "设置结构化输出工具选择，移除冲突的思考与推理配置。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:removeClearThinkingEdits",
+      "type": "function",
+      "name": "removeClearThinkingEdits",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        73,
+        92
+      ],
+      "summary": "移除与结构化输出续接不兼容的思考清理编辑，并在列表为空时清理上下文管理字段。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeConversationHistory",
+      "type": "function",
+      "name": "normalizeConversationHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        105,
+        128
+      ],
+      "summary": "将历史兼容工具调用和结果改写为目标协议能够接受的对话内容。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:unwrapResponse",
+      "type": "function",
+      "name": "unwrapResponse",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        130,
+        146
+      ],
+      "summary": "从兼容结构化输出工具调用中提取输入对象，将其序列化为普通响应文本。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeInputSchema",
+      "type": "function",
+      "name": "normalizeInputSchema",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "lineRange": [
+        155,
+        175
+      ],
+      "summary": "校验结构化模式对象并补全缺省对象类型，拒绝与对象约束冲突的类型。",
+      "tags": [
+        "结构化输出",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessageIds.java",
+      "type": "file",
+      "name": "ClaudeMessageIds.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessageIds.java",
+      "summary": "为生成的消息创建带标准前缀的随机唯一标识，并保留已有的有效标识。",
+      "tags": [
+        "消息标识",
+        "唯一性",
+        "兼容工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessageIds.java:ClaudeMessageIds",
+      "type": "class",
+      "name": "ClaudeMessageIds",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessageIds.java",
+      "lineRange": [
+        6,
+        18
+      ],
+      "summary": "为生成的消息创建带标准前缀的随机唯一标识，并保留已有的有效标识。",
+      "tags": [
+        "消息标识",
+        "唯一性",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "type": "file",
+      "name": "GptModelVersion.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "summary": "从模型名称解析主次版本并忽略变体后缀，用可比较版本控制协议功能开关。",
+      "tags": [
+        "模型版本",
+        "能力判断",
+        "版本比较"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:GptModelVersion",
+      "type": "class",
+      "name": "GptModelVersion",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "lineRange": [
+        18,
+        54
+      ],
+      "summary": "从模型名称解析主次版本并忽略变体后缀，用可比较版本控制协议功能开关。",
+      "tags": [
+        "模型版本",
+        "能力判断",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:parse",
+      "type": "function",
+      "name": "parse",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "lineRange": [
+        33,
+        44
+      ],
+      "summary": "以受限数字正则解析模型名称中的 GPT 主次版本，未匹配时返回空值。",
+      "tags": [
+        "模型版本",
+        "能力判断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:compareTo",
+      "type": "function",
+      "name": "compareTo",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "lineRange": [
+        50,
+        53
+      ],
+      "summary": "先比较主版本再比较次版本，提供稳定的模型版本顺序。",
+      "tags": [
+        "模型版本",
+        "能力判断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProperties.java",
+      "type": "file",
+      "name": "ProtocolConversionProperties.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProperties.java",
+      "summary": "绑定推理模型名称识别规则和 Responses 显式缓存断点功能开关。",
+      "tags": [
+        "协议转换",
+        "配置绑定",
+        "能力开关"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java:BedrockClaudeMessagesResponseSanitizer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesResponseSanitizer.java:removeProviderExtensions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeToolType.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeToolType.java:BedrockClaudeToolType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:BedrockEventStreamReader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:readEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:parseHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:readHeaderValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:BedrockStructuredOutputCompatibility",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:isEnforcementRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:forceStructuredOutputTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:removeClearThinkingEdits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeConversationHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:unwrapResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeInputSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessageIds.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessageIds.java:ClaudeMessageIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:GptModelVersion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:compareTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GptModelVersion.java:compareTo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:readEvent",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:parseHeaders",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:parseHeaders",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockEventStreamReader.java:readHeaderValue",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeRequest",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeConversationHistory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeRequest",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeInputSchema",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeRequest",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:isEnforcementRetry",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:normalizeRequest",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:forceStructuredOutputTool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:forceStructuredOutputTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockStructuredOutputCompatibility.java:removeClearThinkingEdits",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

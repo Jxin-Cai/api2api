@@ -1,0 +1,221 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "type": "file",
+      "name": "TokenQuotaWindow.java",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "summary": "根据注入时钟与配置时区计算日、周、月和累计配额周期，周窗口以周一为起点，各周期均返回起点包含、终点不包含的业务时间范围。",
+      "tags": [
+        "配额周期",
+        "时区边界",
+        "应用组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:TokenQuotaWindow",
+      "type": "class",
+      "name": "TokenQuotaWindow",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "summary": "根据注入时钟与配置时区计算日、周、月和累计配额周期，周窗口以周一为起点，各周期均返回起点包含、终点不包含的业务时间范围。",
+      "tags": [
+        "配额周期",
+        "时区边界",
+        "应用组件"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        39
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:current",
+      "type": "function",
+      "name": "current",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "summary": "按业务时区确定当前日期，分别计算当天、周一开始的本周、当月或长期累计窗口，返回半开时间范围。",
+      "tags": [
+        "业务方法",
+        "配额周期",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        21,
+        36
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:zoneId",
+      "type": "function",
+      "name": "zoneId",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "summary": "返回配额窗口使用的业务时区标识，供界面展示重置规则。",
+      "tags": [
+        "业务方法",
+        "配额周期",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        38
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "type": "file",
+      "name": "QuotaPeriod.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "summary": "定义日、周、月和累计四类令牌配额周期，作为规则和窗口计算的公共领域枚举。",
+      "tags": [
+        "配额周期",
+        "枚举类型",
+        "领域模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java:QuotaPeriod",
+      "type": "class",
+      "name": "QuotaPeriod",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "summary": "定义日、周、月和累计四类令牌配额周期，作为规则和窗口计算的公共领域枚举。",
+      "tags": [
+        "配额周期",
+        "枚举类型",
+        "领域模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "type": "file",
+      "name": "TokenQuotaRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "summary": "定义令牌配额规则管理、适用规则查询、周期内加权令牌汇总及密钥和模型组准入锁定的领域仓储契约。",
+      "tags": [
+        "仓储接口",
+        "统一配额",
+        "并发准入"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java:TokenQuotaRepository",
+      "type": "class",
+      "name": "TokenQuotaRepository",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "summary": "定义令牌配额规则管理、适用规则查询、周期内加权令牌汇总及密钥和模型组准入锁定的领域仓储契约。",
+      "tags": [
+        "仓储接口",
+        "统一配额",
+        "并发准入"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        7,
+        17
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:TokenQuotaWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:TokenQuotaWindow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:current",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:current",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:zoneId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java:zoneId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java:QuotaPeriod",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java:QuotaPeriod",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java:TokenQuotaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java:TokenQuotaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

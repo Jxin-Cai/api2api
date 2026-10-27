@@ -1,0 +1,1156 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "type": "file",
+      "name": "ProviderModelOption.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "summary": "封装可选模型名称、提供该模型的渠道数量及支持的协议，供渠道模型选择接口返回。",
+      "tags": [
+        "模型选项",
+        "渠道管理",
+        "数据传输"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java:ProviderModelOption",
+      "type": "class",
+      "name": "ProviderModelOption",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "summary": "封装可选模型名称、提供该模型的渠道数量及支持的协议，供渠道模型选择接口返回。",
+      "tags": [
+        "模型选项",
+        "渠道管理",
+        "数据传输"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "summary": "ProviderModelOption 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "模型选项",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        25
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "type": "file",
+      "name": "DashboardApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "编排用户与管理员仪表盘查询，校验访问权限和密钥归属，并将时间范围转换为领域查询。还提供密钥计数、最近调用分页与用量分布查询。",
+      "tags": [
+        "应用服务",
+        "权限校验",
+        "统计分析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:DashboardApplicationService",
+      "type": "class",
+      "name": "DashboardApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "编排用户与管理员仪表盘查询，校验访问权限和密钥归属，并将时间范围转换为领域查询。还提供密钥计数、最近调用分页与用量分布查询。",
+      "tags": [
+        "应用服务",
+        "权限校验",
+        "统计分析"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        37,
+        206
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontDashboard",
+      "type": "function",
+      "name": "getFrontDashboard",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "校验用户门户访问权限，构造今日与近三十日统计窗口，并委托领域服务生成用户仪表盘。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        56,
+        78
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:countFrontDashboardApiKeys",
+      "type": "function",
+      "name": "countFrontDashboardApiKeys",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "校验当前用户访问权限并查询其名下密钥，返回密钥数量；仓储返回空引用时报告业务错误。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        80,
+        90
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:queryFrontDashboardRecentCalls",
+      "type": "function",
+      "name": "queryFrontDashboardRecentCalls",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "将当前用户、最近调用时间范围与分页参数封装为门户用量过滤条件，并查询最近调用记录。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        92,
+        110
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontKeyMetrics",
+      "type": "function",
+      "name": "getFrontKeyMetrics",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "验证所选趋势密钥均属于当前用户，构建日月及趋势查询窗口，并委托领域服务聚合密钥指标。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        112,
+        157
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getAdminDashboard",
+      "type": "function",
+      "name": "getAdminDashboard",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "校验管理员权限，将命令中的日月、速率和趋势窗口转换为领域查询，并生成管理员仪表盘。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        159,
+        195
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getDistribution",
+      "type": "function",
+      "name": "getDistribution",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "summary": "按模型或渠道维度查询指定用户和时间窗口内的前十二项用量分布。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        197,
+        200
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "type": "file",
+      "name": "GetAdminDashboardCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "summary": "承载管理员仪表盘查询的操作者、今日与月度时间范围、请求速率窗口、趋势窗口、时区和采样时刻。",
+      "tags": [
+        "查询命令",
+        "管理后台",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java:GetAdminDashboardCommand",
+      "type": "class",
+      "name": "GetAdminDashboardCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "summary": "承载管理员仪表盘查询的操作者、今日与月度时间范围、请求速率窗口、趋势窗口、时区和采样时刻。",
+      "tags": [
+        "查询命令",
+        "管理后台",
+        "时间窗口"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        47
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "type": "file",
+      "name": "GetFrontDashboardCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "summary": "承载用户仪表盘查询的当前用户、令牌统计时间范围、最近调用范围及分页参数。",
+      "tags": [
+        "查询命令",
+        "用户门户",
+        "分页查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java:GetFrontDashboardCommand",
+      "type": "class",
+      "name": "GetFrontDashboardCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "summary": "承载用户仪表盘查询的当前用户、令牌统计时间范围、最近调用范围及分页参数。",
+      "tags": [
+        "查询命令",
+        "用户门户",
+        "分页查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        43
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "type": "file",
+      "name": "GetFrontKeyMetricsCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "summary": "承载用户密钥指标查询的用户标识、日月统计窗口、趋势窗口、选定密钥及采样时刻。",
+      "tags": [
+        "查询命令",
+        "密钥统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java:GetFrontKeyMetricsCommand",
+      "type": "class",
+      "name": "GetFrontKeyMetricsCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "summary": "承载用户密钥指标查询的用户标识、日月统计窗口、趋势窗口、选定密钥及采样时刻。",
+      "tags": [
+        "查询命令",
+        "密钥统计",
+        "时间窗口"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        48
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "type": "file",
+      "name": "OperationsApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "summary": "在管理员权限校验后提供系统资源快照和流量统计，组合并发趋势与慢渠道排行。",
+      "tags": [
+        "运维监控",
+        "应用服务",
+        "权限校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:OperationsApplicationService",
+      "type": "class",
+      "name": "OperationsApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "summary": "在管理员权限校验后提供系统资源快照和流量统计，组合并发趋势与慢渠道排行。",
+      "tags": [
+        "运维监控",
+        "应用服务",
+        "权限校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        21,
+        52
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:system",
+      "type": "function",
+      "name": "system",
+      "filePath": "backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "summary": "校验管理员访问权限后读取系统资源监控快照。",
+      "tags": [
+        "业务方法",
+        "运维监控",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:traffic",
+      "type": "function",
+      "name": "traffic",
+      "filePath": "backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "summary": "验证管理员访问范围，返回指定窗口内的并发趋势与慢渠道排行。",
+      "tags": [
+        "业务方法",
+        "运维监控",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        46
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "type": "file",
+      "name": "AdminDashboardMetrics.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "summary": "封装管理员仪表盘的协议请求速率、日月令牌合计、用户排行、协议与渠道趋势、并发趋势和慢渠道排行，并保证协议速率覆盖。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:AdminDashboardMetrics",
+      "type": "class",
+      "name": "AdminDashboardMetrics",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "summary": "封装管理员仪表盘的协议请求速率、日月令牌合计、用户排行、协议与渠道趋势、并发趋势和慢渠道排行，并保证协议速率覆盖。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        12,
+        205
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:AdminDashboardMetrics",
+      "type": "function",
+      "name": "AdminDashboardMetrics",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "summary": "初始化 AdminDashboardMetrics，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        26,
+        49
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "summary": "AdminDashboardMetrics 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        51,
+        73
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:ensureProtocolRateCoverage",
+      "type": "function",
+      "name": "ensureProtocolRateCoverage",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "summary": "检查并补齐所有受支持协议的请求速率项，保证结果协议覆盖完整。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        82,
+        92
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "type": "file",
+      "name": "AdminDashboardQuery.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "summary": "定义管理员仪表盘查询上下文，包含查看者、今日与月度窗口、近期请求速率窗口、趋势窗口和采样时刻。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:AdminDashboardQuery",
+      "type": "class",
+      "name": "AdminDashboardQuery",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "summary": "定义管理员仪表盘查询上下文，包含查看者、今日与月度窗口、近期请求速率窗口、趋势窗口和采样时刻。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        10,
+        115
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:AdminDashboardQuery",
+      "type": "function",
+      "name": "AdminDashboardQuery",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "summary": "初始化 AdminDashboardQuery，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "summary": "AdminDashboardQuery 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        45
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java:ProviderModelOption",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java:ProviderModelOption",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:DashboardApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:DashboardApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontDashboard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontDashboard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:countFrontDashboardApiKeys",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:countFrontDashboardApiKeys",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:queryFrontDashboardRecentCalls",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:queryFrontDashboardRecentCalls",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontKeyMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontKeyMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getAdminDashboard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getAdminDashboard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getDistribution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getDistribution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UsageDistributionItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java:GetAdminDashboardCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java:GetAdminDashboardCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java:GetFrontDashboardCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java:GetFrontDashboardCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java:GetFrontKeyMetricsCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java:GetFrontKeyMetricsCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:OperationsApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:OperationsApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:system",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:system",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:traffic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:traffic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:AdminDashboardMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:AdminDashboardMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:AdminDashboardMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:ensureProtocolRateCoverage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:AdminDashboardQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:AdminDashboardQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:AdminDashboardQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontDashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontDashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardQuery.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontDashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontMetrics",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:queryFrontDashboardRecentCalls",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java:forUserPortal",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontKeyMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getFrontKeyMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontKeyMetrics",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getAdminDashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getAdminDashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java:getAdminDashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/operations/OperationsApplicationService.java:traffic",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:AdminDashboardMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:ensureProtocolRateCoverage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,1503 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "type": "file",
+      "name": "ProviderChannelApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "summary": "编排供应商渠道管理，校验管理端或用户门户权限后维护渠道、协议映射及模型支持关系。提供模型拉取、预览、批量更新和限流状态重置入口。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:ProviderChannelApplicationService",
+      "type": "class",
+      "name": "ProviderChannelApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        43,
+        350
+      ],
+      "summary": "编排供应商渠道管理，校验管理端或用户门户权限后维护渠道、协议映射及模型支持关系。提供模型拉取、预览、批量更新和限流状态重置入口。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:createChannel",
+      "type": "function",
+      "name": "createChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        59,
+        75
+      ],
+      "summary": "校验管理员权限，创建渠道聚合并保存。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:updateChannel",
+      "type": "function",
+      "name": "updateChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        77,
+        90
+      ],
+      "summary": "加载渠道并更新名称、端点、模型路径、优先级和协议映射后保存。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannel",
+      "type": "function",
+      "name": "enableChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        92,
+        100
+      ],
+      "summary": "验证管理员权限，启用渠道并保存状态。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannel",
+      "type": "function",
+      "name": "disableChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        102,
+        110
+      ],
+      "summary": "验证管理员权限，禁用渠道并保存状态。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannelModel",
+      "type": "function",
+      "name": "enableChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        112,
+        120
+      ],
+      "summary": "验证管理员权限，启用指定模型支持项并保存渠道。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannelModel",
+      "type": "function",
+      "name": "disableChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        122,
+        130
+      ],
+      "summary": "验证管理员权限，禁用指定模型支持项并保存渠道。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:deleteChannel",
+      "type": "function",
+      "name": "deleteChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        132,
+        137
+      ],
+      "summary": "验证管理员权限并软删除指定渠道。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listChannels",
+      "type": "function",
+      "name": "listChannels",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        139,
+        143
+      ],
+      "summary": "校验管理员权限后列出渠道。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:resetAllRateLimits",
+      "type": "function",
+      "name": "resetAllRateLimits",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        145,
+        149
+      ],
+      "summary": "校验管理员权限，恢复全部模型限流状态并返回受影响数量。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listProviderModelOptions",
+      "type": "function",
+      "name": "listProviderModelOptions",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        151,
+        166
+      ],
+      "summary": "验证用户门户权限，聚合所有渠道中的请求模型、供应商数量及协议集合，并按模型名排序。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:fetchAndReplaceModels",
+      "type": "function",
+      "name": "fetchAndReplaceModels",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        168,
+        179
+      ],
+      "summary": "读取渠道参数并通过模型拉取端口访问默认模型路径，再以拉取结果替换渠道模型。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:previewProviderModels",
+      "type": "function",
+      "name": "previewProviderModels",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        181,
+        192
+      ],
+      "summary": "校验管理员权限，通过默认模型路径拉取预览结果；已有渠道预览可回退到保存的主机、密钥和协议配置。 同名重载接收不同参数形式。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:loadChannelForModelFetch",
+      "type": "function",
+      "name": "loadChannelForModelFetch",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        211,
+        215
+      ],
+      "summary": "校验管理员权限并加载待拉取模型的渠道。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:replaceFetchedModels",
+      "type": "function",
+      "name": "replaceFetchedModels",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        217,
+        232
+      ],
+      "summary": "拒绝空的上游模型结果，替换渠道模型集合并在事务中保存。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModels",
+      "type": "function",
+      "name": "upsertChannelModels",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        234,
+        252
+      ],
+      "summary": "将批量命令转换为模型支持项，根据替换标志覆盖模型集合或逐项更新，然后保存渠道。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModel",
+      "type": "function",
+      "name": "upsertChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        254,
+        273
+      ],
+      "summary": "根据命令创建模型支持项并合入渠道后保存。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:removeChannelModel",
+      "type": "function",
+      "name": "removeChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        275,
+        283
+      ],
+      "summary": "按请求模型与上游协议从渠道中删除支持项并保存。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:toModelSupport",
+      "type": "function",
+      "name": "toModelSupport",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "lineRange": [
+        285,
+        302
+      ],
+      "summary": "优先复用已有模型支持项 ID，否则使用命令 ID 或生成新 ID 构建模型支持项。",
+      "tags": [
+        "应用服务",
+        "渠道管理",
+        "权限校验",
+        "事务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "type": "file",
+      "name": "ProviderModelAvailabilityService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "summary": "从可路由渠道提取当前可用的请求模型，过滤停用项及尚未恢复的限流状态，为模型分组和网关模型列表提供可用性依据。",
+      "tags": [
+        "应用服务",
+        "模型可用性",
+        "限流",
+        "渠道查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java:ProviderModelAvailabilityService",
+      "type": "class",
+      "name": "ProviderModelAvailabilityService",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "lineRange": [
+        18,
+        46
+      ],
+      "summary": "从可路由渠道提取当前可用的请求模型，过滤停用项及尚未恢复的限流状态，为模型分组和网关模型列表提供可用性依据。",
+      "tags": [
+        "应用服务",
+        "模型可用性",
+        "限流",
+        "渠道查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java:availableModels",
+      "type": "function",
+      "name": "availableModels",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "lineRange": [
+        25,
+        36
+      ],
+      "summary": "汇集可路由渠道中的可用模型名并去重。",
+      "tags": [
+        "应用服务",
+        "模型可用性",
+        "限流",
+        "渠道查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "type": "file",
+      "name": "ProviderModelFetchPort.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "summary": "定义上游模型发现端口，接收渠道标识、主机、密钥引用、模型路径、协议集合和默认路由优先级，返回模型支持项。",
+      "tags": [
+        "端口接口",
+        "模型发现",
+        "依赖倒置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java:ProviderModelFetchPort",
+      "type": "class",
+      "name": "ProviderModelFetchPort",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "lineRange": [
+        16,
+        26
+      ],
+      "summary": "定义上游模型发现端口，接收渠道标识、主机、密钥引用、模型路径、协议集合和默认路由优先级，返回模型支持项。",
+      "tags": [
+        "端口接口",
+        "模型发现",
+        "依赖倒置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "type": "file",
+      "name": "BatchUpsertChannelModelsCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "summary": "封装管理员批量维护渠道模型的不可变输入，携带渠道标识、模型条目及是否覆盖现有集合的标志。",
+      "tags": [
+        "命令对象",
+        "批量更新",
+        "渠道模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java:BatchUpsertChannelModelsCommand",
+      "type": "class",
+      "name": "BatchUpsertChannelModelsCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "lineRange": [
+        13,
+        27
+      ],
+      "summary": "封装管理员批量维护渠道模型的不可变输入，携带渠道标识、模型条目及是否覆盖现有集合的标志。",
+      "tags": [
+        "命令对象",
+        "批量更新",
+        "渠道模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "type": "file",
+      "name": "ChangeChannelModelStatusCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "summary": "携带操作者、渠道和模型支持项标识，为启用或禁用渠道模型提供不可变输入。",
+      "tags": [
+        "命令对象",
+        "模型状态",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java:ChangeChannelModelStatusCommand",
+      "type": "class",
+      "name": "ChangeChannelModelStatusCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "lineRange": [
+        10,
+        22
+      ],
+      "summary": "携带操作者、渠道和模型支持项标识，为启用或禁用渠道模型提供不可变输入。",
+      "tags": [
+        "命令对象",
+        "模型状态",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "type": "file",
+      "name": "ChangeProviderChannelStatusCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "summary": "携带操作者与渠道标识，作为渠道启用和禁用用例的不可变输入。",
+      "tags": [
+        "命令对象",
+        "渠道状态",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java:ChangeProviderChannelStatusCommand",
+      "type": "class",
+      "name": "ChangeProviderChannelStatusCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "lineRange": [
+        12,
+        21
+      ],
+      "summary": "携带操作者与渠道标识，作为渠道启用和禁用用例的不可变输入。",
+      "tags": [
+        "命令对象",
+        "渠道状态",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "type": "file",
+      "name": "ChannelModelUpsertItemCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "summary": "描述批量更新中的单个模型支持项，包括请求模型、上游模型及协议、优先级、首选标志和来源。",
+      "tags": [
+        "命令对象",
+        "渠道模型",
+        "批量更新"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java:ChannelModelUpsertItemCommand",
+      "type": "class",
+      "name": "ChannelModelUpsertItemCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "lineRange": [
+        15,
+        37
+      ],
+      "summary": "描述批量更新中的单个模型支持项，包括请求模型、上游模型及协议、优先级、首选标志和来源。",
+      "tags": [
+        "命令对象",
+        "渠道模型",
+        "批量更新"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "type": "file",
+      "name": "CreateProviderChannelCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "summary": "封装创建供应商渠道所需的端点、密钥引用、模型路径、优先级及协议映射，对协议集合做非空校验和防御性复制。",
+      "tags": [
+        "命令对象",
+        "渠道创建",
+        "输入校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "type": "class",
+      "name": "CreateProviderChannelCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "lineRange": [
+        22,
+        80
+      ],
+      "summary": "封装创建供应商渠道所需的端点、密钥引用、模型路径、优先级及协议映射，对协议集合做非空校验和防御性复制。",
+      "tags": [
+        "命令对象",
+        "渠道创建",
+        "输入校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "type": "function",
+      "name": "CreateProviderChannelCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "lineRange": [
+        48,
+        67
+      ],
+      "summary": "初始化 CreateProviderChannelCommand 的状态并建立构造约束。",
+      "tags": [
+        "命令对象",
+        "渠道创建",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:copyNotEmpty",
+      "type": "function",
+      "name": "copyNotEmpty",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "lineRange": [
+        69,
+        79
+      ],
+      "summary": "校验集合非空并防御性复制，避免命令对象被外部修改。",
+      "tags": [
+        "命令对象",
+        "渠道创建",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "type": "file",
+      "name": "DeleteProviderChannelCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "summary": "封装渠道删除操作的操作者与渠道标识，使应用层不依赖 HTTP 请求结构。",
+      "tags": [
+        "命令对象",
+        "渠道删除",
+        "协议解耦"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java:DeleteProviderChannelCommand",
+      "type": "class",
+      "name": "DeleteProviderChannelCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "lineRange": [
+        12,
+        21
+      ],
+      "summary": "封装渠道删除操作的操作者与渠道标识，使应用层不依赖 HTTP 请求结构。",
+      "tags": [
+        "命令对象",
+        "渠道删除",
+        "协议解耦"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:ProviderChannelApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:ProviderChannelApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:createChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:createChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:updateChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:updateChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:deleteChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:deleteChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listChannels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listChannels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:resetAllRateLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:resetAllRateLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listProviderModelOptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listProviderModelOptions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:fetchAndReplaceModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:fetchAndReplaceModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:previewProviderModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:previewProviderModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:loadChannelForModelFetch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:loadChannelForModelFetch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:replaceFetchedModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:replaceFetchedModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:removeChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:removeChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:toModelSupport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderChannelModelPreviewCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelPreviewCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/RemoveChannelModelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/UpdateProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/UpsertChannelModelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java:ProviderModelAvailabilityService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java:ProviderModelAvailabilityService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java:availableModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java:availableModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java:ProviderModelFetchPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java:ProviderModelFetchPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java:BatchUpsertChannelModelsCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java:BatchUpsertChannelModelsCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java:ChangeChannelModelStatusCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java:ChangeChannelModelStatusCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java:ChangeProviderChannelStatusCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java:ChangeProviderChannelStatusCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java:ChannelModelUpsertItemCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java:ChannelModelUpsertItemCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:copyNotEmpty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java:DeleteProviderChannelCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java:DeleteProviderChannelCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:fetchAndReplaceModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:loadChannelForModelFetch",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:fetchAndReplaceModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:replaceFetchedModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:toModelSupport",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:CreateProviderChannelCommand",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java:copyNotEmpty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

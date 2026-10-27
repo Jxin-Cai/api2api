@@ -1,0 +1,124 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/Dockerfile",
+      "language": "dockerfile",
+      "fileCategory": "infra",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "services": [
+        {
+          "name": "frontend-build",
+          "image": "${NODE_IMAGE}",
+          "ports": [],
+          "startLine": 4,
+          "endLine": 12
+        },
+        {
+          "name": "${NGINX_IMAGE}",
+          "image": "${NGINX_IMAGE}",
+          "ports": [
+            80
+          ],
+          "startLine": 13,
+          "endLine": 17
+        }
+      ],
+      "steps": [
+        {
+          "name": "ARG NODE_IMAGE=node:22-alpine",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "name": "ARG NGINX_IMAGE=nginx:1.27-alpine",
+          "startLine": 2,
+          "endLine": 2
+        },
+        {
+          "name": "FROM ${NODE_IMAGE} AS frontend-build",
+          "startLine": 4,
+          "endLine": 4
+        },
+        {
+          "name": "WORKDIR /workspace",
+          "startLine": 5,
+          "endLine": 5
+        },
+        {
+          "name": "COPY package.json package-lock.json* ./",
+          "startLine": 6,
+          "endLine": 6
+        },
+        {
+          "name": "RUN if [ -f package-lock.json ]; then npm ci; else npm install; ",
+          "startLine": 7,
+          "endLine": 7
+        },
+        {
+          "name": "COPY index.html vite.config.ts tsconfig*.json ./",
+          "startLine": 8,
+          "endLine": 8
+        },
+        {
+          "name": "COPY public ./public",
+          "startLine": 9,
+          "endLine": 9
+        },
+        {
+          "name": "COPY src ./src",
+          "startLine": 10,
+          "endLine": 10
+        },
+        {
+          "name": "RUN npm run build",
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "FROM ${NGINX_IMAGE}",
+          "startLine": 13,
+          "endLine": 13
+        },
+        {
+          "name": "COPY --from=frontend-build /workspace/dist /usr/share/nginx/html",
+          "startLine": 14,
+          "endLine": 14
+        },
+        {
+          "name": "COPY nginx.conf /etc/nginx/conf.d/default.conf",
+          "startLine": 15,
+          "endLine": 15
+        },
+        {
+          "name": "EXPOSE 80",
+          "startLine": 16,
+          "endLine": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "serviceCount": 2,
+        "stepCount": 14
+      }
+    }
+  ]
+}

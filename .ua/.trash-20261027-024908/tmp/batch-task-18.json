@@ -1,0 +1,2007 @@
+{
+  "batchIndex": 18,
+  "files": [
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 121,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "language": "java",
+      "sizeLines": 250,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "language": "java",
+      "sizeLines": 308,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "language": "java",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "language": "java",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "language": "java",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "language": "java",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java",
+      "language": "java",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayIdentifierHelper.java",
+      "language": "java",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRequestMapper.java",
+      "language": "java",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java",
+      "language": "java",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "language": "java",
+      "sizeLines": 167,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "language": "java",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "language": "java",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "language": "java",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "language": "java",
+      "sizeLines": 163,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "language": "java",
+      "sizeLines": 109,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "language": "java",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "language": "java",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java": [
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java"
+    ],
+    "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java": [
+      "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java"
+    ],
+    "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java": [
+      "backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java"
+    ],
+    "backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java": [
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java"
+    ],
+    "backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java": [],
+    "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java": [],
+    "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java": [],
+    "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java": [],
+    "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayIdentifierHelper.java": [
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java"
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRequestMapper.java": [
+      "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java"
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java": [
+      "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java"
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java": [
+      "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java",
+      "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java"
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryAdminUsageRecordsRequest.java": [],
+    "backend/src/main/java/com/api2api/ohs/http/usage/dto/QueryMyUsageRecordsRequest.java": [],
+    "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordPageResponse.java": [],
+    "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java": [
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java"
+    ],
+    "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java": [
+      "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java"
+    ],
+    "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java": [
+      "backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java"
+    ],
+    "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java": [
+      "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/protocolcontract/model/ParsedGatewayRequest.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java"
+    ],
+    "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java": [
+      "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java"
+    ]
+  },
+  "neighborMap": {
+    "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "ModelGroupId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+        "batchIndex": 16,
+        "symbols": [
+          "ModelGroupModelUsage"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "offset",
+          "page",
+          "size",
+          "getPage",
+          "getSize",
+          "equals",
+          "hashCode",
+          "PageRequestSpec"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "empty",
+          "isEmpty",
+          "totalPages",
+          "records",
+          "page",
+          "size",
+          "totalElements",
+          "filteredTokenTotal",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecords"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 16,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "forUserPortal",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "providerChannelId",
+          "requestProtocol",
+          "timeRange",
+          "viewerRole",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getProviderChannelId",
+          "getRequestProtocol",
+          "getTimeRange",
+          "getViewerRole",
+          "equals",
+          "hashCode",
+          "UsageRecordFilter"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "contains",
+          "startInclusive",
+          "endExclusive",
+          "getStartInclusive",
+          "getEndExclusive",
+          "equals",
+          "hashCode",
+          "UsageTimeRange"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+        "batchIndex": 5,
+        "symbols": [
+          "of",
+          "known",
+          "unknown",
+          "zeroKnown",
+          "fromUnified",
+          "plus",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "actualTokens",
+          "usageKnown",
+          "getInputTokens",
+          "getOutputTokens",
+          "getCacheCreationInputTokens",
+          "getCacheReadInputTokens",
+          "getTotalTokens",
+          "getActualTokens",
+          "isUsageKnown",
+          "equals",
+          "hashCode",
+          "UsageTokenBreakdown"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+        "batchIndex": 16,
+        "symbols": [
+          "UsageRecordRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ProviderChannelId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "InvocationErrorType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "offset",
+          "page",
+          "size",
+          "getPage",
+          "getSize",
+          "equals",
+          "hashCode",
+          "PageRequestSpec"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "empty",
+          "isEmpty",
+          "totalPages",
+          "records",
+          "page",
+          "size",
+          "totalElements",
+          "filteredTokenTotal",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecords"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "between",
+          "millis",
+          "getMillis",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageDuration"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+        "batchIndex": 7,
+        "symbols": [
+          "of",
+          "fromInvocationError",
+          "errorType",
+          "message",
+          "routeFailures",
+          "getErrorType",
+          "getMessage",
+          "getRouteFailures",
+          "equals",
+          "hashCode",
+          "UsageErrorDiagnostic"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 16,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "forUserPortal",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "providerChannelId",
+          "requestProtocol",
+          "timeRange",
+          "viewerRole",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getProviderChannelId",
+          "getRequestProtocol",
+          "getTimeRange",
+          "getViewerRole",
+          "equals",
+          "hashCode",
+          "UsageRecordFilter"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+        "batchIndex": 16,
+        "symbols": [
+          "UsageRecordStatus"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+        "batchIndex": 5,
+        "symbols": [
+          "of",
+          "known",
+          "unknown",
+          "zeroKnown",
+          "fromUnified",
+          "plus",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "actualTokens",
+          "usageKnown",
+          "getInputTokens",
+          "getOutputTokens",
+          "getCacheCreationInputTokens",
+          "getCacheReadInputTokens",
+          "getTotalTokens",
+          "getActualTokens",
+          "isUsageKnown",
+          "equals",
+          "hashCode",
+          "UsageTokenBreakdown"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java",
+        "batchIndex": 16,
+        "symbols": [
+          "ACTUAL_TOKENS_SQL",
+          "TOTAL_TOKENS_SQL",
+          "withPrefix",
+          "totalTokensWithPrefix",
+          "UsageTokenSqlFragments"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayIdentifierHelper.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayInvocationId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRequestMapper.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+        "batchIndex": 16,
+        "symbols": [
+          "empty",
+          "of",
+          "ofHeaders",
+          "clientIp",
+          "hasRawQuery",
+          "equals",
+          "hashCode",
+          "InboundRequestContext"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+        "batchIndex": 16,
+        "symbols": [
+          "builder",
+          "getGatewayInvocationId",
+          "getGatewayRequestId",
+          "getUsageRecordId",
+          "getKeyHash",
+          "getRequestedCredentialModel",
+          "getRequestedModel",
+          "getRequestProtocol",
+          "getRequestBody",
+          "getInbound",
+          "isStreaming",
+          "isToolCallingRequired",
+          "isReasoningRequired",
+          "InvokeGatewayCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiKeyHash"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayInvocationId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/usage/UsageRecordController.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+        "batchIndex": 16,
+        "symbols": [
+          "queryMyUsageRecords",
+          "queryAdminUsageRecords",
+          "UsageQueryApplicationService"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+        "batchIndex": 16,
+        "symbols": [
+          "QueryAdminUsageRecordsCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+        "batchIndex": 16,
+        "symbols": [
+          "QueryMyUsageRecordsCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "totalPages",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecordViews"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+        "batchIndex": 5,
+        "symbols": [
+          "SUCCESS_CODE",
+          "SUCCESS_MESSAGE",
+          "success",
+          "success",
+          "failure",
+          "ApiResponse"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+        "batchIndex": 5,
+        "symbols": [
+          "CURRENT_USER_ID_SESSION_KEY",
+          "resolveCurrentUserId",
+          "bindCurrentUser",
+          "clearCurrentUser",
+          "resolveOperatorUserId",
+          "CurrentUserContextResolver"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverter.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+        "batchIndex": 16,
+        "symbols": [
+          "QueryAdminUsageRecordsCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+        "batchIndex": 16,
+        "symbols": [
+          "QueryMyUsageRecordsCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "totalPages",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecordViews"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "record",
+          "username",
+          "apiCredentialName",
+          "providerChannelName",
+          "getRecord",
+          "getUsername",
+          "getApiCredentialName",
+          "getProviderChannelName",
+          "UsageRecordView"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ProviderChannelId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 16,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+        "batchIndex": 19,
+        "symbols": [
+          "MapStructConfig"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+        "batchIndex": 16,
+        "symbols": [
+          "UsageRecordStatus"
+        ]
+      }
+    ],
+    "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ProviderChannelId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "between",
+          "millis",
+          "getMillis",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageDuration"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 16,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+        "batchIndex": 16,
+        "symbols": [
+          "UsageRecordStatus"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+        "batchIndex": 5,
+        "symbols": [
+          "of",
+          "known",
+          "unknown",
+          "zeroKnown",
+          "fromUnified",
+          "plus",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "actualTokens",
+          "usageKnown",
+          "getInputTokens",
+          "getOutputTokens",
+          "getCacheCreationInputTokens",
+          "getCacheReadInputTokens",
+          "getTotalTokens",
+          "getActualTokens",
+          "isUsageKnown",
+          "equals",
+          "hashCode",
+          "UsageTokenBreakdown"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      }
+    ],
+    "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+        "batchIndex": 5,
+        "symbols": [
+          "of",
+          "todayActualTokens",
+          "todayTotalTokens",
+          "monthActualTokens",
+          "monthTotalTokens",
+          "todayTokens",
+          "monthTokens",
+          "getTodayTokens",
+          "getMonthTokens",
+          "getTodayActualTokens",
+          "getTodayTotalTokens",
+          "getMonthActualTokens",
+          "getMonthTotalTokens",
+          "equals",
+          "hashCode",
+          "FrontDashboardMetrics"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ProviderChannelId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "empty",
+          "isEmpty",
+          "totalPages",
+          "records",
+          "page",
+          "size",
+          "totalElements",
+          "filteredTokenTotal",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecords"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "between",
+          "millis",
+          "getMillis",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageDuration"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 16,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+        "batchIndex": 16,
+        "symbols": [
+          "UsageRecordStatus"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+        "batchIndex": 5,
+        "symbols": [
+          "of",
+          "known",
+          "unknown",
+          "zeroKnown",
+          "fromUnified",
+          "plus",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "actualTokens",
+          "usageKnown",
+          "getInputTokens",
+          "getOutputTokens",
+          "getCacheCreationInputTokens",
+          "getCacheReadInputTokens",
+          "getTotalTokens",
+          "getActualTokens",
+          "isUsageKnown",
+          "equals",
+          "hashCode",
+          "UsageTokenBreakdown"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      }
+    ],
+    "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+        "batchIndex": 16,
+        "symbols": [
+          "empty",
+          "of",
+          "ofHeaders",
+          "clientIp",
+          "hasRawQuery",
+          "equals",
+          "hashCode",
+          "InboundRequestContext"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+        "batchIndex": 6,
+        "symbols": [
+          "owningProtocol",
+          "availableOn",
+          "billable",
+          "supportsStreaming",
+          "requiresNativeProtocol",
+          "acceptsMultipartForm",
+          "ProtocolOperation"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+        "batchIndex": 16,
+        "symbols": [
+          "builder",
+          "getGatewayInvocationId",
+          "getGatewayRequestId",
+          "getUsageRecordId",
+          "getKeyHash",
+          "getRequestedCredentialModel",
+          "getRequestedModel",
+          "getRequestProtocol",
+          "getRequestBody",
+          "getInbound",
+          "isStreaming",
+          "isToolCallingRequired",
+          "isReasoningRequired",
+          "InvokeGatewayCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiKeyHash"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayInvocationId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocolcontract/model/ParsedGatewayRequest.java",
+        "batchIndex": 7,
+        "symbols": [
+          "ParsedGatewayRequest"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      }
+    ],
+    "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "totalPages",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecordViews"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "record",
+          "username",
+          "apiCredentialName",
+          "providerChannelName",
+          "getRecord",
+          "getUsername",
+          "getApiCredentialName",
+          "getProviderChannelName",
+          "UsageRecordView"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+        "batchIndex": 6,
+        "symbols": [
+          "isSameAs",
+          "isClientFacing",
+          "defaultEndpointPath",
+          "parseExternal",
+          "ProtocolType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+        "batchIndex": 2,
+        "symbols": [
+          "of",
+          "value",
+          "equals",
+          "hashCode",
+          "toString",
+          "ProviderChannelId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "GatewayRequestId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "empty",
+          "isEmpty",
+          "totalPages",
+          "records",
+          "page",
+          "size",
+          "totalElements",
+          "filteredTokenTotal",
+          "getRecords",
+          "getPage",
+          "getSize",
+          "getTotalElements",
+          "getFilteredTokenTotal",
+          "PagedUsageRecords"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "between",
+          "millis",
+          "getMillis",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageDuration"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 16,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 16,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+        "batchIndex": 16,
+        "symbols": [
+          "UsageRecordStatus"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+        "batchIndex": 5,
+        "symbols": [
+          "of",
+          "known",
+          "unknown",
+          "zeroKnown",
+          "fromUnified",
+          "plus",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "actualTokens",
+          "usageKnown",
+          "getInputTokens",
+          "getOutputTokens",
+          "getCacheCreationInputTokens",
+          "getCacheReadInputTokens",
+          "getTotalTokens",
+          "getActualTokens",
+          "isUsageKnown",
+          "equals",
+          "hashCode",
+          "UsageTokenBreakdown"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      }
+    ]
+  }
+}

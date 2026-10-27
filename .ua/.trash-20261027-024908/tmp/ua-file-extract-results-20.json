@@ -1,0 +1,2601 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 18,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 18,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 18,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 88,
+      "nonEmptyLines": 76,
+      "functions": [
+        {
+          "name": "listDefinitions",
+          "startLine": 34,
+          "endLine": 38,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "getDefinition",
+          "startLine": 40,
+          "endLine": 47,
+          "params": [
+            "operatorUserId",
+            "definitionId"
+          ]
+        },
+        {
+          "name": "getDefinitionByDirection",
+          "startLine": 49,
+          "endLine": 58,
+          "params": [
+            "operatorUserId",
+            "sourceProtocol",
+            "targetProtocol"
+          ]
+        },
+        {
+          "name": "enableConversion",
+          "startLine": 60,
+          "endLine": 67,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "disableConversion",
+          "startLine": 69,
+          "endLine": 76,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "assertAdminBackofficeAccess",
+          "startLine": 78,
+          "endLine": 82,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "loadDefinition",
+          "startLine": 84,
+          "endLine": 87,
+          "params": [
+            "definitionId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolConversionApplicationService",
+          "startLine": 21,
+          "endLine": 88,
+          "methods": [
+            "listDefinitions",
+            "getDefinition",
+            "getDefinitionByDirection",
+            "enableConversion",
+            "disableConversion",
+            "assertAdminBackofficeAccess",
+            "loadDefinition"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "conversionDefinitionRepository",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listDefinitions",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "getDefinition",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "getDefinitionByDirection",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "enableConversion",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "disableConversion",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionApplicationService",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listDefinitions",
+          "callee": "assertAdminBackofficeAccess",
+          "lineNumber": 36
+        },
+        {
+          "caller": "listDefinitions",
+          "callee": "conversionDefinitionRepository.findAll",
+          "lineNumber": 37
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "assertAdminBackofficeAccess",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "loadDefinition",
+          "lineNumber": 46
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "assertAdminBackofficeAccess",
+          "lineNumber": 55
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "conversionDefinitionRepository.findBySourceAndTarget(sourceProtocol, targetProtocol).orElseThrow",
+          "lineNumber": 56
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "conversionDefinitionRepository.findBySourceAndTarget",
+          "lineNumber": 56
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "new BusinessException",
+          "lineNumber": 57
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "assertAdminBackofficeAccess",
+          "lineNumber": 62
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 62
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "loadDefinition",
+          "lineNumber": 63
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "command.getDefinitionId",
+          "lineNumber": 63
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "definition.enable",
+          "lineNumber": 64
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "Instant.now",
+          "lineNumber": 64
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "conversionDefinitionRepository.save",
+          "lineNumber": 65
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "assertAdminBackofficeAccess",
+          "lineNumber": 71
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 71
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "loadDefinition",
+          "lineNumber": 72
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "command.getDefinitionId",
+          "lineNumber": 72
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "definition.disable",
+          "lineNumber": 73
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "Instant.now",
+          "lineNumber": 73
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "conversionDefinitionRepository.save",
+          "lineNumber": 74
+        },
+        {
+          "caller": "assertAdminBackofficeAccess",
+          "callee": "userAccountRepository.findById(operatorUserId).orElseThrow",
+          "lineNumber": 79
+        },
+        {
+          "caller": "assertAdminBackofficeAccess",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 79
+        },
+        {
+          "caller": "assertAdminBackofficeAccess",
+          "callee": "new BusinessException",
+          "lineNumber": 80
+        },
+        {
+          "caller": "assertAdminBackofficeAccess",
+          "callee": "operator.assertCanAccess",
+          "lineNumber": 81
+        },
+        {
+          "caller": "loadDefinition",
+          "callee": "conversionDefinitionRepository.findById(definitionId).orElseThrow",
+          "lineNumber": 85
+        },
+        {
+          "caller": "loadDefinition",
+          "callee": "conversionDefinitionRepository.findById",
+          "lineNumber": 85
+        },
+        {
+          "caller": "loadDefinition",
+          "callee": "new BusinessException",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 10,
+        "exportCount": 6,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ChangeProtocolConversionStatusCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "definitionId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeProtocolConversionStatusCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 225,
+      "nonEmptyLines": 197,
+      "functions": [
+        {
+          "name": "ProtocolConversionDefinition",
+          "startLine": 23,
+          "endLine": 46,
+          "params": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "implementationStatus",
+            "now"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 48,
+          "endLine": 68,
+          "params": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "implementationStatus",
+            "now"
+          ]
+        },
+        {
+          "name": "rehydrate",
+          "startLine": 70,
+          "endLine": 95,
+          "params": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "implementationStatus",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 97,
+          "endLine": 120,
+          "params": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "implementationStatus",
+            "now"
+          ]
+        },
+        {
+          "name": "enable",
+          "startLine": 122,
+          "endLine": 131,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "disable",
+          "startLine": 133,
+          "endLine": 139,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "isPassthrough",
+          "startLine": 141,
+          "endLine": 143,
+          "params": []
+        },
+        {
+          "name": "isTransform",
+          "startLine": 145,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "isEnabledForRouting",
+          "startLine": 149,
+          "endLine": 151,
+          "params": []
+        },
+        {
+          "name": "supportsStreaming",
+          "startLine": 153,
+          "endLine": 155,
+          "params": []
+        },
+        {
+          "name": "supportsToolCalling",
+          "startLine": 157,
+          "endLine": 159,
+          "params": []
+        },
+        {
+          "name": "matches",
+          "startLine": 161,
+          "endLine": 164,
+          "params": [
+            "sourceProtocol",
+            "targetProtocol"
+          ]
+        },
+        {
+          "name": "touch",
+          "startLine": 166,
+          "endLine": 168,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "requireNow",
+          "startLine": 170,
+          "endLine": 172,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "requireDirection",
+          "startLine": 174,
+          "endLine": 180,
+          "params": [
+            "mapping",
+            "expected",
+            "fieldName"
+          ]
+        },
+        {
+          "name": "id",
+          "startLine": 182,
+          "endLine": 184,
+          "params": []
+        },
+        {
+          "name": "sourceProtocol",
+          "startLine": 186,
+          "endLine": 188,
+          "params": []
+        },
+        {
+          "name": "targetProtocol",
+          "startLine": 190,
+          "endLine": 192,
+          "params": []
+        },
+        {
+          "name": "kind",
+          "startLine": 194,
+          "endLine": 196,
+          "params": []
+        },
+        {
+          "name": "status",
+          "startLine": 198,
+          "endLine": 200,
+          "params": []
+        },
+        {
+          "name": "capability",
+          "startLine": 202,
+          "endLine": 204,
+          "params": []
+        },
+        {
+          "name": "requestMapping",
+          "startLine": 206,
+          "endLine": 208,
+          "params": []
+        },
+        {
+          "name": "responseMapping",
+          "startLine": 210,
+          "endLine": 212,
+          "params": []
+        },
+        {
+          "name": "implementationStatus",
+          "startLine": 214,
+          "endLine": 216,
+          "params": []
+        },
+        {
+          "name": "createdAt",
+          "startLine": 218,
+          "endLine": 220,
+          "params": []
+        },
+        {
+          "name": "updatedAt",
+          "startLine": 222,
+          "endLine": 224,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinition",
+          "startLine": 10,
+          "endLine": 225,
+          "methods": [
+            "ProtocolConversionDefinition",
+            "create",
+            "rehydrate",
+            "create",
+            "enable",
+            "disable",
+            "isPassthrough",
+            "isTransform",
+            "isEnabledForRouting",
+            "supportsStreaming",
+            "supportsToolCalling",
+            "matches",
+            "touch",
+            "requireNow",
+            "requireDirection",
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "kind",
+            "status",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "implementationStatus",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "kind",
+            "status",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "implementationStatus",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "rehydrate",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "create",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "enable",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "disable",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "isPassthrough",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "isTransform",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "isEnabledForRouting",
+          "line": 149,
+          "isDefault": false
+        },
+        {
+          "name": "supportsStreaming",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "supportsToolCalling",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "matches",
+          "line": 161,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 182,
+          "isDefault": false
+        },
+        {
+          "name": "sourceProtocol",
+          "line": 186,
+          "isDefault": false
+        },
+        {
+          "name": "targetProtocol",
+          "line": 190,
+          "isDefault": false
+        },
+        {
+          "name": "kind",
+          "line": 194,
+          "isDefault": false
+        },
+        {
+          "name": "status",
+          "line": 198,
+          "isDefault": false
+        },
+        {
+          "name": "capability",
+          "line": 202,
+          "isDefault": false
+        },
+        {
+          "name": "requestMapping",
+          "line": 206,
+          "isDefault": false
+        },
+        {
+          "name": "responseMapping",
+          "line": 210,
+          "isDefault": false
+        },
+        {
+          "name": "implementationStatus",
+          "line": 214,
+          "isDefault": false
+        },
+        {
+          "name": "createdAt",
+          "line": 218,
+          "isDefault": false
+        },
+        {
+          "name": "updatedAt",
+          "line": 222,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionDefinition",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "ConversionKind.from",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "requireDirection",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "requireDirection",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ProtocolConversionDefinition",
+          "callee": "requireNow",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "new ProtocolConversionDefinition",
+          "lineNumber": 58
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "new ProtocolConversionDefinition",
+          "lineNumber": 82
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 92
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "requireNow",
+          "lineNumber": 93
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 107
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 108
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 109
+        },
+        {
+          "caller": "create",
+          "callee": "create",
+          "lineNumber": 110
+        },
+        {
+          "caller": "create",
+          "callee": "id.toDefinitionId",
+          "lineNumber": 111
+        },
+        {
+          "caller": "create",
+          "callee": "requestMapping.toDocument",
+          "lineNumber": 115
+        },
+        {
+          "caller": "create",
+          "callee": "responseMapping.toDocument",
+          "lineNumber": 116
+        },
+        {
+          "caller": "enable",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 127
+        },
+        {
+          "caller": "enable",
+          "callee": "touch",
+          "lineNumber": 130
+        },
+        {
+          "caller": "disable",
+          "callee": "touch",
+          "lineNumber": 138
+        },
+        {
+          "caller": "isEnabledForRouting",
+          "callee": "implementationStatus.isRoutable",
+          "lineNumber": 150
+        },
+        {
+          "caller": "supportsStreaming",
+          "callee": "capability.supportsStreaming",
+          "lineNumber": 154
+        },
+        {
+          "caller": "supportsToolCalling",
+          "callee": "capability.supportsToolCalling",
+          "lineNumber": 158
+        },
+        {
+          "caller": "matches",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 162
+        },
+        {
+          "caller": "matches",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 163
+        },
+        {
+          "caller": "touch",
+          "callee": "requireNow",
+          "lineNumber": 167
+        },
+        {
+          "caller": "requireNow",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 171
+        },
+        {
+          "caller": "requireDirection",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 175
+        },
+        {
+          "caller": "requireDirection",
+          "callee": "mapping.direction",
+          "lineNumber": 176
+        },
+        {
+          "caller": "requireDirection",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 177
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 23,
+        "functionCount": 26,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "ProtocolConversionDefinitionId",
+          "startLine": 11,
+          "endLine": 16,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 22,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 26,
+          "endLine": 35,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 37,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 42,
+          "endLine": 45,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinitionId",
+          "startLine": 8,
+          "endLine": 46,
+          "methods": [
+            "ProtocolConversionDefinitionId",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionDefinitionId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolConversionDefinitionId",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 13
+        },
+        {
+          "caller": "of",
+          "callee": "new ProtocolConversionDefinitionId",
+          "lineNumber": 19
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 34
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toString",
+          "callee": "String.valueOf",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 46,
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinitionRepository",
+          "startLine": 12,
+          "endLine": 52,
+          "methods": [
+            "save",
+            "findById",
+            "findBySourceAndTarget",
+            "findAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionDefinitionRepository",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "save",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "definition"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 38,
+          "endLine": 43,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findBySourceAndTarget",
+          "startLine": 45,
+          "endLine": 51,
+          "params": [
+            "sourceProtocol",
+            "targetProtocol"
+          ]
+        },
+        {
+          "name": "findAll",
+          "startLine": 53,
+          "endLine": 58,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinitionRepositoryImpl",
+          "startLine": 17,
+          "endLine": 59,
+          "methods": [
+            "save",
+            "findById",
+            "findBySourceAndTarget",
+            "findAll"
+          ],
+          "properties": [
+            "mapper",
+            "converter"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "save",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "findBySourceAndTarget",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "findAll",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionDefinitionRepositoryImpl",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 29
+        },
+        {
+          "caller": "save",
+          "callee": "converter.toPO",
+          "lineNumber": 30
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.selectById",
+          "lineNumber": 31
+        },
+        {
+          "caller": "save",
+          "callee": "po.getId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.insert",
+          "lineNumber": 32
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.update",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findById",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 40
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable(mapper.selectById(id.value())).map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 41
+        },
+        {
+          "caller": "findById",
+          "callee": "mapper.selectById",
+          "lineNumber": 41
+        },
+        {
+          "caller": "findById",
+          "callee": "id.value",
+          "lineNumber": 41
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "Optional.ofNullable(mapper.selectBySourceAndTarget(sourceProtocol.name(), targetProtocol.name())).map",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "mapper.selectBySourceAndTarget",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "sourceProtocol.name",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findBySourceAndTarget",
+          "callee": "targetProtocol.name",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream()\n                .map(converter::toDomain).toList",
+          "lineNumber": 55
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream().map",
+          "lineNumber": 55
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream",
+          "lineNumber": 55
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 111,
+      "nonEmptyLines": 98,
+      "functions": [
+        {
+          "name": "insert",
+          "startLine": 44,
+          "endLine": 50,
+          "params": [
+            "definition"
+          ]
+        },
+        {
+          "name": "update",
+          "startLine": 52,
+          "endLine": 69,
+          "params": [
+            "definition"
+          ]
+        },
+        {
+          "name": "selectById",
+          "startLine": 71,
+          "endLine": 76,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "selectBySourceAndTarget",
+          "startLine": 78,
+          "endLine": 83,
+          "params": [
+            "sourceProtocol",
+            "targetProtocol"
+          ]
+        },
+        {
+          "name": "selectAll",
+          "startLine": 85,
+          "endLine": 90,
+          "params": []
+        },
+        {
+          "name": "params",
+          "startLine": 92,
+          "endLine": 109,
+          "params": [
+            "po"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JdbcProtocolConversionDefinitionMapper",
+          "startLine": 17,
+          "endLine": 111,
+          "methods": [
+            "insert",
+            "update",
+            "selectById",
+            "selectBySourceAndTarget",
+            "selectAll",
+            "params"
+          ],
+          "properties": [
+            "COLUMNS",
+            "jdbcTemplate",
+            "rowMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "insert",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "update",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "selectById",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "selectBySourceAndTarget",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "selectAll",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "JdbcProtocolConversionDefinitionMapper",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insert",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 46
+        },
+        {
+          "caller": "insert",
+          "callee": "params",
+          "lineNumber": 49
+        },
+        {
+          "caller": "update",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 54
+        },
+        {
+          "caller": "update",
+          "callee": "params",
+          "lineNumber": 68
+        },
+        {
+          "caller": "selectById",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 73
+        },
+        {
+          "caller": "selectById",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 73
+        },
+        {
+          "caller": "selectById",
+          "callee": "Map.of",
+          "lineNumber": 75
+        },
+        {
+          "caller": "selectBySourceAndTarget",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 80
+        },
+        {
+          "caller": "selectBySourceAndTarget",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 80
+        },
+        {
+          "caller": "selectBySourceAndTarget",
+          "callee": "Map.of",
+          "lineNumber": 82
+        },
+        {
+          "caller": "selectAll",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 87
+        },
+        {
+          "caller": "selectAll",
+          "callee": "Map.of",
+          "lineNumber": 89
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling())\n                .addValue(\"supportsReasoning\", po.isSupportsReasoning())\n                .addValue(\"supportsUsageMapping\", po.isSupportsUsageMapping())\n                .addValue(\"supportsCacheTokenMapping\", po.isSupportsCacheTokenMapping())\n                .addValue(\"requestMappingJson\", po.getRequestMappingJson())\n                .addValue(\"responseMappingJson\", po.getResponseMappingJson())\n                .addValue(\"createdTime\", timestamp(po.getCreatedTime())).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling())\n                .addValue(\"supportsReasoning\", po.isSupportsReasoning())\n                .addValue(\"supportsUsageMapping\", po.isSupportsUsageMapping())\n                .addValue(\"supportsCacheTokenMapping\", po.isSupportsCacheTokenMapping())\n                .addValue(\"requestMappingJson\", po.getRequestMappingJson())\n                .addValue(\"responseMappingJson\", po.getResponseMappingJson()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling())\n                .addValue(\"supportsReasoning\", po.isSupportsReasoning())\n                .addValue(\"supportsUsageMapping\", po.isSupportsUsageMapping())\n                .addValue(\"supportsCacheTokenMapping\", po.isSupportsCacheTokenMapping())\n                .addValue(\"requestMappingJson\", po.getRequestMappingJson()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling())\n                .addValue(\"supportsReasoning\", po.isSupportsReasoning())\n                .addValue(\"supportsUsageMapping\", po.isSupportsUsageMapping())\n                .addValue(\"supportsCacheTokenMapping\", po.isSupportsCacheTokenMapping()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling())\n                .addValue(\"supportsReasoning\", po.isSupportsReasoning())\n                .addValue(\"supportsUsageMapping\", po.isSupportsUsageMapping()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling())\n                .addValue(\"supportsReasoning\", po.isSupportsReasoning()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming())\n                .addValue(\"supportsToolCalling\", po.isSupportsToolCalling()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus())\n                .addValue(\"supportsStreaming\", po.isSupportsStreaming()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"implementationStatus\", po.getImplementationStatus()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind())\n                .addValue(\"status\", po.getStatus()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol())\n                .addValue(\"kind\", po.getKind()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol())\n                .addValue(\"targetProtocol\", po.getTargetProtocol()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"sourceProtocol\", po.getSourceProtocol()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId()).addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 93
+        },
+        {
+          "caller": "params",
+          "callee": "po.getId",
+          "lineNumber": 94
+        },
+        {
+          "caller": "params",
+          "callee": "po.getSourceProtocol",
+          "lineNumber": 95
+        },
+        {
+          "caller": "params",
+          "callee": "po.getTargetProtocol",
+          "lineNumber": 96
+        },
+        {
+          "caller": "params",
+          "callee": "po.getKind",
+          "lineNumber": 97
+        },
+        {
+          "caller": "params",
+          "callee": "po.getStatus",
+          "lineNumber": 98
+        },
+        {
+          "caller": "params",
+          "callee": "po.getImplementationStatus",
+          "lineNumber": 99
+        },
+        {
+          "caller": "params",
+          "callee": "po.isSupportsStreaming",
+          "lineNumber": 100
+        },
+        {
+          "caller": "params",
+          "callee": "po.isSupportsToolCalling",
+          "lineNumber": 101
+        },
+        {
+          "caller": "params",
+          "callee": "po.isSupportsReasoning",
+          "lineNumber": 102
+        },
+        {
+          "caller": "params",
+          "callee": "po.isSupportsUsageMapping",
+          "lineNumber": 103
+        },
+        {
+          "caller": "params",
+          "callee": "po.isSupportsCacheTokenMapping",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "po.getRequestMappingJson",
+          "lineNumber": 105
+        },
+        {
+          "caller": "params",
+          "callee": "po.getResponseMappingJson",
+          "lineNumber": 106
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 107
+        },
+        {
+          "caller": "params",
+          "callee": "po.getCreatedTime",
+          "lineNumber": 107
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 108
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUpdatedTime",
+          "lineNumber": 108
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinitionMapper",
+          "startLine": 6,
+          "endLine": 12,
+          "methods": [
+            "insert",
+            "update",
+            "selectById",
+            "selectBySourceAndTarget",
+            "selectAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionDefinitionMapper",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 27,
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinitionPO",
+          "startLine": 9,
+          "endLine": 29,
+          "methods": [],
+          "properties": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "kind",
+            "status",
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping",
+            "requestMappingJson",
+            "responseMappingJson",
+            "implementationStatus",
+            "createdTime",
+            "updatedTime"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionDefinitionPO",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 101,
+      "nonEmptyLines": 91,
+      "functions": [
+        {
+          "name": "listDefinitions",
+          "startLine": 44,
+          "endLine": 49,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "getDefinition",
+          "startLine": 51,
+          "endLine": 60,
+          "params": [
+            "definitionId",
+            "request"
+          ]
+        },
+        {
+          "name": "getDefinitionByDirection",
+          "startLine": 62,
+          "endLine": 74,
+          "params": [
+            "sourceProtocol",
+            "targetProtocol",
+            "request"
+          ]
+        },
+        {
+          "name": "enableConversion",
+          "startLine": 76,
+          "endLine": 87,
+          "params": [
+            "definitionId",
+            "request"
+          ]
+        },
+        {
+          "name": "disableConversion",
+          "startLine": 89,
+          "endLine": 100,
+          "params": [
+            "definitionId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AdminProtocolConversionController",
+          "startLine": 29,
+          "endLine": 101,
+          "methods": [
+            "listDefinitions",
+            "getDefinition",
+            "getDefinitionByDirection",
+            "enableConversion",
+            "disableConversion"
+          ],
+          "properties": [
+            "protocolConversionApplicationService",
+            "protocolConversionHttpConverter",
+            "currentUserContextResolver"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listDefinitions",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "getDefinition",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "getDefinitionByDirection",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "enableConversion",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "disableConversion",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "AdminProtocolConversionController",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listDefinitions",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 46
+        },
+        {
+          "caller": "listDefinitions",
+          "callee": "protocolConversionApplicationService.listDefinitions",
+          "lineNumber": 47
+        },
+        {
+          "caller": "listDefinitions",
+          "callee": "ApiResponse.success",
+          "lineNumber": 48
+        },
+        {
+          "caller": "listDefinitions",
+          "callee": "protocolConversionHttpConverter.toListResponse",
+          "lineNumber": 48
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "ProtocolConversionDefinitionId.of",
+          "lineNumber": 57
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "protocolConversionApplicationService.getDefinition",
+          "lineNumber": 58
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "ApiResponse.success",
+          "lineNumber": 59
+        },
+        {
+          "caller": "getDefinition",
+          "callee": "protocolConversionHttpConverter.toResponse",
+          "lineNumber": 59
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "protocolConversionHttpConverter.toProtocolType",
+          "lineNumber": 69
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "protocolConversionHttpConverter.toProtocolType",
+          "lineNumber": 70
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "protocolConversionApplicationService.getDefinitionByDirection",
+          "lineNumber": 71
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "ApiResponse.success",
+          "lineNumber": 73
+        },
+        {
+          "caller": "getDefinitionByDirection",
+          "callee": "protocolConversionHttpConverter.toResponse",
+          "lineNumber": 73
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 81
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "ProtocolConversionDefinitionId.of",
+          "lineNumber": 82
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "protocolConversionHttpConverter.toChangeStatusCommand",
+          "lineNumber": 83
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "protocolConversionApplicationService.enableConversion",
+          "lineNumber": 85
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "ApiResponse.success",
+          "lineNumber": 86
+        },
+        {
+          "caller": "enableConversion",
+          "callee": "protocolConversionHttpConverter.toResponse",
+          "lineNumber": 86
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 94
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "ProtocolConversionDefinitionId.of",
+          "lineNumber": 95
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "protocolConversionHttpConverter.toChangeStatusCommand",
+          "lineNumber": 96
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "protocolConversionApplicationService.disableConversion",
+          "lineNumber": 98
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "ApiResponse.success",
+          "lineNumber": 99
+        },
+        {
+          "caller": "disableConversion",
+          "callee": "protocolConversionHttpConverter.toResponse",
+          "lineNumber": 99
+        }
+      ],
+      "metrics": {
+        "importCount": 11,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 105,
+      "classes": [
+        {
+          "name": "ProtocolConversionHttpConverter",
+          "startLine": 28,
+          "endLine": 117,
+          "methods": [
+            "toChangeStatusCommand",
+            "toProtocolType",
+            "toResponse",
+            "toListResponse",
+            "toListItemResponse",
+            "toCapabilityResponse",
+            "toMappingResponse",
+            "toFieldMappingResponse",
+            "toFieldMappingResponses",
+            "toEnumNames"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionHttpConverter",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeProtocolConversionStatusCommand.builder()\n                .operatorUserId(operatorUserId)\n                .definitionId(definitionId).build",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeProtocolConversionStatusCommand.builder()\n                .operatorUserId(operatorUserId).definitionId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeProtocolConversionStatusCommand.builder().operatorUserId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeProtocolConversionStatusCommand.builder",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toProtocolType",
+          "callee": "ProtocolType.valueOf",
+          "lineNumber": 42
+        },
+        {
+          "caller": "toProtocolType",
+          "callee": "protocol.toUpperCase().replace",
+          "lineNumber": 42
+        },
+        {
+          "caller": "toProtocolType",
+          "callee": "protocol.toUpperCase",
+          "lineNumber": 42
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "ProtocolConversionListResponse.builder()\n                .conversions(definitions.stream().map(this::toListItemResponse).toList()).build",
+          "lineNumber": 59
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "ProtocolConversionListResponse.builder().conversions",
+          "lineNumber": 59
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "ProtocolConversionListResponse.builder",
+          "lineNumber": 59
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "definitions.stream().map(this::toListItemResponse).toList",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "definitions.stream().map",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "definitions.stream",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFieldMappingResponses",
+          "callee": "fieldMappings.stream().map(this::toFieldMappingResponse).toList",
+          "lineNumber": 109
+        },
+        {
+          "caller": "toFieldMappingResponses",
+          "callee": "fieldMappings.stream().map",
+          "lineNumber": 109
+        },
+        {
+          "caller": "toFieldMappingResponses",
+          "callee": "fieldMappings.stream",
+          "lineNumber": 109
+        },
+        {
+          "caller": "toEnumNames",
+          "callee": "values.stream()\n                .map(Enum::name).collect",
+          "lineNumber": 113
+        },
+        {
+          "caller": "toEnumNames",
+          "callee": "values.stream().map",
+          "lineNumber": 113
+        },
+        {
+          "caller": "toEnumNames",
+          "callee": "values.stream",
+          "lineNumber": 113
+        },
+        {
+          "caller": "toEnumNames",
+          "callee": "Collectors.toCollection",
+          "lineNumber": 115
+        }
+      ],
+      "metrics": {
+        "importCount": 15,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "ProtocolConversionCapabilityResponse",
+          "startLine": 13,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping",
+            "supportedContentTypes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionCapabilityResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 29,
+      "classes": [
+        {
+          "name": "ProtocolConversionFieldMappingResponse",
+          "startLine": 11,
+          "endLine": 32,
+          "methods": [],
+          "properties": [
+            "sourceField",
+            "targetField",
+            "ruleDescription",
+            "lossiness",
+            "category",
+            "mappingType",
+            "sourcePath",
+            "targetPath",
+            "sourceType",
+            "targetType",
+            "required",
+            "supported",
+            "defaultValue",
+            "condition",
+            "notes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionFieldMappingResponse",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "ProtocolConversionListItemResponse",
+          "startLine": 11,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "kind",
+            "status",
+            "implementationStatus",
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionListItemResponse",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "ProtocolConversionListResponse",
+          "startLine": 13,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "conversions"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionListResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "ProtocolConversionMappingResponse",
+          "startLine": 13,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "direction",
+            "title",
+            "summary",
+            "fieldMappings"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionMappingResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "ProtocolConversionResponse",
+          "startLine": 11,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "id",
+            "sourceProtocol",
+            "targetProtocol",
+            "kind",
+            "status",
+            "implementationStatus",
+            "capability",
+            "requestMapping",
+            "responseMapping",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionResponse",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 81,
+      "nonEmptyLines": 71,
+      "functions": [
+        {
+          "name": "test_fallbackMapping_when_noConverterRegistered",
+          "startLine": 19,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "test_passthroughFallback_when_sameProtocol",
+          "startLine": 38,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "po",
+          "startLine": 55,
+          "endLine": 80,
+          "params": [
+            "sourceProtocol",
+            "targetProtocol",
+            "requestMappingJson",
+            "responseMappingJson"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolConversionDefinitionPersistenceConverterTest",
+          "startLine": 13,
+          "endLine": 81,
+          "methods": [
+            "test_fallbackMapping_when_noConverterRegistered",
+            "test_passthroughFallback_when_sameProtocol",
+            "po"
+          ],
+          "properties": [
+            "registry",
+            "converter"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "converter.toDomain",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "po",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat(definition.requestMapping().fieldMappings())\n                .singleElement().satisfies",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat(definition.requestMapping().fieldMappings()).singleElement",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "definition.requestMapping().fieldMappings",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "definition.requestMapping",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat(mapping.sourceField()).isEqualTo",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "mapping.sourceField",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat(mapping.targetField()).isEqualTo",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "mapping.targetField",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat(mapping.supported()).isFalse",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "mapping.supported",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat(mapping.ruleDescription()).contains",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "assertThat",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_fallbackMapping_when_noConverterRegistered",
+          "callee": "mapping.ruleDescription",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "converter.toDomain",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "po",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat(definition.requestMapping().fieldMappings())\n                .singleElement().satisfies",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat(definition.requestMapping().fieldMappings()).singleElement",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "definition.requestMapping().fieldMappings",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "definition.requestMapping",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat(mapping.sourceField()).isEqualTo",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "mapping.sourceField",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat(mapping.targetField()).isEqualTo",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "assertThat",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_passthroughFallback_when_sameProtocol",
+          "callee": "mapping.targetField",
+          "lineNumber": 51
+        },
+        {
+          "caller": "po",
+          "callee": "Instant.parse",
+          "lineNumber": 61
+        },
+        {
+          "caller": "po",
+          "callee": "sourceProtocol.equals",
+          "lineNumber": 62
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false)\n                .supportsUsageMapping(true)\n                .supportsCacheTokenMapping(true)\n                .requestMappingJson(requestMappingJson)\n                .responseMappingJson(responseMappingJson)\n                .createdTime(now)\n                .updatedTime(now).build",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false)\n                .supportsUsageMapping(true)\n                .supportsCacheTokenMapping(true)\n                .requestMappingJson(requestMappingJson)\n                .responseMappingJson(responseMappingJson)\n                .createdTime(now).updatedTime",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false)\n                .supportsUsageMapping(true)\n                .supportsCacheTokenMapping(true)\n                .requestMappingJson(requestMappingJson)\n                .responseMappingJson(responseMappingJson).createdTime",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false)\n                .supportsUsageMapping(true)\n                .supportsCacheTokenMapping(true)\n                .requestMappingJson(requestMappingJson).responseMappingJson",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false)\n                .supportsUsageMapping(true)\n                .supportsCacheTokenMapping(true).requestMappingJson",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false)\n                .supportsUsageMapping(true).supportsCacheTokenMapping",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false)\n                .supportsReasoning(false).supportsUsageMapping",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false)\n                .supportsToolCalling(false).supportsReasoning",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\")\n                .supportsStreaming(false).supportsToolCalling",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\")\n                .implementationStatus(\"IMPLEMENTED\").supportsStreaming",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\")\n                .status(\"ENABLED\").implementationStatus",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol)\n                .kind(passthrough ? \"PASSTHROUGH\" : \"TRANSFORM\").status",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol)\n                .targetProtocol(targetProtocol).kind",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L)\n                .sourceProtocol(sourceProtocol).targetProtocol",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder()\n                .id(1L).sourceProtocol",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder().id",
+          "lineNumber": 63
+        },
+        {
+          "caller": "po",
+          "callee": "ProtocolConversionDefinitionPO.builder",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    }
+  ]
+}

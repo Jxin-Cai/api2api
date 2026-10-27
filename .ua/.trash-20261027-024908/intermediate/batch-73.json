@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "type": "file",
+      "name": "ScopedRateLimitTest.java",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "summary": "验证带调用方范围错误码的上游 429 被归类为调用方限流，而普通 429 仍保留提供方限流隔离，避免耗尽调用方额度时误罚渠道。",
+      "tags": [
+        "测试",
+        "限流分类",
+        "渠道隔离"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java:ScopedRateLimitTest",
+      "type": "class",
+      "name": "ScopedRateLimitTest",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "lineRange": [
+        8,
+        27
+      ],
+      "summary": "验证带调用方范围错误码的上游 429 被归类为调用方限流，而普通 429 仍保留提供方限流隔离，避免耗尽调用方额度时误罚渠道。",
+      "tags": [
+        "测试",
+        "限流分类",
+        "渠道隔离"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java:test_classifies_caller_scope_when_upstream_returns_scoped_429",
+      "type": "function",
+      "name": "test_classifies_caller_scope_when_upstream_returns_scoped_429",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "lineRange": [
+        9,
+        18
+      ],
+      "summary": "参数化验证并发、分组额度、用户及凭证限流错误码均被识别为调用方限流。",
+      "tags": [
+        "测试",
+        "限流分类",
+        "渠道隔离"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "target": "class:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java:ScopedRateLimitTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java:test_classifies_caller_scope_when_upstream_returns_scoped_429",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ]
+}

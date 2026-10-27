@@ -1,0 +1,921 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "type": "file",
+      "name": "GatewayInvocationOutcome.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "summary": "封装同步网关调用的领域状态及可选上游响应，区分有上游返回和路由终止等结果。",
+      "tags": [
+        "调用结果",
+        "响应封装",
+        "网关模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:GatewayInvocationOutcome",
+      "type": "class",
+      "name": "GatewayInvocationOutcome",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "summary": "封装同步网关调用的领域状态及可选上游响应，区分有上游返回和路由终止等结果。",
+      "tags": [
+        "调用结果",
+        "响应封装",
+        "网关模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        41
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "summary": "GatewayInvocationOutcome 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "调用结果",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        21
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:withoutProviderResponse",
+      "type": "function",
+      "name": "withoutProviderResponse",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "summary": "创建无上游响应的网关结果，用于路由或调用在转发前终止的情况。",
+      "tags": [
+        "业务方法",
+        "调用结果",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        25
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:hasProviderResponse",
+      "type": "function",
+      "name": "hasProviderResponse",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "summary": "判断当前调用结果是否包含上游响应。",
+      "tags": [
+        "业务方法",
+        "调用结果",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        27,
+        29
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "type": "file",
+      "name": "GatewayStreamingConversionPort.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "summary": "定义流式协议转换端口，负责在上游响应流和客户端输出之间转换事件并返回令牌用量。",
+      "tags": [
+        "流式转换",
+        "端口接口",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java:GatewayStreamingConversionPort",
+      "type": "class",
+      "name": "GatewayStreamingConversionPort",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "summary": "定义流式协议转换端口，负责在上游响应流和客户端输出之间转换事件并返回令牌用量。",
+      "tags": [
+        "流式转换",
+        "端口接口",
+        "协议适配"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        38
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "type": "file",
+      "name": "GatewayStreamingInvocation.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "summary": "保存已开启流式调用的领域状态、用量记录标识、路由候选、上游响应与响应元数据，并提供失败结果封装。",
+      "tags": [
+        "流式调用",
+        "调用上下文",
+        "响应元数据"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:GatewayStreamingInvocation",
+      "type": "class",
+      "name": "GatewayStreamingInvocation",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "summary": "保存已开启流式调用的领域状态、用量记录标识、路由候选、上游响应与响应元数据，并提供失败结果封装。",
+      "tags": [
+        "流式调用",
+        "调用上下文",
+        "响应元数据"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        11,
+        92
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:GatewayStreamingInvocation",
+      "type": "function",
+      "name": "GatewayStreamingInvocation",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "summary": "初始化 GatewayStreamingInvocation，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "流式调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:opened",
+      "type": "function",
+      "name": "opened",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "summary": "将已打开的上游输入流、候选路由及用量标识包装为流式调用上下文。",
+      "tags": [
+        "业务方法",
+        "流式调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        44
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:failed",
+      "type": "function",
+      "name": "failed",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "summary": "创建流未打开时的失败调用上下文，保留领域失败结果。",
+      "tags": [
+        "业务方法",
+        "流式调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        50,
+        56
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:requiresProtocolConversion",
+      "type": "function",
+      "name": "requiresProtocolConversion",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "summary": "比较入口与上游协议，判断响应流是否需要转换。",
+      "tags": [
+        "业务方法",
+        "流式调用",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        82,
+        84
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "file",
+      "name": "ProtocolOperation.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "summary": "枚举各协议支持的请求操作，描述所属协议、是否计费、流式支持、表单传输及原生协议约束。",
+      "tags": [
+        "协议操作",
+        "枚举类型",
+        "计费规则"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:ProtocolOperation",
+      "type": "class",
+      "name": "ProtocolOperation",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "summary": "枚举各协议支持的请求操作，描述所属协议、是否计费、流式支持、表单传输及原生协议约束。",
+      "tags": [
+        "协议操作",
+        "枚举类型",
+        "计费规则"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        14,
+        78
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:ProtocolOperation",
+      "type": "function",
+      "name": "ProtocolOperation",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "summary": "初始化 ProtocolOperation，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "协议操作",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        27,
+        37
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:availableOn",
+      "type": "function",
+      "name": "availableOn",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "summary": "判断当前协议操作是否适用于指定协议。",
+      "tags": [
+        "业务方法",
+        "协议操作",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        46,
+        48
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:requiresNativeProtocol",
+      "type": "function",
+      "name": "requiresNativeProtocol",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "summary": "判断操作是否只允许同协议原生路由。",
+      "tags": [
+        "业务方法",
+        "协议操作",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        66,
+        68
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:acceptsMultipartForm",
+      "type": "function",
+      "name": "acceptsMultipartForm",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "summary": "判断操作是否接受多部分表单请求。",
+      "tags": [
+        "业务方法",
+        "协议操作",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        75,
+        77
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "type": "file",
+      "name": "ProviderGatewayCallPort.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "summary": "定义同步和流式上游请求调用契约，由基础设施适配器实现实际网络转发。",
+      "tags": [
+        "上游调用",
+        "端口接口",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java:ProviderGatewayCallPort",
+      "type": "class",
+      "name": "ProviderGatewayCallPort",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "summary": "定义同步和流式上游请求调用契约，由基础设施适配器实现实际网络转发。",
+      "tags": [
+        "上游调用",
+        "端口接口",
+        "协议适配"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        22
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "file",
+      "name": "ProviderGatewayResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "summary": "封装同步上游响应的协议、状态码、不可变响应头、响应体及流式标记，并提供成功状态判断。",
+      "tags": [
+        "上游响应",
+        "响应封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:ProviderGatewayResponse",
+      "type": "class",
+      "name": "ProviderGatewayResponse",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "summary": "封装同步上游响应的协议、状态码、不可变响应头、响应体及流式标记，并提供成功状态判断。",
+      "tags": [
+        "上游响应",
+        "响应封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        11,
+        83
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:ProviderGatewayResponse",
+      "type": "function",
+      "name": "ProviderGatewayResponse",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "summary": "初始化 ProviderGatewayResponse，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "上游响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "summary": "ProviderGatewayResponse 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "上游响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        44
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:copyHeaders",
+      "type": "function",
+      "name": "copyHeaders",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "summary": "将上游响应头复制为不可变集合，避免调用方修改共享响应元数据。",
+      "tags": [
+        "业务方法",
+        "上游响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        46,
+        58
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:successful",
+      "type": "function",
+      "name": "successful",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "summary": "根据 HTTP 状态码判断上游响应是否成功。",
+      "tags": [
+        "业务方法",
+        "上游响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        60,
+        62
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "file",
+      "name": "ProviderStreamingResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "summary": "封装流式上游响应的协议、状态码、响应头与输入流，提供成功状态判断及资源关闭。",
+      "tags": [
+        "流式响应",
+        "资源管理",
+        "响应封装"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:ProviderStreamingResponse",
+      "type": "class",
+      "name": "ProviderStreamingResponse",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "summary": "封装流式上游响应的协议、状态码、响应头与输入流，提供成功状态判断及资源关闭。",
+      "tags": [
+        "流式响应",
+        "资源管理",
+        "响应封装"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        14,
+        74
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "summary": "ProviderStreamingResponse 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "流式响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        38
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:copyHeaders",
+      "type": "function",
+      "name": "copyHeaders",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "summary": "将流式响应头复制为不可变集合。",
+      "tags": [
+        "业务方法",
+        "流式响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        52
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:close",
+      "type": "function",
+      "name": "close",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "summary": "关闭持有的上游响应输入流并释放资源。",
+      "tags": [
+        "业务方法",
+        "流式响应",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        73
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:GatewayInvocationOutcome",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:GatewayInvocationOutcome",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:withoutProviderResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:withoutProviderResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:hasProviderResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:hasProviderResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java:GatewayStreamingConversionPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java:GatewayStreamingConversionPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:GatewayStreamingInvocation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:GatewayStreamingInvocation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:GatewayStreamingInvocation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:opened",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:opened",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:failed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:failed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:requiresProtocolConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:requiresProtocolConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:ProtocolOperation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:ProtocolOperation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:ProtocolOperation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:availableOn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:availableOn",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:requiresNativeProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:requiresNativeProtocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:acceptsMultipartForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java:acceptsMultipartForm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java:ProviderGatewayCallPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java:ProviderGatewayCallPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:ProviderGatewayResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:ProviderGatewayResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:ProviderGatewayResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:copyHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:successful",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:successful",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:ProviderStreamingResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:ProviderStreamingResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:copyHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:close",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java:close",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:requiresProtocolConversion",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java:opened",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:ProviderGatewayResponse",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java:copyHeaders",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

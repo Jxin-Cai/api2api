@@ -1,0 +1,209 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/app/router/adminRoutes.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "withAdminGuard",
+          "startLine": 17,
+          "endLine": 25,
+          "params": [
+            "element"
+          ]
+        },
+        {
+          "name": "LegacyProtocolMetadataRedirect",
+          "startLine": 27,
+          "endLine": 30,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "adminRoutes",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LegacyProtocolMetadataRedirect",
+          "callee": "useLocation",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/router/index.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "exports": [
+        {
+          "name": "router",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/router/lazyPages.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "exports": [
+        {
+          "name": "AppDashboardPage",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "ApiKeysPage",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "AppUsagePage",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "AdminDashboardPage",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "AdminUsagePage",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/router/lazyWithRetry.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "lazyWithRetry",
+          "startLine": 5,
+          "endLine": 20,
+          "params": [
+            "importer"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "lazyWithRetry",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "lazyWithRetry",
+          "callee": "lazy",
+          "lineNumber": 8
+        },
+        {
+          "caller": "lazyWithRetry",
+          "callee": "importer",
+          "lineNumber": 10
+        },
+        {
+          "caller": "lazyWithRetry",
+          "callee": "clearChunkReloadFlag",
+          "lineNumber": 11
+        },
+        {
+          "caller": "lazyWithRetry",
+          "callee": "isChunkLoadError",
+          "lineNumber": 14
+        },
+        {
+          "caller": "lazyWithRetry",
+          "callee": "handleChunkLoadFailure",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/router/routes.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "page",
+          "startLine": 21,
+          "endLine": 23,
+          "params": [
+            "element"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "routes",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

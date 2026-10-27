@@ -1,0 +1,1626 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "findAll",
+          "startLine": 24,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "findApplicable",
+          "startLine": 28,
+          "endLine": 34,
+          "params": [
+            "groupId",
+            "keyId"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 36,
+          "endLine": 50,
+          "params": [
+            "rule"
+          ]
+        },
+        {
+          "name": "delete",
+          "startLine": 52,
+          "endLine": 54,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "targets",
+          "startLine": 56,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "targetExists",
+          "startLine": 68,
+          "endLine": 72,
+          "params": [
+            "scope",
+            "targetId"
+          ]
+        },
+        {
+          "name": "lockCredential",
+          "startLine": 74,
+          "endLine": 76,
+          "params": [
+            "keyId"
+          ]
+        },
+        {
+          "name": "lockGroup",
+          "startLine": 78,
+          "endLine": 80,
+          "params": [
+            "groupId"
+          ]
+        },
+        {
+          "name": "consumed",
+          "startLine": 82,
+          "endLine": 95,
+          "params": [
+            "rule",
+            "window"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JdbcTokenQuotaRepository",
+          "startLine": 16,
+          "endLine": 96,
+          "methods": [
+            "findAll",
+            "findApplicable",
+            "save",
+            "delete",
+            "targets",
+            "targetExists",
+            "lockCredential",
+            "lockGroup",
+            "consumed"
+          ],
+          "properties": [
+            "jdbc",
+            "mapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "findAll",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "findApplicable",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "delete",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "targets",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "targetExists",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "lockCredential",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "lockGroup",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "consumed",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "JdbcTokenQuotaRepository",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "jdbc.query",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findApplicable",
+          "callee": "jdbc.query",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findApplicable",
+          "callee": "Map.of",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", rule.id()).addValue(\"scope\", rule.scope().name())\n                .addValue(\"targetId\", rule.targetId()).addValue(\"model\", rule.model()).addValue(\"period\", rule.period().name())\n                .addValue(\"limitTokens\", rule.limitTokens()).addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", rule.id()).addValue(\"scope\", rule.scope().name())\n                .addValue(\"targetId\", rule.targetId()).addValue(\"model\", rule.model()).addValue(\"period\", rule.period().name()).addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", rule.id()).addValue(\"scope\", rule.scope().name())\n                .addValue(\"targetId\", rule.targetId()).addValue(\"model\", rule.model()).addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", rule.id()).addValue(\"scope\", rule.scope().name())\n                .addValue(\"targetId\", rule.targetId()).addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", rule.id()).addValue(\"scope\", rule.scope().name()).addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", rule.id()).addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "rule.id",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "rule.scope().name",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "rule.scope",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "rule.targetId",
+          "lineNumber": 38
+        },
+        {
+          "caller": "save",
+          "callee": "rule.model",
+          "lineNumber": 38
+        },
+        {
+          "caller": "save",
+          "callee": "rule.period().name",
+          "lineNumber": 38
+        },
+        {
+          "caller": "save",
+          "callee": "rule.period",
+          "lineNumber": 38
+        },
+        {
+          "caller": "save",
+          "callee": "rule.limitTokens",
+          "lineNumber": 39
+        },
+        {
+          "caller": "save",
+          "callee": "rule.enabled",
+          "lineNumber": 39
+        },
+        {
+          "caller": "save",
+          "callee": "rule.id",
+          "lineNumber": 40
+        },
+        {
+          "caller": "save",
+          "callee": "jdbc.query",
+          "lineNumber": 48
+        },
+        {
+          "caller": "save",
+          "callee": "saved.isEmpty",
+          "lineNumber": 49
+        },
+        {
+          "caller": "save",
+          "callee": "saved.get",
+          "lineNumber": 49
+        },
+        {
+          "caller": "delete",
+          "callee": "jdbc.update",
+          "lineNumber": 53
+        },
+        {
+          "caller": "delete",
+          "callee": "Map.of",
+          "lineNumber": 53
+        },
+        {
+          "caller": "targets",
+          "callee": "jdbc.query",
+          "lineNumber": 57
+        },
+        {
+          "caller": "targets",
+          "callee": "new QuotaTarget",
+          "lineNumber": 64
+        },
+        {
+          "caller": "targets",
+          "callee": "QuotaScope.valueOf",
+          "lineNumber": 64
+        },
+        {
+          "caller": "targets",
+          "callee": "rs.getString",
+          "lineNumber": 64
+        },
+        {
+          "caller": "targets",
+          "callee": "rs.getString",
+          "lineNumber": 64
+        },
+        {
+          "caller": "targets",
+          "callee": "rs.getString",
+          "lineNumber": 65
+        },
+        {
+          "caller": "targets",
+          "callee": "rs.getString",
+          "lineNumber": 65
+        },
+        {
+          "caller": "targets",
+          "callee": "rs.getString",
+          "lineNumber": 65
+        },
+        {
+          "caller": "targetExists",
+          "callee": "Boolean.TRUE.equals",
+          "lineNumber": 70
+        },
+        {
+          "caller": "targetExists",
+          "callee": "jdbc.queryForObject",
+          "lineNumber": 70
+        },
+        {
+          "caller": "targetExists",
+          "callee": "Map.of",
+          "lineNumber": 71
+        },
+        {
+          "caller": "lockCredential",
+          "callee": "jdbc.queryForList",
+          "lineNumber": 75
+        },
+        {
+          "caller": "lockCredential",
+          "callee": "Map.of",
+          "lineNumber": 75
+        },
+        {
+          "caller": "lockGroup",
+          "callee": "jdbc.queryForList",
+          "lineNumber": 79
+        },
+        {
+          "caller": "lockGroup",
+          "callee": "Map.of",
+          "lineNumber": 79
+        },
+        {
+          "caller": "consumed",
+          "callee": "rule.scope",
+          "lineNumber": 83
+        },
+        {
+          "caller": "consumed",
+          "callee": "new MapSqlParameterSource().addValue(\"targetId\", rule.targetId())\n                .addValue(\"start\", Timestamp.from(window.startInclusive())).addValue",
+          "lineNumber": 84
+        },
+        {
+          "caller": "consumed",
+          "callee": "new MapSqlParameterSource().addValue(\"targetId\", rule.targetId()).addValue",
+          "lineNumber": 84
+        },
+        {
+          "caller": "consumed",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 84
+        },
+        {
+          "caller": "consumed",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 84
+        },
+        {
+          "caller": "consumed",
+          "callee": "rule.targetId",
+          "lineNumber": 84
+        },
+        {
+          "caller": "consumed",
+          "callee": "Timestamp.from",
+          "lineNumber": 85
+        },
+        {
+          "caller": "consumed",
+          "callee": "window.startInclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "consumed",
+          "callee": "Timestamp.from",
+          "lineNumber": 85
+        },
+        {
+          "caller": "consumed",
+          "callee": "window.endExclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "consumed",
+          "callee": "rule.model().isEmpty",
+          "lineNumber": 87
+        },
+        {
+          "caller": "consumed",
+          "callee": "rule.model",
+          "lineNumber": 87
+        },
+        {
+          "caller": "consumed",
+          "callee": "params.addValue",
+          "lineNumber": 89
+        },
+        {
+          "caller": "consumed",
+          "callee": "rule.model",
+          "lineNumber": 89
+        },
+        {
+          "caller": "consumed",
+          "callee": "jdbc.queryForObject",
+          "lineNumber": 91
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 308,
+      "nonEmptyLines": 285,
+      "functions": [
+        {
+          "name": "insert",
+          "startLine": 76,
+          "endLine": 82,
+          "params": [
+            "usageRecord"
+          ]
+        },
+        {
+          "name": "updateById",
+          "startLine": 84,
+          "endLine": 115,
+          "params": [
+            "usageRecord"
+          ]
+        },
+        {
+          "name": "deleteById",
+          "startLine": 117,
+          "endLine": 122,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "selectById",
+          "startLine": 124,
+          "endLine": 129,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "selectByRequestId",
+          "startLine": 131,
+          "endLine": 136,
+          "params": [
+            "requestId"
+          ]
+        },
+        {
+          "name": "selectByFilter",
+          "startLine": 138,
+          "endLine": 151,
+          "params": [
+            "query"
+          ]
+        },
+        {
+          "name": "countByFilter",
+          "startLine": 153,
+          "endLine": 158,
+          "params": [
+            "query"
+          ]
+        },
+        {
+          "name": "sumTotalTokensByApiCredential",
+          "startLine": 160,
+          "endLine": 168,
+          "params": [
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "sumActualTokensByApiCredential",
+          "startLine": 170,
+          "endLine": 179,
+          "params": [
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "sumActualTokensByModelGroupAndModel",
+          "startLine": 181,
+          "endLine": 198,
+          "params": [
+            "modelGroupId",
+            "requestedModel",
+            "startInclusive",
+            "endExclusive"
+          ]
+        },
+        {
+          "name": "sumActualTokensByOwnerGroupedByModel",
+          "startLine": 200,
+          "endLine": 221,
+          "params": [
+            "ownerUserId",
+            "startInclusive",
+            "endExclusive"
+          ]
+        },
+        {
+          "name": "sumTokensByFilter",
+          "startLine": 223,
+          "endLine": 235,
+          "params": [
+            "query"
+          ]
+        },
+        {
+          "name": "whereClause",
+          "startLine": 237,
+          "endLine": 269,
+          "params": [
+            "query",
+            "params"
+          ]
+        },
+        {
+          "name": "params",
+          "startLine": 271,
+          "endLine": 301,
+          "params": [
+            "po"
+          ]
+        },
+        {
+          "name": "nullableLong",
+          "startLine": 303,
+          "endLine": 306,
+          "params": [
+            "rs",
+            "column"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JdbcUsageRecordMapper",
+          "startLine": 27,
+          "endLine": 308,
+          "methods": [
+            "insert",
+            "updateById",
+            "deleteById",
+            "selectById",
+            "selectByRequestId",
+            "selectByFilter",
+            "countByFilter",
+            "sumTotalTokensByApiCredential",
+            "sumActualTokensByApiCredential",
+            "sumActualTokensByModelGroupAndModel",
+            "sumActualTokensByOwnerGroupedByModel",
+            "sumTokensByFilter",
+            "whereClause",
+            "params",
+            "nullableLong"
+          ],
+          "properties": [
+            "COLUMNS",
+            "jdbcTemplate",
+            "rowMapper",
+            "tokenSummaryRowMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "insert",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "updateById",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "deleteById",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "selectById",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "selectByRequestId",
+          "line": 131,
+          "isDefault": false
+        },
+        {
+          "name": "selectByFilter",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "countByFilter",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "sumTotalTokensByApiCredential",
+          "line": 160,
+          "isDefault": false
+        },
+        {
+          "name": "sumActualTokensByApiCredential",
+          "line": 170,
+          "isDefault": false
+        },
+        {
+          "name": "sumActualTokensByModelGroupAndModel",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "sumActualTokensByOwnerGroupedByModel",
+          "line": 200,
+          "isDefault": false
+        },
+        {
+          "name": "sumTokensByFilter",
+          "line": 223,
+          "isDefault": false
+        },
+        {
+          "name": "JdbcUsageRecordMapper",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insert",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 78
+        },
+        {
+          "caller": "insert",
+          "callee": "params",
+          "lineNumber": 81
+        },
+        {
+          "caller": "updateById",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 86
+        },
+        {
+          "caller": "updateById",
+          "callee": "params",
+          "lineNumber": 114
+        },
+        {
+          "caller": "deleteById",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 119
+        },
+        {
+          "caller": "deleteById",
+          "callee": "Map.of",
+          "lineNumber": 121
+        },
+        {
+          "caller": "selectById",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 126
+        },
+        {
+          "caller": "selectById",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 126
+        },
+        {
+          "caller": "selectById",
+          "callee": "Map.of",
+          "lineNumber": 128
+        },
+        {
+          "caller": "selectByRequestId",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 133
+        },
+        {
+          "caller": "selectByRequestId",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 133
+        },
+        {
+          "caller": "selectByRequestId",
+          "callee": "Map.of",
+          "lineNumber": 135
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 140
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "whereClause",
+          "lineNumber": 141
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "query.getPageSize",
+          "lineNumber": 142
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "query.getPageSize",
+          "lineNumber": 142
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "Math.max",
+          "lineNumber": 143
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "Math.max",
+          "lineNumber": 143
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "query.getPageNumber",
+          "lineNumber": 143
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "params.addValue",
+          "lineNumber": 144
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "params.addValue",
+          "lineNumber": 145
+        },
+        {
+          "caller": "selectByFilter",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 146
+        },
+        {
+          "caller": "countByFilter",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 155
+        },
+        {
+          "caller": "countByFilter",
+          "callee": "jdbcTemplate.queryForObject",
+          "lineNumber": 156
+        },
+        {
+          "caller": "countByFilter",
+          "callee": "whereClause",
+          "lineNumber": 156
+        },
+        {
+          "caller": "sumTotalTokensByApiCredential",
+          "callee": "jdbcTemplate.queryForObject",
+          "lineNumber": 162
+        },
+        {
+          "caller": "sumTotalTokensByApiCredential",
+          "callee": "Map.of",
+          "lineNumber": 166
+        },
+        {
+          "caller": "sumActualTokensByApiCredential",
+          "callee": "jdbcTemplate.queryForObject",
+          "lineNumber": 172
+        },
+        {
+          "caller": "sumActualTokensByApiCredential",
+          "callee": "Map.of",
+          "lineNumber": 175
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "jdbcTemplate.queryForObject",
+          "lineNumber": 184
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "UsageTokenSqlFragments.withPrefix",
+          "lineNumber": 185
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "new MapSqlParameterSource()\n                        .addValue(\"modelGroupId\", modelGroupId)\n                        .addValue(\"requestedModel\", requestedModel)\n                        .addValue(\"startInclusive\", timestamp(startInclusive)).addValue",
+          "lineNumber": 190
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "new MapSqlParameterSource()\n                        .addValue(\"modelGroupId\", modelGroupId)\n                        .addValue(\"requestedModel\", requestedModel).addValue",
+          "lineNumber": 190
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "new MapSqlParameterSource()\n                        .addValue(\"modelGroupId\", modelGroupId).addValue",
+          "lineNumber": 190
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 190
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 190
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "timestamp",
+          "lineNumber": 193
+        },
+        {
+          "caller": "sumActualTokensByModelGroupAndModel",
+          "callee": "timestamp",
+          "lineNumber": 194
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 203
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "UsageTokenSqlFragments.withPrefix",
+          "lineNumber": 205
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "new MapSqlParameterSource()\n                        .addValue(\"ownerUserId\", ownerUserId)\n                        .addValue(\"startInclusive\", timestamp(startInclusive)).addValue",
+          "lineNumber": 211
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "new MapSqlParameterSource()\n                        .addValue(\"ownerUserId\", ownerUserId).addValue",
+          "lineNumber": 211
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 211
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 211
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "timestamp",
+          "lineNumber": 213
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "timestamp",
+          "lineNumber": 214
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "ModelGroupModelUsagePO.builder()\n                        .modelGroupId(rs.getLong(\"model_group_id\"))\n                        .requestedModel(rs.getString(\"requested_model\"))\n                        .actualTokens(rs.getBigDecimal(\"actual_tokens\")).build",
+          "lineNumber": 215
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "ModelGroupModelUsagePO.builder()\n                        .modelGroupId(rs.getLong(\"model_group_id\"))\n                        .requestedModel(rs.getString(\"requested_model\")).actualTokens",
+          "lineNumber": 215
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "ModelGroupModelUsagePO.builder()\n                        .modelGroupId(rs.getLong(\"model_group_id\")).requestedModel",
+          "lineNumber": 215
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "ModelGroupModelUsagePO.builder().modelGroupId",
+          "lineNumber": 215
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "ModelGroupModelUsagePO.builder",
+          "lineNumber": 215
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "rs.getLong",
+          "lineNumber": 216
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "rs.getString",
+          "lineNumber": 217
+        },
+        {
+          "caller": "sumActualTokensByOwnerGroupedByModel",
+          "callee": "rs.getBigDecimal",
+          "lineNumber": 218
+        },
+        {
+          "caller": "sumTokensByFilter",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 225
+        },
+        {
+          "caller": "sumTokensByFilter",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 226
+        },
+        {
+          "caller": "sumTokensByFilter",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 226
+        },
+        {
+          "caller": "sumTokensByFilter",
+          "callee": "whereClause",
+          "lineNumber": 234
+        },
+        {
+          "caller": "whereClause",
+          "callee": "new ArrayList<>",
+          "lineNumber": 238
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 239
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getUserId",
+          "lineNumber": 240
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 241
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 242
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getUserId",
+          "lineNumber": 242
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getApiCredentialId",
+          "lineNumber": 244
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 245
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 246
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getApiCredentialId",
+          "lineNumber": 246
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getProviderChannelId",
+          "lineNumber": 248
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 249
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 250
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getProviderChannelId",
+          "lineNumber": 250
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getModel",
+          "lineNumber": 252
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getModel().isBlank",
+          "lineNumber": 252
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getModel",
+          "lineNumber": 252
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 253
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 254
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getModel",
+          "lineNumber": 254
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getProtocol",
+          "lineNumber": 256
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getProtocol().isBlank",
+          "lineNumber": 256
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getProtocol",
+          "lineNumber": 256
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 257
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 258
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getProtocol",
+          "lineNumber": 258
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getStartTime",
+          "lineNumber": 260
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 261
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 262
+        },
+        {
+          "caller": "whereClause",
+          "callee": "timestamp",
+          "lineNumber": 262
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getStartTime",
+          "lineNumber": 262
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getEndTime",
+          "lineNumber": 264
+        },
+        {
+          "caller": "whereClause",
+          "callee": "conditions.add",
+          "lineNumber": 265
+        },
+        {
+          "caller": "whereClause",
+          "callee": "params.addValue",
+          "lineNumber": 266
+        },
+        {
+          "caller": "whereClause",
+          "callee": "timestamp",
+          "lineNumber": 266
+        },
+        {
+          "caller": "whereClause",
+          "callee": "query.getEndTime",
+          "lineNumber": 266
+        },
+        {
+          "caller": "whereClause",
+          "callee": "String.join",
+          "lineNumber": 268
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis())\n                .addValue(\"clientIp\", po.getClientIp())\n                .addValue(\"errorType\", po.getErrorType())\n                .addValue(\"errorMessage\", po.getErrorMessage())\n                .addValue(\"routeFailuresJson\", po.getRouteFailuresJson())\n                .addValue(\"createdTime\", timestamp(po.getCreatedTime()))\n                .addValue(\"updatedTime\", timestamp(po.getUpdatedTime())).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis())\n                .addValue(\"clientIp\", po.getClientIp())\n                .addValue(\"errorType\", po.getErrorType())\n                .addValue(\"errorMessage\", po.getErrorMessage())\n                .addValue(\"routeFailuresJson\", po.getRouteFailuresJson())\n                .addValue(\"createdTime\", timestamp(po.getCreatedTime())).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis())\n                .addValue(\"clientIp\", po.getClientIp())\n                .addValue(\"errorType\", po.getErrorType())\n                .addValue(\"errorMessage\", po.getErrorMessage())\n                .addValue(\"routeFailuresJson\", po.getRouteFailuresJson()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis())\n                .addValue(\"clientIp\", po.getClientIp())\n                .addValue(\"errorType\", po.getErrorType())\n                .addValue(\"errorMessage\", po.getErrorMessage()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis())\n                .addValue(\"clientIp\", po.getClientIp())\n                .addValue(\"errorType\", po.getErrorType()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis())\n                .addValue(\"clientIp\", po.getClientIp()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis())\n                .addValue(\"firstTokenMillis\", po.getFirstTokenMillis()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime()))\n                .addValue(\"durationMillis\", po.getDurationMillis()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime()))\n                .addValue(\"endedTime\", timestamp(po.getEndedTime())).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming())\n                .addValue(\"startedTime\", timestamp(po.getStartedTime())).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown())\n                .addValue(\"streaming\", po.isStreaming()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens())\n                .addValue(\"usageKnown\", po.isUsageKnown()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens())\n                .addValue(\"totalTokens\", po.getTotalTokens()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens())\n                .addValue(\"cacheReadInputTokens\", po.getCacheReadInputTokens()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens())\n                .addValue(\"cacheCreationInputTokens\", po.getCacheCreationInputTokens()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens())\n                .addValue(\"outputTokens\", po.getOutputTokens()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"inputTokens\", po.getInputTokens()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId())\n                .addValue(\"status\", po.getStatus()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol())\n                .addValue(\"providerChannelId\", po.getProviderChannelId()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol())\n                .addValue(\"upstreamProtocol\", po.getUpstreamProtocol()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel())\n                .addValue(\"requestProtocol\", po.getRequestProtocol()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel())\n                .addValue(\"upstreamModel\", po.getUpstreamModel()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId())\n                .addValue(\"requestedModel\", po.getRequestedModel()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId())\n                .addValue(\"apiCredentialId\", po.getApiCredentialId()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId())\n                .addValue(\"userAccountId\", po.getUserAccountId()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"requestId\", po.getRequestId()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId()).addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 272
+        },
+        {
+          "caller": "params",
+          "callee": "po.getId",
+          "lineNumber": 273
+        },
+        {
+          "caller": "params",
+          "callee": "po.getRequestId",
+          "lineNumber": 274
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUserAccountId",
+          "lineNumber": 275
+        },
+        {
+          "caller": "params",
+          "callee": "po.getApiCredentialId",
+          "lineNumber": 276
+        },
+        {
+          "caller": "params",
+          "callee": "po.getRequestedModel",
+          "lineNumber": 277
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUpstreamModel",
+          "lineNumber": 278
+        },
+        {
+          "caller": "params",
+          "callee": "po.getRequestProtocol",
+          "lineNumber": 279
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUpstreamProtocol",
+          "lineNumber": 280
+        },
+        {
+          "caller": "params",
+          "callee": "po.getProviderChannelId",
+          "lineNumber": 281
+        },
+        {
+          "caller": "params",
+          "callee": "po.getStatus",
+          "lineNumber": 282
+        },
+        {
+          "caller": "params",
+          "callee": "po.getInputTokens",
+          "lineNumber": 283
+        },
+        {
+          "caller": "params",
+          "callee": "po.getOutputTokens",
+          "lineNumber": 284
+        },
+        {
+          "caller": "params",
+          "callee": "po.getCacheCreationInputTokens",
+          "lineNumber": 285
+        },
+        {
+          "caller": "params",
+          "callee": "po.getCacheReadInputTokens",
+          "lineNumber": 286
+        },
+        {
+          "caller": "params",
+          "callee": "po.getTotalTokens",
+          "lineNumber": 287
+        },
+        {
+          "caller": "params",
+          "callee": "po.isUsageKnown",
+          "lineNumber": 288
+        },
+        {
+          "caller": "params",
+          "callee": "po.isStreaming",
+          "lineNumber": 289
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 290
+        },
+        {
+          "caller": "params",
+          "callee": "po.getStartedTime",
+          "lineNumber": 290
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 291
+        },
+        {
+          "caller": "params",
+          "callee": "po.getEndedTime",
+          "lineNumber": 291
+        },
+        {
+          "caller": "params",
+          "callee": "po.getDurationMillis",
+          "lineNumber": 292
+        },
+        {
+          "caller": "params",
+          "callee": "po.getFirstTokenMillis",
+          "lineNumber": 293
+        },
+        {
+          "caller": "params",
+          "callee": "po.getClientIp",
+          "lineNumber": 294
+        },
+        {
+          "caller": "params",
+          "callee": "po.getErrorType",
+          "lineNumber": 295
+        },
+        {
+          "caller": "params",
+          "callee": "po.getErrorMessage",
+          "lineNumber": 296
+        },
+        {
+          "caller": "params",
+          "callee": "po.getRouteFailuresJson",
+          "lineNumber": 297
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 298
+        },
+        {
+          "caller": "params",
+          "callee": "po.getCreatedTime",
+          "lineNumber": 298
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 299
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUpdatedTime",
+          "lineNumber": 299
+        },
+        {
+          "caller": "params",
+          "callee": "po.isDeleted",
+          "lineNumber": 300
+        },
+        {
+          "caller": "nullableLong",
+          "callee": "rs.getLong",
+          "lineNumber": 304
+        },
+        {
+          "caller": "nullableLong",
+          "callee": "rs.wasNull",
+          "lineNumber": 305
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 13,
+        "functionCount": 15,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "startLine": 10,
+          "endLine": 23,
+          "params": [
+            "period",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "startLine": 25,
+          "endLine": 38,
+          "params": [
+            "period",
+            "now",
+            "end"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "TokenQuotaWindowTest",
+          "startLine": 9,
+          "endLine": 39,
+          "methods": [
+            "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+            "test_resets_correctly_when_period_crosses_calendar_boundary"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "new TokenQuotaWindow",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "Clock.fixed",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "Instant.parse",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "windows.current",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "assertThat(window).isEqualTo",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "assertThat",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "com.api2api.domain.usage.model.UsageTimeRange.of",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "Instant.parse",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+          "callee": "Instant.parse",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "new TokenQuotaWindow",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "Clock.fixed",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "Instant.parse",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "windows.current(period).endExclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "windows.current",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "assertThat(actual).isEqualTo",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "assertThat",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_resets_correctly_when_period_crosses_calendar_boundary",
+          "callee": "Instant.parse",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,795 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "file",
+      "name": "RouteFailureType.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "按 HTTP 状态与上游错误体区分授权失败、令牌限流、并发限流、容量过载、超时和渠道不可用，供故障转移与模型隔离选择不同策略。",
+      "tags": [
+        "失败分类",
+        "路由策略",
+        "限流识别"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:RouteFailureType",
+      "type": "class",
+      "name": "RouteFailureType",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "按 HTTP 状态与上游错误体区分授权失败、令牌限流、并发限流、容量过载、超时和渠道不可用，供故障转移与模型隔离选择不同策略。",
+      "tags": [
+        "失败分类",
+        "路由策略",
+        "限流识别"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        9,
+        79
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromExceptionMessage",
+      "type": "function",
+      "name": "fromExceptionMessage",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "将连接失败或未知主机等异常说明分类为渠道不可用，其余说明默认归为上游错误。",
+      "tags": [
+        "业务方法",
+        "失败分类",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        27,
+        39
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isRetryableByDefault",
+      "type": "function",
+      "name": "isRetryableByDefault",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "返回失败类别预设的候选故障转移重试许可。",
+      "tags": [
+        "业务方法",
+        "失败分类",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        41,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isRateLimited",
+      "type": "function",
+      "name": "isRateLimited",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "判断失败是否属于令牌限流或用户并发限流。",
+      "tags": [
+        "业务方法",
+        "失败分类",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        48,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpResponse",
+      "type": "function",
+      "name": "fromHttpResponse",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "结合状态码和错误体，先识别显式限流、容量拒绝与并发限制，再按 HTTP 状态分类。",
+      "tags": [
+        "业务方法",
+        "失败分类",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        55
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpStatus",
+      "type": "function",
+      "name": "fromHttpStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "将常见状态码映射为默认路由失败类别。",
+      "tags": [
+        "业务方法",
+        "失败分类",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        57,
+        68
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isModelUnavailableResponse",
+      "type": "function",
+      "name": "isModelUnavailableResponse",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "summary": "仅对 4xx JSON 错误体识别模型不存在、未找到或不支持的代码或消息，供候选重试决策。",
+      "tags": [
+        "业务方法",
+        "失败分类",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        78
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "type": "file",
+      "name": "BearerTokenProviderCallStrategy.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "实现 Bearer 凭据上游的同步与流式 HTTP 调用，按操作编码 JSON 或表单并透传安全头与查询参数。流式预检只对未输出前的显式容量拒绝或未建立连接的传输错误执行受限重试，避免重放已运行的生成。",
+      "tags": [
+        "上游调用",
+        "流式预检",
+        "安全重试"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:BearerTokenProviderCallStrategy",
+      "type": "class",
+      "name": "BearerTokenProviderCallStrategy",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "实现 Bearer 凭据上游的同步与流式 HTTP 调用，按操作编码 JSON 或表单并透传安全头与查询参数。流式预检只对未输出前的显式容量拒绝或未建立连接的传输错误执行受限重试，避免重放已运行的生成。",
+      "tags": [
+        "上游调用",
+        "流式预检",
+        "安全重试"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        29,
+        391
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:BearerTokenProviderCallStrategy",
+      "type": "function",
+      "name": "BearerTokenProviderCallStrategy",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "初始化 BearerTokenProviderCallStrategy，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        56
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:supports",
+      "type": "function",
+      "name": "supports",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "作为默认 Bearer 调用策略接受所有协议类型，由更具体策略优先拦截特殊协议。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        58,
+        61
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:forward",
+      "type": "function",
+      "name": "forward",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "构建上游请求并同步读取响应，将超时、连接错误与中断转换为带重试语义的网关异常。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        63,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStream",
+      "type": "function",
+      "name": "openStream",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "在配置次数内重试可安全重放的流式连接或显式过载失败，其余异常直接向路由层传播。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        91,
+        110
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "type": "function",
+      "name": "openStreamOnce",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "发送流式请求，失败状态读取错误体并保留响应头，成功时为输入流加上超时和协议预检。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        112,
+        164
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:shouldRetryStream",
+      "type": "function",
+      "name": "shouldRetryStream",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "仅允许无状态码连接失败或输出前明确过载重试，遵守次数限制且不绕过上游 Retry-After。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        170,
+        180
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:prepareStreamingBody",
+      "type": "function",
+      "name": "prepareStreamingBody",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "为输入流施加首字节与空闲超时，仅对 Responses SSE 执行首事件预检；收到响应头后的读取失败标为不可重放并关闭流。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        182,
+        214
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:waitBeforeStreamRetry",
+      "type": "function",
+      "name": "waitBeforeStreamRetry",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "按尝试次数计算指数退避并记录重试，中断时恢复线程中断标志并终止调用。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        216,
+        244
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:buildRequest",
+      "type": "function",
+      "name": "buildRequest",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "校验渠道及模型可用性，解析上游路径与安全地址，选择请求编码和受控请求头后构建 POST 请求。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        246,
+        289
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:resolveUpstreamPath",
+      "type": "function",
+      "name": "resolveUpstreamPath",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "校验协议操作可用性，为 Bedrock 按流式与模型替换路径模板，其余协议读取配置路径。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        313,
+        331
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:toStatusFailure",
+      "type": "function",
+      "name": "toStatusFailure",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "按状态及错误体分类失败，授权错误不可重试，普通上游错误仅在模型不可用时可重试，并保留退避元数据。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        333,
+        350
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:readErrorBody",
+      "type": "function",
+      "name": "readErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "读取上游失败响应体，I/O 失败时记录异常堆栈并返回空诊断内容。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        364,
+        374
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:closeQuietly",
+      "type": "function",
+      "name": "closeQuietly",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "summary": "关闭上游响应流，关闭失败时记录完整异常。",
+      "tags": [
+        "业务方法",
+        "上游调用",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        376,
+        385
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:RouteFailureType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:RouteFailureType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromExceptionMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromExceptionMessage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isRetryableByDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isRetryableByDefault",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isRateLimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isRateLimited",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isModelUnavailableResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:isModelUnavailableResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:BearerTokenProviderCallStrategy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:BearerTokenProviderCallStrategy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:supports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:supports",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:forward",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:forward",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStream",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:shouldRetryStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:prepareStreamingBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:waitBeforeStreamRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:buildRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:resolveUpstreamPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:toStatusFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:readErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:closeQuietly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/UpstreamGatewayException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/UpstreamResponseMetadata.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpResponse",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromExceptionMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpResponse",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpStatus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:forward",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:buildRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:shouldRetryStream",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:waitBeforeStreamRetry",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:buildRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:readErrorBody",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:closeQuietly",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:toStatusFailure",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:openStreamOnce",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:prepareStreamingBody",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:prepareStreamingBody",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:closeQuietly",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:buildRequest",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:resolveUpstreamPath",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java:toStatusFailure",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java:fromHttpResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

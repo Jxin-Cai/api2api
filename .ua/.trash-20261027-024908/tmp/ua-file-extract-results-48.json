@@ -1,0 +1,4970 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 25,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 23,
+      "failed": 0,
+      "skipped": 2
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "ProtocolResponseUsageMapper",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "json"
+          ]
+        },
+        {
+          "name": "toChatUsage",
+          "startLine": 43,
+          "endLine": 55,
+          "params": [
+            "raw",
+            "includeCacheWrite"
+          ]
+        },
+        {
+          "name": "toResponsesUsage",
+          "startLine": 57,
+          "endLine": 69,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "toClaudeUsage",
+          "startLine": 71,
+          "endLine": 78,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "chatUsageFromClaude",
+          "startLine": 80,
+          "endLine": 82,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "responsesUsageFromClaude",
+          "startLine": 84,
+          "endLine": 86,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "claudeUsageFromChat",
+          "startLine": 88,
+          "endLine": 90,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "responsesUsageFromChat",
+          "startLine": 92,
+          "endLine": 94,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "chatUsageFromResponses",
+          "startLine": 96,
+          "endLine": 98,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "claudeUsageFromResponses",
+          "startLine": 100,
+          "endLine": 102,
+          "params": [
+            "usage"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolResponseUsageMapper",
+          "startLine": 8,
+          "endLine": 103,
+          "methods": [
+            "ProtocolResponseUsageMapper",
+            "toChatUsage",
+            "toResponsesUsage",
+            "toClaudeUsage",
+            "chatUsageFromClaude",
+            "responsesUsageFromClaude",
+            "claudeUsageFromChat",
+            "responsesUsageFromChat",
+            "chatUsageFromResponses",
+            "claudeUsageFromResponses"
+          ],
+          "properties": [
+            "json"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolResponseUsageMapper",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 13
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path(\"cache_creation_input_tokens\").asLong",
+          "lineNumber": 18
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path",
+          "lineNumber": 18
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path(\"cache_read_input_tokens\").asLong",
+          "lineNumber": 19
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path",
+          "lineNumber": 19
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path(\"input_tokens\").asLong",
+          "lineNumber": 20
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path",
+          "lineNumber": 20
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path(\"output_tokens\").asLong",
+          "lineNumber": 21
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "usage.path",
+          "lineNumber": 21
+        },
+        {
+          "caller": "fromClaude",
+          "callee": "new RawTokenUsage",
+          "lineNumber": 22
+        },
+        {
+          "caller": "fromChat",
+          "callee": "usage.path",
+          "lineNumber": 26
+        },
+        {
+          "caller": "fromChat",
+          "callee": "details.path(\"cached_tokens\").asLong",
+          "lineNumber": 27
+        },
+        {
+          "caller": "fromChat",
+          "callee": "details.path",
+          "lineNumber": 27
+        },
+        {
+          "caller": "fromChat",
+          "callee": "OpenAIChatCompletionsUsageExtractor.cacheWriteTokens",
+          "lineNumber": 28
+        },
+        {
+          "caller": "fromChat",
+          "callee": "usage.path(\"prompt_tokens\").asLong",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fromChat",
+          "callee": "usage.path",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fromChat",
+          "callee": "usage.path(\"completion_tokens\").asLong",
+          "lineNumber": 30
+        },
+        {
+          "caller": "fromChat",
+          "callee": "usage.path",
+          "lineNumber": 30
+        },
+        {
+          "caller": "fromChat",
+          "callee": "new RawTokenUsage",
+          "lineNumber": 31
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path(\"input_tokens_details\").path(\"cached_tokens\").asLong",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path(\"input_tokens_details\").path",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path(\"input_tokens_details\").path(\"cache_write_tokens\").asLong",
+          "lineNumber": 36
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path(\"input_tokens_details\").path",
+          "lineNumber": 36
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path",
+          "lineNumber": 36
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path(\"input_tokens\").asLong",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path(\"output_tokens\").asLong",
+          "lineNumber": 38
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "usage.path",
+          "lineNumber": 38
+        },
+        {
+          "caller": "fromResponses",
+          "callee": "new RawTokenUsage",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "json.objectNode",
+          "lineNumber": 44
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "target.put",
+          "lineNumber": 45
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "raw.input",
+          "lineNumber": 45
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "target.put",
+          "lineNumber": 46
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "raw.output",
+          "lineNumber": 46
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "target.put",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "raw.input",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "raw.output",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "json.objectNode",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "details.put",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "raw.cacheRead",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "details.put",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "raw.cacheWrite",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toChatUsage",
+          "callee": "target.set",
+          "lineNumber": 53
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "json.objectNode",
+          "lineNumber": 58
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "target.put",
+          "lineNumber": 59
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.input",
+          "lineNumber": 59
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "target.put",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.output",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "target.put",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.input",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.output",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "json.objectNode",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "details.put",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.cacheRead",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.cacheWrite",
+          "lineNumber": 64
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "details.put",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "raw.cacheWrite",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toResponsesUsage",
+          "callee": "target.set",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "json.objectNode",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "target.put",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "Math.max",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "raw.input",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "raw.cacheRead",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "raw.cacheWrite",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "target.put",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "raw.output",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "target.put",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "raw.cacheWrite",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "target.put",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toClaudeUsage",
+          "callee": "raw.cacheRead",
+          "lineNumber": 76
+        },
+        {
+          "caller": "chatUsageFromClaude",
+          "callee": "toChatUsage",
+          "lineNumber": 81
+        },
+        {
+          "caller": "chatUsageFromClaude",
+          "callee": "RawTokenUsage.fromClaude",
+          "lineNumber": 81
+        },
+        {
+          "caller": "responsesUsageFromClaude",
+          "callee": "toResponsesUsage",
+          "lineNumber": 85
+        },
+        {
+          "caller": "responsesUsageFromClaude",
+          "callee": "RawTokenUsage.fromClaude",
+          "lineNumber": 85
+        },
+        {
+          "caller": "claudeUsageFromChat",
+          "callee": "toClaudeUsage",
+          "lineNumber": 89
+        },
+        {
+          "caller": "claudeUsageFromChat",
+          "callee": "RawTokenUsage.fromChat",
+          "lineNumber": 89
+        },
+        {
+          "caller": "responsesUsageFromChat",
+          "callee": "toResponsesUsage",
+          "lineNumber": 93
+        },
+        {
+          "caller": "responsesUsageFromChat",
+          "callee": "RawTokenUsage.fromChat",
+          "lineNumber": 93
+        },
+        {
+          "caller": "chatUsageFromResponses",
+          "callee": "toChatUsage",
+          "lineNumber": 97
+        },
+        {
+          "caller": "chatUsageFromResponses",
+          "callee": "RawTokenUsage.fromResponses",
+          "lineNumber": 97
+        },
+        {
+          "caller": "claudeUsageFromResponses",
+          "callee": "toClaudeUsage",
+          "lineNumber": 101
+        },
+        {
+          "caller": "claudeUsageFromResponses",
+          "callee": "RawTokenUsage.fromResponses",
+          "lineNumber": 101
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/protocol/ProtocolSupportConfiguration.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "protocolJsonSupport",
+          "startLine": 10,
+          "endLine": 13,
+          "params": [
+            "objectMapper"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolSupportConfiguration",
+          "startLine": 7,
+          "endLine": 14,
+          "methods": [
+            "protocolJsonSupport"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "protocolJsonSupport",
+          "callee": "new ProtocolJsonSupport",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "isCompactionType",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "type"
+          ]
+        },
+        {
+          "name": "ResponsesProtocolConstants",
+          "startLine": 17,
+          "endLine": 18,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesProtocolConstants",
+          "startLine": 7,
+          "endLine": 19,
+          "methods": [
+            "isCompactionType",
+            "ResponsesProtocolConstants"
+          ],
+          "properties": [
+            "OPAQUE_STATE_PLACEHOLDER",
+            "COMPACTION_PLACEHOLDER",
+            "COMPACTION_VISIBLE_TEXT"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isCompactionType",
+          "callee": "\"compaction\".equals",
+          "lineNumber": 14
+        },
+        {
+          "caller": "isCompactionType",
+          "callee": "\"compaction_summary\".equals",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 119,
+      "nonEmptyLines": 109,
+      "functions": [
+        {
+          "name": "ResponsesSseEmitter",
+          "startLine": 24,
+          "endLine": 26,
+          "params": [
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "objectMapper",
+          "startLine": 28,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "writeEvent",
+          "startLine": 42,
+          "endLine": 54,
+          "params": [
+            "type",
+            "event",
+            "sequenceHolder",
+            "output"
+          ]
+        },
+        {
+          "name": "baseResponse",
+          "startLine": 60,
+          "endLine": 67,
+          "params": [
+            "responseId",
+            "createdAt",
+            "model"
+          ]
+        },
+        {
+          "name": "responsesUsage",
+          "startLine": 72,
+          "endLine": 92,
+          "params": [
+            "inputTokens",
+            "outputTokens",
+            "cacheCreationInputTokens",
+            "cacheReadInputTokens"
+          ]
+        },
+        {
+          "name": "itemId",
+          "startLine": 97,
+          "endLine": 99,
+          "params": [
+            "prefix"
+          ]
+        },
+        {
+          "name": "collectOutputText",
+          "startLine": 105,
+          "endLine": 118,
+          "params": [
+            "output"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesSseEmitter",
+          "startLine": 20,
+          "endLine": 119,
+          "methods": [
+            "ResponsesSseEmitter",
+            "objectMapper",
+            "writeEvent",
+            "baseResponse",
+            "responsesUsage",
+            "itemId",
+            "collectOutputText"
+          ],
+          "properties": [
+            "objectMapper"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ResponsesSseEmitter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 25
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "event.put",
+          "lineNumber": 48
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "event.put",
+          "lineNumber": 49
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "output.write",
+          "lineNumber": 50
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "(\"event: \" + type + \"\\n\").getBytes",
+          "lineNumber": 50
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "output.write",
+          "lineNumber": 51
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "(\"data: \" + objectMapper.writeValueAsString(event) + \"\\n\\n\").getBytes",
+          "lineNumber": 51
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 51
+        },
+        {
+          "caller": "writeEvent",
+          "callee": "output.flush",
+          "lineNumber": 53
+        },
+        {
+          "caller": "baseResponse",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 61
+        },
+        {
+          "caller": "baseResponse",
+          "callee": "response.put",
+          "lineNumber": 62
+        },
+        {
+          "caller": "baseResponse",
+          "callee": "response.put",
+          "lineNumber": 63
+        },
+        {
+          "caller": "baseResponse",
+          "callee": "response.put",
+          "lineNumber": 64
+        },
+        {
+          "caller": "baseResponse",
+          "callee": "response.put",
+          "lineNumber": 65
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 79
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "usage.put",
+          "lineNumber": 80
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "usage.put",
+          "lineNumber": 81
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "usage.put",
+          "lineNumber": 82
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 84
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "details.put",
+          "lineNumber": 85
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "details.put",
+          "lineNumber": 87
+        },
+        {
+          "caller": "responsesUsage",
+          "callee": "usage.set",
+          "lineNumber": 89
+        },
+        {
+          "caller": "itemId",
+          "callee": "UUID.randomUUID().toString().replace(\"-\", \"\").substring",
+          "lineNumber": 98
+        },
+        {
+          "caller": "itemId",
+          "callee": "UUID.randomUUID().toString().replace",
+          "lineNumber": 98
+        },
+        {
+          "caller": "itemId",
+          "callee": "UUID.randomUUID().toString",
+          "lineNumber": 98
+        },
+        {
+          "caller": "itemId",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 98
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "new StringBuilder",
+          "lineNumber": 106
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "\"message\".equals",
+          "lineNumber": 108
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "item.path(\"type\").asText",
+          "lineNumber": 108
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "item.path",
+          "lineNumber": 108
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "item.path",
+          "lineNumber": 111
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "text.append",
+          "lineNumber": 112
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "\"refusal\".equals",
+          "lineNumber": 112
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "part.path(\"type\").asText",
+          "lineNumber": 112
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "part.path",
+          "lineNumber": 112
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "part.path(\"refusal\").asText",
+          "lineNumber": 113
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "part.path",
+          "lineNumber": 113
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "part.path(\"text\").asText",
+          "lineNumber": 114
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "part.path",
+          "lineNumber": 114
+        },
+        {
+          "caller": "collectOutputText",
+          "callee": "text.toString",
+          "lineNumber": 117
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "ProtocolShapeKind",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolShapeKind",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 59,
+      "functions": [
+        {
+          "name": "InFlightConcurrencyCalculator",
+          "startLine": 18,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "peakPerBucket",
+          "startLine": 38,
+          "endLine": 63,
+          "params": [
+            "intervals",
+            "buckets"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InFlightConcurrencyCalculator",
+          "startLine": 16,
+          "endLine": 67,
+          "methods": [
+            "InFlightConcurrencyCalculator",
+            "peakPerBucket"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "peakPerBucket",
+          "callee": "new ArrayList<>",
+          "lineNumber": 39
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "intervals.size",
+          "lineNumber": 39
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.add",
+          "lineNumber": 41
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "new Event",
+          "lineNumber": 41
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "interval.start",
+          "lineNumber": 41
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.add",
+          "lineNumber": 42
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "new Event",
+          "lineNumber": 42
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "interval.end",
+          "lineNumber": 42
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.sort",
+          "lineNumber": 44
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "Comparator.comparing(Event::time).thenComparingInt",
+          "lineNumber": 44
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "Comparator.comparing",
+          "lineNumber": 44
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "new ArrayList<>",
+          "lineNumber": 46
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "buckets.size",
+          "lineNumber": 46
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.size",
+          "lineNumber": 50
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get(index).time().isBefore",
+          "lineNumber": 50
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get(index).time",
+          "lineNumber": 50
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get",
+          "lineNumber": 50
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "bucket.start",
+          "lineNumber": 50
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get(index).delta",
+          "lineNumber": 51
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get",
+          "lineNumber": 51
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.size",
+          "lineNumber": 55
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get(index).time().isBefore",
+          "lineNumber": 55
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get(index).time",
+          "lineNumber": 55
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get",
+          "lineNumber": 55
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "bucket.end",
+          "lineNumber": 55
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get(index).delta",
+          "lineNumber": 56
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "events.get",
+          "lineNumber": 56
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "Math.max",
+          "lineNumber": 57
+        },
+        {
+          "caller": "peakPerBucket",
+          "callee": "peaks.add",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "contains",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "instant"
+          ]
+        },
+        {
+          "name": "split",
+          "startLine": 31,
+          "endLine": 45,
+          "params": [
+            "windowStart",
+            "windowEnd",
+            "size",
+            "cutoff"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "TimeBucket",
+          "startLine": 12,
+          "endLine": 46,
+          "methods": [
+            "contains",
+            "split"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "contains",
+          "callee": "instant.isBefore",
+          "lineNumber": 23
+        },
+        {
+          "caller": "contains",
+          "callee": "instant.isBefore",
+          "lineNumber": 23
+        },
+        {
+          "caller": "split",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 32
+        },
+        {
+          "caller": "split",
+          "callee": "size.isZero",
+          "lineNumber": 33
+        },
+        {
+          "caller": "split",
+          "callee": "size.isNegative",
+          "lineNumber": 33
+        },
+        {
+          "caller": "split",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "split",
+          "callee": "new ArrayList<>",
+          "lineNumber": 36
+        },
+        {
+          "caller": "split",
+          "callee": "start.isBefore",
+          "lineNumber": 38
+        },
+        {
+          "caller": "split",
+          "callee": "start.isAfter",
+          "lineNumber": 38
+        },
+        {
+          "caller": "split",
+          "callee": "start.plus",
+          "lineNumber": 39
+        },
+        {
+          "caller": "split",
+          "callee": "next.isAfter",
+          "lineNumber": 40
+        },
+        {
+          "caller": "split",
+          "callee": "buckets.add",
+          "lineNumber": 41
+        },
+        {
+          "caller": "split",
+          "callee": "new TimeBucket",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "JdbcTimestampSupport",
+          "startLine": 10,
+          "endLine": 11,
+          "params": []
+        },
+        {
+          "name": "timestamp",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "instant"
+          ]
+        },
+        {
+          "name": "instant",
+          "startLine": 17,
+          "endLine": 20,
+          "params": [
+            "rs",
+            "column"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JdbcTimestampSupport",
+          "startLine": 8,
+          "endLine": 21,
+          "methods": [
+            "JdbcTimestampSupport",
+            "timestamp",
+            "instant"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "timestamp",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "instant",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "JdbcTimestampSupport",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "timestamp",
+          "callee": "Timestamp.from",
+          "lineNumber": 14
+        },
+        {
+          "caller": "instant",
+          "callee": "rs.getTimestamp",
+          "lineNumber": 18
+        },
+        {
+          "caller": "instant",
+          "callee": "timestamp.toInstant",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "getEncryptionKey",
+          "startLine": 14,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "setEncryptionKey",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "encryptionKey"
+          ]
+        },
+        {
+          "name": "getPreviousEncryptionKeys",
+          "startLine": 22,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "setPreviousEncryptionKeys",
+          "startLine": 26,
+          "endLine": 28,
+          "params": [
+            "previousEncryptionKeys"
+          ]
+        },
+        {
+          "name": "previousEncryptionKeyList",
+          "startLine": 30,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "getKeyVersion",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "setKeyVersion",
+          "startLine": 44,
+          "endLine": 49,
+          "params": [
+            "keyVersion"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiKeyMaterialProtectionProperties",
+          "startLine": 7,
+          "endLine": 50,
+          "methods": [
+            "getEncryptionKey",
+            "setEncryptionKey",
+            "getPreviousEncryptionKeys",
+            "setPreviousEncryptionKeys",
+            "previousEncryptionKeyList",
+            "getKeyVersion",
+            "setKeyVersion"
+          ],
+          "properties": [
+            "encryptionKey",
+            "previousEncryptionKeys",
+            "keyVersion"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getEncryptionKey",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "setEncryptionKey",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "getPreviousEncryptionKeys",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "setPreviousEncryptionKeys",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "previousEncryptionKeyList",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "getKeyVersion",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "setKeyVersion",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "ApiKeyMaterialProtectionProperties",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setEncryptionKey",
+          "callee": "encryptionKey.trim",
+          "lineNumber": 19
+        },
+        {
+          "caller": "setPreviousEncryptionKeys",
+          "callee": "previousEncryptionKeys.trim",
+          "lineNumber": 27
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "previousEncryptionKeys.isBlank",
+          "lineNumber": 31
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "List.of",
+          "lineNumber": 32
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "Arrays.stream(previousEncryptionKeys.split(\"[,;]\"))\n                .map(String::trim)\n                .filter(key -> !key.isEmpty()).toList",
+          "lineNumber": 34
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "Arrays.stream(previousEncryptionKeys.split(\"[,;]\"))\n                .map(String::trim).filter",
+          "lineNumber": 34
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "Arrays.stream(previousEncryptionKeys.split(\"[,;]\")).map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "Arrays.stream",
+          "lineNumber": 34
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "previousEncryptionKeys.split",
+          "lineNumber": 34
+        },
+        {
+          "caller": "previousEncryptionKeyList",
+          "callee": "key.isEmpty",
+          "lineNumber": 36
+        },
+        {
+          "caller": "setKeyVersion",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "AuthenticationRequiredException",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AuthenticationRequiredException",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "AuthenticationRequiredException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthenticationRequiredException",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "AuthenticationRequiredException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 60,
+      "functions": [
+        {
+          "name": "ClientDisconnectDetector",
+          "startLine": 16,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "isClientDisconnect",
+          "startLine": 19,
+          "endLine": 25,
+          "params": [
+            "throwable"
+          ]
+        },
+        {
+          "name": "walk",
+          "startLine": 27,
+          "endLine": 45,
+          "params": [
+            "throwable",
+            "seen"
+          ]
+        },
+        {
+          "name": "matches",
+          "startLine": 47,
+          "endLine": 65,
+          "params": [
+            "throwable"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ClientDisconnectDetector",
+          "startLine": 14,
+          "endLine": 66,
+          "methods": [
+            "ClientDisconnectDetector",
+            "isClientDisconnect",
+            "walk",
+            "matches"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isClientDisconnect",
+          "callee": "new IdentityHashMap<>",
+          "lineNumber": 23
+        },
+        {
+          "caller": "isClientDisconnect",
+          "callee": "walk",
+          "lineNumber": 24
+        },
+        {
+          "caller": "walk",
+          "callee": "current.getCause",
+          "lineNumber": 28
+        },
+        {
+          "caller": "walk",
+          "callee": "seen.put",
+          "lineNumber": 29
+        },
+        {
+          "caller": "walk",
+          "callee": "matches",
+          "lineNumber": 32
+        },
+        {
+          "caller": "walk",
+          "callee": "walk",
+          "lineNumber": 35
+        },
+        {
+          "caller": "walk",
+          "callee": "unchecked.getCause",
+          "lineNumber": 35
+        },
+        {
+          "caller": "walk",
+          "callee": "current.getSuppressed",
+          "lineNumber": 38
+        },
+        {
+          "caller": "walk",
+          "callee": "walk",
+          "lineNumber": 39
+        },
+        {
+          "caller": "matches",
+          "callee": "throwable.getClass().getName",
+          "lineNumber": 51
+        },
+        {
+          "caller": "matches",
+          "callee": "throwable.getClass",
+          "lineNumber": 51
+        },
+        {
+          "caller": "matches",
+          "callee": "className.endsWith",
+          "lineNumber": 52
+        },
+        {
+          "caller": "matches",
+          "callee": "throwable.getMessage",
+          "lineNumber": 58
+        },
+        {
+          "caller": "matches",
+          "callee": "message.isBlank",
+          "lineNumber": 59
+        },
+        {
+          "caller": "matches",
+          "callee": "message.toLowerCase",
+          "lineNumber": 62
+        },
+        {
+          "caller": "matches",
+          "callee": "normalized.contains",
+          "lineNumber": 63
+        },
+        {
+          "caller": "matches",
+          "callee": "normalized.contains",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "GatewayModelListResponse",
+          "startLine": 8,
+          "endLine": 13,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "GatewayModelListResponse",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "GatewayModelResponse",
+          "startLine": 8,
+          "endLine": 14,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "GatewayModelResponse",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "buildClaudeErrorBody",
+          "startLine": 30,
+          "endLine": 43,
+          "params": [
+            "errorType",
+            "message"
+          ]
+        },
+        {
+          "name": "buildOpenAIErrorBody",
+          "startLine": 45,
+          "endLine": 59,
+          "params": [
+            "errorType",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayProtocolErrorBodyBuilder",
+          "startLine": 22,
+          "endLine": 60,
+          "methods": [
+            "buildClaudeErrorBody",
+            "buildOpenAIErrorBody"
+          ],
+          "properties": [
+            "objectMapper"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 32
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "root.put",
+          "lineNumber": 33
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 34
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "error.put",
+          "lineNumber": 35
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "errorType.isBlank",
+          "lineNumber": 35
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "error.put",
+          "lineNumber": 36
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "root.set",
+          "lineNumber": 37
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 38
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "log.error",
+          "lineNumber": 40
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 47
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 48
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "error.put",
+          "lineNumber": 49
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "error.put",
+          "lineNumber": 50
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "errorType.isBlank",
+          "lineNumber": 50
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "error.putNull",
+          "lineNumber": 51
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "error.putNull",
+          "lineNumber": 52
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "root.set",
+          "lineNumber": 53
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 54
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "log.error",
+          "lineNumber": 56
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "GatewayProtocolRequest",
+          "startLine": 6,
+          "endLine": 17,
+          "methods": [
+            "rawBody",
+            "model",
+            "streaming",
+            "toolCallingRequired",
+            "reasoningRequired"
+          ],
+          "properties": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 73,
+      "functions": [
+        {
+          "name": "GatewayRawResponse",
+          "startLine": 20,
+          "endLine": 28,
+          "params": [
+            "body",
+            "statusCode",
+            "contentType",
+            "headers"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 30,
+          "endLine": 32,
+          "params": [
+            "body",
+            "statusCode",
+            "contentType"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 34,
+          "endLine": 41,
+          "params": [
+            "body",
+            "statusCode",
+            "contentType",
+            "headers"
+          ]
+        },
+        {
+          "name": "toResponseEntity",
+          "startLine": 43,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "copyHeaders",
+          "startLine": 56,
+          "endLine": 68,
+          "params": [
+            "headers"
+          ]
+        },
+        {
+          "name": "body",
+          "startLine": 70,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "statusCode",
+          "startLine": 74,
+          "endLine": 76,
+          "params": []
+        },
+        {
+          "name": "contentType",
+          "startLine": 78,
+          "endLine": 80,
+          "params": []
+        },
+        {
+          "name": "headers",
+          "startLine": 82,
+          "endLine": 84,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayRawResponse",
+          "startLine": 13,
+          "endLine": 85,
+          "methods": [
+            "GatewayRawResponse",
+            "of",
+            "of",
+            "toResponseEntity",
+            "copyHeaders",
+            "body",
+            "statusCode",
+            "contentType",
+            "headers"
+          ],
+          "properties": [
+            "body",
+            "statusCode",
+            "contentType",
+            "headers"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "of",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "toResponseEntity",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "body",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "statusCode",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "contentType",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "headers",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayRawResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GatewayRawResponse",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GatewayRawResponse",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 24
+        },
+        {
+          "caller": "GatewayRawResponse",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 26
+        },
+        {
+          "caller": "GatewayRawResponse",
+          "callee": "copyHeaders",
+          "lineNumber": 27
+        },
+        {
+          "caller": "of",
+          "callee": "new GatewayRawResponse",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "Map.of",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "new GatewayRawResponse",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "new HttpHeaders",
+          "lineNumber": 44
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "headers.forEach",
+          "lineNumber": 45
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "GatewayResponseHeaderFilter.shouldForward",
+          "lineNumber": 46
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "responseHeaders.put",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "List.copyOf",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "responseHeaders.setContentType",
+          "lineNumber": 50
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "ResponseEntity.status(statusCode)\n                .headers(responseHeaders).body",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "ResponseEntity.status(statusCode).headers",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toResponseEntity",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 51
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.isEmpty",
+          "lineNumber": 57
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "Map.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream()\n                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank())\n                .filter(entry -> entry.getValue() != null).collect",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream()\n                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank()).filter",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream().filter",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey().isBlank",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getValue",
+          "lineNumber": 62
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "java.util.stream.Collectors.toUnmodifiableMap",
+          "lineNumber": 63
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey().trim",
+          "lineNumber": 64
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey",
+          "lineNumber": 64
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "List.copyOf",
+          "lineNumber": 65
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getValue",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "GatewayResponseHeaderFilter",
+          "startLine": 28,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "shouldForward",
+          "startLine": 31,
+          "endLine": 38,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "extractContentType",
+          "startLine": 40,
+          "endLine": 54,
+          "params": [
+            "headers",
+            "defaultType"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayResponseHeaderFilter",
+          "startLine": 13,
+          "endLine": 55,
+          "methods": [
+            "GatewayResponseHeaderFilter",
+            "shouldForward",
+            "extractContentType"
+          ],
+          "properties": [
+            "FILTERED_RESPONSE_HEADERS"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "shouldForward",
+          "callee": "name.isBlank",
+          "lineNumber": 32
+        },
+        {
+          "caller": "shouldForward",
+          "callee": "name.trim().toLowerCase",
+          "lineNumber": 35
+        },
+        {
+          "caller": "shouldForward",
+          "callee": "name.trim",
+          "lineNumber": 35
+        },
+        {
+          "caller": "shouldForward",
+          "callee": "FILTERED_RESPONSE_HEADERS.contains",
+          "lineNumber": 36
+        },
+        {
+          "caller": "shouldForward",
+          "callee": "normalized.equals",
+          "lineNumber": 37
+        },
+        {
+          "caller": "shouldForward",
+          "callee": "HttpHeaders.CONTENT_TYPE.toLowerCase",
+          "lineNumber": 37
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "headers.entrySet",
+          "lineNumber": 42
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getKey",
+          "lineNumber": 43
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getKey().equalsIgnoreCase",
+          "lineNumber": 44
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getKey",
+          "lineNumber": 44
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue",
+          "lineNumber": 45
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue().isEmpty",
+          "lineNumber": 46
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue",
+          "lineNumber": 46
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue().get",
+          "lineNumber": 47
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue",
+          "lineNumber": 47
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue().get(0).isBlank",
+          "lineNumber": 48
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue().get",
+          "lineNumber": 48
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue",
+          "lineNumber": 48
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "MediaType.parseMediaType",
+          "lineNumber": 49
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue().get",
+          "lineNumber": 49
+        },
+        {
+          "caller": "extractContentType",
+          "callee": "entry.getValue",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "ResponsesImageBridgeFailure",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "response"
+          ]
+        },
+        {
+          "name": "response",
+          "startLine": 14,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "invalidUpstream",
+          "startLine": 16,
+          "endLine": 20,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImageBridgeFailure",
+          "startLine": 6,
+          "endLine": 21,
+          "methods": [
+            "ResponsesImageBridgeFailure",
+            "response",
+            "invalidUpstream"
+          ],
+          "properties": [
+            "response"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ResponsesImageBridgeFailure",
+          "callee": "response.statusCode",
+          "lineNumber": 10
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "com.fasterxml.jackson.databind.node.JsonNodeFactory.instance.objectNode",
+          "lineNumber": 17
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "error.putObject(\"error\").put(\"type\", \"api_error\").put(\"code\", \"invalid_upstream_response\").put",
+          "lineNumber": 18
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "error.putObject(\"error\").put(\"type\", \"api_error\").put",
+          "lineNumber": 18
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "error.putObject(\"error\").put",
+          "lineNumber": 18
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "error.putObject",
+          "lineNumber": 18
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "new ResponsesImageBridgeFailure",
+          "lineNumber": 19
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "GatewayRawResponse.of",
+          "lineNumber": 19
+        },
+        {
+          "caller": "invalidUpstream",
+          "callee": "error.toString",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "ResponsesImageBridgePassthrough",
+          "startLine": 7,
+          "endLine": 10,
+          "params": [
+            "statusCode"
+          ]
+        },
+        {
+          "name": "statusCode",
+          "startLine": 12,
+          "endLine": 14,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImageBridgePassthrough",
+          "startLine": 4,
+          "endLine": 15,
+          "methods": [
+            "ResponsesImageBridgePassthrough",
+            "statusCode"
+          ],
+          "properties": [
+            "statusCode"
+          ]
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 195,
+      "nonEmptyLines": 177,
+      "functions": [
+        {
+          "name": "ResponsesImageResponseWriter",
+          "startLine": 21,
+          "endLine": 35,
+          "params": [
+            "mapper",
+            "request",
+            "stream"
+          ]
+        },
+        {
+          "name": "start",
+          "startLine": 37,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "beginImage",
+          "startLine": 42,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "partialImage",
+          "startLine": 53,
+          "endLine": 62,
+          "params": [
+            "index",
+            "data"
+          ]
+        },
+        {
+          "name": "finishImage",
+          "startLine": 64,
+          "endLine": 77,
+          "params": [
+            "index",
+            "data",
+            "request"
+          ]
+        },
+        {
+          "name": "appendItem",
+          "startLine": 79,
+          "endLine": 105,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "messageEvents",
+          "startLine": 107,
+          "endLine": 125,
+          "params": [
+            "index",
+            "message"
+          ]
+        },
+        {
+          "name": "addUsage",
+          "startLine": 127,
+          "endLine": 137,
+          "params": [
+            "usage",
+            "imageUsage"
+          ]
+        },
+        {
+          "name": "sumUsage",
+          "startLine": 139,
+          "endLine": 147,
+          "params": [
+            "target",
+            "source"
+          ]
+        },
+        {
+          "name": "finish",
+          "startLine": 149,
+          "endLine": 162,
+          "params": [
+            "plannedResponse"
+          ]
+        },
+        {
+          "name": "fail",
+          "startLine": 164,
+          "endLine": 171,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "response",
+          "startLine": 173,
+          "endLine": 173,
+          "params": []
+        },
+        {
+          "name": "output",
+          "startLine": 174,
+          "endLine": 174,
+          "params": []
+        },
+        {
+          "name": "itemFields",
+          "startLine": 176,
+          "endLine": 178,
+          "params": [
+            "index"
+          ]
+        },
+        {
+          "name": "imageEvent",
+          "startLine": 180,
+          "endLine": 183,
+          "params": [
+            "phase",
+            "index",
+            "fields"
+          ]
+        },
+        {
+          "name": "itemEvent",
+          "startLine": 185,
+          "endLine": 187,
+          "params": [
+            "type",
+            "index",
+            "item"
+          ]
+        },
+        {
+          "name": "event",
+          "startLine": 189,
+          "endLine": 194,
+          "params": [
+            "type",
+            "fields"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImageResponseWriter",
+          "startLine": 15,
+          "endLine": 195,
+          "methods": [
+            "ResponsesImageResponseWriter",
+            "start",
+            "beginImage",
+            "partialImage",
+            "finishImage",
+            "appendItem",
+            "messageEvents",
+            "addUsage",
+            "sumUsage",
+            "finish",
+            "fail",
+            "response",
+            "output",
+            "itemFields",
+            "imageEvent",
+            "itemEvent",
+            "event"
+          ],
+          "properties": [
+            "mapper",
+            "stream",
+            "response",
+            "sequence"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode().put(\"id\", \"resp_\" + UUID.randomUUID().toString().replace(\"-\", \"\"))\n                .put(\"object\", \"response\").put(\"created_at\", Instant.now().getEpochSecond())\n                .put(\"status\", \"in_progress\").put(\"model\", request.model()).put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode().put(\"id\", \"resp_\" + UUID.randomUUID().toString().replace(\"-\", \"\"))\n                .put(\"object\", \"response\").put(\"created_at\", Instant.now().getEpochSecond())\n                .put(\"status\", \"in_progress\").put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode().put(\"id\", \"resp_\" + UUID.randomUUID().toString().replace(\"-\", \"\"))\n                .put(\"object\", \"response\").put(\"created_at\", Instant.now().getEpochSecond()).put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode().put(\"id\", \"resp_\" + UUID.randomUUID().toString().replace(\"-\", \"\"))\n                .put(\"object\", \"response\").put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode().put(\"id\", \"resp_\" + UUID.randomUUID().toString().replace(\"-\", \"\")).put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "UUID.randomUUID().toString().replace",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "UUID.randomUUID().toString",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "Instant.now().getEpochSecond",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "Instant.now",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.model",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.putNull",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.putNull",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.putArray",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.putNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.set",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body().path",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.set",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body().path(\"tool_choice\").isMissingNode",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body().path",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.getNodeFactory().textNode",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "mapper.getNodeFactory",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body().path",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "response.put",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body().path(\"parallel_tool_calls\").asBoolean",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body().path",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ResponsesImageResponseWriter",
+          "callee": "request.body",
+          "lineNumber": 34
+        },
+        {
+          "caller": "start",
+          "callee": "event",
+          "lineNumber": 38
+        },
+        {
+          "caller": "start",
+          "callee": "mapper.createObjectNode().set",
+          "lineNumber": 38
+        },
+        {
+          "caller": "start",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 38
+        },
+        {
+          "caller": "start",
+          "callee": "event",
+          "lineNumber": 39
+        },
+        {
+          "caller": "start",
+          "callee": "mapper.createObjectNode().set",
+          "lineNumber": 39
+        },
+        {
+          "caller": "start",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 39
+        },
+        {
+          "caller": "beginImage",
+          "callee": "mapper.createObjectNode().put(\"id\", \"ig_\" + UUID.randomUUID().toString().replace(\"-\", \"\"))\n                .put(\"type\", \"image_generation_call\").put",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "mapper.createObjectNode().put(\"id\", \"ig_\" + UUID.randomUUID().toString().replace(\"-\", \"\")).put",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "UUID.randomUUID().toString().replace",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "UUID.randomUUID().toString",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 43
+        },
+        {
+          "caller": "beginImage",
+          "callee": "output().size",
+          "lineNumber": 45
+        },
+        {
+          "caller": "beginImage",
+          "callee": "output",
+          "lineNumber": 45
+        },
+        {
+          "caller": "beginImage",
+          "callee": "output().add",
+          "lineNumber": 46
+        },
+        {
+          "caller": "beginImage",
+          "callee": "output",
+          "lineNumber": 46
+        },
+        {
+          "caller": "beginImage",
+          "callee": "itemEvent",
+          "lineNumber": 47
+        },
+        {
+          "caller": "beginImage",
+          "callee": "imageEvent",
+          "lineNumber": 48
+        },
+        {
+          "caller": "beginImage",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 48
+        },
+        {
+          "caller": "beginImage",
+          "callee": "imageEvent",
+          "lineNumber": 49
+        },
+        {
+          "caller": "beginImage",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 49
+        },
+        {
+          "caller": "partialImage",
+          "callee": "data.path(\"b64_json\").asText",
+          "lineNumber": 54
+        },
+        {
+          "caller": "partialImage",
+          "callee": "data.path",
+          "lineNumber": 54
+        },
+        {
+          "caller": "partialImage",
+          "callee": "partial.isBlank",
+          "lineNumber": 55
+        },
+        {
+          "caller": "partialImage",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 55
+        },
+        {
+          "caller": "partialImage",
+          "callee": "mapper.createObjectNode().put(\"partial_image_b64\", partial).put",
+          "lineNumber": 56
+        },
+        {
+          "caller": "partialImage",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 56
+        },
+        {
+          "caller": "partialImage",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 56
+        },
+        {
+          "caller": "partialImage",
+          "callee": "data.path(\"partial_image_index\").asInt",
+          "lineNumber": 57
+        },
+        {
+          "caller": "partialImage",
+          "callee": "data.path",
+          "lineNumber": 57
+        },
+        {
+          "caller": "partialImage",
+          "callee": "List.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "partialImage",
+          "callee": "data.hasNonNull",
+          "lineNumber": 59
+        },
+        {
+          "caller": "partialImage",
+          "callee": "fields.set",
+          "lineNumber": 59
+        },
+        {
+          "caller": "partialImage",
+          "callee": "data.get",
+          "lineNumber": 59
+        },
+        {
+          "caller": "partialImage",
+          "callee": "imageEvent",
+          "lineNumber": 61
+        },
+        {
+          "caller": "finishImage",
+          "callee": "data.path(\"b64_json\").asText",
+          "lineNumber": 65
+        },
+        {
+          "caller": "finishImage",
+          "callee": "data.path",
+          "lineNumber": 65
+        },
+        {
+          "caller": "finishImage",
+          "callee": "result.isBlank",
+          "lineNumber": 66
+        },
+        {
+          "caller": "finishImage",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 66
+        },
+        {
+          "caller": "finishImage",
+          "callee": "output().get",
+          "lineNumber": 67
+        },
+        {
+          "caller": "finishImage",
+          "callee": "output",
+          "lineNumber": 67
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.put(\"status\", \"completed\").put(\"result\", result).put",
+          "lineNumber": 68
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.put(\"status\", \"completed\").put",
+          "lineNumber": 68
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.put",
+          "lineNumber": 68
+        },
+        {
+          "caller": "finishImage",
+          "callee": "request.action",
+          "lineNumber": 68
+        },
+        {
+          "caller": "finishImage",
+          "callee": "List.of",
+          "lineNumber": 69
+        },
+        {
+          "caller": "finishImage",
+          "callee": "data.hasNonNull",
+          "lineNumber": 70
+        },
+        {
+          "caller": "finishImage",
+          "callee": "data.get",
+          "lineNumber": 70
+        },
+        {
+          "caller": "finishImage",
+          "callee": "request.options().get",
+          "lineNumber": 70
+        },
+        {
+          "caller": "finishImage",
+          "callee": "request.options",
+          "lineNumber": 70
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.set",
+          "lineNumber": 71
+        },
+        {
+          "caller": "finishImage",
+          "callee": "data.hasNonNull",
+          "lineNumber": 73
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.set",
+          "lineNumber": 73
+        },
+        {
+          "caller": "finishImage",
+          "callee": "data.get",
+          "lineNumber": 73
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.hasNonNull",
+          "lineNumber": 74
+        },
+        {
+          "caller": "finishImage",
+          "callee": "image.put",
+          "lineNumber": 74
+        },
+        {
+          "caller": "finishImage",
+          "callee": "imageEvent",
+          "lineNumber": 75
+        },
+        {
+          "caller": "finishImage",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 75
+        },
+        {
+          "caller": "finishImage",
+          "callee": "itemEvent",
+          "lineNumber": 76
+        },
+        {
+          "caller": "appendItem",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 80
+        },
+        {
+          "caller": "appendItem",
+          "callee": "original.deepCopy",
+          "lineNumber": 81
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.hasNonNull",
+          "lineNumber": 82
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.put",
+          "lineNumber": 82
+        },
+        {
+          "caller": "appendItem",
+          "callee": "UUID.randomUUID().toString().replace",
+          "lineNumber": 82
+        },
+        {
+          "caller": "appendItem",
+          "callee": "UUID.randomUUID().toString",
+          "lineNumber": 82
+        },
+        {
+          "caller": "appendItem",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 82
+        },
+        {
+          "caller": "appendItem",
+          "callee": "output().size",
+          "lineNumber": 83
+        },
+        {
+          "caller": "appendItem",
+          "callee": "output",
+          "lineNumber": 83
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.deepCopy",
+          "lineNumber": 84
+        },
+        {
+          "caller": "appendItem",
+          "callee": "added.has",
+          "lineNumber": 85
+        },
+        {
+          "caller": "appendItem",
+          "callee": "added.put",
+          "lineNumber": 85
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path(\"type\").asText",
+          "lineNumber": 86
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path",
+          "lineNumber": 86
+        },
+        {
+          "caller": "appendItem",
+          "callee": "\"message\".equals",
+          "lineNumber": 87
+        },
+        {
+          "caller": "appendItem",
+          "callee": "added.putArray",
+          "lineNumber": 87
+        },
+        {
+          "caller": "appendItem",
+          "callee": "\"function_call\".equals",
+          "lineNumber": 88
+        },
+        {
+          "caller": "appendItem",
+          "callee": "added.put",
+          "lineNumber": 88
+        },
+        {
+          "caller": "appendItem",
+          "callee": "output().add",
+          "lineNumber": 89
+        },
+        {
+          "caller": "appendItem",
+          "callee": "output",
+          "lineNumber": 89
+        },
+        {
+          "caller": "appendItem",
+          "callee": "itemEvent",
+          "lineNumber": 90
+        },
+        {
+          "caller": "appendItem",
+          "callee": "\"message\".equals",
+          "lineNumber": 91
+        },
+        {
+          "caller": "appendItem",
+          "callee": "messageEvents",
+          "lineNumber": 91
+        },
+        {
+          "caller": "appendItem",
+          "callee": "\"function_call\".equals",
+          "lineNumber": 92
+        },
+        {
+          "caller": "appendItem",
+          "callee": "itemFields(index).put",
+          "lineNumber": 93
+        },
+        {
+          "caller": "appendItem",
+          "callee": "itemFields",
+          "lineNumber": 93
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path(\"arguments\").asText",
+          "lineNumber": 93
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path",
+          "lineNumber": 93
+        },
+        {
+          "caller": "appendItem",
+          "callee": "event",
+          "lineNumber": 94
+        },
+        {
+          "caller": "appendItem",
+          "callee": "event",
+          "lineNumber": 95
+        },
+        {
+          "caller": "appendItem",
+          "callee": "itemFields(index).put",
+          "lineNumber": 95
+        },
+        {
+          "caller": "appendItem",
+          "callee": "itemFields",
+          "lineNumber": 95
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path(\"arguments\").asText",
+          "lineNumber": 95
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path",
+          "lineNumber": 95
+        },
+        {
+          "caller": "appendItem",
+          "callee": "\"image_generation_call\".equals",
+          "lineNumber": 97
+        },
+        {
+          "caller": "appendItem",
+          "callee": "imageEvent",
+          "lineNumber": 98
+        },
+        {
+          "caller": "appendItem",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 98
+        },
+        {
+          "caller": "appendItem",
+          "callee": "\"completed\".equals",
+          "lineNumber": 99
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path(\"status\").asText",
+          "lineNumber": 99
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path",
+          "lineNumber": 99
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path(\"result\").asText().isBlank",
+          "lineNumber": 99
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path(\"result\").asText",
+          "lineNumber": 99
+        },
+        {
+          "caller": "appendItem",
+          "callee": "complete.path",
+          "lineNumber": 99
+        },
+        {
+          "caller": "appendItem",
+          "callee": "imageEvent",
+          "lineNumber": 100
+        },
+        {
+          "caller": "appendItem",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 100
+        },
+        {
+          "caller": "appendItem",
+          "callee": "imageEvent",
+          "lineNumber": 101
+        },
+        {
+          "caller": "appendItem",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 101
+        },
+        {
+          "caller": "appendItem",
+          "callee": "itemEvent",
+          "lineNumber": 104
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "message.path",
+          "lineNumber": 109
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "itemFields(index).put",
+          "lineNumber": 110
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "itemFields",
+          "lineNumber": 110
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.deepCopy",
+          "lineNumber": 111
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "initial.has",
+          "lineNumber": 112
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "initial.put",
+          "lineNumber": 112
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "initial.has",
+          "lineNumber": 113
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "initial.put",
+          "lineNumber": 113
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "event",
+          "lineNumber": 114
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy().set",
+          "lineNumber": 114
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy",
+          "lineNumber": 114
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path(\"type\").asText",
+          "lineNumber": 115
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path",
+          "lineNumber": 115
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "\"output_text\".equals",
+          "lineNumber": 116
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "event",
+          "lineNumber": 117
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy().put",
+          "lineNumber": 117
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy",
+          "lineNumber": 117
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path(\"text\").asText",
+          "lineNumber": 117
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path",
+          "lineNumber": 117
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "event",
+          "lineNumber": 118
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy().put",
+          "lineNumber": 118
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy",
+          "lineNumber": 118
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path(\"text\").asText",
+          "lineNumber": 118
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path",
+          "lineNumber": 118
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "\"refusal\".equals",
+          "lineNumber": 119
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "event",
+          "lineNumber": 120
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy().put",
+          "lineNumber": 120
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy",
+          "lineNumber": 120
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path(\"refusal\").asText",
+          "lineNumber": 120
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path",
+          "lineNumber": 120
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "event",
+          "lineNumber": 121
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy().put",
+          "lineNumber": 121
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy",
+          "lineNumber": 121
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path(\"refusal\").asText",
+          "lineNumber": 121
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "part.path",
+          "lineNumber": 121
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "event",
+          "lineNumber": 123
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy().set",
+          "lineNumber": 123
+        },
+        {
+          "caller": "messageEvents",
+          "callee": "fields.deepCopy",
+          "lineNumber": 123
+        },
+        {
+          "caller": "addUsage",
+          "callee": "usage.isObject",
+          "lineNumber": 128
+        },
+        {
+          "caller": "addUsage",
+          "callee": "response.path(\"usage\").isObject",
+          "lineNumber": 129
+        },
+        {
+          "caller": "addUsage",
+          "callee": "response.path",
+          "lineNumber": 129
+        },
+        {
+          "caller": "addUsage",
+          "callee": "response.putObject",
+          "lineNumber": 129
+        },
+        {
+          "caller": "addUsage",
+          "callee": "sumUsage",
+          "lineNumber": 130
+        },
+        {
+          "caller": "addUsage",
+          "callee": "response.get",
+          "lineNumber": 130
+        },
+        {
+          "caller": "addUsage",
+          "callee": "response.get",
+          "lineNumber": 131
+        },
+        {
+          "caller": "addUsage",
+          "callee": "total.put",
+          "lineNumber": 132
+        },
+        {
+          "caller": "addUsage",
+          "callee": "total.path(\"input_tokens\").asLong",
+          "lineNumber": 132
+        },
+        {
+          "caller": "addUsage",
+          "callee": "total.path",
+          "lineNumber": 132
+        },
+        {
+          "caller": "addUsage",
+          "callee": "total.path(\"output_tokens\").asLong",
+          "lineNumber": 132
+        },
+        {
+          "caller": "addUsage",
+          "callee": "total.path",
+          "lineNumber": 132
+        },
+        {
+          "caller": "addUsage",
+          "callee": "response.withObject",
+          "lineNumber": 134
+        },
+        {
+          "caller": "addUsage",
+          "callee": "sumUsage",
+          "lineNumber": 135
+        },
+        {
+          "caller": "addUsage",
+          "callee": "tools.withObject",
+          "lineNumber": 135
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "source.fields().forEachRemaining",
+          "lineNumber": 140
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "source.fields",
+          "lineNumber": 140
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue().isIntegralNumber",
+          "lineNumber": 141
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue",
+          "lineNumber": 141
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "target.put",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getKey",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "target.path(field.getKey()).asLong",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "target.path",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getKey",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue().asLong",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue",
+          "lineNumber": 142
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue().isObject",
+          "lineNumber": 143
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue",
+          "lineNumber": 143
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "sumUsage",
+          "lineNumber": 144
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "target.withObject",
+          "lineNumber": 144
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getKey",
+          "lineNumber": 144
+        },
+        {
+          "caller": "sumUsage",
+          "callee": "field.getValue",
+          "lineNumber": 144
+        },
+        {
+          "caller": "finish",
+          "callee": "plannedResponse.path(\"status\").asText",
+          "lineNumber": 150
+        },
+        {
+          "caller": "finish",
+          "callee": "plannedResponse.path",
+          "lineNumber": 150
+        },
+        {
+          "caller": "finish",
+          "callee": "List.of(\"completed\", \"incomplete\", \"failed\").contains",
+          "lineNumber": 151
+        },
+        {
+          "caller": "finish",
+          "callee": "List.of",
+          "lineNumber": 151
+        },
+        {
+          "caller": "finish",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 152
+        },
+        {
+          "caller": "finish",
+          "callee": "response.put",
+          "lineNumber": 154
+        },
+        {
+          "caller": "finish",
+          "callee": "\"completed\".equals",
+          "lineNumber": 155
+        },
+        {
+          "caller": "finish",
+          "callee": "response.put",
+          "lineNumber": 155
+        },
+        {
+          "caller": "finish",
+          "callee": "Instant.now().getEpochSecond",
+          "lineNumber": 155
+        },
+        {
+          "caller": "finish",
+          "callee": "Instant.now",
+          "lineNumber": 155
+        },
+        {
+          "caller": "finish",
+          "callee": "List.of",
+          "lineNumber": 157
+        },
+        {
+          "caller": "finish",
+          "callee": "plannedResponse.hasNonNull",
+          "lineNumber": 158
+        },
+        {
+          "caller": "finish",
+          "callee": "response.set",
+          "lineNumber": 158
+        },
+        {
+          "caller": "finish",
+          "callee": "plannedResponse.get",
+          "lineNumber": 158
+        },
+        {
+          "caller": "finish",
+          "callee": "event",
+          "lineNumber": 161
+        },
+        {
+          "caller": "finish",
+          "callee": "mapper.createObjectNode().set",
+          "lineNumber": 161
+        },
+        {
+          "caller": "finish",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 161
+        },
+        {
+          "caller": "fail",
+          "callee": "response.put",
+          "lineNumber": 165
+        },
+        {
+          "caller": "fail",
+          "callee": "response.set",
+          "lineNumber": 166
+        },
+        {
+          "caller": "fail",
+          "callee": "output",
+          "lineNumber": 167
+        },
+        {
+          "caller": "fail",
+          "callee": "\"in_progress\".equals",
+          "lineNumber": 168
+        },
+        {
+          "caller": "fail",
+          "callee": "item.path(\"status\").asText",
+          "lineNumber": 168
+        },
+        {
+          "caller": "fail",
+          "callee": "item.path",
+          "lineNumber": 168
+        },
+        {
+          "caller": "fail",
+          "callee": "((ObjectNode) item).put",
+          "lineNumber": 168
+        },
+        {
+          "caller": "fail",
+          "callee": "event",
+          "lineNumber": 170
+        },
+        {
+          "caller": "fail",
+          "callee": "mapper.createObjectNode().set",
+          "lineNumber": 170
+        },
+        {
+          "caller": "fail",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 170
+        },
+        {
+          "caller": "response",
+          "callee": "response.deepCopy",
+          "lineNumber": 173
+        },
+        {
+          "caller": "output",
+          "callee": "response.get",
+          "lineNumber": 174
+        },
+        {
+          "caller": "itemFields",
+          "callee": "mapper.createObjectNode().put(\"output_index\", index).put",
+          "lineNumber": 177
+        },
+        {
+          "caller": "itemFields",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 177
+        },
+        {
+          "caller": "itemFields",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 177
+        },
+        {
+          "caller": "itemFields",
+          "callee": "output().get(index).path(\"id\").asText",
+          "lineNumber": 177
+        },
+        {
+          "caller": "itemFields",
+          "callee": "output().get(index).path",
+          "lineNumber": 177
+        },
+        {
+          "caller": "itemFields",
+          "callee": "output().get",
+          "lineNumber": 177
+        },
+        {
+          "caller": "itemFields",
+          "callee": "output",
+          "lineNumber": 177
+        },
+        {
+          "caller": "imageEvent",
+          "callee": "fields.setAll",
+          "lineNumber": 181
+        },
+        {
+          "caller": "imageEvent",
+          "callee": "itemFields",
+          "lineNumber": 181
+        },
+        {
+          "caller": "imageEvent",
+          "callee": "event",
+          "lineNumber": 182
+        },
+        {
+          "caller": "itemEvent",
+          "callee": "event",
+          "lineNumber": 186
+        },
+        {
+          "caller": "itemEvent",
+          "callee": "mapper.createObjectNode().put(\"output_index\", index).set",
+          "lineNumber": 186
+        },
+        {
+          "caller": "itemEvent",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 186
+        },
+        {
+          "caller": "itemEvent",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 186
+        },
+        {
+          "caller": "event",
+          "callee": "fields.deepCopy().put(\"type\", type).put",
+          "lineNumber": 191
+        },
+        {
+          "caller": "event",
+          "callee": "fields.deepCopy().put",
+          "lineNumber": 191
+        },
+        {
+          "caller": "event",
+          "callee": "fields.deepCopy",
+          "lineNumber": 191
+        },
+        {
+          "caller": "event",
+          "callee": "stream.write",
+          "lineNumber": 192
+        },
+        {
+          "caller": "event",
+          "callee": "(\"event: \" + type + \"\\ndata: \" + event + \"\\n\\n\").getBytes",
+          "lineNumber": 192
+        },
+        {
+          "caller": "event",
+          "callee": "stream.flush",
+          "lineNumber": 193
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 17,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 106,
+      "functions": [
+        {
+          "name": "ResponsesImageSseAdapter",
+          "startLine": 24,
+          "endLine": 30,
+          "params": [
+            "mapper",
+            "writer",
+            "request",
+            "index"
+          ]
+        },
+        {
+          "name": "write",
+          "startLine": 32,
+          "endLine": 39,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "write",
+          "startLine": 41,
+          "endLine": 52,
+          "params": [
+            "bytes",
+            "offset",
+            "length"
+          ]
+        },
+        {
+          "name": "append",
+          "startLine": 54,
+          "endLine": 57,
+          "params": [
+            "bytes",
+            "offset",
+            "length"
+          ]
+        },
+        {
+          "name": "consumeLine",
+          "startLine": 59,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "dispatch",
+          "startLine": 74,
+          "endLine": 96,
+          "params": []
+        },
+        {
+          "name": "finish",
+          "startLine": 98,
+          "endLine": 109,
+          "params": []
+        },
+        {
+          "name": "publish",
+          "startLine": 111,
+          "endLine": 114,
+          "params": []
+        },
+        {
+          "name": "completed",
+          "startLine": 116,
+          "endLine": 116,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImageSseAdapter",
+          "startLine": 13,
+          "endLine": 117,
+          "methods": [
+            "ResponsesImageSseAdapter",
+            "write",
+            "write",
+            "append",
+            "consumeLine",
+            "dispatch",
+            "finish",
+            "publish",
+            "completed"
+          ],
+          "properties": [
+            "MAX_EVENT_BYTES",
+            "mapper",
+            "writer",
+            "request",
+            "index",
+            "line",
+            "data",
+            "eventName",
+            "completed"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "write",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "write",
+          "line": 41,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "write",
+          "callee": "consumeLine",
+          "lineNumber": 34
+        },
+        {
+          "caller": "write",
+          "callee": "line.size",
+          "lineNumber": 36
+        },
+        {
+          "caller": "write",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 36
+        },
+        {
+          "caller": "write",
+          "callee": "line.write",
+          "lineNumber": 37
+        },
+        {
+          "caller": "write",
+          "callee": "append",
+          "lineNumber": 46
+        },
+        {
+          "caller": "write",
+          "callee": "consumeLine",
+          "lineNumber": 47
+        },
+        {
+          "caller": "write",
+          "callee": "append",
+          "lineNumber": 51
+        },
+        {
+          "caller": "append",
+          "callee": "line.size",
+          "lineNumber": 55
+        },
+        {
+          "caller": "append",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 55
+        },
+        {
+          "caller": "append",
+          "callee": "line.write",
+          "lineNumber": 56
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "line.toString",
+          "lineNumber": 60
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "line.reset",
+          "lineNumber": 61
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.endsWith",
+          "lineNumber": 62
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.substring",
+          "lineNumber": 62
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.length",
+          "lineNumber": 62
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.isEmpty",
+          "lineNumber": 63
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "dispatch",
+          "lineNumber": 63
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.startsWith",
+          "lineNumber": 64
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.substring(6).strip",
+          "lineNumber": 64
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.substring",
+          "lineNumber": 64
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.startsWith",
+          "lineNumber": 65
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "data.length",
+          "lineNumber": 66
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.length",
+          "lineNumber": 66
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 67
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "data.isEmpty",
+          "lineNumber": 69
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "data.append",
+          "lineNumber": 69
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "data.append",
+          "lineNumber": 70
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.substring(5).stripLeading",
+          "lineNumber": 70
+        },
+        {
+          "caller": "consumeLine",
+          "callee": "value.substring",
+          "lineNumber": 70
+        },
+        {
+          "caller": "dispatch",
+          "callee": "data.isEmpty",
+          "lineNumber": 75
+        },
+        {
+          "caller": "dispatch",
+          "callee": "data.toString",
+          "lineNumber": 76
+        },
+        {
+          "caller": "dispatch",
+          "callee": "data.setLength",
+          "lineNumber": 77
+        },
+        {
+          "caller": "dispatch",
+          "callee": "\"[DONE]\".equals",
+          "lineNumber": 80
+        },
+        {
+          "caller": "dispatch",
+          "callee": "mapper.readTree",
+          "lineNumber": 82
+        },
+        {
+          "caller": "dispatch",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 83
+        },
+        {
+          "caller": "dispatch",
+          "callee": "event.isObject",
+          "lineNumber": 84
+        },
+        {
+          "caller": "dispatch",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 84
+        },
+        {
+          "caller": "dispatch",
+          "callee": "event.path(\"type\").asText",
+          "lineNumber": 85
+        },
+        {
+          "caller": "dispatch",
+          "callee": "event.path",
+          "lineNumber": 85
+        },
+        {
+          "caller": "dispatch",
+          "callee": "\"error\".equals",
+          "lineNumber": 86
+        },
+        {
+          "caller": "dispatch",
+          "callee": "event.hasNonNull",
+          "lineNumber": 86
+        },
+        {
+          "caller": "dispatch",
+          "callee": "event.hasNonNull",
+          "lineNumber": 87
+        },
+        {
+          "caller": "dispatch",
+          "callee": "event.get",
+          "lineNumber": 87
+        },
+        {
+          "caller": "dispatch",
+          "callee": "mapper.createObjectNode().set",
+          "lineNumber": 88
+        },
+        {
+          "caller": "dispatch",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 88
+        },
+        {
+          "caller": "dispatch",
+          "callee": "new ResponsesImageBridgeFailure",
+          "lineNumber": 89
+        },
+        {
+          "caller": "dispatch",
+          "callee": "GatewayRawResponse.of",
+          "lineNumber": 89
+        },
+        {
+          "caller": "dispatch",
+          "callee": "body.toString",
+          "lineNumber": 89
+        },
+        {
+          "caller": "dispatch",
+          "callee": "type.endsWith",
+          "lineNumber": 91
+        },
+        {
+          "caller": "dispatch",
+          "callee": "writer.partialImage",
+          "lineNumber": 91
+        },
+        {
+          "caller": "dispatch",
+          "callee": "\"image_generation.completed\".equals",
+          "lineNumber": 92
+        },
+        {
+          "caller": "dispatch",
+          "callee": "\"image_edit.completed\".equals",
+          "lineNumber": 92
+        },
+        {
+          "caller": "dispatch",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 93
+        },
+        {
+          "caller": "finish",
+          "callee": "line.size",
+          "lineNumber": 99
+        },
+        {
+          "caller": "finish",
+          "callee": "consumeLine",
+          "lineNumber": 99
+        },
+        {
+          "caller": "finish",
+          "callee": "dispatch",
+          "lineNumber": 100
+        },
+        {
+          "caller": "finish",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 101
+        },
+        {
+          "caller": "finish",
+          "callee": "completed.path(\"b64_json\").asText().isBlank",
+          "lineNumber": 102
+        },
+        {
+          "caller": "finish",
+          "callee": "completed.path(\"b64_json\").asText",
+          "lineNumber": 102
+        },
+        {
+          "caller": "finish",
+          "callee": "completed.path",
+          "lineNumber": 102
+        },
+        {
+          "caller": "finish",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 102
+        },
+        {
+          "caller": "finish",
+          "callee": "java.util.List.of",
+          "lineNumber": 103
+        },
+        {
+          "caller": "finish",
+          "callee": "completed.path(\"usage\").path",
+          "lineNumber": 104
+        },
+        {
+          "caller": "finish",
+          "callee": "completed.path",
+          "lineNumber": 104
+        },
+        {
+          "caller": "finish",
+          "callee": "tokens.isMissingNode",
+          "lineNumber": 105
+        },
+        {
+          "caller": "finish",
+          "callee": "tokens.isIntegralNumber",
+          "lineNumber": 105
+        },
+        {
+          "caller": "finish",
+          "callee": "tokens.canConvertToLong",
+          "lineNumber": 105
+        },
+        {
+          "caller": "finish",
+          "callee": "tokens.asLong",
+          "lineNumber": 105
+        },
+        {
+          "caller": "finish",
+          "callee": "ResponsesImageBridgeFailure.invalidUpstream",
+          "lineNumber": 106
+        },
+        {
+          "caller": "publish",
+          "callee": "writer.finishImage",
+          "lineNumber": 112
+        },
+        {
+          "caller": "publish",
+          "callee": "writer.addUsage",
+          "lineNumber": 113
+        },
+        {
+          "caller": "publish",
+          "callee": "completed.path",
+          "lineNumber": 113
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 63,
+      "nonEmptyLines": 61,
+      "sections": [
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 20
+        },
+        {
+          "heading": "api2api",
+          "level": 1,
+          "line": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": "backend/src/main/resources/protocol/claude-client-toolsets-20260801.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 60,
+      "nonEmptyLines": 60,
+      "sections": [
+        {
+          "heading": "computer",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "browser",
+          "level": 1,
+          "line": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 75,
+      "nonEmptyLines": 56,
+      "functions": [
+        {
+          "name": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "startLine": 15,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "startLine": 27,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "startLine": 40,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "startLine": 52,
+          "endLine": 62,
+          "params": []
+        },
+        {
+          "name": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "startLine": 64,
+          "endLine": 74,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UpstreamResponseMetadataTest",
+          "startLine": 11,
+          "endLine": 75,
+          "methods": [
+            "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+            "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+            "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+            "test_returnsEmpty_when_retryAfterIsAbsent",
+            "test_returnsEmpty_when_retryAfterIsUnparseable"
+          ],
+          "properties": [
+            "NOW"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "Map.of",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "List.of",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "metadata.retryAfter",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "assertThat(retryAfter).contains",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "assertThat",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "Map.of",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "List.of",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "metadata.retryAfter",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "assertThat(retryAfter).contains",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "assertThat",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "Map.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "List.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "metadata.retryAfter",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "assertThat(retryAfter).contains",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "assertThat",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+          "callee": "Duration.ofHours",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "callee": "Map.of",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "callee": "List.of",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "callee": "metadata.retryAfter",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "callee": "assertThat(retryAfter).isEmpty",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsAbsent",
+          "callee": "assertThat",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "callee": "Map.of",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "callee": "List.of",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "callee": "metadata.retryAfter",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "callee": "assertThat(retryAfter).isEmpty",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_returnsEmpty_when_retryAfterIsUnparseable",
+          "callee": "assertThat",
+          "lineNumber": 73
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+          "startLine": 9,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+          "startLine": 21,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "test_reportsClientFacing_when_protocolIsOpenAIImages",
+          "startLine": 36,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+          "startLine": 48,
+          "endLine": 58,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProtocolTypeTest",
+          "startLine": 7,
+          "endLine": 59,
+          "methods": [
+            "test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+            "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+            "test_reportsClientFacing_when_protocolIsOpenAIImages",
+            "test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+          "callee": "ProtocolType.parseExternal",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+          "callee": "assertThat(parsed).contains",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+          "callee": "assertThat",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+          "callee": "java.util.List.of",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+          "callee": "assertThat(ProtocolType.parseExternal(alias))\n                    .as(\"alias %s\", alias).contains",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+          "callee": "assertThat(ProtocolType.parseExternal(alias)).as",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+          "callee": "assertThat",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+          "callee": "ProtocolType.parseExternal",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_reportsClientFacing_when_protocolIsOpenAIImages",
+          "callee": "protocol.isClientFacing",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_reportsClientFacing_when_protocolIsOpenAIImages",
+          "callee": "assertThat(clientFacing).isTrue",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_reportsClientFacing_when_protocolIsOpenAIImages",
+          "callee": "assertThat",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+          "callee": "protocol.defaultEndpointPath",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+          "callee": "assertThat(path).isEqualTo",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+          "callee": "assertThat",
+          "lineNumber": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    }
+  ]
+}

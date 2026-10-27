@@ -1,0 +1,939 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "file",
+      "name": "ProviderChannelRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "summary": "定义渠道聚合持久化端口，覆盖保存、查询、可路由候选、模型限流标记与恢复及软删除操作。",
+      "tags": [
+        "仓储接口",
+        "渠道持久化",
+        "限流",
+        "依赖倒置"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java:ProviderChannelRepository",
+      "type": "class",
+      "name": "ProviderChannelRepository",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "lineRange": [
+        11,
+        75
+      ],
+      "summary": "定义渠道聚合持久化端口，覆盖保存、查询、可路由候选、模型限流标记与恢复及软删除操作。",
+      "tags": [
+        "仓储接口",
+        "渠道持久化",
+        "限流",
+        "依赖倒置"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "file",
+      "name": "ContentMappingType.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "summary": "枚举协议转换需描述的内容类型，为转换能力的内容覆盖范围提供统一标识。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java:ContentMappingType",
+      "type": "class",
+      "name": "ContentMappingType",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "lineRange": [
+        6,
+        14
+      ],
+      "summary": "枚举协议转换需描述的内容类型，为转换能力的内容覆盖范围提供统一标识。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "file",
+      "name": "ConversionCapability.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "summary": "以不可变能力集合描述协议转换对流式输出、工具调用、推理、用量及缓存 Token 映射的支持，判断其是否满足请求需求。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:ConversionCapability",
+      "type": "class",
+      "name": "ConversionCapability",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        11,
+        94
+      ],
+      "summary": "以不可变能力集合描述协议转换对流式输出、工具调用、推理、用量及缓存 Token 映射的支持，判断其是否满足请求需求。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:ConversionCapability",
+      "type": "function",
+      "name": "ConversionCapability",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        19,
+        39
+      ],
+      "summary": "初始化 ConversionCapability 的状态并建立构造约束。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        41,
+        57
+      ],
+      "summary": "通过静态工厂构造 ConversionCapability，封装传入参数。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:satisfies",
+      "type": "function",
+      "name": "satisfies",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        59,
+        64
+      ],
+      "summary": "检查转换能力是否覆盖请求要求的特性和内容类型。 同名重载接收不同参数形式。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsStreaming",
+      "type": "function",
+      "name": "supportsStreaming",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        71,
+        73
+      ],
+      "summary": "返回 supportsStreaming 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsToolCalling",
+      "type": "function",
+      "name": "supportsToolCalling",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        75,
+        77
+      ],
+      "summary": "返回 supportsToolCalling 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsReasoning",
+      "type": "function",
+      "name": "supportsReasoning",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        79,
+        81
+      ],
+      "summary": "返回 supportsReasoning 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsUsageMapping",
+      "type": "function",
+      "name": "supportsUsageMapping",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        83,
+        85
+      ],
+      "summary": "返回 supportsUsageMapping 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsCacheTokenMapping",
+      "type": "function",
+      "name": "supportsCacheTokenMapping",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        87,
+        89
+      ],
+      "summary": "返回 supportsCacheTokenMapping 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportedContentTypes",
+      "type": "function",
+      "name": "supportedContentTypes",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "lineRange": [
+        91,
+        93
+      ],
+      "summary": "返回 supportedContentTypes 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "转换能力",
+        "能力匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "type": "file",
+      "name": "ConversionImplementationStatus.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "summary": "区分转换实现状态，并通过 isRoutable 判定该实现是否可用于实际路由。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java:ConversionImplementationStatus",
+      "type": "class",
+      "name": "ConversionImplementationStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "lineRange": [
+        6,
+        14
+      ],
+      "summary": "区分转换实现状态，并通过 isRoutable 判定该实现是否可用于实际路由。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java:isRoutable",
+      "type": "function",
+      "name": "isRoutable",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "在ConversionImplementationStatus中执行 isRoutable 操作。封装相应业务状态的计算或更新。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "type": "file",
+      "name": "ConversionStatus.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "summary": "枚举协议转换定义的启停状态，控制转换配置参与业务的资格。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java:ConversionStatus",
+      "type": "class",
+      "name": "ConversionStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "lineRange": [
+        6,
+        11
+      ],
+      "summary": "枚举协议转换定义的启停状态，控制转换配置参与业务的资格。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "type": "file",
+      "name": "MappingDirection.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "summary": "区分请求方向与响应方向的协议字段映射。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java:MappingDirection",
+      "type": "class",
+      "name": "MappingDirection",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "lineRange": [
+        6,
+        9
+      ],
+      "summary": "区分请求方向与响应方向的协议字段映射。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "type": "file",
+      "name": "MappingDocument.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "summary": "封装协议转换文档的方向、标题、摘要和字段映射列表，校验文本长度并以新对象追加映射条目。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "type": "class",
+      "name": "MappingDocument",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        11,
+        69
+      ],
+      "summary": "封装协议转换文档的方向、标题、摘要和字段映射列表，校验文本长度并以新对象追加映射条目。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "type": "function",
+      "name": "MappingDocument",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        20,
+        30
+      ],
+      "summary": "初始化 MappingDocument 的状态并建立构造约束。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        32,
+        34
+      ],
+      "summary": "通过静态工厂构造 MappingDocument，封装传入参数。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:append",
+      "type": "function",
+      "name": "append",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        36,
+        41
+      ],
+      "summary": "在保留已有字段映射的基础上追加新条目，并返回新的映射文档。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:requireText",
+      "type": "function",
+      "name": "requireText",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        43,
+        52
+      ],
+      "summary": "校验文档文本非空并满足长度上限。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:direction",
+      "type": "function",
+      "name": "direction",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        54,
+        56
+      ],
+      "summary": "返回 direction 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:title",
+      "type": "function",
+      "name": "title",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        58,
+        60
+      ],
+      "summary": "返回 title 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:summary",
+      "type": "function",
+      "name": "summary",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        62,
+        64
+      ],
+      "summary": "返回 summary 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:fieldMappings",
+      "type": "function",
+      "name": "fieldMappings",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "lineRange": [
+        66,
+        68
+      ],
+      "summary": "返回 fieldMappings 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "映射文档",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "type": "file",
+      "name": "MappingLossiness.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "summary": "描述协议字段映射的保真或有损程度，为转换文档呈现语义损失提供分类。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java:MappingLossiness",
+      "type": "class",
+      "name": "MappingLossiness",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "描述协议字段映射的保真或有损程度，为转换文档呈现语义损失提供分类。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java:ProviderChannelRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java:ProviderChannelRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java:ContentMappingType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java:ContentMappingType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:ConversionCapability",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:ConversionCapability",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:ConversionCapability",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:ConversionCapability",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:satisfies",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:satisfies",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsStreaming",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsToolCalling",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsToolCalling",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsReasoning",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsUsageMapping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsUsageMapping",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsCacheTokenMapping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportsCacheTokenMapping",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportedContentTypes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:supportedContentTypes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java:ConversionImplementationStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java:ConversionImplementationStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java:isRoutable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java:isRoutable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java:ConversionStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java:ConversionStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java:MappingDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java:MappingDirection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:append",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:append",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:requireText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:direction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:direction",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:title",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:title",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:summary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:summary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:fieldMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:fieldMappings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java:MappingLossiness",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java:MappingLossiness",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:MappingDocument",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java:requireText",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

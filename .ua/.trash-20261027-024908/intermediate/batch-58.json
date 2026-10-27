@@ -1,0 +1,1448 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "type": "file",
+      "name": "GatewayInvocationApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "summary": "编排网关鉴权、协议转换、渠道候选选择与同步/流式故障切换，记录路由尝试及最终用量。鉴权阶段在凭证锁内校验统一配额并写入 PENDING 预留，终态以真实消费替换预留，并按上游限流反馈隔离模型。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:GatewayInvocationApplicationService",
+      "type": "class",
+      "name": "GatewayInvocationApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        52,
+        1016
+      ],
+      "summary": "编排网关鉴权、协议转换、渠道候选选择与同步/流式故障切换，记录路由尝试及最终用量。鉴权阶段在凭证锁内校验统一配额并写入 PENDING 预留，终态以真实消费替换预留，并按上游限流反馈隔离模型。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invoke",
+      "type": "function",
+      "name": "invoke",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        114,
+        116
+      ],
+      "summary": "执行同步网关调用并从调用结果中提取领域结果。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "type": "function",
+      "name": "invokeOutcome",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        118,
+        144
+      ],
+      "summary": "拒绝流式命令，鉴权并预留配额后准备路由；处理无可用渠道或依次尝试候选，返回首个成功结果或最终失败。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "type": "function",
+      "name": "openStreaming",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        146,
+        179
+      ],
+      "summary": "鉴权并预留配额、构建路由，依次尝试候选开启上游流；无可用渠道或全部失败时终结调用并报告流式异常。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingSuccess",
+      "type": "function",
+      "name": "completeStreamingSuccess",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        181,
+        184
+      ],
+      "summary": "在事务内将流式调用标记为成功，并使用已提取 Token、上游模型、首 Token 时间与失败尝试明细替换预留用量。 同名重载接收不同参数形式。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingClientDisconnect",
+      "type": "function",
+      "name": "completeStreamingClientDisconnect",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        210,
+        235
+      ],
+      "summary": "将客户端中断记录为网关失败；已成功响应且有可计费消费时仍保留上游状态和真实用量，否则回退零用量。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingFailure",
+      "type": "function",
+      "name": "completeStreamingFailure",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        237,
+        262
+      ],
+      "summary": "将流式转发异常记录为上游错误；已产生可计费消费时保留 Token 与上游状态，否则记录零用量及推导状态码。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "type": "function",
+      "name": "authenticateAndStartInvocation",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        264,
+        308
+      ],
+      "summary": "在短事务内按哈希加载凭证并加锁，创建鉴权调用并检查凭证模型及分组配额；记录最近使用时间及默认 4096 Token 的 PENDING 预留。配额失败时回滚并重新抛出。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "function",
+      "name": "appendUsageRecord",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        310,
+        321
+      ],
+      "summary": "在事务中锁定记录所属凭证，再按调用标识更新或插入用量，使最终真实消费与预留替换受同一锁保护。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:hasBillableSuccessfulUsage",
+      "type": "function",
+      "name": "hasBillableSuccessfulUsage",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        323,
+        333
+      ],
+      "summary": "只在上游为 2xx 且输入、缓存创建、缓存读取或输出 Token 之一大于零时认定已有可计费消费。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:prepareRoute",
+      "type": "function",
+      "name": "prepareRoute",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        335,
+        351
+      ],
+      "summary": "从客户端载荷提取能力要求，恢复到期模型限流并加载候选渠道与转换定义，生成路由计划和诊断上下文。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "type": "function",
+      "name": "invokeSynchronousRoute",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        353,
+        414
+      ],
+      "summary": "循环尝试同一候选路由，完成请求转换与上游转发；按状态或异常执行重试、切换或终止，成功时处理响应转换与记账。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardSynchronousRequest",
+      "type": "function",
+      "name": "forwardSynchronousRequest",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        416,
+        449
+      ],
+      "summary": "通过协议转换服务生成上游请求，透传响应时保留 HTTP 细节；非成功状态转为异常，其余情况以普通网关端口转发。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeSynchronousSuccess",
+      "type": "function",
+      "name": "completeSynchronousSuccess",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        451,
+        486
+      ],
+      "summary": "透传时解析用量并将响应模型改回客户端模型；转换时取得转换响应及用量，随后标记成功并用真实用量终结调用。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleSynchronousRouteFailure",
+      "type": "function",
+      "name": "handleSynchronousRouteFailure",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        488,
+        504
+      ],
+      "summary": "对上游限流隔离当前模型并记录失败尝试，向路由策略请求决策；同路由重试、切换候选或以安全错误消息结束。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "type": "function",
+      "name": "openStreamingRoute",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        506,
+        553
+      ],
+      "summary": "为当前候选构造上游模型载荷并打开流，根据返回状态或异常驱动重试与切换，成功返回流会话及上下文。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openProviderStream",
+      "type": "function",
+      "name": "openProviderStream",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        555,
+        590
+      ],
+      "summary": "转换请求并读取转换会话，打开含扩展头的上游流；根据透传标志决定保留错误流体还是转入故障切换。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleStreamingRouteFailure",
+      "type": "function",
+      "name": "handleStreamingRouteFailure",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        592,
+        609
+      ],
+      "summary": "记录失败并处理模型限流隔离，根据策略返回重试或切换；不可切换时终结调用并抛出协议流异常。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleFailoverException",
+      "type": "function",
+      "name": "handleFailoverException",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        611,
+        626
+      ],
+      "summary": "标记失败调用、保存失败尝试用量并输出耗尽日志，然后把原异常包装为流式调用异常。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeNoAvailableChannel",
+      "type": "function",
+      "name": "completeNoAvailableChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        628,
+        637
+      ],
+      "summary": "用 NO_AVAILABLE_CHANNEL 标记失败并写入零消费记录，同时记录请求、模型、协议与路由诊断。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeAllCandidatesFailed",
+      "type": "function",
+      "name": "completeAllCandidatesFailed",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        639,
+        648
+      ],
+      "summary": "当调用仍处于路由阶段时标记上游候选全部失败并写入零消费记录。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:requestBodyForCandidate",
+      "type": "function",
+      "name": "requestBodyForCandidate",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        650,
+        659
+      ],
+      "summary": "从领域调用读取客户端载荷，将模型替换为候选的上游模型；缺少载荷时抛出协议转换异常。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:anthropicBetaFeatures",
+      "type": "function",
+      "name": "anthropicBetaFeatures",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        671,
+        683
+      ],
+      "summary": "以不区分大小写的方式查找 Anthropic-Beta 扩展头，再按逗号切分、去空并去重。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:rewriteResponseModel",
+      "type": "function",
+      "name": "rewriteResponseModel",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        690,
+        707
+      ],
+      "summary": "对无可用模型或空响应直接返回原载荷；尝试模型改写失败时记录告警并保留上游响应，避免中断已成功结果。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardToProvider",
+      "type": "function",
+      "name": "forwardToProvider",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        709,
+        724
+      ],
+      "summary": "组合渠道、协议、调用标识和扩展头进行同步转发，要求上游 Content-Type 含 JSON，否则报告无效响应。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeFailedInvocation",
+      "type": "function",
+      "name": "completeFailedInvocation",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        731,
+        749
+      ],
+      "summary": "将失败领域调用构建为零消费记录并附带所有路由失败尝试，在存在记录时通过统一事务入口保存。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:toRouteFailure",
+      "type": "function",
+      "name": "toRouteFailure",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        776,
+        789
+      ],
+      "summary": "把同步响应、流式句柄或转发异常映射为统一路由失败类型、状态及安全消息，并保留 Retry-After。 同名重载接收不同参数形式。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:isolateRateLimitedModel",
+      "type": "function",
+      "name": "isolateRateLimitedModel",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        804,
+        823
+      ],
+      "summary": "仅对 RATE_LIMITED 失败计算隔离截止时间，优先使用未来 Retry-After，否则采用可配置短窗口，再按渠道、上游模型及协议标记限流。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logRouteAttempt",
+      "type": "function",
+      "name": "logRouteAttempt",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        846,
+        855
+      ],
+      "summary": "记录不含密钥的路由尝试结果、耗时、状态及长度受限的安全原因。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logNoAvailableChannel",
+      "type": "function",
+      "name": "logNoAvailableChannel",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        857,
+        866
+      ],
+      "summary": "记录调用无法获得路由的客户端协议、模型和路由诊断。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:statusFailureMessage",
+      "type": "function",
+      "name": "statusFailureMessage",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        874,
+        884
+      ],
+      "summary": "将上游限流和认证状态转换为安全文案，其他 HTTP 状态返回状态码摘要。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:safeReason",
+      "type": "function",
+      "name": "safeReason",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "lineRange": [
+        902,
+        915
+      ],
+      "summary": "裁剪错误原因并过滤以 JSON 对象或数组开头的上游内容，避免日志写入原始敏感载荷。",
+      "tags": [
+        "应用服务",
+        "网关编排",
+        "故障切换",
+        "配额预留",
+        "用量记账"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:GatewayInvocationApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:GatewayInvocationApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invoke",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invoke",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingSuccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingSuccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingClientDisconnect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingClientDisconnect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingFailure",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:hasBillableSuccessfulUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:prepareRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardSynchronousRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeSynchronousSuccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleSynchronousRouteFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openProviderStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleStreamingRouteFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleFailoverException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeNoAvailableChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeAllCandidatesFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:requestBodyForCandidate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:anthropicBetaFeatures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:rewriteResponseModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardToProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeFailedInvocation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:toRouteFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:isolateRateLimitedModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logRouteAttempt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logNoAvailableChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:statusFailureMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:safeReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/service/ProtocolConversionService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/FailoverAction.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:lockCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:assertAvailable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:lockCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invoke",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:prepareRoute",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeNoAvailableChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeAllCandidatesFailed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:prepareRoute",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeNoAvailableChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreaming",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeAllCandidatesFailed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingSuccess",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingClientDisconnect",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingFailure",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:safeReason",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeStreamingFailure",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:anthropicBetaFeatures",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:hasBillableSuccessfulUsage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:prepareRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:authenticateAndStartInvocation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardSynchronousRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:toRouteFailure",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:isolateRateLimitedModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleSynchronousRouteFailure",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeSynchronousRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeSynchronousSuccess",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardSynchronousRequest",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logRouteAttempt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardSynchronousRequest",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:requestBodyForCandidate",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardSynchronousRequest",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:forwardToProvider",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeSynchronousSuccess",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:rewriteResponseModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeSynchronousSuccess",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleSynchronousRouteFailure",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleFailoverException",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openProviderStream",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:toRouteFailure",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleStreamingRouteFailure",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openStreamingRoute",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:isolateRateLimitedModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openProviderStream",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logRouteAttempt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:openProviderStream",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:requestBodyForCandidate",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleStreamingRouteFailure",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleFailoverException",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleFailoverException",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeFailedInvocation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:handleFailoverException",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeNoAvailableChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:logNoAvailableChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeNoAvailableChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:completeAllCandidatesFailed",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:appendUsageRecord",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:toRouteFailure",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:safeReason",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:toRouteFailure",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:statusFailureMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

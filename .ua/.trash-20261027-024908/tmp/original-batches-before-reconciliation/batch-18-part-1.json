@@ -1,0 +1,2172 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "type": "file",
+      "name": "UsageRecordRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "实现用量事实保存、预留更新与取消、按角色筛选分页和令牌汇总，衔接领域过滤、持久化映射与原始或加权用量口径。",
+      "tags": [
+        "用量仓储",
+        "分页查询",
+        "额度统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:UsageRecordRepositoryImpl",
+      "type": "class",
+      "name": "UsageRecordRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "实现用量事实保存、预留更新与取消、按角色筛选分页和令牌汇总，衔接领域过滤、持久化映射与原始或加权用量口径。",
+      "tags": [
+        "用量仓储",
+        "分页查询",
+        "额度统计"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        28,
+        121
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "将用量记录转换为持久化对象并插入数据库。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "按原用量标识更新预留记录为最终调用事实。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        48
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:cancelReservation",
+      "type": "function",
+      "name": "cancelReservation",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "取消指定预留记录以释放额度占用。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        50,
+        54
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "查询用量记录并按管理员可见性恢复完整领域模型。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        56,
+        61
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:findByRequestId",
+      "type": "function",
+      "name": "findByRequestId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "按请求追踪标识查询用量记录列表并应用查看者权限。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        63,
+        68
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:query",
+      "type": "function",
+      "name": "query",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "将领域过滤和分页转换为查询对象，读取记录、总数及令牌合计，并按角色隐藏受限字段。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        77
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumTotalTokensByApiCredential",
+      "type": "function",
+      "name": "sumTotalTokensByApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "统计指定密钥的原始令牌合计。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        79,
+        83
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByApiCredential",
+      "type": "function",
+      "name": "sumActualTokensByApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "按平台权重统计指定密钥的计费用量，包含有效预留。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        85,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByModelGroupAndModel",
+      "type": "function",
+      "name": "sumActualTokensByModelGroupAndModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "按模型组与请求模型统计指定窗口内的加权令牌量。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        91,
+        99
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByOwnerGroupedByModel",
+      "type": "function",
+      "name": "sumActualTokensByOwnerGroupedByModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "查询所有者名下模型组的模型用量聚合，并转换为领域结果。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        101,
+        114
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumTokens",
+      "type": "function",
+      "name": "sumTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "summary": "按领域过滤条件汇总令牌明细，并转换为统一业务用量。",
+      "tags": [
+        "业务方法",
+        "用量仓储",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        116,
+        120
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "type": "file",
+      "name": "UsageRecordPersistenceConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "映射用量领域模型与持久化对象，兼容历史记录缺失状态、协议、时间和错误字段，并规范化令牌明细。",
+      "tags": [
+        "持久化转换",
+        "历史兼容",
+        "令牌规范化"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:UsageRecordPersistenceConverter",
+      "type": "class",
+      "name": "UsageRecordPersistenceConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "映射用量领域模型与持久化对象，兼容历史记录缺失状态、协议、时间和错误字段，并规范化令牌明细。",
+      "tags": [
+        "持久化转换",
+        "历史兼容",
+        "令牌规范化"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        29,
+        250
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "type": "function",
+      "name": "toPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "将领域用量事实转换为数据库字段，保留身份、路由、状态、令牌与耗时。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        32,
+        63
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "根据持久化记录恢复用量事实，补全历史字段，规范化令牌计数并恢复失败诊断。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        65,
+        103
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseStatus",
+      "type": "function",
+      "name": "parseStatus",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "兼容无效或缺失状态，按错误字段推断终态，并将缺少上游路由信息的成功记录降为失败。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        105,
+        125
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseErrorType",
+      "type": "function",
+      "name": "parseErrorType",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "解析历史错误枚举，无效或空值时使用通用上游失败类型。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        127,
+        136
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:safeStartedAt",
+      "type": "function",
+      "name": "safeStartedAt",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "按开始、创建、修改时间优先级恢复起点，均缺失时回退到纪元。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        167,
+        178
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:safeEndedAt",
+      "type": "function",
+      "name": "safeEndedAt",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "从结束时间或记录耗时恢复终点，缺失或早于起点时归一到起点。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        180,
+        189
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toQueryPO",
+      "type": "function",
+      "name": "toQueryPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "将领域过滤条件和分页参数映射为数据库查询对象。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        191,
+        201
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPage",
+      "type": "function",
+      "name": "toPage",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "将数据库查询行及统计元信息映射为带角色约束的领域分页。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        210,
+        218
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toTokenBreakdown",
+      "type": "function",
+      "name": "toTokenBreakdown",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "将数据库令牌聚合结果转换为业务令牌明细与已知状态。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        220,
+        231
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:normalizedTokenBreakdown",
+      "type": "function",
+      "name": "normalizedTokenBreakdown",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "summary": "统一非负令牌明细及缓存口径，恢复与当前领域约束兼容的用量对象。",
+      "tags": [
+        "业务方法",
+        "持久化转换",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        233,
+        249
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "type": "file",
+      "name": "JdbcUsageRecordMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "使用具名参数 SQL 保存、更新和取消用量记录，执行软删除过滤分页、明细汇总与模型组维度加权用量聚合。",
+      "tags": [
+        "数据访问",
+        "用量查询",
+        "参数化查询"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "type": "class",
+      "name": "JdbcUsageRecordMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "使用具名参数 SQL 保存、更新和取消用量记录，执行软删除过滤分页、明细汇总与模型组维度加权用量聚合。",
+      "tags": [
+        "数据访问",
+        "用量查询",
+        "参数化查询"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        27,
+        308
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "以具名参数插入调用身份、路由、令牌、时间及诊断字段。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        76,
+        82
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:updateById",
+      "type": "function",
+      "name": "updateById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按用量标识更新预留记录为最终事实。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        84,
+        115
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:deleteById",
+      "type": "function",
+      "name": "deleteById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "软删除指定用量预留以取消占用。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        117,
+        122
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按用量标识查询未软删除的调用记录。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        124,
+        129
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByRequestId",
+      "type": "function",
+      "name": "selectByRequestId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按请求追踪标识查询未删除用量记录。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        131,
+        136
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByFilter",
+      "type": "function",
+      "name": "selectByFilter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "组合参数化过滤条件，按开始时间和标识倒序分页查询。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        138,
+        151
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:countByFilter",
+      "type": "function",
+      "name": "countByFilter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "使用与明细查询一致的过滤条件统计记录总数。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        153,
+        158
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTotalTokensByApiCredential",
+      "type": "function",
+      "name": "sumTotalTokensByApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "统计密钥未删除记录的总令牌合计。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        160,
+        168
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByApiCredential",
+      "type": "function",
+      "name": "sumActualTokensByApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按公共权重表达式统计密钥实际计费令牌量，纳入未删除预留。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        170,
+        179
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByModelGroupAndModel",
+      "type": "function",
+      "name": "sumActualTokensByModelGroupAndModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "关联密钥所属模型组，按请求模型和半开时间窗口聚合加权令牌。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        181,
+        198
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByOwnerGroupedByModel",
+      "type": "function",
+      "name": "sumActualTokensByOwnerGroupedByModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "关联所有者密钥，按模型组与请求模型聚合时间窗口内加权用量。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        200,
+        221
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTokensByFilter",
+      "type": "function",
+      "name": "sumTokensByFilter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按筛选条件汇总各类令牌及用量是否已知标记。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        223,
+        235
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:whereClause",
+      "type": "function",
+      "name": "whereClause",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "以具名参数拼接用户、密钥、渠道、模型、协议及半开时间范围过滤，并统一排除软删除。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        237,
+        269
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "将用量持久化对象展开为数据库具名参数及审计字段。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        271,
+        301
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "type": "file",
+      "name": "UsageRecordMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "summary": "定义用量记录写入、预留更新取消、筛选查询、计数及原始和加权令牌汇总的数据访问接口。",
+      "tags": [
+        "数据访问接口",
+        "额度预留",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java:UsageRecordMapper",
+      "type": "class",
+      "name": "UsageRecordMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "summary": "定义用量记录写入、预留更新取消、筛选查询、计数及原始和加权令牌汇总的数据访问接口。",
+      "tags": [
+        "数据访问接口",
+        "额度预留",
+        "用量统计"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        24
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "type": "file",
+      "name": "ModelGroupModelUsagePO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "summary": "保存按模型组与请求模型分组的加权令牌聚合结果。",
+      "tags": [
+        "聚合对象",
+        "模型组",
+        "令牌用量"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java:ModelGroupModelUsagePO",
+      "type": "class",
+      "name": "ModelGroupModelUsagePO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "summary": "保存按模型组与请求模型分组的加权令牌聚合结果。",
+      "tags": [
+        "聚合对象",
+        "模型组",
+        "令牌用量"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        17
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:UsageRecordRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:UsageRecordRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:cancelReservation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:cancelReservation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:findByRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:findByRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:query",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:query",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumTotalTokensByApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumTotalTokensByApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByModelGroupAndModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByModelGroupAndModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByOwnerGroupedByModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumActualTokensByOwnerGroupedByModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:sumTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:UsageRecordPersistenceConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:UsageRecordPersistenceConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseErrorType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:safeStartedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:safeEndedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toQueryPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toQueryPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toTokenBreakdown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toTokenBreakdown",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:normalizedTokenBreakdown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:updateById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:updateById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:deleteById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:deleteById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByFilter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:countByFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:countByFilter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTotalTokensByApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTotalTokensByApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByModelGroupAndModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByModelGroupAndModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByOwnerGroupedByModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByOwnerGroupedByModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTokensByFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTokensByFilter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:whereClause",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java:UsageRecordMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java:UsageRecordMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java:ModelGroupModelUsagePO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java:ModelGroupModelUsagePO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:id",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:requestId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:userAccountId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:apiCredentialId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:requestedModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:clientIp",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:upstreamModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:requestProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:upstreamProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:providerChannelId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:status",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:tokenUsage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:streaming",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:startedAt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:endedAt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:duration",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:firstTokenMillis",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:errorDiagnostic",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPO",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java:createdAt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseStatus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseErrorType",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:safeStartedAt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:safeEndedAt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:normalizedTokenBreakdown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java:between",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:parseStatus",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java:parseExternal",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toPage",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toTokenBreakdown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toTokenBreakdown",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:toTokenBreakdown",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverter.java:normalizedTokenBreakdown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:insert",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:updateById",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:selectByFilter",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:whereClause",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:countByFilter",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:whereClause",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByModelGroupAndModel",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java:withPrefix",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumActualTokensByOwnerGroupedByModel",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java:withPrefix",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:sumTokensByFilter",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:whereClause",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/UsageRecordRepositoryImpl.java:UsageRecordRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java:UsageRecordRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/UsageRecordMapper.java:UsageRecordMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ParsedGatewayRequest.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,1409 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "type": "file",
+      "name": "RenameApiCredentialRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "summary": "承载密钥重命名请求及名称参数约束。",
+      "tags": [
+        "请求模型",
+        "密钥命名",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java:RenameApiCredentialRequest",
+      "type": "class",
+      "name": "RenameApiCredentialRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "summary": "承载密钥重命名请求及名称参数约束。",
+      "tags": [
+        "请求模型",
+        "密钥命名",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "type": "file",
+      "name": "RevealApiCredentialSecretResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "summary": "返回指定密钥的标识、预览和经授权揭示的明文材料。",
+      "tags": [
+        "响应模型",
+        "密钥揭示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java:RevealApiCredentialSecretResponse",
+      "type": "class",
+      "name": "RevealApiCredentialSecretResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "summary": "返回指定密钥的标识、预览和经授权揭示的明文材料。",
+      "tags": [
+        "响应模型",
+        "密钥揭示",
+        "密钥材料"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        17
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "type": "file",
+      "name": "GatewayApiKeyHashHelper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "summary": "从 Authorization 或 x-api-key 提取网关密钥，优先选择 Bearer 凭据并调用统一哈希算法。",
+      "tags": [
+        "网关认证",
+        "密钥提取",
+        "哈希计算"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:GatewayApiKeyHashHelper",
+      "type": "class",
+      "name": "GatewayApiKeyHashHelper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "summary": "从 Authorization 或 x-api-key 提取网关密钥，优先选择 Bearer 凭据并调用统一哈希算法。",
+      "tags": [
+        "网关认证",
+        "密钥提取",
+        "哈希计算"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashGatewayApiKey",
+      "type": "function",
+      "name": "hashGatewayApiKey",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "summary": "提取受支持请求头中的网关密钥并计算统一密钥哈希。",
+      "tags": [
+        "业务方法",
+        "网关认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashBearerToken",
+      "type": "function",
+      "name": "hashBearerToken",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "summary": "通过统一提取逻辑计算 Authorization Bearer 密钥哈希。",
+      "tags": [
+        "业务方法",
+        "网关认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        22
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractGatewayApiKey",
+      "type": "function",
+      "name": "extractGatewayApiKey",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "summary": "优先使用 Bearer 密钥，否则使用非空 x-api-key，请求缺少密钥时拒绝。",
+      "tags": [
+        "业务方法",
+        "网关认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        24,
+        33
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractBearerTokenOrNull",
+      "type": "function",
+      "name": "extractBearerTokenOrNull",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "summary": "大小写无关地识别 Bearer 前缀并提取非空密钥，对无效头格式抛出参数错误。",
+      "tags": [
+        "业务方法",
+        "网关认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        35,
+        48
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "type": "file",
+      "name": "GatewayProtocolController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "提供模型列表及 Messages、Responses、Chat Completions 和图像操作的兼容入口。通过契约解析、图像桥接和统一命令组织同步或流式网关调用。",
+      "tags": [
+        "网关入口",
+        "多协议适配",
+        "流式响应"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:GatewayProtocolController",
+      "type": "class",
+      "name": "GatewayProtocolController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "提供模型列表及 Messages、Responses、Chat Completions 和图像操作的兼容入口。通过契约解析、图像桥接和统一命令组织同步或流式网关调用。",
+      "tags": [
+        "网关入口",
+        "多协议适配",
+        "流式响应"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        36,
+        296
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:listModels",
+      "type": "function",
+      "name": "listModels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "认证密钥后，将其模型白名单与当前渠道支持模型求交集并排序，返回兼容模型列表。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        78,
+        99
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeMessages",
+      "type": "function",
+      "name": "claudeMessages",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "将 Messages 请求适配为统一网关调用，保留请求头、密钥和请求标识。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        101,
+        115
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeCountTokens",
+      "type": "function",
+      "name": "claudeCountTokens",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "将令牌计数端点适配为相应协议操作并交由统一调用链处理。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        117,
+        131
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiResponses",
+      "type": "function",
+      "name": "openaiResponses",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "先尝试 Responses 图像桥接，未被桥接处理时交给统一 Responses 调用链，兼容带和不带版本前缀的端点。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        137,
+        155
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiChatCompletions",
+      "type": "function",
+      "name": "openaiChatCompletions",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "将 Chat Completions 请求交给统一协议调用链。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        157,
+        171
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageGenerations",
+      "type": "function",
+      "name": "openaiImageGenerations",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "将图像生成请求适配为原生图像协议操作。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        173,
+        187
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageEdits",
+      "type": "function",
+      "name": "openaiImageEdits",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "读取图像编辑表单并封装为图像协议操作。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        193,
+        206
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageVariations",
+      "type": "function",
+      "name": "openaiImageVariations",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "读取图像变体表单并封装为图像协议操作。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        208,
+        221
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "function",
+      "name": "invokeProtocol",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "按可执行契约提取请求事实，生成应用命令并选择同步响应或流式响应路径。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        232,
+        267
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:logAcceptedRequest",
+      "type": "function",
+      "name": "logAcceptedRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "summary": "记录已接受请求的标识、协议、模型和流式状态。",
+      "tags": [
+        "业务方法",
+        "网关入口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        285,
+        294
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "type": "file",
+      "name": "ApiCredentialApplicationServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "验证密钥白名单、所有者删除、累计与当日用量展示，以及模型组日限额对应的限流状态。",
+      "tags": [
+        "密钥服务测试",
+        "用量统计",
+        "行为验证"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:ApiCredentialApplicationServiceTest",
+      "type": "class",
+      "name": "ApiCredentialApplicationServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "验证密钥白名单、所有者删除、累计与当日用量展示，以及模型组日限额对应的限流状态。",
+      "tags": [
+        "密钥服务测试",
+        "用量统计",
+        "行为验证"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        39,
+        203
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_credential_whitelist_when_api_key_is_active",
+      "type": "function",
+      "name": "test_returns_credential_whitelist_when_api_key_is_active",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "密钥启用且可用时，验证查询返回该密钥模型白名单。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        41,
+        69
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_soft_deletes_credential_when_owner_requests_deletion",
+      "type": "function",
+      "name": "test_soft_deletes_credential_when_owner_requests_deletion",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "密钥所有者请求删除时，验证执行软删除并保留审计记录。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        71,
+        106
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_actual_and_total_tokens_when_listing_credentials",
+      "type": "function",
+      "name": "test_returns_actual_and_total_tokens_when_listing_credentials",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "查询密钥列表时，验证同时返回加权计费用量和原始令牌合计。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        108,
+        153
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "type": "function",
+      "name": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "模型组日限额耗尽时，验证密钥视图将相应模型标记为受限。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        155,
+        202
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "type": "file",
+      "name": "ModelGroupApplicationServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "验证模型组权限与渠道支持的交集、动态可用性、配置保留、日限额展示及绑定密钥时的删除约束。",
+      "tags": [
+        "模型组测试",
+        "权限交集",
+        "行为验证"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:ModelGroupApplicationServiceTest",
+      "type": "class",
+      "name": "ModelGroupApplicationServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "验证模型组权限与渠道支持的交集、动态可用性、配置保留、日限额展示及绑定密钥时的删除约束。",
+      "tags": [
+        "模型组测试",
+        "权限交集",
+        "行为验证"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        34,
+        172
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_intersects_permissions_when_provider_also_supports_models_outside_group",
+      "type": "function",
+      "name": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道支持白名单外模型时，验证模型组有效模型仍取权限交集。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        58
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "type": "function",
+      "name": "test_returns_empty_support_when_group_whitelist_is_empty",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "模型组白名单为空时，验证有效支持模型为空。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        60,
+        72
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_updates_effective_group_support_when_provider_availability_changes",
+      "type": "function",
+      "name": "test_updates_effective_group_support_when_provider_availability_changes",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道可用模型发生变化时，验证模型组有效支持同步变化。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        74,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_preserves_saved_configuration_when_provider_support_disappears",
+      "type": "function",
+      "name": "test_preserves_saved_configuration_when_provider_support_disappears",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道不再支持配置模型时，验证模型组原始白名单和限额配置仍被保留。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        91,
+        106
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_serializes_no_effective_models_when_group_has_no_provider_support",
+      "type": "function",
+      "name": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "模型组没有可用渠道支持时，验证响应的有效模型集合为空。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        108,
+        120
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_keeps_daily_limit_status_when_provider_is_unavailable",
+      "type": "function",
+      "name": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道不可用时，验证模型组日限额及受限状态仍正常展示。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        122,
+        134
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_rejects_deletion_when_group_has_bound_credentials",
+      "type": "function",
+      "name": "test_rejects_deletion_when_group_has_bound_credentials",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "模型组仍绑定密钥时，验证删除操作被拒绝。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        141,
+        171
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java:RenameApiCredentialRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java:RenameApiCredentialRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java:RevealApiCredentialSecretResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java:RevealApiCredentialSecretResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:GatewayApiKeyHashHelper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:GatewayApiKeyHashHelper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashGatewayApiKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashGatewayApiKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashBearerToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashBearerToken",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractGatewayApiKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractBearerTokenOrNull",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:GatewayProtocolController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:GatewayProtocolController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:listModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:listModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeMessages",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeCountTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeCountTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiResponses",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiChatCompletions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiChatCompletions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageGenerations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageGenerations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageEdits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageEdits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageVariations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageVariations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:logAcceptedRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolcontract/acl/ExecutableProtocolContract.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:ApiCredentialApplicationServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_credential_whitelist_when_api_key_is_active",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_soft_deletes_credential_when_owner_requests_deletion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_actual_and_total_tokens_when_listing_credentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:ModelGroupApplicationServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_intersects_permissions_when_provider_also_supports_models_outside_group",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_updates_effective_group_support_when_provider_availability_changes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_preserves_saved_configuration_when_provider_support_disappears",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_serializes_no_effective_models_when_group_has_no_provider_support",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_keeps_daily_limit_status_when_provider_is_unavailable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_rejects_deletion_when_group_has_bound_credentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/converter/ModelGroupHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashGatewayApiKey",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractGatewayApiKey",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashGatewayApiKey",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:hash",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashBearerToken",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:hashGatewayApiKey",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractGatewayApiKey",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java:extractBearerTokenOrNull",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:listModels",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForModelListing",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeMessages",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:claudeCountTokens",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiResponses",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiChatCompletions",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageGenerations",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageEdits",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:openaiImageVariations",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:logAcceptedRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java:invokeProtocol",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java:invokeOutcome",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_actual_and_total_tokens_when_listing_credentials",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayApiKeyHashHelper.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "id": "service:backend/Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "backend/Dockerfile",
+      "summary": "使用 Maven 构建后端制品并以独立 JRE 镜像运行 Spring Boot 服务，对外暴露 8080 端口。",
+      "tags": [
+        "容器构建",
+        "多阶段构建",
+        "后端部署"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:backend/Dockerfile:backend-build",
+      "type": "service",
+      "name": "backend-build",
+      "filePath": "backend/Dockerfile",
+      "summary": "编译并打包后端应用。",
+      "tags": [
+        "容器阶段",
+        "构建阶段"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        4,
+        9
+      ]
+    },
+    {
+      "id": "service:backend/Dockerfile:${JRE_IMAGE}",
+      "type": "service",
+      "name": "${JRE_IMAGE}",
+      "filePath": "backend/Dockerfile",
+      "summary": "运行已构建的后端服务。",
+      "tags": [
+        "容器阶段",
+        "运行阶段"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        15
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:backend/Dockerfile",
+      "target": "service:backend/Dockerfile:backend-build",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:backend/Dockerfile",
+      "target": "service:backend/Dockerfile:${JRE_IMAGE}",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:backend/Dockerfile",
+      "target": "config:backend/pom.xml",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    }
+  ]
+}

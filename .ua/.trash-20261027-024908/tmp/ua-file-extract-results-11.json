@@ -1,0 +1,4251 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 30,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 30,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 30,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/channel-model-support/api/channelModelSupportApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "encodeId",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "fetchProviderModels",
+          "startLine": 17,
+          "endLine": 22,
+          "params": [
+            "providerChannelId",
+            "params"
+          ]
+        },
+        {
+          "name": "fetchProviderModelPreview",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "fetchProviderChannelModelPreview",
+          "startLine": 30,
+          "endLine": 35,
+          "params": [
+            "providerChannelId",
+            "params"
+          ]
+        },
+        {
+          "name": "batchUpsertChannelModels",
+          "startLine": 37,
+          "endLine": 42,
+          "params": [
+            "providerChannelId",
+            "params"
+          ]
+        },
+        {
+          "name": "upsertChannelModel",
+          "startLine": 44,
+          "endLine": 53,
+          "params": [
+            "providerChannelId",
+            "channelModelSupportId",
+            "params"
+          ]
+        },
+        {
+          "name": "removeChannelModel",
+          "startLine": 55,
+          "endLine": 60,
+          "params": [
+            "providerChannelId",
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "fetchProviderModels",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "fetchProviderModelPreview",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "fetchProviderChannelModelPreview",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "batchUpsertChannelModels",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "upsertChannelModel",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "removeChannelModel",
+          "line": 55,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "encodeId",
+          "callee": "encodeURIComponent",
+          "lineNumber": 14
+        },
+        {
+          "caller": "encodeId",
+          "callee": "String",
+          "lineNumber": 14
+        },
+        {
+          "caller": "fetchProviderModels",
+          "callee": "apiClient.post",
+          "lineNumber": 21
+        },
+        {
+          "caller": "fetchProviderModels",
+          "callee": "encodeId",
+          "lineNumber": 21
+        },
+        {
+          "caller": "fetchProviderModelPreview",
+          "callee": "apiClient.post",
+          "lineNumber": 27
+        },
+        {
+          "caller": "fetchProviderChannelModelPreview",
+          "callee": "apiClient.post",
+          "lineNumber": 34
+        },
+        {
+          "caller": "fetchProviderChannelModelPreview",
+          "callee": "encodeId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "batchUpsertChannelModels",
+          "callee": "apiClient.put",
+          "lineNumber": 41
+        },
+        {
+          "caller": "batchUpsertChannelModels",
+          "callee": "encodeId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "apiClient.put",
+          "lineNumber": 49
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "encodeId",
+          "lineNumber": 50
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "encodeId",
+          "lineNumber": 50
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "apiClient.delete",
+          "lineNumber": 59
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "encodeId",
+          "lineNumber": 59
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/channel-model-support/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 37,
+      "exports": [
+        {
+          "name": "ChannelModelSupportResponse",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderModelPreviewResponse",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/channel-model-support/ui/ChannelModelSupportRow.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "ChannelModelSupportRow",
+          "startLine": 16,
+          "endLine": 35,
+          "params": [
+            "{ model, editing = false, actions }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelSupportRow",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelSupportRow",
+          "callee": "new Date(model.rateLimitResetAt).toLocaleString",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/channel-model-support/ui/ModelPriorityBadge.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "ModelPriorityBadge",
+          "startLine": 8,
+          "endLine": 15,
+          "params": [
+            "{ priority }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelPriorityBadge",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/channel-model-support/ui/ModelSourceTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "ModelSourceTag",
+          "startLine": 8,
+          "endLine": 15,
+          "params": [
+            "{ source }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelSourceTag",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "normalizeNumberMap",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "source"
+          ]
+        },
+        {
+          "name": "normalizeGroup",
+          "startLine": 22,
+          "endLine": 35,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "listModelGroups",
+          "startLine": 37,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "createModelGroup",
+          "startLine": 42,
+          "endLine": 45,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "updateModelGroup",
+          "startLine": 47,
+          "endLine": 50,
+          "params": [
+            "id",
+            "params"
+          ]
+        },
+        {
+          "name": "deleteModelGroup",
+          "startLine": 52,
+          "endLine": 54,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listModelGroups",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "createModelGroup",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "updateModelGroup",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "deleteModelGroup",
+          "line": 52,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Object.fromEntries",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Object.entries(source ?? {}).map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Object.entries",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Number",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeGroup",
+          "callee": "String",
+          "lineNumber": 24
+        },
+        {
+          "caller": "normalizeGroup",
+          "callee": "normalizeNumberMap",
+          "lineNumber": 28
+        },
+        {
+          "caller": "normalizeGroup",
+          "callee": "normalizeNumberMap",
+          "lineNumber": 29
+        },
+        {
+          "caller": "listModelGroups",
+          "callee": "await apiClient.get",
+          "lineNumber": 38
+        },
+        {
+          "caller": "listModelGroups",
+          "callee": "(response.data.groups ?? []).map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "createModelGroup",
+          "callee": "await apiClient.post",
+          "lineNumber": 43
+        },
+        {
+          "caller": "createModelGroup",
+          "callee": "normalizeGroup",
+          "lineNumber": 44
+        },
+        {
+          "caller": "updateModelGroup",
+          "callee": "await apiClient.put",
+          "lineNumber": 48
+        },
+        {
+          "caller": "updateModelGroup",
+          "callee": "encodeURIComponent",
+          "lineNumber": 48
+        },
+        {
+          "caller": "updateModelGroup",
+          "callee": "normalizeGroup",
+          "lineNumber": 49
+        },
+        {
+          "caller": "deleteModelGroup",
+          "callee": "apiClient.delete",
+          "lineNumber": 53
+        },
+        {
+          "caller": "deleteModelGroup",
+          "callee": "encodeURIComponent",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/model-group/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 31,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/model-group/model/useModelGroups.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "useModelGroups",
+          "startLine": 14,
+          "endLine": 24,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MODEL_GROUPS_QUERY_KEY",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "useModelGroups",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useModelGroups",
+          "callee": "useQuery",
+          "lineNumber": 15
+        },
+        {
+          "caller": "useModelGroups",
+          "callee": "listModelGroups",
+          "lineNumber": 17
+        },
+        {
+          "caller": "useModelGroups",
+          "callee": "groups.map",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-channel/api/providerChannelApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "encodeId",
+          "startLine": 11,
+          "endLine": 13,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "listProviderChannels",
+          "startLine": 15,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "createProviderChannel",
+          "startLine": 19,
+          "endLine": 23,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "updateProviderChannel",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "providerChannelId",
+            "params"
+          ]
+        },
+        {
+          "name": "enableProviderChannel",
+          "startLine": 32,
+          "endLine": 34,
+          "params": [
+            "providerChannelId"
+          ]
+        },
+        {
+          "name": "disableProviderChannel",
+          "startLine": 36,
+          "endLine": 38,
+          "params": [
+            "providerChannelId"
+          ]
+        },
+        {
+          "name": "deleteProviderChannel",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "providerChannelId"
+          ]
+        },
+        {
+          "name": "resetAllProviderChannelRateLimits",
+          "startLine": 44,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "listProviderChannels",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "createProviderChannel",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "updateProviderChannel",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "enableProviderChannel",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "disableProviderChannel",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "deleteProviderChannel",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "resetAllProviderChannelRateLimits",
+          "line": 44,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "encodeId",
+          "callee": "encodeURIComponent",
+          "lineNumber": 12
+        },
+        {
+          "caller": "encodeId",
+          "callee": "String",
+          "lineNumber": 12
+        },
+        {
+          "caller": "listProviderChannels",
+          "callee": "apiClient.get",
+          "lineNumber": 16
+        },
+        {
+          "caller": "createProviderChannel",
+          "callee": "apiClient.post",
+          "lineNumber": 22
+        },
+        {
+          "caller": "updateProviderChannel",
+          "callee": "apiClient.put",
+          "lineNumber": 29
+        },
+        {
+          "caller": "updateProviderChannel",
+          "callee": "encodeId",
+          "lineNumber": 29
+        },
+        {
+          "caller": "enableProviderChannel",
+          "callee": "apiClient.patch",
+          "lineNumber": 33
+        },
+        {
+          "caller": "enableProviderChannel",
+          "callee": "encodeId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "disableProviderChannel",
+          "callee": "apiClient.patch",
+          "lineNumber": 37
+        },
+        {
+          "caller": "disableProviderChannel",
+          "callee": "encodeId",
+          "lineNumber": 37
+        },
+        {
+          "caller": "deleteProviderChannel",
+          "callee": "apiClient.delete",
+          "lineNumber": 41
+        },
+        {
+          "caller": "deleteProviderChannel",
+          "callee": "encodeId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "resetAllProviderChannelRateLimits",
+          "callee": "apiClient.patch",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-channel/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 27,
+      "exports": [
+        {
+          "name": "ProviderChannelListResponse",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelResponse",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolMappingResponse",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-channel/model/useProviderChannels.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "useProviderChannels",
+          "startLine": 13,
+          "endLine": 31,
+          "params": [
+            "options"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "providerChannelQueryKeys",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "useProviderChannels",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useProviderChannels",
+          "callee": "useQueryClient",
+          "lineNumber": 14
+        },
+        {
+          "caller": "useProviderChannels",
+          "callee": "useQuery",
+          "lineNumber": 15
+        },
+        {
+          "caller": "useProviderChannels",
+          "callee": "useMemo",
+          "lineNumber": 21
+        },
+        {
+          "caller": "useProviderChannels",
+          "callee": "channels.map",
+          "lineNumber": 22
+        },
+        {
+          "caller": "invalidateProviderChannels",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-channel/ui/ProtocolTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "ProtocolTag",
+          "startLine": 11,
+          "endLine": 18,
+          "params": [
+            "{ protocol, compact = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolTag",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolTag",
+          "callee": "getProtocolMeta",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ProtocolTag",
+          "callee": "meta.label.replace",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-channel/ui/ProviderChannelRow.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 118,
+      "nonEmptyLines": 111,
+      "functions": [
+        {
+          "name": "modelSummary",
+          "startLine": 18,
+          "endLine": 25,
+          "params": [
+            "models"
+          ]
+        },
+        {
+          "name": "modelTooltip",
+          "startLine": 27,
+          "endLine": 32,
+          "params": [
+            "models"
+          ]
+        },
+        {
+          "name": "rateLimitedModelTooltip",
+          "startLine": 34,
+          "endLine": 39,
+          "params": [
+            "models"
+          ]
+        },
+        {
+          "name": "formatRateLimitResetAt",
+          "startLine": 41,
+          "endLine": 52,
+          "params": [
+            "model"
+          ]
+        },
+        {
+          "name": "ProviderChannelRow",
+          "startLine": 54,
+          "endLine": 118,
+          "params": [
+            "{ channel, actions, expanded = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelRow",
+          "line": 54,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "modelSummary",
+          "callee": "models.map",
+          "lineNumber": 22
+        },
+        {
+          "caller": "modelSummary",
+          "callee": "names.slice(0, 3).join",
+          "lineNumber": 23
+        },
+        {
+          "caller": "modelSummary",
+          "callee": "names.slice",
+          "lineNumber": 23
+        },
+        {
+          "caller": "modelTooltip",
+          "callee": "models.map((model) => `${model.requestedModel} → ${model.upstreamModel} (${model.upstreamProtocol}, 排序 ${model.priority})`).join",
+          "lineNumber": 31
+        },
+        {
+          "caller": "modelTooltip",
+          "callee": "models.map",
+          "lineNumber": 31
+        },
+        {
+          "caller": "rateLimitedModelTooltip",
+          "callee": "models.map((model) => {\n    const resetAt = model.rateLimitResetAt ? new Date(model.rateLimitResetAt).toLocaleString('zh-CN') : '未知时间';\n    return `${model.requestedModel}（上游 ${model.upstreamModel}）限流至 ${resetAt}`;\n  }).join",
+          "lineNumber": 35
+        },
+        {
+          "caller": "rateLimitedModelTooltip",
+          "callee": "models.map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "rateLimitedModelTooltip",
+          "callee": "new Date(model.rateLimitResetAt).toLocaleString",
+          "lineNumber": 36
+        },
+        {
+          "caller": "formatRateLimitResetAt",
+          "callee": "new Date(model.rateLimitResetAt).toLocaleString",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "channel.supportedModels.filter",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "enabledModels.filter",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "channel.supportedModels.filter",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "String",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "modelTooltip",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "modelSummary",
+          "lineNumber": 79
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "modelTooltip",
+          "lineNumber": 81
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "modelSummary",
+          "lineNumber": 82
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "rateLimitedModels.map",
+          "lineNumber": 87
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "rateLimitedModelTooltip",
+          "lineNumber": 88
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "formatRateLimitResetAt",
+          "lineNumber": 90
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "mappings.map",
+          "lineNumber": 98
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "getProtocolMeta",
+          "lineNumber": 100
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "formatProtocolDirection",
+          "lineNumber": 101
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "channel.supportedProtocols.map",
+          "lineNumber": 104
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "rateLimitedModels.map",
+          "lineNumber": 108
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "rateLimitedModelTooltip",
+          "lineNumber": 109
+        },
+        {
+          "caller": "ProviderChannelRow",
+          "callee": "formatRateLimitResetAt",
+          "lineNumber": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-channel/ui/ProviderChannelStatusTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "ProviderChannelStatusTag",
+          "startLine": 8,
+          "endLine": 19,
+          "params": [
+            "{ status }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelStatusTag",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-model/api/providerModelApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "functions": [
+        {
+          "name": "listProviderModels",
+          "startLine": 4,
+          "endLine": 6,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "listProviderModels",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listProviderModels",
+          "callee": "apiClient.get",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "useProviderModels",
+          "startLine": 15,
+          "endLine": 34,
+          "params": [
+            "options"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "providerModelQueryKeys",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "useProviderModels",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useProviderModels",
+          "callee": "useQuery",
+          "lineNumber": 16
+        },
+        {
+          "caller": "useProviderModels",
+          "callee": "listProviderModels",
+          "lineNumber": 19
+        },
+        {
+          "caller": "useProviderModels",
+          "callee": "Array.isArray",
+          "lineNumber": 20
+        },
+        {
+          "caller": "useProviderModels",
+          "callee": "useMemo",
+          "lineNumber": 25
+        },
+        {
+          "caller": "useProviderModels",
+          "callee": "models.map",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-channel-models/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "useChannelModelMutations",
+          "startLine": 8,
+          "endLine": 39,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useChannelModelMutations",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 9
+        },
+        {
+          "caller": "invalidate",
+          "callee": "Promise.all",
+          "lineNumber": 11
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 12
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 13
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 14
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "useMutation",
+          "lineNumber": 18
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "fetchProviderModels",
+          "lineNumber": 19
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "useMutation",
+          "lineNumber": 22
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "fetchProviderChannelModelPreview",
+          "lineNumber": 23
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "useMutation",
+          "lineNumber": 25
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "batchUpsertChannelModels",
+          "lineNumber": 26
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "useMutation",
+          "lineNumber": 29
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "upsertChannelModel",
+          "lineNumber": 30
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "useMutation",
+          "lineNumber": 33
+        },
+        {
+          "caller": "useChannelModelMutations",
+          "callee": "removeChannelModel",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 83,
+      "nonEmptyLines": 75,
+      "functions": [
+        {
+          "name": "ChannelModelEditorTable",
+          "startLine": 21,
+          "endLine": 83,
+          "params": [
+            "{ channel, models, onChanged }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelEditorTable",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "useChannelModelMutations",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "useState",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "useState",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "useMemo",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "Array.from",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "(channel.protocolMappings ?? []).map",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "PROTOCOL_OPTIONS.filter",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "protocols.includes",
+          "lineNumber": 30
+        },
+        {
+          "caller": "updateDraft",
+          "callee": "setDraft",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.warning",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleSave",
+          "callee": "upsertMutation.mutateAsync",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleSave",
+          "callee": "Number",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleSave",
+          "callee": "onChanged",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleSave",
+          "callee": "setEditingId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleSave",
+          "callee": "setDraft",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "removeMutation.mutateAsync",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "onChanged",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "updateDraft",
+          "lineNumber": 59
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "updateDraft",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "updateDraft",
+          "lineNumber": 61
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "updateDraft",
+          "lineNumber": 63
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "Boolean",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "updateDraft",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "updateDraft",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "setEditingId",
+          "lineNumber": 70
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "setEditingId",
+          "lineNumber": 73
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "setDraft",
+          "lineNumber": 73
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "Boolean",
+          "lineNumber": 73
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "handleDelete",
+          "lineNumber": 73
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "setEditingId",
+          "lineNumber": 79
+        },
+        {
+          "caller": "ChannelModelEditorTable",
+          "callee": "setDraft",
+          "lineNumber": 79
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 179,
+      "nonEmptyLines": 168,
+      "functions": [
+        {
+          "name": "ChannelModelFetchModal",
+          "startLine": 24,
+          "endLine": 175,
+          "params": [
+            "{ open, channelId, channelName, models, onClose, onFetched }"
+          ]
+        },
+        {
+          "name": "modelKey",
+          "startLine": 177,
+          "endLine": 179,
+          "params": [
+            "model"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelFetchModal",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "App.useApp",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useState",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useState",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useState",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useState",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useChannelModelMutations",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useEffect",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setPreviewModels",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setDefaultPriority",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setPreviewError",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "useMemo",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "models.map",
+          "lineNumber": 42
+        },
+        {
+          "caller": "findExisting",
+          "callee": "models.find",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "message.warning",
+          "lineNumber": 50
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "setPreviewError",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "previewMutation.mutateAsync",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "response.data.models.map",
+          "lineNumber": 56
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "findExisting",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "setPreviewModels",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "merged.filter((model) => findExisting(model)?.status === 'ENABLED').map",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "merged.filter",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "findExisting",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "message.success",
+          "lineNumber": 62
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 64
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "setPreviewError",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handlePreview",
+          "callee": "message.error",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handleSave",
+          "callee": "previewModels.filter",
+          "lineNumber": 71
+        },
+        {
+          "caller": "handleSave",
+          "callee": "selectedModelIds.includes",
+          "lineNumber": 71
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.warning",
+          "lineNumber": 73
+        },
+        {
+          "caller": "handleSave",
+          "callee": "batchUpsertMutation.mutateAsync",
+          "lineNumber": 77
+        },
+        {
+          "caller": "handleSave",
+          "callee": "selectedModels.map",
+          "lineNumber": 81
+        },
+        {
+          "caller": "handleSave",
+          "callee": "findExisting",
+          "lineNumber": 82
+        },
+        {
+          "caller": "handleSave",
+          "callee": "Boolean",
+          "lineNumber": 89
+        },
+        {
+          "caller": "handleSave",
+          "callee": "onFetched",
+          "lineNumber": 95
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.success",
+          "lineNumber": 96
+        },
+        {
+          "caller": "handleSave",
+          "callee": "onClose",
+          "lineNumber": 97
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.error",
+          "lineNumber": 99
+        },
+        {
+          "caller": "handleSave",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 99
+        },
+        {
+          "caller": "updatePreviewModel",
+          "callee": "setPreviewModels",
+          "lineNumber": 104
+        },
+        {
+          "caller": "updatePreviewModel",
+          "callee": "current.map",
+          "lineNumber": 104
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "existingKeys.has",
+          "lineNumber": 115
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "modelKey",
+          "lineNumber": 115
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "Boolean",
+          "lineNumber": 124
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "updatePreviewModel",
+          "lineNumber": 127
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "updatePreviewModel",
+          "lineNumber": 135
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setDefaultPriority",
+          "lineNumber": 151
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "previewModels.map",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ChannelModelFetchModal",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 166
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 396,
+      "nonEmptyLines": 376,
+      "functions": [
+        {
+          "name": "ChannelModelMappingManagementPanel",
+          "startLine": 40,
+          "endLine": 376,
+          "params": []
+        },
+        {
+          "name": "flattenModelMappings",
+          "startLine": 378,
+          "endLine": 384,
+          "params": [
+            "channels"
+          ]
+        },
+        {
+          "name": "getUpstreamProtocolOptions",
+          "startLine": 386,
+          "endLine": 392,
+          "params": [
+            "channel"
+          ]
+        },
+        {
+          "name": "formatTime",
+          "startLine": 394,
+          "endLine": 396,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelMappingManagementPanel",
+          "line": 40,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "App.useApp",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useProviderChannels",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useChannelModelMutations",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "Form.useForm",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "Form.useWatch",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 53
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useState",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useMemo",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "flattenModelMappings",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useMemo",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "Array.from(new Set(rows.map((row) => row.model.upstreamProtocol))).filter",
+          "lineNumber": 59
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "Array.from",
+          "lineNumber": 59
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "rows.map",
+          "lineNumber": 59
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "protocols.map",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "getProtocolMeta",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useMemo",
+          "lineNumber": 62
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "rows.filter",
+          "lineNumber": 62
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "search.trim().toLowerCase",
+          "lineNumber": 63
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "search.trim",
+          "lineNumber": 63
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "[\n      row.channel.name,\n      row.channel.host,\n      row.model.requestedModel,\n      row.model.upstreamModel,\n      row.model.upstreamProtocol,\n      row.model.source,\n      row.model.status,\n    ].join(' ').toLowerCase",
+          "lineNumber": 64
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "[\n      row.channel.name,\n      row.channel.host,\n      row.model.requestedModel,\n      row.model.upstreamModel,\n      row.model.upstreamProtocol,\n      row.model.source,\n      row.model.status,\n    ].join",
+          "lineNumber": 64
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "text.includes",
+          "lineNumber": 73
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "sourceChannels.find",
+          "lineNumber": 97
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "sourceChannels.find",
+          "lineNumber": 98
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "useMemo",
+          "lineNumber": 99
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "getUpstreamProtocolOptions",
+          "lineNumber": 99
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "setLocalChannels",
+          "lineNumber": 102
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "next.some",
+          "lineNumber": 104
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "next.map",
+          "lineNumber": 105
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "refetch",
+          "lineNumber": 107
+        },
+        {
+          "caller": "handleRefresh",
+          "callee": "setLocalChannels",
+          "lineNumber": 111
+        },
+        {
+          "caller": "handleRefresh",
+          "callee": "refetch",
+          "lineNumber": 112
+        },
+        {
+          "caller": "openCreateModal",
+          "callee": "setModal",
+          "lineNumber": 117
+        },
+        {
+          "caller": "openCreateModal",
+          "callee": "form.setFieldsValue",
+          "lineNumber": 118
+        },
+        {
+          "caller": "openCreateModal",
+          "callee": "getUpstreamProtocolOptions",
+          "lineNumber": 123
+        },
+        {
+          "caller": "openCreateModal",
+          "callee": "sourceChannels.find",
+          "lineNumber": 123
+        },
+        {
+          "caller": "openEditModal",
+          "callee": "setModal",
+          "lineNumber": 128
+        },
+        {
+          "caller": "openEditModal",
+          "callee": "form.setFieldsValue",
+          "lineNumber": 129
+        },
+        {
+          "caller": "openEditModal",
+          "callee": "Boolean",
+          "lineNumber": 135
+        },
+        {
+          "caller": "closeModal",
+          "callee": "setModal",
+          "lineNumber": 141
+        },
+        {
+          "caller": "closeModal",
+          "callee": "form.resetFields",
+          "lineNumber": 142
+        },
+        {
+          "caller": "handleSave",
+          "callee": "form.validateFields",
+          "lineNumber": 146
+        },
+        {
+          "caller": "handleSave",
+          "callee": "upsertMutation.mutateAsync",
+          "lineNumber": 147
+        },
+        {
+          "caller": "handleSave",
+          "callee": "Boolean",
+          "lineNumber": 155
+        },
+        {
+          "caller": "handleSave",
+          "callee": "handleChannelChanged",
+          "lineNumber": 159
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.success",
+          "lineNumber": 160
+        },
+        {
+          "caller": "handleSave",
+          "callee": "closeModal",
+          "lineNumber": 161
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "removeMutation.mutateAsync",
+          "lineNumber": 165
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "handleChannelChanged",
+          "lineNumber": 172
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "message.success",
+          "lineNumber": 173
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "getProtocolMeta",
+          "lineNumber": 197
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "getProtocolMeta",
+          "lineNumber": 197
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "formatTime",
+          "lineNumber": 224
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "openEditModal",
+          "lineNumber": 232
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "handleDelete",
+          "lineNumber": 233
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "setSearch",
+          "lineNumber": 254
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "message.warning",
+          "lineNumber": 303
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "setFetchModalOpen",
+          "lineNumber": 306
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "PAGE_SIZE_OPTIONS.map",
+          "lineNumber": 322
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "handleSave",
+          "lineNumber": 329
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "form.setFieldValue",
+          "lineNumber": 341
+        },
+        {
+          "caller": "ChannelModelMappingManagementPanel",
+          "callee": "setFetchModalOpen",
+          "lineNumber": 370
+        },
+        {
+          "caller": "flattenModelMappings",
+          "callee": "channels.flatMap",
+          "lineNumber": 379
+        },
+        {
+          "caller": "flattenModelMappings",
+          "callee": "channel.supportedModels.map",
+          "lineNumber": 379
+        },
+        {
+          "caller": "getUpstreamProtocolOptions",
+          "callee": "Array.from",
+          "lineNumber": 387
+        },
+        {
+          "caller": "getUpstreamProtocolOptions",
+          "callee": "(channel?.protocolMappings ?? []).map((mapping) => mapping.upstreamProtocol).filter",
+          "lineNumber": 387
+        },
+        {
+          "caller": "getUpstreamProtocolOptions",
+          "callee": "(channel?.protocolMappings ?? []).map",
+          "lineNumber": 387
+        },
+        {
+          "caller": "getUpstreamProtocolOptions",
+          "callee": "protocols.map",
+          "lineNumber": 391
+        },
+        {
+          "caller": "getUpstreamProtocolOptions",
+          "callee": "getProtocolMeta",
+          "lineNumber": 391
+        },
+        {
+          "caller": "formatTime",
+          "callee": "new Date(value).toLocaleString",
+          "lineNumber": 395
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 72,
+      "nonEmptyLines": 63,
+      "functions": [
+        {
+          "name": "isHttpHost",
+          "startLine": 4,
+          "endLine": 6,
+          "params": [
+            "host"
+          ]
+        },
+        {
+          "name": "isFormValidationError",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "normalizeProtocolMappings",
+          "startLine": 12,
+          "endLine": 18,
+          "params": [
+            "protocols",
+            "mappings"
+          ]
+        },
+        {
+          "name": "derivePreviewUpstreamProtocols",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "protocols",
+            "mappings"
+          ]
+        },
+        {
+          "name": "deriveSupportedProtocols",
+          "startLine": 25,
+          "endLine": 31,
+          "params": [
+            "channel"
+          ]
+        },
+        {
+          "name": "modelKey",
+          "startLine": 33,
+          "endLine": 35,
+          "params": [
+            "model"
+          ]
+        },
+        {
+          "name": "isMaskedKey",
+          "startLine": 37,
+          "endLine": 43,
+          "params": [
+            "value",
+            "keyMasked"
+          ]
+        },
+        {
+          "name": "sanitizeEditableKey",
+          "startLine": 45,
+          "endLine": 48,
+          "params": [
+            "value",
+            "keyMasked"
+          ]
+        },
+        {
+          "name": "mergeWithExistingModels",
+          "startLine": 54,
+          "endLine": 72,
+          "params": [
+            "models",
+            "existingModels"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "isHttpHost",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "isFormValidationError",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "normalizeProtocolMappings",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "derivePreviewUpstreamProtocols",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "deriveSupportedProtocols",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "modelKey",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "sanitizeEditableKey",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "mergeWithExistingModels",
+          "line": 54,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isHttpHost",
+          "callee": "/^https?:\\/\\//i.test",
+          "lineNumber": 5
+        },
+        {
+          "caller": "isHttpHost",
+          "callee": "host.trim",
+          "lineNumber": 5
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "(mappings ?? []).map",
+          "lineNumber": 13
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "protocols.map",
+          "lineNumber": 14
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "existing.get",
+          "lineNumber": 16
+        },
+        {
+          "caller": "derivePreviewUpstreamProtocols",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 21
+        },
+        {
+          "caller": "derivePreviewUpstreamProtocols",
+          "callee": "Array.from",
+          "lineNumber": 22
+        },
+        {
+          "caller": "derivePreviewUpstreamProtocols",
+          "callee": "normalizedMappings.map",
+          "lineNumber": 22
+        },
+        {
+          "caller": "deriveSupportedProtocols",
+          "callee": "mappings.map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "isMaskedKey",
+          "callee": "value?.trim",
+          "lineNumber": 38
+        },
+        {
+          "caller": "isMaskedKey",
+          "callee": "trimmed.includes",
+          "lineNumber": 42
+        },
+        {
+          "caller": "isMaskedKey",
+          "callee": "Boolean",
+          "lineNumber": 42
+        },
+        {
+          "caller": "sanitizeEditableKey",
+          "callee": "value?.trim",
+          "lineNumber": 46
+        },
+        {
+          "caller": "sanitizeEditableKey",
+          "callee": "isMaskedKey",
+          "lineNumber": 47
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "models.map",
+          "lineNumber": 58
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "models.map",
+          "lineNumber": 59
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "existingModels.find",
+          "lineNumber": 60
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "modelKey",
+          "lineNumber": 60
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "modelKey",
+          "lineNumber": 60
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "existingModels.filter",
+          "lineNumber": 70
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "fetchedKeys.has",
+          "lineNumber": 70
+        },
+        {
+          "caller": "mergeWithExistingModels",
+          "callee": "modelKey",
+          "lineNumber": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 9,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "useProviderChannelMutations",
+          "startLine": 15,
+          "endLine": 36,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useProviderChannelMutations",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 16
+        },
+        {
+          "caller": "invalidate",
+          "callee": "Promise.all",
+          "lineNumber": 18
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 19
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 20
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 21
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useMutation",
+          "lineNumber": 25
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useMutation",
+          "lineNumber": 26
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "updateProviderChannel",
+          "lineNumber": 27
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useMutation",
+          "lineNumber": 30
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useMutation",
+          "lineNumber": 31
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useMutation",
+          "lineNumber": 32
+        },
+        {
+          "caller": "useProviderChannelMutations",
+          "callee": "useMutation",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 341,
+      "nonEmptyLines": 324,
+      "functions": [
+        {
+          "name": "ChannelModelBatchFetchModal",
+          "startLine": 42,
+          "endLine": 244,
+          "params": [
+            "{\n  open,\n  channels,\n  onClose,\n  onChannelChanged,\n}"
+          ]
+        },
+        {
+          "name": "CandidateModelTable",
+          "startLine": 251,
+          "endLine": 296,
+          "params": [
+            "{ result, onSelectionChange }"
+          ]
+        },
+        {
+          "name": "renderCandidateOrigin",
+          "startLine": 298,
+          "endLine": 306,
+          "params": [
+            "model"
+          ]
+        },
+        {
+          "name": "buildCandidates",
+          "startLine": 312,
+          "endLine": 337,
+          "params": [
+            "existingModels",
+            "fetchedModels"
+          ]
+        },
+        {
+          "name": "modelKey",
+          "startLine": 339,
+          "endLine": 341,
+          "params": [
+            "model"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelBatchFetchModal",
+          "line": 42,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "App.useApp",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "useState",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "useState",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "useState",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "useEffect",
+          "lineNumber": 53
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "setTargetChannels",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "setResults",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "setFetching",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "setTargetChannels",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "fetchSelectedChannels",
+          "lineNumber": 61
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "setFetching",
+          "lineNumber": 65
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "setResults",
+          "lineNumber": 66
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "selectedChannels.map",
+          "lineNumber": 66
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "Promise.all",
+          "lineNumber": 74
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "selectedChannels.map",
+          "lineNumber": 74
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "fetchProviderChannelModelPreview",
+          "lineNumber": 76
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "buildCandidates",
+          "lineNumber": 77
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "candidates.filter((model) => model.status === 'ENABLED').map",
+          "lineNumber": 84
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "candidates.filter",
+          "lineNumber": 84
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 94
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "setResults",
+          "lineNumber": 98
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "setFetching",
+          "lineNumber": 99
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "nextResults.filter",
+          "lineNumber": 100
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "message.error",
+          "lineNumber": 103
+        },
+        {
+          "caller": "fetchSelectedChannels",
+          "callee": "message.success",
+          "lineNumber": 106
+        },
+        {
+          "caller": "patchResult",
+          "callee": "setResults",
+          "lineNumber": 110
+        },
+        {
+          "caller": "patchResult",
+          "callee": "current.map",
+          "lineNumber": 110
+        },
+        {
+          "caller": "handleSave",
+          "callee": "targetChannels.find",
+          "lineNumber": 114
+        },
+        {
+          "caller": "handleSave",
+          "callee": "result.candidates.filter",
+          "lineNumber": 118
+        },
+        {
+          "caller": "handleSave",
+          "callee": "result.selectedIds.includes",
+          "lineNumber": 118
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.warning",
+          "lineNumber": 120
+        },
+        {
+          "caller": "handleSave",
+          "callee": "patchResult",
+          "lineNumber": 123
+        },
+        {
+          "caller": "handleSave",
+          "callee": "batchUpsertChannelModels",
+          "lineNumber": 125
+        },
+        {
+          "caller": "handleSave",
+          "callee": "selectedModels.map",
+          "lineNumber": 127
+        },
+        {
+          "caller": "handleSave",
+          "callee": "Boolean",
+          "lineNumber": 133
+        },
+        {
+          "caller": "handleSave",
+          "callee": "onChannelChanged",
+          "lineNumber": 137
+        },
+        {
+          "caller": "handleSave",
+          "callee": "patchResult",
+          "lineNumber": 138
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.success",
+          "lineNumber": 139
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.error",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSave",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSave",
+          "callee": "patchResult",
+          "lineNumber": 143
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "results.filter",
+          "lineNumber": 147
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "results.filter",
+          "lineNumber": 148
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "handleSave",
+          "lineNumber": 198
+        },
+        {
+          "caller": "ChannelModelBatchFetchModal",
+          "callee": "patchResult",
+          "lineNumber": 236
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "renderCandidateOrigin",
+          "lineNumber": 260
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "onSelectionChange",
+          "lineNumber": 285
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "result.candidates.map",
+          "lineNumber": 285
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "onSelectionChange",
+          "lineNumber": 286
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "onSelectionChange",
+          "lineNumber": 289
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "result.candidates.filter((model) => model.status === 'ENABLED').map",
+          "lineNumber": 289
+        },
+        {
+          "caller": "CandidateModelTable",
+          "callee": "result.candidates.filter",
+          "lineNumber": 289
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "fetchedModels.map",
+          "lineNumber": 316
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "fetchedModels.map",
+          "lineNumber": 317
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "existingModels.find",
+          "lineNumber": 318
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "modelKey",
+          "lineNumber": 318
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "modelKey",
+          "lineNumber": 318
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "existingModels\n    .filter((model) => !fetchedKeys.has(modelKey(model)))\n    .map",
+          "lineNumber": 333
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "existingModels\n    .filter",
+          "lineNumber": 333
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "fetchedKeys.has",
+          "lineNumber": 334
+        },
+        {
+          "caller": "buildCandidates",
+          "callee": "modelKey",
+          "lineNumber": 334
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 454,
+      "nonEmptyLines": 436,
+      "functions": [
+        {
+          "name": "ProviderChannelFormDrawer",
+          "startLine": 45,
+          "endLine": 454,
+          "params": [
+            "{ open, mode, channel = null, onClose, onSaved }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelFormDrawer",
+          "line": 45,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "App.useApp",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useProviderChannelMutations",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "Form.useForm",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useState",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useState",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useState",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useState",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useState",
+          "lineNumber": 53
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useState",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "Form.useWatch",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "Form.useWatch",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "useEffect",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setModelsDirty",
+          "lineNumber": 64
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setPreviewError",
+          "lineNumber": 65
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "deriveSupportedProtocols",
+          "lineNumber": 67
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "form.setFieldsValue",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 74
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setPreviewModels",
+          "lineNumber": 76
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 77
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "(channel.supportedModels ?? []).filter((model) => model.status !== 'DISABLED').map",
+          "lineNumber": 77
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "(channel.supportedModels ?? []).filter",
+          "lineNumber": 77
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setModelsDirty",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "form.setFieldsValue",
+          "lineNumber": 81
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setPreviewModels",
+          "lineNumber": 82
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findExistingModel",
+          "callee": "existingModels.find",
+          "lineNumber": 87
+        },
+        {
+          "caller": "findExistingModel",
+          "callee": "modelKey",
+          "lineNumber": 87
+        },
+        {
+          "caller": "findExistingModel",
+          "callee": "modelKey",
+          "lineNumber": 87
+        },
+        {
+          "caller": "handleSupportedProtocolsChange",
+          "callee": "form.setFieldValue",
+          "lineNumber": 91
+        },
+        {
+          "caller": "handleSupportedProtocolsChange",
+          "callee": "form.setFieldValue",
+          "lineNumber": 92
+        },
+        {
+          "caller": "handleSupportedProtocolsChange",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 92
+        },
+        {
+          "caller": "handleSupportedProtocolsChange",
+          "callee": "form.getFieldValue",
+          "lineNumber": 92
+        },
+        {
+          "caller": "handleUpstreamProtocolChange",
+          "callee": "form.setFieldValue",
+          "lineNumber": 96
+        },
+        {
+          "caller": "handleUpstreamProtocolChange",
+          "callee": "normalizeProtocolMappings(selectedProtocols, protocolMappings).map",
+          "lineNumber": 98
+        },
+        {
+          "caller": "handleUpstreamProtocolChange",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 98
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "form.validateFields",
+          "lineNumber": 106
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "isHttpHost",
+          "lineNumber": 107
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "form.setFields",
+          "lineNumber": 108
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 109
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.warning",
+          "lineNumber": 110
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "sanitizeEditableKey",
+          "lineNumber": 113
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "form.setFields",
+          "lineNumber": 115
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 116
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.warning",
+          "lineNumber": 117
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "form.setFields",
+          "lineNumber": 121
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 122
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.warning",
+          "lineNumber": 123
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "derivePreviewUpstreamProtocols",
+          "lineNumber": 126
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 128
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.warning",
+          "lineNumber": 129
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewLoading",
+          "lineNumber": 132
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 133
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "values.host.trim",
+          "lineNumber": 136
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "fetchProviderChannelModelPreview",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "fetchProviderModelPreview",
+          "lineNumber": 142
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "mergeWithExistingModels",
+          "lineNumber": 143
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewModels",
+          "lineNumber": 144
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 145
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "mergedModels.filter((model) => findExistingModel(model)?.status === 'ENABLED').map",
+          "lineNumber": 145
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "mergedModels.filter",
+          "lineNumber": 145
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "findExistingModel",
+          "lineNumber": 145
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setModelsDirty",
+          "lineNumber": 146
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.success",
+          "lineNumber": 147
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 149
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 150
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.error",
+          "lineNumber": 151
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewLoading",
+          "lineNumber": 153
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "isFormValidationError",
+          "lineNumber": 156
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 157
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.warning",
+          "lineNumber": 158
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 161
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "setPreviewError",
+          "lineNumber": 162
+        },
+        {
+          "caller": "handlePreviewModels",
+          "callee": "message.error",
+          "lineNumber": 163
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "previewModels.filter",
+          "lineNumber": 171
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "selectedModelIds.includes",
+          "lineNumber": 171
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "batchUpsertChannelModels",
+          "lineNumber": 172
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "selectedModels.map",
+          "lineNumber": 174
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "findExistingModel",
+          "lineNumber": 175
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "Boolean",
+          "lineNumber": 182
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "setModelsDirty",
+          "lineNumber": 187
+        },
+        {
+          "caller": "saveSelectedModels",
+          "callee": "message.success",
+          "lineNumber": 188
+        },
+        {
+          "caller": "handleSave",
+          "callee": "form.validateFields",
+          "lineNumber": 194
+        },
+        {
+          "caller": "handleSave",
+          "callee": "isHttpHost",
+          "lineNumber": 195
+        },
+        {
+          "caller": "handleSave",
+          "callee": "form.setFields",
+          "lineNumber": 196
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.warning",
+          "lineNumber": 197
+        },
+        {
+          "caller": "handleSave",
+          "callee": "values.name.trim",
+          "lineNumber": 201
+        },
+        {
+          "caller": "handleSave",
+          "callee": "values.host.trim",
+          "lineNumber": 202
+        },
+        {
+          "caller": "handleSave",
+          "callee": "sanitizeEditableKey",
+          "lineNumber": 203
+        },
+        {
+          "caller": "handleSave",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 206
+        },
+        {
+          "caller": "handleSave",
+          "callee": "createMutation.mutateAsync",
+          "lineNumber": 212
+        },
+        {
+          "caller": "handleSave",
+          "callee": "updateMutation.mutateAsync",
+          "lineNumber": 213
+        },
+        {
+          "caller": "handleSave",
+          "callee": "saveSelectedModels",
+          "lineNumber": 216
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.error",
+          "lineNumber": 218
+        },
+        {
+          "caller": "handleSave",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 218
+        },
+        {
+          "caller": "handleSave",
+          "callee": "onSaved",
+          "lineNumber": 220
+        },
+        {
+          "caller": "handleSave",
+          "callee": "onClose",
+          "lineNumber": 221
+        },
+        {
+          "caller": "handleSave",
+          "callee": "isFormValidationError",
+          "lineNumber": 223
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.warning",
+          "lineNumber": 224
+        },
+        {
+          "caller": "handleSave",
+          "callee": "message.error",
+          "lineNumber": 227
+        },
+        {
+          "caller": "handleSave",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 227
+        },
+        {
+          "caller": "updatePreviewModel",
+          "callee": "setModelsDirty",
+          "lineNumber": 232
+        },
+        {
+          "caller": "updatePreviewModel",
+          "callee": "setPreviewModels",
+          "lineNumber": 233
+        },
+        {
+          "caller": "updatePreviewModel",
+          "callee": "current.map",
+          "lineNumber": 233
+        },
+        {
+          "caller": "handleSelectedModelIdsChange",
+          "callee": "setModelsDirty",
+          "lineNumber": 237
+        },
+        {
+          "caller": "handleSelectedModelIdsChange",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 238
+        },
+        {
+          "caller": "handleRemovePreviewModel",
+          "callee": "setPreviewModels",
+          "lineNumber": 242
+        },
+        {
+          "caller": "handleRemovePreviewModel",
+          "callee": "current.filter",
+          "lineNumber": 242
+        },
+        {
+          "caller": "handleRemovePreviewModel",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 243
+        },
+        {
+          "caller": "handleRemovePreviewModel",
+          "callee": "current.filter",
+          "lineNumber": 243
+        },
+        {
+          "caller": "handleRemovePreviewModel",
+          "callee": "setModelsDirty",
+          "lineNumber": 244
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "manualModelName.trim",
+          "lineNumber": 248
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "message.warning",
+          "lineNumber": 250
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "derivePreviewUpstreamProtocols",
+          "lineNumber": 253
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "message.warning",
+          "lineNumber": 255
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "Date.now",
+          "lineNumber": 258
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "upstreamProtocols.map",
+          "lineNumber": 259
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "newModels.filter",
+          "lineNumber": 269
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "previewModels.some",
+          "lineNumber": 269
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "modelKey",
+          "lineNumber": 269
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "modelKey",
+          "lineNumber": 269
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "message.warning",
+          "lineNumber": 271
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "setPreviewModels",
+          "lineNumber": 274
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "setSelectedModelIds",
+          "lineNumber": 275
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "newModels.map",
+          "lineNumber": 275
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "setModelsDirty",
+          "lineNumber": 276
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "setManualModelName",
+          "lineNumber": 277
+        },
+        {
+          "caller": "handleAddManualModel",
+          "callee": "message.success",
+          "lineNumber": 278
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 281
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "findExistingModel",
+          "lineNumber": 286
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "getProtocolMeta",
+          "lineNumber": 291
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "Boolean",
+          "lineNumber": 302
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "updatePreviewModel",
+          "lineNumber": 305
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "updatePreviewModel",
+          "lineNumber": 313
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "findExistingModel",
+          "lineNumber": 320
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "handleRemovePreviewModel",
+          "lineNumber": 321
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "handleRemovePreviewModel",
+          "lineNumber": 329
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "form.submit",
+          "lineNumber": 342
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "handleSave",
+          "lineNumber": 351
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "message.warning",
+          "lineNumber": 352
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "normalizedMappings.map",
+          "lineNumber": 404
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "getProtocolMeta",
+          "lineNumber": 406
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "getProtocolMeta",
+          "lineNumber": 406
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "handleUpstreamProtocolChange",
+          "lineNumber": 412
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "formatProtocolDirection",
+          "lineNumber": 414
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "handlePreviewModels",
+          "lineNumber": 431
+        },
+        {
+          "caller": "ProviderChannelFormDrawer",
+          "callee": "setManualModelName",
+          "lineNumber": 435
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 216,
+      "nonEmptyLines": 201,
+      "functions": [
+        {
+          "name": "needsReenable",
+          "startLine": 15,
+          "endLine": 18,
+          "params": [
+            "channel"
+          ]
+        },
+        {
+          "name": "ProviderChannelTablePanel",
+          "startLine": 20,
+          "endLine": 216,
+          "params": [
+            "{ renderModelsPanel }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelTablePanel",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "needsReenable",
+          "callee": "channel.supportedModels.some",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "App.useApp",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useProviderChannels",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useProviderChannelMutations",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useState",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "source.filter",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "(channel.protocolMappings ?? []).map((mapping) => `${mapping.requestProtocol} ${mapping.upstreamProtocol}`).join",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "(channel.protocolMappings ?? []).map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "channel.supportedModels.map((model) => `${model.requestedModel} ${model.upstreamModel}`).join",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "channel.supportedModels.map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "`${channel.name} ${channel.host} ${channel.supportedProtocols.join(' ')} ${mappings} ${models}`.toLowerCase",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "channel.supportedProtocols.join",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "text.includes",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "search.trim().toLowerCase",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "search.trim",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "selectedChannelIds.map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "source.filter",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "selectedIds.has",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "String",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "selectedChannels.some",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "selectedChannels.some",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "source.filter",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "channel.supportedModels.some",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "setLocalChannels",
+          "lineNumber": 51
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "next.some",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "next.map",
+          "lineNumber": 54
+        },
+        {
+          "caller": "handleChannelChanged",
+          "callee": "refetch",
+          "lineNumber": 56
+        },
+        {
+          "caller": "handleRefresh",
+          "callee": "setLocalChannels",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleRefresh",
+          "callee": "refetch",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handleEnable",
+          "callee": "enableMutation.mutateAsync",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handleEnable",
+          "callee": "handleRefresh",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handleDisable",
+          "callee": "disableMutation.mutateAsync",
+          "lineNumber": 70
+        },
+        {
+          "caller": "handleDisable",
+          "callee": "handleRefresh",
+          "lineNumber": 71
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "deleteMutation.mutateAsync",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "handleRefresh",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handleResetAllRateLimits",
+          "callee": "resetAllRateLimitsMutation.mutateAsync",
+          "lineNumber": 80
+        },
+        {
+          "caller": "handleResetAllRateLimits",
+          "callee": "message.success",
+          "lineNumber": 81
+        },
+        {
+          "caller": "handleResetAllRateLimits",
+          "callee": "handleRefresh",
+          "lineNumber": 82
+        },
+        {
+          "caller": "handleBatchFetchModels",
+          "callee": "message.warning",
+          "lineNumber": 87
+        },
+        {
+          "caller": "handleBatchFetchModels",
+          "callee": "setBatchFetchOpen",
+          "lineNumber": 90
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "selectedChannels.filter",
+          "lineNumber": 94
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "needsReenable",
+          "lineNumber": 95
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "setBatchChanging",
+          "lineNumber": 100
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "Promise.allSettled",
+          "lineNumber": 102
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "targets.map",
+          "lineNumber": 102
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "enableMutation.mutateAsync",
+          "lineNumber": 104
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "disableMutation.mutateAsync",
+          "lineNumber": 105
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "results.filter",
+          "lineNumber": 107
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "message.error",
+          "lineNumber": 110
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "message.success",
+          "lineNumber": 112
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "setSelectedChannelIds",
+          "lineNumber": 114
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "handleRefresh",
+          "lineNumber": 115
+        },
+        {
+          "caller": "handleBatchStatus",
+          "callee": "setBatchChanging",
+          "lineNumber": 117
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "setDrawer",
+          "lineNumber": 129
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "setDrawer",
+          "lineNumber": 130
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "handleDisable",
+          "lineNumber": 132
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "needsReenable",
+          "lineNumber": 134
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "handleEnable",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "handleDelete",
+          "lineNumber": 146
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "setDrawer",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "handleResetAllRateLimits",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "selectedChannels.filter",
+          "lineNumber": 177
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "handleBatchStatus",
+          "lineNumber": 180
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "selectedChannels.filter",
+          "lineNumber": 185
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "handleBatchStatus",
+          "lineNumber": 188
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "renderModelsPanel",
+          "lineNumber": 203
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "setDrawer",
+          "lineNumber": 206
+        },
+        {
+          "caller": "ProviderChannelTablePanel",
+          "callee": "setBatchFetchOpen",
+          "lineNumber": 210
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "ProviderChannelToolbar",
+          "startLine": 28,
+          "endLine": 73,
+          "params": [
+            "{\n  search,\n  onSearchChange,\n  statusFilter,\n  onStatusFilterChange,\n  onCreateClick,\n  onResetAllRateLimits,\n  rateLimitedChannelCount,\n  resettingRateLimits = false,\n  onRefresh,\n  loading = false,\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelToolbar",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderChannelToolbar",
+          "callee": "onSearchChange",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/tests/modelAvailability.test.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 88,
+      "functions": [
+        {
+          "name": "renderHook",
+          "startLine": 16,
+          "endLine": 24,
+          "params": [
+            "client",
+            "hook"
+          ]
+        },
+        {
+          "name": "createClient",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Probe",
+          "callee": "hook",
+          "lineNumber": 19
+        },
+        {
+          "caller": "renderHook",
+          "callee": "renderToString",
+          "lineNumber": 22
+        },
+        {
+          "caller": "renderHook",
+          "callee": "createElement",
+          "lineNumber": 22
+        },
+        {
+          "caller": "renderHook",
+          "callee": "createElement",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/tests/providerChannelForm.test.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 189,
+      "nonEmptyLines": 153,
+      "functions": [
+        {
+          "name": "model",
+          "startLine": 176,
+          "endLine": 182,
+          "params": [
+            "overrides"
+          ]
+        },
+        {
+          "name": "channel",
+          "startLine": 184,
+          "endLine": 189,
+          "params": [
+            "overrides"
+          ]
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

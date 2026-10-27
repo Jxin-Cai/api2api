@@ -1,0 +1,2944 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 20,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 20,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 20,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 71,
+      "functions": [
+        {
+          "name": "run",
+          "startLine": 35,
+          "endLine": 46,
+          "params": [
+            "args"
+          ]
+        },
+        {
+          "name": "prepareExistingAdmin",
+          "startLine": 48,
+          "endLine": 56,
+          "params": [
+            "admin",
+            "now"
+          ]
+        },
+        {
+          "name": "createBootstrapAdmin",
+          "startLine": 58,
+          "endLine": 68,
+          "params": [
+            "username",
+            "now"
+          ]
+        },
+        {
+          "name": "requireUsername",
+          "startLine": 70,
+          "endLine": 76,
+          "params": []
+        },
+        {
+          "name": "requirePassword",
+          "startLine": 78,
+          "endLine": 84,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "BootstrapAdminInitializer",
+          "startLine": 17,
+          "endLine": 85,
+          "methods": [
+            "run",
+            "prepareExistingAdmin",
+            "createBootstrapAdmin",
+            "requireUsername",
+            "requirePassword"
+          ],
+          "properties": [
+            "DEFAULT_ADMIN_DISPLAY_NAME",
+            "properties",
+            "userAccountRepository",
+            "passwordHasher",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "run",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "BootstrapAdminInitializer",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "Username.of",
+          "lineNumber": 38
+        },
+        {
+          "caller": "run",
+          "callee": "requireUsername",
+          "lineNumber": 38
+        },
+        {
+          "caller": "run",
+          "callee": "Instant.now",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "userAccountRepository.findByUsername(username).ifPresentOrElse",
+          "lineNumber": 41
+        },
+        {
+          "caller": "run",
+          "callee": "userAccountRepository.findByUsername",
+          "lineNumber": 41
+        },
+        {
+          "caller": "run",
+          "callee": "prepareExistingAdmin",
+          "lineNumber": 43
+        },
+        {
+          "caller": "run",
+          "callee": "createBootstrapAdmin",
+          "lineNumber": 44
+        },
+        {
+          "caller": "prepareExistingAdmin",
+          "callee": "admin.hasPasswordHash",
+          "lineNumber": 49
+        },
+        {
+          "caller": "prepareExistingAdmin",
+          "callee": "admin.ensureAdminActive",
+          "lineNumber": 53
+        },
+        {
+          "caller": "prepareExistingAdmin",
+          "callee": "admin.changePasswordHash",
+          "lineNumber": 54
+        },
+        {
+          "caller": "prepareExistingAdmin",
+          "callee": "passwordHasher.hash",
+          "lineNumber": 54
+        },
+        {
+          "caller": "prepareExistingAdmin",
+          "callee": "requirePassword",
+          "lineNumber": 54
+        },
+        {
+          "caller": "prepareExistingAdmin",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 55
+        },
+        {
+          "caller": "createBootstrapAdmin",
+          "callee": "UserAccount.create",
+          "lineNumber": 59
+        },
+        {
+          "caller": "createBootstrapAdmin",
+          "callee": "userAccountRepository.nextIdentity",
+          "lineNumber": 60
+        },
+        {
+          "caller": "createBootstrapAdmin",
+          "callee": "passwordHasher.hash",
+          "lineNumber": 64
+        },
+        {
+          "caller": "createBootstrapAdmin",
+          "callee": "requirePassword",
+          "lineNumber": 64
+        },
+        {
+          "caller": "createBootstrapAdmin",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 67
+        },
+        {
+          "caller": "requireUsername",
+          "callee": "properties.username",
+          "lineNumber": 71
+        },
+        {
+          "caller": "requireUsername",
+          "callee": "username.isBlank",
+          "lineNumber": 72
+        },
+        {
+          "caller": "requireUsername",
+          "callee": "new IllegalStateException",
+          "lineNumber": 73
+        },
+        {
+          "caller": "requirePassword",
+          "callee": "properties.password",
+          "lineNumber": 79
+        },
+        {
+          "caller": "requirePassword",
+          "callee": "password.isBlank",
+          "lineNumber": 80
+        },
+        {
+          "caller": "requirePassword",
+          "callee": "new IllegalStateException",
+          "lineNumber": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "PasswordHasher",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [
+            "hash",
+            "matches"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PasswordHasher",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 156,
+      "nonEmptyLines": 136,
+      "functions": [
+        {
+          "name": "login",
+          "startLine": 37,
+          "endLine": 48,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "getCurrentUser",
+          "startLine": 50,
+          "endLine": 56,
+          "params": [
+            "currentUserId"
+          ]
+        },
+        {
+          "name": "updateCurrentUserProfile",
+          "startLine": 58,
+          "endLine": 66,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "listUsers",
+          "startLine": 68,
+          "endLine": 72,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "getUser",
+          "startLine": 74,
+          "endLine": 78,
+          "params": [
+            "operatorUserId",
+            "targetUserId"
+          ]
+        },
+        {
+          "name": "createUser",
+          "startLine": 80,
+          "endLine": 99,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "changeDisplayName",
+          "startLine": 101,
+          "endLine": 108,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "changeRole",
+          "startLine": 110,
+          "endLine": 117,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "disableUser",
+          "startLine": 119,
+          "endLine": 126,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "enableUser",
+          "startLine": 128,
+          "endLine": 135,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "loadAdminOperator",
+          "startLine": 137,
+          "endLine": 142,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "loadTargetUser",
+          "startLine": 144,
+          "endLine": 147,
+          "params": [
+            "targetUserId"
+          ]
+        },
+        {
+          "name": "invalidCredentials",
+          "startLine": 149,
+          "endLine": 151,
+          "params": []
+        },
+        {
+          "name": "now",
+          "startLine": 153,
+          "endLine": 155,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserAccountApplicationService",
+          "startLine": 24,
+          "endLine": 156,
+          "methods": [
+            "login",
+            "getCurrentUser",
+            "updateCurrentUserProfile",
+            "listUsers",
+            "getUser",
+            "createUser",
+            "changeDisplayName",
+            "changeRole",
+            "disableUser",
+            "enableUser",
+            "loadAdminOperator",
+            "loadTargetUser",
+            "invalidCredentials",
+            "now"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "passwordHasher",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "login",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "getCurrentUser",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "updateCurrentUserProfile",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "listUsers",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "getUser",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "createUser",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "changeDisplayName",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "changeRole",
+          "line": 110,
+          "isDefault": false
+        },
+        {
+          "name": "disableUser",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "enableUser",
+          "line": 128,
+          "isDefault": false
+        },
+        {
+          "name": "UserAccountApplicationService",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "login",
+          "callee": "userAccountRepository.findByUsername(command.getUsername()).orElseThrow",
+          "lineNumber": 39
+        },
+        {
+          "caller": "login",
+          "callee": "userAccountRepository.findByUsername",
+          "lineNumber": 39
+        },
+        {
+          "caller": "login",
+          "callee": "command.getUsername",
+          "lineNumber": 39
+        },
+        {
+          "caller": "login",
+          "callee": "userAccount.getStatus",
+          "lineNumber": 41
+        },
+        {
+          "caller": "login",
+          "callee": "invalidCredentials",
+          "lineNumber": 42
+        },
+        {
+          "caller": "login",
+          "callee": "userAccount.hasPasswordHash",
+          "lineNumber": 44
+        },
+        {
+          "caller": "login",
+          "callee": "passwordHasher.matches",
+          "lineNumber": 44
+        },
+        {
+          "caller": "login",
+          "callee": "command.getPassword",
+          "lineNumber": 44
+        },
+        {
+          "caller": "login",
+          "callee": "userAccount.getPasswordHash",
+          "lineNumber": 44
+        },
+        {
+          "caller": "login",
+          "callee": "invalidCredentials",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "userAccountRepository.findById(currentUserId).orElseThrow",
+          "lineNumber": 52
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 52
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "new BusinessException",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "userAccount.assertActive",
+          "lineNumber": 54
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "userAccountRepository.findById(command.getCurrentUserId()).orElseThrow",
+          "lineNumber": 60
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 60
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "command.getCurrentUserId",
+          "lineNumber": 60
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "new BusinessException",
+          "lineNumber": 61
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "currentUser.assertActive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "currentUser.changeDisplayName",
+          "lineNumber": 63
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "command.getDisplayName",
+          "lineNumber": 63
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "now",
+          "lineNumber": 63
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 64
+        },
+        {
+          "caller": "listUsers",
+          "callee": "loadAdminOperator",
+          "lineNumber": 70
+        },
+        {
+          "caller": "listUsers",
+          "callee": "userAccountRepository.findAll",
+          "lineNumber": 71
+        },
+        {
+          "caller": "getUser",
+          "callee": "loadAdminOperator",
+          "lineNumber": 76
+        },
+        {
+          "caller": "getUser",
+          "callee": "loadTargetUser",
+          "lineNumber": 77
+        },
+        {
+          "caller": "createUser",
+          "callee": "loadAdminOperator",
+          "lineNumber": 82
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 82
+        },
+        {
+          "caller": "createUser",
+          "callee": "userAccountRepository.findByUsername(command.getUsername()).ifPresent",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createUser",
+          "callee": "userAccountRepository.findByUsername",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getUsername",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createUser",
+          "callee": "new BusinessException",
+          "lineNumber": 85
+        },
+        {
+          "caller": "createUser",
+          "callee": "passwordHasher.hash",
+          "lineNumber": 88
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getPassword",
+          "lineNumber": 88
+        },
+        {
+          "caller": "createUser",
+          "callee": "UserAccount.create",
+          "lineNumber": 89
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getUserAccountId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getUsername",
+          "lineNumber": 91
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getDisplayName",
+          "lineNumber": 92
+        },
+        {
+          "caller": "createUser",
+          "callee": "command.getRole",
+          "lineNumber": 93
+        },
+        {
+          "caller": "createUser",
+          "callee": "now",
+          "lineNumber": 95
+        },
+        {
+          "caller": "createUser",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 97
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "loadAdminOperator",
+          "lineNumber": 103
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 103
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "loadTargetUser",
+          "lineNumber": 104
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "command.getTargetUserId",
+          "lineNumber": 104
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "target.changeDisplayName",
+          "lineNumber": 105
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "command.getDisplayName",
+          "lineNumber": 105
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "now",
+          "lineNumber": 105
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 106
+        },
+        {
+          "caller": "changeRole",
+          "callee": "loadAdminOperator",
+          "lineNumber": 112
+        },
+        {
+          "caller": "changeRole",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 112
+        },
+        {
+          "caller": "changeRole",
+          "callee": "loadTargetUser",
+          "lineNumber": 113
+        },
+        {
+          "caller": "changeRole",
+          "callee": "command.getTargetUserId",
+          "lineNumber": 113
+        },
+        {
+          "caller": "changeRole",
+          "callee": "target.changeRole",
+          "lineNumber": 114
+        },
+        {
+          "caller": "changeRole",
+          "callee": "command.getNewRole",
+          "lineNumber": 114
+        },
+        {
+          "caller": "changeRole",
+          "callee": "now",
+          "lineNumber": 114
+        },
+        {
+          "caller": "changeRole",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 115
+        },
+        {
+          "caller": "disableUser",
+          "callee": "loadAdminOperator",
+          "lineNumber": 121
+        },
+        {
+          "caller": "disableUser",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 121
+        },
+        {
+          "caller": "disableUser",
+          "callee": "loadTargetUser",
+          "lineNumber": 122
+        },
+        {
+          "caller": "disableUser",
+          "callee": "command.getTargetUserId",
+          "lineNumber": 122
+        },
+        {
+          "caller": "disableUser",
+          "callee": "target.disable",
+          "lineNumber": 123
+        },
+        {
+          "caller": "disableUser",
+          "callee": "now",
+          "lineNumber": 123
+        },
+        {
+          "caller": "disableUser",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 124
+        },
+        {
+          "caller": "enableUser",
+          "callee": "loadAdminOperator",
+          "lineNumber": 130
+        },
+        {
+          "caller": "enableUser",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 130
+        },
+        {
+          "caller": "enableUser",
+          "callee": "loadTargetUser",
+          "lineNumber": 131
+        },
+        {
+          "caller": "enableUser",
+          "callee": "command.getTargetUserId",
+          "lineNumber": 131
+        },
+        {
+          "caller": "enableUser",
+          "callee": "target.enable",
+          "lineNumber": 132
+        },
+        {
+          "caller": "enableUser",
+          "callee": "now",
+          "lineNumber": 132
+        },
+        {
+          "caller": "enableUser",
+          "callee": "userAccountRepository.save",
+          "lineNumber": 133
+        },
+        {
+          "caller": "loadAdminOperator",
+          "callee": "userAccountRepository.findById(operatorUserId).orElseThrow",
+          "lineNumber": 138
+        },
+        {
+          "caller": "loadAdminOperator",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 138
+        },
+        {
+          "caller": "loadAdminOperator",
+          "callee": "new BusinessException",
+          "lineNumber": 139
+        },
+        {
+          "caller": "loadAdminOperator",
+          "callee": "operator.assertCanAccess",
+          "lineNumber": 140
+        },
+        {
+          "caller": "loadTargetUser",
+          "callee": "userAccountRepository.findById(targetUserId).orElseThrow",
+          "lineNumber": 145
+        },
+        {
+          "caller": "loadTargetUser",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 145
+        },
+        {
+          "caller": "loadTargetUser",
+          "callee": "new BusinessException",
+          "lineNumber": 146
+        },
+        {
+          "caller": "invalidCredentials",
+          "callee": "new BusinessException",
+          "lineNumber": 150
+        },
+        {
+          "caller": "now",
+          "callee": "Instant.now",
+          "lineNumber": 154
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 11,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "ChangeUserDisplayNameCommand",
+          "startLine": 12,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "targetUserId",
+            "displayName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeUserDisplayNameCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "ChangeUserRoleCommand",
+          "startLine": 12,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "targetUserId",
+            "newRole"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeUserRoleCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "ChangeUserStatusCommand",
+          "startLine": 11,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "targetUserId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeUserStatusCommand",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "CreateUserCommand",
+          "startLine": 15,
+          "endLine": 36,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "userAccountId",
+            "username",
+            "displayName",
+            "role",
+            "password"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateUserCommand",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "LoginCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "username",
+            "password"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoginCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "UpdateCurrentUserProfileCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "currentUserId",
+            "displayName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpdateCurrentUserProfileCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "DisplayName",
+          "startLine": 14,
+          "endLine": 18,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "normalize",
+          "startLine": 24,
+          "endLine": 29,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "validate",
+          "startLine": 31,
+          "endLine": 38,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "getValue",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 44,
+          "endLine": 53,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 55,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 60,
+          "endLine": 63,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DisplayName",
+          "startLine": 8,
+          "endLine": 64,
+          "methods": [
+            "DisplayName",
+            "of",
+            "normalize",
+            "validate",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DisplayName",
+          "callee": "normalize",
+          "lineNumber": 15
+        },
+        {
+          "caller": "DisplayName",
+          "callee": "validate",
+          "lineNumber": 16
+        },
+        {
+          "caller": "of",
+          "callee": "new DisplayName",
+          "lineNumber": 21
+        },
+        {
+          "caller": "normalize",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 26
+        },
+        {
+          "caller": "normalize",
+          "callee": "value.trim",
+          "lineNumber": 28
+        },
+        {
+          "caller": "validate",
+          "callee": "value.isEmpty",
+          "lineNumber": 32
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 33
+        },
+        {
+          "caller": "validate",
+          "callee": "value.length",
+          "lineNumber": 35
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 36
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 52
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "PasswordHash",
+          "startLine": 14,
+          "endLine": 18,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "ofNullable",
+          "startLine": 24,
+          "endLine": 29,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "normalize",
+          "startLine": 31,
+          "endLine": 36,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "validate",
+          "startLine": 38,
+          "endLine": 45,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "getValue",
+          "startLine": 47,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 51,
+          "endLine": 60,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 62,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 67,
+          "endLine": 70,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PasswordHash",
+          "startLine": 8,
+          "endLine": 71,
+          "methods": [
+            "PasswordHash",
+            "of",
+            "ofNullable",
+            "normalize",
+            "validate",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "ofNullable",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "PasswordHash",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PasswordHash",
+          "callee": "normalize",
+          "lineNumber": 15
+        },
+        {
+          "caller": "PasswordHash",
+          "callee": "validate",
+          "lineNumber": 16
+        },
+        {
+          "caller": "of",
+          "callee": "new PasswordHash",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ofNullable",
+          "callee": "value.isBlank",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ofNullable",
+          "callee": "new PasswordHash",
+          "lineNumber": 28
+        },
+        {
+          "caller": "normalize",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 33
+        },
+        {
+          "caller": "normalize",
+          "callee": "value.trim",
+          "lineNumber": 35
+        },
+        {
+          "caller": "validate",
+          "callee": "value.isEmpty",
+          "lineNumber": 39
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 40
+        },
+        {
+          "caller": "validate",
+          "callee": "value.length",
+          "lineNumber": 42
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 43
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 59
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 188,
+      "nonEmptyLines": 162,
+      "functions": [
+        {
+          "name": "UserAccount",
+          "startLine": 20,
+          "endLine": 38,
+          "params": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status",
+            "passwordHash",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 40,
+          "endLine": 51,
+          "params": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "passwordHash",
+            "now"
+          ]
+        },
+        {
+          "name": "rehydrate",
+          "startLine": 53,
+          "endLine": 64,
+          "params": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status",
+            "passwordHash",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "changeDisplayName",
+          "startLine": 66,
+          "endLine": 71,
+          "params": [
+            "displayName",
+            "now"
+          ]
+        },
+        {
+          "name": "changeRole",
+          "startLine": 73,
+          "endLine": 81,
+          "params": [
+            "newRole",
+            "now"
+          ]
+        },
+        {
+          "name": "changePasswordHash",
+          "startLine": 83,
+          "endLine": 91,
+          "params": [
+            "passwordHash",
+            "now"
+          ]
+        },
+        {
+          "name": "ensureAdminActive",
+          "startLine": 93,
+          "endLine": 107,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "disable",
+          "startLine": 109,
+          "endLine": 116,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "enable",
+          "startLine": 118,
+          "endLine": 125,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "assertActive",
+          "startLine": 127,
+          "endLine": 131,
+          "params": []
+        },
+        {
+          "name": "isAdmin",
+          "startLine": 133,
+          "endLine": 135,
+          "params": []
+        },
+        {
+          "name": "isRegularUser",
+          "startLine": 137,
+          "endLine": 139,
+          "params": []
+        },
+        {
+          "name": "canAccess",
+          "startLine": 141,
+          "endLine": 144,
+          "params": [
+            "scope"
+          ]
+        },
+        {
+          "name": "assertCanAccess",
+          "startLine": 146,
+          "endLine": 151,
+          "params": [
+            "scope"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 153,
+          "endLine": 155,
+          "params": []
+        },
+        {
+          "name": "getUsername",
+          "startLine": 157,
+          "endLine": 159,
+          "params": []
+        },
+        {
+          "name": "getDisplayName",
+          "startLine": 161,
+          "endLine": 163,
+          "params": []
+        },
+        {
+          "name": "getRole",
+          "startLine": 165,
+          "endLine": 167,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 169,
+          "endLine": 171,
+          "params": []
+        },
+        {
+          "name": "getPasswordHash",
+          "startLine": 173,
+          "endLine": 175,
+          "params": []
+        },
+        {
+          "name": "hasPasswordHash",
+          "startLine": 177,
+          "endLine": 179,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 181,
+          "endLine": 183,
+          "params": []
+        },
+        {
+          "name": "getUpdatedAt",
+          "startLine": 185,
+          "endLine": 187,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserAccount",
+          "startLine": 9,
+          "endLine": 188,
+          "methods": [
+            "UserAccount",
+            "create",
+            "rehydrate",
+            "changeDisplayName",
+            "changeRole",
+            "changePasswordHash",
+            "ensureAdminActive",
+            "disable",
+            "enable",
+            "assertActive",
+            "isAdmin",
+            "isRegularUser",
+            "canAccess",
+            "assertCanAccess",
+            "getId",
+            "getUsername",
+            "getDisplayName",
+            "getRole",
+            "getStatus",
+            "getPasswordHash",
+            "hasPasswordHash",
+            "getCreatedAt",
+            "getUpdatedAt"
+          ],
+          "properties": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status",
+            "passwordHash",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "rehydrate",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "changeDisplayName",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "changeRole",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "changePasswordHash",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "ensureAdminActive",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "disable",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "enable",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "assertActive",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "isAdmin",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "isRegularUser",
+          "line": 137,
+          "isDefault": false
+        },
+        {
+          "name": "canAccess",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "assertCanAccess",
+          "line": 146,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "getUsername",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "getDisplayName",
+          "line": 161,
+          "isDefault": false
+        },
+        {
+          "name": "getRole",
+          "line": 165,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 169,
+          "isDefault": false
+        },
+        {
+          "name": "getPasswordHash",
+          "line": 173,
+          "isDefault": false
+        },
+        {
+          "name": "hasPasswordHash",
+          "line": 177,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "getUpdatedAt",
+          "line": 185,
+          "isDefault": false
+        },
+        {
+          "name": "UserAccount",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 31
+        },
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 32
+        },
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 33
+        },
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 36
+        },
+        {
+          "caller": "UserAccount",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 37
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "create",
+          "callee": "new UserAccount",
+          "lineNumber": 50
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "new UserAccount",
+          "lineNumber": 63
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 67
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 68
+        },
+        {
+          "caller": "changeRole",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 74
+        },
+        {
+          "caller": "changeRole",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 75
+        },
+        {
+          "caller": "changePasswordHash",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 84
+        },
+        {
+          "caller": "changePasswordHash",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 85
+        },
+        {
+          "caller": "changePasswordHash",
+          "callee": "passwordHash.equals",
+          "lineNumber": 86
+        },
+        {
+          "caller": "ensureAdminActive",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 94
+        },
+        {
+          "caller": "disable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 110
+        },
+        {
+          "caller": "enable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 119
+        },
+        {
+          "caller": "assertActive",
+          "callee": "new IllegalStateException",
+          "lineNumber": 129
+        },
+        {
+          "caller": "canAccess",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 142
+        },
+        {
+          "caller": "canAccess",
+          "callee": "this.role.grants",
+          "lineNumber": 143
+        },
+        {
+          "caller": "assertCanAccess",
+          "callee": "assertActive",
+          "lineNumber": 147
+        },
+        {
+          "caller": "assertCanAccess",
+          "callee": "canAccess",
+          "lineNumber": 148
+        },
+        {
+          "caller": "assertCanAccess",
+          "callee": "new IllegalStateException",
+          "lineNumber": 149
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 23,
+        "functionCount": 23,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "UserAccountStatus",
+          "startLine": 6,
+          "endLine": 16,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountStatus",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "grants",
+          "startLine": 19,
+          "endLine": 25,
+          "params": [
+            "scope"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserRole",
+          "startLine": 8,
+          "endLine": 26,
+          "methods": [
+            "grants"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "grants",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "UserRole",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "grants",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "Username",
+          "startLine": 17,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 23,
+          "endLine": 25,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "normalize",
+          "startLine": 27,
+          "endLine": 32,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "validate",
+          "startLine": 34,
+          "endLine": 44,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "getValue",
+          "startLine": 46,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 50,
+          "endLine": 59,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 61,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 66,
+          "endLine": 69,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Username",
+          "startLine": 9,
+          "endLine": 70,
+          "methods": [
+            "Username",
+            "of",
+            "normalize",
+            "validate",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MIN_LENGTH",
+            "MAX_LENGTH",
+            "ALLOWED_PATTERN",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "Username",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Username",
+          "callee": "normalize",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Username",
+          "callee": "validate",
+          "lineNumber": 19
+        },
+        {
+          "caller": "of",
+          "callee": "new Username",
+          "lineNumber": 24
+        },
+        {
+          "caller": "normalize",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 29
+        },
+        {
+          "caller": "normalize",
+          "callee": "value.trim",
+          "lineNumber": 31
+        },
+        {
+          "caller": "validate",
+          "callee": "value.isEmpty",
+          "lineNumber": 35
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 36
+        },
+        {
+          "caller": "validate",
+          "callee": "value.length",
+          "lineNumber": 38
+        },
+        {
+          "caller": "validate",
+          "callee": "value.length",
+          "lineNumber": 38
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 39
+        },
+        {
+          "caller": "validate",
+          "callee": "ALLOWED_PATTERN.matcher(value).matches",
+          "lineNumber": 41
+        },
+        {
+          "caller": "validate",
+          "callee": "ALLOWED_PATTERN.matcher",
+          "lineNumber": 41
+        },
+        {
+          "caller": "validate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 42
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 58
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 41,
+      "classes": [
+        {
+          "name": "UserAccountRepository",
+          "startLine": 10,
+          "endLine": 49,
+          "methods": [
+            "nextIdentity",
+            "save",
+            "findById",
+            "findByUsername",
+            "findAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "MapStructConfig",
+          "startLine": 11,
+          "endLine": 17,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MapStructConfig",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 62,
+      "functions": [
+        {
+          "name": "nextIdentity",
+          "startLine": 31,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "save",
+          "startLine": 38,
+          "endLine": 46,
+          "params": [
+            "userAccount"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findByUsername",
+          "startLine": 56,
+          "endLine": 62,
+          "params": [
+            "username"
+          ]
+        },
+        {
+          "name": "findAll",
+          "startLine": 64,
+          "endLine": 70,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserAccountRepositoryImpl",
+          "startLine": 21,
+          "endLine": 71,
+          "methods": [
+            "nextIdentity",
+            "save",
+            "findById",
+            "findByUsername",
+            "findAll"
+          ],
+          "properties": [
+            "mapper",
+            "converter"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "nextIdentity",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "findByUsername",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "findAll",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "UserAccountRepositoryImpl",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "nextIdentity",
+          "callee": "System.currentTimeMillis",
+          "lineNumber": 33
+        },
+        {
+          "caller": "nextIdentity",
+          "callee": "ThreadLocalRandom.current().nextLong",
+          "lineNumber": 34
+        },
+        {
+          "caller": "nextIdentity",
+          "callee": "ThreadLocalRandom.current",
+          "lineNumber": 34
+        },
+        {
+          "caller": "nextIdentity",
+          "callee": "UserAccountId.of",
+          "lineNumber": 35
+        },
+        {
+          "caller": "save",
+          "callee": "converter.toPO",
+          "lineNumber": 40
+        },
+        {
+          "caller": "save",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 40
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.selectById",
+          "lineNumber": 41
+        },
+        {
+          "caller": "save",
+          "callee": "po.getId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.insert",
+          "lineNumber": 42
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.update",
+          "lineNumber": 45
+        },
+        {
+          "caller": "findById",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable(mapper.selectById(id.getValue()))\n                .filter(po -> !po.isDeleted()).map",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable(mapper.selectById(id.getValue())).filter",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findById",
+          "callee": "mapper.selectById",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findById",
+          "callee": "id.getValue",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findById",
+          "callee": "po.isDeleted",
+          "lineNumber": 52
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "Optional.ofNullable(mapper.selectByUsername(username.getValue()))\n                .filter(po -> !po.isDeleted()).map",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "Optional.ofNullable(mapper.selectByUsername(username.getValue())).filter",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "mapper.selectByUsername",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "username.getValue",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findByUsername",
+          "callee": "po.isDeleted",
+          "lineNumber": 60
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream()\n                .filter(po -> !po.isDeleted())\n                .map(converter::toDomain).toList",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream()\n                .filter(po -> !po.isDeleted()).map",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream().filter",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findAll",
+          "callee": "po.isDeleted",
+          "lineNumber": 67
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 40,
+      "classes": [
+        {
+          "name": "UserAccountPersistenceConverter",
+          "startLine": 18,
+          "endLine": 44,
+          "methods": [
+            "toPO",
+            "toDomain"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountPersistenceConverter",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toDomain",
+          "callee": "UserAccount.rehydrate",
+          "lineNumber": 33
+        },
+        {
+          "caller": "toDomain",
+          "callee": "UserAccountId.of",
+          "lineNumber": 34
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "toDomain",
+          "callee": "Username.of",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getUsername",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toDomain",
+          "callee": "DisplayName.of",
+          "lineNumber": 36
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getDisplayName",
+          "lineNumber": 36
+        },
+        {
+          "caller": "toDomain",
+          "callee": "UserRole.valueOf",
+          "lineNumber": 37
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getRole",
+          "lineNumber": 37
+        },
+        {
+          "caller": "toDomain",
+          "callee": "UserAccountStatus.valueOf",
+          "lineNumber": 38
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getStatus",
+          "lineNumber": 38
+        },
+        {
+          "caller": "toDomain",
+          "callee": "PasswordHash.ofNullable",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getPasswordHash",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getCreatedTime",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getUpdatedTime",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 9,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 82,
+      "functions": [
+        {
+          "name": "insert",
+          "startLine": 38,
+          "endLine": 44,
+          "params": [
+            "userAccount"
+          ]
+        },
+        {
+          "name": "update",
+          "startLine": 46,
+          "endLine": 59,
+          "params": [
+            "userAccount"
+          ]
+        },
+        {
+          "name": "selectById",
+          "startLine": 61,
+          "endLine": 66,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "selectByUsername",
+          "startLine": 68,
+          "endLine": 73,
+          "params": [
+            "username"
+          ]
+        },
+        {
+          "name": "selectAll",
+          "startLine": 75,
+          "endLine": 80,
+          "params": []
+        },
+        {
+          "name": "params",
+          "startLine": 82,
+          "endLine": 93,
+          "params": [
+            "po"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JdbcUserAccountMapper",
+          "startLine": 17,
+          "endLine": 95,
+          "methods": [
+            "insert",
+            "update",
+            "selectById",
+            "selectByUsername",
+            "selectAll",
+            "params"
+          ],
+          "properties": [
+            "COLUMNS",
+            "jdbcTemplate",
+            "rowMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "insert",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "update",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "selectById",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "selectByUsername",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "selectAll",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "JdbcUserAccountMapper",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insert",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 40
+        },
+        {
+          "caller": "insert",
+          "callee": "params",
+          "lineNumber": 43
+        },
+        {
+          "caller": "update",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 48
+        },
+        {
+          "caller": "update",
+          "callee": "params",
+          "lineNumber": 58
+        },
+        {
+          "caller": "selectById",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 63
+        },
+        {
+          "caller": "selectById",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 63
+        },
+        {
+          "caller": "selectById",
+          "callee": "Map.of",
+          "lineNumber": 65
+        },
+        {
+          "caller": "selectByUsername",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 70
+        },
+        {
+          "caller": "selectByUsername",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 70
+        },
+        {
+          "caller": "selectByUsername",
+          "callee": "Map.of",
+          "lineNumber": 72
+        },
+        {
+          "caller": "selectAll",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 77
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername())\n                .addValue(\"displayName\", po.getDisplayName())\n                .addValue(\"role\", po.getRole())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"passwordHash\", po.getPasswordHash())\n                .addValue(\"createdTime\", Timestamp.from(po.getCreatedTime()))\n                .addValue(\"updatedTime\", Timestamp.from(po.getUpdatedTime())).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername())\n                .addValue(\"displayName\", po.getDisplayName())\n                .addValue(\"role\", po.getRole())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"passwordHash\", po.getPasswordHash())\n                .addValue(\"createdTime\", Timestamp.from(po.getCreatedTime())).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername())\n                .addValue(\"displayName\", po.getDisplayName())\n                .addValue(\"role\", po.getRole())\n                .addValue(\"status\", po.getStatus())\n                .addValue(\"passwordHash\", po.getPasswordHash()).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername())\n                .addValue(\"displayName\", po.getDisplayName())\n                .addValue(\"role\", po.getRole())\n                .addValue(\"status\", po.getStatus()).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername())\n                .addValue(\"displayName\", po.getDisplayName())\n                .addValue(\"role\", po.getRole()).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername())\n                .addValue(\"displayName\", po.getDisplayName()).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId())\n                .addValue(\"username\", po.getUsername()).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", po.getId()).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 83
+        },
+        {
+          "caller": "params",
+          "callee": "po.getId",
+          "lineNumber": 84
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUsername",
+          "lineNumber": 85
+        },
+        {
+          "caller": "params",
+          "callee": "po.getDisplayName",
+          "lineNumber": 86
+        },
+        {
+          "caller": "params",
+          "callee": "po.getRole",
+          "lineNumber": 87
+        },
+        {
+          "caller": "params",
+          "callee": "po.getStatus",
+          "lineNumber": 88
+        },
+        {
+          "caller": "params",
+          "callee": "po.getPasswordHash",
+          "lineNumber": 89
+        },
+        {
+          "caller": "params",
+          "callee": "Timestamp.from",
+          "lineNumber": 90
+        },
+        {
+          "caller": "params",
+          "callee": "po.getCreatedTime",
+          "lineNumber": 90
+        },
+        {
+          "caller": "params",
+          "callee": "Timestamp.from",
+          "lineNumber": 91
+        },
+        {
+          "caller": "params",
+          "callee": "po.getUpdatedTime",
+          "lineNumber": 91
+        },
+        {
+          "caller": "params",
+          "callee": "po.isDeleted",
+          "lineNumber": 92
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    }
+  ]
+}

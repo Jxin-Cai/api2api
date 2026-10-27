@@ -1,0 +1,1137 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "type": "file",
+      "name": "ApiCredentialApplicationServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "在统一配额服务参与的最新密钥服务下验证白名单、所有者删除、累计与当日用量及受限模型展示。",
+      "tags": [
+        "密钥服务测试",
+        "统一配额",
+        "用量视图"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:ApiCredentialApplicationServiceTest",
+      "type": "class",
+      "name": "ApiCredentialApplicationServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "在统一配额服务参与的最新密钥服务下验证白名单、所有者删除、累计与当日用量及受限模型展示。",
+      "tags": [
+        "密钥服务测试",
+        "统一配额",
+        "用量视图"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        39,
+        202
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_credential_whitelist_when_api_key_is_active",
+      "type": "function",
+      "name": "test_returns_credential_whitelist_when_api_key_is_active",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "启用密钥通过认证时，验证返回该密钥当前模型白名单。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        41,
+        69
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_soft_deletes_credential_when_owner_requests_deletion",
+      "type": "function",
+      "name": "test_soft_deletes_credential_when_owner_requests_deletion",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "所有者请求删除密钥时，验证删除写入与当前身份一致且后续不可见。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        71,
+        106
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_actual_and_total_tokens_when_listing_credentials",
+      "type": "function",
+      "name": "test_returns_actual_and_total_tokens_when_listing_credentials",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "列举密钥用量视图时，验证累计及当日均返回原始与加权令牌统计。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        108,
+        153
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "type": "function",
+      "name": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "summary": "统一配额服务返回受限模型时，验证密钥用量视图正确展示该集合。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        155,
+        201
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "type": "file",
+      "name": "ModelGroupApplicationServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "验证全局模型组在渠道可用性变化时的权限交集和保存配置，覆盖空支持、日限额兼容视图及密钥绑定删除保护。",
+      "tags": [
+        "模型组测试",
+        "全局目录",
+        "渠道可用性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:ModelGroupApplicationServiceTest",
+      "type": "class",
+      "name": "ModelGroupApplicationServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "验证全局模型组在渠道可用性变化时的权限交集和保存配置，覆盖空支持、日限额兼容视图及密钥绑定删除保护。",
+      "tags": [
+        "模型组测试",
+        "全局目录",
+        "渠道可用性"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        34,
+        172
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_intersects_permissions_when_provider_also_supports_models_outside_group",
+      "type": "function",
+      "name": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道还支持白名单外模型时，验证有效模型仅为组权限和渠道支持的交集。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        58
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "type": "function",
+      "name": "test_returns_empty_support_when_group_whitelist_is_empty",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "组白名单为空时，验证有效模型集合为空。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        60,
+        72
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_updates_effective_group_support_when_provider_availability_changes",
+      "type": "function",
+      "name": "test_updates_effective_group_support_when_provider_availability_changes",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道可用性变化时，验证模型组视图重新计算有效支持模型。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        74,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_preserves_saved_configuration_when_provider_support_disappears",
+      "type": "function",
+      "name": "test_preserves_saved_configuration_when_provider_support_disappears",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道不再支持模型时，验证不删改组内已保存白名单和兼容限额配置。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        91,
+        106
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_serializes_no_effective_models_when_group_has_no_provider_support",
+      "type": "function",
+      "name": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "组内模型均无可用渠道时，验证响应保留配置且有效模型列表为空。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        108,
+        120
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_keeps_daily_limit_status_when_provider_is_unavailable",
+      "type": "function",
+      "name": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "渠道不可用时，验证模型组兼容日限额和受限状态仍按用量展示。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        122,
+        134
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_rejects_deletion_when_group_has_bound_credentials",
+      "type": "function",
+      "name": "test_rejects_deletion_when_group_has_bound_credentials",
+      "filePath": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "summary": "管理员删除仍有密钥绑定的组时，验证服务拒绝并保留数据。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        141,
+        171
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "type": "file",
+      "name": "TokenQuotaServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "summary": "验证组级和密钥级周期配额同时约束准入，一方有余额不能绕过另一方超额；特定模型规则不影响其他模型，未耗尽规则放行。",
+      "tags": [
+        "配额测试",
+        "周期预算",
+        "双层约束"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:TokenQuotaServiceTest",
+      "type": "class",
+      "name": "TokenQuotaServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "summary": "验证组级和密钥级周期配额同时约束准入，一方有余额不能绕过另一方超额；特定模型规则不影响其他模型，未耗尽规则放行。",
+      "tags": [
+        "配额测试",
+        "周期预算",
+        "双层约束"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        18,
+        86
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_rejects_request_when_group_period_budget_is_exhausted",
+      "type": "function",
+      "name": "test_rejects_request_when_group_period_budget_is_exhausted",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "summary": "分别耗尽各周期的模型组预算，验证准入抛出配额超限异常。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        40
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_rejects_key_when_group_budget_still_has_capacity",
+      "type": "function",
+      "name": "test_rejects_key_when_group_budget_still_has_capacity",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "summary": "组预算仍有余额而密钥月额度耗尽时，验证请求被密钥规则拒绝。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        42,
+        52
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_rejects_group_when_key_budget_still_has_capacity",
+      "type": "function",
+      "name": "test_rejects_group_when_key_budget_still_has_capacity",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "summary": "密钥仍有余额而模型组周额度耗尽时，验证请求被组规则拒绝。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        54,
+        64
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_allows_other_model_when_rule_limits_specific_model",
+      "type": "function",
+      "name": "test_allows_other_model_when_rule_limits_specific_model",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "summary": "规则限制其他模型时，验证不查询该规则消费且允许当前模型。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        66,
+        75
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "type": "file",
+      "name": "ResponsesImageRoutingTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "验证 Responses 图像桥接的原生路由、候选故障转移和原始用量结算，覆盖统一配额在传输前拒绝及用户并发限制不隔离渠道的规则。",
+      "tags": [
+        "图像桥接测试",
+        "统一配额",
+        "限流分类"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:ResponsesImageRoutingTest",
+      "type": "class",
+      "name": "ResponsesImageRoutingTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "验证 Responses 图像桥接的原生路由、候选故障转移和原始用量结算，覆盖统一配额在传输前拒绝及用户并发限制不隔离渠道的规则。",
+      "tags": [
+        "图像桥接测试",
+        "统一配额",
+        "限流分类"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        58,
+        243
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:setUp",
+      "type": "function",
+      "name": "setUp",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "组装包含统一配额服务、渠道路由、上游调用与用量仓储的最新图像桥接测试依赖。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        68,
+        96
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+      "type": "function",
+      "name": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "上游返回用户并发限制429时，验证不标记渠道模型为令牌限流隔离。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        98,
+        108
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_skips_channel_routing_when_group_budget_is_exhausted",
+      "type": "function",
+      "name": "test_skips_channel_routing_when_group_budget_is_exhausted",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "模型组周期配额耗尽时，验证桥接在任何上游交互之前抛出配额异常。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        110,
+        121
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_uses_native_images_route_when_only_images_conversion_is_registered",
+      "type": "function",
+      "name": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "仅注册图像转换时，验证桥接候选的客户端及上游协议均为图像协议。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        123,
+        132
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_fails_over_to_second_image_channel_when_first_returns_503",
+      "type": "function",
+      "name": "test_fails_over_to_second_image_channel_when_first_returns_503",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "首个图像渠道返回503时，验证切换下一候选并完成请求。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        134,
+        146
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_cancels_reservation_when_image_stream_is_truncated",
+      "type": "function",
+      "name": "test_cancels_reservation_when_image_stream_is_truncated",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "图像流未完整结束时，验证取消预留而不提交完整成功用量。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        177,
+        187
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_records_stream_usage_when_images_send_completion_data_without_event_header",
+      "type": "function",
+      "name": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "summary": "图像流只有完成数据且无事件头时，验证仍提取最终用量并结算。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        189,
+        201
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:ApiCredentialApplicationServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_credential_whitelist_when_api_key_is_active",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_soft_deletes_credential_when_owner_requests_deletion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_actual_and_total_tokens_when_listing_credentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:ModelGroupApplicationServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_intersects_permissions_when_provider_also_supports_models_outside_group",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_updates_effective_group_support_when_provider_availability_changes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_preserves_saved_configuration_when_provider_support_disappears",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_serializes_no_effective_models_when_group_has_no_provider_support",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_keeps_daily_limit_status_when_provider_is_unavailable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_rejects_deletion_when_group_has_bound_credentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/converter/ModelGroupHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:TokenQuotaServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_rejects_request_when_group_period_budget_is_exhausted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_rejects_key_when_group_budget_still_has_capacity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_rejects_group_when_key_budget_still_has_capacity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java:test_allows_other_model_when_rule_limits_specific_model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:ResponsesImageRoutingTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:setUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_skips_channel_routing_when_group_budget_is_exhausted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_uses_native_images_route_when_only_images_conversion_is_registered",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_fails_over_to_second_image_channel_when_first_returns_503",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_cancels_reservation_when_image_stream_is_truncated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:test_records_stream_usage_when_images_send_completion_data_without_event_header",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ModelDailyLimitWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyPreview.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/EncryptedApiKeyMaterial.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIImagesUsageExtractor.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolContractRegistry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_returns_actual_and_total_tokens_when_listing_credentials",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java:test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java:test_returns_empty_support_when_group_whitelist_is_empty",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java:setUp",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:unlimited",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

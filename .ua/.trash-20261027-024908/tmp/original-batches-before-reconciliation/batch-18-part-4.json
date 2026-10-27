@@ -1,0 +1,872 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "type": "file",
+      "name": "UsageRecordResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "summary": "输出调用身份、关联名称、协议模型、令牌明细、耗时、来源地址和错误诊断，渠道字段受管理员视图限制。",
+      "tags": [
+        "响应模型",
+        "用量详情",
+        "调用诊断"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java:UsageRecordResponse",
+      "type": "class",
+      "name": "UsageRecordResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "summary": "输出调用身份、关联名称、协议模型、令牌明细、耗时、来源地址和错误诊断，渠道字段受管理员视图限制。",
+      "tags": [
+        "响应模型",
+        "用量详情",
+        "调用诊断"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        50
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "type": "file",
+      "name": "UsageRecordPersistenceConverterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "验证用量持久化转换兼容历史缓存令牌口径和网关协议别名，保留上游路由身份并补全失败记录。",
+      "tags": [
+        "转换测试",
+        "历史兼容",
+        "协议别名"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:UsageRecordPersistenceConverterTest",
+      "type": "class",
+      "name": "UsageRecordPersistenceConverterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "验证用量持久化转换兼容历史缓存令牌口径和网关协议别名，保留上游路由身份并补全失败记录。",
+      "tags": [
+        "转换测试",
+        "历史兼容",
+        "协议别名"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        24,
+        163
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_preservesPersistedFields_when_rehydratingEachLifecycleState",
+      "type": "function",
+      "name": "test_preservesPersistedFields_when_rehydratingEachLifecycleState",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "恢复各生命周期状态的用量记录时，验证持久化身份、路由和状态字段完整保留。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        32,
+        67
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_preservesFirstTokenLatency_when_latencyIsAbsentOrMeasured",
+      "type": "function",
+      "name": "test_preservesFirstTokenLatency_when_latencyIsAbsentOrMeasured",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "首令牌延迟缺失或已测量时，验证转换分别保留空值或实际测量值。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        69,
+        82
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:toPOPersistsDomainDuration",
+      "type": "function",
+      "name": "toPOPersistsDomainDuration",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "将领域用量记录转为数据库对象时，验证使用领域耗时而非重新计算。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        94,
+        121
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_recalculatesTotalTokens_when_persistedTotalIsInconsistent",
+      "type": "function",
+      "name": "test_recalculatesTotalTokens_when_persistedTotalIsInconsistent",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "历史保存的总令牌量与明细不一致时，验证根据规范化明细重新计算合计。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        123,
+        134
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:po",
+      "type": "function",
+      "name": "po",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "summary": "构造不同调用生命周期、令牌明细和路由信息的持久化测试样本。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        136,
+        162
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "type": "file",
+      "name": "DashboardResponseConverterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "summary": "验证仪表盘最近调用字段映射，以及门户仪表盘原始和加权令牌汇总的输出。",
+      "tags": [
+        "仪表盘测试",
+        "用量转换",
+        "令牌汇总"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:DashboardResponseConverterTest",
+      "type": "class",
+      "name": "DashboardResponseConverterTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "summary": "验证仪表盘最近调用字段映射，以及门户仪表盘原始和加权令牌汇总的输出。",
+      "tags": [
+        "仪表盘测试",
+        "用量转换",
+        "令牌汇总"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        23,
+        109
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_mapsUsageRecordFields_when_renderingRecentCall",
+      "type": "function",
+      "name": "test_mapsUsageRecordFields_when_renderingRecentCall",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "summary": "构造包含身份、协议、用量、来源和耗时的记录，验证最近调用响应完整映射对应字段。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        31,
+        84
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_maps_actual_and_total_token_sums_when_rendering_front_dashboard",
+      "type": "function",
+      "name": "test_maps_actual_and_total_token_sums_when_rendering_front_dashboard",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "summary": "验证门户仪表盘同时输出原始令牌合计与加权令牌合计。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        86,
+        108
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "type": "file",
+      "name": "GatewayRequestMapperTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "summary": "验证请求操作不支持流式时，即使协议解析结果要求流式也会在调用命令中关闭。",
+      "tags": [
+        "请求映射测试",
+        "流式约束",
+        "操作能力"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java:GatewayRequestMapperTest",
+      "type": "class",
+      "name": "GatewayRequestMapperTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "summary": "验证请求操作不支持流式时，即使协议解析结果要求流式也会在调用命令中关闭。",
+      "tags": [
+        "请求映射测试",
+        "流式约束",
+        "操作能力"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        18,
+        55
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java:test_disablesStreaming_when_operationDoesNotSupportIt",
+      "type": "function",
+      "name": "test_disablesStreaming_when_operationDoesNotSupportIt",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "summary": "协议请求标记为流式但操作不支持流式时，验证生成的网关命令将流式标记设为假。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        54
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "type": "file",
+      "name": "UsageRecordHttpConverterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "summary": "验证用量转换中允许的页面大小、协议别名兼容及原始与加权令牌汇总。",
+      "tags": [
+        "转换测试",
+        "分页校验",
+        "令牌汇总"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:UsageRecordHttpConverterTest",
+      "type": "class",
+      "name": "UsageRecordHttpConverterTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "summary": "验证用量转换中允许的页面大小、协议别名兼容及原始与加权令牌汇总。",
+      "tags": [
+        "转换测试",
+        "分页校验",
+        "令牌汇总"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        24,
+        107
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:pageWith",
+      "type": "function",
+      "name": "pageWith",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "summary": "将用量视图和令牌汇总包装为分页测试数据。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        82
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:successfulRecord",
+      "type": "function",
+      "name": "successfulRecord",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "summary": "构造带用户、密钥和路由信息的成功用量记录。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        84,
+        106
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java:UsageRecordResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java:UsageRecordResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/usage/dto/UsageRecordResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:UsageRecordPersistenceConverterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_preservesPersistedFields_when_rehydratingEachLifecycleState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_preservesFirstTokenLatency_when_latencyIsAbsentOrMeasured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:toPOPersistsDomainDuration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_recalculatesTotalTokens_when_persistedTotalIsInconsistent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:po",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:DashboardResponseConverterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_mapsUsageRecordFields_when_renderingRecentCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_maps_actual_and_total_token_sums_when_rendering_front_dashboard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java:GatewayRequestMapperTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java:test_disablesStreaming_when_operationDoesNotSupportIt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ParsedGatewayRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayRequestMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:UsageRecordHttpConverterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:pageWith",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:successfulRecord",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_preservesPersistedFields_when_rehydratingEachLifecycleState",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:po",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_preservesFirstTokenLatency_when_latencyIsAbsentOrMeasured",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:po",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:toPOPersistsDomainDuration",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:toPOPersistsDomainDuration",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java:between",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:test_recalculatesTotalTokens_when_persistedTotalIsInconsistent",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/usage/converter/UsageRecordPersistenceConverterTest.java:po",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_mapsUsageRecordFields_when_renderingRecentCall",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_mapsUsageRecordFields_when_renderingRecentCall",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java:between",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_maps_actual_and_total_token_sums_when_rendering_front_dashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverterTest.java:test_maps_actual_and_total_token_sums_when_rendering_front_dashboard",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:pageWith",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:successfulRecord",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/ohs/http/usage/converter/UsageRecordHttpConverterTest.java:successfulRecord",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java:between",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

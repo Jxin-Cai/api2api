@@ -1,0 +1,1197 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "file",
+      "name": "ApiCredentialApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "编排用户密钥创建、查询、明文揭示、重命名、切换模型组和启停删除，校验所有权并汇总实际与原始用量。新建密钥使用无限旧额度，受限模型改由统一令牌配额服务判定，网关认证仍校验可用性和模型白名单。",
+      "tags": [
+        "密钥服务",
+        "统一配额",
+        "权限校验"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:ApiCredentialApplicationService",
+      "type": "class",
+      "name": "ApiCredentialApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "编排用户密钥创建、查询、明文揭示、重命名、切换模型组和启停删除，校验所有权并汇总实际与原始用量。新建密钥使用无限旧额度，受限模型改由统一令牌配额服务判定，网关认证仍校验可用性和模型白名单。",
+      "tags": [
+        "密钥服务",
+        "统一配额",
+        "权限校验"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        45,
+        276
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:createCredential",
+      "type": "function",
+      "name": "createCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "校验用户权限并加载全局模型组，将其白名单复制到新密钥，使用无限旧额度并持久化。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentials",
+      "type": "function",
+      "name": "listMyCredentials",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "校验门户访问权限后读取当前用户名下密钥。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        91,
+        95
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "type": "function",
+      "name": "listMyCredentialUsageViews",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "为当前用户每个密钥读取累计与当日用量，并从统一配额服务计算受限模型。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        97,
+        110
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:usageView",
+      "type": "function",
+      "name": "usageView",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "组合密钥、累计原始及加权用量、当日用量和受限模型，构建密钥展示视图。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        112,
+        127
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:revealSecret",
+      "type": "function",
+      "name": "revealSecret",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "验证密钥所有权和加密材料可用性，解密后核对存储哈希，拒绝材料不完整或被破坏的记录。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        129,
+        142
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:renameCredential",
+      "type": "function",
+      "name": "renameCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "验证所有权后更新密钥名称和审计时间并保存。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        144,
+        153
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:changeModelGroup",
+      "type": "function",
+      "name": "changeModelGroup",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "验证密钥所有权，加载新全局模型组并同步组身份及白名单到密钥。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        155,
+        164
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:disableCredential",
+      "type": "function",
+      "name": "disableCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "验证所有权后禁用密钥并持久化。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        166,
+        175
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:enableCredential",
+      "type": "function",
+      "name": "enableCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "验证所有权后启用密钥并持久化。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        177,
+        186
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:deleteCredential",
+      "type": "function",
+      "name": "deleteCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "验证所有权后按当前时刻软删除密钥。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        188,
+        195
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "type": "function",
+      "name": "authenticateForGateway",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "按密钥哈希查询，校验启用状态、模型权限和已消费额度，记录最后使用时刻并保存。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        197,
+        209
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForModelListing",
+      "type": "function",
+      "name": "authenticateForModelListing",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "按密钥哈希查找并校验可用性，供模型目录查询使用。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        211,
+        217
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:todayTokenBreakdown",
+      "type": "function",
+      "name": "todayTokenBreakdown",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "summary": "按用户、密钥和当日范围查询令牌明细，拒绝负计费用量。",
+      "tags": [
+        "业务方法",
+        "密钥服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        244,
+        261
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "type": "file",
+      "name": "ModelGroupApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "向可访问门户的用户提供全局模型组及当前渠道有效模型视图，仅允许管理员创建、修改和删除。管理操作校验全局名称唯一与密钥绑定，保存时清空旧模型日限额。",
+      "tags": [
+        "模型组服务",
+        "全局目录",
+        "管理员管理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:ModelGroupApplicationService",
+      "type": "class",
+      "name": "ModelGroupApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "向可访问门户的用户提供全局模型组及当前渠道有效模型视图，仅允许管理员创建、修改和删除。管理操作校验全局名称唯一与密钥绑定，保存时清空旧模型日限额。",
+      "tags": [
+        "模型组服务",
+        "全局目录",
+        "管理员管理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        30,
+        127
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroups",
+      "type": "function",
+      "name": "listMyGroups",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "校验用户门户访问权限后读取全局模型组目录，不按所有者分割配置。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        44
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroupViews",
+      "type": "function",
+      "name": "listMyGroupViews",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "组合全局模型组、当前用户日用量和渠道可用模型，形成模型组展示视图。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        46,
+        54
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listAdminGroupViews",
+      "type": "function",
+      "name": "listAdminGroupViews",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "校验后台管理员权限后复用全局模型组视图查询。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        56,
+        60
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:viewGroup",
+      "type": "function",
+      "name": "viewGroup",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "按模型组所有者补充日用量，并计算与当前渠道可用模型的交集。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        62,
+        68
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:createGroup",
+      "type": "function",
+      "name": "createGroup",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "校验管理员身份与全局名称唯一性，使用空旧日限额创建并保存模型组。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        78
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:updateGroup",
+      "type": "function",
+      "name": "updateGroup",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "校验管理员身份和名称唯一性，更新名称及白名单，清空旧日限额并保存。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        80,
+        88
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:deleteGroup",
+      "type": "function",
+      "name": "deleteGroup",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "summary": "校验管理员权限，拒绝删除仍绑定密钥的组，否则软删除。",
+      "tags": [
+        "业务方法",
+        "模型组服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        90,
+        98
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:ApiCredentialApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:ApiCredentialApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:createCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:createCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentials",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:usageView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:revealSecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:revealSecret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:renameCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:renameCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:changeModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:changeModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:disableCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:disableCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:enableCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:enableCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:deleteCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:deleteCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForModelListing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForModelListing",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:todayTokenBreakdown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/AuthenticateApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeApiCredentialStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/CreateApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/RenameApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/RevealApiCredentialSecretCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:ModelGroupApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:ModelGroupApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroups",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroups",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroupViews",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroupViews",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listAdminGroupViews",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listAdminGroupViews",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:viewGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:viewGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:createGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:createGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:updateGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:updateGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:deleteGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:deleteGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/CreateModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:unlimited",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentials",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:usageView",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:limitedModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:usageView",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:todayTokenBreakdown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:revealSecret",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rename",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeModelGroup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:disable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:enable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:deleteCredential",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertUsable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertModelAllowed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertQuotaAvailable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForGateway",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:markUsed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:authenticateForModelListing",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertUsable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:todayTokenBreakdown",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java:forUserPortal",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroupViews",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroups",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listAdminGroupViews",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:listMyGroupViews",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:createGroup",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:createGroup",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java:updateGroup",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

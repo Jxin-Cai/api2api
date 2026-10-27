@@ -1,0 +1,652 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "type": "file",
+      "name": "GlobalExceptionAdvice.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "summary": "管理 API 的全局异常转换器，将认证、参数绑定、校验、业务及未知异常转换为统一 ApiResponse。ACCESS_DENIED 返回 403，未知异常记录完整堆栈后返回不含内部细节的 500 响应。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:GlobalExceptionAdvice",
+      "type": "class",
+      "name": "GlobalExceptionAdvice",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        22,
+        110
+      ],
+      "summary": "管理 API 的全局异常转换器，将认证、参数绑定、校验、业务及未知异常转换为统一 ApiResponse。ACCESS_DENIED 返回 403，未知异常记录完整堆栈后返回不含内部细节的 500 响应。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleAuthenticationRequired",
+      "type": "function",
+      "name": "handleAuthenticationRequired",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        30,
+        34
+      ],
+      "summary": "将缺少有效登录会话转换为 HTTP 401 与 AUTHENTICATION_REQUIRED 响应。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBusinessException",
+      "type": "function",
+      "name": "handleBusinessException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        36,
+        40
+      ],
+      "summary": "将业务异常转换为 HTTP 400，并保留业务错误码和消息。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleMethodArgumentNotValidException",
+      "type": "function",
+      "name": "handleMethodArgumentNotValidException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        42,
+        45
+      ],
+      "summary": "把请求对象校验失败转换为字段错误汇总的 400 响应。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBindException",
+      "type": "function",
+      "name": "handleBindException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        47,
+        53
+      ],
+      "summary": "汇总绑定失败的字段名和消息，以分号连接后返回 400。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleConstraintViolationException",
+      "type": "function",
+      "name": "handleConstraintViolationException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        55,
+        61
+      ],
+      "summary": "汇总约束违反的属性路径和消息后返回 400。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleHttpMessageNotReadableException",
+      "type": "function",
+      "name": "handleHttpMessageNotReadableException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        63,
+        66
+      ],
+      "summary": "将请求体格式或读取失败转换为固定文案的 400 响应。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBadRequest",
+      "type": "function",
+      "name": "handleBadRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        68,
+        79
+      ],
+      "summary": "将 ACCESS_DENIED 前缀错误映射为 403，其他参数、状态、请求头和类型错误映射为 400。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleException",
+      "type": "function",
+      "name": "handleException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        81,
+        86
+      ],
+      "summary": "记录未预期异常及完整堆栈，以统一错误码返回 500。",
+      "tags": [
+        "异常处理",
+        "http-适配",
+        "统一响应",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "type": "file",
+      "name": "GatewayProtocolExceptionAdvice.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "summary": "为 SDK 网关控制器提供最高优先级的协议兼容错误处理，按端点生成 Messages 或 OpenAI 错误体。配额超限返回 429 与可选 Retry-After，客户端断连只记录信息，其他未知异常记录堆栈并返回 500。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:GatewayProtocolExceptionAdvice",
+      "type": "class",
+      "name": "GatewayProtocolExceptionAdvice",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        22,
+        150
+      ],
+      "summary": "为 SDK 网关控制器提供最高优先级的协议兼容错误处理，按端点生成 Messages 或 OpenAI 错误体。配额超限返回 429 与可选 Retry-After，客户端断连只记录信息，其他未知异常记录堆栈并返回 500。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleGatewayProtocol",
+      "type": "function",
+      "name": "handleGatewayProtocol",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        31,
+        36
+      ],
+      "summary": "直接使用网关异常携带的协议、状态和错误类型生成 JSON 响应。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleTokenQuota",
+      "type": "function",
+      "name": "handleTokenQuota",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        38,
+        47
+      ],
+      "summary": "返回 429 限流错误，在存在重置时间时计算至少一秒的 Retry-After。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBusiness",
+      "type": "function",
+      "name": "handleBusiness",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        49,
+        56
+      ],
+      "summary": "从请求端点识别协议，按业务错误码映射 HTTP 状态及错误类型后构造响应。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBadRequest",
+      "type": "function",
+      "name": "handleBadRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        58,
+        66
+      ],
+      "summary": "将参数、状态或缺失请求头错误按已知权限与配额信息映射为协议错误体。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleUnexpected",
+      "type": "function",
+      "name": "handleUnexpected",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        68,
+        78
+      ],
+      "summary": "识别客户端断连并仅记录信息；其他异常记录完整堆栈并返回通用 500 协议响应。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:protocolOf",
+      "type": "function",
+      "name": "protocolOf",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        80,
+        97
+      ],
+      "summary": "按请求路径识别 Messages、Responses、Chat Completions 或 Images 协议，缺省使用 Chat Completions。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:mapBusinessCode",
+      "type": "function",
+      "name": "mapBusinessCode",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        99,
+        108
+      ],
+      "summary": "规范化业务码，将鉴权、模型权限、配额与非法 Token 汇总映射为相应 HTTP 状态和协议错误类型。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:normalizeCode",
+      "type": "function",
+      "name": "normalizeCode",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "lineRange": [
+        119,
+        129
+      ],
+      "summary": "移除消息冒号后的说明、裁剪空白并使用 ROOT 规则转为大写，空值返回空字符串。",
+      "tags": [
+        "异常处理",
+        "网关协议",
+        "配额超限",
+        "断连检测"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:GlobalExceptionAdvice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:GlobalExceptionAdvice",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleAuthenticationRequired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleAuthenticationRequired",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleMethodArgumentNotValidException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleMethodArgumentNotValidException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBindException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBindException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleConstraintViolationException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleConstraintViolationException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleHttpMessageNotReadableException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleHttpMessageNotReadableException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBadRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBadRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:GatewayProtocolExceptionAdvice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:GatewayProtocolExceptionAdvice",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleGatewayProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleGatewayProtocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleTokenQuota",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleTokenQuota",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBusiness",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBusiness",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBadRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBadRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleUnexpected",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleUnexpected",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:protocolOf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:mapBusinessCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:normalizeCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleTokenQuota",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:protocolOf",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBusiness",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:protocolOf",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBusiness",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:mapBusinessCode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleBadRequest",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:protocolOf",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:handleUnexpected",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:protocolOf",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:mapBusinessCode",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java:normalizeCode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

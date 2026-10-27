@@ -1,0 +1,1346 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "type": "file",
+      "name": "ClaudeMessagesToResponsesStreamingConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "summary": "将 Claude Messages 的 SSE 生命周期转换为 Responses 事件流，维护文本、工具调用及思考内容块状态，并在流结束时汇总响应与令牌用量。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机",
+        "工具调用"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:ClaudeMessagesToResponsesStreamingConverter",
+      "type": "class",
+      "name": "ClaudeMessagesToResponsesStreamingConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        25,
+        564
+      ],
+      "summary": "将 Claude Messages 的 SSE 生命周期转换为 Responses 事件流，维护文本、工具调用及思考内容块状态，并在流结束时汇总响应与令牌用量。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机",
+        "工具调用"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:transform",
+      "type": "function",
+      "name": "transform",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        37,
+        83
+      ],
+      "summary": "读取 Claude SSE 事件并驱动内容块状态机，将 Responses 事件写入客户端输出流并返回统一用量。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:handleEvent",
+      "type": "function",
+      "name": "handleEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        85,
+        102
+      ],
+      "summary": "处理事件，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:handleMessageStart",
+      "type": "function",
+      "name": "handleMessageStart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        104,
+        114
+      ],
+      "summary": "处理消息开始，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:handleMessageDelta",
+      "type": "function",
+      "name": "handleMessageDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        116,
+        131
+      ],
+      "summary": "处理消息增量，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openBlock",
+      "type": "function",
+      "name": "openBlock",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        133,
+        174
+      ],
+      "summary": "按 Claude 内容块类型分配输出条目，初始化文本、工具、思考或脱敏思考事件。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openReasoning",
+      "type": "function",
+      "name": "openReasoning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        176,
+        192
+      ],
+      "summary": "开启推理，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openRedactedThinking",
+      "type": "function",
+      "name": "openRedactedThinking",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        194,
+        208
+      ],
+      "summary": "开启脱敏思考状态，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openText",
+      "type": "function",
+      "name": "openText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        210,
+        224
+      ],
+      "summary": "开启文本，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openTool",
+      "type": "function",
+      "name": "openTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        226,
+        241
+      ],
+      "summary": "开启工具，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:emitBlockDelta",
+      "type": "function",
+      "name": "emitBlockDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        243,
+        281
+      ],
+      "summary": "发送内容块增量，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:emitToolArguments",
+      "type": "function",
+      "name": "emitToolArguments",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        283,
+        298
+      ],
+      "summary": "发送工具参数，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeBlock",
+      "type": "function",
+      "name": "closeBlock",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        300,
+        313
+      ],
+      "summary": "关闭内容块，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeReasoning",
+      "type": "function",
+      "name": "closeReasoning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        315,
+        347
+      ],
+      "summary": "关闭推理，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeRedactedThinking",
+      "type": "function",
+      "name": "closeRedactedThinking",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        349,
+        361
+      ],
+      "summary": "关闭脱敏思考状态，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeText",
+      "type": "function",
+      "name": "closeText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        363,
+        385
+      ],
+      "summary": "关闭文本，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:finalizeStream",
+      "type": "function",
+      "name": "finalizeStream",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        407,
+        439
+      ],
+      "summary": "关闭尚未完成的内容块并组装最终 Responses 响应和用量，写出流式完成事件。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:ensureCreated",
+      "type": "function",
+      "name": "ensureCreated",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        441,
+        450
+      ],
+      "summary": "确保创建状态，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:toolItem",
+      "type": "function",
+      "name": "toolItem",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        470,
+        482
+      ],
+      "summary": "提供工具条目，用于Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "function",
+      "name": "writeOutputItemEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "lineRange": [
+        491,
+        501
+      ],
+      "summary": "写出输出条目事件，支撑Claude 到 Responses 的流式转换。",
+      "tags": [
+        "协议转换",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "type": "file",
+      "name": "ClaudeMessagesUsageExtractor.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "summary": "从 Claude Messages 响应中提取统一令牌用量，优先采用顶层统计，兼容迭代用量及缓存创建、读取字段。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:ClaudeMessagesUsageExtractor",
+      "type": "class",
+      "name": "ClaudeMessagesUsageExtractor",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "lineRange": [
+        8,
+        126
+      ],
+      "summary": "从 Claude Messages 响应中提取统一令牌用量，优先采用顶层统计，兼容迭代用量及缓存创建、读取字段。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:protocol",
+      "type": "function",
+      "name": "protocol",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "lineRange": [
+        11,
+        14
+      ],
+      "summary": "提供协议，用于Claude 用量统计。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extract",
+      "type": "function",
+      "name": "extract",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "lineRange": [
+        16,
+        23
+      ],
+      "summary": "从 Claude Messages 响应中提取统一令牌用量，优先采用顶层统计，兼容迭代用量及缓存创建、读取字段。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extractUsageNode",
+      "type": "function",
+      "name": "extractUsageNode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "lineRange": [
+        25,
+        63
+      ],
+      "summary": "校验 Claude 用量节点，优先使用顶层权威统计并在需要时汇总迭代与缓存令牌。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:sumIterations",
+      "type": "function",
+      "name": "sumIterations",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "lineRange": [
+        65,
+        86
+      ],
+      "summary": "汇总迭代列表，支撑Claude 用量统计。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "type": "file",
+      "name": "ClaudeResponsesMediaMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "summary": "双向映射 Claude 图片及文档块与 Responses 多模态输入，保留 MIME 类型、文件名及内联数据，并将不能附在文件上的说明转换为伴随文本。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换",
+        "文件处理"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:ClaudeResponsesMediaMapper",
+      "type": "class",
+      "name": "ClaudeResponsesMediaMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        23,
+        440
+      ],
+      "summary": "双向映射 Claude 图片及文档块与 Responses 多模态输入，保留 MIME 类型、文件名及内联数据，并将不能附在文件上的说明转换为伴随文本。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换",
+        "文件处理"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addClaudeImage",
+      "type": "function",
+      "name": "addClaudeImage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        85,
+        116
+      ],
+      "summary": "添加Claude图片，支撑多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addClaudeDocument",
+      "type": "function",
+      "name": "addClaudeDocument",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        118,
+        153
+      ],
+      "summary": "添加Claude文档，支撑多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:imagePartToClaude",
+      "type": "function",
+      "name": "imagePartToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        155,
+        179
+      ],
+      "summary": "将图片片段转换为Claude，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:filePartToClaude",
+      "type": "function",
+      "name": "filePartToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        181,
+        206
+      ],
+      "summary": "将文件片段转换为Claude，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:toChatFilePart",
+      "type": "function",
+      "name": "toChatFilePart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        208,
+        227
+      ],
+      "summary": "转换为Chat Completions文件片段，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:chatFileToClaudeDocument",
+      "type": "function",
+      "name": "chatFileToClaudeDocument",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        229,
+        251
+      ],
+      "summary": "将Chat Completions文件转换为Claude文档，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:chatFileToResponsesInputFile",
+      "type": "function",
+      "name": "chatFileToResponsesInputFile",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        253,
+        273
+      ],
+      "summary": "将Chat Completions文件转换为Responses输入文件，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addClaudeContentDocument",
+      "type": "function",
+      "name": "addClaudeContentDocument",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        275,
+        307
+      ],
+      "summary": "添加Claude内容文档，支撑多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addCompanionText",
+      "type": "function",
+      "name": "addCompanionText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        309,
+        334
+      ],
+      "summary": "添加伴随文本，支撑多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:inlineFileFromBase64",
+      "type": "function",
+      "name": "inlineFileFromBase64",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        336,
+        346
+      ],
+      "summary": "提供内联文件来源Base64，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:filenameFor",
+      "type": "function",
+      "name": "filenameFor",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        355,
+        365
+      ],
+      "summary": "提供文件名面向，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:extensionForMediaType",
+      "type": "function",
+      "name": "extensionForMediaType",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        367,
+        380
+      ],
+      "summary": "提供扩展名面向媒体类型，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:mediaTypeFromFilename",
+      "type": "function",
+      "name": "mediaTypeFromFilename",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        382,
+        392
+      ],
+      "summary": "提供媒体类型来源文件名，用于多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:sanitizeFilename",
+      "type": "function",
+      "name": "sanitizeFilename",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "lineRange": [
+        394,
+        404
+      ],
+      "summary": "清理文件名，支撑多协议图片与文档映射。",
+      "tags": [
+        "多模态",
+        "媒体映射",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "type": "file",
+      "name": "ClaudeThinkingStateBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "summary": "通过 Responses 的 encrypted_content 字段封装与恢复 Claude 原生签名思考及脱敏思考块，使无状态客户端能够回放推理上下文。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:ClaudeThinkingStateBridge",
+      "type": "class",
+      "name": "ClaudeThinkingStateBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "lineRange": [
+        22,
+        108
+      ],
+      "summary": "通过 Responses 的 encrypted_content 字段封装与恢复 Claude 原生签名思考及脱敏思考块，使无状态客户端能够回放推理上下文。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:encode",
+      "type": "function",
+      "name": "encode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "lineRange": [
+        42,
+        72
+      ],
+      "summary": "校验 Claude 思考块类型，将签名或脱敏内容序列化为带版本前缀的桥接状态。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:decode",
+      "type": "function",
+      "name": "decode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "lineRange": [
+        78,
+        107
+      ],
+      "summary": "识别并解码桥接状态，恢复原生 Claude 思考块并拒绝无效载荷。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "type": "file",
+      "name": "ClaudeToolsetBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "summary": "将带版本的 Claude 计算机及浏览器工具集重建为 Responses 函数命名空间，校验字段、调用方限制及命名冲突。",
+      "tags": [
+        "工具集",
+        "命名空间",
+        "字段校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:ClaudeToolsetBridge",
+      "type": "class",
+      "name": "ClaudeToolsetBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "lineRange": [
+        15,
+        130
+      ],
+      "summary": "将带版本的 Claude 计算机及浏览器工具集重建为 Responses 函数命名空间，校验字段、调用方限制及命名冲突。",
+      "tags": [
+        "工具集",
+        "命名空间",
+        "字段校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:toNamespace",
+      "type": "function",
+      "name": "toNamespace",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "lineRange": [
+        22,
+        83
+      ],
+      "summary": "转换为命名空间，用于Claude 工具集映射。",
+      "tags": [
+        "工具集",
+        "命名空间",
+        "字段校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:validateNamespaceNames",
+      "type": "function",
+      "name": "validateNamespaceNames",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "lineRange": [
+        94,
+        106
+      ],
+      "summary": "校验命名空间名称列表，支撑Claude 工具集映射。",
+      "tags": [
+        "工具集",
+        "命名空间",
+        "字段校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:validateFields",
+      "type": "function",
+      "name": "validateFields",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "lineRange": [
+        108,
+        117
+      ],
+      "summary": "校验字段，支撑Claude 工具集映射。",
+      "tags": [
+        "工具集",
+        "命名空间",
+        "字段校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:loadDefinitions",
+      "type": "function",
+      "name": "loadDefinitions",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "lineRange": [
+        119,
+        129
+      ],
+      "summary": "加载定义，支撑Claude 工具集映射。",
+      "tags": [
+        "工具集",
+        "命名空间",
+        "字段校验"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:ClaudeMessagesToResponsesStreamingConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:transform",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:handleEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:handleMessageStart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:handleMessageDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openBlock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openRedactedThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:openTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:emitBlockDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:emitToolArguments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeBlock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeRedactedThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:finalizeStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:ensureCreated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:toolItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:ClaudeMessagesUsageExtractor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:ClaudeMessagesUsageExtractor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:protocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:protocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extract",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extract",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extractUsageNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:sumIterations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:ClaudeResponsesMediaMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addClaudeImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addClaudeDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:imagePartToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:filePartToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:toChatFilePart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:chatFileToClaudeDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:chatFileToResponsesInputFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addClaudeContentDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:addCompanionText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:inlineFileFromBase64",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:filenameFor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:extensionForMediaType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:mediaTypeFromFilename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:sanitizeFilename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:ClaudeThinkingStateBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:encode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:decode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:ClaudeToolsetBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:toNamespace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:validateNamespaceNames",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:validateFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:loadDefinitions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeReasoning",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:encode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesToResponsesStreamingConverter.java:closeRedactedThinking",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:encode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extract",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extractUsageNode",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extractUsageNode",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:ClaudeMessagesUsageExtractor",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/UnifiedUsageExtractor.java:UnifiedUsageExtractor",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

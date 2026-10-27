@@ -1,0 +1,25 @@
+{
+  "outputLanguage": "zh",
+  "scopeReconciliation": {
+    "initialFiles": 884,
+    "currentFiles": 904,
+    "addedSourceFiles": 21,
+    "modifiedSourceFilesReanalyzed": 36,
+    "removedGeneratedFilesFromInventory": [".ua/config.json"],
+    "initialBatches": 54,
+    "supplementalBatches": 24
+  },
+  "limitations": [
+    "较大依赖社区被自动拆分；部分高频领域类型的跨批次邻居达到数量上限。完整文件级导入表将在合并时恢复。",
+    "部分 Java 同名重载按统一符号 ID 合并，行范围采用首个定义；结构提取器未给出独立行范围的接口默认方法保留在类型摘要中。",
+    "CSS 与 XML 等缺少结构支持的文件已读取源码并补齐文件级语义。",
+    "SQL 提取器未提供建表结构，表节点和迁移关系依据实际 CREATE TABLE 及变更语句补充。"
+  ],
+  "resolvedExecutionIssues": [
+    "预校验初次引用了插件未导出的独立 schema 名称，已改为 KnowledgeGraphSchema 中的实际节点和关系结构并通过检查。",
+    "主会话配置批次生成脚本的初始批次分类映射已按真实任务清单修正，产物重新生成并检查文件覆盖。",
+    "主会话生成关系初次遗漏必填 direction 字段，现已统一补齐 forward 并通过正式结构校验。",
+    "刷新依赖时初次引用的脚本名称不存在，已改用插件正式 extract-import-map.mjs 并成功解析全部文件。",
+    "刷新扫描曾包含图谱自身生成文件，现已在忽略配置中显式排除 .ua 和旧版数据目录。"
+  ]
+}

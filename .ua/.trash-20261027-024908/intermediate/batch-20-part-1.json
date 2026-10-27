@@ -1,0 +1,1449 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "type": "file",
+      "name": "ProtocolConversionApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "校验后台管理员权限后查询协议转换定义、按源目标协议读取详情或修改启停状态，并持久化状态变化。",
+      "tags": [
+        "应用服务",
+        "转换管理",
+        "权限校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:ProtocolConversionApplicationService",
+      "type": "class",
+      "name": "ProtocolConversionApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "校验后台管理员权限后查询协议转换定义、按源目标协议读取详情或修改启停状态，并持久化状态变化。",
+      "tags": [
+        "应用服务",
+        "转换管理",
+        "权限校验"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        21,
+        88
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:listDefinitions",
+      "type": "function",
+      "name": "listDefinitions",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "验证操作者具备后台权限后查询全部协议转换定义。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        34,
+        38
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinition",
+      "type": "function",
+      "name": "getDefinition",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "按转换标识或源目标协议对查询定义，缺失时报告业务错误。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        47
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinitionByDirection",
+      "type": "function",
+      "name": "getDefinitionByDirection",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "按源目标协议方向查询转换定义详情。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        49,
+        58
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:enableConversion",
+      "type": "function",
+      "name": "enableConversion",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "验证管理员权限后启用指定转换定义，并保存更新状态。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        60,
+        67
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:disableConversion",
+      "type": "function",
+      "name": "disableConversion",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "summary": "验证管理员权限后禁用指定转换定义，并保存更新状态。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        69,
+        76
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "type": "file",
+      "name": "ChangeProtocolConversionStatusCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "summary": "承载操作者与协议转换定义身份，用于后台启用或禁用转换。",
+      "tags": [
+        "状态命令",
+        "协议转换",
+        "管理员操作"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java:ChangeProtocolConversionStatusCommand",
+      "type": "class",
+      "name": "ChangeProtocolConversionStatusCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "summary": "承载操作者与协议转换定义身份，用于后台启用或禁用转换。",
+      "tags": [
+        "状态命令",
+        "协议转换",
+        "管理员操作"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        21
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinition.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "定义源目标协议的转换聚合及能力、请求响应映射、实现程度和启停状态，禁止启用未实现转换并校验映射方向。",
+      "tags": [
+        "转换聚合",
+        "路由约束",
+        "状态管理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:ProtocolConversionDefinition",
+      "type": "class",
+      "name": "ProtocolConversionDefinition",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "定义源目标协议的转换聚合及能力、请求响应映射、实现程度和启停状态，禁止启用未实现转换并校验映射方向。",
+      "tags": [
+        "转换聚合",
+        "路由约束",
+        "状态管理"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        10,
+        225
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:ProtocolConversionDefinition",
+      "type": "function",
+      "name": "ProtocolConversionDefinition",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "初始化 ProtocolConversionDefinition，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "根据身份、源目标协议、能力和双向映射创建转换定义，并校验必需字段及映射方向。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        97,
+        120
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:rehydrate",
+      "type": "function",
+      "name": "rehydrate",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "从保存的启停状态、实现程度和审计时间恢复完整转换聚合。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        70,
+        95
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:enable",
+      "type": "function",
+      "name": "enable",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "已启用时保持幂等；拒绝未实现转换，否则启用并更新时间。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        122,
+        131
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:disable",
+      "type": "function",
+      "name": "disable",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "已禁用时保持幂等，否则禁用并更新时间。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        133,
+        139
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isPassthrough",
+      "type": "function",
+      "name": "isPassthrough",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "判断定义是否为同协议透传。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        141,
+        143
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isTransform",
+      "type": "function",
+      "name": "isTransform",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "判断定义是否为跨协议转换。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        145,
+        147
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isEnabledForRouting",
+      "type": "function",
+      "name": "isEnabledForRouting",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "仅当定义启用且实现状态可路由时允许参与候选选择。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        149,
+        151
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:supportsStreaming",
+      "type": "function",
+      "name": "supportsStreaming",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "读取定义能力中的流式支持标志。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        153,
+        155
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:supportsToolCalling",
+      "type": "function",
+      "name": "supportsToolCalling",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "读取定义能力中的工具调用支持标志。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        157,
+        159
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:matches",
+      "type": "function",
+      "name": "matches",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "summary": "判断转换定义的源协议与目标协议是否与指定协议对一致。",
+      "tags": [
+        "业务方法",
+        "转换聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        161,
+        164
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "summary": "封装有效的协议转换定义标识，供仓储和管理接口定位配置。",
+      "tags": [
+        "定义标识",
+        "值对象",
+        "身份校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:ProtocolConversionDefinitionId",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionId",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "summary": "封装有效的协议转换定义标识，供仓储和管理接口定位配置。",
+      "tags": [
+        "定义标识",
+        "值对象",
+        "身份校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "summary": "ProtocolConversionDefinitionId 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "定义标识",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        18,
+        20
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "summary": "定义协议转换定义列表、标识及协议对查询和保存契约。",
+      "tags": [
+        "仓储接口",
+        "协议转换",
+        "持久化契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java:ProtocolConversionDefinitionRepository",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionRepository",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "summary": "定义协议转换定义列表、标识及协议对查询和保存契约。",
+      "tags": [
+        "仓储接口",
+        "协议转换",
+        "持久化契约"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        52
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "summary": "通过定义映射器保存和读取协议转换聚合，按记录存在性选择插入或更新，支持按标识和源目标协议查询。",
+      "tags": [
+        "仓储实现",
+        "协议转换",
+        "持久化映射"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:ProtocolConversionDefinitionRepositoryImpl",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "summary": "通过定义映射器保存和读取协议转换聚合，按记录存在性选择插入或更新，支持按标识和源目标协议查询。",
+      "tags": [
+        "仓储实现",
+        "协议转换",
+        "持久化映射"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        59
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "summary": "将领域定义映射为持久化对象，根据标识是否存在执行插入或更新。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        27,
+        36
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "summary": "按转换定义标识查找配置并恢复领域聚合。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        43
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findBySourceAndTarget",
+      "type": "function",
+      "name": "findBySourceAndTarget",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "summary": "按源协议和目标协议读取配置并恢复领域聚合。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        45,
+        51
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findAll",
+      "type": "function",
+      "name": "findAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "summary": "读取全部转换配置并映射为领域定义列表。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        58
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "type": "file",
+      "name": "JdbcProtocolConversionDefinitionMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "使用具名参数 JDBC 持久化协议转换状态、实现程度、能力和双向映射 JSON，并支持按协议对查询与排序列表。",
+      "tags": [
+        "数据访问",
+        "协议转换",
+        "参数化查询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:JdbcProtocolConversionDefinitionMapper",
+      "type": "class",
+      "name": "JdbcProtocolConversionDefinitionMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "使用具名参数 JDBC 持久化协议转换状态、实现程度、能力和双向映射 JSON，并支持按协议对查询与排序列表。",
+      "tags": [
+        "数据访问",
+        "协议转换",
+        "参数化查询"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        17,
+        111
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "插入协议对、启停与实现状态、能力开关及双向映射 JSON 和审计时间。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "按标识更新启停状态、实现程度、能力开关和映射 JSON。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        69
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "按转换标识读取未软删除的协议转换配置。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        71,
+        76
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectBySourceAndTarget",
+      "type": "function",
+      "name": "selectBySourceAndTarget",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "按源目标协议对查询转换配置记录。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        78,
+        83
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectAll",
+      "type": "function",
+      "name": "selectAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "按创建时间和标识顺序读取全部未软删除协议转换配置。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        85,
+        90
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "summary": "将转换持久化对象展开为具名 SQL 参数，转换审计时间。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        92,
+        109
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "summary": "定义转换配置的数据库插入更新、按标识及协议对查询和全部列表接口。",
+      "tags": [
+        "数据访问接口",
+        "协议配置",
+        "持久化契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java:ProtocolConversionDefinitionMapper",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "summary": "定义转换配置的数据库插入更新、按标识及协议对查询和全部列表接口。",
+      "tags": [
+        "数据访问接口",
+        "协议配置",
+        "持久化契约"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        6,
+        12
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "summary": "保存转换定义表的协议对、类别、状态、实现程度、能力开关、请求响应映射 JSON 及审计时间。",
+      "tags": [
+        "持久化对象",
+        "转换配置",
+        "映射存储"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java:ProtocolConversionDefinitionPO",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "summary": "保存转换定义表的协议对、类别、状态、实现程度、能力开关、请求响应映射 JSON 及审计时间。",
+      "tags": [
+        "持久化对象",
+        "转换配置",
+        "映射存储"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        29
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:ProtocolConversionApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:ProtocolConversionApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:listDefinitions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:listDefinitions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinition",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinitionByDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinitionByDirection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:enableConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:enableConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:disableConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:disableConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java:ChangeProtocolConversionStatusCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java:ChangeProtocolConversionStatusCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:ProtocolConversionDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:ProtocolConversionDefinition",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:ProtocolConversionDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:rehydrate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:rehydrate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:enable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:enable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:disable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:disable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isPassthrough",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isPassthrough",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isTransform",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isTransform",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isEnabledForRouting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:isEnabledForRouting",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:supportsStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:supportsStreaming",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:supportsToolCalling",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:supportsToolCalling",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:matches",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:ProtocolConversionDefinitionId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:ProtocolConversionDefinitionId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java:ProtocolConversionDefinitionRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java:ProtocolConversionDefinitionRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:ProtocolConversionDefinitionRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:ProtocolConversionDefinitionRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findBySourceAndTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findBySourceAndTarget",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:findAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:JdbcProtocolConversionDefinitionMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:JdbcProtocolConversionDefinitionMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectBySourceAndTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectBySourceAndTarget",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:selectAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java:ProtocolConversionDefinitionMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java:ProtocolConversionDefinitionMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java:ProtocolConversionDefinitionPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java:ProtocolConversionDefinitionPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:insert",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:update",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/protocol/ProtocolConversionDefinitionRepositoryImpl.java:ProtocolConversionDefinitionRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java:ProtocolConversionDefinitionRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/JdbcProtocolConversionDefinitionMapper.java:JdbcProtocolConversionDefinitionMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/mapper/ProtocolConversionDefinitionMapper.java:ProtocolConversionDefinitionMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+import json,pathlib,sys
+r=pathlib.Path('/Users/jxin/Desktop/Project/products/2api/api2api');u=r/('.understand-anything' if (r/'.understand-anything').is_dir() else '.ua');i=int(sys.argv[1]);d=json.loads((u/f'tmp/batch-task-{i}.json').read_text());(u/f'tmp/ua-file-analyzer-input-{i}.json').write_text(json.dumps(dict(projectRoot=str(r),batchFiles=d['files'],batchImportData=d['batchImportData']),ensure_ascii=False));print('batch',i,'files',len(d['files']),'imports',sum(map(len,d['batchImportData'].values())));print('\n'.join(f['path'] for f in d['files']))

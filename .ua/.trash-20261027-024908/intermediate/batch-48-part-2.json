@@ -1,0 +1,1289 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "type": "file",
+      "name": "GatewayProtocolErrorBodyBuilder.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "summary": "集中生成消息协议与补全协议兼容的错误 JSON，序列化失败时记录异常并生成固定安全响应。",
+      "tags": [
+        "错误响应",
+        "协议适配",
+        "序列化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java:GatewayProtocolErrorBodyBuilder",
+      "type": "class",
+      "name": "GatewayProtocolErrorBodyBuilder",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "lineRange": [
+        22,
+        60
+      ],
+      "summary": "集中生成消息协议与补全协议兼容的错误 JSON，序列化失败时记录异常并生成固定安全响应。",
+      "tags": [
+        "错误响应",
+        "协议适配",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java:buildClaudeErrorBody",
+      "type": "function",
+      "name": "buildClaudeErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "lineRange": [
+        30,
+        43
+      ],
+      "summary": "构建消息协议的嵌套错误对象，序列化失败时记录完整异常并返回固定错误 JSON。",
+      "tags": [
+        "错误响应",
+        "协议适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java:buildOpenAIErrorBody",
+      "type": "function",
+      "name": "buildOpenAIErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "lineRange": [
+        45,
+        59
+      ],
+      "summary": "构建补全协议的错误对象及空参数代码字段，序列化失败时返回固定错误 JSON。",
+      "tags": [
+        "错误响应",
+        "协议适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java",
+      "type": "file",
+      "name": "GatewayProtocolRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java",
+      "summary": "声明网关协议请求适配契约，暴露正文、模型以及流式、工具和推理需求。",
+      "tags": [
+        "请求契约",
+        "协议适配",
+        "能力需求"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java:GatewayProtocolRequest",
+      "type": "class",
+      "name": "GatewayProtocolRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java",
+      "lineRange": [
+        6,
+        17
+      ],
+      "summary": "声明网关协议请求适配契约，暴露正文、模型以及流式、工具和推理需求。",
+      "tags": [
+        "请求契约",
+        "协议适配",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "type": "file",
+      "name": "GatewayRawResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "summary": "封装供外部 SDK 使用的原始响应，校验 HTTP 状态并过滤透传头后生成框架响应。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "type": "class",
+      "name": "GatewayRawResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        13,
+        85
+      ],
+      "summary": "封装供外部 SDK 使用的原始响应，校验 HTTP 状态并过滤透传头后生成框架响应。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "type": "function",
+      "name": "GatewayRawResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        20,
+        28
+      ],
+      "summary": "初始化GatewayRawResponse的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        34,
+        41
+      ],
+      "summary": "依据传入参数构造GatewayRawResponse，封装对应的领域状态。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:toResponseEntity",
+      "type": "function",
+      "name": "toResponseEntity",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        43,
+        54
+      ],
+      "summary": "过滤禁止转发的头部，设置内容类型，并保持上游 HTTP 状态和原始正文。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:copyHeaders",
+      "type": "function",
+      "name": "copyHeaders",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        56,
+        68
+      ],
+      "summary": "清除无名或空列表响应头，对名称和值集合进行不可变复制。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:body",
+      "type": "function",
+      "name": "body",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        70,
+        72
+      ],
+      "summary": "读取原始响应正文。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:statusCode",
+      "type": "function",
+      "name": "statusCode",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        74,
+        76
+      ],
+      "summary": "读取保留的上游 HTTP 状态码。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:contentType",
+      "type": "function",
+      "name": "contentType",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        78,
+        80
+      ],
+      "summary": "读取原始响应内容类型。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:headers",
+      "type": "function",
+      "name": "headers",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "lineRange": [
+        82,
+        84
+      ],
+      "summary": "读取不可变上游响应头。",
+      "tags": [
+        "原始响应",
+        "响应头过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "type": "file",
+      "name": "GatewayResponseHeaderFilter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "summary": "统一过滤逐跳、长度和 Cookie 等响应头，并从上游头中提取内容类型。",
+      "tags": [
+        "响应头",
+        "安全过滤",
+        "内容类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java:GatewayResponseHeaderFilter",
+      "type": "class",
+      "name": "GatewayResponseHeaderFilter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "lineRange": [
+        13,
+        55
+      ],
+      "summary": "统一过滤逐跳、长度和 Cookie 等响应头，并从上游头中提取内容类型。",
+      "tags": [
+        "响应头",
+        "安全过滤",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java:extractContentType",
+      "type": "function",
+      "name": "extractContentType",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "lineRange": [
+        40,
+        54
+      ],
+      "summary": "不区分大小写查找首个有效内容类型头，缺省时返回调用方给定类型。",
+      "tags": [
+        "响应头",
+        "安全过滤",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java",
+      "type": "file",
+      "name": "ResponsesImageBridgeFailure.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java",
+      "summary": "保存图像桥接预期上游失败的原始响应，支持生成无效上游响应的网关错误。",
+      "tags": [
+        "图像桥接",
+        "失败传播",
+        "错误响应"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java:ResponsesImageBridgeFailure",
+      "type": "class",
+      "name": "ResponsesImageBridgeFailure",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java",
+      "lineRange": [
+        6,
+        21
+      ],
+      "summary": "保存图像桥接预期上游失败的原始响应，支持生成无效上游响应的网关错误。",
+      "tags": [
+        "图像桥接",
+        "失败传播",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java",
+      "type": "file",
+      "name": "ResponsesImageBridgePassthrough.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java",
+      "summary": "表示规划器拒绝桥接请求并保留状态码，使调用方回退到普通 Responses 透传。",
+      "tags": [
+        "图像桥接",
+        "透传回退",
+        "控制信号"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java:ResponsesImageBridgePassthrough",
+      "type": "class",
+      "name": "ResponsesImageBridgePassthrough",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java",
+      "lineRange": [
+        4,
+        15
+      ],
+      "summary": "表示规划器拒绝桥接请求并保留状态码，使调用方回退到普通 Responses 透传。",
+      "tags": [
+        "图像桥接",
+        "透传回退",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "type": "file",
+      "name": "ResponsesImageResponseWriter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "summary": "维护图像桥接 Responses 输出状态，写出消息、部分图像及完成事件，并汇总多个图像结果的用量。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "用量聚合"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:ResponsesImageResponseWriter",
+      "type": "class",
+      "name": "ResponsesImageResponseWriter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        15,
+        195
+      ],
+      "summary": "维护图像桥接 Responses 输出状态，写出消息、部分图像及完成事件，并汇总多个图像结果的用量。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:ResponsesImageResponseWriter",
+      "type": "function",
+      "name": "ResponsesImageResponseWriter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        21,
+        35
+      ],
+      "summary": "初始化ResponsesImageResponseWriter的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:beginImage",
+      "type": "function",
+      "name": "beginImage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        42,
+        51
+      ],
+      "summary": "创建进行中的图像生成输出项，分配索引及标识并发送输出项添加事件。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:partialImage",
+      "type": "function",
+      "name": "partialImage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        53,
+        62
+      ],
+      "summary": "在事件中附上图像序号与部分图像索引，发送 Base64 图像增量。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:finishImage",
+      "type": "function",
+      "name": "finishImage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        64,
+        77
+      ],
+      "summary": "将图像输出项标记完成，发送图像完成及输出项完成事件并汇总用量。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:appendItem",
+      "type": "function",
+      "name": "appendItem",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        79,
+        105
+      ],
+      "summary": "追加并补全输出项标识，按消息或工具调用类型发送起始、内容及完成事件。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:messageEvents",
+      "type": "function",
+      "name": "messageEvents",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        107,
+        125
+      ],
+      "summary": "为消息输出项逐一生成内容块添加、文本增量、文本完成和内容块完成事件。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:addUsage",
+      "type": "function",
+      "name": "addUsage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        127,
+        137
+      ],
+      "summary": "接收桥接轮次用量并与已累计的响应计量合并。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:finish",
+      "type": "function",
+      "name": "finish",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "lineRange": [
+        149,
+        162
+      ],
+      "summary": "创建带完整输出、聚合用量和拼接正文的完成响应并发送最终事件。",
+      "tags": [
+        "图像桥接",
+        "事件状态",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "type": "file",
+      "name": "ResponsesImageSseAdapter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "summary": "逐行解析图像上游 SSE，验证 JSON 与完成结果，将部分和最终图像交给 Responses 写出器。",
+      "tags": [
+        "图像桥接",
+        "流式解析",
+        "格式校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:ResponsesImageSseAdapter",
+      "type": "class",
+      "name": "ResponsesImageSseAdapter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "lineRange": [
+        13,
+        117
+      ],
+      "summary": "逐行解析图像上游 SSE，验证 JSON 与完成结果，将部分和最终图像交给 Responses 写出器。",
+      "tags": [
+        "图像桥接",
+        "流式解析",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:write",
+      "type": "function",
+      "name": "write",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "lineRange": [
+        41,
+        52
+      ],
+      "summary": "以 UTF-8 逐行读取上游流并派发图像事件，最后校验流是否正常结束。",
+      "tags": [
+        "图像桥接",
+        "流式解析",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:consumeLine",
+      "type": "function",
+      "name": "consumeLine",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "lineRange": [
+        59,
+        72
+      ],
+      "summary": "按 SSE 空行边界派发事件，收集事件类型和多行数据字段。",
+      "tags": [
+        "图像桥接",
+        "流式解析",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:dispatch",
+      "type": "function",
+      "name": "dispatch",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "lineRange": [
+        74,
+        96
+      ],
+      "summary": "解析当前事件 JSON，处理错误、部分图像和完成图像，拒绝无效事件或空图像结果。",
+      "tags": [
+        "图像桥接",
+        "流式解析",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:finish",
+      "type": "function",
+      "name": "finish",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "lineRange": [
+        98,
+        109
+      ],
+      "summary": "补派剩余事件，并在缺少有效最终图像或错误事件时拒绝不完整上游响应。",
+      "tags": [
+        "图像桥接",
+        "流式解析",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:backend/src/main/resources/application.yml",
+      "type": "config",
+      "name": "application.yml",
+      "filePath": "backend/src/main/resources/application.yml",
+      "summary": "配置数据库和迁移、会话安全、上传大小、上游超时、协议开关、密钥保护及宿主机监控路径，并通过环境变量覆盖。",
+      "tags": [
+        "运行配置",
+        "环境变量",
+        "安全配置"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:backend/src/main/resources/protocol/claude-client-toolsets-20260801.json",
+      "type": "config",
+      "name": "claude-client-toolsets-20260801.json",
+      "filePath": "backend/src/main/resources/protocol/claude-client-toolsets-20260801.json",
+      "summary": "定义客户端桌面与浏览器工具的参数模式、说明和启用状态，约定截图坐标及跨标签页操作语义。",
+      "tags": [
+        "工具定义",
+        "客户端执行",
+        "参数模式"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "type": "file",
+      "name": "UpstreamResponseMetadataTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "summary": "验证重试等待响应头的秒数及日期解析、最大等待裁剪，以及缺失或非法值处理。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "重试等待"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:UpstreamResponseMetadataTest",
+      "type": "class",
+      "name": "UpstreamResponseMetadataTest",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "lineRange": [
+        11,
+        75
+      ],
+      "summary": "验证重试等待响应头的秒数及日期解析、最大等待裁剪，以及缺失或非法值处理。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsDelay_when_retryAfterIsDeltaSeconds",
+      "type": "function",
+      "name": "test_returnsDelay_when_retryAfterIsDeltaSeconds",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "lineRange": [
+        15,
+        25
+      ],
+      "summary": "验证秒数格式的重试等待头被转换为对应时长。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+      "type": "function",
+      "name": "test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "lineRange": [
+        27,
+        38
+      ],
+      "summary": "验证 HTTP 日期格式的重试等待头按当前时间计算剩余时长。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+      "type": "function",
+      "name": "test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "lineRange": [
+        40,
+        50
+      ],
+      "summary": "验证超长重试等待被裁剪为一小时。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsEmpty_when_retryAfterIsAbsent",
+      "type": "function",
+      "name": "test_returnsEmpty_when_retryAfterIsAbsent",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "lineRange": [
+        52,
+        62
+      ],
+      "summary": "验证缺少重试等待头时返回空值。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsEmpty_when_retryAfterIsUnparseable",
+      "type": "function",
+      "name": "test_returnsEmpty_when_retryAfterIsUnparseable",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "lineRange": [
+        64,
+        74
+      ],
+      "summary": "验证非法重试等待文本不会产生时长。",
+      "tags": [
+        "测试",
+        "响应元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "type": "file",
+      "name": "ProtocolTypeTest.java",
+      "filePath": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "summary": "验证图像协议端点与别名解析、客户端可见性及默认生成路径。",
+      "tags": [
+        "测试",
+        "协议类型",
+        "图像接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:ProtocolTypeTest",
+      "type": "class",
+      "name": "ProtocolTypeTest",
+      "filePath": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "lineRange": [
+        7,
+        59
+      ],
+      "summary": "验证图像协议端点与别名解析、客户端可见性及默认生成路径。",
+      "tags": [
+        "测试",
+        "协议类型",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+      "type": "function",
+      "name": "test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+      "filePath": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "lineRange": [
+        9,
+        19
+      ],
+      "summary": "验证图像生成接口路径解析为图像协议。",
+      "tags": [
+        "测试",
+        "协议类型",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+      "type": "function",
+      "name": "test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+      "filePath": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "lineRange": [
+        21,
+        34
+      ],
+      "summary": "验证多个图像生成、编辑及变体别名映射到图像协议。",
+      "tags": [
+        "测试",
+        "协议类型",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_reportsClientFacing_when_protocolIsOpenAIImages",
+      "type": "function",
+      "name": "test_reportsClientFacing_when_protocolIsOpenAIImages",
+      "filePath": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "lineRange": [
+        36,
+        46
+      ],
+      "summary": "验证图像协议允许作为客户端请求协议。",
+      "tags": [
+        "测试",
+        "协议类型",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+      "type": "function",
+      "name": "test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+      "filePath": "backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "lineRange": [
+        48,
+        58
+      ],
+      "summary": "验证图像协议默认端点为图像生成路径。",
+      "tags": [
+        "测试",
+        "协议类型",
+        "方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java:GatewayProtocolErrorBodyBuilder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java:buildClaudeErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java:buildOpenAIErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolRequest.java:GatewayProtocolRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:toResponseEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:toResponseEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:copyHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:body",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:body",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:statusCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:statusCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:contentType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:contentType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:headers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:headers",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java:GatewayResponseHeaderFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayResponseHeaderFilter.java:extractContentType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeFailure.java:ResponsesImageBridgeFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridgePassthrough.java:ResponsesImageBridgePassthrough",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:ResponsesImageResponseWriter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:ResponsesImageResponseWriter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:beginImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:partialImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:finishImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:appendItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:messageEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:addUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:finish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:ResponsesImageSseAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:write",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:write",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:consumeLine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:dispatch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:finish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:UpstreamResponseMetadataTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsDelay_when_retryAfterIsDeltaSeconds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsRemainingDelay_when_retryAfterIsHttpDate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_clampsDelay_when_upstreamAdvertisesExcessiveRetryAfter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsEmpty_when_retryAfterIsAbsent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/UpstreamResponseMetadataTest.java:test_returnsEmpty_when_retryAfterIsUnparseable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "target": "class:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:ProtocolTypeTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_parsesOpenAIImages_when_externalValueIsEndpointPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_parsesOpenAIImages_when_externalValueUsesImagesAliases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_reportsClientFacing_when_protocolIsOpenAIImages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/channel/model/ProtocolTypeTest.java:test_returnsImagesGenerationsPath_when_defaultEndpointPathIsRequested",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:GatewayRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:copyHeaders",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:appendItem",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageResponseWriter.java:messageEvents",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:write",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:consumeLine",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:consumeLine",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:dispatch",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:dispatch",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRawResponse.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:finish",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:consumeLine",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:finish",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageSseAdapter.java:dispatch",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "config:backend/src/main/resources/application.yml",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:ApiKeyMaterialProtectionProperties",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

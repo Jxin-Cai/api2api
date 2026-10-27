@@ -1,0 +1,226 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "listProtocolMetadata",
+          "startLine": 5,
+          "endLine": 7,
+          "params": []
+        },
+        {
+          "name": "getProtocolMetadataDetail",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "protocolType"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listProtocolMetadata",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "getProtocolMetadataDetail",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listProtocolMetadata",
+          "callee": "apiClient.get",
+          "lineNumber": 6
+        },
+        {
+          "caller": "getProtocolMetadataDetail",
+          "callee": "apiClient.get",
+          "lineNumber": 10
+        },
+        {
+          "caller": "getProtocolMetadataDetail",
+          "callee": "encodeURIComponent",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-metadata/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 46,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "useProtocolMetadataList",
+          "startLine": 9,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "useProtocolMetadataDetail",
+          "startLine": 15,
+          "endLine": 21,
+          "params": [
+            "protocolType",
+            "enabled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "protocolMetadataQueryKeys",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "useProtocolMetadataList",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "useProtocolMetadataDetail",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useProtocolMetadataList",
+          "callee": "useQuery",
+          "lineNumber": 10
+        },
+        {
+          "caller": "useProtocolMetadataDetail",
+          "callee": "useQuery",
+          "lineNumber": 16
+        },
+        {
+          "caller": "useProtocolMetadataDetail",
+          "callee": "protocolMetadataQueryKeys.detail",
+          "lineNumber": 17
+        },
+        {
+          "caller": "useProtocolMetadataDetail",
+          "callee": "getProtocolMetadataDetail",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 83,
+      "nonEmptyLines": 78,
+      "functions": [
+        {
+          "name": "ProtocolFieldTable",
+          "startLine": 72,
+          "endLine": 83,
+          "params": [
+            "{ fields }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolFieldTable",
+          "line": 72,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "ProtocolMetadataCard",
+          "startLine": 11,
+          "endLine": 38,
+          "params": [
+            "{ protocol, selected = false, onClick }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolMetadataCard",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolMetadataCard",
+          "callee": "getProtocolMeta",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

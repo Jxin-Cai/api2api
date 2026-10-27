@@ -1,0 +1,845 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "type": "file",
+      "name": "ClaudeConversationContextOptimizer.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "summary": "按上下文管理策略清理历史思考和工具结果，保护最新工具续接所需信息，并检测重复成功工具调用以阻止循环。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "思考保留"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:ClaudeConversationContextOptimizer",
+      "type": "class",
+      "name": "ClaudeConversationContextOptimizer",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        22,
+        611
+      ],
+      "summary": "按上下文管理策略清理历史思考和工具结果，保护最新工具续接所需信息，并检测重复成功工具调用以阻止循环。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "领域对象"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:ClaudeConversationContextOptimizer",
+      "type": "function",
+      "name": "ClaudeConversationContextOptimizer",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        39,
+        40
+      ],
+      "summary": "初始化ClaudeConversationContextOptimizer的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:retainThinkingForLatestToolContinuation",
+      "type": "function",
+      "name": "retainThinkingForLatestToolContinuation",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        55,
+        79
+      ],
+      "summary": "定位最新工具结果续接所依赖的助手消息，仅保留这些受保护轮次的思考内容。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectedAssistantIndexes",
+      "type": "function",
+      "name": "protectedAssistantIndexes",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        81,
+        97
+      ],
+      "summary": "在末尾为纯工具结果消息时定位需要保留思考的关联助手轮次。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsOnlyToolResults",
+      "type": "function",
+      "name": "containsOnlyToolResults",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        99,
+        110
+      ],
+      "summary": "检查内容数组是否非空且仅包含普通或托管工具结果。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "type": "function",
+      "name": "optimize",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        112,
+        166
+      ],
+      "summary": "清理压缩历史，按上下文编辑指令及网关安全策略处理思考与工具内容。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectAgainstRepeatedToolCalls",
+      "type": "function",
+      "name": "protectAgainstRepeatedToolCalls",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        172,
+        182
+      ],
+      "summary": "检测成功工具调用的连续重复，达到提醒阈值时追加提示，超出安全阈值时终止循环。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:hasRepeatedToolCallWarning",
+      "type": "function",
+      "name": "hasRepeatedToolCallWarning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        184,
+        201
+      ],
+      "summary": "扫描消息内容块，判断是否已插入重复工具调用警告。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:sanitizeCompactionHistory",
+      "type": "function",
+      "name": "sanitizeCompactionHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        203,
+        220
+      ],
+      "summary": "启用压缩编辑时清理历史压缩相关内容，保留可以安全传递的消息。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:hasCompactionEdit",
+      "type": "function",
+      "name": "hasCompactionEdit",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        222,
+        236
+      ],
+      "summary": "检查上下文管理编辑列表中是否存在压缩策略。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:applyDefaultToolResultSafetyPolicy",
+      "type": "function",
+      "name": "applyDefaultToolResultSafetyPolicy",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        238,
+        253
+      ],
+      "summary": "估算消息令牌量，超过阈值时应用默认历史工具结果清理策略。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearThinking",
+      "type": "function",
+      "name": "clearThinking",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        255,
+        278
+      ],
+      "summary": "校验思考保留策略并按需删除受保护范围之外的历史思考块。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearToolUses",
+      "type": "function",
+      "name": "clearToolUses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        280,
+        322
+      ],
+      "summary": "根据令牌或工具交互阈值、保留数及排除工具清理旧工具调用和结果。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:collectToolInteractions",
+      "type": "function",
+      "name": "collectToolInteractions",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        324,
+        345
+      ],
+      "summary": "按工具调用标识关联调用块与结果块，生成可清理的工具交互集合。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "type": "function",
+      "name": "detectRepeatedSuccessfulToolCall",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        347,
+        397
+      ],
+      "summary": "关联成功工具调用和用户新指令，分别检查完全相同调用及相似意图的连续重复。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:repeatedExactToolCallTail",
+      "type": "function",
+      "name": "repeatedExactToolCallTail",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        409,
+        425
+      ],
+      "summary": "从最新成功调用向前统计工具名称与参数完全相同的连续重复次数。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:repeatedToolIntentTail",
+      "type": "function",
+      "name": "repeatedToolIntentTail",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        427,
+        450
+      ],
+      "summary": "按助手工具意图统计连续重复的成功调用，忽略过短或无有效意图的情况。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:assistantToolIntent",
+      "type": "function",
+      "name": "assistantToolIntent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        452,
+        464
+      ],
+      "summary": "拼接助手文本内容以提取工具调用前的意图描述。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:appendRepeatedToolCallWarning",
+      "type": "function",
+      "name": "appendRepeatedToolCallWarning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        500,
+        511
+      ],
+      "summary": "在最近用户内容中追加防止重复成功工具调用的网关提示。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsNewUserInstruction",
+      "type": "function",
+      "name": "containsNewUserInstruction",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        513,
+        523
+      ],
+      "summary": "判断用户内容是否包含工具结果以外的新指令。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsThinking",
+      "type": "function",
+      "name": "containsThinking",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        525,
+        535
+      ],
+      "summary": "判断消息内容数组中是否包含思考类型的块。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:stripThinking",
+      "type": "function",
+      "name": "stripThinking",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "lineRange": [
+        537,
+        548
+      ],
+      "summary": "移除消息的思考块，并在清理后维护合法的消息内容。",
+      "tags": [
+        "上下文管理",
+        "工具循环",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "type": "file",
+      "name": "ClaudeDeferredToolBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "summary": "根据消息中的工具引用和具名选择激活延迟工具，并在自定义与托管工具之间转换具名选择。",
+      "tags": [
+        "延迟工具",
+        "工具选择",
+        "协议兼容"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:ClaudeDeferredToolBridge",
+      "type": "class",
+      "name": "ClaudeDeferredToolBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "lineRange": [
+        11,
+        99
+      ],
+      "summary": "根据消息中的工具引用和具名选择激活延迟工具，并在自定义与托管工具之间转换具名选择。",
+      "tags": [
+        "延迟工具",
+        "工具选择",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:activateReferencedTools",
+      "type": "function",
+      "name": "activateReferencedTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "lineRange": [
+        15,
+        51
+      ],
+      "summary": "扫描消息工具引用及具名选择，激活被引用的延迟工具或命名空间。",
+      "tags": [
+        "延迟工具",
+        "工具选择",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:namedChoice",
+      "type": "function",
+      "name": "namedChoice",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "lineRange": [
+        62,
+        77
+      ],
+      "summary": "匹配已声明的自定义工具或托管工具，生成目标协议的具名工具选择。",
+      "tags": [
+        "延迟工具",
+        "工具选择",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:hostedType",
+      "type": "function",
+      "name": "hostedType",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "lineRange": [
+        79,
+        98
+      ],
+      "summary": "按工具名称及原工具定义推导托管工具的目标类型。",
+      "tags": [
+        "延迟工具",
+        "工具选择",
+        "方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:ClaudeConversationContextOptimizer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:ClaudeConversationContextOptimizer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:ClaudeConversationContextOptimizer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:ClaudeConversationContextOptimizer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:retainThinkingForLatestToolContinuation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectedAssistantIndexes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsOnlyToolResults",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectAgainstRepeatedToolCalls",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectAgainstRepeatedToolCalls",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:hasRepeatedToolCallWarning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:sanitizeCompactionHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:hasCompactionEdit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:applyDefaultToolResultSafetyPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearToolUses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:collectToolInteractions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:repeatedExactToolCallTail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:repeatedToolIntentTail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:assistantToolIntent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:appendRepeatedToolCallWarning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsNewUserInstruction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:stripThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:ClaudeDeferredToolBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:activateReferencedTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:namedChoice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:hostedType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:retainThinkingForLatestToolContinuation",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectedAssistantIndexes",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:retainThinkingForLatestToolContinuation",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsThinking",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectedAssistantIndexes",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsOnlyToolResults",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:sanitizeCompactionHistory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectAgainstRepeatedToolCalls",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:applyDefaultToolResultSafetyPolicy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearThinking",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:optimize",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearToolUses",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectAgainstRepeatedToolCalls",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:protectAgainstRepeatedToolCalls",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:appendRepeatedToolCallWarning",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:sanitizeCompactionHistory",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:hasCompactionEdit",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:sanitizeCompactionHistory",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsThinking",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:sanitizeCompactionHistory",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:stripThinking",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:applyDefaultToolResultSafetyPolicy",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearToolUses",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearThinking",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsThinking",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearThinking",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:stripThinking",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:clearToolUses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:collectToolInteractions",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:containsNewUserInstruction",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:assistantToolIntent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:repeatedExactToolCallTail",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:detectRepeatedSuccessfulToolCall",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java:repeatedToolIntentTail",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:namedChoice",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeDeferredToolBridge.java:hostedType",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

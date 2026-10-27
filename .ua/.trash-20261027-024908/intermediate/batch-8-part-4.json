@@ -1,0 +1,539 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "type": "file",
+      "name": "ProtocolConverterConfiguration.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "summary": "通过 Spring 配置注册 Responses 同协议兼容转换器，以及 Claude、Chat Completions、Responses 各方向的通用转换策略。",
+      "tags": [
+        "依赖注入",
+        "转换器注册",
+        "配置工厂"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java:ProtocolConverterConfiguration",
+      "type": "class",
+      "name": "ProtocolConverterConfiguration",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "lineRange": [
+        9,
+        103
+      ],
+      "summary": "通过 Spring 配置注册 Responses 同协议兼容转换器，以及 Claude、Chat Completions、Responses 各方向的通用转换策略。",
+      "tags": [
+        "依赖注入",
+        "转换器注册",
+        "配置工厂"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java:converter",
+      "type": "function",
+      "name": "converter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "lineRange": [
+        93,
+        102
+      ],
+      "summary": "转换er，支撑协议转换器依赖装配。",
+      "tags": [
+        "依赖注入",
+        "转换器注册",
+        "配置工厂"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "type": "file",
+      "name": "ProtocolJsonSupport.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "summary": "提供协议转换所需的 JSON 解析、序列化及字段读取，统一字段类型校验并在异常中保留路径信息。",
+      "tags": [
+        "工具函数",
+        "序列化",
+        "字段校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java:ProtocolJsonSupport",
+      "type": "class",
+      "name": "ProtocolJsonSupport",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "lineRange": [
+        14,
+        82
+      ],
+      "summary": "提供协议转换所需的 JSON 解析、序列化及字段读取，统一字段类型校验并在异常中保留路径信息。",
+      "tags": [
+        "工具函数",
+        "序列化",
+        "字段校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java:text",
+      "type": "function",
+      "name": "text",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "lineRange": [
+        61,
+        70
+      ],
+      "summary": "提供文本，用于协议 JSON 处理。",
+      "tags": [
+        "工具函数",
+        "序列化",
+        "字段校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java:longValue",
+      "type": "function",
+      "name": "longValue",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "lineRange": [
+        72,
+        81
+      ],
+      "summary": "提供长整数值，用于协议 JSON 处理。",
+      "tags": [
+        "工具函数",
+        "序列化",
+        "字段校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "type": "file",
+      "name": "ProtocolMessageConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "summary": "定义基础设施消息转换策略接口，统一协议方向、能力判断、载荷转换及同源可执行字段映射描述。",
+      "tags": [
+        "策略接口",
+        "协议转换",
+        "能力声明"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java:ProtocolMessageConverter",
+      "type": "class",
+      "name": "ProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "lineRange": [
+        16,
+        37
+      ],
+      "summary": "定义基础设施消息转换策略接口，统一协议方向、能力判断、载荷转换及同源可执行字段映射描述。",
+      "tags": [
+        "策略接口",
+        "协议转换",
+        "能力声明"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "type": "file",
+      "name": "ResponsesProgrammaticToolBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "summary": "转换 Claude 代码执行与 Responses 程序化工具调用的调用方关联，保留允许调用方配置及程序工具标识。",
+      "tags": [
+        "工具调用",
+        "调用方关联",
+        "状态桥接"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:ResponsesProgrammaticToolBridge",
+      "type": "class",
+      "name": "ResponsesProgrammaticToolBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "lineRange": [
+        17,
+        140
+      ],
+      "summary": "转换 Claude 代码执行与 Responses 程序化工具调用的调用方关联，保留允许调用方配置及程序工具标识。",
+      "tags": [
+        "工具调用",
+        "调用方关联",
+        "状态桥接"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toResponsesAllowedCallers",
+      "type": "function",
+      "name": "toResponsesAllowedCallers",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "lineRange": [
+        34,
+        59
+      ],
+      "summary": "转换为Responses允许的调用方，用于程序化工具调用关联转换。",
+      "tags": [
+        "工具调用",
+        "调用方关联",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toResponsesCaller",
+      "type": "function",
+      "name": "toResponsesCaller",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "lineRange": [
+        61,
+        80
+      ],
+      "summary": "转换为Responses调用方，用于程序化工具调用关联转换。",
+      "tags": [
+        "工具调用",
+        "调用方关联",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toClaudeCaller",
+      "type": "function",
+      "name": "toClaudeCaller",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "lineRange": [
+        82,
+        101
+      ],
+      "summary": "转换为Claude调用方，用于程序化工具调用关联转换。",
+      "tags": [
+        "工具调用",
+        "调用方关联",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:decodeProgramCallerId",
+      "type": "function",
+      "name": "decodeProgramCallerId",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "lineRange": [
+        120,
+        132
+      ],
+      "summary": "解码程序调用方标识，支撑程序化工具调用关联转换。",
+      "tags": [
+        "工具调用",
+        "调用方关联",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "type": "file",
+      "name": "ResponsesReasoningBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "summary": "把 Responses 不透明推理状态或条目编码到 Claude thinking 签名，并提供解码恢复，以支持跨协议多轮上下文回放。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:ResponsesReasoningBridge",
+      "type": "class",
+      "name": "ResponsesReasoningBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "lineRange": [
+        16,
+        106
+      ],
+      "summary": "把 Responses 不透明推理状态或条目编码到 Claude thinking 签名，并提供解码恢复，以支持跨协议多轮上下文回放。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encode",
+      "type": "function",
+      "name": "encode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "lineRange": [
+        29,
+        45
+      ],
+      "summary": "将带标识及加密内容的 Responses 推理条目编码为 Claude 可携带的桥接签名。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decode",
+      "type": "function",
+      "name": "decode",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "lineRange": [
+        57,
+        71
+      ],
+      "summary": "解码带桥接前缀的 Claude 签名，恢复 Responses 不透明推理状态。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encodeItem",
+      "type": "function",
+      "name": "encodeItem",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "lineRange": [
+        79,
+        89
+      ],
+      "summary": "编码条目，支撑Responses 推理状态往返桥接。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decodeItem",
+      "type": "function",
+      "name": "decodeItem",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "lineRange": [
+        91,
+        105
+      ],
+      "summary": "解码条目，支撑Responses 推理状态往返桥接。",
+      "tags": [
+        "推理状态",
+        "状态桥接",
+        "序列化"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java:ProtocolConverterConfiguration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java:converter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConverterConfiguration.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java:ProtocolJsonSupport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java:text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java:longValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolJsonSupport.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java:ProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java:ProtocolMessageConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/conversion/ProtocolConversionProgram.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:ResponsesProgrammaticToolBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toResponsesAllowedCallers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toResponsesCaller",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toClaudeCaller",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:decodeProgramCallerId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:ResponsesReasoningBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encodeItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decodeItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

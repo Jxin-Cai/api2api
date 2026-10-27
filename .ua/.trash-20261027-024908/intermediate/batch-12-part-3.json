@@ -1,0 +1,2633 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "type": "file",
+      "name": "UpdateModelGroupCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "summary": "封装模型分组更新输入，包含所有者、分组标识、名称、白名单及每日限额。",
+      "tags": [
+        "命令对象",
+        "应用输入",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java:UpdateModelGroupCommand",
+      "type": "class",
+      "name": "UpdateModelGroupCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "lineRange": [
+        12,
+        20
+      ],
+      "summary": "封装模型分组更新输入，包含所有者、分组标识、名称、白名单及每日限额。",
+      "tags": [
+        "命令对象",
+        "应用输入",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "type": "file",
+      "name": "ApiCredentialUsageView.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "summary": "组合 API 凭证、累计与当日加权消费和原始 Token 总量，以及当前被分组每日限额限制的模型集合，并校验消费非负。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:ApiCredentialUsageView",
+      "type": "class",
+      "name": "ApiCredentialUsageView",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        9,
+        118
+      ],
+      "summary": "组合 API 凭证、累计与当日加权消费和原始 Token 总量，以及当前被分组每日限额限制的模型集合，并校验消费非负。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:ApiCredentialUsageView",
+      "type": "function",
+      "name": "ApiCredentialUsageView",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        19,
+        36
+      ],
+      "summary": "初始化 ApiCredentialUsageView 的状态并建立构造约束。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        38,
+        46
+      ],
+      "summary": "通过静态工厂构造 ApiCredentialUsageView，封装传入参数。 同名重载接收不同参数形式。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:credential",
+      "type": "function",
+      "name": "credential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        60,
+        62
+      ],
+      "summary": "返回 credential 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:consumedTokens",
+      "type": "function",
+      "name": "consumedTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        64,
+        66
+      ],
+      "summary": "返回 consumedTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:totalTokens",
+      "type": "function",
+      "name": "totalTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        68,
+        70
+      ],
+      "summary": "返回 totalTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:todayConsumedTokens",
+      "type": "function",
+      "name": "todayConsumedTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        72,
+        74
+      ],
+      "summary": "返回 todayConsumedTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:todayTotalTokens",
+      "type": "function",
+      "name": "todayTotalTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        76,
+        78
+      ],
+      "summary": "返回 todayTotalTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:rateLimitedModels",
+      "type": "function",
+      "name": "rateLimitedModels",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        80,
+        82
+      ],
+      "summary": "返回 rateLimitedModels 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:remainingTokens",
+      "type": "function",
+      "name": "remainingTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        84,
+        89
+      ],
+      "summary": "返回 null 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getCredential",
+      "type": "function",
+      "name": "getCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        91,
+        93
+      ],
+      "summary": "返回 credential 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getConsumedTokens",
+      "type": "function",
+      "name": "getConsumedTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        95,
+        97
+      ],
+      "summary": "返回 consumedTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTotalTokens",
+      "type": "function",
+      "name": "getTotalTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        99,
+        101
+      ],
+      "summary": "返回 totalTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTodayConsumedTokens",
+      "type": "function",
+      "name": "getTodayConsumedTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        103,
+        105
+      ],
+      "summary": "返回 todayConsumedTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTodayTotalTokens",
+      "type": "function",
+      "name": "getTodayTotalTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        107,
+        109
+      ],
+      "summary": "返回 todayTotalTokens 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRateLimitedModels",
+      "type": "function",
+      "name": "getRateLimitedModels",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        111,
+        113
+      ],
+      "summary": "返回 rateLimitedModels 的当前值，供调用方读取。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRemainingTokens",
+      "type": "function",
+      "name": "getRemainingTokens",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "lineRange": [
+        115,
+        117
+      ],
+      "summary": "在ApiCredentialUsageView中执行 getRemainingTokens 操作。协调 remainingTokens 等调用处理输入与状态。",
+      "tags": [
+        "查询视图",
+        "凭证用量",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "type": "file",
+      "name": "ModelGroupView.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "summary": "组合模型分组、当日按模型消费及限流模型，并取白名单与当前供应商可用模型的交集作为有效模型。",
+      "tags": [
+        "查询视图",
+        "模型分组",
+        "有效模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java:ModelGroupView",
+      "type": "class",
+      "name": "ModelGroupView",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "lineRange": [
+        12,
+        34
+      ],
+      "summary": "组合模型分组、当日按模型消费及限流模型，并取白名单与当前供应商可用模型的交集作为有效模型。",
+      "tags": [
+        "查询视图",
+        "模型分组",
+        "有效模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "lineRange": [
+        26,
+        33
+      ],
+      "summary": "将空用量视为零消费，计算白名单与可用模型交集及达到日限额的模型，生成不可变视图。",
+      "tags": [
+        "查询视图",
+        "模型分组",
+        "有效模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "type": "file",
+      "name": "RevealedApiCredentialSecret.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "summary": "封装受控展示后的凭证标识、脱敏预览及明文密钥，供协议层一次响应。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:RevealedApiCredentialSecret",
+      "type": "class",
+      "name": "RevealedApiCredentialSecret",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        7,
+        49
+      ],
+      "summary": "封装受控展示后的凭证标识、脱敏预览及明文密钥，供协议层一次响应。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:RevealedApiCredentialSecret",
+      "type": "function",
+      "name": "RevealedApiCredentialSecret",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        13,
+        20
+      ],
+      "summary": "初始化 RevealedApiCredentialSecret 的状态并建立构造约束。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "通过静态工厂构造 RevealedApiCredentialSecret，封装传入参数。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:apiCredentialId",
+      "type": "function",
+      "name": "apiCredentialId",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "返回 apiCredentialId 的当前值，供调用方读取。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:keyPreview",
+      "type": "function",
+      "name": "keyPreview",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        30,
+        32
+      ],
+      "summary": "返回 keyPreview 的当前值，供调用方读取。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:plaintextApiKey",
+      "type": "function",
+      "name": "plaintextApiKey",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        34,
+        36
+      ],
+      "summary": "返回 plaintextApiKey 的当前值，供调用方读取。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getApiCredentialId",
+      "type": "function",
+      "name": "getApiCredentialId",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        38,
+        40
+      ],
+      "summary": "返回 apiCredentialId 的当前值，供调用方读取。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getKeyPreview",
+      "type": "function",
+      "name": "getKeyPreview",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        42,
+        44
+      ],
+      "summary": "返回 keyPreview 的当前值，供调用方读取。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getPlaintextApiKey",
+      "type": "function",
+      "name": "getPlaintextApiKey",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "lineRange": [
+        46,
+        48
+      ],
+      "summary": "返回 plaintextApiKey 的当前值，供调用方读取。",
+      "tags": [
+        "查询结果",
+        "受控展示",
+        "密钥材料"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "type": "file",
+      "name": "FrontKeyMetricsQuery.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "summary": "描述当前用户凭证指标查询，包含当日、自然月与趋势窗口、待绘制凭证集合及统计参考时刻。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:FrontKeyMetricsQuery",
+      "type": "class",
+      "name": "FrontKeyMetricsQuery",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        12,
+        98
+      ],
+      "summary": "描述当前用户凭证指标查询，包含当日、自然月与趋势窗口、待绘制凭证集合及统计参考时刻。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:FrontKeyMetricsQuery",
+      "type": "function",
+      "name": "FrontKeyMetricsQuery",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        22,
+        41
+      ],
+      "summary": "初始化 FrontKeyMetricsQuery 的状态并建立构造约束。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        43,
+        52
+      ],
+      "summary": "通过静态工厂构造 FrontKeyMetricsQuery，封装传入参数。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:userAccountId",
+      "type": "function",
+      "name": "userAccountId",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        54,
+        56
+      ],
+      "summary": "返回 userAccountId 的当前值，供调用方读取。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:todayWindow",
+      "type": "function",
+      "name": "todayWindow",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        58,
+        60
+      ],
+      "summary": "返回 todayWindow 的当前值，供调用方读取。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:monthWindow",
+      "type": "function",
+      "name": "monthWindow",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        62,
+        64
+      ],
+      "summary": "返回 monthWindow 的当前值，供调用方读取。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:trendWindow",
+      "type": "function",
+      "name": "trendWindow",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        66,
+        68
+      ],
+      "summary": "返回 trendWindow 的当前值，供调用方读取。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:trendCredentialIds",
+      "type": "function",
+      "name": "trendCredentialIds",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        70,
+        72
+      ],
+      "summary": "返回 trendCredentialIds 的当前值，供调用方读取。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:asOf",
+      "type": "function",
+      "name": "asOf",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        74,
+        76
+      ],
+      "summary": "返回 asOf 的当前值，供调用方读取。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        78,
+        92
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "lineRange": [
+        94,
+        97
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "查询条件",
+        "凭证统计",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "file",
+      "name": "ApiCredential.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "summary": "用户 API 凭证聚合根，维护归属、密钥材料、模型分组白名单、累计 Token 上限及启停状态。提供所有权、模型权限和配额校验，并跟踪最近使用时间。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:ApiCredential",
+      "type": "class",
+      "name": "ApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        12,
+        308
+      ],
+      "summary": "用户 API 凭证聚合根，维护归属、密钥材料、模型分组白名单、累计 Token 上限及启停状态。提供所有权、模型权限和配额校验，并跟踪最近使用时间。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:ApiCredential",
+      "type": "function",
+      "name": "ApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        28,
+        59
+      ],
+      "summary": "初始化 ApiCredential 的状态并建立构造约束。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        61,
+        89
+      ],
+      "summary": "创建 ApiCredential 并初始化业务状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rehydrate",
+      "type": "function",
+      "name": "rehydrate",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        91,
+        121
+      ],
+      "summary": "根据持久化状态重建 ApiCredential。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rename",
+      "type": "function",
+      "name": "rename",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        123,
+        131
+      ],
+      "summary": "修改凭证名称并更新时间。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeModelGroup",
+      "type": "function",
+      "name": "changeModelGroup",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        133,
+        143
+      ],
+      "summary": "更新所属模型分组及生效模型白名单。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeTokenLimit",
+      "type": "function",
+      "name": "changeTokenLimit",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        145,
+        154
+      ],
+      "summary": "结合当前消费检验新的累计 Token 上限并更新凭证。 同名重载接收不同参数形式。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:disable",
+      "type": "function",
+      "name": "disable",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        167,
+        174
+      ],
+      "summary": "在ApiCredential中执行 disable 操作。协调 Objects.requireNonNull 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:enable",
+      "type": "function",
+      "name": "enable",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        176,
+        183
+      ],
+      "summary": "在ApiCredential中执行 enable 操作。协调 Objects.requireNonNull 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertUsable",
+      "type": "function",
+      "name": "assertUsable",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        185,
+        189
+      ],
+      "summary": "在ApiCredential中执行 assertUsable 操作。协调 new IllegalStateException 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "function",
+      "name": "assertOwnedBy",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        191,
+        196
+      ],
+      "summary": "在ApiCredential中执行 assertOwnedBy 操作。协调 Objects.requireNonNull、this.ownerUserId.equals、new IllegalStateException 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:allowsModel",
+      "type": "function",
+      "name": "allowsModel",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        198,
+        201
+      ],
+      "summary": "在ApiCredential中执行 allowsModel 操作。协调 Objects.requireNonNull、this.modelWhitelist.contains 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertModelAllowed",
+      "type": "function",
+      "name": "assertModelAllowed",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        203,
+        207
+      ],
+      "summary": "在ApiCredential中执行 assertModelAllowed 操作。协调 allowsModel、new IllegalStateException 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:isQuotaExhausted",
+      "type": "function",
+      "name": "isQuotaExhausted",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        209,
+        212
+      ],
+      "summary": "在ApiCredential中执行 isQuotaExhausted 操作。协调 validateConsumedTokens、this.tokenLimit.isExceededBy 等调用处理输入与状态。 同名重载接收不同参数形式。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertQuotaAvailable",
+      "type": "function",
+      "name": "assertQuotaAvailable",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        214,
+        218
+      ],
+      "summary": "在ApiCredential中执行 assertQuotaAvailable 操作。协调 isQuotaExhausted、new IllegalStateException 等调用处理输入与状态。 同名重载接收不同参数形式。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:markUsed",
+      "type": "function",
+      "name": "markUsed",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        232,
+        242
+      ],
+      "summary": "记录凭证最近使用时间并拒绝早于创建时间的值。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        257,
+        259
+      ],
+      "summary": "返回 id 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getOwnerUserId",
+      "type": "function",
+      "name": "getOwnerUserId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        261,
+        263
+      ],
+      "summary": "返回 ownerUserId 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getName",
+      "type": "function",
+      "name": "getName",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        265,
+        267
+      ],
+      "summary": "返回 name 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getKeyHash",
+      "type": "function",
+      "name": "getKeyHash",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        269,
+        271
+      ],
+      "summary": "返回 keyHash 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getKeyPreview",
+      "type": "function",
+      "name": "getKeyPreview",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        273,
+        275
+      ],
+      "summary": "返回 keyPreview 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getEncryptedKeyMaterial",
+      "type": "function",
+      "name": "getEncryptedKeyMaterial",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        277,
+        279
+      ],
+      "summary": "返回 encryptedKeyMaterial 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getModelWhitelist",
+      "type": "function",
+      "name": "getModelWhitelist",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        281,
+        283
+      ],
+      "summary": "返回 modelWhitelist 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getModelGroupId",
+      "type": "function",
+      "name": "getModelGroupId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        285,
+        287
+      ],
+      "summary": "返回 modelGroupId 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getTokenLimit",
+      "type": "function",
+      "name": "getTokenLimit",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        289,
+        291
+      ],
+      "summary": "返回 tokenLimit 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        293,
+        295
+      ],
+      "summary": "返回 status 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getLastUsedAt",
+      "type": "function",
+      "name": "getLastUsedAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        297,
+        299
+      ],
+      "summary": "返回 lastUsedAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        301,
+        303
+      ],
+      "summary": "返回 createdAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getUpdatedAt",
+      "type": "function",
+      "name": "getUpdatedAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "lineRange": [
+        305,
+        307
+      ],
+      "summary": "返回 updatedAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "api-凭证",
+        "模型授权",
+        "配额校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "file",
+      "name": "ApiCredentialId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "summary": "封装 API 凭证的正整数唯一标识，提供工厂构造和值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:ApiCredentialId",
+      "type": "class",
+      "name": "ApiCredentialId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        8,
+        56
+      ],
+      "summary": "封装 API 凭证的正整数唯一标识，提供工厂构造和值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:ApiCredentialId",
+      "type": "function",
+      "name": "ApiCredentialId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        12,
+        20
+      ],
+      "summary": "初始化 ApiCredentialId 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "通过静态工厂构造 ApiCredentialId，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:getValue",
+      "type": "function",
+      "name": "getValue",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        30,
+        32
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        34,
+        43
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        45,
+        48
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "lineRange": [
+        50,
+        55
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java:UpdateModelGroupCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java:UpdateModelGroupCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:ApiCredentialUsageView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:ApiCredentialUsageView",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:ApiCredentialUsageView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:ApiCredentialUsageView",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:credential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:credential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:consumedTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:consumedTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:totalTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:totalTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:todayConsumedTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:todayConsumedTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:todayTotalTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:todayTotalTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:rateLimitedModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:rateLimitedModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:remainingTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:remainingTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getConsumedTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getConsumedTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTotalTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTotalTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTodayConsumedTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTodayConsumedTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTodayTotalTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getTodayTotalTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRateLimitedModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRateLimitedModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRemainingTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRemainingTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java:ModelGroupView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java:ModelGroupView",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:RevealedApiCredentialSecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:RevealedApiCredentialSecret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:RevealedApiCredentialSecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:RevealedApiCredentialSecret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:apiCredentialId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:apiCredentialId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:keyPreview",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:keyPreview",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:plaintextApiKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:plaintextApiKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getApiCredentialId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getApiCredentialId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getKeyPreview",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getKeyPreview",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getPlaintextApiKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java:getPlaintextApiKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyPreview.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:FrontKeyMetricsQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:FrontKeyMetricsQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:FrontKeyMetricsQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:FrontKeyMetricsQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:userAccountId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:userAccountId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:todayWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:todayWindow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:monthWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:monthWindow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:trendWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:trendWindow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:trendCredentialIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:trendCredentialIds",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:asOf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:asOf",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:ApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:ApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:ApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:ApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rehydrate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rehydrate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:rename",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeTokenLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:changeTokenLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:disable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:disable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:enable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:enable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertUsable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertUsable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:allowsModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:allowsModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertModelAllowed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertModelAllowed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:isQuotaExhausted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:isQuotaExhausted",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertQuotaAvailable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertQuotaAvailable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:markUsed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:markUsed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getOwnerUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getOwnerUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getKeyHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getKeyHash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getKeyPreview",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getKeyPreview",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getEncryptedKeyMaterial",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getEncryptedKeyMaterial",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getModelWhitelist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getModelWhitelist",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getModelGroupId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getModelGroupId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getTokenLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getTokenLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getLastUsedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getLastUsedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:getUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:ApiCredentialId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:ApiCredentialId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:ApiCredentialId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:ApiCredentialId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:getValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:getValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:getRemainingTokens",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java:remainingTokens",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertModelAllowed",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:allowsModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertQuotaAvailable",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:isQuotaExhausted",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

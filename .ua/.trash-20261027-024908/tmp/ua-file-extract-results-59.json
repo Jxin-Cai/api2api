@@ -1,0 +1,1285 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 69,
+      "functions": [
+        {
+          "name": "RouteFailureType",
+          "startLine": 23,
+          "endLine": 25,
+          "params": [
+            "messageKeywords"
+          ]
+        },
+        {
+          "name": "fromExceptionMessage",
+          "startLine": 27,
+          "endLine": 39,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "isRetryableByDefault",
+          "startLine": 41,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "isRateLimited",
+          "startLine": 48,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "fromHttpResponse",
+          "startLine": 52,
+          "endLine": 55,
+          "params": [
+            "statusCode",
+            "body"
+          ]
+        },
+        {
+          "name": "fromHttpStatus",
+          "startLine": 57,
+          "endLine": 68,
+          "params": [
+            "statusCode"
+          ]
+        },
+        {
+          "name": "isModelUnavailableResponse",
+          "startLine": 70,
+          "endLine": 78,
+          "params": [
+            "statusCode",
+            "responseBody"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RouteFailureType",
+          "startLine": 9,
+          "endLine": 79,
+          "methods": [
+            "RouteFailureType",
+            "fromExceptionMessage",
+            "isRetryableByDefault",
+            "isRateLimited",
+            "fromHttpResponse",
+            "fromHttpStatus",
+            "isModelUnavailableResponse"
+          ],
+          "properties": [
+            "messageKeywords"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "fromExceptionMessage",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "isRetryableByDefault",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "isRateLimited",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "fromHttpResponse",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "fromHttpStatus",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "isModelUnavailableResponse",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "RouteFailureType",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "fromExceptionMessage",
+          "callee": "message.isBlank",
+          "lineNumber": 28
+        },
+        {
+          "caller": "fromExceptionMessage",
+          "callee": "message.toUpperCase",
+          "lineNumber": 31
+        },
+        {
+          "caller": "fromExceptionMessage",
+          "callee": "values",
+          "lineNumber": 32
+        },
+        {
+          "caller": "fromExceptionMessage",
+          "callee": "type.messageKeywords.isEmpty",
+          "lineNumber": 33
+        },
+        {
+          "caller": "fromExceptionMessage",
+          "callee": "type.messageKeywords.stream().anyMatch",
+          "lineNumber": 34
+        },
+        {
+          "caller": "fromExceptionMessage",
+          "callee": "type.messageKeywords.stream",
+          "lineNumber": 34
+        },
+        {
+          "caller": "fromHttpResponse",
+          "callee": "fromExceptionMessage",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fromHttpResponse",
+          "callee": "fromHttpStatus",
+          "lineNumber": 54
+        },
+        {
+          "caller": "isModelUnavailableResponse",
+          "callee": "responseBody.toLowerCase",
+          "lineNumber": 74
+        },
+        {
+          "caller": "isModelUnavailableResponse",
+          "callee": "normalized.contains",
+          "lineNumber": 75
+        },
+        {
+          "caller": "isModelUnavailableResponse",
+          "callee": "normalized.contains",
+          "lineNumber": 76
+        },
+        {
+          "caller": "isModelUnavailableResponse",
+          "callee": "normalized.contains",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/client/provider/BearerTokenProviderCallStrategy.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 391,
+      "nonEmptyLines": 368,
+      "functions": [
+        {
+          "name": "BearerTokenProviderCallStrategy",
+          "startLine": 40,
+          "endLine": 56,
+          "params": [
+            "providerChannelRepository",
+            "properties",
+            "headerPolicy",
+            "urlResolver",
+            "multipartFormCodec"
+          ]
+        },
+        {
+          "name": "supports",
+          "startLine": 58,
+          "endLine": 61,
+          "params": [
+            "upstreamProtocol"
+          ]
+        },
+        {
+          "name": "forward",
+          "startLine": 63,
+          "endLine": 89,
+          "params": [
+            "candidate",
+            "upstreamRequestBody",
+            "streaming",
+            "inbound"
+          ]
+        },
+        {
+          "name": "openStream",
+          "startLine": 91,
+          "endLine": 110,
+          "params": [
+            "candidate",
+            "upstreamRequestBody",
+            "inbound"
+          ]
+        },
+        {
+          "name": "openStreamOnce",
+          "startLine": 112,
+          "endLine": 164,
+          "params": [
+            "candidate",
+            "upstreamRequestBody",
+            "inbound"
+          ]
+        },
+        {
+          "name": "shouldRetryStream",
+          "startLine": 170,
+          "endLine": 180,
+          "params": [
+            "attempt",
+            "failure"
+          ]
+        },
+        {
+          "name": "prepareStreamingBody",
+          "startLine": 182,
+          "endLine": 214,
+          "params": [
+            "candidate",
+            "response",
+            "startedAt"
+          ]
+        },
+        {
+          "name": "waitBeforeStreamRetry",
+          "startLine": 216,
+          "endLine": 244,
+          "params": [
+            "candidate",
+            "attempt",
+            "failure"
+          ]
+        },
+        {
+          "name": "buildRequest",
+          "startLine": 246,
+          "endLine": 289,
+          "params": [
+            "candidate",
+            "upstreamRequestBody",
+            "streaming",
+            "inbound"
+          ]
+        },
+        {
+          "name": "encodeBody",
+          "startLine": 295,
+          "endLine": 300,
+          "params": [
+            "upstreamRequestBody",
+            "operation"
+          ]
+        },
+        {
+          "name": "appendQuery",
+          "startLine": 306,
+          "endLine": 311,
+          "params": [
+            "baseUrl",
+            "rawQuery"
+          ]
+        },
+        {
+          "name": "resolveUpstreamPath",
+          "startLine": 313,
+          "endLine": 331,
+          "params": [
+            "candidate",
+            "streaming",
+            "operation"
+          ]
+        },
+        {
+          "name": "toStatusFailure",
+          "startLine": 333,
+          "endLine": 350,
+          "params": [
+            "statusCode",
+            "elapsedMillis",
+            "responseBody",
+            "responseMetadata"
+          ]
+        },
+        {
+          "name": "readTimeout",
+          "startLine": 352,
+          "endLine": 354,
+          "params": [
+            "streaming"
+          ]
+        },
+        {
+          "name": "withStreamingTimeout",
+          "startLine": 356,
+          "endLine": 362,
+          "params": [
+            "body"
+          ]
+        },
+        {
+          "name": "readErrorBody",
+          "startLine": 364,
+          "endLine": 374,
+          "params": [
+            "body"
+          ]
+        },
+        {
+          "name": "closeQuietly",
+          "startLine": 376,
+          "endLine": 385,
+          "params": [
+            "body"
+          ]
+        },
+        {
+          "name": "elapsedSince",
+          "startLine": 387,
+          "endLine": 389,
+          "params": [
+            "startedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BearerTokenProviderCallStrategy",
+          "startLine": 29,
+          "endLine": 391,
+          "methods": [
+            "BearerTokenProviderCallStrategy",
+            "supports",
+            "forward",
+            "openStream",
+            "openStreamOnce",
+            "shouldRetryStream",
+            "prepareStreamingBody",
+            "waitBeforeStreamRetry",
+            "buildRequest",
+            "encodeBody",
+            "appendQuery",
+            "resolveUpstreamPath",
+            "toStatusFailure",
+            "readTimeout",
+            "withStreamingTimeout",
+            "readErrorBody",
+            "closeQuietly",
+            "elapsedSince"
+          ],
+          "properties": [
+            "providerChannelRepository",
+            "properties",
+            "headerPolicy",
+            "urlResolver",
+            "multipartFormCodec",
+            "httpClient"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "supports",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "forward",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "openStream",
+          "line": 91,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BearerTokenProviderCallStrategy",
+          "callee": "HttpClient.newBuilder()\n                .connectTimeout(properties.getConnectTimeout())\n                .version(HttpClient.Version.HTTP_1_1).build",
+          "lineNumber": 52
+        },
+        {
+          "caller": "BearerTokenProviderCallStrategy",
+          "callee": "HttpClient.newBuilder()\n                .connectTimeout(properties.getConnectTimeout()).version",
+          "lineNumber": 52
+        },
+        {
+          "caller": "BearerTokenProviderCallStrategy",
+          "callee": "HttpClient.newBuilder().connectTimeout",
+          "lineNumber": 52
+        },
+        {
+          "caller": "BearerTokenProviderCallStrategy",
+          "callee": "HttpClient.newBuilder",
+          "lineNumber": 52
+        },
+        {
+          "caller": "BearerTokenProviderCallStrategy",
+          "callee": "properties.getConnectTimeout",
+          "lineNumber": 53
+        },
+        {
+          "caller": "forward",
+          "callee": "buildRequest",
+          "lineNumber": 70
+        },
+        {
+          "caller": "forward",
+          "callee": "Instant.now",
+          "lineNumber": 71
+        },
+        {
+          "caller": "forward",
+          "callee": "httpClient.send",
+          "lineNumber": 73
+        },
+        {
+          "caller": "forward",
+          "callee": "HttpResponse.BodyHandlers.ofString",
+          "lineNumber": 73
+        },
+        {
+          "caller": "forward",
+          "callee": "ProviderGatewayResponse.of",
+          "lineNumber": 74
+        },
+        {
+          "caller": "forward",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 75
+        },
+        {
+          "caller": "forward",
+          "callee": "response.statusCode",
+          "lineNumber": 76
+        },
+        {
+          "caller": "forward",
+          "callee": "response.headers().map",
+          "lineNumber": 77
+        },
+        {
+          "caller": "forward",
+          "callee": "response.headers",
+          "lineNumber": 77
+        },
+        {
+          "caller": "forward",
+          "callee": "response.body",
+          "lineNumber": 78
+        },
+        {
+          "caller": "forward",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 82
+        },
+        {
+          "caller": "forward",
+          "callee": "elapsedSince",
+          "lineNumber": 82
+        },
+        {
+          "caller": "forward",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 84
+        },
+        {
+          "caller": "forward",
+          "callee": "elapsedSince",
+          "lineNumber": 84
+        },
+        {
+          "caller": "forward",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 86
+        },
+        {
+          "caller": "forward",
+          "callee": "Thread.currentThread",
+          "lineNumber": 86
+        },
+        {
+          "caller": "forward",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 87
+        },
+        {
+          "caller": "forward",
+          "callee": "elapsedSince",
+          "lineNumber": 87
+        },
+        {
+          "caller": "openStream",
+          "callee": "openStreamOnce",
+          "lineNumber": 100
+        },
+        {
+          "caller": "openStream",
+          "callee": "shouldRetryStream",
+          "lineNumber": 102
+        },
+        {
+          "caller": "openStream",
+          "callee": "waitBeforeStreamRetry",
+          "lineNumber": 103
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "buildRequest",
+          "lineNumber": 117
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "Instant.now",
+          "lineNumber": 118
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "httpClient.send",
+          "lineNumber": 120
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "HttpResponse.BodyHandlers.ofInputStream",
+          "lineNumber": 120
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.statusCode",
+          "lineNumber": 121
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "readErrorBody",
+          "lineNumber": 123
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.body",
+          "lineNumber": 123
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "closeQuietly",
+          "lineNumber": 124
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.body",
+          "lineNumber": 124
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "toStatusFailure",
+          "lineNumber": 125
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "elapsedSince",
+          "lineNumber": 127
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 129
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.headers().map",
+          "lineNumber": 129
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.headers",
+          "lineNumber": 129
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "ProviderStreamingResponse.of",
+          "lineNumber": 132
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 133
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.headers().map",
+          "lineNumber": 135
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "response.headers",
+          "lineNumber": 135
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "prepareStreamingBody",
+          "lineNumber": 136
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 139
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "elapsedSince",
+          "lineNumber": 143
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 147
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "elapsedSince",
+          "lineNumber": 151
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 155
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "Thread.currentThread",
+          "lineNumber": 155
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 156
+        },
+        {
+          "caller": "openStreamOnce",
+          "callee": "elapsedSince",
+          "lineNumber": 160
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "failure.failureType",
+          "lineNumber": 171
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "failure.statusCode",
+          "lineNumber": 172
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "failure.retryable",
+          "lineNumber": 174
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "properties.getStreamingMaxRetries",
+          "lineNumber": 175
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "failure.responseMetadata().retryAfter(Instant.now()).isEmpty",
+          "lineNumber": 179
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "failure.responseMetadata().retryAfter",
+          "lineNumber": 179
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "failure.responseMetadata",
+          "lineNumber": 179
+        },
+        {
+          "caller": "shouldRetryStream",
+          "callee": "Instant.now",
+          "lineNumber": 179
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "withStreamingTimeout",
+          "lineNumber": 187
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.body",
+          "lineNumber": 187
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 188
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().firstValue(\"Content-Type\").orElse(\"\")\n                        .split(\";\", 2)[0].trim().equalsIgnoreCase",
+          "lineNumber": 189
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().firstValue(\"Content-Type\").orElse(\"\")\n                        .split(\";\", 2)[0].trim",
+          "lineNumber": 189
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().firstValue(\"Content-Type\").orElse(\"\").split",
+          "lineNumber": 189
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().firstValue(\"Content-Type\").orElse",
+          "lineNumber": 189
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().firstValue",
+          "lineNumber": 189
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers",
+          "lineNumber": 189
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "ResponsesStreamPreflight.inspect",
+          "lineNumber": 195
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 196
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().map",
+          "lineNumber": 196
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers",
+          "lineNumber": 196
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 202
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.statusCode",
+          "lineNumber": 205
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "elapsedSince",
+          "lineNumber": 205
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 206
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers().map",
+          "lineNumber": 206
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "response.headers",
+          "lineNumber": 206
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "failure.initCause",
+          "lineNumber": 207
+        },
+        {
+          "caller": "prepareStreamingBody",
+          "callee": "closeQuietly",
+          "lineNumber": 211
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "Math.min",
+          "lineNumber": 221
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "Math.multiplyExact",
+          "lineNumber": 222
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "properties.getStreamingRetryBackoff().toMillis",
+          "lineNumber": 222
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "properties.getStreamingRetryBackoff",
+          "lineNumber": 222
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "log.warn",
+          "lineNumber": 223
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "candidate.providerChannelId().value",
+          "lineNumber": 226
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 226
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 227
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "failure.statusCode",
+          "lineNumber": 228
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "failure.failureType",
+          "lineNumber": 229
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "Thread.sleep",
+          "lineNumber": 233
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 235
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "Thread.currentThread",
+          "lineNumber": 235
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 236
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "failure.statusCode",
+          "lineNumber": 238
+        },
+        {
+          "caller": "waitBeforeStreamRetry",
+          "callee": "failure.elapsedMillis",
+          "lineNumber": 240
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "providerChannelRepository.findById(candidate.providerChannelId()).orElseThrow",
+          "lineNumber": 252
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "providerChannelRepository.findById",
+          "lineNumber": 252
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 252
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "new BusinessException",
+          "lineNumber": 253
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.isEnabledForRouting",
+          "lineNumber": 254
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 255
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.supportsModel",
+          "lineNumber": 263
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "candidate.requestedModel",
+          "lineNumber": 263
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 263
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 264
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.keyRef().value",
+          "lineNumber": 272
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.keyRef",
+          "lineNumber": 272
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "resolveUpstreamPath",
+          "lineNumber": 273
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "inbound.operation",
+          "lineNumber": 273
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "urlResolver.resolve",
+          "lineNumber": 274
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.host().resolvePath(path).value",
+          "lineNumber": 274
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.host().resolvePath",
+          "lineNumber": 274
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "channel.host",
+          "lineNumber": 274
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "candidate.requiresProtocolConversion",
+          "lineNumber": 275
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "inbound.rawQuery",
+          "lineNumber": 275
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "OutboundUriGuard.verify",
+          "lineNumber": 276
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "URI.create",
+          "lineNumber": 277
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "appendQuery",
+          "lineNumber": 277
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "properties.isAllowInsecureHosts",
+          "lineNumber": 278
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "encodeBody",
+          "lineNumber": 280
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "inbound.operation",
+          "lineNumber": 280
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "headerPolicy.buildHeaders",
+          "lineNumber": 281
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 282
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "inbound.headers",
+          "lineNumber": 282
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "body.contentType",
+          "lineNumber": 282
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "HttpRequest.newBuilder(uri)\n                .timeout(readTimeout(streaming)).POST",
+          "lineNumber": 284
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "HttpRequest.newBuilder(uri).timeout",
+          "lineNumber": 284
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "HttpRequest.newBuilder",
+          "lineNumber": 284
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "readTimeout",
+          "lineNumber": 285
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "HttpRequest.BodyPublishers.ofByteArray",
+          "lineNumber": 286
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "body.content",
+          "lineNumber": 286
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "headers.forEach",
+          "lineNumber": 287
+        },
+        {
+          "caller": "buildRequest",
+          "callee": "requestBuilder.build",
+          "lineNumber": 288
+        },
+        {
+          "caller": "encodeBody",
+          "callee": "operation.acceptsMultipartForm",
+          "lineNumber": 296
+        },
+        {
+          "caller": "encodeBody",
+          "callee": "UpstreamRequestBody.json",
+          "lineNumber": 297
+        },
+        {
+          "caller": "encodeBody",
+          "callee": "MultipartFormBodyWriter.write",
+          "lineNumber": 299
+        },
+        {
+          "caller": "encodeBody",
+          "callee": "multipartFormCodec.decode",
+          "lineNumber": 299
+        },
+        {
+          "caller": "appendQuery",
+          "callee": "rawQuery.isBlank",
+          "lineNumber": 307
+        },
+        {
+          "caller": "appendQuery",
+          "callee": "baseUrl.contains",
+          "lineNumber": 310
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 314
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "operation.availableOn",
+          "lineNumber": 315
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 316
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "properties.getBedrockClaudeMessagesStreamPathTemplate",
+          "lineNumber": 326
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "properties.getBedrockClaudeMessagesPathTemplate",
+          "lineNumber": 327
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "template.replace",
+          "lineNumber": 328
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "candidate.upstreamModel().value",
+          "lineNumber": 328
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 328
+        },
+        {
+          "caller": "resolveUpstreamPath",
+          "callee": "properties.upstreamPathFor",
+          "lineNumber": 330
+        },
+        {
+          "caller": "toStatusFailure",
+          "callee": "RouteFailureType.fromHttpResponse",
+          "lineNumber": 339
+        },
+        {
+          "caller": "toStatusFailure",
+          "callee": "UpstreamFailureClassifier.isModelUnavailable",
+          "lineNumber": 344
+        },
+        {
+          "caller": "toStatusFailure",
+          "callee": "UpstreamFailureClassifier.compactErrorMessage",
+          "lineNumber": 348
+        },
+        {
+          "caller": "toStatusFailure",
+          "callee": "new UpstreamGatewayException",
+          "lineNumber": 349
+        },
+        {
+          "caller": "readTimeout",
+          "callee": "properties.getStreamingFirstByteTimeout",
+          "lineNumber": 353
+        },
+        {
+          "caller": "readTimeout",
+          "callee": "properties.getUpstreamReadTimeout",
+          "lineNumber": 353
+        },
+        {
+          "caller": "withStreamingTimeout",
+          "callee": "new StreamingIdleTimeoutInputStream",
+          "lineNumber": 357
+        },
+        {
+          "caller": "withStreamingTimeout",
+          "callee": "properties.getStreamingFirstByteTimeout",
+          "lineNumber": 359
+        },
+        {
+          "caller": "withStreamingTimeout",
+          "callee": "properties.getStreamingIdleTimeout",
+          "lineNumber": 360
+        },
+        {
+          "caller": "readErrorBody",
+          "callee": "new String",
+          "lineNumber": 369
+        },
+        {
+          "caller": "readErrorBody",
+          "callee": "body.readAllBytes",
+          "lineNumber": 369
+        },
+        {
+          "caller": "readErrorBody",
+          "callee": "log.warn",
+          "lineNumber": 371
+        },
+        {
+          "caller": "closeQuietly",
+          "callee": "body.close",
+          "lineNumber": 381
+        },
+        {
+          "caller": "closeQuietly",
+          "callee": "log.warn",
+          "lineNumber": 383
+        },
+        {
+          "caller": "elapsedSince",
+          "callee": "Duration.between(startedAt, Instant.now()).toMillis",
+          "lineNumber": 388
+        },
+        {
+          "caller": "elapsedSince",
+          "callee": "Duration.between",
+          "lineNumber": 388
+        },
+        {
+          "caller": "elapsedSince",
+          "callee": "Instant.now",
+          "lineNumber": 388
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 3,
+        "functionCount": 18,
+        "classCount": 1
+      }
+    }
+  ]
+}

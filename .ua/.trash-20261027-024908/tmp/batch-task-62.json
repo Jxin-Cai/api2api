@@ -1,0 +1,802 @@
+{
+  "batchIndex": 62,
+  "files": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "language": "java",
+      "sizeLines": 278,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "language": "java",
+      "sizeLines": 127,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "language": "java",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java": [
+      "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "backend/src/main/java/com/api2api/application/credential/command/AuthenticateApiCredentialCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/ChangeApiCredentialStatusCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/ChangeModelGroupCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/CreateApiCredentialCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/RenameApiCredentialCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/RevealApiCredentialSecretCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java"
+    ],
+    "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java": [
+      "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "backend/src/main/java/com/api2api/application/credential/command/CreateModelGroupCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java"
+    ],
+    "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java": [
+      "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java"
+    ]
+  },
+  "neighborMap": {
+    "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/BusinessException.java",
+        "batchIndex": 2,
+        "symbols": [
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "code",
+          "getCode",
+          "BusinessException"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/AuthenticateApiCredentialCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "AuthenticateApiCredentialCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/ChangeApiCredentialStatusCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "ChangeApiCredentialStatusCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/ChangeModelGroupCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "ChangeModelGroupCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/CreateApiCredentialCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "CreateApiCredentialCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "DeleteApiCredentialCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/RenameApiCredentialCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "RenameApiCredentialCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/RevealApiCredentialSecretCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "RevealApiCredentialSecretCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "of",
+          "credential",
+          "consumedTokens",
+          "totalTokens",
+          "todayConsumedTokens",
+          "todayTotalTokens",
+          "rateLimitedModels",
+          "remainingTokens",
+          "getCredential",
+          "getConsumedTokens",
+          "getTotalTokens",
+          "getTodayConsumedTokens",
+          "getTodayTotalTokens",
+          "getRateLimitedModels",
+          "getRemainingTokens",
+          "ApiCredentialUsageView"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "apiCredentialId",
+          "keyPreview",
+          "plaintextApiKey",
+          "getApiCredentialId",
+          "getKeyPreview",
+          "getPlaintextApiKey",
+          "RevealedApiCredentialSecret"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+        "batchIndex": 12,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "rename",
+          "changeModelGroup",
+          "changeTokenLimit",
+          "changeTokenLimit",
+          "disable",
+          "enable",
+          "assertUsable",
+          "assertOwnedBy",
+          "allowsModel",
+          "assertModelAllowed",
+          "isQuotaExhausted",
+          "assertQuotaAvailable",
+          "isQuotaExhausted",
+          "assertQuotaAvailable",
+          "markUsed",
+          "getId",
+          "getOwnerUserId",
+          "getName",
+          "getKeyHash",
+          "getKeyPreview",
+          "getEncryptedKeyMaterial",
+          "getModelWhitelist",
+          "getModelGroupId",
+          "getTokenLimit",
+          "getStatus",
+          "getLastUsedAt",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "ApiCredential"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiCredentialId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ApiKeyHash"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+        "batchIndex": 13,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "update",
+          "assertOwnedBy",
+          "assertDailyLimitAvailable",
+          "rateLimitedModels",
+          "getId",
+          "getOwnerUserId",
+          "getName",
+          "getModelWhitelist",
+          "getModelDailyLimits",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "ModelGroup"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "ModelGroupId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "unlimited",
+          "isUnlimited",
+          "isExceededBy",
+          "isExceededBy",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "TokenLimit"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+        "batchIndex": 13,
+        "symbols": [
+          "ApiCredentialRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+        "batchIndex": 13,
+        "symbols": [
+          "ModelGroupRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+        "batchIndex": 15,
+        "symbols": [
+          "of",
+          "forUserPortal",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "providerChannelId",
+          "requestProtocol",
+          "timeRange",
+          "viewerRole",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getProviderChannelId",
+          "getRequestProtocol",
+          "getTimeRange",
+          "getViewerRole",
+          "equals",
+          "hashCode",
+          "UsageRecordFilter"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+        "batchIndex": 15,
+        "symbols": [
+          "of",
+          "contains",
+          "startInclusive",
+          "endExclusive",
+          "getStartInclusive",
+          "getEndExclusive",
+          "equals",
+          "hashCode",
+          "UsageTimeRange"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+        "batchIndex": 3,
+        "symbols": [
+          "of",
+          "known",
+          "unknown",
+          "zeroKnown",
+          "fromUnified",
+          "plus",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "actualTokens",
+          "usageKnown",
+          "getInputTokens",
+          "getOutputTokens",
+          "getCacheCreationInputTokens",
+          "getCacheReadInputTokens",
+          "getTotalTokens",
+          "getActualTokens",
+          "isUsageKnown",
+          "equals",
+          "hashCode",
+          "UsageTokenBreakdown"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+        "batchIndex": 15,
+        "symbols": [
+          "UsageRecordRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+        "batchIndex": 4,
+        "symbols": [
+          "AccessScope"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+        "batchIndex": 18,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "changeDisplayName",
+          "changeRole",
+          "changePasswordHash",
+          "ensureAdminActive",
+          "disable",
+          "enable",
+          "assertActive",
+          "isAdmin",
+          "isRegularUser",
+          "canAccess",
+          "assertCanAccess",
+          "getId",
+          "getUsername",
+          "getDisplayName",
+          "getRole",
+          "getStatus",
+          "getPasswordHash",
+          "hasPasswordHash",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "UserAccount"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 3,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+        "batchIndex": 18,
+        "symbols": [
+          "UserAccountRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+        "batchIndex": 13,
+        "symbols": [
+          "listMyCredentials",
+          "createCredential",
+          "revealCredentialSecret",
+          "renameCredential",
+          "changeModelGroup",
+          "disableCredential",
+          "enableCredential",
+          "deleteCredential",
+          "ApiCredentialController"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+        "batchIndex": 16,
+        "symbols": [
+          "listModels",
+          "claudeMessages",
+          "claudeCountTokens",
+          "openaiResponses",
+          "openaiChatCompletions",
+          "openaiImageGenerations",
+          "openaiImageEdits",
+          "openaiImageVariations",
+          "GatewayProtocolController"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+        "batchIndex": 10,
+        "symbols": [
+          "ResponsesImageBridge",
+          "tryHandle",
+          "ResponsesImageBridge"
+        ]
+      },
+      {
+        "path": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolControllerTest.java",
+        "batchIndex": 16,
+        "symbols": []
+      },
+      {
+        "path": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+        "batchIndex": 10,
+        "symbols": []
+      },
+      {
+        "path": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+        "batchIndex": 16,
+        "symbols": []
+      }
+    ],
+    "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/BusinessException.java",
+        "batchIndex": 2,
+        "symbols": [
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "code",
+          "getCode",
+          "BusinessException"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+        "batchIndex": 1,
+        "symbols": [
+          "availableModels",
+          "ProviderModelAvailabilityService"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/CreateModelGroupCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "CreateModelGroupCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "DeleteModelGroupCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+        "batchIndex": 12,
+        "symbols": [
+          "UpdateModelGroupCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "ModelGroupView"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+        "batchIndex": 12,
+        "symbols": [
+          "of",
+          "empty",
+          "limitFor",
+          "isExceeded",
+          "isEmpty",
+          "limits",
+          "getLimits",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelDailyLimits"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+        "batchIndex": 13,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "update",
+          "assertOwnedBy",
+          "assertDailyLimitAvailable",
+          "rateLimitedModels",
+          "getId",
+          "getOwnerUserId",
+          "getName",
+          "getModelWhitelist",
+          "getModelDailyLimits",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "ModelGroup"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "ModelGroupId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelGroupName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+        "batchIndex": 13,
+        "symbols": [
+          "ModelGroupRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+        "batchIndex": 4,
+        "symbols": [
+          "AccessScope"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+        "batchIndex": 18,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "changeDisplayName",
+          "changeRole",
+          "changePasswordHash",
+          "ensureAdminActive",
+          "disable",
+          "enable",
+          "assertActive",
+          "isAdmin",
+          "isRegularUser",
+          "canAccess",
+          "assertCanAccess",
+          "getId",
+          "getUsername",
+          "getDisplayName",
+          "getRole",
+          "getStatus",
+          "getPasswordHash",
+          "hasPasswordHash",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "UserAccount"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+        "batchIndex": 3,
+        "symbols": [
+          "of",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UserAccountId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+        "batchIndex": 18,
+        "symbols": [
+          "UserAccountRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+        "batchIndex": 13,
+        "symbols": [
+          "listMyGroups",
+          "createGroup",
+          "updateGroup",
+          "deleteGroup",
+          "ModelGroupController"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupOptionsController.java",
+        "batchIndex": 16,
+        "symbols": [
+          "list",
+          "ModelGroupOptionsController"
+        ]
+      }
+    ],
+    "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/BusinessException.java",
+        "batchIndex": 2,
+        "symbols": [
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "code",
+          "getCode",
+          "BusinessException"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+        "batchIndex": 12,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "rename",
+          "changeModelGroup",
+          "changeTokenLimit",
+          "changeTokenLimit",
+          "disable",
+          "enable",
+          "assertUsable",
+          "assertOwnedBy",
+          "allowsModel",
+          "assertModelAllowed",
+          "isQuotaExhausted",
+          "assertQuotaAvailable",
+          "isQuotaExhausted",
+          "assertQuotaAvailable",
+          "markUsed",
+          "getId",
+          "getOwnerUserId",
+          "getName",
+          "getKeyHash",
+          "getKeyPreview",
+          "getEncryptedKeyMaterial",
+          "getModelWhitelist",
+          "getModelGroupId",
+          "getTokenLimit",
+          "getStatus",
+          "getLastUsedAt",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "ApiCredential"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+        "batchIndex": 13,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "ModelName"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+        "batchIndex": 13,
+        "symbols": [
+          "ApiCredentialRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+        "batchIndex": 7,
+        "symbols": [
+          "invoke",
+          "invokeOutcome",
+          "openStreaming",
+          "completeStreamingSuccess",
+          "completeStreamingSuccess",
+          "completeStreamingClientDisconnect",
+          "completeStreamingFailure",
+          "authenticateAndStartInvocation",
+          "appendUsageRecord",
+          "GatewayInvocationApplicationService"
+        ]
+      }
+    ]
+  }
+}

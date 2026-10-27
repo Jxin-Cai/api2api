@@ -1,0 +1,4854 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 26,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 26,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 26,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 304,
+      "nonEmptyLines": 267,
+      "functions": [
+        {
+          "name": "createCredential",
+          "startLine": 71,
+          "endLine": 90,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "listMyCredentials",
+          "startLine": 92,
+          "endLine": 96,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "listMyCredentialUsageViews",
+          "startLine": 98,
+          "endLine": 112,
+          "params": [
+            "ownerUserId",
+            "todayTimeRange"
+          ]
+        },
+        {
+          "name": "rateLimitedModelsByGroup",
+          "startLine": 114,
+          "endLine": 124,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "usageView",
+          "startLine": 126,
+          "endLine": 141,
+          "params": [
+            "ownerUserId",
+            "credential",
+            "todayTimeRange",
+            "rateLimitedModels"
+          ]
+        },
+        {
+          "name": "revealSecret",
+          "startLine": 143,
+          "endLine": 156,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "renameCredential",
+          "startLine": 158,
+          "endLine": 167,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "changeModelGroup",
+          "startLine": 169,
+          "endLine": 178,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "changeTokenLimit",
+          "startLine": 180,
+          "endLine": 190,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "disableCredential",
+          "startLine": 192,
+          "endLine": 201,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "enableCredential",
+          "startLine": 203,
+          "endLine": 212,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "deleteCredential",
+          "startLine": 214,
+          "endLine": 221,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "authenticateForGateway",
+          "startLine": 223,
+          "endLine": 235,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "authenticateForModelListing",
+          "startLine": 237,
+          "endLine": 243,
+          "params": [
+            "keyHash"
+          ]
+        },
+        {
+          "name": "assertUserPortal",
+          "startLine": 245,
+          "endLine": 249,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "loadCredential",
+          "startLine": 251,
+          "endLine": 254,
+          "params": [
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "loadOwnedModelGroup",
+          "startLine": 256,
+          "endLine": 262,
+          "params": [
+            "modelGroupId",
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "currentConsumedTokens",
+          "startLine": 264,
+          "endLine": 270,
+          "params": [
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "todayTokenBreakdown",
+          "startLine": 272,
+          "endLine": 289,
+          "params": [
+            "ownerUserId",
+            "apiCredentialId",
+            "todayTimeRange"
+          ]
+        },
+        {
+          "name": "sha256Hex",
+          "startLine": 291,
+          "endLine": 299,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "now",
+          "startLine": 301,
+          "endLine": 303,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialApplicationService",
+          "startLine": 46,
+          "endLine": 304,
+          "methods": [
+            "createCredential",
+            "listMyCredentials",
+            "listMyCredentialUsageViews",
+            "rateLimitedModelsByGroup",
+            "usageView",
+            "revealSecret",
+            "renameCredential",
+            "changeModelGroup",
+            "changeTokenLimit",
+            "disableCredential",
+            "enableCredential",
+            "deleteCredential",
+            "authenticateForGateway",
+            "authenticateForModelListing",
+            "assertUserPortal",
+            "loadCredential",
+            "loadOwnedModelGroup",
+            "currentConsumedTokens",
+            "todayTokenBreakdown",
+            "sha256Hex",
+            "now"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "apiCredentialRepository",
+            "modelGroupRepository",
+            "usageRecordRepository",
+            "apiKeyMaterialProtector",
+            "dailyUsageService",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "createCredential",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "listMyCredentials",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "listMyCredentialUsageViews",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "revealSecret",
+          "line": 143,
+          "isDefault": false
+        },
+        {
+          "name": "renameCredential",
+          "line": 158,
+          "isDefault": false
+        },
+        {
+          "name": "changeModelGroup",
+          "line": 169,
+          "isDefault": false
+        },
+        {
+          "name": "changeTokenLimit",
+          "line": 180,
+          "isDefault": false
+        },
+        {
+          "name": "disableCredential",
+          "line": 192,
+          "isDefault": false
+        },
+        {
+          "name": "enableCredential",
+          "line": 203,
+          "isDefault": false
+        },
+        {
+          "name": "deleteCredential",
+          "line": 214,
+          "isDefault": false
+        },
+        {
+          "name": "authenticateForGateway",
+          "line": 223,
+          "isDefault": false
+        },
+        {
+          "name": "authenticateForModelListing",
+          "line": 237,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredentialApplicationService",
+          "line": 46,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createCredential",
+          "callee": "assertUserPortal",
+          "lineNumber": 73
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 73
+        },
+        {
+          "caller": "createCredential",
+          "callee": "loadOwnedModelGroup",
+          "lineNumber": 74
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 74
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 74
+        },
+        {
+          "caller": "createCredential",
+          "callee": "ApiCredential.create",
+          "lineNumber": 76
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 78
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getName",
+          "lineNumber": 79
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getKeyHash",
+          "lineNumber": 80
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getKeyPreview",
+          "lineNumber": 81
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getEncryptedKeyMaterial",
+          "lineNumber": 82
+        },
+        {
+          "caller": "createCredential",
+          "callee": "modelGroup.getId",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createCredential",
+          "callee": "modelGroup.getModelWhitelist",
+          "lineNumber": 84
+        },
+        {
+          "caller": "createCredential",
+          "callee": "command.getTokenLimit",
+          "lineNumber": 85
+        },
+        {
+          "caller": "createCredential",
+          "callee": "now",
+          "lineNumber": 86
+        },
+        {
+          "caller": "createCredential",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 88
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "assertUserPortal",
+          "lineNumber": 94
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "apiCredentialRepository.findByOwnerUserId",
+          "lineNumber": 95
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "listMyCredentials",
+          "lineNumber": 103
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "rateLimitedModelsByGroup",
+          "lineNumber": 104
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "credentials.stream()\n                .map(credential -> usageView(\n                        ownerUserId,\n                        credential,\n                        todayTimeRange,\n                        rateLimitedModelsByGroup.getOrDefault(credential.getModelGroupId(), Set.of()))).toList",
+          "lineNumber": 105
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "credentials.stream().map",
+          "lineNumber": 105
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "credentials.stream",
+          "lineNumber": 105
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "usageView",
+          "lineNumber": 106
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "rateLimitedModelsByGroup.getOrDefault",
+          "lineNumber": 110
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "credential.getModelGroupId",
+          "lineNumber": 110
+        },
+        {
+          "caller": "listMyCredentialUsageViews",
+          "callee": "Set.of",
+          "lineNumber": 110
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "dailyUsageService.loadTodayUsageByGroup",
+          "lineNumber": 115
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "new HashMap<>",
+          "lineNumber": 116
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "modelGroupRepository.findByOwnerUserId",
+          "lineNumber": 117
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "group.rateLimitedModels",
+          "lineNumber": 118
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "usageByGroup.getOrDefault",
+          "lineNumber": 118
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "group.getId",
+          "lineNumber": 118
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "Map.of",
+          "lineNumber": 118
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "limited.isEmpty",
+          "lineNumber": 119
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "limitedByGroup.put",
+          "lineNumber": 120
+        },
+        {
+          "caller": "rateLimitedModelsByGroup",
+          "callee": "group.getId",
+          "lineNumber": 120
+        },
+        {
+          "caller": "usageView",
+          "callee": "todayTokenBreakdown",
+          "lineNumber": 132
+        },
+        {
+          "caller": "usageView",
+          "callee": "credential.getId",
+          "lineNumber": 132
+        },
+        {
+          "caller": "usageView",
+          "callee": "ApiCredentialUsageView.of",
+          "lineNumber": 133
+        },
+        {
+          "caller": "usageView",
+          "callee": "currentConsumedTokens",
+          "lineNumber": 135
+        },
+        {
+          "caller": "usageView",
+          "callee": "credential.getId",
+          "lineNumber": 135
+        },
+        {
+          "caller": "usageView",
+          "callee": "usageRecordRepository.sumTotalTokensByApiCredential",
+          "lineNumber": 136
+        },
+        {
+          "caller": "usageView",
+          "callee": "credential.getId",
+          "lineNumber": 136
+        },
+        {
+          "caller": "usageView",
+          "callee": "todayTokens.actualTokens",
+          "lineNumber": 137
+        },
+        {
+          "caller": "usageView",
+          "callee": "todayTokens.totalTokens",
+          "lineNumber": 138
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "assertUserPortal",
+          "lineNumber": 145
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 145
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "loadCredential",
+          "lineNumber": 146
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 146
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 147
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 147
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getEncryptedKeyMaterial().isAvailable",
+          "lineNumber": 148
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getEncryptedKeyMaterial",
+          "lineNumber": 148
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "new BusinessException",
+          "lineNumber": 149
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiKeyMaterialProtector.reveal",
+          "lineNumber": 151
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getEncryptedKeyMaterial",
+          "lineNumber": 151
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getKeyHash().getValue().equals",
+          "lineNumber": 152
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getKeyHash().getValue",
+          "lineNumber": 152
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getKeyHash",
+          "lineNumber": 152
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "sha256Hex",
+          "lineNumber": 152
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "new BusinessException",
+          "lineNumber": 153
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "RevealedApiCredentialSecret.of",
+          "lineNumber": 155
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getId",
+          "lineNumber": 155
+        },
+        {
+          "caller": "revealSecret",
+          "callee": "apiCredential.getKeyPreview",
+          "lineNumber": 155
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "assertUserPortal",
+          "lineNumber": 160
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 160
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "loadCredential",
+          "lineNumber": 161
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 161
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 163
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 163
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "apiCredential.rename",
+          "lineNumber": 164
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "command.getName",
+          "lineNumber": 164
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "now",
+          "lineNumber": 164
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 165
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "assertUserPortal",
+          "lineNumber": 171
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 171
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "loadCredential",
+          "lineNumber": 172
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 172
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 173
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 173
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "loadOwnedModelGroup",
+          "lineNumber": 174
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 174
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 174
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "apiCredential.changeModelGroup",
+          "lineNumber": 175
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "modelGroup.getId",
+          "lineNumber": 175
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "modelGroup.getModelWhitelist",
+          "lineNumber": 175
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "now",
+          "lineNumber": 175
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 176
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "assertUserPortal",
+          "lineNumber": 182
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 182
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "loadCredential",
+          "lineNumber": 183
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 183
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 185
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 185
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "currentConsumedTokens",
+          "lineNumber": 186
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 186
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "apiCredential.changeTokenLimit",
+          "lineNumber": 187
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "command.getTokenLimit",
+          "lineNumber": 187
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "now",
+          "lineNumber": 187
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 188
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "assertUserPortal",
+          "lineNumber": 194
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 194
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "loadCredential",
+          "lineNumber": 195
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 195
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 197
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 197
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "apiCredential.disable",
+          "lineNumber": 198
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "now",
+          "lineNumber": 198
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 199
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "assertUserPortal",
+          "lineNumber": 205
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 205
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "loadCredential",
+          "lineNumber": 206
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 206
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 208
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 208
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "apiCredential.enable",
+          "lineNumber": 209
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "now",
+          "lineNumber": 209
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 210
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "assertUserPortal",
+          "lineNumber": 216
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 216
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "loadCredential",
+          "lineNumber": 217
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 217
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 219
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 219
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "apiCredentialRepository.softDeleteById",
+          "lineNumber": 220
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 220
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "now",
+          "lineNumber": 220
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredentialRepository.findByKeyHash(command.getKeyHash()).orElseThrow",
+          "lineNumber": 225
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredentialRepository.findByKeyHash",
+          "lineNumber": 225
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "command.getKeyHash",
+          "lineNumber": 225
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "new BusinessException",
+          "lineNumber": 226
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredential.assertUsable",
+          "lineNumber": 228
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredential.assertModelAllowed",
+          "lineNumber": 229
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 229
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "currentConsumedTokens",
+          "lineNumber": 230
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredential.getId",
+          "lineNumber": 230
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredential.assertQuotaAvailable",
+          "lineNumber": 231
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredential.markUsed",
+          "lineNumber": 232
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "now",
+          "lineNumber": 232
+        },
+        {
+          "caller": "authenticateForGateway",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 233
+        },
+        {
+          "caller": "authenticateForModelListing",
+          "callee": "apiCredentialRepository.findByKeyHash(keyHash).orElseThrow",
+          "lineNumber": 239
+        },
+        {
+          "caller": "authenticateForModelListing",
+          "callee": "apiCredentialRepository.findByKeyHash",
+          "lineNumber": 239
+        },
+        {
+          "caller": "authenticateForModelListing",
+          "callee": "new BusinessException",
+          "lineNumber": 240
+        },
+        {
+          "caller": "authenticateForModelListing",
+          "callee": "apiCredential.assertUsable",
+          "lineNumber": 241
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "userAccountRepository.findById(ownerUserId).orElseThrow",
+          "lineNumber": 246
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 246
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "new BusinessException",
+          "lineNumber": 247
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "user.assertCanAccess",
+          "lineNumber": 248
+        },
+        {
+          "caller": "loadCredential",
+          "callee": "apiCredentialRepository.findById(apiCredentialId).orElseThrow",
+          "lineNumber": 252
+        },
+        {
+          "caller": "loadCredential",
+          "callee": "apiCredentialRepository.findById",
+          "lineNumber": 252
+        },
+        {
+          "caller": "loadCredential",
+          "callee": "new BusinessException",
+          "lineNumber": 253
+        },
+        {
+          "caller": "loadOwnedModelGroup",
+          "callee": "modelGroupRepository.findById(modelGroupId).orElseThrow",
+          "lineNumber": 258
+        },
+        {
+          "caller": "loadOwnedModelGroup",
+          "callee": "modelGroupRepository.findById",
+          "lineNumber": 258
+        },
+        {
+          "caller": "loadOwnedModelGroup",
+          "callee": "new BusinessException",
+          "lineNumber": 259
+        },
+        {
+          "caller": "loadOwnedModelGroup",
+          "callee": "modelGroup.assertOwnedBy",
+          "lineNumber": 260
+        },
+        {
+          "caller": "currentConsumedTokens",
+          "callee": "usageRecordRepository.sumActualTokensByApiCredential",
+          "lineNumber": 265
+        },
+        {
+          "caller": "currentConsumedTokens",
+          "callee": "currentConsumedTokens.signum",
+          "lineNumber": 266
+        },
+        {
+          "caller": "currentConsumedTokens",
+          "callee": "new BusinessException",
+          "lineNumber": 267
+        },
+        {
+          "caller": "todayTokenBreakdown",
+          "callee": "UsageRecordFilter.forUserPortal",
+          "lineNumber": 277
+        },
+        {
+          "caller": "todayTokenBreakdown",
+          "callee": "usageRecordRepository.sumTokens",
+          "lineNumber": 284
+        },
+        {
+          "caller": "todayTokenBreakdown",
+          "callee": "todayTokens.actualTokens().signum",
+          "lineNumber": 285
+        },
+        {
+          "caller": "todayTokenBreakdown",
+          "callee": "todayTokens.actualTokens",
+          "lineNumber": 285
+        },
+        {
+          "caller": "todayTokenBreakdown",
+          "callee": "new BusinessException",
+          "lineNumber": 286
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "MessageDigest.getInstance",
+          "lineNumber": 293
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "digest.digest",
+          "lineNumber": 294
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "value.getBytes",
+          "lineNumber": 294
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "HexFormat.of().formatHex",
+          "lineNumber": 295
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "HexFormat.of",
+          "lineNumber": 295
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "new IllegalStateException",
+          "lineNumber": 297
+        },
+        {
+          "caller": "now",
+          "callee": "Instant.now",
+          "lineNumber": 302
+        }
+      ],
+      "metrics": {
+        "importCount": 27,
+        "exportCount": 13,
+        "functionCount": 21,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ApiKeyMaterialProtector.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "ApiKeyMaterialProtector",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [
+            "protect",
+            "reveal"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiKeyMaterialProtector",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ModelDailyLimitWindow.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "ModelDailyLimitWindow",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "clock",
+            "zoneId"
+          ]
+        },
+        {
+          "name": "today",
+          "startLine": 29,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "zone",
+          "startLine": 36,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelDailyLimitWindow",
+          "startLine": 17,
+          "endLine": 39,
+          "methods": [
+            "ModelDailyLimitWindow",
+            "today",
+            "zone"
+          ],
+          "properties": [
+            "clock",
+            "zone"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelDailyLimitWindow",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "today",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "zone",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "ModelDailyLimitWindow",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ModelDailyLimitWindow",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ModelDailyLimitWindow",
+          "callee": "ZoneId.of",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ModelDailyLimitWindow",
+          "callee": "zoneId.isBlank",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ModelDailyLimitWindow",
+          "callee": "zoneId.trim",
+          "lineNumber": 26
+        },
+        {
+          "caller": "today",
+          "callee": "LocalDate.now",
+          "lineNumber": 30
+        },
+        {
+          "caller": "today",
+          "callee": "clock.withZone",
+          "lineNumber": 30
+        },
+        {
+          "caller": "today",
+          "callee": "today.atStartOfDay(zone).toInstant",
+          "lineNumber": 31
+        },
+        {
+          "caller": "today",
+          "callee": "today.atStartOfDay",
+          "lineNumber": 31
+        },
+        {
+          "caller": "today",
+          "callee": "today.plusDays(1).atStartOfDay(zone).toInstant",
+          "lineNumber": 32
+        },
+        {
+          "caller": "today",
+          "callee": "today.plusDays(1).atStartOfDay",
+          "lineNumber": 32
+        },
+        {
+          "caller": "today",
+          "callee": "today.plusDays",
+          "lineNumber": 32
+        },
+        {
+          "caller": "today",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 104,
+      "functions": [
+        {
+          "name": "listMyGroups",
+          "startLine": 39,
+          "endLine": 43,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "listMyGroupViews",
+          "startLine": 45,
+          "endLine": 53,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "viewGroup",
+          "startLine": 55,
+          "endLine": 61,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "createGroup",
+          "startLine": 63,
+          "endLine": 71,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "updateGroup",
+          "startLine": 73,
+          "endLine": 81,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "deleteGroup",
+          "startLine": 83,
+          "endLine": 91,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "loadOwnedGroup",
+          "startLine": 93,
+          "endLine": 98,
+          "params": [
+            "id",
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "assertUserPortal",
+          "startLine": 100,
+          "endLine": 104,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "assertNameAvailable",
+          "startLine": 106,
+          "endLine": 112,
+          "params": [
+            "ownerUserId",
+            "name",
+            "excludedId"
+          ]
+        },
+        {
+          "name": "now",
+          "startLine": 114,
+          "endLine": 116,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupApplicationService",
+          "startLine": 29,
+          "endLine": 117,
+          "methods": [
+            "listMyGroups",
+            "listMyGroupViews",
+            "viewGroup",
+            "createGroup",
+            "updateGroup",
+            "deleteGroup",
+            "loadOwnedGroup",
+            "assertUserPortal",
+            "assertNameAvailable",
+            "now"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "modelGroupRepository",
+            "dailyUsageService",
+            "modelAvailabilityService",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listMyGroups",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "listMyGroupViews",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "viewGroup",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "createGroup",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "updateGroup",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "deleteGroup",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "ModelGroupApplicationService",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listMyGroups",
+          "callee": "assertUserPortal",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listMyGroups",
+          "callee": "modelGroupRepository.findByOwnerUserId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "listMyGroups",
+          "lineNumber": 47
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "dailyUsageService.loadTodayUsageByGroup",
+          "lineNumber": 48
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "modelAvailabilityService.availableModels",
+          "lineNumber": 49
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "groups.stream()\n                .map(group -> ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()), availableModels)).toList",
+          "lineNumber": 50
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "groups.stream().map",
+          "lineNumber": 50
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "groups.stream",
+          "lineNumber": 50
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "ModelGroupView.of",
+          "lineNumber": 51
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "usageByGroup.getOrDefault",
+          "lineNumber": 51
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "group.getId",
+          "lineNumber": 51
+        },
+        {
+          "caller": "listMyGroupViews",
+          "callee": "Map.of",
+          "lineNumber": 51
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "dailyUsageService.loadTodayUsageByGroup",
+          "lineNumber": 58
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "group.getOwnerUserId",
+          "lineNumber": 58
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "ModelGroupView.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "usageByGroup.getOrDefault",
+          "lineNumber": 59
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "group.getId",
+          "lineNumber": 59
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "Map.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "viewGroup",
+          "callee": "modelAvailabilityService.availableModels",
+          "lineNumber": 60
+        },
+        {
+          "caller": "createGroup",
+          "callee": "assertUserPortal",
+          "lineNumber": 65
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 65
+        },
+        {
+          "caller": "createGroup",
+          "callee": "assertNameAvailable",
+          "lineNumber": 66
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getName",
+          "lineNumber": 66
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "createGroup",
+          "callee": "ModelGroup.create",
+          "lineNumber": 67
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getName",
+          "lineNumber": 68
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getModelWhitelist",
+          "lineNumber": 68
+        },
+        {
+          "caller": "createGroup",
+          "callee": "command.getModelDailyLimits",
+          "lineNumber": 68
+        },
+        {
+          "caller": "createGroup",
+          "callee": "now",
+          "lineNumber": 68
+        },
+        {
+          "caller": "createGroup",
+          "callee": "modelGroupRepository.save",
+          "lineNumber": 69
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "assertUserPortal",
+          "lineNumber": 75
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 75
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "loadOwnedGroup",
+          "lineNumber": 76
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 76
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 76
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "assertNameAvailable",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getName",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "group.update",
+          "lineNumber": 78
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getName",
+          "lineNumber": 78
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getModelWhitelist",
+          "lineNumber": 78
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "command.getModelDailyLimits",
+          "lineNumber": 78
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "now",
+          "lineNumber": 78
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "modelGroupRepository.save",
+          "lineNumber": 79
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "assertUserPortal",
+          "lineNumber": 85
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 85
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "loadOwnedGroup",
+          "lineNumber": 86
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "command.getModelGroupId",
+          "lineNumber": 86
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "command.getOwnerUserId",
+          "lineNumber": 86
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "modelGroupRepository.existsCredentialBinding",
+          "lineNumber": 87
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "group.getId",
+          "lineNumber": 87
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "new BusinessException",
+          "lineNumber": 88
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "modelGroupRepository.softDeleteById",
+          "lineNumber": 90
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "group.getId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "now",
+          "lineNumber": 90
+        },
+        {
+          "caller": "loadOwnedGroup",
+          "callee": "modelGroupRepository.findById(id).orElseThrow",
+          "lineNumber": 94
+        },
+        {
+          "caller": "loadOwnedGroup",
+          "callee": "modelGroupRepository.findById",
+          "lineNumber": 94
+        },
+        {
+          "caller": "loadOwnedGroup",
+          "callee": "new BusinessException",
+          "lineNumber": 95
+        },
+        {
+          "caller": "loadOwnedGroup",
+          "callee": "group.assertOwnedBy",
+          "lineNumber": 96
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "userAccountRepository.findById(ownerUserId).orElseThrow",
+          "lineNumber": 101
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 101
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "new BusinessException",
+          "lineNumber": 102
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "user.assertCanAccess",
+          "lineNumber": 103
+        },
+        {
+          "caller": "assertNameAvailable",
+          "callee": "modelGroupRepository.existsByOwnerAndNameExcludingId",
+          "lineNumber": 109
+        },
+        {
+          "caller": "assertNameAvailable",
+          "callee": "new BusinessException",
+          "lineNumber": 110
+        },
+        {
+          "caller": "now",
+          "callee": "Instant.now",
+          "lineNumber": 115
+        }
+      ],
+      "metrics": {
+        "importCount": 15,
+        "exportCount": 7,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/AuthenticateApiCredentialCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "AuthenticateApiCredentialCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "keyHash",
+            "requestedModel"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthenticateApiCredentialCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/ChangeApiCredentialStatusCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ChangeApiCredentialStatusCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeApiCredentialStatusCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/ChangeModelGroupCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "ChangeModelGroupCommand",
+          "startLine": 10,
+          "endLine": 16,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId",
+            "modelGroupId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeModelGroupCommand",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/ChangeTokenLimitCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "ChangeTokenLimitCommand",
+          "startLine": 13,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId",
+            "tokenLimit"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeTokenLimitCommand",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/CreateApiCredentialCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 35,
+      "classes": [
+        {
+          "name": "CreateApiCredentialCommand",
+          "startLine": 18,
+          "endLine": 45,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId",
+            "name",
+            "keyHash",
+            "keyPreview",
+            "encryptedKeyMaterial",
+            "modelGroupId",
+            "tokenLimit"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateApiCredentialCommand",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/CreateModelGroupCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "CreateModelGroupCommand",
+          "startLine": 12,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "modelGroupId",
+            "name",
+            "modelWhitelist",
+            "modelDailyLimits"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateModelGroupCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "DeleteApiCredentialCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DeleteApiCredentialCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "DeleteModelGroupCommand",
+          "startLine": 9,
+          "endLine": 14,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "modelGroupId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DeleteModelGroupCommand",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/RenameApiCredentialCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "RenameApiCredentialCommand",
+          "startLine": 13,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId",
+            "name"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RenameApiCredentialCommand",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/RevealApiCredentialSecretCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "RevealApiCredentialSecretCommand",
+          "startLine": 9,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RevealApiCredentialSecretCommand",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/command/UpdateModelGroupCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "UpdateModelGroupCommand",
+          "startLine": 12,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "ownerUserId",
+            "modelGroupId",
+            "name",
+            "modelWhitelist",
+            "modelDailyLimits"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpdateModelGroupCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 118,
+      "nonEmptyLines": 98,
+      "functions": [
+        {
+          "name": "ApiCredentialUsageView",
+          "startLine": 19,
+          "endLine": 36,
+          "params": [
+            "credential",
+            "consumedTokens",
+            "totalTokens",
+            "todayConsumedTokens",
+            "todayTotalTokens",
+            "rateLimitedModels"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 38,
+          "endLine": 46,
+          "params": [
+            "credential",
+            "consumedTokens",
+            "totalTokens",
+            "todayConsumedTokens",
+            "todayTotalTokens"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 48,
+          "endLine": 58,
+          "params": [
+            "credential",
+            "consumedTokens",
+            "totalTokens",
+            "todayConsumedTokens",
+            "todayTotalTokens",
+            "rateLimitedModels"
+          ]
+        },
+        {
+          "name": "credential",
+          "startLine": 60,
+          "endLine": 62,
+          "params": []
+        },
+        {
+          "name": "consumedTokens",
+          "startLine": 64,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "totalTokens",
+          "startLine": 68,
+          "endLine": 70,
+          "params": []
+        },
+        {
+          "name": "todayConsumedTokens",
+          "startLine": 72,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "todayTotalTokens",
+          "startLine": 76,
+          "endLine": 78,
+          "params": []
+        },
+        {
+          "name": "rateLimitedModels",
+          "startLine": 80,
+          "endLine": 82,
+          "params": []
+        },
+        {
+          "name": "remainingTokens",
+          "startLine": 84,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "getCredential",
+          "startLine": 91,
+          "endLine": 93,
+          "params": []
+        },
+        {
+          "name": "getConsumedTokens",
+          "startLine": 95,
+          "endLine": 97,
+          "params": []
+        },
+        {
+          "name": "getTotalTokens",
+          "startLine": 99,
+          "endLine": 101,
+          "params": []
+        },
+        {
+          "name": "getTodayConsumedTokens",
+          "startLine": 103,
+          "endLine": 105,
+          "params": []
+        },
+        {
+          "name": "getTodayTotalTokens",
+          "startLine": 107,
+          "endLine": 109,
+          "params": []
+        },
+        {
+          "name": "getRateLimitedModels",
+          "startLine": 111,
+          "endLine": 113,
+          "params": []
+        },
+        {
+          "name": "getRemainingTokens",
+          "startLine": 115,
+          "endLine": 117,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialUsageView",
+          "startLine": 9,
+          "endLine": 118,
+          "methods": [
+            "ApiCredentialUsageView",
+            "of",
+            "of",
+            "credential",
+            "consumedTokens",
+            "totalTokens",
+            "todayConsumedTokens",
+            "todayTotalTokens",
+            "rateLimitedModels",
+            "remainingTokens",
+            "getCredential",
+            "getConsumedTokens",
+            "getTotalTokens",
+            "getTodayConsumedTokens",
+            "getTodayTotalTokens",
+            "getRateLimitedModels",
+            "getRemainingTokens"
+          ],
+          "properties": [
+            "credential",
+            "consumedTokens",
+            "totalTokens",
+            "todayConsumedTokens",
+            "todayTotalTokens",
+            "rateLimitedModels"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "of",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "credential",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "consumedTokens",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "totalTokens",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "todayConsumedTokens",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "todayTotalTokens",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "rateLimitedModels",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "remainingTokens",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "getCredential",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "getConsumedTokens",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "getTotalTokens",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "getTodayConsumedTokens",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "getTodayTotalTokens",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "getRateLimitedModels",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "getRemainingTokens",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredentialUsageView",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "nonNullConsumedTokens.signum",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "nonNullTodayConsumedTokens.signum",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "Set.copyOf",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ApiCredentialUsageView",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 35
+        },
+        {
+          "caller": "of",
+          "callee": "of",
+          "lineNumber": 45
+        },
+        {
+          "caller": "of",
+          "callee": "Set.of",
+          "lineNumber": 45
+        },
+        {
+          "caller": "of",
+          "callee": "new ApiCredentialUsageView",
+          "lineNumber": 56
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "credential.getTokenLimit().isUnlimited",
+          "lineNumber": 85
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "credential.getTokenLimit",
+          "lineNumber": 85
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "BigDecimal.valueOf(credential.getTokenLimit().getValue()).subtract(consumedTokens).max",
+          "lineNumber": 88
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "BigDecimal.valueOf(credential.getTokenLimit().getValue()).subtract",
+          "lineNumber": 88
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "BigDecimal.valueOf",
+          "lineNumber": 88
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "credential.getTokenLimit().getValue",
+          "lineNumber": 88
+        },
+        {
+          "caller": "remainingTokens",
+          "callee": "credential.getTokenLimit",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getRemainingTokens",
+          "callee": "remainingTokens",
+          "lineNumber": 116
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 17,
+        "functionCount": 17,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/dto/ModelGroupView.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 26,
+          "endLine": 33,
+          "params": [
+            "group",
+            "todayUsageByModel",
+            "availableModels"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupView",
+          "startLine": 12,
+          "endLine": 34,
+          "methods": [
+            "of"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "ModelGroupView",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "Map.of",
+          "lineNumber": 28
+        },
+        {
+          "caller": "of",
+          "callee": "group.getModelWhitelist().models().stream()\n                .filter(availableModels::contains).collect",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "group.getModelWhitelist().models().stream().filter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "group.getModelWhitelist().models().stream",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "group.getModelWhitelist().models",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "group.getModelWhitelist",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "Collectors.toUnmodifiableSet",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "new ModelGroupView",
+          "lineNumber": 32
+        },
+        {
+          "caller": "of",
+          "callee": "group.rateLimitedModels",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "RevealedApiCredentialSecret",
+          "startLine": 13,
+          "endLine": 20,
+          "params": [
+            "apiCredentialId",
+            "keyPreview",
+            "plaintextApiKey"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "apiCredentialId",
+            "keyPreview",
+            "plaintextApiKey"
+          ]
+        },
+        {
+          "name": "apiCredentialId",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "keyPreview",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "plaintextApiKey",
+          "startLine": 34,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "getApiCredentialId",
+          "startLine": 38,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "getKeyPreview",
+          "startLine": 42,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "getPlaintextApiKey",
+          "startLine": 46,
+          "endLine": 48,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "RevealedApiCredentialSecret",
+          "startLine": 7,
+          "endLine": 49,
+          "methods": [
+            "RevealedApiCredentialSecret",
+            "of",
+            "apiCredentialId",
+            "keyPreview",
+            "plaintextApiKey",
+            "getApiCredentialId",
+            "getKeyPreview",
+            "getPlaintextApiKey"
+          ],
+          "properties": [
+            "apiCredentialId",
+            "keyPreview",
+            "plaintextApiKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "apiCredentialId",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "keyPreview",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "plaintextApiKey",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "getApiCredentialId",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "getKeyPreview",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "getPlaintextApiKey",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "RevealedApiCredentialSecret",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RevealedApiCredentialSecret",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 14
+        },
+        {
+          "caller": "RevealedApiCredentialSecret",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 15
+        },
+        {
+          "caller": "RevealedApiCredentialSecret",
+          "callee": "plaintextApiKey.isBlank",
+          "lineNumber": 16
+        },
+        {
+          "caller": "RevealedApiCredentialSecret",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "new RevealedApiCredentialSecret",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "FrontKeyMetricsQuery",
+          "startLine": 22,
+          "endLine": 41,
+          "params": [
+            "userAccountId",
+            "todayWindow",
+            "monthWindow",
+            "trendWindow",
+            "trendCredentialIds",
+            "asOf"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 43,
+          "endLine": 52,
+          "params": [
+            "userAccountId",
+            "todayWindow",
+            "monthWindow",
+            "trendWindow",
+            "trendCredentialIds",
+            "asOf"
+          ]
+        },
+        {
+          "name": "userAccountId",
+          "startLine": 54,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "todayWindow",
+          "startLine": 58,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "monthWindow",
+          "startLine": 62,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "trendWindow",
+          "startLine": 66,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "trendCredentialIds",
+          "startLine": 70,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "asOf",
+          "startLine": 74,
+          "endLine": 76,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 78,
+          "endLine": 92,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 94,
+          "endLine": 97,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "FrontKeyMetricsQuery",
+          "startLine": 12,
+          "endLine": 98,
+          "methods": [
+            "FrontKeyMetricsQuery",
+            "of",
+            "userAccountId",
+            "todayWindow",
+            "monthWindow",
+            "trendWindow",
+            "trendCredentialIds",
+            "asOf",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "userAccountId",
+            "todayWindow",
+            "monthWindow",
+            "trendWindow",
+            "trendCredentialIds",
+            "asOf"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "userAccountId",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "todayWindow",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "monthWindow",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "trendWindow",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "trendCredentialIds",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "asOf",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "FrontKeyMetricsQuery",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 31
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 32
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 33
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "nonNullIds.stream()\n                .map(id -> Objects.requireNonNull(id, \"Front key metrics trend credential ids must not contain null\"))\n                .distinct().toList",
+          "lineNumber": 36
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "nonNullIds.stream()\n                .map(id -> Objects.requireNonNull(id, \"Front key metrics trend credential ids must not contain null\")).distinct",
+          "lineNumber": 36
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "nonNullIds.stream().map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "nonNullIds.stream",
+          "lineNumber": 36
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 37
+        },
+        {
+          "caller": "FrontKeyMetricsQuery",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 40
+        },
+        {
+          "caller": "of",
+          "callee": "new FrontKeyMetricsQuery",
+          "lineNumber": 51
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 86
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 87
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 88
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 89
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 90
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 91
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 10,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 308,
+      "nonEmptyLines": 270,
+      "functions": [
+        {
+          "name": "ApiCredential",
+          "startLine": 28,
+          "endLine": 59,
+          "params": [
+            "id",
+            "ownerUserId",
+            "name",
+            "keyHash",
+            "keyPreview",
+            "encryptedKeyMaterial",
+            "modelGroupId",
+            "modelWhitelist",
+            "tokenLimit",
+            "status",
+            "lastUsedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 61,
+          "endLine": 89,
+          "params": [
+            "id",
+            "ownerUserId",
+            "name",
+            "keyHash",
+            "keyPreview",
+            "encryptedKeyMaterial",
+            "modelGroupId",
+            "modelWhitelist",
+            "tokenLimit",
+            "now"
+          ]
+        },
+        {
+          "name": "rehydrate",
+          "startLine": 91,
+          "endLine": 121,
+          "params": [
+            "id",
+            "ownerUserId",
+            "name",
+            "keyHash",
+            "keyPreview",
+            "encryptedKeyMaterial",
+            "modelGroupId",
+            "modelWhitelist",
+            "tokenLimit",
+            "status",
+            "lastUsedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "rename",
+          "startLine": 123,
+          "endLine": 131,
+          "params": [
+            "name",
+            "now"
+          ]
+        },
+        {
+          "name": "changeModelGroup",
+          "startLine": 133,
+          "endLine": 143,
+          "params": [
+            "modelGroupId",
+            "whitelist",
+            "now"
+          ]
+        },
+        {
+          "name": "changeTokenLimit",
+          "startLine": 145,
+          "endLine": 154,
+          "params": [
+            "tokenLimit",
+            "currentConsumedTokens",
+            "now"
+          ]
+        },
+        {
+          "name": "changeTokenLimit",
+          "startLine": 156,
+          "endLine": 165,
+          "params": [
+            "tokenLimit",
+            "currentConsumedTokens",
+            "now"
+          ]
+        },
+        {
+          "name": "disable",
+          "startLine": 167,
+          "endLine": 174,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "enable",
+          "startLine": 176,
+          "endLine": 183,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "assertUsable",
+          "startLine": 185,
+          "endLine": 189,
+          "params": []
+        },
+        {
+          "name": "assertOwnedBy",
+          "startLine": 191,
+          "endLine": 196,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "allowsModel",
+          "startLine": 198,
+          "endLine": 201,
+          "params": [
+            "requestedModel"
+          ]
+        },
+        {
+          "name": "assertModelAllowed",
+          "startLine": 203,
+          "endLine": 207,
+          "params": [
+            "requestedModel"
+          ]
+        },
+        {
+          "name": "isQuotaExhausted",
+          "startLine": 209,
+          "endLine": 212,
+          "params": [
+            "currentConsumedTokens"
+          ]
+        },
+        {
+          "name": "assertQuotaAvailable",
+          "startLine": 214,
+          "endLine": 218,
+          "params": [
+            "currentConsumedTokens"
+          ]
+        },
+        {
+          "name": "isQuotaExhausted",
+          "startLine": 220,
+          "endLine": 223,
+          "params": [
+            "currentConsumedTokens"
+          ]
+        },
+        {
+          "name": "assertQuotaAvailable",
+          "startLine": 225,
+          "endLine": 229,
+          "params": [
+            "currentConsumedTokens"
+          ]
+        },
+        {
+          "name": "markUsed",
+          "startLine": 232,
+          "endLine": 242,
+          "params": [
+            "usedAt"
+          ]
+        },
+        {
+          "name": "validateConsumedTokens",
+          "startLine": 244,
+          "endLine": 248,
+          "params": [
+            "currentConsumedTokens"
+          ]
+        },
+        {
+          "name": "validateConsumedTokens",
+          "startLine": 250,
+          "endLine": 255,
+          "params": [
+            "currentConsumedTokens"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 257,
+          "endLine": 259,
+          "params": []
+        },
+        {
+          "name": "getOwnerUserId",
+          "startLine": 261,
+          "endLine": 263,
+          "params": []
+        },
+        {
+          "name": "getName",
+          "startLine": 265,
+          "endLine": 267,
+          "params": []
+        },
+        {
+          "name": "getKeyHash",
+          "startLine": 269,
+          "endLine": 271,
+          "params": []
+        },
+        {
+          "name": "getKeyPreview",
+          "startLine": 273,
+          "endLine": 275,
+          "params": []
+        },
+        {
+          "name": "getEncryptedKeyMaterial",
+          "startLine": 277,
+          "endLine": 279,
+          "params": []
+        },
+        {
+          "name": "getModelWhitelist",
+          "startLine": 281,
+          "endLine": 283,
+          "params": []
+        },
+        {
+          "name": "getModelGroupId",
+          "startLine": 285,
+          "endLine": 287,
+          "params": []
+        },
+        {
+          "name": "getTokenLimit",
+          "startLine": 289,
+          "endLine": 291,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 293,
+          "endLine": 295,
+          "params": []
+        },
+        {
+          "name": "getLastUsedAt",
+          "startLine": 297,
+          "endLine": 299,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 301,
+          "endLine": 303,
+          "params": []
+        },
+        {
+          "name": "getUpdatedAt",
+          "startLine": 305,
+          "endLine": 307,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredential",
+          "startLine": 12,
+          "endLine": 308,
+          "methods": [
+            "ApiCredential",
+            "create",
+            "rehydrate",
+            "rename",
+            "changeModelGroup",
+            "changeTokenLimit",
+            "changeTokenLimit",
+            "disable",
+            "enable",
+            "assertUsable",
+            "assertOwnedBy",
+            "allowsModel",
+            "assertModelAllowed",
+            "isQuotaExhausted",
+            "assertQuotaAvailable",
+            "isQuotaExhausted",
+            "assertQuotaAvailable",
+            "markUsed",
+            "validateConsumedTokens",
+            "validateConsumedTokens",
+            "getId",
+            "getOwnerUserId",
+            "getName",
+            "getKeyHash",
+            "getKeyPreview",
+            "getEncryptedKeyMaterial",
+            "getModelWhitelist",
+            "getModelGroupId",
+            "getTokenLimit",
+            "getStatus",
+            "getLastUsedAt",
+            "getCreatedAt",
+            "getUpdatedAt"
+          ],
+          "properties": [
+            "id",
+            "ownerUserId",
+            "name",
+            "keyHash",
+            "keyPreview",
+            "encryptedKeyMaterial",
+            "modelGroupId",
+            "modelWhitelist",
+            "tokenLimit",
+            "status",
+            "lastUsedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "rehydrate",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "rename",
+          "line": 123,
+          "isDefault": false
+        },
+        {
+          "name": "changeModelGroup",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "changeTokenLimit",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "changeTokenLimit",
+          "line": 156,
+          "isDefault": false
+        },
+        {
+          "name": "disable",
+          "line": 167,
+          "isDefault": false
+        },
+        {
+          "name": "enable",
+          "line": 176,
+          "isDefault": false
+        },
+        {
+          "name": "assertUsable",
+          "line": 185,
+          "isDefault": false
+        },
+        {
+          "name": "assertOwnedBy",
+          "line": 191,
+          "isDefault": false
+        },
+        {
+          "name": "allowsModel",
+          "line": 198,
+          "isDefault": false
+        },
+        {
+          "name": "assertModelAllowed",
+          "line": 203,
+          "isDefault": false
+        },
+        {
+          "name": "isQuotaExhausted",
+          "line": 209,
+          "isDefault": false
+        },
+        {
+          "name": "assertQuotaAvailable",
+          "line": 214,
+          "isDefault": false
+        },
+        {
+          "name": "isQuotaExhausted",
+          "line": 220,
+          "isDefault": false
+        },
+        {
+          "name": "assertQuotaAvailable",
+          "line": 225,
+          "isDefault": false
+        },
+        {
+          "name": "markUsed",
+          "line": 232,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 257,
+          "isDefault": false
+        },
+        {
+          "name": "getOwnerUserId",
+          "line": 261,
+          "isDefault": false
+        },
+        {
+          "name": "getName",
+          "line": 265,
+          "isDefault": false
+        },
+        {
+          "name": "getKeyHash",
+          "line": 269,
+          "isDefault": false
+        },
+        {
+          "name": "getKeyPreview",
+          "line": 273,
+          "isDefault": false
+        },
+        {
+          "name": "getEncryptedKeyMaterial",
+          "line": 277,
+          "isDefault": false
+        },
+        {
+          "name": "getModelWhitelist",
+          "line": 281,
+          "isDefault": false
+        },
+        {
+          "name": "getModelGroupId",
+          "line": 285,
+          "isDefault": false
+        },
+        {
+          "name": "getTokenLimit",
+          "line": 289,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 293,
+          "isDefault": false
+        },
+        {
+          "name": "getLastUsedAt",
+          "line": 297,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 301,
+          "isDefault": false
+        },
+        {
+          "name": "getUpdatedAt",
+          "line": 305,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredential",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 53
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "lastUsedAt.isBefore",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ApiCredential",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 56
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 73
+        },
+        {
+          "caller": "create",
+          "callee": "new ApiCredential",
+          "lineNumber": 74
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "new ApiCredential",
+          "lineNumber": 106
+        },
+        {
+          "caller": "rename",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 124
+        },
+        {
+          "caller": "rename",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 125
+        },
+        {
+          "caller": "rename",
+          "callee": "this.name.equals",
+          "lineNumber": 126
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 134
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 135
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 136
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "this.modelGroupId.equals",
+          "lineNumber": 137
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 146
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "validateConsumedTokens",
+          "lineNumber": 147
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 148
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "this.tokenLimit.equals",
+          "lineNumber": 149
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 157
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "validateConsumedTokens",
+          "lineNumber": 158
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 159
+        },
+        {
+          "caller": "changeTokenLimit",
+          "callee": "this.tokenLimit.equals",
+          "lineNumber": 160
+        },
+        {
+          "caller": "disable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 168
+        },
+        {
+          "caller": "enable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 177
+        },
+        {
+          "caller": "assertUsable",
+          "callee": "new IllegalStateException",
+          "lineNumber": 187
+        },
+        {
+          "caller": "assertOwnedBy",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 192
+        },
+        {
+          "caller": "assertOwnedBy",
+          "callee": "this.ownerUserId.equals",
+          "lineNumber": 193
+        },
+        {
+          "caller": "assertOwnedBy",
+          "callee": "new IllegalStateException",
+          "lineNumber": 194
+        },
+        {
+          "caller": "allowsModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 199
+        },
+        {
+          "caller": "allowsModel",
+          "callee": "this.modelWhitelist.contains",
+          "lineNumber": 200
+        },
+        {
+          "caller": "assertModelAllowed",
+          "callee": "allowsModel",
+          "lineNumber": 204
+        },
+        {
+          "caller": "assertModelAllowed",
+          "callee": "new IllegalStateException",
+          "lineNumber": 205
+        },
+        {
+          "caller": "isQuotaExhausted",
+          "callee": "validateConsumedTokens",
+          "lineNumber": 210
+        },
+        {
+          "caller": "isQuotaExhausted",
+          "callee": "this.tokenLimit.isExceededBy",
+          "lineNumber": 211
+        },
+        {
+          "caller": "assertQuotaAvailable",
+          "callee": "isQuotaExhausted",
+          "lineNumber": 215
+        },
+        {
+          "caller": "assertQuotaAvailable",
+          "callee": "new IllegalStateException",
+          "lineNumber": 216
+        },
+        {
+          "caller": "isQuotaExhausted",
+          "callee": "validateConsumedTokens",
+          "lineNumber": 221
+        },
+        {
+          "caller": "isQuotaExhausted",
+          "callee": "this.tokenLimit.isExceededBy",
+          "lineNumber": 222
+        },
+        {
+          "caller": "assertQuotaAvailable",
+          "callee": "isQuotaExhausted",
+          "lineNumber": 226
+        },
+        {
+          "caller": "assertQuotaAvailable",
+          "callee": "new IllegalStateException",
+          "lineNumber": 227
+        },
+        {
+          "caller": "markUsed",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 233
+        },
+        {
+          "caller": "markUsed",
+          "callee": "usedAt.isBefore",
+          "lineNumber": 234
+        },
+        {
+          "caller": "markUsed",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 235
+        },
+        {
+          "caller": "markUsed",
+          "callee": "usedAt.isBefore",
+          "lineNumber": 237
+        },
+        {
+          "caller": "validateConsumedTokens",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 246
+        },
+        {
+          "caller": "validateConsumedTokens",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 251
+        },
+        {
+          "caller": "validateConsumedTokens",
+          "callee": "nonNullConsumedTokens.signum",
+          "lineNumber": 252
+        },
+        {
+          "caller": "validateConsumedTokens",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 253
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 31,
+        "functionCount": 33,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "ApiCredentialId",
+          "startLine": 12,
+          "endLine": 20,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 34,
+          "endLine": 43,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 45,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 50,
+          "endLine": 55,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialId",
+          "startLine": 8,
+          "endLine": 56,
+          "methods": [
+            "ApiCredentialId",
+            "of",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredentialId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ApiCredentialId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "new ApiCredentialId",
+          "lineNumber": 23
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 42
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "ApiCredentialName",
+          "startLine": 14,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 29,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 33,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 37,
+          "endLine": 46,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 48,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 53,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialName",
+          "startLine": 8,
+          "endLine": 57,
+          "methods": [
+            "ApiCredentialName",
+            "of",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredentialName",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ApiCredentialName",
+          "callee": "value.trim",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ApiCredentialName",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ApiCredentialName",
+          "callee": "trimmed.length",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ApiCredentialName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "new ApiCredentialName",
+          "lineNumber": 26
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 45
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "ApiCredentialStatus",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialStatus",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "ApiKeyHash",
+          "startLine": 15,
+          "endLine": 24,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 26,
+          "endLine": 28,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 34,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 38,
+          "endLine": 47,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 49,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 54,
+          "endLine": 57,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiKeyHash",
+          "startLine": 8,
+          "endLine": 58,
+          "methods": [
+            "ApiKeyHash",
+            "of",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MIN_LENGTH",
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "ApiKeyHash",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiKeyHash",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ApiKeyHash",
+          "callee": "value.trim",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ApiKeyHash",
+          "callee": "trimmed.length",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ApiKeyHash",
+          "callee": "trimmed.length",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ApiKeyHash",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 21
+        },
+        {
+          "caller": "of",
+          "callee": "new ApiKeyHash",
+          "lineNumber": 27
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiKeyPreview.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "ApiKeyPreview",
+          "startLine": 14,
+          "endLine": 26,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 28,
+          "endLine": 30,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "looksMasked",
+          "startLine": 32,
+          "endLine": 37,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 39,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 43,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 47,
+          "endLine": 56,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 58,
+          "endLine": 61,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 63,
+          "endLine": 66,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiKeyPreview",
+          "startLine": 8,
+          "endLine": 67,
+          "methods": [
+            "ApiKeyPreview",
+            "of",
+            "looksMasked",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "ApiKeyPreview",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "value.trim",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "trimmed.length",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "looksMasked",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ApiKeyPreview",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 23
+        },
+        {
+          "caller": "of",
+          "callee": "new ApiKeyPreview",
+          "lineNumber": 29
+        },
+        {
+          "caller": "looksMasked",
+          "callee": "value.contains",
+          "lineNumber": 33
+        },
+        {
+          "caller": "looksMasked",
+          "callee": "value.contains",
+          "lineNumber": 34
+        },
+        {
+          "caller": "looksMasked",
+          "callee": "value.contains",
+          "lineNumber": 35
+        },
+        {
+          "caller": "looksMasked",
+          "callee": "value.length",
+          "lineNumber": 36
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 55
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/model/EncryptedApiKeyMaterial.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "EncryptedApiKeyMaterial",
+          "startLine": 14,
+          "endLine": 24,
+          "params": [
+            "ciphertext",
+            "nonce",
+            "version"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 26,
+          "endLine": 28,
+          "params": [
+            "ciphertext",
+            "nonce",
+            "version"
+          ]
+        },
+        {
+          "name": "unavailable",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "isAvailable",
+          "startLine": 34,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "ciphertext",
+          "startLine": 38,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "nonce",
+          "startLine": 42,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "version",
+          "startLine": 46,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "getCiphertext",
+          "startLine": 50,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "getNonce",
+          "startLine": 54,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "getVersion",
+          "startLine": 58,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "normalize",
+          "startLine": 62,
+          "endLine": 67,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "equals",
+          "startLine": 69,
+          "endLine": 80,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 82,
+          "endLine": 85,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EncryptedApiKeyMaterial",
+          "startLine": 8,
+          "endLine": 86,
+          "methods": [
+            "EncryptedApiKeyMaterial",
+            "of",
+            "unavailable",
+            "isAvailable",
+            "ciphertext",
+            "nonce",
+            "version",
+            "getCiphertext",
+            "getNonce",
+            "getVersion",
+            "normalize",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "ciphertext",
+            "nonce",
+            "version"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "unavailable",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "isAvailable",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "ciphertext",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "nonce",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "version",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "getCiphertext",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "getNonce",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "getVersion",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "EncryptedApiKeyMaterial",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EncryptedApiKeyMaterial",
+          "callee": "normalize",
+          "lineNumber": 15
+        },
+        {
+          "caller": "EncryptedApiKeyMaterial",
+          "callee": "normalize",
+          "lineNumber": 16
+        },
+        {
+          "caller": "EncryptedApiKeyMaterial",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "EncryptedApiKeyMaterial",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 21
+        },
+        {
+          "caller": "of",
+          "callee": "new EncryptedApiKeyMaterial",
+          "lineNumber": 27
+        },
+        {
+          "caller": "unavailable",
+          "callee": "new EncryptedApiKeyMaterial",
+          "lineNumber": 31
+        },
+        {
+          "caller": "normalize",
+          "callee": "value.isBlank",
+          "lineNumber": 63
+        },
+        {
+          "caller": "normalize",
+          "callee": "value.trim",
+          "lineNumber": 66
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 78
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 79
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 84
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 13,
+        "classCount": 1
+      }
+    }
+  ]
+}

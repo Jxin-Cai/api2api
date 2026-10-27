@@ -1,0 +1,252 @@
+{
+  "ProviderChannelApplicationService.java": {
+    "summary": "编排供应商渠道管理，校验管理端或用户门户权限后维护渠道、协议映射及模型支持关系。提供模型拉取、预览、批量更新和限流状态重置入口。",
+    "tags": [
+      "应用服务",
+      "渠道管理",
+      "权限校验",
+      "事务"
+    ],
+    "functions": {
+      "createChannel": "校验管理员权限，创建渠道聚合并保存。",
+      "updateChannel": "加载渠道并更新名称、端点、模型路径、优先级和协议映射后保存。",
+      "enableChannel": "验证管理员权限，启用渠道并保存状态。",
+      "disableChannel": "验证管理员权限，禁用渠道并保存状态。",
+      "enableChannelModel": "验证管理员权限，启用指定模型支持项并保存渠道。",
+      "disableChannelModel": "验证管理员权限，禁用指定模型支持项并保存渠道。",
+      "deleteChannel": "验证管理员权限并软删除指定渠道。",
+      "listChannels": "校验管理员权限后列出渠道。",
+      "resetAllRateLimits": "校验管理员权限，恢复全部模型限流状态并返回受影响数量。",
+      "listProviderModelOptions": "验证用户门户权限，聚合所有渠道中的请求模型、供应商数量及协议集合，并按模型名排序。",
+      "fetchAndReplaceModels": "读取渠道参数并通过模型拉取端口访问默认模型路径，再以拉取结果替换渠道模型。",
+      "previewProviderModels": "校验管理员权限，通过默认模型路径拉取预览结果；已有渠道预览可回退到保存的主机、密钥和协议配置。",
+      "loadChannelForModelFetch": "校验管理员权限并加载待拉取模型的渠道。",
+      "replaceFetchedModels": "拒绝空的上游模型结果，替换渠道模型集合并在事务中保存。",
+      "upsertChannelModels": "将批量命令转换为模型支持项，根据替换标志覆盖模型集合或逐项更新，然后保存渠道。",
+      "upsertChannelModel": "根据命令创建模型支持项并合入渠道后保存。",
+      "removeChannelModel": "按请求模型与上游协议从渠道中删除支持项并保存。",
+      "toModelSupport": "优先复用已有模型支持项 ID，否则使用命令 ID 或生成新 ID 构建模型支持项。"
+    }
+  },
+  "ProviderModelAvailabilityService.java": {
+    "summary": "从可路由渠道提取当前可用的请求模型，过滤停用项及尚未恢复的限流状态，为模型分组和网关模型列表提供可用性依据。",
+    "tags": [
+      "应用服务",
+      "模型可用性",
+      "限流",
+      "渠道查询"
+    ],
+    "functions": {
+      "availableModels": "汇集可路由渠道中的可用模型名并去重。",
+      "isAvailable": "结合模型启用状态与限流恢复时间判断支持项是否可用。"
+    }
+  },
+  "ProviderModelFetchPort.java": {
+    "summary": "定义上游模型发现端口，接收渠道标识、主机、密钥引用、模型路径、协议集合和默认路由优先级，返回模型支持项。",
+    "tags": [
+      "端口接口",
+      "模型发现",
+      "依赖倒置"
+    ]
+  },
+  "BatchUpsertChannelModelsCommand.java": {
+    "summary": "封装管理员批量维护渠道模型的不可变输入，携带渠道标识、模型条目及是否覆盖现有集合的标志。",
+    "tags": [
+      "命令对象",
+      "批量更新",
+      "渠道模型"
+    ]
+  },
+  "ChangeChannelModelStatusCommand.java": {
+    "summary": "携带操作者、渠道和模型支持项标识，为启用或禁用渠道模型提供不可变输入。",
+    "tags": [
+      "命令对象",
+      "模型状态",
+      "不可变"
+    ]
+  },
+  "ChangeProviderChannelStatusCommand.java": {
+    "summary": "携带操作者与渠道标识，作为渠道启用和禁用用例的不可变输入。",
+    "tags": [
+      "命令对象",
+      "渠道状态",
+      "不可变"
+    ]
+  },
+  "ChannelModelUpsertItemCommand.java": {
+    "summary": "描述批量更新中的单个模型支持项，包括请求模型、上游模型及协议、优先级、首选标志和来源。",
+    "tags": [
+      "命令对象",
+      "渠道模型",
+      "批量更新"
+    ]
+  },
+  "CreateProviderChannelCommand.java": {
+    "summary": "封装创建供应商渠道所需的端点、密钥引用、模型路径、优先级及协议映射，对协议集合做非空校验和防御性复制。",
+    "tags": [
+      "命令对象",
+      "渠道创建",
+      "输入校验"
+    ]
+  },
+  "DeleteProviderChannelCommand.java": {
+    "summary": "封装渠道删除操作的操作者与渠道标识，使应用层不依赖 HTTP 请求结构。",
+    "tags": [
+      "命令对象",
+      "渠道删除",
+      "协议解耦"
+    ]
+  },
+  "FetchProviderChannelModelPreviewCommand.java": {
+    "summary": "封装已有渠道的模型预览参数，允许暂时覆盖主机、密钥及上游协议而无需保存渠道。",
+    "tags": [
+      "命令对象",
+      "模型预览",
+      "渠道配置"
+    ]
+  },
+  "FetchProviderModelPreviewCommand.java": {
+    "summary": "封装未保存渠道的模型预览输入，对协议集合进行非空校验和防御性复制，并携带默认路由优先级。",
+    "tags": [
+      "命令对象",
+      "模型预览",
+      "输入校验"
+    ]
+  },
+  "FetchProviderModelsCommand.java": {
+    "summary": "携带操作者、渠道标识及默认路由优先级，用于拉取上游模型并替换渠道模型集合。",
+    "tags": [
+      "命令对象",
+      "模型发现",
+      "渠道模型"
+    ]
+  },
+  "RemoveChannelModelCommand.java": {
+    "summary": "按渠道、请求模型与上游协议标识待移除的支持关系，并携带操作用户。",
+    "tags": [
+      "命令对象",
+      "模型移除",
+      "渠道模型"
+    ]
+  },
+  "UpdateProviderChannelCommand.java": {
+    "summary": "封装渠道更新所需名称、端点、密钥、模型路径、优先级及协议映射，并保护协议集合不被外部修改。",
+    "tags": [
+      "命令对象",
+      "渠道更新",
+      "输入校验"
+    ]
+  },
+  "UpsertChannelModelCommand.java": {
+    "summary": "封装单个渠道模型支持关系的新增或更新输入，包括稳定标识、双侧模型名、上游协议与路由偏好。",
+    "tags": [
+      "命令对象",
+      "模型映射",
+      "路由配置"
+    ]
+  },
+  "ChannelModelStatus.java": "枚举渠道模型的启用、停用和限流状态，用于控制模型参与路由的资格。",
+  "ChannelModelSupport.java": {
+    "summary": "表示渠道中的模型支持关系，将请求模型映射到上游模型和协议，并保存优先级、首选标志、来源及状态时间信息。启停操作就地更新状态并清除限流时间。",
+    "tags": [
+      "领域模型",
+      "模型映射",
+      "路由配置",
+      "状态管理"
+    ],
+    "functions": {
+      "disable": "幂等地停用当前支持项，清除限流起止时间并记录修改时间。",
+      "enable": "幂等地启用当前支持项，清除限流起止时间并记录修改时间。",
+      "matches": "仅在支持项启用且请求模型、上游协议同时匹配时返回真。"
+    }
+  },
+  "ChannelModelSupportId.java": "封装渠道模型支持项的正整数标识，提供工厂方法、值读取与值相等语义。",
+  "ChannelProtocolMapping.java": "以不可变记录表达客户端协议到上游协议的映射，并校验两侧协议非空。",
+  "ModelSupportSource.java": "区分模型支持关系来自手动维护还是上游拉取。",
+  "ProviderChannel.java": {
+    "summary": "供应商渠道聚合根，集中维护端点配置、协议映射、模型支持列表和启停状态。负责协议兼容约束、模型组合去重及路由顺序。",
+    "tags": [
+      "聚合根",
+      "渠道管理",
+      "模型映射",
+      "路由约束"
+    ],
+    "functions": {
+      "rename": "更新渠道名称并推进修改时间。",
+      "updateEndpoint": "更新渠道主机与密钥引用并记录修改时间。",
+      "changeModelsPath": "更新用于模型发现的路径配置。",
+      "changeRoutePriority": "更新渠道路由优先级。",
+      "replaceProtocolMappings": "规范化并替换协议映射，校验现有模型仍使用受支持协议，不满足时抛出领域异常。",
+      "addOrUpdateModel": "校验上游协议受支持，按请求模型、上游模型与协议组合新增或更新条目；更新时保留旧标识、状态与限流信息。",
+      "replaceModels": "规范化模型列表，校验协议支持和组合唯一性后整体替换。",
+      "enableModel": "按支持项标识查找并启用模型，未命中时抛出领域异常。",
+      "disableModel": "按支持项标识查找并停用模型，未命中时抛出领域异常。",
+      "removeModel": "删除请求模型与上游协议匹配的支持项；无匹配时保持集合不变。",
+      "enable": "幂等地把渠道状态置为 ENABLED 并更新时间。",
+      "disable": "幂等地把渠道状态置为 DISABLED 并更新时间。",
+      "isEnabledForRouting": "判断渠道当前是否处于启用状态。",
+      "supportsUpstreamProtocol": "判断渠道协议映射是否包含给定上游协议。",
+      "upstreamProtocolFor": "查找客户端协议对应的上游协议。",
+      "upstreamProtocols": "从协议映射中提取去重的上游协议集合。",
+      "supportsModel": "判断渠道是否存在匹配请求模型和上游协议的支持项。",
+      "findModelSupport": "返回已启用且匹配请求模型与上游协议的首个支持项。",
+      "findModelSupports": "筛选已启用且匹配请求模型与上游协议的全部支持项。",
+      "findSameCombinationIndex": "按请求模型、上游模型和上游协议三元组定位现有模型条目。",
+      "normalizeProtocolMappings": "拒绝空映射集合及重复客户端协议，并检查双侧协议兼容性。",
+      "normalizeModels": "检查模型的上游协议受支持，拒绝重复三元组合及同一请求模型与协议下多个首选模型。"
+    }
+  },
+  "ProviderChannelName.java": "封装供应商渠道名称，执行非空及长度限制，并提供值相等语义。",
+  "ProviderChannelStatus.java": "枚举渠道的 ENABLED、DISABLED 与 RATE_LIMITED 状态，用于路由启用与限流隔离；软删除不属于该枚举。",
+  "ProviderHost.java": {
+    "summary": "封装上游供应商主机地址，校验并去除尾部斜杠，提供模型或协议端点路径拼接。",
+    "tags": [
+      "值对象",
+      "端点地址",
+      "路径处理"
+    ],
+    "functions": {
+      "resolvePath": "将端点路径与规范化主机地址拼接，统一处理路径起始斜杠。"
+    }
+  },
+  "ProviderKeyRef.java": "封装供应商密钥引用，执行非空及长度限制并以内部值比较对象。",
+  "ProviderModelsPath.java": "封装上游模型列表路径，默认使用 /v1/models，并规范化路径前导斜杠。",
+  "RoutePriority.java": "封装非负路由优先级，提供整数值访问、顺序比较和值相等语义。",
+  "ProviderChannelRepository.java": {
+    "summary": "定义渠道聚合持久化端口，覆盖保存、查询、可路由候选、模型限流标记与恢复及软删除操作。",
+    "tags": [
+      "仓储接口",
+      "渠道持久化",
+      "限流",
+      "依赖倒置"
+    ]
+  },
+  "ContentMappingType.java": "枚举协议转换需描述的内容类型，为转换能力的内容覆盖范围提供统一标识。",
+  "ConversionCapability.java": {
+    "summary": "以不可变能力集合描述协议转换对流式输出、工具调用、推理、用量及缓存 Token 映射的支持，判断其是否满足请求需求。",
+    "tags": [
+      "值对象",
+      "转换能力",
+      "能力匹配"
+    ],
+    "functions": {
+      "satisfies": "检查转换能力是否覆盖请求要求的特性和内容类型。"
+    }
+  },
+  "ConversionImplementationStatus.java": "区分转换实现状态，并通过 isRoutable 判定该实现是否可用于实际路由。",
+  "ConversionStatus.java": "枚举协议转换定义的启停状态，控制转换配置参与业务的资格。",
+  "MappingDirection.java": "区分请求方向与响应方向的协议字段映射。",
+  "MappingDocument.java": {
+    "summary": "封装协议转换文档的方向、标题、摘要和字段映射列表，校验文本长度并以新对象追加映射条目。",
+    "tags": [
+      "值对象",
+      "映射文档",
+      "输入校验"
+    ],
+    "functions": {
+      "append": "在保留已有字段映射的基础上追加新条目，并返回新的映射文档。",
+      "requireText": "校验文档文本非空并满足长度上限。"
+    }
+  },
+  "MappingLossiness.java": "描述协议字段映射的保真或有损程度，为转换文档呈现语义损失提供分类。"
+}

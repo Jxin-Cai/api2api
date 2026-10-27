@@ -1,0 +1,438 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/manage-model-groups/model/useModelGroupMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "useModelGroupMutations",
+          "startLine": 21,
+          "endLine": 47,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useModelGroupMutations",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 22
+        },
+        {
+          "caller": "invalidateGroups",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 24
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "Promise.all",
+          "lineNumber": 27
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 28
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 29
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useMutation",
+          "lineNumber": 34
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "createModelGroup",
+          "lineNumber": 35
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useMutation",
+          "lineNumber": 38
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "updateModelGroup",
+          "lineNumber": 39
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useMutation",
+          "lineNumber": 42
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "deleteModelGroup",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "ModelGroupFormModal",
+          "startLine": 15,
+          "endLine": 47,
+          "params": [
+            "{ open, group, modelOptions, onClose, onSaved }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelGroupFormModal",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "useModelGroupMutations",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "useEffect",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "setForm",
+          "lineNumber": 19
+        },
+        {
+          "caller": "submit",
+          "callee": "form.name.trim",
+          "lineNumber": 23
+        },
+        {
+          "caller": "submit",
+          "callee": "updateMutation.mutateAsync",
+          "lineNumber": 25
+        },
+        {
+          "caller": "submit",
+          "callee": "createMutation.mutateAsync",
+          "lineNumber": 25
+        },
+        {
+          "caller": "submit",
+          "callee": "onSaved",
+          "lineNumber": 26
+        },
+        {
+          "caller": "submit",
+          "callee": "onClose",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "setForm",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "setForm",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ModelGroupFormModal",
+          "callee": "form.name.trim",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 149,
+      "nonEmptyLines": 138,
+      "functions": [
+        {
+          "name": "ModelGroupTablePanel",
+          "startLine": 17,
+          "endLine": 149,
+          "params": [
+            "{ modelOptions }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelGroupTablePanel",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "App.useApp",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useModelGroups",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useTokenQuotas",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "targets.filter",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useModelGroupMutations",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useState",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useState",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "credentials.reduce",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "counts.set",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "counts.get",
+          "lineNumber": 27
+        },
+        {
+          "caller": "openCreate",
+          "callee": "setEditing",
+          "lineNumber": 32
+        },
+        {
+          "caller": "openCreate",
+          "callee": "setFormOpen",
+          "lineNumber": 33
+        },
+        {
+          "caller": "openEdit",
+          "callee": "setEditing",
+          "lineNumber": 37
+        },
+        {
+          "caller": "openEdit",
+          "callee": "setFormOpen",
+          "lineNumber": 38
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "bindingCounts.get",
+          "lineNumber": 42
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "message.warning",
+          "lineNumber": 44
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "modal.confirm",
+          "lineNumber": 47
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "deleteMutation.mutateAsync",
+          "lineNumber": 54
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "message.success",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "models.slice(0, 4).map",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "models.slice",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "models.slice(4).join",
+          "lineNumber": 79
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "models.slice",
+          "lineNumber": 79
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "group.modelWhitelist.filter",
+          "lineNumber": 88
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "effective.has",
+          "lineNumber": 88
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "group.effectiveModels.slice(0, 4).map",
+          "lineNumber": 92
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "group.effectiveModels.slice",
+          "lineNumber": 92
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "group.effectiveModels.slice(4).join",
+          "lineNumber": 93
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "group.effectiveModels.slice",
+          "lineNumber": 93
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "unavailable.join",
+          "lineNumber": 96
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "bindingCounts.get",
+          "lineNumber": 108
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "bindingCounts.get",
+          "lineNumber": 108
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "openEdit",
+          "lineNumber": 117
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "bindingCounts.get",
+          "lineNumber": 118
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "confirmDelete",
+          "lineNumber": 119
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "query.refetch().catch",
+          "lineNumber": 127
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "query.refetch",
+          "lineNumber": 127
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "query.refetch().catch",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "query.refetch",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ModelGroupTablePanel",
+          "callee": "setFormOpen",
+          "lineNumber": 146
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,1036 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 110,
+      "nonEmptyLines": 95,
+      "functions": [
+        {
+          "name": "handleAuthenticationRequired",
+          "startLine": 30,
+          "endLine": 34,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleBusinessException",
+          "startLine": 36,
+          "endLine": 40,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleMethodArgumentNotValidException",
+          "startLine": 42,
+          "endLine": 45,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleBindException",
+          "startLine": 47,
+          "endLine": 53,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleConstraintViolationException",
+          "startLine": 55,
+          "endLine": 61,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleHttpMessageNotReadableException",
+          "startLine": 63,
+          "endLine": 66,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleBadRequest",
+          "startLine": 68,
+          "endLine": 79,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleException",
+          "startLine": 81,
+          "endLine": 86,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "badRequest",
+          "startLine": 88,
+          "endLine": 91,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "validationMessage",
+          "startLine": 93,
+          "endLine": 98,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "formatFieldError",
+          "startLine": 100,
+          "endLine": 102,
+          "params": [
+            "fieldError"
+          ]
+        },
+        {
+          "name": "defaultMessage",
+          "startLine": 104,
+          "endLine": 109,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionAdvice",
+          "startLine": 22,
+          "endLine": 110,
+          "methods": [
+            "handleAuthenticationRequired",
+            "handleBusinessException",
+            "handleMethodArgumentNotValidException",
+            "handleBindException",
+            "handleConstraintViolationException",
+            "handleHttpMessageNotReadableException",
+            "handleBadRequest",
+            "handleException",
+            "badRequest",
+            "validationMessage",
+            "formatFieldError",
+            "defaultMessage"
+          ],
+          "properties": [
+            "BAD_REQUEST",
+            "INTERNAL_SERVER_ERROR",
+            "AUTHENTICATION_REQUIRED"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleAuthenticationRequired",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "handleBusinessException",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "handleMethodArgumentNotValidException",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "handleBindException",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "handleConstraintViolationException",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "handleHttpMessageNotReadableException",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "handleBadRequest",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "handleException",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionAdvice",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleAuthenticationRequired",
+          "callee": "ResponseEntity.status(HttpStatus.UNAUTHORIZED).body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleAuthenticationRequired",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleAuthenticationRequired",
+          "callee": "ApiResponse.failure",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleAuthenticationRequired",
+          "callee": "defaultMessage",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleAuthenticationRequired",
+          "callee": "exception.getMessage",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ResponseEntity.status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ApiResponse.failure",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "exception.getCode",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "exception.getMessage",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleMethodArgumentNotValidException",
+          "callee": "badRequest",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleMethodArgumentNotValidException",
+          "callee": "validationMessage",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "exception.getBindingResult().getFieldErrors().stream()\n                .map(this::formatFieldError).collect",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "exception.getBindingResult().getFieldErrors().stream().map",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "exception.getBindingResult().getFieldErrors().stream",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "exception.getBindingResult().getFieldErrors",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "exception.getBindingResult",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "Collectors.joining",
+          "lineNumber": 51
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "badRequest",
+          "lineNumber": 52
+        },
+        {
+          "caller": "handleBindException",
+          "callee": "defaultMessage",
+          "lineNumber": 52
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "exception.getConstraintViolations().stream()\n                .map(violation -> violation.getPropertyPath() + \" \" + violation.getMessage()).collect",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "exception.getConstraintViolations().stream().map",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "exception.getConstraintViolations().stream",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "exception.getConstraintViolations",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "violation.getPropertyPath",
+          "lineNumber": 58
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "violation.getMessage",
+          "lineNumber": 58
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "Collectors.joining",
+          "lineNumber": 59
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "badRequest",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleConstraintViolationException",
+          "callee": "defaultMessage",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleHttpMessageNotReadableException",
+          "callee": "badRequest",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage().startsWith",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "ResponseEntity.status(HttpStatus.FORBIDDEN).body",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "ApiResponse.failure",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "badRequest",
+          "lineNumber": 78
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "defaultMessage",
+          "lineNumber": 78
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage",
+          "lineNumber": 78
+        },
+        {
+          "caller": "handleException",
+          "callee": "log.error",
+          "lineNumber": 83
+        },
+        {
+          "caller": "handleException",
+          "callee": "ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body",
+          "lineNumber": 84
+        },
+        {
+          "caller": "handleException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 84
+        },
+        {
+          "caller": "handleException",
+          "callee": "ApiResponse.failure",
+          "lineNumber": 85
+        },
+        {
+          "caller": "badRequest",
+          "callee": "ResponseEntity.status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 89
+        },
+        {
+          "caller": "badRequest",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 89
+        },
+        {
+          "caller": "badRequest",
+          "callee": "ApiResponse.failure",
+          "lineNumber": 90
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "exception.getBindingResult().getFieldErrors().stream()\n                .map(this::formatFieldError).collect",
+          "lineNumber": 94
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "exception.getBindingResult().getFieldErrors().stream().map",
+          "lineNumber": 94
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "exception.getBindingResult().getFieldErrors().stream",
+          "lineNumber": 94
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "exception.getBindingResult().getFieldErrors",
+          "lineNumber": 94
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "exception.getBindingResult",
+          "lineNumber": 94
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "Collectors.joining",
+          "lineNumber": 96
+        },
+        {
+          "caller": "validationMessage",
+          "callee": "defaultMessage",
+          "lineNumber": 97
+        },
+        {
+          "caller": "formatFieldError",
+          "callee": "fieldError.getField",
+          "lineNumber": 101
+        },
+        {
+          "caller": "formatFieldError",
+          "callee": "Objects.requireNonNullElse",
+          "lineNumber": 101
+        },
+        {
+          "caller": "formatFieldError",
+          "callee": "fieldError.getDefaultMessage",
+          "lineNumber": 101
+        },
+        {
+          "caller": "defaultMessage",
+          "callee": "message.isBlank",
+          "lineNumber": 105
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 9,
+        "functionCount": 12,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdvice.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 150,
+      "nonEmptyLines": 135,
+      "functions": [
+        {
+          "name": "handleGatewayProtocol",
+          "startLine": 31,
+          "endLine": 36,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "handleTokenQuota",
+          "startLine": 38,
+          "endLine": 47,
+          "params": [
+            "exception",
+            "request"
+          ]
+        },
+        {
+          "name": "handleBusiness",
+          "startLine": 49,
+          "endLine": 56,
+          "params": [
+            "exception",
+            "request"
+          ]
+        },
+        {
+          "name": "handleBadRequest",
+          "startLine": 58,
+          "endLine": 66,
+          "params": [
+            "exception",
+            "request"
+          ]
+        },
+        {
+          "name": "handleUnexpected",
+          "startLine": 68,
+          "endLine": 78,
+          "params": [
+            "exception",
+            "request"
+          ]
+        },
+        {
+          "name": "protocolOf",
+          "startLine": 80,
+          "endLine": 97,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "mapBusinessCode",
+          "startLine": 99,
+          "endLine": 108,
+          "params": [
+            "code"
+          ]
+        },
+        {
+          "name": "mapBadRequestMessage",
+          "startLine": 110,
+          "endLine": 117,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "normalizeCode",
+          "startLine": 119,
+          "endLine": 129,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "buildErrorBody",
+          "startLine": 131,
+          "endLine": 136,
+          "params": [
+            "protocol",
+            "errorType",
+            "message"
+          ]
+        },
+        {
+          "name": "mapErrorTypeForOpenAI",
+          "startLine": 138,
+          "endLine": 146,
+          "params": [
+            "errorType"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayProtocolExceptionAdvice",
+          "startLine": 22,
+          "endLine": 150,
+          "methods": [
+            "handleGatewayProtocol",
+            "handleTokenQuota",
+            "handleBusiness",
+            "handleBadRequest",
+            "handleUnexpected",
+            "protocolOf",
+            "mapBusinessCode",
+            "mapBadRequestMessage",
+            "normalizeCode",
+            "buildErrorBody",
+            "mapErrorTypeForOpenAI"
+          ],
+          "properties": [
+            "errorBodyBuilder"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleGatewayProtocol",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "handleTokenQuota",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "handleBusiness",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "handleBadRequest",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnexpected",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayProtocolExceptionAdvice",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "ResponseEntity.status(exception.status())\n                .contentType(MediaType.APPLICATION_JSON).body",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "ResponseEntity.status(exception.status()).contentType",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "exception.status",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "buildErrorBody",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "exception.protocol",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "exception.errorType",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleGatewayProtocol",
+          "callee": "exception.getMessage",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).contentType",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "exception.resetAt",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "Math.max",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "java.time.Duration.between(java.time.Instant.now(), exception.resetAt()).toSeconds",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "java.time.Duration.between",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "java.time.Instant.now",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "exception.resetAt",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "response.header",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "Long.toString",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "response.body",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "buildErrorBody",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "protocolOf",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleTokenQuota",
+          "callee": "exception.getMessage",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "protocolOf",
+          "lineNumber": 51
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "mapBusinessCode",
+          "lineNumber": 52
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "exception.code",
+          "lineNumber": 52
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status(mapping.status())\n                .contentType(MediaType.APPLICATION_JSON).body",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status(mapping.status()).contentType",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "mapping.status",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "buildErrorBody",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "mapping.errorType",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "exception.getMessage",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "exception.getMessage",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "protocolOf",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "mapBadRequestMessage",
+          "lineNumber": 62
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "ResponseEntity.status(mapping.status())\n                .contentType(MediaType.APPLICATION_JSON).body",
+          "lineNumber": 63
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "ResponseEntity.status(mapping.status()).contentType",
+          "lineNumber": 63
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 63
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "mapping.status",
+          "lineNumber": 63
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "buildErrorBody",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handleBadRequest",
+          "callee": "mapping.errorType",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ClientDisconnectDetector.isClientDisconnect",
+          "lineNumber": 70
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "log.info",
+          "lineNumber": 71
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "log.error",
+          "lineNumber": 74
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)\n                .contentType(MediaType.APPLICATION_JSON).body",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "buildErrorBody",
+          "lineNumber": 77
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "protocolOf",
+          "lineNumber": 77
+        },
+        {
+          "caller": "protocolOf",
+          "callee": "request.getRequestURI",
+          "lineNumber": 81
+        },
+        {
+          "caller": "protocolOf",
+          "callee": "uri.endsWith",
+          "lineNumber": 83
+        },
+        {
+          "caller": "protocolOf",
+          "callee": "uri.endsWith",
+          "lineNumber": 86
+        },
+        {
+          "caller": "protocolOf",
+          "callee": "uri.endsWith",
+          "lineNumber": 89
+        },
+        {
+          "caller": "protocolOf",
+          "callee": "uri.contains",
+          "lineNumber": 92
+        },
+        {
+          "caller": "mapBusinessCode",
+          "callee": "normalizeCode",
+          "lineNumber": 100
+        },
+        {
+          "caller": "mapBusinessCode",
+          "callee": "new ErrorMapping",
+          "lineNumber": 101
+        },
+        {
+          "caller": "mapBusinessCode",
+          "callee": "new ErrorMapping",
+          "lineNumber": 102
+        },
+        {
+          "caller": "mapBusinessCode",
+          "callee": "new ErrorMapping",
+          "lineNumber": 104
+        },
+        {
+          "caller": "mapBusinessCode",
+          "callee": "new ErrorMapping",
+          "lineNumber": 105
+        },
+        {
+          "caller": "mapBusinessCode",
+          "callee": "new ErrorMapping",
+          "lineNumber": 106
+        },
+        {
+          "caller": "mapBadRequestMessage",
+          "callee": "normalizeCode",
+          "lineNumber": 111
+        },
+        {
+          "caller": "mapBadRequestMessage",
+          "callee": "new ErrorMapping",
+          "lineNumber": 112
+        },
+        {
+          "caller": "mapBadRequestMessage",
+          "callee": "new ErrorMapping",
+          "lineNumber": 114
+        },
+        {
+          "caller": "mapBadRequestMessage",
+          "callee": "new ErrorMapping",
+          "lineNumber": 115
+        },
+        {
+          "caller": "normalizeCode",
+          "callee": "value.trim",
+          "lineNumber": 123
+        },
+        {
+          "caller": "normalizeCode",
+          "callee": "trimmed.indexOf",
+          "lineNumber": 124
+        },
+        {
+          "caller": "normalizeCode",
+          "callee": "trimmed.substring",
+          "lineNumber": 126
+        },
+        {
+          "caller": "normalizeCode",
+          "callee": "trimmed.trim().toUpperCase",
+          "lineNumber": 128
+        },
+        {
+          "caller": "normalizeCode",
+          "callee": "trimmed.trim",
+          "lineNumber": 128
+        },
+        {
+          "caller": "buildErrorBody",
+          "callee": "errorBodyBuilder.buildClaudeErrorBody",
+          "lineNumber": 133
+        },
+        {
+          "caller": "buildErrorBody",
+          "callee": "errorBodyBuilder.buildOpenAIErrorBody",
+          "lineNumber": 135
+        },
+        {
+          "caller": "buildErrorBody",
+          "callee": "mapErrorTypeForOpenAI",
+          "lineNumber": 135
+        },
+        {
+          "caller": "mapErrorTypeForOpenAI",
+          "callee": "\"rate_limit_error\".equals",
+          "lineNumber": 139
+        },
+        {
+          "caller": "mapErrorTypeForOpenAI",
+          "callee": "\"api_error\".equals",
+          "lineNumber": 142
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 6,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    }
+  ]
+}

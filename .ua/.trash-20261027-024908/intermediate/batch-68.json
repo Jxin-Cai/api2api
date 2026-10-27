@@ -1,0 +1,343 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/app/router/adminRoutes.tsx",
+      "type": "file",
+      "name": "adminRoutes.tsx",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "注册模型分组、令牌限流、运维、用户、渠道、模型映射与协议转换管理路由，统一要求 ADMIN 角色并提供 Suspense 加载态；旧元数据入口保留查询参数重定向到转换页。",
+      "tags": [
+        "管理路由",
+        "角色鉴权",
+        "懒加载"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "function",
+      "name": "withAdminGuard",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "为管理页面组合 ADMIN 角色鉴权与 Suspense 加载状态，阻止非管理员访问。",
+      "tags": [
+        "路由适配",
+        "访问控制"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        25
+      ]
+    },
+    {
+      "id": "function:frontend/src/app/router/adminRoutes.tsx:LegacyProtocolMetadataRedirect",
+      "type": "function",
+      "name": "LegacyProtocolMetadataRedirect",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "读取旧元数据入口的查询参数，并用替换导航转到管理端协议转换页。",
+      "tags": [
+        "路由适配",
+        "访问控制"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        27,
+        30
+      ]
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-groups",
+      "type": "endpoint",
+      "name": "/admin/model-groups",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明模型分组的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-token-quotas",
+      "type": "endpoint",
+      "name": "/admin/token-quotas",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明令牌配额的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-operations",
+      "type": "endpoint",
+      "name": "/admin/operations",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明运行运维的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-users",
+      "type": "endpoint",
+      "name": "/admin/users",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明用户管理的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-channels",
+      "type": "endpoint",
+      "name": "/admin/channels",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明渠道管理的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-mappings",
+      "type": "endpoint",
+      "name": "/admin/model-mappings",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明模型映射的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-conversions",
+      "type": "endpoint",
+      "name": "/admin/conversions",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明协议转换的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-protocol-metadata",
+      "type": "endpoint",
+      "name": "/admin/protocol-metadata",
+      "filePath": "frontend/src/app/router/adminRoutes.tsx",
+      "summary": "声明旧协议元数据入口的前端路由，并应用统一管理员访问保护。",
+      "tags": [
+        "前端路由",
+        "管理员入口"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:LegacyProtocolMetadataRedirect",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-groups",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-groups",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-groups",
+      "target": "file:frontend/src/pages/AdminModelGroupsPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-token-quotas",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-token-quotas",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-token-quotas",
+      "target": "file:frontend/src/pages/AdminTokenQuotasPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-operations",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-operations",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-operations",
+      "target": "file:frontend/src/pages/AdminOperationsPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-users",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-users",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-users",
+      "target": "file:frontend/src/pages/AdminUsersPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-channels",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-channels",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-channels",
+      "target": "file:frontend/src/pages/AdminChannelsPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-mappings",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-mappings",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-model-mappings",
+      "target": "file:frontend/src/pages/AdminModelMappingsPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-conversions",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-conversions",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-conversions",
+      "target": "file:frontend/src/pages/AdminConversionsPage.tsx",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-protocol-metadata",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-protocol-metadata",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:withAdminGuard",
+      "type": "middleware",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-protocol-metadata",
+      "target": "function:frontend/src/app/router/adminRoutes.tsx:LegacyProtocolMetadataRedirect",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:frontend/src/app/router/adminRoutes.tsx:LegacyProtocolMetadataRedirect",
+      "target": "endpoint:frontend/src/app/router/adminRoutes.tsx:admin-conversions",
+      "type": "routes",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/router/adminRoutes.tsx",
+      "target": "file:frontend/src/app/router/lazyWithRetry.ts",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    }
+  ]
+}

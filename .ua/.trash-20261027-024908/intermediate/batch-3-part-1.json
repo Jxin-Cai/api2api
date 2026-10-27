@@ -1,0 +1,1597 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "file",
+      "name": "AccessScope.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "summary": "定义用户角色可访问的业务范围，区分个人门户与管理后台。",
+      "tags": [
+        "权限",
+        "领域模型",
+        "访问范围"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java:AccessScope",
+      "type": "class",
+      "name": "AccessScope",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "lineRange": [
+        6,
+        16
+      ],
+      "summary": "定义用户角色可访问的业务范围，区分个人门户与管理后台。",
+      "tags": [
+        "权限",
+        "领域模型",
+        "访问范围"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "type": "file",
+      "name": "ProviderModelFetchAdapter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "summary": "实现上游模型列表拉取端口，使用默认 models 路径、鉴权请求和有限 I/O 重试；兼容多种列表格式及 Bedrock 模型摘要，生成渠道模型支持项。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "type": "class",
+      "name": "ProviderModelFetchAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        41,
+        355
+      ],
+      "summary": "实现上游模型列表拉取端口，使用默认 models 路径、鉴权请求和有限 I/O 重试；兼容多种列表格式及 Bedrock 模型摘要，生成渠道模型支持项。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "type": "function",
+      "name": "ProviderModelFetchAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        62,
+        78
+      ],
+      "summary": "校验依赖并创建配置连接超时的 HTTP/1.1 客户端。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:fetchModels",
+      "type": "function",
+      "name": "fetchModels",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        80,
+        142
+      ],
+      "summary": "校验渠道参数，通过默认 models 路径发送带鉴权的 GET 请求，解析模型并将超时、I/O、中断及非成功响应转换为业务错误。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:sendWithRetry",
+      "type": "function",
+      "name": "sendWithRetry",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        144,
+        160
+      ],
+      "summary": "按配置次数重试模型列表请求的 I/O 失败，遇到超时立即终止。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:providerModelsHttpException",
+      "type": "function",
+      "name": "providerModelsHttpException",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        162,
+        182
+      ],
+      "summary": "按认证失败、路径不存在和其他 HTTP 状态生成包含上游原因的业务异常。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:extractUpstreamError",
+      "type": "function",
+      "name": "extractUpstreamError",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        184,
+        201
+      ],
+      "summary": "从 JSON 错误消息字段中提取原因，非 JSON 时保留截断后的正文。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:truncateError",
+      "type": "function",
+      "name": "truncateError",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        212,
+        221
+      ],
+      "summary": "合并空白并将上游错误文本截断到 240 个字符。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:toModelSupports",
+      "type": "function",
+      "name": "toModelSupports",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        231,
+        259
+      ],
+      "summary": "识别普通模型列表或 Bedrock 摘要，去重普通模型标识并排序构建的支持项。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:modelEntries",
+      "type": "function",
+      "name": "modelEntries",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        261,
+        278
+      ],
+      "summary": "兼容根数组以及 data、models 数组，并合并同时存在的两组条目。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:modelId",
+      "type": "function",
+      "name": "modelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        280,
+        291
+      ],
+      "summary": "从文本或 id、slug、name、model 字段提取并规范化模型标识。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:toBedrockModelSupports",
+      "type": "function",
+      "name": "toBedrockModelSupports",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        298,
+        325
+      ],
+      "summary": "从 Bedrock 摘要提取模型，排除明确不支持 ON_DEMAND 的条目。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:buildModelSupports",
+      "type": "function",
+      "name": "buildModelSupports",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "lineRange": [
+        327,
+        354
+      ],
+      "summary": "为每个模型与去重后的上游协议组合创建 FETCHED 来源支持项，使用时钟生成标识并拒绝空列表。",
+      "tags": [
+        "上游适配",
+        "模型发现",
+        "HTTP",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "type": "file",
+      "name": "ProviderChannelRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "summary": "实现渠道领域仓储，将聚合与持久化对象互转并委托 Mapper 完成保存、查询、模型限流恢复和软删除。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:ProviderChannelRepositoryImpl",
+      "type": "class",
+      "name": "ProviderChannelRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        18,
+        93
+      ],
+      "summary": "实现渠道领域仓储，将聚合与持久化对象互转并委托 Mapper 完成保存、查询、模型限流恢复和软删除。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        28,
+        37
+      ],
+      "summary": "将渠道聚合转为持久化对象，根据标识查询结果选择插入或更新。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        39,
+        44
+      ],
+      "summary": "按渠道标识加载记录，并将可空对象转换为领域聚合 Optional。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findAll",
+      "type": "function",
+      "name": "findAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        46,
+        51
+      ],
+      "summary": "读取全部渠道记录并转换为领域聚合集合。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findEnabledForRouting",
+      "type": "function",
+      "name": "findEnabledForRouting",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        53,
+        58
+      ],
+      "summary": "读取启用的可路由渠道并恢复领域聚合。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:markModelRateLimited",
+      "type": "function",
+      "name": "markModelRateLimited",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        60,
+        72
+      ],
+      "summary": "校验限流参数，将指定渠道上游模型的限流时间与恢复时间委托给 Mapper。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:restoreModelRateLimitsBefore",
+      "type": "function",
+      "name": "restoreModelRateLimitsBefore",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        74,
+        79
+      ],
+      "summary": "校验当前时间与更新时间，恢复指定时间前已到期的模型限流。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:restoreAllModelRateLimits",
+      "type": "function",
+      "name": "restoreAllModelRateLimits",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        81,
+        85
+      ],
+      "summary": "按指定时间恢复全部未删除渠道的模型限流。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:softDeleteById",
+      "type": "function",
+      "name": "softDeleteById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "lineRange": [
+        87,
+        92
+      ],
+      "summary": "校验标识与删除时间，委托 Mapper 软删除渠道。",
+      "tags": [
+        "仓储",
+        "渠道管理",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "type": "file",
+      "name": "ProviderChannelPersistenceConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "summary": "通过 MapStruct 与接口默认方法转换渠道聚合和持久化对象，恢复协议映射、模型状态、限流时间及值对象。",
+      "tags": [
+        "MapStruct",
+        "持久化",
+        "对象转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java:ProviderChannelPersistenceConverter",
+      "type": "class",
+      "name": "ProviderChannelPersistenceConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "lineRange": [
+        33,
+        148
+      ],
+      "summary": "通过 MapStruct 与接口默认方法转换渠道聚合和持久化对象，恢复协议映射、模型状态、限流时间及值对象。",
+      "tags": [
+        "MapStruct",
+        "持久化",
+        "对象转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "type": "file",
+      "name": "JdbcProviderChannelMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "summary": "使用命名参数 JDBC 读写渠道及其协议映射和模型子表，在事务中替换子记录，并支持模型限流隔离、恢复与渠道软删除。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:JdbcProviderChannelMapper",
+      "type": "class",
+      "name": "JdbcProviderChannelMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        21,
+        284
+      ],
+      "summary": "使用命名参数 JDBC 读写渠道及其协议映射和模型子表，在事务中替换子记录，并支持模型限流隔离、恢复与渠道软删除。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        70,
+        80
+      ],
+      "summary": "在事务中插入渠道主记录，再写入协议映射和模型支持子记录。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        82,
+        101
+      ],
+      "summary": "在事务中更新渠道配置，并整体替换协议映射和模型子记录。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        103,
+        109
+      ],
+      "summary": "按标识读取未删除渠道，并加载协议与模型子集合。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectAll",
+      "type": "function",
+      "name": "selectAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        111,
+        119
+      ],
+      "summary": "按创建时间倒序查询未删除渠道并加载所有子记录。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectEnabledForRouting",
+      "type": "function",
+      "name": "selectEnabledForRouting",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        121,
+        129
+      ],
+      "summary": "读取未删除且启用的渠道，仅加载启用的模型支持记录。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:markModelRateLimited",
+      "type": "function",
+      "name": "markModelRateLimited",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        131,
+        153
+      ],
+      "summary": "按渠道与上游模型批量将启用的支持项标记为 RATE_LIMITED，并记录隔离与恢复时间。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:restoreModelRateLimitsBefore",
+      "type": "function",
+      "name": "restoreModelRateLimitsBefore",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        155,
+        168
+      ],
+      "summary": "将恢复时间已到期的限流记录置为启用，并清空限流时间。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:restoreAllModelRateLimits",
+      "type": "function",
+      "name": "restoreAllModelRateLimits",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        170,
+        187
+      ],
+      "summary": "恢复未删除渠道下全部限流模型并清空隔离字段。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:softDeleteById",
+      "type": "function",
+      "name": "softDeleteById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        189,
+        201
+      ],
+      "summary": "将未删除渠道标记为已删除和禁用，并更新时间。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:withChildren",
+      "type": "function",
+      "name": "withChildren",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        203,
+        219
+      ],
+      "summary": "加载渠道协议映射和按优先级排序的模型记录，可选择仅返回启用模型。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:replaceProtocolMappings",
+      "type": "function",
+      "name": "replaceProtocolMappings",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        221,
+        230
+      ],
+      "summary": "先删除渠道旧协议映射，再逐条插入当前映射。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:replaceModelSupports",
+      "type": "function",
+      "name": "replaceModelSupports",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        232,
+        241
+      ],
+      "summary": "先删除渠道旧模型支持，再逐条写入当前模型配置与状态。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        243,
+        256
+      ],
+      "summary": "将渠道对象字段与时间戳绑定到命名 SQL 参数。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:modelParams",
+      "type": "function",
+      "name": "modelParams",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "lineRange": [
+        267,
+        282
+      ],
+      "summary": "将模型别名、协议、限流状态和时间字段绑定到命名 SQL 参数。",
+      "tags": [
+        "JDBC",
+        "渠道管理",
+        "事务",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "type": "file",
+      "name": "ProviderChannelMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "summary": "定义渠道持久化 Mapper 契约，覆盖增改查、可路由渠道筛选、模型限流标记和恢复及软删除。",
+      "tags": [
+        "持久化",
+        "接口",
+        "渠道管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java:ProviderChannelMapper",
+      "type": "class",
+      "name": "ProviderChannelMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "lineRange": [
+        6,
+        16
+      ],
+      "summary": "定义渠道持久化 Mapper 契约，覆盖增改查、可路由渠道筛选、模型限流标记和恢复及软删除。",
+      "tags": [
+        "持久化",
+        "接口",
+        "渠道管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "type": "file",
+      "name": "ChannelModelSupportPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "summary": "承载渠道模型支持项的数据库字段，包括请求别名、上游模型与协议、优先级、来源、状态及限流时间。",
+      "tags": [
+        "持久化对象",
+        "模型映射",
+        "限流"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java:ChannelModelSupportPO",
+      "type": "class",
+      "name": "ChannelModelSupportPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "lineRange": [
+        9,
+        27
+      ],
+      "summary": "承载渠道模型支持项的数据库字段，包括请求别名、上游模型与协议、优先级、来源、状态及限流时间。",
+      "tags": [
+        "持久化对象",
+        "模型映射",
+        "限流"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java:AccessScope",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java:AccessScope",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:fetchModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:fetchModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:sendWithRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:providerModelsHttpException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:extractUpstreamError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:truncateError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:toModelSupports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:modelEntries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:modelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:toBedrockModelSupports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:buildModelSupports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:ProviderChannelRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:ProviderChannelRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findEnabledForRouting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:findEnabledForRouting",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:markModelRateLimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:markModelRateLimited",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:restoreModelRateLimitsBefore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:restoreModelRateLimitsBefore",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:restoreAllModelRateLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:restoreAllModelRateLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:softDeleteById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:softDeleteById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java:ProviderChannelPersistenceConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java:ProviderChannelPersistenceConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/converter/ProviderChannelPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:JdbcProviderChannelMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:JdbcProviderChannelMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectEnabledForRouting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:selectEnabledForRouting",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:markModelRateLimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:markModelRateLimited",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:restoreModelRateLimitsBefore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:restoreModelRateLimitsBefore",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:restoreAllModelRateLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:restoreAllModelRateLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:softDeleteById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:softDeleteById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:withChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:replaceProtocolMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:replaceModelSupports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:modelParams",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java:ProviderChannelMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java:ProviderChannelMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java:ChannelModelSupportPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelModelSupportPO.java:ChannelModelSupportPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:ProviderModelFetchAdapter",
+      "target": "class:backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java:ProviderModelFetchPort",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java:ProviderChannelRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java:ProviderChannelRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/JdbcProviderChannelMapper.java:JdbcProviderChannelMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/mapper/ProviderChannelMapper.java:ProviderChannelMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java:buildModelSupports",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderModelFetchAdapter.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,3219 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "type": "file",
+      "name": "BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "summary": "验证 Messages 到 Bedrock InvokeModel 的请求与响应适配，覆盖 beta 能力、结构化输出包装、媒体限制、工具定义与扩展元数据隔离。",
+      "tags": [
+        "测试",
+        "Bedrock",
+        "协议转换",
+        "结构化输出"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:BedrockClaudeMessagesProtocolMessageConverterTest",
+      "type": "class",
+      "name": "BedrockClaudeMessagesProtocolMessageConverterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        16,
+        866
+      ],
+      "summary": "验证 Messages 到 Bedrock InvokeModel 的请求与响应适配，覆盖 beta 能力、结构化输出包装、媒体限制、工具定义与扩展元数据隔离。",
+      "tags": [
+        "测试",
+        "Bedrock",
+        "协议转换",
+        "结构化输出"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_mapsOnlyBedrockSupportedBetaFeatures_when_claudeCodeCallsBedrockInvokeModel",
+      "type": "function",
+      "name": "test_mapsOnlyBedrockSupportedBetaFeatures_when_claudeCodeCallsBedrockInvokeModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        29,
+        59
+      ],
+      "summary": "验证仅向 Bedrock 传递受支持 beta 能力。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsContextManagementBeta_when_requestUsesToolUseClearing",
+      "type": "function",
+      "name": "test_addsContextManagementBeta_when_requestUsesToolUseClearing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        61,
+        81
+      ],
+      "summary": "验证工具结果清理请求自动补充上下文管理 beta。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsCompactionBeta_when_requestUsesServerCompaction",
+      "type": "function",
+      "name": "test_addsCompactionBeta_when_requestUsesServerCompaction",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        83,
+        103
+      ],
+      "summary": "验证服务端压缩请求补充压缩 beta。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesFallbackCreditBeta_when_requestUsesFallbackCredit",
+      "type": "function",
+      "name": "test_preservesFallbackCreditBeta_when_requestUsesFallbackCredit",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        105,
+        126
+      ],
+      "summary": "验证回退额度 beta 被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsUnsupportedField_when_requestUsesClaudePlatformMcp",
+      "type": "function",
+      "name": "test_rejectsUnsupportedField_when_requestUsesClaudePlatformMcp",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        128,
+        144
+      ],
+      "summary": "验证显式拒绝 Bedrock 不支持的平台 MCP 字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesBedrockExtensions_when_responseContainsProviderMetadata",
+      "type": "function",
+      "name": "test_removesBedrockExtensions_when_responseContainsProviderMetadata",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        146,
+        176
+      ],
+      "summary": "验证响应根级供应商扩展元数据被清理。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesNestedProviderPrefixedFields_when_responseContainsToolInput",
+      "type": "function",
+      "name": "test_preservesNestedProviderPrefixedFields_when_responseContainsToolInput",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        178,
+        214
+      ],
+      "summary": "验证工具输入内嵌供应商前缀字段被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesConversationVerbatim_when_historyContainsRepeatedSuccessfulToolCalls",
+      "type": "function",
+      "name": "test_preservesConversationVerbatim_when_historyContainsRepeatedSuccessfulToolCalls",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        216,
+        246
+      ],
+      "summary": "验证重复成功工具调用历史保持原样。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_ignoresToolInputObjects_when_theyResembleMediaContentBlocks",
+      "type": "function",
+      "name": "test_ignoresToolInputObjects_when_theyResembleMediaContentBlocks",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        248,
+        273
+      ],
+      "summary": "验证类似媒体内容的工具输入对象不被误解析。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesBase64Image_when_requestUsesBedrockSupportedSource",
+      "type": "function",
+      "name": "test_preservesBase64Image_when_requestUsesBedrockSupportedSource",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        275,
+        297
+      ],
+      "summary": "验证受支持的 Base64 图像被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsImageSource_when_requestUsesUrl",
+      "type": "function",
+      "name": "test_rejectsImageSource_when_requestUsesUrl",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        299,
+        320
+      ],
+      "summary": "验证拒绝不支持的 URL 图像来源。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsDocumentSource_when_requestUsesFileId",
+      "type": "function",
+      "name": "test_rejectsDocumentSource_when_requestUsesFileId",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        322,
+        343
+      ],
+      "summary": "验证拒绝以 file_id 提供的文档来源。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsComputerUseBeta_when_requestUsesLatestComputerTool",
+      "type": "function",
+      "name": "test_addsComputerUseBeta_when_requestUsesLatestComputerTool",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        345,
+        368
+      ],
+      "summary": "验证新版本计算机工具自动补充 beta。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsFineGrainedStreamingBeta_when_toolEnablesEagerInputStreaming",
+      "type": "function",
+      "name": "test_addsFineGrainedStreamingBeta_when_toolEnablesEagerInputStreaming",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        370,
+        392
+      ],
+      "summary": "验证提前工具参数流自动补充分粒度流式 beta。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsEffortBeta_when_outputConfigUsesEffort",
+      "type": "function",
+      "name": "test_addsEffortBeta_when_outputConfigUsesEffort",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        394,
+        412
+      ],
+      "summary": "验证effort 输出配置补充对应 beta。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesThinkingDisplay_when_claudeCodeCallsBedrockInvokeModel",
+      "type": "function",
+      "name": "test_removesThinkingDisplay_when_claudeCodeCallsBedrockInvokeModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        414,
+        444
+      ],
+      "summary": "验证思考显示配置从 Bedrock 请求移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_wrapsStructuredOutputSchema_when_workflowRequiresRootArray",
+      "type": "function",
+      "name": "test_wrapsStructuredOutputSchema_when_workflowRequiresRootArray",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        446,
+        468
+      ],
+      "summary": "验证根数组结构化输出被包装为对象 schema。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_unwrapsStructuredOutputInput_when_bedrockReturnsWrappedArray",
+      "type": "function",
+      "name": "test_unwrapsStructuredOutputInput_when_bedrockReturnsWrappedArray",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        470,
+        508
+      ],
+      "summary": "验证响应中的结构化输出数组被正确解包。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_wrapsStructuredOutputHistory_when_followUpContainsRootArrayInput",
+      "type": "function",
+      "name": "test_wrapsStructuredOutputHistory_when_followUpContainsRootArrayInput",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        510,
+        546
+      ],
+      "summary": "验证后续轮次的根数组工具输入被重新包装。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_forcesStructuredOutput_when_claudeCodeSendsEnforcementRetry",
+      "type": "function",
+      "name": "test_forcesStructuredOutput_when_claudeCodeSendsEnforcementRetry",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        548,
+        583
+      ],
+      "summary": "验证结构化输出强制重试采用正确工具选择。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesClearThinkingEdit_when_structuredOutputRetryDisablesThinking",
+      "type": "function",
+      "name": "test_removesClearThinkingEdit_when_structuredOutputRetryDisablesThinking",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        585,
+        616
+      ],
+      "summary": "验证禁用思考的强制重试移除清理思考项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesContextManagement_when_structuredOutputRetryOnlyClearsThinking",
+      "type": "function",
+      "name": "test_removesContextManagement_when_structuredOutputRetryOnlyClearsThinking",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        618,
+        643
+      ],
+      "summary": "验证只含清理思考的管理配置在禁用思考时移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesAutomaticToolChoice_when_structuredOutputIsNotEnforcementRetry",
+      "type": "function",
+      "name": "test_preservesAutomaticToolChoice_when_structuredOutputIsNotEnforcementRetry",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        645,
+        667
+      ],
+      "summary": "验证普通结构化输出保持自动工具选择。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsToolSearchBeta_when_requestUsesDeferredTools",
+      "type": "function",
+      "name": "test_addsToolSearchBeta_when_requestUsesDeferredTools",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        669,
+        690
+      ],
+      "summary": "验证延迟工具定义自动补充工具搜索 beta。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_mapsWebSearchToCustomTool_when_requestUsesAnthropicServerTool",
+      "type": "function",
+      "name": "test_mapsWebSearchToCustomTool_when_requestUsesAnthropicServerTool",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        692,
+        732
+      ],
+      "summary": "验证服务端网页搜索映射为可执行自定义工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsWebSearchDomainFilters_when_allowedAndBlockedDomainsAreCombined",
+      "type": "function",
+      "name": "test_rejectsWebSearchDomainFilters_when_allowedAndBlockedDomainsAreCombined",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        734,
+        754
+      ],
+      "summary": "验证拒绝同时使用允许与禁止域名过滤。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsDeferredTools_when_noToolIsImmediatelyLoaded",
+      "type": "function",
+      "name": "test_rejectsDeferredTools_when_noToolIsImmediatelyLoaded",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        756,
+        773
+      ],
+      "summary": "验证拒绝所有工具都处于延迟加载的请求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsDuplicateToolName_when_toolsReuseName",
+      "type": "function",
+      "name": "test_rejectsDuplicateToolName_when_toolsReuseName",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        775,
+        794
+      ],
+      "summary": "验证拒绝重名工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsNonBooleanToolOption_when_deferLoadingIsString",
+      "type": "function",
+      "name": "test_rejectsNonBooleanToolOption_when_deferLoadingIsString",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        796,
+        816
+      ],
+      "summary": "验证拒绝非布尔的延迟加载配置。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsInputExamples_when_valueIsNotArray",
+      "type": "function",
+      "name": "test_rejectsInputExamples_when_valueIsNotArray",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        818,
+        837
+      ],
+      "summary": "验证拒绝非数组 input_examples。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsCustomTool_when_inputSchemaIsNotObjectSchema",
+      "type": "function",
+      "name": "test_rejectsCustomTool_when_inputSchemaIsNotObjectSchema",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "lineRange": [
+        839,
+        857
+      ],
+      "summary": "验证拒绝非对象 schema 的自定义工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "type": "file",
+      "name": "ClaudeConversationContextOptimizerTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "summary": "验证 Messages 对话上下文优化的思考保留、工具结果清理和安全阈值，以及重复成功工具调用的纠正与拒绝规则。",
+      "tags": [
+        "测试",
+        "上下文管理",
+        "工具调用",
+        "重复检测"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:ClaudeConversationContextOptimizerTest",
+      "type": "class",
+      "name": "ClaudeConversationContextOptimizerTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        11,
+        332
+      ],
+      "summary": "验证 Messages 对话上下文优化的思考保留、工具结果清理和安全阈值，以及重复成功工具调用的纠正与拒绝规则。",
+      "tags": [
+        "测试",
+        "上下文管理",
+        "工具调用",
+        "重复检测"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsOlderThinking_when_keepLastThinkingTurnConfigured",
+      "type": "function",
+      "name": "test_clearsOlderThinking_when_keepLastThinkingTurnConfigured",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        15,
+        41
+      ],
+      "summary": "验证仅保留配置指定的最近思考轮次。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsAllThinking_when_compactionIsRequested",
+      "type": "function",
+      "name": "test_clearsAllThinking_when_compactionIsRequested",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        43,
+        70
+      ],
+      "summary": "验证压缩请求清除所有历史思考。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsOldToolResult_when_toolUseThresholdExceeded",
+      "type": "function",
+      "name": "test_clearsOldToolResult_when_toolUseThresholdExceeded",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        72,
+        91
+      ],
+      "summary": "验证工具调用阈值触发旧工具结果清理。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_preservesExcludedToolResult_when_contextClearingRuns",
+      "type": "function",
+      "name": "test_preservesExcludedToolResult_when_contextClearingRuns",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        93,
+        113
+      ],
+      "summary": "验证清理时保留排除列表中的工具结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_rejectsNextModelCall_when_sameSuccessfulToolCallRepeatedThreeTimes",
+      "type": "function",
+      "name": "test_rejectsNextModelCall_when_sameSuccessfulToolCallRepeatedThreeTimes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        115,
+        124
+      ],
+      "summary": "验证三次重复成功调用后拒绝下一模型调用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_addsCorrectiveInstruction_when_sameSuccessfulToolCallRepeatedTwice",
+      "type": "function",
+      "name": "test_addsCorrectiveInstruction_when_sameSuccessfulToolCallRepeatedTwice",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        126,
+        138
+      ],
+      "summary": "验证两次重复成功调用后加入纠正指令。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_rejectsNextModelCall_when_bashCommandRepeatsWithDifferentDescriptions",
+      "type": "function",
+      "name": "test_rejectsNextModelCall_when_bashCommandRepeatsWithDifferentDescriptions",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        140,
+        158
+      ],
+      "summary": "验证描述不同但命令相同仍计为 Bash 重复。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_rejectsNextModelCall_when_sameReadIntentRepeatsWithDifferentArguments",
+      "type": "function",
+      "name": "test_rejectsNextModelCall_when_sameReadIntentRepeatsWithDifferentArguments",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        160,
+        178
+      ],
+      "summary": "验证Read 参数不同但意图相同仍被识别为重复。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_addsCorrectiveInstruction_when_sameReadIntentRepeatsAcrossTwoTurns",
+      "type": "function",
+      "name": "test_addsCorrectiveInstruction_when_sameReadIntentRepeatsAcrossTwoTurns",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        180,
+        198
+      ],
+      "summary": "验证跨两轮的相同读取意图触发纠正。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_allowsModelCall_when_multipleReadsRunInSameAssistantTurn",
+      "type": "function",
+      "name": "test_allowsModelCall_when_multipleReadsRunInSameAssistantTurn",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        200,
+        224
+      ],
+      "summary": "验证同一助手轮次的多个读取不误触发重复保护。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_allowsModelCall_when_readIntentDescribesDistinctInvestigationSteps",
+      "type": "function",
+      "name": "test_allowsModelCall_when_readIntentDescribesDistinctInvestigationSteps",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        226,
+        245
+      ],
+      "summary": "验证读取意图对应不同调查步骤时允许继续。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsOldToolResultByDefault_when_contextExceedsSafetyThreshold",
+      "type": "function",
+      "name": "test_clearsOldToolResultByDefault_when_contextExceedsSafetyThreshold",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        247,
+        271
+      ],
+      "summary": "验证超过安全上下文阈值时默认清理旧工具结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_allowsModelCall_when_successfulToolCallsDiffer",
+      "type": "function",
+      "name": "test_allowsModelCall_when_successfulToolCallsDiffer",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        273,
+        283
+      ],
+      "summary": "验证不同成功工具调用允许继续。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_resetsRepeatedCallCounter_when_newUserInstructionStarts",
+      "type": "function",
+      "name": "test_resetsRepeatedCallCounter_when_newUserInstructionStarts",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        285,
+        306
+      ],
+      "summary": "验证新的用户指令重置重复调用计数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:toolHistory",
+      "type": "function",
+      "name": "toolHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        308,
+        317
+      ],
+      "summary": "构造指定数量的工具调用及成功结果历史。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:repeatedToolHistory",
+      "type": "function",
+      "name": "repeatedToolHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "lineRange": [
+        319,
+        331
+      ],
+      "summary": "构造重复成功工具调用的对话历史以检查重复保护。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "type": "file",
+      "name": "ClaudeMessagesOpenAIChatConversionTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "summary": "验证 Messages 到 Chat Completions 的请求转换，覆盖文本与工具结果重排、推理配置、原生工具名称、文档支持及拒绝不支持的能力。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "工具调用",
+        "推理配置"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:ClaudeMessagesOpenAIChatConversionTest",
+      "type": "class",
+      "name": "ClaudeMessagesOpenAIChatConversionTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        13,
+        486
+      ],
+      "summary": "验证 Messages 到 Chat Completions 的请求转换，覆盖文本与工具结果重排、推理配置、原生工具名称、文档支持及拒绝不支持的能力。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "工具调用",
+        "推理配置"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_preservesClaudeToolCalling_when_convertingToChatCompletions",
+      "type": "function",
+      "name": "test_preservesClaudeToolCalling_when_convertingToChatCompletions",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        19,
+        41
+      ],
+      "summary": "验证Messages 工具调用映射为 Chat 且保留服务层级。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_mapsClaudeBase64Document_when_chatSupportsFileContentParts",
+      "type": "function",
+      "name": "test_mapsClaudeBase64Document_when_chatSupportsFileContentParts",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        43,
+        61
+      ],
+      "summary": "验证Base64 文档映射为 Chat 文件内容。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_rejectsClaudeMcpToolset_when_chatHasNoNativeMcpToolType",
+      "type": "function",
+      "name": "test_rejectsClaudeMcpToolset_when_chatHasNoNativeMcpToolType",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        63,
+        75
+      ],
+      "summary": "验证无法原生表达的 MCP 工具集被明确拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_placesToolRepliesImmediatelyAfterAssistantCalls_when_userContentIntervenes",
+      "type": "function",
+      "name": "test_placesToolRepliesImmediatelyAfterAssistantCalls_when_userContentIntervenes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        77,
+        107
+      ],
+      "summary": "验证工具回复被移动到对应助手调用之后。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_dropsOrphanToolReply_when_assistantCallIsMissing",
+      "type": "function",
+      "name": "test_dropsOrphanToolReply_when_assistantCallIsMissing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        109,
+        129
+      ],
+      "summary": "验证缺少助手调用的孤立工具结果被丢弃。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_filtersBillingHeaderAndSeparatesTextBlocks_when_systemIsStructured",
+      "type": "function",
+      "name": "test_filtersBillingHeaderAndSeparatesTextBlocks_when_systemIsStructured",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        131,
+        151
+      ],
+      "summary": "验证系统计费头被过滤且文本块正确分隔。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_separatesAssistantTextBlocks_when_multipleBlocksArePresent",
+      "type": "function",
+      "name": "test_separatesAssistantTextBlocks_when_multipleBlocksArePresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        153,
+        171
+      ],
+      "summary": "验证多个助手文本块以空行分隔。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_usesEmptyPlaceholder_when_toolResultHasNoText",
+      "type": "function",
+      "name": "test_usesEmptyPlaceholder_when_toolResultHasNoText",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        173,
+        195
+      ],
+      "summary": "验证无文本工具结果使用空结果占位。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_skipsEmptyImages_when_sourceHasNoData",
+      "type": "function",
+      "name": "test_skipsEmptyImages_when_sourceHasNoData",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        197,
+        215
+      ],
+      "summary": "验证缺少数据的图像块被跳过。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_appliesChatTokenFloor_when_claudeLimitIsTooSmall",
+      "type": "function",
+      "name": "test_appliesChatTokenFloor_when_claudeLimitIsTooSmall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        217,
+        229
+      ],
+      "summary": "验证过小 Token 限制采用 Chat 最低值。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold",
+      "type": "function",
+      "name": "test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        231,
+        244
+      ],
+      "summary": "验证预算推导 effort 最高为 high。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_defaultsReasoningEffortToMedium_when_targetIsReasoningModel",
+      "type": "function",
+      "name": "test_defaultsReasoningEffortToMedium_when_targetIsReasoningModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        246,
+        258
+      ],
+      "summary": "验证推理模型缺省 effort 为 medium。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_replaysThinkingAsReasoningContent_when_assistantTurnCallsTool",
+      "type": "function",
+      "name": "test_replaysThinkingAsReasoningContent_when_assistantTurnCallsTool",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        260,
+        283
+      ],
+      "summary": "验证助手调用工具时回放思考为 reasoning_content。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_omitsThinkingFromReasoningContent_when_assistantTurnHasNoToolCall",
+      "type": "function",
+      "name": "test_omitsThinkingFromReasoningContent_when_assistantTurnHasNoToolCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        285,
+        303
+      ],
+      "summary": "验证助手未调用工具时不回放思考。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_foldsUserTextBlocksToString_when_contentHasNoImage",
+      "type": "function",
+      "name": "test_foldsUserTextBlocksToString_when_contentHasNoImage",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        305,
+        324
+      ],
+      "summary": "验证无图像用户文本合并为字符串。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_keepsUserContentAsParts_when_imageIsPresent",
+      "type": "function",
+      "name": "test_keepsUserContentAsParts_when_imageIsPresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        326,
+        349
+      ],
+      "summary": "验证含图像用户内容保留分块形式。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_mergesToolResultImagesIntoUserMessage_when_resultContainsImage",
+      "type": "function",
+      "name": "test_mergesToolResultImagesIntoUserMessage_when_resultContainsImage",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        351,
+        383
+      ],
+      "summary": "验证工具结果图像并入用户消息。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_skipsServerToolHistory_when_chatHasNoHostedToolEquivalent",
+      "type": "function",
+      "name": "test_skipsServerToolHistory_when_chatHasNoHostedToolEquivalent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        385,
+        412
+      ],
+      "summary": "验证不支持的服务器工具历史被跳过。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_dropsWebSearchServerTool_when_chatHasNoHostedSearch",
+      "type": "function",
+      "name": "test_dropsWebSearchServerTool_when_chatHasNoHostedSearch",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        414,
+        436
+      ],
+      "summary": "验证无托管搜索支持时移除服务器搜索工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_omitsToolsField_when_onlyServerSearchToolsArePresent",
+      "type": "function",
+      "name": "test_omitsToolsField_when_onlyServerSearchToolsArePresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        438,
+        457
+      ],
+      "summary": "验证仅有服务器搜索工具时省略 tools 字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_dropsNamedToolChoice_when_toolIsUndeclared",
+      "type": "function",
+      "name": "test_dropsNamedToolChoice_when_toolIsUndeclared",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "lineRange": [
+        459,
+        476
+      ],
+      "summary": "验证未声明工具对应的特定选择被移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "type": "file",
+      "name": "ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "summary": "验证 Messages 与 Responses 双向请求和响应转换，覆盖工具与文件、推理签名、思考预算、模型能力、缓存用量、上下文压缩及停止原因。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "推理状态",
+        "兼容性"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:ClaudeMessagesOpenAIResponsesConversionTest",
+      "type": "class",
+      "name": "ClaudeMessagesOpenAIResponsesConversionTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        15,
+        1448
+      ],
+      "summary": "验证 Messages 与 Responses 双向请求和响应转换，覆盖工具与文件、推理签名、思考预算、模型能力、缓存用量、上下文压缩及停止原因。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "推理状态",
+        "兼容性"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsStreamingClaudeToolsAndToolResults_when_convertingToResponsesRequest",
+      "type": "function",
+      "name": "test_mapsStreamingClaudeToolsAndToolResults_when_convertingToResponsesRequest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        19,
+        56
+      ],
+      "summary": "验证流式 Messages 工具与工具结果映射为 Responses 请求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsCompletionStatus_when_claudeToolResultReportsError",
+      "type": "function",
+      "name": "test_omitsCompletionStatus_when_claudeToolResultReportsError",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        58,
+        89
+      ],
+      "summary": "验证失败工具结果不错误标记完成状态。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_acceptsNoopClearThinkingContextManagement_when_claudeCodeUsesResponses",
+      "type": "function",
+      "name": "test_acceptsNoopClearThinkingContextManagement_when_claudeCodeUsesResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        91,
+        118
+      ],
+      "summary": "验证无操作的思考清理配置可兼容转换。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsInvalidThinkingKeepPolicy_when_keepIsNone",
+      "type": "function",
+      "name": "test_rejectsInvalidThinkingKeepPolicy_when_keepIsNone",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        120,
+        138
+      ],
+      "summary": "验证非法思考保留策略被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_clearsOldToolResultLocally_when_responsesCannotApplyClaudeContextEditing",
+      "type": "function",
+      "name": "test_clearsOldToolResultLocally_when_responsesCannotApplyClaudeContextEditing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        140,
+        174
+      ],
+      "summary": "验证Responses 无原生上下文编辑时在本地清理工具结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsNonStreamingFunctionCall_when_responsesTargetsClaude",
+      "type": "function",
+      "name": "test_mapsNonStreamingFunctionCall_when_responsesTargetsClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        176,
+        211
+      ],
+      "summary": "验证Responses 非流式函数调用映射为 Messages。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_doesNotForceReasoningOrVerbosity_when_claudeDidNotRequestThem",
+      "type": "function",
+      "name": "test_doesNotForceReasoningOrVerbosity_when_claudeDidNotRequestThem",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        213,
+        230
+      ],
+      "summary": "验证客户端未请求时不强制推理或详细程度。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsLatestClaudeOutputToolsFilesAndMcpSchemas_when_convertingToResponses",
+      "type": "function",
+      "name": "test_mapsLatestClaudeOutputToolsFilesAndMcpSchemas_when_convertingToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        232,
+        278
+      ],
+      "summary": "验证新版工具、文件和 MCP schema 得到映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsBase64DocumentMediaTypeAndContext_when_convertingToResponses",
+      "type": "function",
+      "name": "test_mapsBase64DocumentMediaTypeAndContext_when_convertingToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        280,
+        305
+      ],
+      "summary": "验证Base64 文档的媒体类型与上下文被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsImageFileId_when_claudeImageReferencesUploadedFile",
+      "type": "function",
+      "name": "test_mapsImageFileId_when_claudeImageReferencesUploadedFile",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        307,
+        328
+      ],
+      "summary": "验证上传图像的 file_id 得到映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_flattensContentDocument_when_claudeSendsInlineDocumentBlocks",
+      "type": "function",
+      "name": "test_flattensContentDocument_when_claudeSendsInlineDocumentBlocks",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        330,
+        352
+      ],
+      "summary": "验证内联文档内容被展开。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsReasoningSummary_when_claudeThinkingDisplayIsOmitted",
+      "type": "function",
+      "name": "test_omitsReasoningSummary_when_claudeThinkingDisplayIsOmitted",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        354,
+        374
+      ],
+      "summary": "验证思考显示被省略时不请求推理摘要。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsFastModeAndRejectsUnknownFields_when_claudeRequestContainsUnsupportedFields",
+      "type": "function",
+      "name": "test_mapsFastModeAndRejectsUnknownFields_when_claudeRequestContainsUnsupportedFields",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        376,
+        396
+      ],
+      "summary": "验证fast 模式被映射且未知字段被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsDeprecatedClaudeOutputFormatAndPriorityTier_whenConvertingToResponses",
+      "type": "function",
+      "name": "test_mapsDeprecatedClaudeOutputFormatAndPriorityTier_whenConvertingToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        398,
+        415
+      ],
+      "summary": "验证旧输出格式与 priority 服务层级被映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsDefaultAutoServiceTier_whenConvertingToResponses",
+      "type": "function",
+      "name": "test_omitsDefaultAutoServiceTier_whenConvertingToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        417,
+        432
+      ],
+      "summary": "验证缺省 auto 服务层级被省略。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_normalizesSchemaOnlyOutputFormat_whenConvertingToResponses",
+      "type": "function",
+      "name": "test_normalizesSchemaOnlyOutputFormat_whenConvertingToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        434,
+        452
+      ],
+      "summary": "验证仅含 schema 的输出格式被规范化。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesResponsesToolCallsAndReasoning_whenConvertingToChatResponse",
+      "type": "function",
+      "name": "test_preservesResponsesToolCallsAndReasoning_whenConvertingToChatResponse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        454,
+        480
+      ],
+      "summary": "验证Responses 工具和推理保留到 Chat 响应。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesTextAndToolOrdering_when_assistantContentIsInterleaved",
+      "type": "function",
+      "name": "test_preservesTextAndToolOrdering_when_assistantContentIsInterleaved",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        482,
+        504
+      ],
+      "summary": "验证交错的助手文本与工具保持顺序。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_roundTripsEncryptedResponsesReasoning_when_claudeThinkingSignatureIsUsed",
+      "type": "function",
+      "name": "test_roundTripsEncryptedResponsesReasoning_when_claudeThinkingSignatureIsUsed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        506,
+        540
+      ],
+      "summary": "验证加密推理经思考签名可往返恢复。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_roundTripsProviderHostedToolState_when_opaqueClaudeSignatureIsUsed",
+      "type": "function",
+      "name": "test_roundTripsProviderHostedToolState_when_opaqueClaudeSignatureIsUsed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        542,
+        576
+      ],
+      "summary": "验证托管工具状态经不透明签名可往返恢复。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesCommentaryPhase_when_assistantTextPrecedesToolUse",
+      "type": "function",
+      "name": "test_preservesCommentaryPhase_when_assistantTextPrecedesToolUse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        578,
+        598
+      ],
+      "summary": "验证工具前的助手文本保留 commentary 阶段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsDeferredFunctionAndToolSearch_when_targetIsGpt54OrLater",
+      "type": "function",
+      "name": "test_mapsDeferredFunctionAndToolSearch_when_targetIsGpt54OrLater",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        600,
+        624
+      ],
+      "summary": "验证支持的模型映射延迟函数与工具搜索。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsMaxEffortAndAllTurnsContext_when_encryptedReasoningIsReplayed",
+      "type": "function",
+      "name": "test_mapsMaxEffortAndAllTurnsContext_when_encryptedReasoningIsReplayed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        626,
+        652
+      ],
+      "summary": "验证加密推理回放保留 max effort 和全轮次上下文。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsForeignThinkingState_when_replayingHistoryToResponses",
+      "type": "function",
+      "name": "test_omitsForeignThinkingState_when_replayingHistoryToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        654,
+        679
+      ],
+      "summary": "验证外部不兼容思考状态被省略。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold",
+      "type": "function",
+      "name": "test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        681,
+        699
+      ],
+      "summary": "验证预算推导 effort 最高为 high。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56",
+      "type": "function",
+      "name": "test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        701,
+        719
+      ],
+      "summary": "验证旧目标模型将 max 降为 xhigh。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsThinkingToReasoning_when_targetIsNextGptGenerationVariant",
+      "type": "function",
+      "name": "test_mapsThinkingToReasoning_when_targetIsNextGptGenerationVariant",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        721,
+        740
+      ],
+      "summary": "验证新一代模型变体支持思考推理映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsSamplingParameters_when_targetIsNextGptGenerationVariant",
+      "type": "function",
+      "name": "test_omitsSamplingParameters_when_targetIsNextGptGenerationVariant",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        742,
+        761
+      ],
+      "summary": "验证新一代模型变体省略不支持采样字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_keepsMaxEffort_when_targetIsNextGptGeneration",
+      "type": "function",
+      "name": "test_keepsMaxEffort_when_targetIsNextGptGeneration",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        763,
+        781
+      ],
+      "summary": "验证新一代模型保留 max effort。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_persistsReasoningContext_when_nextGptGenerationReplaysReasoningState",
+      "type": "function",
+      "name": "test_persistsReasoningContext_when_nextGptGenerationReplaysReasoningState",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        783,
+        808
+      ],
+      "summary": "验证新一代模型重放推理时保留上下文。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsThinking_when_targetIsLegacyNonReasoningGptModel",
+      "type": "function",
+      "name": "test_rejectsThinking_when_targetIsLegacyNonReasoningGptModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        810,
+        826
+      ],
+      "summary": "验证旧非推理模型拒绝思考配置。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsCacheOnlyRequest_when_responsesCannotMatchClaudeWarmupSemantics",
+      "type": "function",
+      "name": "test_rejectsCacheOnlyRequest_when_responsesCannotMatchClaudeWarmupSemantics",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        828,
+        844
+      ],
+      "summary": "验证仅缓存预热请求无法保持语义时被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesOutputItemOrder_when_claudeResponseInterleavesTextAndToolUse",
+      "type": "function",
+      "name": "test_preservesOutputItemOrder_when_claudeResponseInterleavesTextAndToolUse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        846,
+        872
+      ],
+      "summary": "验证文本与工具交错响应保持输出项顺序。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_addsIncompleteDetails_when_claudeStopsAtMaxTokens",
+      "type": "function",
+      "name": "test_addsIncompleteDetails_when_claudeStopsAtMaxTokens",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        874,
+        895
+      ],
+      "summary": "验证最大 Token 停止生成 incomplete_details。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesContextWindowStopReason_when_claudeExceedsModelContext",
+      "type": "function",
+      "name": "test_preservesContextWindowStopReason_when_claudeExceedsModelContext",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        897,
+        919
+      ],
+      "summary": "验证上下文窗口耗尽原因被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_completesResponse_when_claudePausesServerToolLoop",
+      "type": "function",
+      "name": "test_completesResponse_when_claudePausesServerToolLoop",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        921,
+        941
+      ],
+      "summary": "验证服务器工具循环暂停时生成完成响应。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsRefusalContent_when_claudeRefusesResponse",
+      "type": "function",
+      "name": "test_mapsRefusalContent_when_claudeRefusesResponse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        943,
+        964
+      ],
+      "summary": "验证拒绝响应映射为 refusal 内容。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_tunnelsNativeSignatureThroughEncryptedContent_when_claudeThinkingSignatureIsNative",
+      "type": "function",
+      "name": "test_tunnelsNativeSignatureThroughEncryptedContent_when_claudeThinkingSignatureIsNative",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        966,
+        990
+      ],
+      "summary": "验证原生思考签名通过 encrypted_content 传递。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_restoresEncryptedContent_when_claudeThinkingCarriesResponsesSignature",
+      "type": "function",
+      "name": "test_restoresEncryptedContent_when_claudeThinkingCarriesResponsesSignature",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        992,
+        1018
+      ],
+      "summary": "验证携带 Responses 签名的思考恢复加密内容。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesConversationId_when_claudeResponseHasContainer",
+      "type": "function",
+      "name": "test_preservesConversationId_when_claudeResponseHasContainer",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1020,
+        1041
+      ],
+      "summary": "验证容器中的会话标识被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsUnknownContentBlock_when_claudeResponseCannotBeMappedLosslessly",
+      "type": "function",
+      "name": "test_rejectsUnknownContentBlock_when_claudeResponseCannotBeMappedLosslessly",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1043,
+        1061
+      ],
+      "summary": "验证无法无损映射的未知内容块被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_bridgesRedactedThinkingThroughEncryptedContent_when_claudeResponseTargetsResponses",
+      "type": "function",
+      "name": "test_bridgesRedactedThinkingThroughEncryptedContent_when_claudeResponseTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1063,
+        1087
+      ],
+      "summary": "验证redacted_thinking 经加密内容桥接。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_convertsCompactionBlockToCompactionItem_when_claudeResponseTargetsResponses",
+      "type": "function",
+      "name": "test_convertsCompactionBlockToCompactionItem_when_claudeResponseTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1089,
+        1112
+      ],
+      "summary": "验证压缩块映射为 compaction 项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsCacheWriteTokens_when_claudeResponseUsageHasCacheCreation",
+      "type": "function",
+      "name": "test_mapsCacheWriteTokens_when_claudeResponseUsageHasCacheCreation",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1114,
+        1135
+      ],
+      "summary": "验证缓存创建用量映射为缓存写入 Token。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_convertsStructuredInputDirectly_when_responsesRequestTargetsClaude",
+      "type": "function",
+      "name": "test_convertsStructuredInputDirectly_when_responsesRequestTargetsClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1137,
+        1180
+      ],
+      "summary": "验证Responses 结构化输入直接映射为 Messages。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_restoresNativeThinkingBlock_when_responsesRequestReplaysBridgedReasoningState",
+      "type": "function",
+      "name": "test_restoresNativeThinkingBlock_when_responsesRequestReplaysBridgedReasoningState",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1182,
+        1212
+      ],
+      "summary": "验证桥接推理回放恢复原生思考块。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_dropsForeignReasoningState_when_responsesRequestCarriesOpenAIEncryptedContent",
+      "type": "function",
+      "name": "test_dropsForeignReasoningState_when_responsesRequestCarriesOpenAIEncryptedContent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1214,
+        1238
+      ],
+      "summary": "验证外部 OpenAI 加密推理状态被丢弃。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsReasoningEffortToThinkingBudget_when_responsesRequestTargetsClaude",
+      "type": "function",
+      "name": "test_mapsReasoningEffortToThinkingBudget_when_responsesRequestTargetsClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1240,
+        1264
+      ],
+      "summary": "验证推理 effort 映射为思考预算。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_convertsImageDataUriToBase64Source_when_responsesRequestTargetsClaude",
+      "type": "function",
+      "name": "test_convertsImageDataUriToBase64Source_when_responsesRequestTargetsClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1266,
+        1294
+      ],
+      "summary": "验证图像 data URI 映射为 Base64 来源。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsFileDataUriAndFilename_when_responsesRequestTargetsClaude",
+      "type": "function",
+      "name": "test_mapsFileDataUriAndFilename_when_responsesRequestTargetsClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1296,
+        1323
+      ],
+      "summary": "验证文件 data URI 与文件名正确映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsImageFileId_when_responsesRequestTargetsClaude",
+      "type": "function",
+      "name": "test_mapsImageFileId_when_responsesRequestTargetsClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1325,
+        1349
+      ],
+      "summary": "验证图像 file_id 映射为目标图像来源。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_infersDocumentMediaTypeFromFilename_when_responsesFileDataIsRawBase64",
+      "type": "function",
+      "name": "test_infersDocumentMediaTypeFromFilename_when_responsesFileDataIsRawBase64",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1351,
+        1375
+      ],
+      "summary": "验证原始 Base64 文件按扩展名推断媒体类型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsTextFormatToOutputConfig_when_responsesRequestUsesJsonSchema",
+      "type": "function",
+      "name": "test_mapsTextFormatToOutputConfig_when_responsesRequestUsesJsonSchema",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1377,
+        1400
+      ],
+      "summary": "验证JSON schema 文本格式映射为 output_config。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsStatefulRequest_when_responsesRequestUsesPreviousResponseId",
+      "type": "function",
+      "name": "test_rejectsStatefulRequest_when_responsesRequestUsesPreviousResponseId",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1402,
+        1417
+      ],
+      "summary": "验证带 previous_response_id 的状态请求被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_restoresNativeThinkingBlock_when_responsesResponseCarriesBridgedState",
+      "type": "function",
+      "name": "test_restoresNativeThinkingBlock_when_responsesResponseCarriesBridgedState",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "lineRange": [
+        1419,
+        1447
+      ],
+      "summary": "验证Responses 响应中的桥接状态恢复为原生思考。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:BedrockClaudeMessagesProtocolMessageConverterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_mapsOnlyBedrockSupportedBetaFeatures_when_claudeCodeCallsBedrockInvokeModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsContextManagementBeta_when_requestUsesToolUseClearing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsCompactionBeta_when_requestUsesServerCompaction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesFallbackCreditBeta_when_requestUsesFallbackCredit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsUnsupportedField_when_requestUsesClaudePlatformMcp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesBedrockExtensions_when_responseContainsProviderMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesNestedProviderPrefixedFields_when_responseContainsToolInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesConversationVerbatim_when_historyContainsRepeatedSuccessfulToolCalls",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_ignoresToolInputObjects_when_theyResembleMediaContentBlocks",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesBase64Image_when_requestUsesBedrockSupportedSource",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsImageSource_when_requestUsesUrl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsDocumentSource_when_requestUsesFileId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsComputerUseBeta_when_requestUsesLatestComputerTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsFineGrainedStreamingBeta_when_toolEnablesEagerInputStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsEffortBeta_when_outputConfigUsesEffort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesThinkingDisplay_when_claudeCodeCallsBedrockInvokeModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_wrapsStructuredOutputSchema_when_workflowRequiresRootArray",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_unwrapsStructuredOutputInput_when_bedrockReturnsWrappedArray",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_wrapsStructuredOutputHistory_when_followUpContainsRootArrayInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_forcesStructuredOutput_when_claudeCodeSendsEnforcementRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesClearThinkingEdit_when_structuredOutputRetryDisablesThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_removesContextManagement_when_structuredOutputRetryOnlyClearsThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_preservesAutomaticToolChoice_when_structuredOutputIsNotEnforcementRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_addsToolSearchBeta_when_requestUsesDeferredTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_mapsWebSearchToCustomTool_when_requestUsesAnthropicServerTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsWebSearchDomainFilters_when_allowedAndBlockedDomainsAreCombined",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsDeferredTools_when_noToolIsImmediatelyLoaded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsDuplicateToolName_when_toolsReuseName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsNonBooleanToolOption_when_deferLoadingIsString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsInputExamples_when_valueIsNotArray",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java:test_rejectsCustomTool_when_inputSchemaIsNotObjectSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:ClaudeConversationContextOptimizerTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsOlderThinking_when_keepLastThinkingTurnConfigured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsAllThinking_when_compactionIsRequested",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsOldToolResult_when_toolUseThresholdExceeded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_preservesExcludedToolResult_when_contextClearingRuns",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_rejectsNextModelCall_when_sameSuccessfulToolCallRepeatedThreeTimes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_addsCorrectiveInstruction_when_sameSuccessfulToolCallRepeatedTwice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_rejectsNextModelCall_when_bashCommandRepeatsWithDifferentDescriptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_rejectsNextModelCall_when_sameReadIntentRepeatsWithDifferentArguments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_addsCorrectiveInstruction_when_sameReadIntentRepeatsAcrossTwoTurns",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_allowsModelCall_when_multipleReadsRunInSameAssistantTurn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_allowsModelCall_when_readIntentDescribesDistinctInvestigationSteps",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_clearsOldToolResultByDefault_when_contextExceedsSafetyThreshold",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_allowsModelCall_when_successfulToolCallsDiffer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:test_resetsRepeatedCallCounter_when_newUserInstructionStarts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:toolHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java:repeatedToolHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:ClaudeMessagesOpenAIChatConversionTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_preservesClaudeToolCalling_when_convertingToChatCompletions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_mapsClaudeBase64Document_when_chatSupportsFileContentParts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_rejectsClaudeMcpToolset_when_chatHasNoNativeMcpToolType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_placesToolRepliesImmediatelyAfterAssistantCalls_when_userContentIntervenes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_dropsOrphanToolReply_when_assistantCallIsMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_filtersBillingHeaderAndSeparatesTextBlocks_when_systemIsStructured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_separatesAssistantTextBlocks_when_multipleBlocksArePresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_usesEmptyPlaceholder_when_toolResultHasNoText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_skipsEmptyImages_when_sourceHasNoData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_appliesChatTokenFloor_when_claudeLimitIsTooSmall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_defaultsReasoningEffortToMedium_when_targetIsReasoningModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_replaysThinkingAsReasoningContent_when_assistantTurnCallsTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_omitsThinkingFromReasoningContent_when_assistantTurnHasNoToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_foldsUserTextBlocksToString_when_contentHasNoImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_keepsUserContentAsParts_when_imageIsPresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_mergesToolResultImagesIntoUserMessage_when_resultContainsImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_skipsServerToolHistory_when_chatHasNoHostedToolEquivalent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_dropsWebSearchServerTool_when_chatHasNoHostedSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_omitsToolsField_when_onlyServerSearchToolsArePresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java:test_dropsNamedToolChoice_when_toolIsUndeclared",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIChatConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:ClaudeMessagesOpenAIResponsesConversionTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsStreamingClaudeToolsAndToolResults_when_convertingToResponsesRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsCompletionStatus_when_claudeToolResultReportsError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_acceptsNoopClearThinkingContextManagement_when_claudeCodeUsesResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsInvalidThinkingKeepPolicy_when_keepIsNone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_clearsOldToolResultLocally_when_responsesCannotApplyClaudeContextEditing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsNonStreamingFunctionCall_when_responsesTargetsClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_doesNotForceReasoningOrVerbosity_when_claudeDidNotRequestThem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsLatestClaudeOutputToolsFilesAndMcpSchemas_when_convertingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsBase64DocumentMediaTypeAndContext_when_convertingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsImageFileId_when_claudeImageReferencesUploadedFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_flattensContentDocument_when_claudeSendsInlineDocumentBlocks",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsReasoningSummary_when_claudeThinkingDisplayIsOmitted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsFastModeAndRejectsUnknownFields_when_claudeRequestContainsUnsupportedFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsDeprecatedClaudeOutputFormatAndPriorityTier_whenConvertingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsDefaultAutoServiceTier_whenConvertingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_normalizesSchemaOnlyOutputFormat_whenConvertingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesResponsesToolCallsAndReasoning_whenConvertingToChatResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesTextAndToolOrdering_when_assistantContentIsInterleaved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_roundTripsEncryptedResponsesReasoning_when_claudeThinkingSignatureIsUsed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_roundTripsProviderHostedToolState_when_opaqueClaudeSignatureIsUsed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesCommentaryPhase_when_assistantTextPrecedesToolUse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsDeferredFunctionAndToolSearch_when_targetIsGpt54OrLater",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsMaxEffortAndAllTurnsContext_when_encryptedReasoningIsReplayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsForeignThinkingState_when_replayingHistoryToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_capsBudgetDerivedReasoningEffortAtHigh_when_thinkingBudgetExceedsHighThreshold",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_downgradesMaxEffortToXhigh_when_targetPredatesGpt56",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsThinkingToReasoning_when_targetIsNextGptGenerationVariant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_omitsSamplingParameters_when_targetIsNextGptGenerationVariant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_keepsMaxEffort_when_targetIsNextGptGeneration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_persistsReasoningContext_when_nextGptGenerationReplaysReasoningState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsThinking_when_targetIsLegacyNonReasoningGptModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsCacheOnlyRequest_when_responsesCannotMatchClaudeWarmupSemantics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesOutputItemOrder_when_claudeResponseInterleavesTextAndToolUse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_addsIncompleteDetails_when_claudeStopsAtMaxTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesContextWindowStopReason_when_claudeExceedsModelContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_completesResponse_when_claudePausesServerToolLoop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsRefusalContent_when_claudeRefusesResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_tunnelsNativeSignatureThroughEncryptedContent_when_claudeThinkingSignatureIsNative",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_restoresEncryptedContent_when_claudeThinkingCarriesResponsesSignature",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_preservesConversationId_when_claudeResponseHasContainer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsUnknownContentBlock_when_claudeResponseCannotBeMappedLosslessly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_bridgesRedactedThinkingThroughEncryptedContent_when_claudeResponseTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_convertsCompactionBlockToCompactionItem_when_claudeResponseTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsCacheWriteTokens_when_claudeResponseUsageHasCacheCreation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_convertsStructuredInputDirectly_when_responsesRequestTargetsClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_restoresNativeThinkingBlock_when_responsesRequestReplaysBridgedReasoningState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_dropsForeignReasoningState_when_responsesRequestCarriesOpenAIEncryptedContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsReasoningEffortToThinkingBudget_when_responsesRequestTargetsClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_convertsImageDataUriToBase64Source_when_responsesRequestTargetsClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsFileDataUriAndFilename_when_responsesRequestTargetsClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsImageFileId_when_responsesRequestTargetsClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_infersDocumentMediaTypeFromFilename_when_responsesFileDataIsRawBase64",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_mapsTextFormatToOutputConfig_when_responsesRequestUsesJsonSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_rejectsStatefulRequest_when_responsesRequestUsesPreviousResponseId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java:test_restoresNativeThinkingBlock_when_responsesResponseCarriesBridgedState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeConversationContextOptimizer.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,583 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/dashboard-metric/api/dashboardMetricApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 142,
+      "nonEmptyLines": 132,
+      "functions": [
+        {
+          "name": "toTokenAmount",
+          "startLine": 17,
+          "endLine": 22,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "toFiniteNumber",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "toCredentialRanking",
+          "startLine": 29,
+          "endLine": 36,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "toFrontDashboard",
+          "startLine": 38,
+          "endLine": 51,
+          "params": [
+            "response"
+          ]
+        },
+        {
+          "name": "getFrontDashboard",
+          "startLine": 53,
+          "endLine": 64,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "getFrontKeyMetrics",
+          "startLine": 66,
+          "endLine": 93,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "getAdminDashboard",
+          "startLine": 95,
+          "endLine": 132,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "getUsageDistributions",
+          "startLine": 139,
+          "endLine": 142,
+          "params": [
+            "scope",
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getFrontDashboard",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "getFrontKeyMetrics",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "getAdminDashboard",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "getUsageDistributions",
+          "line": 139,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toTokenAmount",
+          "callee": "Number",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toTokenAmount",
+          "callee": "Number.isFinite",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toTokenAmount",
+          "callee": "Math.max",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toFiniteNumber",
+          "callee": "Number",
+          "lineNumber": 25
+        },
+        {
+          "caller": "toFiniteNumber",
+          "callee": "Number.isFinite",
+          "lineNumber": 26
+        },
+        {
+          "caller": "toCredentialRanking",
+          "callee": "toFiniteNumber",
+          "lineNumber": 34
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "toTokenAmount",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "toTokenAmount",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "toTokenAmount",
+          "lineNumber": 44
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "toTokenAmount",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "Number.isFinite",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toFrontDashboard",
+          "callee": "response.recentCalls.map",
+          "lineNumber": 49
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "await apiClient.get",
+          "lineNumber": 56
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "resolveTimeZone",
+          "lineNumber": 58
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "toFrontDashboard",
+          "lineNumber": 62
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "resolveTimeZone",
+          "lineNumber": 70
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "params.credentialIds.join",
+          "lineNumber": 76
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "await apiClient.get",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "Array.isArray",
+          "lineNumber": 83
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "data.dailyTopCredentials.map",
+          "lineNumber": 84
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "Array.isArray",
+          "lineNumber": 86
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "data.monthlyTopCredentials.map",
+          "lineNumber": 87
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "Array.isArray",
+          "lineNumber": 89
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "Array.isArray",
+          "lineNumber": 90
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "await apiClient.get",
+          "lineNumber": 98
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "resolveTimeZone",
+          "lineNumber": 100
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 106
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "data.protocolRequestRates.map((rate) => ({\n            protocol: String(rate?.protocol ?? ''),\n            requestCount: toFiniteNumber(rate?.requestCount),\n            requestsPerMinute: toFiniteNumber(rate?.requestsPerMinute),\n          })).filter",
+          "lineNumber": 107
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "data.protocolRequestRates.map",
+          "lineNumber": 107
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "String",
+          "lineNumber": 108
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toFiniteNumber",
+          "lineNumber": 109
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toFiniteNumber",
+          "lineNumber": 110
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toTokenAmount",
+          "lineNumber": 113
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toTokenAmount",
+          "lineNumber": 114
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 115
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 116
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 117
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 118
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 119
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "Array.isArray",
+          "lineNumber": 120
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "data.dailySlowestChannels.map",
+          "lineNumber": 121
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toFiniteNumber",
+          "lineNumber": 125
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toFiniteNumber",
+          "lineNumber": 126
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "toFiniteNumber",
+          "lineNumber": 127
+        },
+        {
+          "caller": "getUsageDistributions",
+          "callee": "await apiClient.get",
+          "lineNumber": 141
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/dashboard-metric/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 144,
+      "nonEmptyLines": 127,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/dashboard-metric/model/useDashboardMetrics.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "useFrontDashboardMetrics",
+          "startLine": 15,
+          "endLine": 25,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "useFrontKeyMetrics",
+          "startLine": 27,
+          "endLine": 37,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "useAdminDashboardMetrics",
+          "startLine": 39,
+          "endLine": 49,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "useUsageDistributions",
+          "startLine": 51,
+          "endLine": 56,
+          "params": [
+            "scope",
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DASHBOARD_METRICS_QUERY_KEY",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "useFrontDashboardMetrics",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "useFrontKeyMetrics",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "useAdminDashboardMetrics",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "useUsageDistributions",
+          "line": 51,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useFrontDashboardMetrics",
+          "callee": "useQuery",
+          "lineNumber": 18
+        },
+        {
+          "caller": "useFrontDashboardMetrics",
+          "callee": "getFrontDashboard",
+          "lineNumber": 21
+        },
+        {
+          "caller": "useFrontKeyMetrics",
+          "callee": "useQuery",
+          "lineNumber": 30
+        },
+        {
+          "caller": "useFrontKeyMetrics",
+          "callee": "getFrontKeyMetrics",
+          "lineNumber": 33
+        },
+        {
+          "caller": "useAdminDashboardMetrics",
+          "callee": "useQuery",
+          "lineNumber": 42
+        },
+        {
+          "caller": "useAdminDashboardMetrics",
+          "callee": "getAdminDashboard",
+          "lineNumber": 45
+        },
+        {
+          "caller": "useUsageDistributions",
+          "callee": "useQuery",
+          "lineNumber": 52
+        },
+        {
+          "caller": "useUsageDistributions",
+          "callee": "getUsageDistributions",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/dashboard-metric/ui/SlowestChannelTable.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 97,
+      "nonEmptyLines": 91,
+      "functions": [
+        {
+          "name": "formatDurationMillis",
+          "startLine": 20,
+          "endLine": 29,
+          "params": [
+            "millis"
+          ]
+        },
+        {
+          "name": "SlowestChannelTable",
+          "startLine": 31,
+          "endLine": 97,
+          "params": [
+            "{ items, title, loading = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "formatDurationMillis",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "SlowestChannelTable",
+          "line": 31,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatDurationMillis",
+          "callee": "Number",
+          "lineNumber": 21
+        },
+        {
+          "caller": "formatDurationMillis",
+          "callee": "Number.isFinite",
+          "lineNumber": 22
+        },
+        {
+          "caller": "formatDurationMillis",
+          "callee": "Math.round",
+          "lineNumber": 26
+        },
+        {
+          "caller": "formatDurationMillis",
+          "callee": "(value / 1000).toFixed",
+          "lineNumber": 28
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "String",
+          "lineNumber": 45
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "formatDurationMillis",
+          "lineNumber": 54
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "formatDurationMillis",
+          "lineNumber": 61
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "formatDurationMillis",
+          "lineNumber": 68
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "(item.requestCount ?? 0).toLocaleString",
+          "lineNumber": 75
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "String",
+          "lineNumber": 89
+        },
+        {
+          "caller": "SlowestChannelTable",
+          "callee": "items.slice",
+          "lineNumber": 91
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

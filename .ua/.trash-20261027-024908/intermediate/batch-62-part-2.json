@@ -1,0 +1,171 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "type": "file",
+      "name": "TokenQuotaService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "summary": "在网关准入短事务中锁定密钥及模型组，按适用规则和当前周期检查额度。另可计算白名单内受限模型，支持所有模型共用规则或指定模型规则。",
+      "tags": [
+        "统一配额",
+        "事务锁定",
+        "周期用量"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:TokenQuotaService",
+      "type": "class",
+      "name": "TokenQuotaService",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "summary": "在网关准入短事务中锁定密钥及模型组，按适用规则和当前周期检查额度。另可计算白名单内受限模型，支持所有模型共用规则或指定模型规则。",
+      "tags": [
+        "统一配额",
+        "事务锁定",
+        "周期用量"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        52
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:lockCredential",
+      "type": "function",
+      "name": "lockCredential",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "summary": "在必需的现有事务内锁定密钥行并重新读取最新密钥，不存在时报告认证失效。",
+      "tags": [
+        "业务方法",
+        "统一配额",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        28
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:assertAvailable",
+      "type": "function",
+      "name": "assertAvailable",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "summary": "锁定模型组，逐条检查适用于请求模型的配额规则和当前周期用量，超额时抛出带重置时刻的配额异常。",
+      "tags": [
+        "业务方法",
+        "统一配额",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        30,
+        41
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:limitedModels",
+      "type": "function",
+      "name": "limitedModels",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "summary": "读取已启用规则的周期用量，将已耗尽的通用规则展开为全部白名单模型，指定模型规则仅加入白名单交集。",
+      "tags": [
+        "业务方法",
+        "统一配额",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        43,
+        51
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:TokenQuotaService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:TokenQuotaService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:lockCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:lockCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:assertAvailable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:assertAvailable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:limitedModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java:limitedModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "type": "file",
+      "name": "modelGroupApi.ts",
+      "filePath": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "summary": "封装模型组列表读取及后台创建、更新、删除请求，统一将后端标识和数值映射规范化，补齐白名单、实际支持模型、日限额与限流状态的默认值。",
+      "tags": [
+        "模型组接口",
+        "响应归一化",
+        "前端实体"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:normalizeGroup",
+      "type": "function",
+      "name": "normalizeGroup",
+      "filePath": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "summary": "将模型组标识转为字符串，补齐缺失名称与集合，将日限额和日用量映射转换为数值，并保留时间戳。",
+      "tags": [
+        "业务方法",
+        "模型组接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        35
+      ]
+    },
+    {
+      "id": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:listModelGroups",
+      "type": "function",
+      "name": "listModelGroups",
+      "filePath": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "summary": "调用用户模型组列表接口，并逐项规范化返回的模型组数据。",
+      "tags": [
+        "业务方法",
+        "模型组接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        37,
+        40
+      ]
+    },
+    {
+      "id": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:createModelGroup",
+      "type": "function",
+      "name": "createModelGroup",
+      "filePath": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "summary": "向管理员模型组接口提交名称和白名单，规范化新建模型组响应。",
+      "tags": [
+        "业务方法",
+        "模型组接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        42,
+        45
+      ]
+    },
+    {
+      "id": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:updateModelGroup",
+      "type": "function",
+      "name": "updateModelGroup",
+      "filePath": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "summary": "编码模型组标识并提交后台更新请求，规范化返回的模型组。",
+      "tags": [
+        "业务方法",
+        "模型组接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        50
+      ]
+    },
+    {
+      "id": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:deleteModelGroup",
+      "type": "function",
+      "name": "deleteModelGroup",
+      "filePath": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "summary": "编码模型组标识并调用后台删除接口。",
+      "tags": [
+        "业务方法",
+        "模型组接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        54
+      ]
+    },
+    {
+      "id": "file:frontend/src/entities/model-group/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/entities/model-group/model/types.ts",
+      "summary": "定义模型组响应、日限额映射及下拉选项类型；保存请求仅包含名称与模型白名单，响应仍展示跨组内密钥的加权日用量和限流信息。",
+      "tags": [
+        "类型定义",
+        "模型组",
+        "额度展示"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:normalizeGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:listModelGroups",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:listModelGroups",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:createModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:createModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:updateModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:updateModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:deleteModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:deleteModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "target": "file:frontend/src/entities/model-group/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:createModelGroup",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:normalizeGroup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:updateModelGroup",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:normalizeGroup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:listModelGroups",
+      "target": "function:frontend/src/entities/model-group/api/modelGroupApi.ts:normalizeGroup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

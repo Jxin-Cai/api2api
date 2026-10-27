@@ -1,0 +1,436 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "type": "file",
+      "name": "apiCredentialApi.ts",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "summary": "封装 API 凭据的列表、创建、明文查看及属性和状态变更，统一标识、配额和计量响应字段。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "响应规范化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "function",
+      "name": "normalizeCredential",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        41,
+        60
+      ],
+      "summary": "将后端凭据标识、配额及用量规范化为前端类型，并为缺省集合与状态设置默认值。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:listApiCredentials",
+      "type": "function",
+      "name": "listApiCredentials",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        66,
+        73
+      ],
+      "summary": "附带浏览器时区查询凭据列表，并逐项规范化响应。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:createApiCredential",
+      "type": "function",
+      "name": "createApiCredential",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        75,
+        86
+      ],
+      "summary": "提交凭据创建请求，将凭据信息和一次性明文密钥合并为前端响应。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:revealApiCredentialSecret",
+      "type": "function",
+      "name": "revealApiCredentialSecret",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        88,
+        98
+      ],
+      "summary": "请求指定凭据的明文密钥，统一凭据标识及密钥字段名称。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:renameApiCredential",
+      "type": "function",
+      "name": "renameApiCredential",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        100,
+        106
+      ],
+      "summary": "修改凭据显示名称并返回规范化凭据。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialModelGroup",
+      "type": "function",
+      "name": "changeApiCredentialModelGroup",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        108,
+        114
+      ],
+      "summary": "更新凭据所属模型分组并返回规范化凭据。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialTokenLimit",
+      "type": "function",
+      "name": "changeApiCredentialTokenLimit",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        116,
+        122
+      ],
+      "summary": "更新凭据令牌上限并返回规范化凭据。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:enableApiCredential",
+      "type": "function",
+      "name": "enableApiCredential",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        124,
+        127
+      ],
+      "summary": "启用指定 API 凭据并返回其最新状态。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:disableApiCredential",
+      "type": "function",
+      "name": "disableApiCredential",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        129,
+        132
+      ],
+      "summary": "禁用指定 API 凭据并返回其最新状态。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:deleteApiCredential",
+      "type": "function",
+      "name": "deleteApiCredential",
+      "filePath": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "lineRange": [
+        134,
+        136
+      ],
+      "summary": "对编码后的凭据路径发送删除请求。",
+      "tags": [
+        "凭据管理",
+        "接口适配",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "type": "file",
+      "name": "useApiCredentials.ts",
+      "filePath": "frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "summary": "缓存 API 凭据列表，并为选择控件派生名称和标识选项。",
+      "tags": [
+        "凭据管理",
+        "查询钩子",
+        "选择选项"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/api-credential/model/useApiCredentials.ts:useApiCredentials",
+      "type": "function",
+      "name": "useApiCredentials",
+      "filePath": "frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "lineRange": [
+        14,
+        30
+      ],
+      "summary": "查询并缓存凭据列表，派生以名称优先、标识兜底的下拉选项。",
+      "tags": [
+        "凭据管理",
+        "查询钩子",
+        "方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:listApiCredentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:listApiCredentials",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:createApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:createApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:revealApiCredentialSecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:revealApiCredentialSecret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:renameApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:renameApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialTokenLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialTokenLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:enableApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:enableApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:disableApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:disableApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:deleteApiCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:deleteApiCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "target": "file:frontend/src/entities/api-credential/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "target": "function:frontend/src/entities/api-credential/model/useApiCredentials.ts:useApiCredentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "target": "function:frontend/src/entities/api-credential/model/useApiCredentials.ts:useApiCredentials",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "target": "file:frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "target": "file:frontend/src/entities/api-credential/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:createApiCredential",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:renameApiCredential",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialModelGroup",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:changeApiCredentialTokenLimit",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:enableApiCredential",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:disableApiCredential",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:normalizeCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/api-credential/model/useApiCredentials.ts:useApiCredentials",
+      "target": "function:frontend/src/entities/api-credential/api/apiCredentialApi.ts:listApiCredentials",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

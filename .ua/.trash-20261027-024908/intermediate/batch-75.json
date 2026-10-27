@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "type": "file",
+      "name": "QuotaFormModal.tsx",
+      "filePath": "frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "summary": "提供模型分组与指定 API Key 的配额新增和编辑表单，支持指定模型、日周月及累计周期、六位小数百万令牌额度与启用状态；保存后失效配额及凭证缓存。",
+      "tags": [
+        "配额表单",
+        "输入校验",
+        "查询缓存",
+        "目标选择"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx:QuotaFormModal",
+      "type": "function",
+      "name": "QuotaFormModal",
+      "filePath": "frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "lineRange": [
+        9,
+        60
+      ],
+      "summary": "提供模型分组与指定 API Key 的配额新增和编辑表单，支持指定模型、日周月及累计周期、六位小数百万令牌额度与启用状态；保存后失效配额及凭证缓存。",
+      "tags": [
+        "配额表单",
+        "输入校验",
+        "查询缓存"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "type": "file",
+      "name": "TokenQuotaPanel.tsx",
+      "filePath": "frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "summary": "按模型分组或 API Key 展示并搜索限流规则，呈现已用、剩余、耗尽状态及计量时区下的重置时间，支持刷新、编辑与确认删除。",
+      "tags": [
+        "配额管理",
+        "列表筛选",
+        "状态展示",
+        "删除确认"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx:TokenQuotaPanel",
+      "type": "function",
+      "name": "TokenQuotaPanel",
+      "filePath": "frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "lineRange": [
+        11,
+        64
+      ],
+      "summary": "按模型分组或 API Key 展示并搜索限流规则，呈现已用、剩余、耗尽状态及计量时区下的重置时间，支持刷新、编辑与确认删除。",
+      "tags": [
+        "配额管理",
+        "列表筛选",
+        "状态展示"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "target": "function:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx:QuotaFormModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "target": "function:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx:QuotaFormModal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "target": "function:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx:TokenQuotaPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "target": "function:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx:TokenQuotaPanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "target": "file:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx:TokenQuotaPanel",
+      "target": "function:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx:QuotaFormModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ]
+}

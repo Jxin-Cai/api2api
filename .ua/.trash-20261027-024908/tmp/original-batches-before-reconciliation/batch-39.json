@@ -1,0 +1,79 @@
+{
+  "nodes": [
+    {
+      "id": "service:frontend/Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "frontend/Dockerfile",
+      "summary": "使用 Node 构建前端静态资源，再交由 Nginx 镜像托管并对外提供 80 端口。",
+      "tags": [
+        "容器构建",
+        "多阶段构建",
+        "前端部署"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:frontend/Dockerfile:frontend-build",
+      "type": "service",
+      "name": "frontend-build",
+      "filePath": "frontend/Dockerfile",
+      "summary": "安装依赖并构建前端静态资源。",
+      "tags": [
+        "容器阶段",
+        "构建阶段"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        4,
+        12
+      ]
+    },
+    {
+      "id": "service:frontend/Dockerfile:${NGINX_IMAGE}",
+      "type": "service",
+      "name": "${NGINX_IMAGE}",
+      "filePath": "frontend/Dockerfile",
+      "summary": "通过 Nginx 托管前端静态资源。",
+      "tags": [
+        "容器阶段",
+        "运行阶段"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        17
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:frontend/Dockerfile",
+      "target": "service:frontend/Dockerfile:frontend-build",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:frontend/Dockerfile",
+      "target": "service:frontend/Dockerfile:${NGINX_IMAGE}",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "service:frontend/Dockerfile",
+      "target": "config:frontend/package.json",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "service:frontend/Dockerfile",
+      "target": "config:frontend/nginx.conf",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    }
+  ]
+}

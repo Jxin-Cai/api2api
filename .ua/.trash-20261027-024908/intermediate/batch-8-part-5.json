@@ -1,0 +1,2462 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "type": "file",
+      "name": "ResponsesToClaudeRequestConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "summary": "直接将 Responses 请求转换为 Claude Messages，保留结构化工具、推理与压缩状态，并修复工具调用结果配对及相邻同角色消息。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用",
+        "推理状态"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:ResponsesToClaudeRequestConverter",
+      "type": "class",
+      "name": "ResponsesToClaudeRequestConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        31,
+        858
+      ],
+      "summary": "直接将 Responses 请求转换为 Claude Messages，保留结构化工具、推理与压缩状态，并修复工具调用结果配对及相邻同角色消息。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用",
+        "推理状态"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:convert",
+      "type": "function",
+      "name": "convert",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        63,
+        102
+      ],
+      "summary": "把 Responses 结构化请求直接映射为 Claude Messages，并应用工具、推理、输出格式和元数据配置。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:validateStatefulFields",
+      "type": "function",
+      "name": "validateStatefulFields",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        104,
+        117
+      ],
+      "summary": "校验有状态字段，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:responsesInputToClaudeMessages",
+      "type": "function",
+      "name": "responsesInputToClaudeMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        130,
+        184
+      ],
+      "summary": "将Responses输入转换为Claude消息列表，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:toolCallToClaudeContent",
+      "type": "function",
+      "name": "toolCallToClaudeContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        196,
+        210
+      ],
+      "summary": "将工具调用转换为Claude内容，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:toolOutputToClaudeContent",
+      "type": "function",
+      "name": "toolOutputToClaudeContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        212,
+        247
+      ],
+      "summary": "将工具输出转换为Claude内容，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:reasoningItemToClaudeContent",
+      "type": "function",
+      "name": "reasoningItemToClaudeContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        249,
+        261
+      ],
+      "summary": "将推理条目转换为Claude内容，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:compactionItemToClaudeContent",
+      "type": "function",
+      "name": "compactionItemToClaudeContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        263,
+        274
+      ],
+      "summary": "将上下文压缩条目转换为Claude内容，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:firstSummaryText",
+      "type": "function",
+      "name": "firstSummaryText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        276,
+        287
+      ],
+      "summary": "提供首个摘要文本，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:extractTextContent",
+      "type": "function",
+      "name": "extractTextContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        289,
+        314
+      ],
+      "summary": "提取文本内容，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:userContentToClaude",
+      "type": "function",
+      "name": "userContentToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        316,
+        339
+      ],
+      "summary": "将用户内容转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:assistantContentToClaude",
+      "type": "function",
+      "name": "assistantContentToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        341,
+        363
+      ],
+      "summary": "将助手内容转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:isBlankTextOnly",
+      "type": "function",
+      "name": "isBlankTextOnly",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        383,
+        394
+      ],
+      "summary": "判断空白文本仅，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:normalizeToolPairing",
+      "type": "function",
+      "name": "normalizeToolPairing",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        404,
+        430
+      ],
+      "summary": "收集工具调用结果并重排消息，保证 Claude 工具调用与结果相邻且调用标识可配对。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:repairAssistantMessage",
+      "type": "function",
+      "name": "repairAssistantMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        432,
+        468
+      ],
+      "summary": "修复助手消息，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:repairUserMessage",
+      "type": "function",
+      "name": "repairUserMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        470,
+        487
+      ],
+      "summary": "修复用户消息，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:mergeConsecutiveMessages",
+      "type": "function",
+      "name": "mergeConsecutiveMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        500,
+        513
+      ],
+      "summary": "合并相邻消息列表，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyTools",
+      "type": "function",
+      "name": "applyTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        517,
+        546
+      ],
+      "summary": "应用工具定义，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:functionToolToClaude",
+      "type": "function",
+      "name": "functionToolToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        548,
+        572
+      ],
+      "summary": "将函数工具转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:customToolInputSchema",
+      "type": "function",
+      "name": "customToolInputSchema",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        579,
+        591
+      ],
+      "summary": "提供自定义工具输入结构，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:normalizeInputSchema",
+      "type": "function",
+      "name": "normalizeInputSchema",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        593,
+        604
+      ],
+      "summary": "规范化输入结构，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:allowedCallersToClaude",
+      "type": "function",
+      "name": "allowedCallersToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        606,
+        621
+      ],
+      "summary": "将允许的调用方转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:webSearchToolToClaude",
+      "type": "function",
+      "name": "webSearchToolToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        623,
+        635
+      ],
+      "summary": "将网络搜索工具转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:codeInterpreterToolToClaude",
+      "type": "function",
+      "name": "codeInterpreterToolToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        637,
+        646
+      ],
+      "summary": "将代码解释器工具转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:mcpToolToClaude",
+      "type": "function",
+      "name": "mcpToolToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        648,
+        685
+      ],
+      "summary": "将MCP工具转换为Claude，用于Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyToolChoice",
+      "type": "function",
+      "name": "applyToolChoice",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        687,
+        726
+      ],
+      "summary": "应用工具选择策略，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyReasoning",
+      "type": "function",
+      "name": "applyReasoning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        730,
+        769
+      ],
+      "summary": "应用推理，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyTextFormat",
+      "type": "function",
+      "name": "applyTextFormat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        792,
+        819
+      ],
+      "summary": "应用文本格式，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyMetadata",
+      "type": "function",
+      "name": "applyMetadata",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        821,
+        834
+      ],
+      "summary": "应用元数据，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyServiceTier",
+      "type": "function",
+      "name": "applyServiceTier",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "lineRange": [
+        836,
+        850
+      ],
+      "summary": "应用服务等级，支撑Responses 到 Claude 的请求转换。",
+      "tags": [
+        "请求转换",
+        "历史修复",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "type": "file",
+      "name": "ResponsesToolCallBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "summary": "在 Responses 函数调用及自由格式自定义工具与 Claude tool_use 之间转换，通过工具标识保留调用类型并校验输入。",
+      "tags": [
+        "工具调用",
+        "类型保留",
+        "参数解析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:ResponsesToolCallBridge",
+      "type": "class",
+      "name": "ResponsesToolCallBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "lineRange": [
+        15,
+        133
+      ],
+      "summary": "在 Responses 函数调用及自由格式自定义工具与 Claude tool_use 之间转换，通过工具标识保留调用类型并校验输入。",
+      "tags": [
+        "工具调用",
+        "类型保留",
+        "参数解析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:toResponsesCallId",
+      "type": "function",
+      "name": "toResponsesCallId",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "lineRange": [
+        41,
+        51
+      ],
+      "summary": "转换为Responses调用标识，用于跨协议工具调用桥接。",
+      "tags": [
+        "工具调用",
+        "类型保留",
+        "参数解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:toResponsesToolCall",
+      "type": "function",
+      "name": "toResponsesToolCall",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "lineRange": [
+        72,
+        89
+      ],
+      "summary": "转换为Responses工具调用，用于跨协议工具调用桥接。",
+      "tags": [
+        "工具调用",
+        "类型保留",
+        "参数解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:parseToolInput",
+      "type": "function",
+      "name": "parseToolInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "lineRange": [
+        91,
+        112
+      ],
+      "summary": "解析工具输入，支撑跨协议工具调用桥接。",
+      "tags": [
+        "工具调用",
+        "类型保留",
+        "参数解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "type": "file",
+      "name": "SseEventTransformer.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "summary": "逐行转换 SSE 的 data 数据而保留事件流框架，避免为整段流式响应构造完整业务对象。",
+      "tags": [
+        "工具函数",
+        "流式响应",
+        "事件转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java:SseEventTransformer",
+      "type": "class",
+      "name": "SseEventTransformer",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "lineRange": [
+        11,
+        40
+      ],
+      "summary": "逐行转换 SSE 的 data 数据而保留事件流框架，避免为整段流式响应构造完整业务对象。",
+      "tags": [
+        "工具函数",
+        "流式响应",
+        "事件转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java:transform",
+      "type": "function",
+      "name": "transform",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "lineRange": [
+        14,
+        39
+      ],
+      "summary": "保留 SSE 事件及空行分隔，对非终止 data 行调用指定转换函数并重建事件文本。",
+      "tags": [
+        "工具函数",
+        "流式响应",
+        "事件转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "type": "file",
+      "name": "StreamingPassthroughUsageExtractor.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "summary": "透传上游流式字节并按协议识别用量事件与终止标记，累计 Claude、Responses、Chat Completions 及 Images 的统一用量。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:StreamingPassthroughUsageExtractor",
+      "type": "class",
+      "name": "StreamingPassthroughUsageExtractor",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        23,
+        268
+      ],
+      "summary": "透传上游流式字节并按协议识别用量事件与终止标记，累计 Claude、Responses、Chat Completions 及 Images 的统一用量。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:transferAndExtract",
+      "type": "function",
+      "name": "transferAndExtract",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        50,
+        65
+      ],
+      "summary": "按上游协议选择事件识别策略，在透传响应字节的同时提取最终统一令牌用量。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:extractByEvent",
+      "type": "function",
+      "name": "extractByEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        100,
+        133
+      ],
+      "summary": "提取按事件，支撑网关流式透传与计量。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:isTerminalData",
+      "type": "function",
+      "name": "isTerminalData",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        140,
+        149
+      ],
+      "summary": "判断终止标记数据，用于网关流式透传与计量。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:extractOpenAIChatCompletions",
+      "type": "function",
+      "name": "extractOpenAIChatCompletions",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        151,
+        174
+      ],
+      "summary": "提取OpenAIChat Completions，支撑网关流式透传与计量。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractClaudeUsage",
+      "type": "function",
+      "name": "tryExtractClaudeUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        187,
+        216
+      ],
+      "summary": "尝试从 Claude 流式事件数据解析统一用量；事件未携带有效用量时保留已有统计。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIResponsesUsage",
+      "type": "function",
+      "name": "tryExtractOpenAIResponsesUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        218,
+        233
+      ],
+      "summary": "尝试从 Responses 流式事件数据解析统一用量；事件未携带有效用量时保留已有统计。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIImagesUsage",
+      "type": "function",
+      "name": "tryExtractOpenAIImagesUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        235,
+        249
+      ],
+      "summary": "尝试从 Images 流式事件数据解析统一用量；事件未携带有效用量时保留已有统计。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIChatCompletionsUsage",
+      "type": "function",
+      "name": "tryExtractOpenAIChatCompletionsUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "lineRange": [
+        251,
+        266
+      ],
+      "summary": "尝试从 Chat Completions 流式事件数据解析统一用量；事件未携带有效用量时保留已有统计。",
+      "tags": [
+        "流式透传",
+        "用量统计",
+        "事件解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "type": "file",
+      "name": "UnifiedStreamingConversionAdapter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "summary": "实现网关流式转换端口，按协议对选择 SSE 转换状态机，处理工具和推理增量、完成事件回填及 Bedrock 事件流转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:UnifiedStreamingConversionAdapter",
+      "type": "class",
+      "name": "UnifiedStreamingConversionAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        40,
+        1567
+      ],
+      "summary": "实现网关流式转换端口，按协议对选择 SSE 转换状态机，处理工具和推理增量、完成事件回填及 Bedrock 事件流转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:supports",
+      "type": "function",
+      "name": "supports",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        58,
+        69
+      ],
+      "summary": "判断，用于网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transform",
+      "type": "function",
+      "name": "transform",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        71,
+        105
+      ],
+      "summary": "根据上游协议与客户端协议分派流式转换路径，传递模型上下文并返回转换后的统一用量。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:claudeUsage",
+      "type": "function",
+      "name": "claudeUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        107,
+        118
+      ],
+      "summary": "提供Claude用量，用于网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformResponsesToClaude",
+      "type": "function",
+      "name": "transformResponsesToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        120,
+        149
+      ],
+      "summary": "转换Responses目标Claude，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesSseEvent",
+      "type": "function",
+      "name": "handleResponsesSseEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        151,
+        241
+      ],
+      "summary": "按 Responses 事件类型更新文本、推理、工具和响应完成状态，输出对应 Claude SSE 事件。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:markResponsesOutputItem",
+      "type": "function",
+      "name": "markResponsesOutputItem",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        250,
+        263
+      ],
+      "summary": "标记Responses输出条目，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesToolInputDelta",
+      "type": "function",
+      "name": "handleResponsesToolInputDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        265,
+        300
+      ],
+      "summary": "处理Responses工具输入增量，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesToolInputDone",
+      "type": "function",
+      "name": "handleResponsesToolInputDone",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        302,
+        329
+      ],
+      "summary": "处理Responses工具输入完成，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:emitCompletedResponsesToolInput",
+      "type": "function",
+      "name": "emitCompletedResponsesToolInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        331,
+        355
+      ],
+      "summary": "发送已完成Responses工具输入，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesContentPartDone",
+      "type": "function",
+      "name": "handleResponsesContentPartDone",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        365,
+        383
+      ],
+      "summary": "处理Responses内容片段完成，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeResponsesTextFallback",
+      "type": "function",
+      "name": "writeResponsesTextFallback",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        385,
+        406
+      ],
+      "summary": "写出Responses文本补全，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeResponsesSummaryText",
+      "type": "function",
+      "name": "writeResponsesSummaryText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        408,
+        437
+      ],
+      "summary": "写出Responses摘要文本，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeResponsesThinkingFallback",
+      "type": "function",
+      "name": "writeResponsesThinkingFallback",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        439,
+        452
+      ],
+      "summary": "写出Responses思考状态补全，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesOutputItemDone",
+      "type": "function",
+      "name": "handleResponsesOutputItemDone",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        454,
+        557
+      ],
+      "summary": "处理Responses输出条目完成，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeOpaqueThinkingBlock",
+      "type": "function",
+      "name": "writeOpaqueThinkingBlock",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        559,
+        573
+      ],
+      "summary": "写出不透明思考状态内容块，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeProgramServerTool",
+      "type": "function",
+      "name": "writeClaudeProgramServerTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        579,
+        605
+      ],
+      "summary": "写出Claude程序服务端工具，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeProgramResult",
+      "type": "function",
+      "name": "writeClaudeProgramResult",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        607,
+        630
+      ],
+      "summary": "写出Claude程序结果，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeAuxiliaryBlockStart",
+      "type": "function",
+      "name": "writeClaudeAuxiliaryBlockStart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        632,
+        642
+      ],
+      "summary": "写出Claude辅助内容块开始，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeAuxiliaryText",
+      "type": "function",
+      "name": "writeClaudeAuxiliaryText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        644,
+        663
+      ],
+      "summary": "写出Claude辅助文本，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:compactionVisibleText",
+      "type": "function",
+      "name": "compactionVisibleText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        665,
+        676
+      ],
+      "summary": "提供上下文压缩可见文本，用于网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeMessageStart",
+      "type": "function",
+      "name": "writeClaudeMessageStart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        694,
+        709
+      ],
+      "summary": "写出Claude消息开始，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:ensureClaudeBlockStarted",
+      "type": "function",
+      "name": "ensureClaudeBlockStarted",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        716,
+        759
+      ],
+      "summary": "确保Claude内容块启动状态，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeContentDelta",
+      "type": "function",
+      "name": "writeClaudeContentDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        761,
+        771
+      ],
+      "summary": "写出Claude内容增量，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:stopClaudeBlock",
+      "type": "function",
+      "name": "stopClaudeBlock",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        773,
+        786
+      ],
+      "summary": "停止Claude内容块，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:recordResponsesCompletion",
+      "type": "function",
+      "name": "recordResponsesCompletion",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        788,
+        827
+      ],
+      "summary": "记录Responses完成，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesCompletionFallbackItem",
+      "type": "function",
+      "name": "handleResponsesCompletionFallbackItem",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        829,
+        849
+      ],
+      "summary": "处理Responses完成补全条目，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:finishResponsesToClaude",
+      "type": "function",
+      "name": "finishResponsesToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        851,
+        866
+      ],
+      "summary": "完成Responses目标Claude，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformChatToClaude",
+      "type": "function",
+      "name": "transformChatToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        982,
+        1047
+      ],
+      "summary": "转换Chat Completions目标Claude，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatChunkForClaude",
+      "type": "function",
+      "name": "handleChatChunkForClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1049,
+        1078
+      ],
+      "summary": "处理Chat Completions分片面向Claude，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatReasoningDelta",
+      "type": "function",
+      "name": "handleChatReasoningDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1080,
+        1111
+      ],
+      "summary": "处理Chat Completions推理增量，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatTextDelta",
+      "type": "function",
+      "name": "handleChatTextDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1113,
+        1146
+      ],
+      "summary": "处理Chat Completions文本增量，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatToolCallsDelta",
+      "type": "function",
+      "name": "handleChatToolCallsDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1148,
+        1199
+      ],
+      "summary": "处理Chat Completions工具调用增量，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatUsageUpdate",
+      "type": "function",
+      "name": "handleChatUsageUpdate",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1201,
+        1211
+      ],
+      "summary": "处理Chat Completions用量更新，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:mapChatFinishReason",
+      "type": "function",
+      "name": "mapChatFinishReason",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1213,
+        1224
+      ],
+      "summary": "映射Chat Completions完成原因，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:announceClaudeToolCall",
+      "type": "function",
+      "name": "announceClaudeToolCall",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1226,
+        1251
+      ],
+      "summary": "通知Claude工具调用，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeToolArgumentsDelta",
+      "type": "function",
+      "name": "writeClaudeToolArgumentsDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1253,
+        1268
+      ],
+      "summary": "写出Claude工具参数增量，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:closeOpenClaudeToolBlocks",
+      "type": "function",
+      "name": "closeOpenClaudeToolBlocks",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1270,
+        1280
+      ],
+      "summary": "关闭开启Claude工具内容块列表，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformBedrockInvokeModelToClaude",
+      "type": "function",
+      "name": "transformBedrockInvokeModelToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1282,
+        1335
+      ],
+      "summary": "读取 Bedrock InvokeModel 事件流帧，解析消息载荷并转写为 Claude SSE，同时汇总用量。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleBedrockStructuredOutputEvent",
+      "type": "function",
+      "name": "handleBedrockStructuredOutputEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1337,
+        1377
+      ],
+      "summary": "处理Bedrock结构化输出事件，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformClaudeToChat",
+      "type": "function",
+      "name": "transformClaudeToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1387,
+        1419
+      ],
+      "summary": "转换Claude目标Chat Completions，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleClaudeEventForChat",
+      "type": "function",
+      "name": "handleClaudeEventForChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1421,
+        1544
+      ],
+      "summary": "将 Claude 消息和内容块事件转换为 Chat 增量片段，维护工具参数、推理、结束原因及用量。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeChatChunk",
+      "type": "function",
+      "name": "writeChatChunk",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "lineRange": [
+        1546,
+        1566
+      ],
+      "summary": "写出Chat Completions分片，支撑网关跨协议流式响应转换。",
+      "tags": [
+        "网关适配",
+        "流式响应",
+        "状态机"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:ResponsesToClaudeRequestConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:convert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:validateStatefulFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:responsesInputToClaudeMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:toolCallToClaudeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:toolOutputToClaudeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:reasoningItemToClaudeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:compactionItemToClaudeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:firstSummaryText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:extractTextContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:userContentToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:assistantContentToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:isBlankTextOnly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:normalizeToolPairing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:repairAssistantMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:repairUserMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:mergeConsecutiveMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:functionToolToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:customToolInputSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:normalizeInputSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:allowedCallersToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:webSearchToolToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:codeInterpreterToolToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:mcpToolToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyToolChoice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyTextFormat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:applyServiceTier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:ResponsesToolCallBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:toResponsesCallId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:toResponsesToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:parseToolInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java:SseEventTransformer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java:SseEventTransformer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java:transform",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java:transform",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/SseEventTransformer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:StreamingPassthroughUsageExtractor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:StreamingPassthroughUsageExtractor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:transferAndExtract",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:transferAndExtract",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:extractByEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:isTerminalData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:extractOpenAIChatCompletions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractClaudeUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIResponsesUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIImagesUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIChatCompletionsUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/StreamingPassthroughPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:UnifiedStreamingConversionAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:UnifiedStreamingConversionAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:supports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:supports",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transform",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transform",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:claudeUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformResponsesToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesSseEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:markResponsesOutputItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesToolInputDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesToolInputDone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:emitCompletedResponsesToolInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesContentPartDone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeResponsesTextFallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeResponsesSummaryText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeResponsesThinkingFallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesOutputItemDone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeOpaqueThinkingBlock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeProgramServerTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeProgramResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeAuxiliaryBlockStart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeAuxiliaryText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:compactionVisibleText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeMessageStart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:ensureClaudeBlockStarted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeContentDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:stopClaudeBlock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:recordResponsesCompletion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesCompletionFallbackItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:finishResponsesToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformChatToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatChunkForClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatReasoningDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatTextDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatToolCallsDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleChatUsageUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:mapChatFinishReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:announceClaudeToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeClaudeToolArgumentsDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:closeOpenClaudeToolBlocks",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformBedrockInvokeModelToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleBedrockStructuredOutputEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformClaudeToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleClaudeEventForChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeChatChunk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:convert",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:resolveResponsesReasoning",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:toolCallToClaudeContent",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toClaudeCaller",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToClaudeRequestConverter.java:reasoningItemToClaudeContent",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:decode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:transferAndExtract",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:extractByEvent",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:extractOpenAIChatCompletions",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractClaudeUsage",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:tryExtractOpenAIResponsesUsage",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIResponsesUsageExtractor.java:extractUsage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java:StreamingPassthroughUsageExtractor",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/StreamingPassthroughPort.java:StreamingPassthroughPort",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformResponsesToClaude",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesOutputItemDone",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:decode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:handleResponsesOutputItemDone",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:writeOpaqueThinkingBlock",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encodeItem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:ensureClaudeBlockStarted",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toClaudeCaller",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:recordResponsesCompletion",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIResponsesUsageExtractor.java:extractUsage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformChatToClaude",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformBedrockInvokeModelToClaude",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformBedrockInvokeModelToClaude",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java:extractUsageNode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:transformClaudeToChat",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java:UnifiedStreamingConversionAdapter",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java:GatewayStreamingConversionPort",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

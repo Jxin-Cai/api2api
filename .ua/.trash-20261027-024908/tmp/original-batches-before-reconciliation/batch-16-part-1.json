@@ -1,0 +1,1536 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "type": "file",
+      "name": "ModelGroupDailyUsageService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "summary": "按所有者及当前业务日查询模型组各模型的加权令牌用量，整理为模型组到模型用量的映射。",
+      "tags": [
+        "日用量",
+        "应用服务",
+        "模型组"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java:ModelGroupDailyUsageService",
+      "type": "class",
+      "name": "ModelGroupDailyUsageService",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "summary": "按所有者及当前业务日查询模型组各模型的加权令牌用量，整理为模型组到模型用量的映射。",
+      "tags": [
+        "日用量",
+        "应用服务",
+        "模型组"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        21,
+        40
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java:loadTodayUsageByGroup",
+      "type": "function",
+      "name": "loadTodayUsageByGroup",
+      "filePath": "backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "summary": "按当前业务日统计所有者名下模型组的各模型用量，并构建双层映射。",
+      "tags": [
+        "业务方法",
+        "日用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        29,
+        39
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "file",
+      "name": "InboundRequestContext.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "保存客户端原始请求头和来源地址，提供大小写无关的头值查询、空上下文及不可变头复制。",
+      "tags": [
+        "入口上下文",
+        "请求头",
+        "客户端地址"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:InboundRequestContext",
+      "type": "class",
+      "name": "InboundRequestContext",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "保存客户端原始请求头和来源地址，提供大小写无关的头值查询、空上下文及不可变头复制。",
+      "tags": [
+        "入口上下文",
+        "请求头",
+        "客户端地址"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        14,
+        86
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:empty",
+      "type": "function",
+      "name": "empty",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "创建无请求头和客户端地址的入口上下文。",
+      "tags": [
+        "业务方法",
+        "入口上下文",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        28,
+        30
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "InboundRequestContext 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "入口上下文",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        32,
+        36
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:ofHeaders",
+      "type": "function",
+      "name": "ofHeaders",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "复制请求头并构造不可变入口请求上下文。",
+      "tags": [
+        "业务方法",
+        "入口上下文",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        40
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:clientIp",
+      "type": "function",
+      "name": "clientIp",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "返回入口请求的客户端地址。",
+      "tags": [
+        "业务方法",
+        "入口上下文",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        42,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:hasRawQuery",
+      "type": "function",
+      "name": "hasRawQuery",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "判断入口请求是否带有可保留的原始查询参数。",
+      "tags": [
+        "业务方法",
+        "入口上下文",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:copyHeaders",
+      "type": "function",
+      "name": "copyHeaders",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "summary": "剔除无效项并复制不可变请求头映射，避免外部修改入口上下文。",
+      "tags": [
+        "业务方法",
+        "入口上下文",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        56,
+        68
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "type": "file",
+      "name": "InvokeGatewayCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "以不可变命令承载网关调用与追踪标识、密钥哈希、请求模型及协议、原始内容、入口上下文和流式工具推理需求。",
+      "tags": [
+        "调用命令",
+        "协议需求",
+        "请求追踪"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:InvokeGatewayCommand",
+      "type": "class",
+      "name": "InvokeGatewayCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "以不可变命令承载网关调用与追踪标识、密钥哈希、请求模型及协议、原始内容、入口上下文和流式工具推理需求。",
+      "tags": [
+        "调用命令",
+        "协议需求",
+        "请求追踪"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        14,
+        185
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:InvokeGatewayCommand",
+      "type": "function",
+      "name": "InvokeGatewayCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "初始化 InvokeGatewayCommand，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "调用命令",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        29,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:builder",
+      "type": "function",
+      "name": "builder",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "创建不可变网关调用命令的构建器。",
+      "tags": [
+        "业务方法",
+        "调用命令",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isStreaming",
+      "type": "function",
+      "name": "isStreaming",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "返回请求或调用结果的流式标志。",
+      "tags": [
+        "业务方法",
+        "调用命令",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        92,
+        94
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isToolCallingRequired",
+      "type": "function",
+      "name": "isToolCallingRequired",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "返回解析出的工具调用转换需求。",
+      "tags": [
+        "业务方法",
+        "调用命令",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        96,
+        98
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isReasoningRequired",
+      "type": "function",
+      "name": "isReasoningRequired",
+      "filePath": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "summary": "返回解析出的推理转换需求。",
+      "tags": [
+        "业务方法",
+        "调用命令",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        100,
+        102
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "type": "file",
+      "name": "UsageQueryApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "summary": "编排用户和管理员用量记录查询，验证权限与密钥归属，构建可见性过滤和分页参数，并补充用户、密钥及管理员可见的渠道名称。",
+      "tags": [
+        "用量查询",
+        "权限校验",
+        "分页聚合"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:UsageQueryApplicationService",
+      "type": "class",
+      "name": "UsageQueryApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "summary": "编排用户和管理员用量记录查询，验证权限与密钥归属，构建可见性过滤和分页参数，并补充用户、密钥及管理员可见的渠道名称。",
+      "tags": [
+        "用量查询",
+        "权限校验",
+        "分页聚合"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        28,
+        135
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "type": "function",
+      "name": "queryMyUsageRecords",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "summary": "校验用户门户权限及所选密钥归属，仅查询当前用户记录，并隐藏渠道名称。",
+      "tags": [
+        "业务方法",
+        "用量查询",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        70
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "type": "function",
+      "name": "queryAdminUsageRecords",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "summary": "校验管理员权限，按用户、渠道及其他条件查询分页用量，并附带渠道名称。",
+      "tags": [
+        "业务方法",
+        "用量查询",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        72,
+        95
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:toViews",
+      "type": "function",
+      "name": "toViews",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "summary": "为查询记录补充用户和密钥名称，仅在管理员视图中补充渠道名称。",
+      "tags": [
+        "业务方法",
+        "用量查询",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        97,
+        106
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "type": "file",
+      "name": "QueryAdminUsageRecordsCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "summary": "承载管理员用量记录查询的操作者、用户、密钥、模型、渠道、协议、时间与分页筛选条件。",
+      "tags": [
+        "查询命令",
+        "管理后台",
+        "用量筛选"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java:QueryAdminUsageRecordsCommand",
+      "type": "class",
+      "name": "QueryAdminUsageRecordsCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "summary": "承载管理员用量记录查询的操作者、用户、密钥、模型、渠道、协议、时间与分页筛选条件。",
+      "tags": [
+        "查询命令",
+        "管理后台",
+        "用量筛选"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        44
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "type": "file",
+      "name": "QueryMyUsageRecordsCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "summary": "承载当前用户用量查询的密钥、模型、协议、时间和分页条件，限制为本人数据范围。",
+      "tags": [
+        "查询命令",
+        "用户门户",
+        "用量筛选"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java:QueryMyUsageRecordsCommand",
+      "type": "class",
+      "name": "QueryMyUsageRecordsCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "summary": "承载当前用户用量查询的密钥、模型、协议、时间和分页条件，限制为本人数据范围。",
+      "tags": [
+        "查询命令",
+        "用户门户",
+        "用量筛选"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        16,
+        39
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "type": "file",
+      "name": "PagedUsageRecordViews.java",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "summary": "将带关联名称的用量记录视图和分页信息、筛选令牌合计组合为应用查询结果。",
+      "tags": [
+        "分页结果",
+        "用量视图",
+        "汇总数据"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:PagedUsageRecordViews",
+      "type": "class",
+      "name": "PagedUsageRecordViews",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "summary": "将带关联名称的用量记录视图和分页信息、筛选令牌合计组合为应用查询结果。",
+      "tags": [
+        "分页结果",
+        "用量视图",
+        "汇总数据"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        8,
+        66
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:PagedUsageRecordViews",
+      "type": "function",
+      "name": "PagedUsageRecordViews",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "summary": "初始化 PagedUsageRecordViews，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "分页结果",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        16,
+        28
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "summary": "PagedUsageRecordViews 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "分页结果",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        30,
+        38
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:totalPages",
+      "type": "function",
+      "name": "totalPages",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "summary": "根据总记录数和页面大小计算展示总页数。",
+      "tags": [
+        "业务方法",
+        "分页结果",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        45
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "type": "file",
+      "name": "UsageRecordView.java",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "summary": "为用量记录附加用户名、密钥名与可选渠道名，作为应用层展示视图。",
+      "tags": [
+        "用量视图",
+        "关联名称",
+        "数据封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:UsageRecordView",
+      "type": "class",
+      "name": "UsageRecordView",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "summary": "为用量记录附加用户名、密钥名与可选渠道名，作为应用层展示视图。",
+      "tags": [
+        "用量视图",
+        "关联名称",
+        "数据封装"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        6,
+        55
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "summary": "UsageRecordView 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "用量视图",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        22
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "type": "file",
+      "name": "GatewayInvocationId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "summary": "将有效标识值封装为网关调用身份，避免与其他业务标识混用。",
+      "tags": [
+        "调用标识",
+        "值对象",
+        "身份校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java:GatewayInvocationId",
+      "type": "class",
+      "name": "GatewayInvocationId",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "summary": "将有效标识值封装为网关调用身份，避免与其他业务标识混用。",
+      "tags": [
+        "调用标识",
+        "值对象",
+        "身份校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        56
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "summary": "GatewayInvocationId 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "调用标识",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        24
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "file",
+      "name": "GatewayRequestId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "summary": "将非空且符合长度约束的追踪标识封装为网关请求身份。",
+      "tags": [
+        "请求标识",
+        "值对象",
+        "输入校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:GatewayRequestId",
+      "type": "class",
+      "name": "GatewayRequestId",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "summary": "将非空且符合长度约束的追踪标识封装为网关请求身份。",
+      "tags": [
+        "请求标识",
+        "值对象",
+        "输入校验"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        8,
+        57
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:GatewayRequestId",
+      "type": "function",
+      "name": "GatewayRequestId",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "summary": "初始化 GatewayRequestId，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "请求标识",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        14,
+        23
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "summary": "GatewayRequestId 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "请求标识",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        27
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "type": "file",
+      "name": "ModelGroupModelUsage.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "summary": "表示模型组内某个请求模型的加权令牌用量聚合结果。",
+      "tags": [
+        "聚合结果",
+        "模型组",
+        "令牌用量"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java:ModelGroupModelUsage",
+      "type": "class",
+      "name": "ModelGroupModelUsage",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "summary": "表示模型组内某个请求模型的加权令牌用量聚合结果。",
+      "tags": [
+        "聚合结果",
+        "模型组",
+        "令牌用量"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        21
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java:ModelGroupDailyUsageService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java:ModelGroupDailyUsageService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java:loadTodayUsageByGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java:loadTodayUsageByGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:InboundRequestContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:InboundRequestContext",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:empty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:ofHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:ofHeaders",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:clientIp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:clientIp",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:hasRawQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:hasRawQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:copyHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:InvokeGatewayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:InvokeGatewayCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:InvokeGatewayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:builder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:builder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isStreaming",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isToolCallingRequired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isToolCallingRequired",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isReasoningRequired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:isReasoningRequired",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:UsageQueryApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:UsageQueryApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:toViews",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java:QueryAdminUsageRecordsCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java:QueryAdminUsageRecordsCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java:QueryMyUsageRecordsCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java:QueryMyUsageRecordsCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:PagedUsageRecordViews",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:PagedUsageRecordViews",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:PagedUsageRecordViews",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:totalPages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:totalPages",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:UsageRecordView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "target": "class:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:UsageRecordView",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java:GatewayInvocationId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java:GatewayInvocationId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:GatewayRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:GatewayRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:GatewayRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java:ModelGroupModelUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java:ModelGroupModelUsage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java:InvokeGatewayCommand",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java:assertOwnedBy",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java:forUserPortal",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryMyUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:toViews",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:queryAdminUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:toViews",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java:toViews",
+      "target": "function:backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

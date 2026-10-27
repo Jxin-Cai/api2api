@@ -1,0 +1,297 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/features/manage-api-credentials/model/types.ts",
+      "summary": "定义凭证管理表单编辑分区，仅允许名称和模型分组两类编辑。",
+      "tags": [
+        "类型定义",
+        "凭证管理",
+        "编辑状态"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "type": "file",
+      "name": "useApiCredentialMutations.ts",
+      "filePath": "frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "summary": "集中封装凭证创建、改名、改分组、配额、启停、删除和密钥展示 mutation，使用统一凭证查询失效入口刷新列表。",
+      "tags": [
+        "react-hook",
+        "凭证管理",
+        "缓存失效"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts:useApiCredentialMutations",
+      "type": "function",
+      "name": "useApiCredentialMutations",
+      "filePath": "frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "lineRange": [
+        30,
+        50
+      ],
+      "summary": "初始化 useApiCredentialMutations 的状态并建立构造约束。",
+      "tags": [
+        "react-hook",
+        "凭证管理",
+        "缓存失效"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "type": "file",
+      "name": "ApiCredentialCreateModal.tsx",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "summary": "创建 API Key 并展示返回的明文，要求选择模型分组，关闭前提示确认已安全保存密钥并在重新打开时清空状态。",
+      "tags": [
+        "react-组件",
+        "凭证创建",
+        "密钥展示"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx:ApiCredentialCreateModal",
+      "type": "function",
+      "name": "ApiCredentialCreateModal",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "lineRange": [
+        21,
+        103
+      ],
+      "summary": "初始化 ApiCredentialCreateModal 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "凭证创建",
+        "密钥展示"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "type": "file",
+      "name": "ApiCredentialEditDrawer.tsx",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "summary": "提供凭证名称和绑定模型分组的分区编辑，调用对应 mutation 并反馈更新结果，提示白名单由分组统一控制。",
+      "tags": [
+        "react-组件",
+        "凭证编辑",
+        "模型分组"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx:ApiCredentialEditDrawer",
+      "type": "function",
+      "name": "ApiCredentialEditDrawer",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "lineRange": [
+        22,
+        99
+      ],
+      "summary": "初始化 ApiCredentialEditDrawer 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "凭证编辑",
+        "模型分组"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "type": "file",
+      "name": "ApiCredentialTablePanel.tsx",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "summary": "展示用户凭证、模型限制及实际与总 Token 用量，协调创建编辑、启停删除与密钥受控复制。高风险操作使用确认框，密钥展示等待原确认框关闭后由用户点击复制。",
+      "tags": [
+        "react-组件",
+        "凭证管理",
+        "密钥展示",
+        "用量统计"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx:ApiCredentialTablePanel",
+      "type": "function",
+      "name": "ApiCredentialTablePanel",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "lineRange": [
+        28,
+        276
+      ],
+      "summary": "初始化 ApiCredentialTablePanel 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "凭证管理",
+        "密钥展示",
+        "用量统计"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "type": "file",
+      "name": "ApiCredentialToolbar.tsx",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "summary": "提供凭证名称或标识搜索、列表刷新和创建入口，并显示加载状态。",
+      "tags": [
+        "react-组件",
+        "凭证搜索",
+        "工具栏"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx:ApiCredentialToolbar",
+      "type": "function",
+      "name": "ApiCredentialToolbar",
+      "filePath": "frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "lineRange": [
+        17,
+        39
+      ],
+      "summary": "初始化 ApiCredentialToolbar 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "凭证搜索",
+        "工具栏"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "target": "function:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts:useApiCredentialMutations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "target": "function:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts:useApiCredentialMutations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx:ApiCredentialCreateModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx:ApiCredentialCreateModal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx:ApiCredentialEditDrawer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx:ApiCredentialEditDrawer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx:ApiCredentialTablePanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx:ApiCredentialTablePanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx:ApiCredentialToolbar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "target": "function:frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx:ApiCredentialToolbar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

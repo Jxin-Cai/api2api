@@ -1,0 +1,1280 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "type": "file",
+      "name": "GatewayProtocolErrorBodyBuilderTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "summary": "验证共享协议错误体构造器的 Messages 与 OpenAI 结构、缺省错误类型和序列化回退，同时要求非序列化类编程异常继续传播。",
+      "tags": [
+        "测试",
+        "错误处理",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:GatewayProtocolErrorBodyBuilderTest",
+      "type": "class",
+      "name": "GatewayProtocolErrorBodyBuilderTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "lineRange": [
+        17,
+        113
+      ],
+      "summary": "验证共享协议错误体构造器的 Messages 与 OpenAI 结构、缺省错误类型和序列化回退，同时要求非序列化类编程异常继续传播。",
+      "tags": [
+        "测试",
+        "错误处理",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_returnsProtocolFallback_when_jsonSerializationFails",
+      "type": "function",
+      "name": "test_returnsProtocolFallback_when_jsonSerializationFails",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "lineRange": [
+        22,
+        39
+      ],
+      "summary": "验证JSON 序列化失败时返回协议回退错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_propagatesUnexpectedFailure_when_jsonMapperHasProgrammingError",
+      "type": "function",
+      "name": "test_propagatesUnexpectedFailure_when_jsonMapperHasProgrammingError",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "lineRange": [
+        41,
+        52
+      ],
+      "summary": "验证JSON 映射器编程错误继续传播。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_returnsClaudeErrorShape_when_buildClaudeErrorBodyCalled",
+      "type": "function",
+      "name": "test_returnsClaudeErrorShape_when_buildClaudeErrorBodyCalled",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "lineRange": [
+        60,
+        74
+      ],
+      "summary": "验证Messages 错误体采用原生结构。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_returnsOpenAIErrorShape_when_buildOpenAIErrorBodyCalled",
+      "type": "function",
+      "name": "test_returnsOpenAIErrorShape_when_buildOpenAIErrorBodyCalled",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "lineRange": [
+        86,
+        102
+      ],
+      "summary": "验证OpenAI 错误体采用兼容结构。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "type": "file",
+      "name": "GatewayStreamingResponseMapperTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "summary": "验证转换流中断时写入协议错误，同协议无终态流可成功透传，并在断连时避免额外错误写入与异常重抛。",
+      "tags": [
+        "测试",
+        "流式传输",
+        "响应映射",
+        "客户端断连"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:GatewayStreamingResponseMapperTest",
+      "type": "class",
+      "name": "GatewayStreamingResponseMapperTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        34,
+        306
+      ],
+      "summary": "验证转换流中断时写入协议错误，同协议无终态流可成功透传，并在断连时避免额外错误写入与异常重抛。",
+      "tags": [
+        "测试",
+        "流式传输",
+        "响应映射",
+        "客户端断连"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_writesClaudeErrorEvent_when_convertedStreamEndsBeforeTerminalEvent",
+      "type": "function",
+      "name": "test_writesClaudeErrorEvent_when_convertedStreamEndsBeforeTerminalEvent",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        36,
+        87
+      ],
+      "summary": "验证转换流在终态前结束时写入 Messages 错误事件。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_completesSuccessfully_when_passthroughStreamEndsWithoutTerminalEvent",
+      "type": "function",
+      "name": "test_completesSuccessfully_when_passthroughStreamEndsWithoutTerminalEvent",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        89,
+        123
+      ],
+      "summary": "验证透传流无终态结束仍正常完成。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_reportsSuccess_when_passthroughStreamEndsWithoutTerminalEvent",
+      "type": "function",
+      "name": "test_reportsSuccess_when_passthroughStreamEndsWithoutTerminalEvent",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        125,
+        159
+      ],
+      "summary": "验证透传流无终态结束记录成功。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_completesClientDisconnect_when_passthroughFlushHitsBrokenPipe",
+      "type": "function",
+      "name": "test_completesClientDisconnect_when_passthroughFlushHitsBrokenPipe",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        161,
+        197
+      ],
+      "summary": "验证透传 flush 遇管道断开时标记客户端断连。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_doesNotWriteErrorEvent_when_convertedStreamDisconnects",
+      "type": "function",
+      "name": "test_doesNotWriteErrorEvent_when_convertedStreamDisconnects",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        199,
+        249
+      ],
+      "summary": "验证转换流断连时不写额外错误事件。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_doesNotRethrow_when_convertedStreamDisconnects",
+      "type": "function",
+      "name": "test_doesNotRethrow_when_convertedStreamDisconnects",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "lineRange": [
+        251,
+        289
+      ],
+      "summary": "验证转换流断连时不再向外抛出。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "type": "file",
+      "name": "ResponsesImageBridgeTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "summary": "覆盖 Responses 图像桥接的规划与生成路由、参数覆盖、编辑输入、SSE、用量审计、调用预算及工具选择；验证不支持的路径、取消和恢复错误。",
+      "tags": [
+        "测试",
+        "Responses",
+        "图像生成",
+        "工具调用"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:ResponsesImageBridgeTest",
+      "type": "class",
+      "name": "ResponsesImageBridgeTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        39,
+        623
+      ],
+      "summary": "覆盖 Responses 图像桥接的规划与生成路由、参数覆盖、编辑输入、SSE、用量审计、调用预算及工具选择；验证不支持的路径、取消和恢复错误。",
+      "tags": [
+        "测试",
+        "Responses",
+        "图像生成",
+        "工具调用"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:setUp",
+      "type": "function",
+      "name": "setUp",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        56,
+        80
+      ],
+      "summary": "配置桥接依赖、模拟网关、固定请求上下文及计量采集环境。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_routes_only_images_with_original_credential_when_image_tool_is_forced",
+      "type": "function",
+      "name": "test_routes_only_images_with_original_credential_when_image_tool_is_forced",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        92,
+        106
+      ],
+      "summary": "验证强制图像工具仅路由图像且保留原始凭据。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_uses_explicit_image_model_when_tool_overrides_default",
+      "type": "function",
+      "name": "test_uses_explicit_image_model_when_tool_overrides_default",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        108,
+        117
+      ],
+      "summary": "验证工具显式指定模型时覆盖默认图像模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_routes_images_after_planning_when_model_selects_bridge_function",
+      "type": "function",
+      "name": "test_routes_images_after_planning_when_model_selects_bridge_function",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        129,
+        138
+      ],
+      "summary": "验证规划器选择桥接函数后执行图像调用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_preserves_external_tool_calls_when_image_and_function_are_selected",
+      "type": "function",
+      "name": "test_preserves_external_tool_calls_when_image_and_function_are_selected",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        140,
+        152
+      ],
+      "summary": "验证同时选择图像和外部函数时保留外部工具调用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_does_not_inject_image_tool_when_tool_choice_is_none",
+      "type": "function",
+      "name": "test_does_not_inject_image_tool_when_tool_choice_is_none",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        174,
+        183
+      ],
+      "summary": "验证tool_choice 为 none 时不隐式补充图像工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_preserves_regular_responses_when_no_image_tool_is_declared",
+      "type": "function",
+      "name": "test_preserves_regular_responses_when_no_image_tool_is_declared",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        185,
+        194
+      ],
+      "summary": "验证未声明图像工具时普通 Responses 不受影响。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_builds_multipart_edit_when_inline_reference_is_present",
+      "type": "function",
+      "name": "test_builds_multipart_edit_when_inline_reference_is_present",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        196,
+        210
+      ],
+      "summary": "验证内联参考图像生成 multipart 编辑请求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_uses_previous_result_as_edit_input_when_image_history_is_resent",
+      "type": "function",
+      "name": "test_uses_previous_result_as_edit_input_when_image_history_is_resent",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        212,
+        223
+      ],
+      "summary": "验证重放历史图像结果可作为编辑输入。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_rejects_remote_edit_reference_before_upstream_call_when_url_is_not_inline",
+      "type": "function",
+      "name": "test_rejects_remote_edit_reference_before_upstream_call_when_url_is_not_inline",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        225,
+        236
+      ],
+      "summary": "验证远端非内联编辑图像在上游调用前被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_preserves_upstream_status_and_retry_after_when_images_are_rate_limited",
+      "type": "function",
+      "name": "test_preserves_upstream_status_and_retry_after_when_images_are_rate_limited",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        258,
+        268
+      ],
+      "summary": "验证图像限流保留状态与 Retry-After。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_emits_responses_partial_image_events_when_images_streams",
+      "type": "function",
+      "name": "test_emits_responses_partial_image_events_when_images_streams",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        280,
+        290
+      ],
+      "summary": "验证图像流发出 Responses partial_image 事件。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_keeps_item_ids_and_sequence_consistent_when_stream_completes",
+      "type": "function",
+      "name": "test_keeps_item_ids_and_sequence_consistent_when_stream_completes",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        292,
+        302
+      ],
+      "summary": "验证流完成时输出项标识与序号保持一致。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_records_usage_when_stream_omits_event_name",
+      "type": "function",
+      "name": "test_records_usage_when_stream_omits_event_name",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        304,
+        314
+      ],
+      "summary": "验证缺少事件名时仍记录可解析用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_emits_failure_without_success_when_images_stream_is_truncated",
+      "type": "function",
+      "name": "test_emits_failure_without_success_when_images_stream_is_truncated",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        316,
+        325
+      ],
+      "summary": "验证图像流截断时发出失败而非成功。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_supports_unversioned_alias_when_client_posts_responses",
+      "type": "function",
+      "name": "test_supports_unversioned_alias_when_client_posts_responses",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        337,
+        346
+      ],
+      "summary": "验证支持未带版本前缀的 Responses 路径。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_rejects_edit_without_reference_when_action_is_edit",
+      "type": "function",
+      "name": "test_rejects_edit_without_reference_when_action_is_edit",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        368,
+        377
+      ],
+      "summary": "验证edit 动作缺少参考图像时被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_forces_image_when_allowed_tools_requires_only_image_generation",
+      "type": "function",
+      "name": "test_forces_image_when_allowed_tools_requires_only_image_generation",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        379,
+        389
+      ],
+      "summary": "验证allowed_tools 只要求图像时强制执行。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_maps_allowed_tool_choice_when_image_selection_is_automatic",
+      "type": "function",
+      "name": "test_maps_allowed_tool_choice_when_image_selection_is_automatic",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        391,
+        401
+      ],
+      "summary": "验证自动选择的 allowed_tools 映射正确。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_enforces_image_call_limit_before_side_effects_when_planner_exceeds_budget",
+      "type": "function",
+      "name": "test_enforces_image_call_limit_before_side_effects_when_planner_exceeds_budget",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        403,
+        414
+      ],
+      "summary": "验证规划器超过调用预算时在产生副作用前拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_passes_quality_and_partial_count_when_streaming_images",
+      "type": "function",
+      "name": "test_passes_quality_and_partial_count_when_streaming_images",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        426,
+        436
+      ],
+      "summary": "验证流式图像请求传递质量与 partial_images。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_sends_function_instead_of_hosted_tool_when_planner_selects_automatically",
+      "type": "function",
+      "name": "test_sends_function_instead_of_hosted_tool_when_planner_selects_automatically",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        438,
+        447
+      ],
+      "summary": "验证自动规划使用兼容函数代替托管图像工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_injects_hosted_image_tool_when_agent_tools_omit_it",
+      "type": "function",
+      "name": "test_injects_hosted_image_tool_when_agent_tools_omit_it",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        449,
+        459
+      ],
+      "summary": "验证代理工具未声明图像时允许隐式补充。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_fulfills_hosted_image_call_when_planner_emits_image_generation_call",
+      "type": "function",
+      "name": "test_fulfills_hosted_image_call_when_planner_emits_image_generation_call",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        461,
+        474
+      ],
+      "summary": "验证规划器原生返回 image_generation_call 时执行图像。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_bridges_completed_hosted_image_call_when_planner_returns_result",
+      "type": "function",
+      "name": "test_bridges_completed_hosted_image_call_when_planner_returns_result",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        476,
+        489
+      ],
+      "summary": "验证规划器已返回完成图像时直接桥接结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_falls_back_to_passthrough_when_planner_rejects_bridged_tools_on_stream",
+      "type": "function",
+      "name": "test_falls_back_to_passthrough_when_planner_rejects_bridged_tools_on_stream",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        499,
+        510
+      ],
+      "summary": "验证流式规划拒绝桥接工具时回退透传。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_omits_bridged_function_when_stream_falls_back_after_planner_rejection",
+      "type": "function",
+      "name": "test_omits_bridged_function_when_stream_falls_back_after_planner_rejection",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        512,
+        521
+      ],
+      "summary": "验证流式回退移除桥接函数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_forwards_previous_response_id_when_planner_selects_image",
+      "type": "function",
+      "name": "test_forwards_previous_response_id_when_planner_selects_image",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        523,
+        532
+      ],
+      "summary": "验证规划器选择图像时保留 previous_response_id。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:rejectBridgedPlanner",
+      "type": "function",
+      "name": "rejectBridgedPlanner",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        556,
+        566
+      ],
+      "summary": "配置规划器以 HTTP 错误拒绝桥接函数，验证回退路径。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:streamResponses",
+      "type": "function",
+      "name": "streamResponses",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        592,
+        601
+      ],
+      "summary": "构造可读取的 Responses 规划 SSE 样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:streamImages",
+      "type": "function",
+      "name": "streamImages",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "lineRange": [
+        603,
+        612
+      ],
+      "summary": "构造图像生成进度与完成 SSE 样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:GatewayProtocolErrorBodyBuilderTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_returnsProtocolFallback_when_jsonSerializationFails",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_propagatesUnexpectedFailure_when_jsonMapperHasProgrammingError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_returnsClaudeErrorShape_when_buildClaudeErrorBodyCalled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java:test_returnsOpenAIErrorShape_when_buildOpenAIErrorBodyCalled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:GatewayStreamingResponseMapperTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_writesClaudeErrorEvent_when_convertedStreamEndsBeforeTerminalEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_completesSuccessfully_when_passthroughStreamEndsWithoutTerminalEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_reportsSuccess_when_passthroughStreamEndsWithoutTerminalEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_completesClientDisconnect_when_passthroughFlushHitsBrokenPipe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_doesNotWriteErrorEvent_when_convertedStreamDisconnects",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java:test_doesNotRethrow_when_convertedStreamDisconnects",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:ResponsesImageBridgeTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:setUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_routes_only_images_with_original_credential_when_image_tool_is_forced",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_uses_explicit_image_model_when_tool_overrides_default",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_routes_images_after_planning_when_model_selects_bridge_function",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_preserves_external_tool_calls_when_image_and_function_are_selected",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_does_not_inject_image_tool_when_tool_choice_is_none",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_preserves_regular_responses_when_no_image_tool_is_declared",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_builds_multipart_edit_when_inline_reference_is_present",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_uses_previous_result_as_edit_input_when_image_history_is_resent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_rejects_remote_edit_reference_before_upstream_call_when_url_is_not_inline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_preserves_upstream_status_and_retry_after_when_images_are_rate_limited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_emits_responses_partial_image_events_when_images_streams",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_keeps_item_ids_and_sequence_consistent_when_stream_completes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_records_usage_when_stream_omits_event_name",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_emits_failure_without_success_when_images_stream_is_truncated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_supports_unversioned_alias_when_client_posts_responses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_rejects_edit_without_reference_when_action_is_edit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_forces_image_when_allowed_tools_requires_only_image_generation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_maps_allowed_tool_choice_when_image_selection_is_automatic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_enforces_image_call_limit_before_side_effects_when_planner_exceeds_budget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_passes_quality_and_partial_count_when_streaming_images",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_sends_function_instead_of_hosted_tool_when_planner_selects_automatically",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_injects_hosted_image_tool_when_agent_tools_omit_it",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_fulfills_hosted_image_call_when_planner_emits_image_generation_call",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_bridges_completed_hosted_image_call_when_planner_returns_result",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_falls_back_to_passthrough_when_planner_rejects_bridged_tools_on_stream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_omits_bridged_function_when_stream_falls_back_after_planner_rejection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:test_forwards_previous_response_id_when_planner_selects_image",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:rejectBridgedPlanner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:streamResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java:streamImages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolContractRegistry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilderTest.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolErrorBodyBuilder.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

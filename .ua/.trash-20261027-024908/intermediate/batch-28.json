@@ -1,0 +1,292 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "type": "file",
+      "name": "protocolMetadataApi.ts",
+      "filePath": "frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "summary": "封装协议元数据列表与按协议类型查询详情的 HTTP 请求。",
+      "tags": [
+        "协议元数据",
+        "接口访问",
+        "请求封装"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:listProtocolMetadata",
+      "type": "function",
+      "name": "listProtocolMetadata",
+      "filePath": "frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "请求协议元数据列表接口并返回类型化响应。",
+      "tags": [
+        "协议元数据",
+        "接口访问",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:getProtocolMetadataDetail",
+      "type": "function",
+      "name": "getProtocolMetadataDetail",
+      "filePath": "frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "编码协议类型后查询其字段分区与详情。",
+      "tags": [
+        "协议元数据",
+        "接口访问",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-metadata/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/entities/protocol-metadata/model/types.ts",
+      "summary": "定义协议列表、字段定义、分区及详情响应的 TypeScript 数据契约。",
+      "tags": [
+        "协议元数据",
+        "类型定义",
+        "响应契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "type": "file",
+      "name": "useProtocolMetadata.ts",
+      "filePath": "frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "summary": "为协议元数据列表和详情提供查询键与 React Query 查询钩子，支持按协议类型启用详情加载。",
+      "tags": [
+        "协议元数据",
+        "查询钩子",
+        "缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataList",
+      "type": "function",
+      "name": "useProtocolMetadataList",
+      "filePath": "frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "lineRange": [
+        9,
+        13
+      ],
+      "summary": "用稳定查询键缓存协议元数据列表。",
+      "tags": [
+        "协议元数据",
+        "查询钩子",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataDetail",
+      "type": "function",
+      "name": "useProtocolMetadataDetail",
+      "filePath": "frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "lineRange": [
+        15,
+        21
+      ],
+      "summary": "按协议类型构造详情查询，并结合启用标记及有效类型控制加载。",
+      "tags": [
+        "协议元数据",
+        "查询钩子",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "type": "file",
+      "name": "ProtocolFieldTable.tsx",
+      "filePath": "frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "summary": "使用表格展示字段路径、类型、必填性、输入输出方向及用途说明。",
+      "tags": [
+        "字段元数据",
+        "表格组件",
+        "协议说明"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx:ProtocolFieldTable",
+      "type": "function",
+      "name": "ProtocolFieldTable",
+      "filePath": "frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "lineRange": [
+        72,
+        83
+      ],
+      "summary": "渲染不分页的协议字段表格，用标签标记字段类型、必填性和方向。",
+      "tags": [
+        "字段元数据",
+        "表格组件",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "type": "file",
+      "name": "ProtocolMetadataCard.tsx",
+      "filePath": "frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "summary": "以可选中的协议卡片展示版本、默认端点、描述及输入输出字段数量。",
+      "tags": [
+        "协议元数据",
+        "展示组件",
+        "协议选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx:ProtocolMetadataCard",
+      "type": "function",
+      "name": "ProtocolMetadataCard",
+      "filePath": "frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "lineRange": [
+        11,
+        38
+      ],
+      "summary": "根据协议元信息设置卡片样式，展示协议说明、端点及字段数量并支持点击选择。",
+      "tags": [
+        "协议元数据",
+        "展示组件",
+        "方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:listProtocolMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:listProtocolMetadata",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:getProtocolMetadataDetail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:getProtocolMetadataDetail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "target": "file:frontend/src/entities/protocol-metadata/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataList",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataList",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataDetail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "target": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataDetail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts",
+      "target": "file:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "target": "function:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx:ProtocolFieldTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "target": "function:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx:ProtocolFieldTable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/ui/ProtocolFieldTable.tsx",
+      "target": "file:frontend/src/entities/protocol-metadata/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "target": "function:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx:ProtocolMetadataCard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "target": "function:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx:ProtocolMetadataCard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-metadata/ui/ProtocolMetadataCard.tsx",
+      "target": "file:frontend/src/entities/protocol-metadata/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-metadata/model/useProtocolMetadata.ts:useProtocolMetadataDetail",
+      "target": "function:frontend/src/entities/protocol-metadata/api/protocolMetadataApi.ts:getProtocolMetadataDetail",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

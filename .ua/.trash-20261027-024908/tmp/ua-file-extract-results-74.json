@@ -1,0 +1,116 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/token-quota/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "useTokenQuotas",
+          "startLine": 26,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "saveQuota",
+          "startLine": 34,
+          "endLine": 39,
+          "params": [
+            "id",
+            "draft"
+          ]
+        },
+        {
+          "name": "deleteQuota",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "QUOTA_QUERY_KEY",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "useTokenQuotas",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "saveQuota",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "deleteQuota",
+          "line": 40,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useTokenQuotas",
+          "callee": "useQuery",
+          "lineNumber": 27
+        },
+        {
+          "caller": "useTokenQuotas",
+          "callee": "await apiClient.get",
+          "lineNumber": 29
+        },
+        {
+          "caller": "saveQuota",
+          "callee": "await apiClient.put",
+          "lineNumber": 36
+        },
+        {
+          "caller": "saveQuota",
+          "callee": "encodeURIComponent",
+          "lineNumber": 36
+        },
+        {
+          "caller": "saveQuota",
+          "callee": "await apiClient.post",
+          "lineNumber": 37
+        },
+        {
+          "caller": "deleteQuota",
+          "callee": "apiClient.delete",
+          "lineNumber": 41
+        },
+        {
+          "caller": "deleteQuota",
+          "callee": "encodeURIComponent",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    }
+  ]
+}

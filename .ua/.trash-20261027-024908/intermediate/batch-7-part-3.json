@@ -1,0 +1,1257 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "type": "file",
+      "name": "DefaultRoutingPolicyService.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "summary": "依据渠道启用状态、模型支持和协议转换能力生成路线，按偏好与优先级排序并轮询同级候选。失败后跳过已尝试路线，按可重试性决定切换或终止。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "故障切换"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:DefaultRoutingPolicyService",
+      "type": "class",
+      "name": "DefaultRoutingPolicyService",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        28,
+        264
+      ],
+      "summary": "依据渠道启用状态、模型支持和协议转换能力生成路线，按偏好与优先级排序并轮询同级候选。失败后跳过已尝试路线，按可重试性决定切换或终止。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "领域对象"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:buildRoutePlan",
+      "type": "function",
+      "name": "buildRoutePlan",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        34,
+        56
+      ],
+      "summary": "遍历启用渠道，组合模型支持与协议转换路线，按偏好和优先级生成有序候选计划。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:decideNext",
+      "type": "function",
+      "name": "decideNext",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        58,
+        81
+      ],
+      "summary": "汇总失败记录，遇到不可重试错误时停止，否则选择尚未尝试的下一条候选路线。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "type": "function",
+      "name": "appendCandidatesForChannel",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        83,
+        122
+      ],
+      "summary": "结合渠道的模型支持和可用协议转换路线，追加包含模型映射及双重优先级的候选。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:candidateUpstreamProtocols",
+      "type": "function",
+      "name": "candidateUpstreamProtocols",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        130,
+        144
+      ],
+      "summary": "优先采用能够服务目标模型的渠道协议映射，否则收集模型声明的上游协议。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:resolveRoute",
+      "type": "function",
+      "name": "resolveRoute",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        151,
+        167
+      ],
+      "summary": "查找已启用且满足当前流式、工具和推理需求的协议转换定义，返回可选转换路线。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:prioritizeCandidates",
+      "type": "function",
+      "name": "prioritizeCandidates",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        169,
+        197
+      ],
+      "summary": "优先排列偏好候选及最高路由优先级候选，再依次加入低优先级和非偏好后备路线。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:rotateForLoadBalance",
+      "type": "function",
+      "name": "rotateForLoadBalance",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        199,
+        221
+      ],
+      "summary": "按请求协议、模型、偏好和优先级维护原子计数，轮换同级路线的起始位置。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:evictOldestCounters",
+      "type": "function",
+      "name": "evictOldestCounters",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        223,
+        232
+      ],
+      "summary": "当负载均衡计数表过大时遍历移除部分键，将表规模降至目标值。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:collectFailures",
+      "type": "function",
+      "name": "collectFailures",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "lineRange": [
+        242,
+        253
+      ],
+      "summary": "合并历史尝试中的失败与最新失败，去重后返回不可变列表。",
+      "tags": [
+        "路由策略",
+        "负载均衡",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "type": "file",
+      "name": "RoutingPolicyService.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "summary": "声明生成路由计划及依据尝试记录和最新失败选择后续动作的领域服务契约。",
+      "tags": [
+        "路由策略",
+        "领域接口",
+        "故障切换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java:RoutingPolicyService",
+      "type": "class",
+      "name": "RoutingPolicyService",
+      "filePath": "backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "lineRange": [
+        16,
+        30
+      ],
+      "summary": "声明生成路由计划及依据尝试记录和最新失败选择后续动作的领域服务契约。",
+      "tags": [
+        "路由策略",
+        "领域接口",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "type": "file",
+      "name": "UsageErrorDiagnostic.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "summary": "从调用错误和最后一次路由失败提炼错误类型、消息与上游 HTTP 状态，供用量记录持久化诊断。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "领域模型"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "type": "class",
+      "name": "UsageErrorDiagnostic",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        12,
+        90
+      ],
+      "summary": "从调用错误和最后一次路由失败提炼错误类型、消息与上游 HTTP 状态，供用量记录持久化诊断。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "type": "function",
+      "name": "UsageErrorDiagnostic",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        20,
+        27
+      ],
+      "summary": "初始化UsageErrorDiagnostic的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "依据传入参数构造UsageErrorDiagnostic，封装对应的领域状态。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:fromInvocationError",
+      "type": "function",
+      "name": "fromInvocationError",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        33,
+        36
+      ],
+      "summary": "返回或判断UsageErrorDiagnostic的fromInvocationError属性，供调用方访问封装状态。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:normalizeMessage",
+      "type": "function",
+      "name": "normalizeMessage",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        38,
+        47
+      ],
+      "summary": "规范化诊断消息文本，避免空白错误说明进入用量记录。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:errorType",
+      "type": "function",
+      "name": "errorType",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        49,
+        51
+      ],
+      "summary": "返回或判断UsageErrorDiagnostic的errorType属性，供调用方访问封装状态。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:message",
+      "type": "function",
+      "name": "message",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        53,
+        55
+      ],
+      "summary": "返回或判断UsageErrorDiagnostic的message属性，供调用方访问封装状态。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:routeFailures",
+      "type": "function",
+      "name": "routeFailures",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        57,
+        59
+      ],
+      "summary": "返回或判断UsageErrorDiagnostic的routeFailures属性，供调用方访问封装状态。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getErrorType",
+      "type": "function",
+      "name": "getErrorType",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        61,
+        63
+      ],
+      "summary": "读取UsageErrorDiagnostic配置中的ErrorType属性。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getMessage",
+      "type": "function",
+      "name": "getMessage",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        65,
+        67
+      ],
+      "summary": "读取UsageErrorDiagnostic配置中的Message属性。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getRouteFailures",
+      "type": "function",
+      "name": "getRouteFailures",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        69,
+        71
+      ],
+      "summary": "读取UsageErrorDiagnostic配置中的RouteFailures属性。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        73,
+        84
+      ],
+      "summary": "比较UsageErrorDiagnostic的领域属性，判断两个实例是否具有相同值。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "lineRange": [
+        86,
+        89
+      ],
+      "summary": "根据UsageErrorDiagnostic的领域属性计算与值相等规则一致的哈希值。",
+      "tags": [
+        "用量记录",
+        "错误诊断",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "type": "file",
+      "name": "ProviderCallStrategy.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "summary": "声明按协议选择的上游调用策略，区分普通转发和流式连接打开操作。",
+      "tags": [
+        "上游调用",
+        "策略接口",
+        "流式响应"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java:ProviderCallStrategy",
+      "type": "class",
+      "name": "ProviderCallStrategy",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "lineRange": [
+        9,
+        25
+      ],
+      "summary": "声明按协议选择的上游调用策略，区分普通转发和流式连接打开操作。",
+      "tags": [
+        "上游调用",
+        "策略接口",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "type": "file",
+      "name": "ProviderGatewayCallAdapter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "summary": "实现应用层上游调用端口，从已注册策略中按上游协议选择普通或流式转发实现。",
+      "tags": [
+        "端口适配",
+        "策略分派",
+        "上游调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "type": "class",
+      "name": "ProviderGatewayCallAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "lineRange": [
+        12,
+        55
+      ],
+      "summary": "实现应用层上游调用端口，从已注册策略中按上游协议选择普通或流式转发实现。",
+      "tags": [
+        "端口适配",
+        "策略分派",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "type": "function",
+      "name": "ProviderGatewayCallAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "lineRange": [
+        17,
+        19
+      ],
+      "summary": "初始化ProviderGatewayCallAdapter的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "端口适配",
+        "策略分派",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:forward",
+      "type": "function",
+      "name": "forward",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "lineRange": [
+        21,
+        31
+      ],
+      "summary": "根据候选上游协议查找支持的调用策略，并委派普通请求转发。",
+      "tags": [
+        "端口适配",
+        "策略分派",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:openStream",
+      "type": "function",
+      "name": "openStream",
+      "filePath": "backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "lineRange": [
+        33,
+        42
+      ],
+      "summary": "根据候选上游协议选择调用策略，并委派流式响应打开操作。",
+      "tags": [
+        "端口适配",
+        "策略分派",
+        "方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:DefaultRoutingPolicyService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:DefaultRoutingPolicyService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:buildRoutePlan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:buildRoutePlan",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:decideNext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:decideNext",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:candidateUpstreamProtocols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:resolveRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:prioritizeCandidates",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:rotateForLoadBalance",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:evictOldestCounters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:collectFailures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelMappingResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRoute.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteAttempt.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java:RoutingPolicyService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java:RoutingPolicyService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteAttempt.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:fromInvocationError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:fromInvocationError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:normalizeMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:errorType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:errorType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:message",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:message",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:routeFailures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:routeFailures",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getErrorType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getErrorType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getMessage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getRouteFailures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getRouteFailures",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java:ProviderCallStrategy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderCallStrategy.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:forward",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:forward",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:openStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:openStream",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:DefaultRoutingPolicyService",
+      "target": "class:backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java:RoutingPolicyService",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:buildRoutePlan",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:buildRoutePlan",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:prioritizeCandidates",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:buildRoutePlan",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:decideNext",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:collectFailures",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:decideNext",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java:stop",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:decideNext",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java:retryNext",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:candidateUpstreamProtocols",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:resolveRoute",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:appendCandidatesForChannel",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ModelMappingResult.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:resolveRoute",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRoute.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:prioritizeCandidates",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:rotateForLoadBalance",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:rotateForLoadBalance",
+      "target": "function:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java:evictOldestCounters",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:UsageErrorDiagnostic",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:normalizeMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:getRouteFailures",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageErrorDiagnostic.java:routeFailures",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java:ProviderGatewayCallAdapter",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayCallPort.java:ProviderGatewayCallPort",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/resources/db/migration/V29__admin_token_quotas.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 28,
+      "nonEmptyLines": 26,
+      "definitions": [
+        {
+          "name": "token_quota_rules",
+          "kind": "table",
+          "fields": [
+            "id",
+            "scope",
+            "target_id",
+            "model",
+            "period",
+            "limit_tokens",
+            "enabled",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 1,
+          "endLine": 12
+        },
+        {
+          "name": "idx_usage_records_group_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 27,
+          "endLine": 27
+        },
+        {
+          "name": "idx_usage_records_key_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 28,
+          "endLine": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+"userAccountApi.ts":{"summary":"封装当前用户、注销及个人资料接口，以及管理员用户列表、详情、创建、角色与状态变更接口，对路径用户标识统一编码。","tags":["api-客户端","用户管理","身份会话"]},
+"types.ts":{"summary":"定义前端账户响应、登录与当前用户类型，以及资料更新和管理员创建、改名、改角色的请求契约。","tags":["类型定义","用户账户","api-契约"]},
+"useCurrentUser.ts":{"summary":"查询当前会话账户并派生登录状态，禁用失败重试并提供统一缓存刷新方法。","tags":["react-hook","当前用户","查询缓存"]},
+"useLogout.ts":{"summary":"提交注销请求，无论成功失败均清除并重新校验当前用户查询，使前端会话状态与服务端同步。","tags":["react-hook","注销","缓存失效"]},
+"useUserAccounts.ts":{"summary":"提供管理员用户列表和按标识详情的 React Query Hook，详情键规范化标识并在标识为空时停止请求。","tags":["react-hook","用户查询","查询缓存"]},
+"UserAccountRow.tsx":{"summary":"以账户卡片展示显示名、用户名、角色、状态、标识及更新时间，并提供操作区插槽。","tags":["react-组件","账户展示","卡片"]},
+"UserRoleTag.tsx":{"summary":"为管理员、普通用户及未知角色显示统一文案与颜色标签。","tags":["react-组件","用户角色","标签"]},
+"UserStatusTag.tsx":{"summary":"将账户启用、禁用及未知状态映射为颜色标签，并保留原始状态提示。","tags":["react-组件","账户状态","标签"]}
+}

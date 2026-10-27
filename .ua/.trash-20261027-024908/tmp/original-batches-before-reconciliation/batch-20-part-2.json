@@ -1,0 +1,965 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "type": "file",
+      "name": "AdminProtocolConversionController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "提供协议转换列表、标识详情、源目标协议对查询和启用禁用的后台 HTTP 接口。",
+      "tags": [
+        "管理接口",
+        "协议转换",
+        "启停控制"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:AdminProtocolConversionController",
+      "type": "class",
+      "name": "AdminProtocolConversionController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "提供协议转换列表、标识详情、源目标协议对查询和启用禁用的后台 HTTP 接口。",
+      "tags": [
+        "管理接口",
+        "协议转换",
+        "启停控制"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        29,
+        101
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:listDefinitions",
+      "type": "function",
+      "name": "listDefinitions",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "读取会话操作者并返回所有协议转换定义的列表响应。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        49
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "type": "function",
+      "name": "getDefinition",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "解析源目标协议参数并读取匹配转换定义的详情。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        51,
+        60
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinitionByDirection",
+      "type": "function",
+      "name": "getDefinitionByDirection",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "按源目标协议方向查询转换定义详情。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        62,
+        74
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "type": "function",
+      "name": "enableConversion",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "验证管理员权限后启用指定转换定义，并保存更新状态。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        76,
+        87
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "type": "function",
+      "name": "disableConversion",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "summary": "验证管理员权限后禁用指定转换定义，并保存更新状态。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        89,
+        100
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "type": "file",
+      "name": "ProtocolConversionHttpConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "summary": "使用 MapStruct 将转换定义及能力和字段映射转换为管理响应，处理协议字符串、状态命令与枚举集合。",
+      "tags": [
+        "对象转换",
+        "能力展示",
+        "映射说明"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java:ProtocolConversionHttpConverter",
+      "type": "class",
+      "name": "ProtocolConversionHttpConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "summary": "使用 MapStruct 将转换定义及能力和字段映射转换为管理响应，处理协议字符串、状态命令与枚举集合。",
+      "tags": [
+        "对象转换",
+        "能力展示",
+        "映射说明"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        28,
+        117
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "type": "file",
+      "name": "ProtocolConversionCapabilityResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "summary": "定义转换能力响应，包含流式、工具、推理、用量、缓存和内容类型支持。",
+      "tags": [
+        "响应模型",
+        "转换能力",
+        "内容类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java:ProtocolConversionCapabilityResponse",
+      "type": "class",
+      "name": "ProtocolConversionCapabilityResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "summary": "定义转换能力响应，包含流式、工具、推理、用量、缓存和内容类型支持。",
+      "tags": [
+        "响应模型",
+        "转换能力",
+        "内容类型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        25
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "type": "file",
+      "name": "ProtocolConversionFieldMappingResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "summary": "定义字段映射响应，包含源目标路径与类型、规则、损失、必填支持情况、默认值和条件。",
+      "tags": [
+        "响应模型",
+        "字段映射",
+        "转换损失"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java:ProtocolConversionFieldMappingResponse",
+      "type": "class",
+      "name": "ProtocolConversionFieldMappingResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "summary": "定义字段映射响应，包含源目标路径与类型、规则、损失、必填支持情况、默认值和条件。",
+      "tags": [
+        "响应模型",
+        "字段映射",
+        "转换损失"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        32
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "type": "file",
+      "name": "ProtocolConversionListItemResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "summary": "定义转换列表条目的协议对、转换类别、启停和实现状态及核心能力摘要。",
+      "tags": [
+        "响应模型",
+        "转换列表",
+        "能力摘要"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java:ProtocolConversionListItemResponse",
+      "type": "class",
+      "name": "ProtocolConversionListItemResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "summary": "定义转换列表条目的协议对、转换类别、启停和实现状态及核心能力摘要。",
+      "tags": [
+        "响应模型",
+        "转换列表",
+        "能力摘要"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        28
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "type": "file",
+      "name": "ProtocolConversionListResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "summary": "包装协议转换列表条目，供后台列表接口输出。",
+      "tags": [
+        "响应模型",
+        "列表封装",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java:ProtocolConversionListResponse",
+      "type": "class",
+      "name": "ProtocolConversionListResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "summary": "包装协议转换列表条目，供后台列表接口输出。",
+      "tags": [
+        "响应模型",
+        "列表封装",
+        "协议转换"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        20
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "type": "file",
+      "name": "ProtocolConversionMappingResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "summary": "定义映射文档响应，包含请求响应方向、标题、概要和字段规则列表。",
+      "tags": [
+        "响应模型",
+        "映射文档",
+        "字段规则"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java:ProtocolConversionMappingResponse",
+      "type": "class",
+      "name": "ProtocolConversionMappingResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "summary": "定义映射文档响应，包含请求响应方向、标题、概要和字段规则列表。",
+      "tags": [
+        "响应模型",
+        "映射文档",
+        "字段规则"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        23
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "type": "file",
+      "name": "ProtocolConversionResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "summary": "定义协议转换详情响应，组合协议对、状态、能力、请求响应映射与审计时间。",
+      "tags": [
+        "响应模型",
+        "转换详情",
+        "能力展示"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java:ProtocolConversionResponse",
+      "type": "class",
+      "name": "ProtocolConversionResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "summary": "定义协议转换详情响应，组合协议对、状态、能力、请求响应映射与审计时间。",
+      "tags": [
+        "响应模型",
+        "转换详情",
+        "能力展示"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        28
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "summary": "验证缺少执行转换程序时生成明确不可用的字段规则，同协议定义则回退为完整载荷透传规则。",
+      "tags": [
+        "持久化转换测试",
+        "缺失程序",
+        "透传回退"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:ProtocolConversionDefinitionPersistenceConverterTest",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionPersistenceConverterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "summary": "验证缺少执行转换程序时生成明确不可用的字段规则，同协议定义则回退为完整载荷透传规则。",
+      "tags": [
+        "持久化转换测试",
+        "缺失程序",
+        "透传回退"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        13,
+        81
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:test_fallbackMapping_when_noConverterRegistered",
+      "type": "function",
+      "name": "test_fallbackMapping_when_noConverterRegistered",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "summary": "未注册转换执行程序时，验证字段映射明确标记不可用且不声称支持。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        36
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:test_passthroughFallback_when_sameProtocol",
+      "type": "function",
+      "name": "test_passthroughFallback_when_sameProtocol",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "summary": "源目标协议相同时，验证缺少程序仍生成 payload 到 payload 的透传映射。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        53
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:po",
+      "type": "function",
+      "name": "po",
+      "filePath": "backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "summary": "构造不同协议对和映射描述的持久化测试数据。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        55,
+        80
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:AdminProtocolConversionController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:AdminProtocolConversionController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:listDefinitions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:listDefinitions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinitionByDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinitionByDirection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java:ProtocolConversionHttpConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java:ProtocolConversionHttpConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/protocol/command/ChangeProtocolConversionStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProtocolConversionHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java:ProtocolConversionCapabilityResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionCapabilityResponse.java:ProtocolConversionCapabilityResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java:ProtocolConversionFieldMappingResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionFieldMappingResponse.java:ProtocolConversionFieldMappingResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java:ProtocolConversionListItemResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListItemResponse.java:ProtocolConversionListItemResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java:ProtocolConversionListResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionListResponse.java:ProtocolConversionListResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java:ProtocolConversionMappingResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionMappingResponse.java:ProtocolConversionMappingResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java:ProtocolConversionResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolConversionResponse.java:ProtocolConversionResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:ProtocolConversionDefinitionPersistenceConverterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:test_fallbackMapping_when_noConverterRegistered",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:test_passthroughFallback_when_sameProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:po",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:listDefinitions",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:listDefinitions",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:listDefinitions",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:listDefinitions",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinition",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinition",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinitionByDirection",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinitionByDirection",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:getDefinitionByDirection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:getDefinitionByDirection",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:enableConversion",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:enableConversion",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "target": "function:backend/src/main/java/com/api2api/application/protocol/ProtocolConversionApplicationService.java:disableConversion",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProtocolConversionController.java:disableConversion",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:test_fallbackMapping_when_noConverterRegistered",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:po",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:test_passthroughFallback_when_sameProtocol",
+      "target": "function:backend/src/test/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverterTest.java:po",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

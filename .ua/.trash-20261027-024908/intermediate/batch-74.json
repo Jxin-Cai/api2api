@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/token-quota/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/entities/token-quota/index.ts",
+      "summary": "提供令牌配额实体类型、管理列表查询及新增、修改、删除接口，三十秒轮询用量并为未加载数据提供稳定空数组与默认上海时区。",
+      "tags": [
+        "配额实体",
+        "接口封装",
+        "查询缓存",
+        "定时轮询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/token-quota/index.ts:useTokenQuotas",
+      "type": "function",
+      "name": "useTokenQuotas",
+      "filePath": "frontend/src/entities/token-quota/index.ts",
+      "lineRange": [
+        26,
+        33
+      ],
+      "summary": "每三十秒刷新管理端令牌配额规则与目标列表，返回查询状态、稳定默认数组及计量时区。",
+      "tags": [
+        "配额实体",
+        "接口封装",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/token-quota/index.ts:saveQuota",
+      "type": "function",
+      "name": "saveQuota",
+      "filePath": "frontend/src/entities/token-quota/index.ts",
+      "lineRange": [
+        34,
+        39
+      ],
+      "summary": "根据是否传入规则标识选择新增或更新配额，编码路径标识并返回保存后的规则。",
+      "tags": [
+        "配额实体",
+        "接口封装",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/token-quota/index.ts:deleteQuota",
+      "type": "function",
+      "name": "deleteQuota",
+      "filePath": "frontend/src/entities/token-quota/index.ts",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "对经过路径编码的规则标识发起删除请求，成功后不返回业务数据。",
+      "tags": [
+        "配额实体",
+        "接口封装",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/token-quota/index.ts",
+      "target": "function:frontend/src/entities/token-quota/index.ts:useTokenQuotas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/token-quota/index.ts",
+      "target": "function:frontend/src/entities/token-quota/index.ts:useTokenQuotas",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/token-quota/index.ts",
+      "target": "function:frontend/src/entities/token-quota/index.ts:saveQuota",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/token-quota/index.ts",
+      "target": "function:frontend/src/entities/token-quota/index.ts:saveQuota",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/token-quota/index.ts",
+      "target": "function:frontend/src/entities/token-quota/index.ts:deleteQuota",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/token-quota/index.ts",
+      "target": "function:frontend/src/entities/token-quota/index.ts:deleteQuota",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

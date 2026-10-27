@@ -1,0 +1,118 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "type": "file",
+      "name": "ModelGroupFormModal.tsx",
+      "filePath": "frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "summary": "提供模型组创建和编辑表单，维护名称及模型白名单，允许保留暂不可用的模型；保存前去除名称首尾空白并在成功后回调和关闭。",
+      "tags": [
+        "模型分组管理",
+        "表单交互"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx:ModelGroupFormModal",
+      "type": "function",
+      "name": "ModelGroupFormModal",
+      "filePath": "frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "summary": "提供模型组创建和编辑表单，维护名称及模型白名单，允许保留暂不可用的模型；保存前去除名称首尾空白并在成功后回调和关闭。",
+      "tags": [
+        "模型分组",
+        "业务组件"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        47
+      ]
+    },
+    {
+      "id": "file:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "type": "file",
+      "name": "ModelGroupTablePanel.tsx",
+      "filePath": "frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "summary": "展示管理员全局模型组、白名单与有效模型、绑定密钥数，提供创建编辑及绑定保护下的确认删除，并通过统一配额查询派生绑定计数。",
+      "tags": [
+        "模型分组管理",
+        "管理列表"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx:ModelGroupTablePanel",
+      "type": "function",
+      "name": "ModelGroupTablePanel",
+      "filePath": "frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "summary": "展示管理员全局模型组、白名单与有效模型、绑定密钥数，提供创建编辑及绑定保护下的确认删除，并通过统一配额查询派生绑定计数。",
+      "tags": [
+        "模型分组",
+        "业务组件"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        17,
+        150
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "target": "function:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx:ModelGroupFormModal",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "target": "function:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx:ModelGroupFormModal",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "target": "function:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx:ModelGroupTablePanel",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "target": "function:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx:ModelGroupTablePanel",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx:ModelGroupTablePanel",
+      "target": "function:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx:ModelGroupFormModal",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "target": "file:frontend/src/features/manage-model-groups/model/useModelGroupMutations.ts",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-model-groups/model/useModelGroupMutations.ts",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/features/manage-model-groups/ui/ModelGroupTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-model-groups/ui/ModelGroupFormModal.tsx",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    }
+  ]
+}

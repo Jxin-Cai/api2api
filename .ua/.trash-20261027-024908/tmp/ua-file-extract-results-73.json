@@ -1,0 +1,92 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/test/java/com/api2api/domain/routing/model/ScopedRateLimitTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "test_classifies_caller_scope_when_upstream_returns_scoped_429",
+          "startLine": 9,
+          "endLine": 18,
+          "params": [
+            "code"
+          ]
+        },
+        {
+          "name": "test_preserves_provider_isolation_when_limit_has_no_caller_scope",
+          "startLine": 20,
+          "endLine": 26,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ScopedRateLimitTest",
+          "startLine": 8,
+          "endLine": 27,
+          "methods": [
+            "test_classifies_caller_scope_when_upstream_returns_scoped_429",
+            "test_preserves_provider_isolation_when_limit_has_no_caller_scope"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_classifies_caller_scope_when_upstream_returns_scoped_429",
+          "callee": "RouteFailureType.fromHttpResponse",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_classifies_caller_scope_when_upstream_returns_scoped_429",
+          "callee": "assertThat(type).isEqualTo",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_classifies_caller_scope_when_upstream_returns_scoped_429",
+          "callee": "assertThat",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_preserves_provider_isolation_when_limit_has_no_caller_scope",
+          "callee": "RouteFailureType.fromHttpResponse",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_preserves_provider_isolation_when_limit_has_no_caller_scope",
+          "callee": "assertThat(type).isEqualTo",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_preserves_provider_isolation_when_limit_has_no_caller_scope",
+          "callee": "assertThat",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    }
+  ]
+}

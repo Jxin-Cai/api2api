@@ -1,0 +1,6157 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 35,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 35,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 35,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 350,
+      "nonEmptyLines": 307,
+      "functions": [
+        {
+          "name": "createChannel",
+          "startLine": 59,
+          "endLine": 75,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "updateChannel",
+          "startLine": 77,
+          "endLine": 90,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "enableChannel",
+          "startLine": 92,
+          "endLine": 100,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "disableChannel",
+          "startLine": 102,
+          "endLine": 110,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "enableChannelModel",
+          "startLine": 112,
+          "endLine": 120,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "disableChannelModel",
+          "startLine": 122,
+          "endLine": 130,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "deleteChannel",
+          "startLine": 132,
+          "endLine": 137,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "listChannels",
+          "startLine": 139,
+          "endLine": 143,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "resetAllRateLimits",
+          "startLine": 145,
+          "endLine": 149,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "listProviderModelOptions",
+          "startLine": 151,
+          "endLine": 166,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "fetchAndReplaceModels",
+          "startLine": 168,
+          "endLine": 179,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "previewProviderModels",
+          "startLine": 181,
+          "endLine": 192,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "previewProviderModels",
+          "startLine": 194,
+          "endLine": 209,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "loadChannelForModelFetch",
+          "startLine": 211,
+          "endLine": 215,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "replaceFetchedModels",
+          "startLine": 217,
+          "endLine": 232,
+          "params": [
+            "operatorUserId",
+            "providerChannelId",
+            "fetchedModels"
+          ]
+        },
+        {
+          "name": "upsertChannelModels",
+          "startLine": 234,
+          "endLine": 252,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "upsertChannelModel",
+          "startLine": 254,
+          "endLine": 273,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "removeChannelModel",
+          "startLine": 275,
+          "endLine": 283,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "toModelSupport",
+          "startLine": 285,
+          "endLine": 302,
+          "params": [
+            "item",
+            "channel",
+            "now"
+          ]
+        },
+        {
+          "name": "assertAdmin",
+          "startLine": 304,
+          "endLine": 308,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "assertUserPortal",
+          "startLine": 310,
+          "endLine": 314,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "loadChannel",
+          "startLine": 316,
+          "endLine": 319,
+          "params": [
+            "providerChannelId"
+          ]
+        },
+        {
+          "name": "nextChannelModelSupportId",
+          "startLine": 321,
+          "endLine": 325,
+          "params": []
+        },
+        {
+          "name": "now",
+          "startLine": 327,
+          "endLine": 329,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderChannelApplicationService",
+          "startLine": 43,
+          "endLine": 350,
+          "methods": [
+            "createChannel",
+            "updateChannel",
+            "enableChannel",
+            "disableChannel",
+            "enableChannelModel",
+            "disableChannelModel",
+            "deleteChannel",
+            "listChannels",
+            "resetAllRateLimits",
+            "listProviderModelOptions",
+            "fetchAndReplaceModels",
+            "previewProviderModels",
+            "previewProviderModels",
+            "loadChannelForModelFetch",
+            "replaceFetchedModels",
+            "upsertChannelModels",
+            "upsertChannelModel",
+            "removeChannelModel",
+            "toModelSupport",
+            "assertAdmin",
+            "assertUserPortal",
+            "loadChannel",
+            "nextChannelModelSupportId",
+            "now"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "providerChannelRepository",
+            "providerModelFetchPort",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "createChannel",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "updateChannel",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "enableChannel",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "disableChannel",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "enableChannelModel",
+          "line": 112,
+          "isDefault": false
+        },
+        {
+          "name": "disableChannelModel",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "deleteChannel",
+          "line": 132,
+          "isDefault": false
+        },
+        {
+          "name": "listChannels",
+          "line": 139,
+          "isDefault": false
+        },
+        {
+          "name": "resetAllRateLimits",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "listProviderModelOptions",
+          "line": 151,
+          "isDefault": false
+        },
+        {
+          "name": "fetchAndReplaceModels",
+          "line": 168,
+          "isDefault": false
+        },
+        {
+          "name": "previewProviderModels",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "previewProviderModels",
+          "line": 194,
+          "isDefault": false
+        },
+        {
+          "name": "loadChannelForModelFetch",
+          "line": 211,
+          "isDefault": false
+        },
+        {
+          "name": "replaceFetchedModels",
+          "line": 217,
+          "isDefault": false
+        },
+        {
+          "name": "upsertChannelModels",
+          "line": 234,
+          "isDefault": false
+        },
+        {
+          "name": "upsertChannelModel",
+          "line": 254,
+          "isDefault": false
+        },
+        {
+          "name": "removeChannelModel",
+          "line": 275,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelApplicationService",
+          "line": 43,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createChannel",
+          "callee": "assertAdmin",
+          "lineNumber": 61
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 61
+        },
+        {
+          "caller": "createChannel",
+          "callee": "ProviderChannel.create",
+          "lineNumber": 63
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 64
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getName",
+          "lineNumber": 65
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getHost",
+          "lineNumber": 66
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getKeyRef",
+          "lineNumber": 67
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getModelsPath",
+          "lineNumber": 68
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getRoutePriority",
+          "lineNumber": 69
+        },
+        {
+          "caller": "createChannel",
+          "callee": "command.getProtocolMappings",
+          "lineNumber": 70
+        },
+        {
+          "caller": "createChannel",
+          "callee": "now",
+          "lineNumber": 71
+        },
+        {
+          "caller": "createChannel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 73
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "assertAdmin",
+          "lineNumber": 79
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 79
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "loadChannel",
+          "lineNumber": 80
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 80
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "now",
+          "lineNumber": 81
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "channel.rename",
+          "lineNumber": 83
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getName",
+          "lineNumber": 83
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "channel.updateEndpoint",
+          "lineNumber": 84
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getHost",
+          "lineNumber": 84
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getKeyRef",
+          "lineNumber": 84
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "channel.keyRef",
+          "lineNumber": 84
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getKeyRef",
+          "lineNumber": 84
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "channel.changeModelsPath",
+          "lineNumber": 85
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getModelsPath",
+          "lineNumber": 85
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "channel.changeRoutePriority",
+          "lineNumber": 86
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getRoutePriority",
+          "lineNumber": 86
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "channel.replaceProtocolMappings",
+          "lineNumber": 87
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "command.getProtocolMappings",
+          "lineNumber": 87
+        },
+        {
+          "caller": "updateChannel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 88
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "assertAdmin",
+          "lineNumber": 94
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 94
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "loadChannel",
+          "lineNumber": 95
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 95
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "channel.enable",
+          "lineNumber": 97
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "now",
+          "lineNumber": 97
+        },
+        {
+          "caller": "enableChannel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 98
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "assertAdmin",
+          "lineNumber": 104
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 104
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "loadChannel",
+          "lineNumber": 105
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 105
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "channel.disable",
+          "lineNumber": 107
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "now",
+          "lineNumber": 107
+        },
+        {
+          "caller": "disableChannel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 108
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "assertAdmin",
+          "lineNumber": 114
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 114
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "loadChannel",
+          "lineNumber": 115
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 115
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "channel.enableModel",
+          "lineNumber": 117
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "command.getChannelModelSupportId",
+          "lineNumber": 117
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "now",
+          "lineNumber": 117
+        },
+        {
+          "caller": "enableChannelModel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 118
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "assertAdmin",
+          "lineNumber": 124
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 124
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "loadChannel",
+          "lineNumber": 125
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 125
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "channel.disableModel",
+          "lineNumber": 127
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "command.getChannelModelSupportId",
+          "lineNumber": 127
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "now",
+          "lineNumber": 127
+        },
+        {
+          "caller": "disableChannelModel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 128
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "assertAdmin",
+          "lineNumber": 134
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 134
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "loadChannel",
+          "lineNumber": 135
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 135
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "providerChannelRepository.softDeleteById",
+          "lineNumber": 136
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 136
+        },
+        {
+          "caller": "deleteChannel",
+          "callee": "now",
+          "lineNumber": 136
+        },
+        {
+          "caller": "listChannels",
+          "callee": "assertAdmin",
+          "lineNumber": 141
+        },
+        {
+          "caller": "listChannels",
+          "callee": "providerChannelRepository.findAll",
+          "lineNumber": 142
+        },
+        {
+          "caller": "resetAllRateLimits",
+          "callee": "assertAdmin",
+          "lineNumber": 147
+        },
+        {
+          "caller": "resetAllRateLimits",
+          "callee": "providerChannelRepository.restoreAllModelRateLimits",
+          "lineNumber": 148
+        },
+        {
+          "caller": "resetAllRateLimits",
+          "callee": "now",
+          "lineNumber": 148
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "assertUserPortal",
+          "lineNumber": 153
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "new LinkedHashMap<>",
+          "lineNumber": 154
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "providerChannelRepository.findAll",
+          "lineNumber": 155
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "channel.supportedModels",
+          "lineNumber": 156
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "modelSupport.requestedModel().value",
+          "lineNumber": 157
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "modelSupport.requestedModel",
+          "lineNumber": 157
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.computeIfAbsent(modelName, ignored -> new ModelOptionAccumulator(modelSupport.requestedModel())).add",
+          "lineNumber": 158
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.computeIfAbsent",
+          "lineNumber": 158
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "new ModelOptionAccumulator",
+          "lineNumber": 158
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "modelSupport.requestedModel",
+          "lineNumber": 158
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "modelSupport.upstreamProtocol",
+          "lineNumber": 159
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.values().stream()\n                .map(ModelOptionAccumulator::toOption)\n                .sorted(Comparator.comparing(option -> option.model().value())).toList",
+          "lineNumber": 162
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.values().stream()\n                .map(ModelOptionAccumulator::toOption).sorted",
+          "lineNumber": 162
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.values().stream().map",
+          "lineNumber": 162
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.values().stream",
+          "lineNumber": 162
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "options.values",
+          "lineNumber": 162
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "Comparator.comparing",
+          "lineNumber": 164
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "option.model().value",
+          "lineNumber": 164
+        },
+        {
+          "caller": "listProviderModelOptions",
+          "callee": "option.model",
+          "lineNumber": 164
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "loadChannelForModelFetch",
+          "lineNumber": 169
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "providerModelFetchPort.fetchModels",
+          "lineNumber": 170
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "channel.id",
+          "lineNumber": 171
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "channel.host",
+          "lineNumber": 172
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "channel.keyRef",
+          "lineNumber": 173
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "channel.upstreamProtocols",
+          "lineNumber": 175
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "command.getDefaultPriority",
+          "lineNumber": 176
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "replaceFetchedModels",
+          "lineNumber": 178
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 178
+        },
+        {
+          "caller": "fetchAndReplaceModels",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 178
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "assertAdmin",
+          "lineNumber": 183
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 183
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "providerModelFetchPort.fetchModels",
+          "lineNumber": 184
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "ProviderChannelId.of",
+          "lineNumber": 185
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getHost",
+          "lineNumber": 186
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getKeyRef",
+          "lineNumber": 187
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getUpstreamProtocols",
+          "lineNumber": 189
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getDefaultPriority",
+          "lineNumber": 190
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "assertAdmin",
+          "lineNumber": 196
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 196
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "loadChannel",
+          "lineNumber": 197
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 197
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getUpstreamProtocols",
+          "lineNumber": 198
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getUpstreamProtocols().isEmpty",
+          "lineNumber": 198
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getUpstreamProtocols",
+          "lineNumber": 198
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "channel.upstreamProtocols",
+          "lineNumber": 199
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getUpstreamProtocols",
+          "lineNumber": 200
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "providerModelFetchPort.fetchModels",
+          "lineNumber": 201
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "channel.id",
+          "lineNumber": 202
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getHost",
+          "lineNumber": 203
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "channel.host",
+          "lineNumber": 203
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getHost",
+          "lineNumber": 203
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getKeyRef",
+          "lineNumber": 204
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "channel.keyRef",
+          "lineNumber": 204
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getKeyRef",
+          "lineNumber": 204
+        },
+        {
+          "caller": "previewProviderModels",
+          "callee": "command.getDefaultPriority",
+          "lineNumber": 207
+        },
+        {
+          "caller": "loadChannelForModelFetch",
+          "callee": "assertAdmin",
+          "lineNumber": 213
+        },
+        {
+          "caller": "loadChannelForModelFetch",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 213
+        },
+        {
+          "caller": "loadChannelForModelFetch",
+          "callee": "loadChannel",
+          "lineNumber": 214
+        },
+        {
+          "caller": "loadChannelForModelFetch",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 214
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "assertAdmin",
+          "lineNumber": 223
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "loadChannel",
+          "lineNumber": 224
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "fetchedModels.isEmpty",
+          "lineNumber": 226
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "new BusinessException",
+          "lineNumber": 227
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "channel.replaceModels",
+          "lineNumber": 229
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "now",
+          "lineNumber": 229
+        },
+        {
+          "caller": "replaceFetchedModels",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 230
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "assertAdmin",
+          "lineNumber": 236
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 236
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "loadChannel",
+          "lineNumber": 237
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 237
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "now",
+          "lineNumber": 238
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.isReplaceExisting",
+          "lineNumber": 239
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getModels().isEmpty",
+          "lineNumber": 239
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getModels",
+          "lineNumber": 239
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "new BusinessException",
+          "lineNumber": 240
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getModels().stream()\n                .map(item -> toModelSupport(item, channel, now)).toList",
+          "lineNumber": 242
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getModels().stream().map",
+          "lineNumber": 242
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getModels().stream",
+          "lineNumber": 242
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.getModels",
+          "lineNumber": 242
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "toModelSupport",
+          "lineNumber": 243
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "command.isReplaceExisting",
+          "lineNumber": 245
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "channel.replaceModels",
+          "lineNumber": 246
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "modelSupports.forEach",
+          "lineNumber": 248
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "channel.addOrUpdateModel",
+          "lineNumber": 248
+        },
+        {
+          "caller": "upsertChannelModels",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 250
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "assertAdmin",
+          "lineNumber": 256
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 256
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "loadChannel",
+          "lineNumber": 257
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 257
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "now",
+          "lineNumber": 258
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "ChannelModelSupport.create",
+          "lineNumber": 259
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getChannelModelSupportId",
+          "lineNumber": 260
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 261
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getUpstreamModel",
+          "lineNumber": 262
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getUpstreamProtocol",
+          "lineNumber": 263
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getPriority",
+          "lineNumber": 264
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.isPreferred",
+          "lineNumber": 265
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "command.getSource",
+          "lineNumber": 266
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "channel.addOrUpdateModel",
+          "lineNumber": 270
+        },
+        {
+          "caller": "upsertChannelModel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 271
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "assertAdmin",
+          "lineNumber": 277
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 277
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "loadChannel",
+          "lineNumber": 278
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 278
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "channel.removeModel",
+          "lineNumber": 280
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 280
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "command.getUpstreamProtocol",
+          "lineNumber": 280
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "now",
+          "lineNumber": 280
+        },
+        {
+          "caller": "removeChannelModel",
+          "callee": "providerChannelRepository.save",
+          "lineNumber": 281
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getChannelModelSupportId",
+          "lineNumber": 286
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.findModelSupport(item.getRequestedModel(), item.getUpstreamProtocol()).orElse",
+          "lineNumber": 287
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.findModelSupport",
+          "lineNumber": 287
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getRequestedModel",
+          "lineNumber": 287
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getUpstreamProtocol",
+          "lineNumber": 287
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.supportedModels().stream()\n                .filter(modelSupport -> modelSupport.id().equals(item.getChannelModelSupportId()))\n                .findFirst().orElse",
+          "lineNumber": 288
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.supportedModels().stream()\n                .filter(modelSupport -> modelSupport.id().equals(item.getChannelModelSupportId())).findFirst",
+          "lineNumber": 288
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.supportedModels().stream().filter",
+          "lineNumber": 288
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.supportedModels().stream",
+          "lineNumber": 288
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "channel.supportedModels",
+          "lineNumber": 288
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "modelSupport.id().equals",
+          "lineNumber": 289
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "modelSupport.id",
+          "lineNumber": 289
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getChannelModelSupportId",
+          "lineNumber": 289
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "ChannelModelSupport.create",
+          "lineNumber": 292
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getChannelModelSupportId",
+          "lineNumber": 293
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "nextChannelModelSupportId",
+          "lineNumber": 293
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getChannelModelSupportId",
+          "lineNumber": 293
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "existing.id",
+          "lineNumber": 293
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getRequestedModel",
+          "lineNumber": 294
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getUpstreamModel",
+          "lineNumber": 295
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getUpstreamProtocol",
+          "lineNumber": 296
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getPriority",
+          "lineNumber": 297
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.isPreferred",
+          "lineNumber": 298
+        },
+        {
+          "caller": "toModelSupport",
+          "callee": "item.getSource",
+          "lineNumber": 299
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "userAccountRepository.findById(operatorUserId).orElseThrow",
+          "lineNumber": 305
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 305
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "new BusinessException",
+          "lineNumber": 306
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "operator.assertCanAccess",
+          "lineNumber": 307
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "userAccountRepository.findById(userId).orElseThrow",
+          "lineNumber": 311
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 311
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "new BusinessException",
+          "lineNumber": 312
+        },
+        {
+          "caller": "assertUserPortal",
+          "callee": "user.assertCanAccess",
+          "lineNumber": 313
+        },
+        {
+          "caller": "loadChannel",
+          "callee": "providerChannelRepository.findById(providerChannelId).orElseThrow",
+          "lineNumber": 317
+        },
+        {
+          "caller": "loadChannel",
+          "callee": "providerChannelRepository.findById",
+          "lineNumber": 317
+        },
+        {
+          "caller": "loadChannel",
+          "callee": "new BusinessException",
+          "lineNumber": 318
+        },
+        {
+          "caller": "nextChannelModelSupportId",
+          "callee": "clock.millis",
+          "lineNumber": 322
+        },
+        {
+          "caller": "nextChannelModelSupportId",
+          "callee": "ThreadLocalRandom.current().nextLong",
+          "lineNumber": 323
+        },
+        {
+          "caller": "nextChannelModelSupportId",
+          "callee": "ThreadLocalRandom.current",
+          "lineNumber": 323
+        },
+        {
+          "caller": "nextChannelModelSupportId",
+          "callee": "ChannelModelSupportId.of",
+          "lineNumber": 324
+        },
+        {
+          "caller": "now",
+          "callee": "Instant.now",
+          "lineNumber": 328
+        },
+        {
+          "caller": "add",
+          "callee": "channelIds.add",
+          "lineNumber": 341
+        },
+        {
+          "caller": "add",
+          "callee": "channel.id",
+          "lineNumber": 341
+        },
+        {
+          "caller": "add",
+          "callee": "protocols.add",
+          "lineNumber": 342
+        },
+        {
+          "caller": "toOption",
+          "callee": "ProviderModelOption.of",
+          "lineNumber": 347
+        },
+        {
+          "caller": "toOption",
+          "callee": "channelIds.size",
+          "lineNumber": 347
+        }
+      ],
+      "metrics": {
+        "importCount": 26,
+        "exportCount": 19,
+        "functionCount": 24,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "availableModels",
+          "startLine": 25,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "isAvailable",
+          "startLine": 38,
+          "endLine": 45,
+          "params": [
+            "model",
+            "now"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderModelAvailabilityService",
+          "startLine": 18,
+          "endLine": 46,
+          "methods": [
+            "availableModels",
+            "isAvailable"
+          ],
+          "properties": [
+            "channelRepository",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "availableModels",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderModelAvailabilityService",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "availableModels",
+          "callee": "Instant.now",
+          "lineNumber": 27
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll().stream()\n                .filter(ProviderChannel::isEnabledForRouting)\n                .flatMap(channel -> channel.supportedModels().stream()\n                        .filter(model -> channel.supportsUpstreamProtocol(model.upstreamProtocol())))\n                .filter(model -> isAvailable(model, now))\n                .map(model -> ModelName.of(model.requestedModel().value())).collect",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll().stream()\n                .filter(ProviderChannel::isEnabledForRouting)\n                .flatMap(channel -> channel.supportedModels().stream()\n                        .filter(model -> channel.supportsUpstreamProtocol(model.upstreamProtocol())))\n                .filter(model -> isAvailable(model, now)).map",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll().stream()\n                .filter(ProviderChannel::isEnabledForRouting)\n                .flatMap(channel -> channel.supportedModels().stream()\n                        .filter(model -> channel.supportsUpstreamProtocol(model.upstreamProtocol()))).filter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll().stream()\n                .filter(ProviderChannel::isEnabledForRouting).flatMap",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll().stream().filter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll().stream",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channelRepository.findAll",
+          "lineNumber": 29
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channel.supportedModels().stream().filter",
+          "lineNumber": 31
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channel.supportedModels().stream",
+          "lineNumber": 31
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channel.supportedModels",
+          "lineNumber": 31
+        },
+        {
+          "caller": "availableModels",
+          "callee": "channel.supportsUpstreamProtocol",
+          "lineNumber": 32
+        },
+        {
+          "caller": "availableModels",
+          "callee": "model.upstreamProtocol",
+          "lineNumber": 32
+        },
+        {
+          "caller": "availableModels",
+          "callee": "isAvailable",
+          "lineNumber": 33
+        },
+        {
+          "caller": "availableModels",
+          "callee": "ModelName.of",
+          "lineNumber": 34
+        },
+        {
+          "caller": "availableModels",
+          "callee": "model.requestedModel().value",
+          "lineNumber": 34
+        },
+        {
+          "caller": "availableModels",
+          "callee": "model.requestedModel",
+          "lineNumber": 34
+        },
+        {
+          "caller": "availableModels",
+          "callee": "Collectors.toUnmodifiableSet",
+          "lineNumber": 35
+        },
+        {
+          "caller": "isAvailable",
+          "callee": "model.status",
+          "lineNumber": 41
+        },
+        {
+          "caller": "isAvailable",
+          "callee": "model.status",
+          "lineNumber": 42
+        },
+        {
+          "caller": "isAvailable",
+          "callee": "model.rateLimitResetAt",
+          "lineNumber": 43
+        },
+        {
+          "caller": "isAvailable",
+          "callee": "model.rateLimitResetAt().isAfter",
+          "lineNumber": 44
+        },
+        {
+          "caller": "isAvailable",
+          "callee": "model.rateLimitResetAt",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/ProviderModelFetchPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 23,
+      "classes": [
+        {
+          "name": "ProviderModelFetchPort",
+          "startLine": 16,
+          "endLine": 26,
+          "methods": [
+            "fetchModels"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderModelFetchPort",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "BatchUpsertChannelModelsCommand",
+          "startLine": 13,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "models",
+            "replaceExisting"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BatchUpsertChannelModelsCommand",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ChangeChannelModelStatusCommand",
+          "startLine": 10,
+          "endLine": 22,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "channelModelSupportId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeChannelModelStatusCommand",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ChangeProviderChannelStatusCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeProviderChannelStatusCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "ChannelModelUpsertItemCommand",
+          "startLine": 15,
+          "endLine": 37,
+          "methods": [],
+          "properties": [
+            "channelModelSupportId",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "source"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelUpsertItemCommand",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "CreateProviderChannelCommand",
+          "startLine": 48,
+          "endLine": 67,
+          "params": [
+            "operatorUserId",
+            "providerChannelId",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings"
+          ]
+        },
+        {
+          "name": "copyNotEmpty",
+          "startLine": 69,
+          "endLine": 79,
+          "params": [
+            "source"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CreateProviderChannelCommand",
+          "startLine": 22,
+          "endLine": 80,
+          "methods": [
+            "CreateProviderChannelCommand",
+            "copyNotEmpty"
+          ],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateProviderChannelCommand",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 59
+        },
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 60
+        },
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 61
+        },
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 62
+        },
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 63
+        },
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "Objects.requireNonNullElse",
+          "lineNumber": 64
+        },
+        {
+          "caller": "CreateProviderChannelCommand",
+          "callee": "copyNotEmpty",
+          "lineNumber": 66
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 70
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "source.isEmpty",
+          "lineNumber": 71
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 72
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "copied.add",
+          "lineNumber": 76
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 76
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Collections.unmodifiableSet",
+          "lineNumber": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "DeleteProviderChannelCommand",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DeleteProviderChannelCommand",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/FetchProviderChannelModelPreviewCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 29,
+      "classes": [
+        {
+          "name": "FetchProviderChannelModelPreviewCommand",
+          "startLine": 18,
+          "endLine": 38,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "upstreamProtocols",
+            "defaultPriority"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FetchProviderChannelModelPreviewCommand",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelPreviewCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 60,
+      "functions": [
+        {
+          "name": "FetchProviderModelPreviewCommand",
+          "startLine": 42,
+          "endLine": 57,
+          "params": [
+            "operatorUserId",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "upstreamProtocols",
+            "defaultPriority"
+          ]
+        },
+        {
+          "name": "copyNotEmpty",
+          "startLine": 59,
+          "endLine": 69,
+          "params": [
+            "source"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FetchProviderModelPreviewCommand",
+          "startLine": 21,
+          "endLine": 70,
+          "methods": [
+            "FetchProviderModelPreviewCommand",
+            "copyNotEmpty"
+          ],
+          "properties": [
+            "operatorUserId",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "upstreamProtocols",
+            "defaultPriority"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FetchProviderModelPreviewCommand",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FetchProviderModelPreviewCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 51
+        },
+        {
+          "caller": "FetchProviderModelPreviewCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 52
+        },
+        {
+          "caller": "FetchProviderModelPreviewCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 53
+        },
+        {
+          "caller": "FetchProviderModelPreviewCommand",
+          "callee": "Objects.requireNonNullElse",
+          "lineNumber": 54
+        },
+        {
+          "caller": "FetchProviderModelPreviewCommand",
+          "callee": "copyNotEmpty",
+          "lineNumber": 55
+        },
+        {
+          "caller": "FetchProviderModelPreviewCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 56
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "source.isEmpty",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 62
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 64
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "copied.add",
+          "lineNumber": 66
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 66
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Collections.unmodifiableSet",
+          "lineNumber": 68
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelsCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "FetchProviderModelsCommand",
+          "startLine": 13,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "defaultPriority"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FetchProviderModelsCommand",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/RemoveChannelModelCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 23,
+      "classes": [
+        {
+          "name": "RemoveChannelModelCommand",
+          "startLine": 14,
+          "endLine": 29,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "requestedModel",
+            "upstreamProtocol"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RemoveChannelModelCommand",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/UpdateProviderChannelCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 67,
+      "functions": [
+        {
+          "name": "UpdateProviderChannelCommand",
+          "startLine": 47,
+          "endLine": 66,
+          "params": [
+            "operatorUserId",
+            "providerChannelId",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings"
+          ]
+        },
+        {
+          "name": "copyNotEmpty",
+          "startLine": 68,
+          "endLine": 78,
+          "params": [
+            "source"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UpdateProviderChannelCommand",
+          "startLine": 22,
+          "endLine": 79,
+          "methods": [
+            "UpdateProviderChannelCommand",
+            "copyNotEmpty"
+          ],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpdateProviderChannelCommand",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UpdateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "UpdateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 59
+        },
+        {
+          "caller": "UpdateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 60
+        },
+        {
+          "caller": "UpdateProviderChannelCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 61
+        },
+        {
+          "caller": "UpdateProviderChannelCommand",
+          "callee": "Objects.requireNonNullElse",
+          "lineNumber": 63
+        },
+        {
+          "caller": "UpdateProviderChannelCommand",
+          "callee": "copyNotEmpty",
+          "lineNumber": 65
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 69
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "source.isEmpty",
+          "lineNumber": 70
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 71
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 73
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "copied.add",
+          "lineNumber": 75
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 75
+        },
+        {
+          "caller": "copyNotEmpty",
+          "callee": "Collections.unmodifiableSet",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/channel/command/UpsertChannelModelCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 35,
+      "classes": [
+        {
+          "name": "UpsertChannelModelCommand",
+          "startLine": 17,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "channelModelSupportId",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "source"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpsertChannelModelCommand",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "ChannelModelStatus",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelStatus",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 201,
+      "nonEmptyLines": 177,
+      "functions": [
+        {
+          "name": "ChannelModelSupport",
+          "startLine": 24,
+          "endLine": 50,
+          "params": [
+            "id",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "status",
+            "rateLimitedAt",
+            "rateLimitResetAt",
+            "source",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 52,
+          "endLine": 77,
+          "params": [
+            "id",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "source",
+            "now"
+          ]
+        },
+        {
+          "name": "rehydrate",
+          "startLine": 79,
+          "endLine": 107,
+          "params": [
+            "id",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "status",
+            "rateLimitedAt",
+            "rateLimitResetAt",
+            "source",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "disable",
+          "startLine": 109,
+          "endLine": 118,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "enable",
+          "startLine": 120,
+          "endLine": 129,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "matches",
+          "startLine": 131,
+          "endLine": 135,
+          "params": [
+            "requestedModel",
+            "upstreamProtocol"
+          ]
+        },
+        {
+          "name": "hasSameCombinationAs",
+          "startLine": 137,
+          "endLine": 142,
+          "params": [
+            "other"
+          ]
+        },
+        {
+          "name": "hasCombination",
+          "startLine": 144,
+          "endLine": 148,
+          "params": [
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol"
+          ]
+        },
+        {
+          "name": "isEnabled",
+          "startLine": 150,
+          "endLine": 152,
+          "params": []
+        },
+        {
+          "name": "id",
+          "startLine": 154,
+          "endLine": 156,
+          "params": []
+        },
+        {
+          "name": "requestedModel",
+          "startLine": 158,
+          "endLine": 160,
+          "params": []
+        },
+        {
+          "name": "upstreamModel",
+          "startLine": 162,
+          "endLine": 164,
+          "params": []
+        },
+        {
+          "name": "upstreamProtocol",
+          "startLine": 166,
+          "endLine": 168,
+          "params": []
+        },
+        {
+          "name": "priority",
+          "startLine": 170,
+          "endLine": 172,
+          "params": []
+        },
+        {
+          "name": "preferred",
+          "startLine": 174,
+          "endLine": 176,
+          "params": []
+        },
+        {
+          "name": "status",
+          "startLine": 178,
+          "endLine": 180,
+          "params": []
+        },
+        {
+          "name": "rateLimitedAt",
+          "startLine": 182,
+          "endLine": 184,
+          "params": []
+        },
+        {
+          "name": "rateLimitResetAt",
+          "startLine": 186,
+          "endLine": 188,
+          "params": []
+        },
+        {
+          "name": "source",
+          "startLine": 190,
+          "endLine": 192,
+          "params": []
+        },
+        {
+          "name": "createdAt",
+          "startLine": 194,
+          "endLine": 196,
+          "params": []
+        },
+        {
+          "name": "updatedAt",
+          "startLine": 198,
+          "endLine": 200,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelModelSupport",
+          "startLine": 9,
+          "endLine": 201,
+          "methods": [
+            "ChannelModelSupport",
+            "create",
+            "rehydrate",
+            "disable",
+            "enable",
+            "matches",
+            "hasSameCombinationAs",
+            "hasCombination",
+            "isEnabled",
+            "id",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "status",
+            "rateLimitedAt",
+            "rateLimitResetAt",
+            "source",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": [
+            "id",
+            "requestedModel",
+            "upstreamModel",
+            "upstreamProtocol",
+            "priority",
+            "preferred",
+            "status",
+            "rateLimitedAt",
+            "rateLimitResetAt",
+            "source",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "rehydrate",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "disable",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "enable",
+          "line": 120,
+          "isDefault": false
+        },
+        {
+          "name": "matches",
+          "line": 131,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 154,
+          "isDefault": false
+        },
+        {
+          "name": "requestedModel",
+          "line": 158,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamModel",
+          "line": 162,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamProtocol",
+          "line": 166,
+          "isDefault": false
+        },
+        {
+          "name": "priority",
+          "line": 170,
+          "isDefault": false
+        },
+        {
+          "name": "preferred",
+          "line": 174,
+          "isDefault": false
+        },
+        {
+          "name": "status",
+          "line": 178,
+          "isDefault": false
+        },
+        {
+          "name": "rateLimitedAt",
+          "line": 182,
+          "isDefault": false
+        },
+        {
+          "name": "rateLimitResetAt",
+          "line": 186,
+          "isDefault": false
+        },
+        {
+          "name": "source",
+          "line": 190,
+          "isDefault": false
+        },
+        {
+          "name": "createdAt",
+          "line": 194,
+          "isDefault": false
+        },
+        {
+          "name": "updatedAt",
+          "line": 198,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelModelSupport",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ChannelModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 62
+        },
+        {
+          "caller": "create",
+          "callee": "new ChannelModelSupport",
+          "lineNumber": 63
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "new ChannelModelSupport",
+          "lineNumber": 93
+        },
+        {
+          "caller": "disable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 110
+        },
+        {
+          "caller": "enable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 121
+        },
+        {
+          "caller": "matches",
+          "callee": "this.requestedModel.equals",
+          "lineNumber": 133
+        },
+        {
+          "caller": "hasSameCombinationAs",
+          "callee": "requestedModel.equals",
+          "lineNumber": 139
+        },
+        {
+          "caller": "hasSameCombinationAs",
+          "callee": "upstreamModel.equals",
+          "lineNumber": 140
+        },
+        {
+          "caller": "hasCombination",
+          "callee": "this.requestedModel.equals",
+          "lineNumber": 145
+        },
+        {
+          "caller": "hasCombination",
+          "callee": "this.upstreamModel.equals",
+          "lineNumber": 146
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 21,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "ChannelModelSupportId",
+          "startLine": 12,
+          "endLine": 17,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 43,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelModelSupportId",
+          "startLine": 8,
+          "endLine": 47,
+          "methods": [
+            "ChannelModelSupportId",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelModelSupportId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelSupportId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "of",
+          "callee": "new ChannelModelSupportId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 35
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toString",
+          "callee": "String.valueOf",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "requestProtocol",
+            "upstreamProtocol"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelProtocolMapping",
+          "startLine": 8,
+          "endLine": 18,
+          "methods": [
+            "of"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelProtocolMapping",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new ChannelProtocolMapping",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "ModelSupportSource",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelSupportSource",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 468,
+      "nonEmptyLines": 417,
+      "functions": [
+        {
+          "name": "ProviderChannel",
+          "startLine": 30,
+          "endLine": 54,
+          "params": [
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings",
+            "supportedModels",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 56,
+          "endLine": 66,
+          "params": [
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "routePriority",
+            "supportedProtocols",
+            "now"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 68,
+          "endLine": 92,
+          "params": [
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings",
+            "now"
+          ]
+        },
+        {
+          "name": "rehydrate",
+          "startLine": 94,
+          "endLine": 119,
+          "params": [
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "routePriority",
+            "supportedProtocols",
+            "supportedModels",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "rehydrate",
+          "startLine": 121,
+          "endLine": 147,
+          "params": [
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings",
+            "supportedModels",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "rename",
+          "startLine": 149,
+          "endLine": 157,
+          "params": [
+            "name",
+            "now"
+          ]
+        },
+        {
+          "name": "updateEndpoint",
+          "startLine": 159,
+          "endLine": 169,
+          "params": [
+            "host",
+            "keyRef",
+            "now"
+          ]
+        },
+        {
+          "name": "changeModelsPath",
+          "startLine": 171,
+          "endLine": 179,
+          "params": [
+            "modelsPath",
+            "now"
+          ]
+        },
+        {
+          "name": "changeRoutePriority",
+          "startLine": 181,
+          "endLine": 188,
+          "params": [
+            "routePriority",
+            "now"
+          ]
+        },
+        {
+          "name": "replaceProtocolMappings",
+          "startLine": 190,
+          "endLine": 198,
+          "params": [
+            "mappings",
+            "now"
+          ]
+        },
+        {
+          "name": "addOrUpdateModel",
+          "startLine": 200,
+          "endLine": 214,
+          "params": [
+            "modelSupport",
+            "now"
+          ]
+        },
+        {
+          "name": "replaceModels",
+          "startLine": 216,
+          "endLine": 225,
+          "params": [
+            "modelSupports",
+            "now"
+          ]
+        },
+        {
+          "name": "enableModel",
+          "startLine": 227,
+          "endLine": 233,
+          "params": [
+            "modelId",
+            "now"
+          ]
+        },
+        {
+          "name": "disableModel",
+          "startLine": 235,
+          "endLine": 241,
+          "params": [
+            "modelId",
+            "now"
+          ]
+        },
+        {
+          "name": "findModelById",
+          "startLine": 243,
+          "endLine": 248,
+          "params": [
+            "modelId"
+          ]
+        },
+        {
+          "name": "removeModel",
+          "startLine": 250,
+          "endLine": 264,
+          "params": [
+            "requestedModel",
+            "upstreamProtocol",
+            "now"
+          ]
+        },
+        {
+          "name": "enable",
+          "startLine": 266,
+          "endLine": 280,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "disable",
+          "startLine": 282,
+          "endLine": 289,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "isEnabledForRouting",
+          "startLine": 291,
+          "endLine": 293,
+          "params": []
+        },
+        {
+          "name": "supportsUpstreamProtocol",
+          "startLine": 295,
+          "endLine": 298,
+          "params": [
+            "protocol"
+          ]
+        },
+        {
+          "name": "upstreamProtocolFor",
+          "startLine": 300,
+          "endLine": 306,
+          "params": [
+            "requestProtocol"
+          ]
+        },
+        {
+          "name": "upstreamProtocols",
+          "startLine": 308,
+          "endLine": 312,
+          "params": []
+        },
+        {
+          "name": "supportsModel",
+          "startLine": 314,
+          "endLine": 316,
+          "params": [
+            "requestedModel",
+            "upstreamProtocol"
+          ]
+        },
+        {
+          "name": "findModelSupport",
+          "startLine": 318,
+          "endLine": 327,
+          "params": [
+            "requestedModel",
+            "upstreamProtocol"
+          ]
+        },
+        {
+          "name": "findModelSupports",
+          "startLine": 329,
+          "endLine": 337,
+          "params": [
+            "requestedModel"
+          ]
+        },
+        {
+          "name": "findSameCombinationIndex",
+          "startLine": 339,
+          "endLine": 347,
+          "params": [
+            "modelSupport",
+            "modelSupports"
+          ]
+        },
+        {
+          "name": "ensureUpstreamProtocolSupported",
+          "startLine": 349,
+          "endLine": 351,
+          "params": [
+            "protocol"
+          ]
+        },
+        {
+          "name": "ensureUpstreamProtocolSupported",
+          "startLine": 353,
+          "endLine": 358,
+          "params": [
+            "protocol",
+            "mappings"
+          ]
+        },
+        {
+          "name": "identityMappings",
+          "startLine": 360,
+          "endLine": 365,
+          "params": [
+            "protocols"
+          ]
+        },
+        {
+          "name": "normalizeProtocolMappings",
+          "startLine": 367,
+          "endLine": 382,
+          "params": [
+            "mappings"
+          ]
+        },
+        {
+          "name": "normalizeModels",
+          "startLine": 384,
+          "endLine": 400,
+          "params": [
+            "modelSupports"
+          ]
+        },
+        {
+          "name": "modelOrdering",
+          "startLine": 402,
+          "endLine": 406,
+          "params": []
+        },
+        {
+          "name": "id",
+          "startLine": 408,
+          "endLine": 410,
+          "params": []
+        },
+        {
+          "name": "name",
+          "startLine": 412,
+          "endLine": 414,
+          "params": []
+        },
+        {
+          "name": "host",
+          "startLine": 416,
+          "endLine": 418,
+          "params": []
+        },
+        {
+          "name": "keyRef",
+          "startLine": 420,
+          "endLine": 422,
+          "params": []
+        },
+        {
+          "name": "modelsPath",
+          "startLine": 424,
+          "endLine": 426,
+          "params": []
+        },
+        {
+          "name": "routePriority",
+          "startLine": 428,
+          "endLine": 430,
+          "params": []
+        },
+        {
+          "name": "supportedProtocols",
+          "startLine": 432,
+          "endLine": 436,
+          "params": []
+        },
+        {
+          "name": "protocolMappings",
+          "startLine": 438,
+          "endLine": 440,
+          "params": []
+        },
+        {
+          "name": "supportedModels",
+          "startLine": 442,
+          "endLine": 444,
+          "params": []
+        },
+        {
+          "name": "status",
+          "startLine": 446,
+          "endLine": 448,
+          "params": []
+        },
+        {
+          "name": "createdAt",
+          "startLine": 450,
+          "endLine": 452,
+          "params": []
+        },
+        {
+          "name": "updatedAt",
+          "startLine": 454,
+          "endLine": 456,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderChannel",
+          "startLine": 16,
+          "endLine": 468,
+          "methods": [
+            "ProviderChannel",
+            "create",
+            "create",
+            "rehydrate",
+            "rehydrate",
+            "rename",
+            "updateEndpoint",
+            "changeModelsPath",
+            "changeRoutePriority",
+            "replaceProtocolMappings",
+            "addOrUpdateModel",
+            "replaceModels",
+            "enableModel",
+            "disableModel",
+            "findModelById",
+            "removeModel",
+            "enable",
+            "disable",
+            "isEnabledForRouting",
+            "supportsUpstreamProtocol",
+            "upstreamProtocolFor",
+            "upstreamProtocols",
+            "supportsModel",
+            "findModelSupport",
+            "findModelSupports",
+            "findSameCombinationIndex",
+            "ensureUpstreamProtocolSupported",
+            "ensureUpstreamProtocolSupported",
+            "identityMappings",
+            "normalizeProtocolMappings",
+            "normalizeModels",
+            "modelOrdering",
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "supportedProtocols",
+            "protocolMappings",
+            "supportedModels",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": [
+            "id",
+            "name",
+            "host",
+            "keyRef",
+            "modelsPath",
+            "routePriority",
+            "protocolMappings",
+            "supportedModels",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "create",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "rehydrate",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "rehydrate",
+          "line": 121,
+          "isDefault": false
+        },
+        {
+          "name": "rename",
+          "line": 149,
+          "isDefault": false
+        },
+        {
+          "name": "updateEndpoint",
+          "line": 159,
+          "isDefault": false
+        },
+        {
+          "name": "changeModelsPath",
+          "line": 171,
+          "isDefault": false
+        },
+        {
+          "name": "changeRoutePriority",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "replaceProtocolMappings",
+          "line": 190,
+          "isDefault": false
+        },
+        {
+          "name": "addOrUpdateModel",
+          "line": 200,
+          "isDefault": false
+        },
+        {
+          "name": "replaceModels",
+          "line": 216,
+          "isDefault": false
+        },
+        {
+          "name": "enableModel",
+          "line": 227,
+          "isDefault": false
+        },
+        {
+          "name": "disableModel",
+          "line": 235,
+          "isDefault": false
+        },
+        {
+          "name": "removeModel",
+          "line": 250,
+          "isDefault": false
+        },
+        {
+          "name": "enable",
+          "line": 266,
+          "isDefault": false
+        },
+        {
+          "name": "disable",
+          "line": 282,
+          "isDefault": false
+        },
+        {
+          "name": "isEnabledForRouting",
+          "line": 291,
+          "isDefault": false
+        },
+        {
+          "name": "supportsUpstreamProtocol",
+          "line": 295,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamProtocolFor",
+          "line": 300,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamProtocols",
+          "line": 308,
+          "isDefault": false
+        },
+        {
+          "name": "supportsModel",
+          "line": 314,
+          "isDefault": false
+        },
+        {
+          "name": "findModelSupport",
+          "line": 318,
+          "isDefault": false
+        },
+        {
+          "name": "findModelSupports",
+          "line": 329,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 408,
+          "isDefault": false
+        },
+        {
+          "name": "name",
+          "line": 412,
+          "isDefault": false
+        },
+        {
+          "name": "host",
+          "line": 416,
+          "isDefault": false
+        },
+        {
+          "name": "keyRef",
+          "line": 420,
+          "isDefault": false
+        },
+        {
+          "name": "modelsPath",
+          "line": 424,
+          "isDefault": false
+        },
+        {
+          "name": "routePriority",
+          "line": 428,
+          "isDefault": false
+        },
+        {
+          "name": "supportedProtocols",
+          "line": 432,
+          "isDefault": false
+        },
+        {
+          "name": "protocolMappings",
+          "line": 438,
+          "isDefault": false
+        },
+        {
+          "name": "supportedModels",
+          "line": 442,
+          "isDefault": false
+        },
+        {
+          "name": "status",
+          "line": 446,
+          "isDefault": false
+        },
+        {
+          "name": "createdAt",
+          "line": 450,
+          "isDefault": false
+        },
+        {
+          "name": "updatedAt",
+          "line": 454,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannel",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "normalizeModels",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ProviderChannel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 53
+        },
+        {
+          "caller": "create",
+          "callee": "create",
+          "lineNumber": 65
+        },
+        {
+          "caller": "create",
+          "callee": "identityMappings",
+          "lineNumber": 65
+        },
+        {
+          "caller": "create",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 78
+        },
+        {
+          "caller": "create",
+          "callee": "new ProviderChannel",
+          "lineNumber": 79
+        },
+        {
+          "caller": "create",
+          "callee": "List.of",
+          "lineNumber": 87
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "rehydrate",
+          "lineNumber": 106
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "identityMappings",
+          "lineNumber": 113
+        },
+        {
+          "caller": "rehydrate",
+          "callee": "new ProviderChannel",
+          "lineNumber": 134
+        },
+        {
+          "caller": "rename",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 150
+        },
+        {
+          "caller": "rename",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 151
+        },
+        {
+          "caller": "rename",
+          "callee": "this.name.equals",
+          "lineNumber": 152
+        },
+        {
+          "caller": "updateEndpoint",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 160
+        },
+        {
+          "caller": "updateEndpoint",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 161
+        },
+        {
+          "caller": "updateEndpoint",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 162
+        },
+        {
+          "caller": "updateEndpoint",
+          "callee": "this.host.equals",
+          "lineNumber": 163
+        },
+        {
+          "caller": "updateEndpoint",
+          "callee": "this.keyRef.equals",
+          "lineNumber": 163
+        },
+        {
+          "caller": "changeModelsPath",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 172
+        },
+        {
+          "caller": "changeModelsPath",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 173
+        },
+        {
+          "caller": "changeModelsPath",
+          "callee": "this.modelsPath.equals",
+          "lineNumber": 174
+        },
+        {
+          "caller": "changeRoutePriority",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 182
+        },
+        {
+          "caller": "replaceProtocolMappings",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 191
+        },
+        {
+          "caller": "replaceProtocolMappings",
+          "callee": "normalizeProtocolMappings",
+          "lineNumber": 192
+        },
+        {
+          "caller": "replaceProtocolMappings",
+          "callee": "this.protocolMappings.equals",
+          "lineNumber": 193
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 201
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 202
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "ensureUpstreamProtocolSupported",
+          "lineNumber": 203
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "modelSupport.upstreamProtocol",
+          "lineNumber": 203
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "new ArrayList<>",
+          "lineNumber": 205
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "findSameCombinationIndex",
+          "lineNumber": 206
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "existingIndex.isPresent",
+          "lineNumber": 207
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "changedModels.set",
+          "lineNumber": 208
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "existingIndex.get",
+          "lineNumber": 208
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "changedModels.add",
+          "lineNumber": 210
+        },
+        {
+          "caller": "addOrUpdateModel",
+          "callee": "normalizeModels",
+          "lineNumber": 212
+        },
+        {
+          "caller": "replaceModels",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 217
+        },
+        {
+          "caller": "replaceModels",
+          "callee": "normalizeModels",
+          "lineNumber": 218
+        },
+        {
+          "caller": "replaceModels",
+          "callee": "normalizedModels.forEach",
+          "lineNumber": 219
+        },
+        {
+          "caller": "replaceModels",
+          "callee": "ensureUpstreamProtocolSupported",
+          "lineNumber": 219
+        },
+        {
+          "caller": "replaceModels",
+          "callee": "modelSupport.upstreamProtocol",
+          "lineNumber": 219
+        },
+        {
+          "caller": "replaceModels",
+          "callee": "this.supportedModels.equals",
+          "lineNumber": 220
+        },
+        {
+          "caller": "enableModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 228
+        },
+        {
+          "caller": "enableModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 229
+        },
+        {
+          "caller": "enableModel",
+          "callee": "findModelById",
+          "lineNumber": 230
+        },
+        {
+          "caller": "enableModel",
+          "callee": "model.enable",
+          "lineNumber": 231
+        },
+        {
+          "caller": "disableModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 236
+        },
+        {
+          "caller": "disableModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 237
+        },
+        {
+          "caller": "disableModel",
+          "callee": "findModelById",
+          "lineNumber": 238
+        },
+        {
+          "caller": "disableModel",
+          "callee": "model.disable",
+          "lineNumber": 239
+        },
+        {
+          "caller": "findModelById",
+          "callee": "supportedModels.stream()\n                .filter(m -> m.id().equals(modelId))\n                .findFirst().orElseThrow",
+          "lineNumber": 244
+        },
+        {
+          "caller": "findModelById",
+          "callee": "supportedModels.stream()\n                .filter(m -> m.id().equals(modelId)).findFirst",
+          "lineNumber": 244
+        },
+        {
+          "caller": "findModelById",
+          "callee": "supportedModels.stream().filter",
+          "lineNumber": 244
+        },
+        {
+          "caller": "findModelById",
+          "callee": "supportedModels.stream",
+          "lineNumber": 244
+        },
+        {
+          "caller": "findModelById",
+          "callee": "m.id().equals",
+          "lineNumber": 245
+        },
+        {
+          "caller": "findModelById",
+          "callee": "m.id",
+          "lineNumber": 245
+        },
+        {
+          "caller": "findModelById",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 247
+        },
+        {
+          "caller": "findModelById",
+          "callee": "modelId.value",
+          "lineNumber": 247
+        },
+        {
+          "caller": "removeModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 251
+        },
+        {
+          "caller": "removeModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 252
+        },
+        {
+          "caller": "removeModel",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 253
+        },
+        {
+          "caller": "removeModel",
+          "callee": "supportedModels.stream()\n                .filter(modelSupport -> !modelSupport.requestedModel().equals(requestedModel)\n                        || modelSupport.upstreamProtocol() != upstreamProtocol).toList",
+          "lineNumber": 255
+        },
+        {
+          "caller": "removeModel",
+          "callee": "supportedModels.stream().filter",
+          "lineNumber": 255
+        },
+        {
+          "caller": "removeModel",
+          "callee": "supportedModels.stream",
+          "lineNumber": 255
+        },
+        {
+          "caller": "removeModel",
+          "callee": "modelSupport.requestedModel().equals",
+          "lineNumber": 256
+        },
+        {
+          "caller": "removeModel",
+          "callee": "modelSupport.requestedModel",
+          "lineNumber": 256
+        },
+        {
+          "caller": "removeModel",
+          "callee": "modelSupport.upstreamProtocol",
+          "lineNumber": 257
+        },
+        {
+          "caller": "removeModel",
+          "callee": "changedModels.size",
+          "lineNumber": 259
+        },
+        {
+          "caller": "removeModel",
+          "callee": "supportedModels.size",
+          "lineNumber": 259
+        },
+        {
+          "caller": "removeModel",
+          "callee": "new ArrayList<>",
+          "lineNumber": 262
+        },
+        {
+          "caller": "enable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 267
+        },
+        {
+          "caller": "enable",
+          "callee": "model.status",
+          "lineNumber": 270
+        },
+        {
+          "caller": "enable",
+          "callee": "model.enable",
+          "lineNumber": 271
+        },
+        {
+          "caller": "disable",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 283
+        },
+        {
+          "caller": "supportsUpstreamProtocol",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 296
+        },
+        {
+          "caller": "supportsUpstreamProtocol",
+          "callee": "upstreamProtocols().contains",
+          "lineNumber": 297
+        },
+        {
+          "caller": "supportsUpstreamProtocol",
+          "callee": "upstreamProtocols",
+          "lineNumber": 297
+        },
+        {
+          "caller": "upstreamProtocolFor",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 301
+        },
+        {
+          "caller": "upstreamProtocolFor",
+          "callee": "protocolMappings.stream()\n                .filter(mapping -> mapping.requestProtocol() == requestProtocol)\n                .map(ChannelProtocolMapping::upstreamProtocol).findFirst",
+          "lineNumber": 302
+        },
+        {
+          "caller": "upstreamProtocolFor",
+          "callee": "protocolMappings.stream()\n                .filter(mapping -> mapping.requestProtocol() == requestProtocol).map",
+          "lineNumber": 302
+        },
+        {
+          "caller": "upstreamProtocolFor",
+          "callee": "protocolMappings.stream().filter",
+          "lineNumber": 302
+        },
+        {
+          "caller": "upstreamProtocolFor",
+          "callee": "protocolMappings.stream",
+          "lineNumber": 302
+        },
+        {
+          "caller": "upstreamProtocolFor",
+          "callee": "mapping.requestProtocol",
+          "lineNumber": 303
+        },
+        {
+          "caller": "upstreamProtocols",
+          "callee": "protocolMappings.stream()\n                .map(ChannelProtocolMapping::upstreamProtocol).collect",
+          "lineNumber": 309
+        },
+        {
+          "caller": "upstreamProtocols",
+          "callee": "protocolMappings.stream().map",
+          "lineNumber": 309
+        },
+        {
+          "caller": "upstreamProtocols",
+          "callee": "protocolMappings.stream",
+          "lineNumber": 309
+        },
+        {
+          "caller": "upstreamProtocols",
+          "callee": "java.util.stream.Collectors.toCollection",
+          "lineNumber": 311
+        },
+        {
+          "caller": "supportsModel",
+          "callee": "findModelSupport(requestedModel, upstreamProtocol).isPresent",
+          "lineNumber": 315
+        },
+        {
+          "caller": "supportsModel",
+          "callee": "findModelSupport",
+          "lineNumber": 315
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 319
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 320
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "supportsUpstreamProtocol",
+          "lineNumber": 321
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "Optional.empty",
+          "lineNumber": 322
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "supportedModels.stream()\n                .filter(modelSupport -> modelSupport.matches(requestedModel, upstreamProtocol)).min",
+          "lineNumber": 324
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "supportedModels.stream().filter",
+          "lineNumber": 324
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "supportedModels.stream",
+          "lineNumber": 324
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "modelSupport.matches",
+          "lineNumber": 325
+        },
+        {
+          "caller": "findModelSupport",
+          "callee": "modelOrdering",
+          "lineNumber": 326
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 330
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportedModels.stream()\n                .filter(ChannelModelSupport::isEnabled)\n                .filter(modelSupport -> modelSupport.requestedModel().equals(requestedModel))\n                .filter(modelSupport -> supportsUpstreamProtocol(modelSupport.upstreamProtocol()))\n                .sorted(modelOrdering()).toList",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportedModels.stream()\n                .filter(ChannelModelSupport::isEnabled)\n                .filter(modelSupport -> modelSupport.requestedModel().equals(requestedModel))\n                .filter(modelSupport -> supportsUpstreamProtocol(modelSupport.upstreamProtocol())).sorted",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportedModels.stream()\n                .filter(ChannelModelSupport::isEnabled)\n                .filter(modelSupport -> modelSupport.requestedModel().equals(requestedModel)).filter",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportedModels.stream()\n                .filter(ChannelModelSupport::isEnabled).filter",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportedModels.stream().filter",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportedModels.stream",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "modelSupport.requestedModel().equals",
+          "lineNumber": 333
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "modelSupport.requestedModel",
+          "lineNumber": 333
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "supportsUpstreamProtocol",
+          "lineNumber": 334
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "modelSupport.upstreamProtocol",
+          "lineNumber": 334
+        },
+        {
+          "caller": "findModelSupports",
+          "callee": "modelOrdering",
+          "lineNumber": 335
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "modelSupports.size",
+          "lineNumber": 340
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "modelSupports.get",
+          "lineNumber": 341
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "existing.id().equals",
+          "lineNumber": 342
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "existing.id",
+          "lineNumber": 342
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "modelSupport.id",
+          "lineNumber": 342
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "existing.hasSameCombinationAs",
+          "lineNumber": 342
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "Optional.of",
+          "lineNumber": 343
+        },
+        {
+          "caller": "findSameCombinationIndex",
+          "callee": "Optional.empty",
+          "lineNumber": 346
+        },
+        {
+          "caller": "ensureUpstreamProtocolSupported",
+          "callee": "ensureUpstreamProtocolSupported",
+          "lineNumber": 350
+        },
+        {
+          "caller": "ensureUpstreamProtocolSupported",
+          "callee": "mappings.stream().anyMatch",
+          "lineNumber": 354
+        },
+        {
+          "caller": "ensureUpstreamProtocolSupported",
+          "callee": "mappings.stream",
+          "lineNumber": 354
+        },
+        {
+          "caller": "ensureUpstreamProtocolSupported",
+          "callee": "mapping.upstreamProtocol",
+          "lineNumber": 354
+        },
+        {
+          "caller": "ensureUpstreamProtocolSupported",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 356
+        },
+        {
+          "caller": "identityMappings",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 361
+        },
+        {
+          "caller": "identityMappings",
+          "callee": "protocols.stream()\n                .map(protocol -> ChannelProtocolMapping.of(protocol, protocol)).collect",
+          "lineNumber": 362
+        },
+        {
+          "caller": "identityMappings",
+          "callee": "protocols.stream().map",
+          "lineNumber": 362
+        },
+        {
+          "caller": "identityMappings",
+          "callee": "protocols.stream",
+          "lineNumber": 362
+        },
+        {
+          "caller": "identityMappings",
+          "callee": "ChannelProtocolMapping.of",
+          "lineNumber": 363
+        },
+        {
+          "caller": "identityMappings",
+          "callee": "java.util.stream.Collectors.toCollection",
+          "lineNumber": 364
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 368
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "mappings.isEmpty",
+          "lineNumber": 369
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 370
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 372
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "new HashSet<>",
+          "lineNumber": 373
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 375
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "requestProtocols.add",
+          "lineNumber": 376
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "requiredMapping.requestProtocol",
+          "lineNumber": 376
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 377
+        },
+        {
+          "caller": "normalizeProtocolMappings",
+          "callee": "normalized.add",
+          "lineNumber": 379
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 385
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "new ArrayList<>",
+          "lineNumber": 386
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "new HashSet<>",
+          "lineNumber": 387
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 389
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "ModelCombination.from",
+          "lineNumber": 393
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "combinations.add",
+          "lineNumber": 394
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 395
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "normalizedModels.add",
+          "lineNumber": 397
+        },
+        {
+          "caller": "modelOrdering",
+          "callee": "Comparator\n                .comparing(ChannelModelSupport::priority).thenComparing",
+          "lineNumber": 403
+        },
+        {
+          "caller": "modelOrdering",
+          "callee": "Comparator.comparing",
+          "lineNumber": 403
+        },
+        {
+          "caller": "modelOrdering",
+          "callee": "modelSupport.createdAt",
+          "lineNumber": 405
+        },
+        {
+          "caller": "supportedProtocols",
+          "callee": "protocolMappings.stream()\n                .map(ChannelProtocolMapping::requestProtocol).collect",
+          "lineNumber": 433
+        },
+        {
+          "caller": "supportedProtocols",
+          "callee": "protocolMappings.stream().map",
+          "lineNumber": 433
+        },
+        {
+          "caller": "supportedProtocols",
+          "callee": "protocolMappings.stream",
+          "lineNumber": 433
+        },
+        {
+          "caller": "supportedProtocols",
+          "callee": "java.util.stream.Collectors.toCollection",
+          "lineNumber": 435
+        },
+        {
+          "caller": "protocolMappings",
+          "callee": "Set.copyOf",
+          "lineNumber": 439
+        },
+        {
+          "caller": "supportedModels",
+          "callee": "List.copyOf",
+          "lineNumber": 443
+        },
+        {
+          "caller": "from",
+          "callee": "new ModelCombination",
+          "lineNumber": 461
+        },
+        {
+          "caller": "from",
+          "callee": "modelSupport.requestedModel",
+          "lineNumber": 462
+        },
+        {
+          "caller": "from",
+          "callee": "modelSupport.upstreamModel",
+          "lineNumber": 463
+        },
+        {
+          "caller": "from",
+          "callee": "modelSupport.upstreamProtocol",
+          "lineNumber": 464
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 36,
+        "functionCount": 44,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "ProviderChannelName",
+          "startLine": 14,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 29,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 33,
+          "endLine": 42,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 49,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderChannelName",
+          "startLine": 8,
+          "endLine": 53,
+          "methods": [
+            "ProviderChannelName",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelName",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderChannelName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProviderChannelName",
+          "callee": "value.trim",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProviderChannelName",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProviderChannelName",
+          "callee": "trimmed.length",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProviderChannelName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "new ProviderChannelName",
+          "lineNumber": 26
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 41
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "ProviderChannelStatus",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelStatus",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 72,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "ProviderHost",
+          "startLine": 12,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 23,
+          "endLine": 25,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "resolvePath",
+          "startLine": 27,
+          "endLine": 38,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "removeTrailingSlashes",
+          "startLine": 44,
+          "endLine": 50,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "equals",
+          "startLine": 52,
+          "endLine": 61,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 63,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 68,
+          "endLine": 71,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderHost",
+          "startLine": 8,
+          "endLine": 72,
+          "methods": [
+            "ProviderHost",
+            "of",
+            "resolvePath",
+            "value",
+            "removeTrailingSlashes",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "resolvePath",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderHost",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderHost",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProviderHost",
+          "callee": "value.trim",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProviderHost",
+          "callee": "trimmed.startsWith",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProviderHost",
+          "callee": "trimmed.startsWith",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProviderHost",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProviderHost",
+          "callee": "removeTrailingSlashes",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "new ProviderHost",
+          "lineNumber": 24
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "path.startsWith",
+          "lineNumber": 28
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 29
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "value.endsWith",
+          "lineNumber": 31
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "value.endsWith",
+          "lineNumber": 34
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "path.startsWith",
+          "lineNumber": 34
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "new ProviderHost",
+          "lineNumber": 35
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "path.substring",
+          "lineNumber": 35
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "\"/v1\".length",
+          "lineNumber": 35
+        },
+        {
+          "caller": "resolvePath",
+          "callee": "new ProviderHost",
+          "lineNumber": 37
+        },
+        {
+          "caller": "removeTrailingSlashes",
+          "callee": "normalized.length",
+          "lineNumber": 46
+        },
+        {
+          "caller": "removeTrailingSlashes",
+          "callee": "\"https://\".length",
+          "lineNumber": 46
+        },
+        {
+          "caller": "removeTrailingSlashes",
+          "callee": "normalized.endsWith",
+          "lineNumber": 46
+        },
+        {
+          "caller": "removeTrailingSlashes",
+          "callee": "normalized.substring",
+          "lineNumber": 47
+        },
+        {
+          "caller": "removeTrailingSlashes",
+          "callee": "normalized.length",
+          "lineNumber": 47
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 60
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "ProviderKeyRef",
+          "startLine": 14,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 29,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 33,
+          "endLine": 42,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 49,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderKeyRef",
+          "startLine": 8,
+          "endLine": 53,
+          "methods": [
+            "ProviderKeyRef",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderKeyRef",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderKeyRef",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProviderKeyRef",
+          "callee": "value.trim",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProviderKeyRef",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProviderKeyRef",
+          "callee": "trimmed.length",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProviderKeyRef",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "new ProviderKeyRef",
+          "lineNumber": 26
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 41
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "ProviderModelsPath",
+          "startLine": 14,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 32,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 36,
+          "endLine": 45,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 47,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 52,
+          "endLine": 55,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderModelsPath",
+          "startLine": 8,
+          "endLine": 56,
+          "methods": [
+            "ProviderModelsPath",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "DEFAULT",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DEFAULT",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderModelsPath",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderModelsPath",
+          "callee": "Objects.requireNonNull(value, \"Provider models path must not be null\").trim",
+          "lineNumber": 15
+        },
+        {
+          "caller": "ProviderModelsPath",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 15
+        },
+        {
+          "caller": "ProviderModelsPath",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProviderModelsPath",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProviderModelsPath",
+          "callee": "trimmed.startsWith",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProviderModelsPath",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "value.isBlank",
+          "lineNumber": 26
+        },
+        {
+          "caller": "of",
+          "callee": "new ProviderModelsPath",
+          "lineNumber": 29
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 44
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "RoutePriority",
+          "startLine": 12,
+          "endLine": 17,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "compareTo",
+          "startLine": 27,
+          "endLine": 31,
+          "params": [
+            "other"
+          ]
+        },
+        {
+          "name": "equals",
+          "startLine": 33,
+          "endLine": 42,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 49,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "RoutePriority",
+          "startLine": 8,
+          "endLine": 53,
+          "methods": [
+            "RoutePriority",
+            "of",
+            "value",
+            "compareTo",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "compareTo",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "RoutePriority",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RoutePriority",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "of",
+          "callee": "new RoutePriority",
+          "lineNumber": 20
+        },
+        {
+          "caller": "compareTo",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 29
+        },
+        {
+          "caller": "compareTo",
+          "callee": "Integer.compare",
+          "lineNumber": 30
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 46
+        },
+        {
+          "caller": "toString",
+          "callee": "String.valueOf",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 75,
+      "nonEmptyLines": 64,
+      "classes": [
+        {
+          "name": "ProviderChannelRepository",
+          "startLine": 11,
+          "endLine": 75,
+          "methods": [
+            "save",
+            "findById",
+            "findAll",
+            "findEnabledForRouting",
+            "markModelRateLimited",
+            "restoreModelRateLimitsBefore",
+            "restoreAllModelRateLimits",
+            "softDeleteById"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderChannelRepository",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "ContentMappingType",
+          "startLine": 6,
+          "endLine": 14,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ContentMappingType",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 94,
+      "nonEmptyLines": 82,
+      "functions": [
+        {
+          "name": "ConversionCapability",
+          "startLine": 19,
+          "endLine": 39,
+          "params": [
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping",
+            "supportedContentTypes"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 41,
+          "endLine": 57,
+          "params": [
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping",
+            "supportedContentTypes"
+          ]
+        },
+        {
+          "name": "satisfies",
+          "startLine": 59,
+          "endLine": 64,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "satisfies",
+          "startLine": 66,
+          "endLine": 69,
+          "params": [
+            "requirement"
+          ]
+        },
+        {
+          "name": "supportsStreaming",
+          "startLine": 71,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "supportsToolCalling",
+          "startLine": 75,
+          "endLine": 77,
+          "params": []
+        },
+        {
+          "name": "supportsReasoning",
+          "startLine": 79,
+          "endLine": 81,
+          "params": []
+        },
+        {
+          "name": "supportsUsageMapping",
+          "startLine": 83,
+          "endLine": 85,
+          "params": []
+        },
+        {
+          "name": "supportsCacheTokenMapping",
+          "startLine": 87,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "supportedContentTypes",
+          "startLine": 91,
+          "endLine": 93,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ConversionCapability",
+          "startLine": 11,
+          "endLine": 94,
+          "methods": [
+            "ConversionCapability",
+            "of",
+            "satisfies",
+            "satisfies",
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping",
+            "supportedContentTypes"
+          ],
+          "properties": [
+            "supportsStreaming",
+            "supportsToolCalling",
+            "supportsReasoning",
+            "supportsUsageMapping",
+            "supportsCacheTokenMapping",
+            "supportedContentTypes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "satisfies",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "satisfies",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "supportsStreaming",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "supportsToolCalling",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "supportsReasoning",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "supportsUsageMapping",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "supportsCacheTokenMapping",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "supportedContentTypes",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "ConversionCapability",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ConversionCapability",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ConversionCapability",
+          "callee": "supportedContentTypes.contains",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ConversionCapability",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ConversionCapability",
+          "callee": "supportedContentTypes.isEmpty",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ConversionCapability",
+          "callee": "Collections.emptySet",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ConversionCapability",
+          "callee": "Collections.unmodifiableSet",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ConversionCapability",
+          "callee": "EnumSet.copyOf",
+          "lineNumber": 38
+        },
+        {
+          "caller": "of",
+          "callee": "new ConversionCapability",
+          "lineNumber": 49
+        },
+        {
+          "caller": "satisfies",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 60
+        },
+        {
+          "caller": "satisfies",
+          "callee": "request.streaming",
+          "lineNumber": 61
+        },
+        {
+          "caller": "satisfies",
+          "callee": "request.toolCallingRequired",
+          "lineNumber": 62
+        },
+        {
+          "caller": "satisfies",
+          "callee": "request.reasoningRequired",
+          "lineNumber": 63
+        },
+        {
+          "caller": "satisfies",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 67
+        },
+        {
+          "caller": "satisfies",
+          "callee": "satisfies",
+          "lineNumber": 68
+        },
+        {
+          "caller": "satisfies",
+          "callee": "requirement.toProtocolConversionRequest",
+          "lineNumber": 68
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "isRoutable",
+          "startLine": 11,
+          "endLine": 13,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ConversionImplementationStatus",
+          "startLine": 6,
+          "endLine": 14,
+          "methods": [
+            "isRoutable"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "isRoutable",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "ConversionImplementationStatus",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "ConversionStatus",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ConversionStatus",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "MappingDirection",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MappingDirection",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "MappingDocument",
+          "startLine": 20,
+          "endLine": 30,
+          "params": [
+            "direction",
+            "title",
+            "summary",
+            "fieldMappings"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 32,
+          "endLine": 34,
+          "params": [
+            "direction",
+            "title",
+            "summary",
+            "fieldMappings"
+          ]
+        },
+        {
+          "name": "append",
+          "startLine": 36,
+          "endLine": 41,
+          "params": [
+            "fieldMapping"
+          ]
+        },
+        {
+          "name": "requireText",
+          "startLine": 43,
+          "endLine": 52,
+          "params": [
+            "value",
+            "fieldName",
+            "maxLength"
+          ]
+        },
+        {
+          "name": "direction",
+          "startLine": 54,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "title",
+          "startLine": 58,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "summary",
+          "startLine": 62,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "fieldMappings",
+          "startLine": 66,
+          "endLine": 68,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MappingDocument",
+          "startLine": 11,
+          "endLine": 69,
+          "methods": [
+            "MappingDocument",
+            "of",
+            "append",
+            "requireText",
+            "direction",
+            "title",
+            "summary",
+            "fieldMappings"
+          ],
+          "properties": [
+            "TITLE_MAX_LENGTH",
+            "SUMMARY_MAX_LENGTH",
+            "direction",
+            "title",
+            "summary",
+            "fieldMappings"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "append",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "direction",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "title",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "summary",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "fieldMappings",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "MappingDocument",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MappingDocument",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 21
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "requireText",
+          "lineNumber": 22
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "requireText",
+          "lineNumber": 23
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 24
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "fieldMappings.isEmpty",
+          "lineNumber": 25
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 26
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "fieldMappings.forEach",
+          "lineNumber": 28
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 28
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "Collections.unmodifiableList",
+          "lineNumber": 29
+        },
+        {
+          "caller": "MappingDocument",
+          "callee": "new ArrayList<>",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "new MappingDocument",
+          "lineNumber": 33
+        },
+        {
+          "caller": "append",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 37
+        },
+        {
+          "caller": "append",
+          "callee": "new ArrayList<>",
+          "lineNumber": 38
+        },
+        {
+          "caller": "append",
+          "callee": "appended.add",
+          "lineNumber": 39
+        },
+        {
+          "caller": "append",
+          "callee": "new MappingDocument",
+          "lineNumber": 40
+        },
+        {
+          "caller": "requireText",
+          "callee": "value.trim().isEmpty",
+          "lineNumber": 44
+        },
+        {
+          "caller": "requireText",
+          "callee": "value.trim",
+          "lineNumber": 44
+        },
+        {
+          "caller": "requireText",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 45
+        },
+        {
+          "caller": "requireText",
+          "callee": "value.trim",
+          "lineNumber": 47
+        },
+        {
+          "caller": "requireText",
+          "callee": "trimmed.length",
+          "lineNumber": 48
+        },
+        {
+          "caller": "requireText",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "MappingLossiness",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MappingLossiness",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

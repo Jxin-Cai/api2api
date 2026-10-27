@@ -1,0 +1,944 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "type": "file",
+      "name": "ProtocolConversionProgramRegistryTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "summary": "验证全部登记转换器可被索引，并且字段映射非空、元数据完整、无等价字段明确标记丢弃；检查叶子映射及 Bedrock 往返方向。",
+      "tags": [
+        "测试",
+        "转换注册表",
+        "字段映射",
+        "可追溯性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:ProtocolConversionProgramRegistryTest",
+      "type": "class",
+      "name": "ProtocolConversionProgramRegistryTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        15,
+        189
+      ],
+      "summary": "验证全部登记转换器可被索引，并且字段映射非空、元数据完整、无等价字段明确标记丢弃；检查叶子映射及 Bedrock 往返方向。",
+      "tags": [
+        "测试",
+        "转换注册表",
+        "字段映射",
+        "可追溯性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_converterHasNonEmptyFieldMappings_when_registeredInRegistry",
+      "type": "function",
+      "name": "test_converterHasNonEmptyFieldMappings_when_registeredInRegistry",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        25,
+        42
+      ],
+      "summary": "验证已登记转换器有非空字段映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_everyMappingHasRequiredFields_when_descriptionProvided",
+      "type": "function",
+      "name": "test_everyMappingHasRequiredFields_when_descriptionProvided",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        44,
+        58
+      ],
+      "summary": "验证每条映射均有必填描述字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_marksDroppedFieldUnmapped_when_targetHasNoEquivalentField",
+      "type": "function",
+      "name": "test_marksDroppedFieldUnmapped_when_targetHasNoEquivalentField",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        60,
+        77
+      ],
+      "summary": "验证目标无等价字段时标记为丢弃映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_exposesLeafFieldMapping_when_toolDefinitionContainsMultipleFields",
+      "type": "function",
+      "name": "test_exposesLeafFieldMapping_when_toolDefinitionContainsMultipleFields",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        79,
+        96
+      ],
+      "summary": "验证工具定义多字段均有叶子映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_exposesRoundTripMappings_when_claudeRoutesToBedrockMessages",
+      "type": "function",
+      "name": "test_exposesRoundTripMappings_when_claudeRoutesToBedrockMessages",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        98,
+        117
+      ],
+      "summary": "验证Messages 与 Bedrock 路线具有往返映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_usesReverseExecutableDirection_when_describingRouteResponse",
+      "type": "function",
+      "name": "test_usesReverseExecutableDirection_when_describingRouteResponse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        119,
+        131
+      ],
+      "summary": "验证响应映射采用反向可执行转换方向。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:allConverterDirections",
+      "type": "function",
+      "name": "allConverterDirections",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        133,
+        153
+      ],
+      "summary": "枚举全部已登记源协议与目标协议组合以驱动参数化测试。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:stubConverter",
+      "type": "function",
+      "name": "stubConverter",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "lineRange": [
+        164,
+        188
+      ],
+      "summary": "创建指定协议方向与字段映射的程序注册表测试替身。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "type": "file",
+      "name": "StreamingPassthroughUsageExtractorTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "summary": "验证同协议流透传器完整保留字节并及时 flush，兼容不完整 SSE 帧与无终态流，同时提取 Chat、Messages 和图像事件用量。",
+      "tags": [
+        "测试",
+        "流式传输",
+        "透传",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:StreamingPassthroughUsageExtractorTest",
+      "type": "class",
+      "name": "StreamingPassthroughUsageExtractorTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        14,
+        182
+      ],
+      "summary": "验证同协议流透传器完整保留字节并及时 flush，兼容不完整 SSE 帧与无终态流，同时提取 Chat、Messages 和图像事件用量。",
+      "tags": [
+        "测试",
+        "流式传输",
+        "透传",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_flushesCompletedEvent_when_upstreamEventArrives",
+      "type": "function",
+      "name": "test_flushesCompletedEvent_when_upstreamEventArrives",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        19,
+        34
+      ],
+      "summary": "验证完整事件到达后及时 flush。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_relaysUpstreamBody_when_claudeStreamHasNoTerminalEvent",
+      "type": "function",
+      "name": "test_relaysUpstreamBody_when_claudeStreamHasNoTerminalEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        36,
+        51
+      ],
+      "summary": "验证Messages 无终态流仍按原始内容透传。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_extractsUsage_when_claudeStreamOmitsTrailingBlankLine",
+      "type": "function",
+      "name": "test_extractsUsage_when_claudeStreamOmitsTrailingBlankLine",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        53,
+        70
+      ],
+      "summary": "验证Messages 缺少末尾空行仍提取用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_detectsTerminalEvent_when_claudeStreamOmitsEventLines",
+      "type": "function",
+      "name": "test_detectsTerminalEvent_when_claudeStreamOmitsEventLines",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        72,
+        87
+      ],
+      "summary": "验证Messages 无 event 行仍识别终态。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_acceptsDoneMarker_when_chatCompletionStreamEnds",
+      "type": "function",
+      "name": "test_acceptsDoneMarker_when_chatCompletionStreamEnds",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        89,
+        104
+      ],
+      "summary": "验证Chat DONE 标记被正确接受。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_extractsUsage_when_imagesStreamEmitsCompletedEvent",
+      "type": "function",
+      "name": "test_extractsUsage_when_imagesStreamEmitsCompletedEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        106,
+        126
+      ],
+      "summary": "验证图像生成完成事件提取用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_extractsUsage_when_imageEditStreamEmitsCompletedEvent",
+      "type": "function",
+      "name": "test_extractsUsage_when_imageEditStreamEmitsCompletedEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        128,
+        148
+      ],
+      "summary": "验证图像编辑完成事件提取用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_relaysUpstreamBodyUnchanged_when_imagesStreamIsPassedThrough",
+      "type": "function",
+      "name": "test_relaysUpstreamBodyUnchanged_when_imagesStreamIsPassedThrough",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "lineRange": [
+        150,
+        166
+      ],
+      "summary": "验证图像流被逐字节透传。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "type": "file",
+      "name": "ClaudeMessagesGatewayRequestTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "summary": "验证 Messages 网关请求从历史工具调用、思考签名及输出 effort 中推导工具、推理和用量能力要求，以约束可用路由。",
+      "tags": [
+        "测试",
+        "Messages",
+        "能力检测",
+        "路由"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java:ClaudeMessagesGatewayRequestTest",
+      "type": "class",
+      "name": "ClaudeMessagesGatewayRequestTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "lineRange": [
+        10,
+        56
+      ],
+      "summary": "验证 Messages 网关请求从历史工具调用、思考签名及输出 effort 中推导工具、推理和用量能力要求，以约束可用路由。",
+      "tags": [
+        "测试",
+        "Messages",
+        "能力检测",
+        "路由"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java:shouldDetectAdvancedToolAndReasoningRequirementsFromConversationHistory",
+      "type": "function",
+      "name": "shouldDetectAdvancedToolAndReasoningRequirementsFromConversationHistory",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "lineRange": [
+        15,
+        37
+      ],
+      "summary": "验证从历史工具调用与思考块推导高级工具和推理能力要求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java:shouldTreatOutputEffortAsReasoningCapabilityRequirement",
+      "type": "function",
+      "name": "shouldTreatOutputEffortAsReasoningCapabilityRequirement",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "lineRange": [
+        39,
+        55
+      ],
+      "summary": "验证 output effort 被识别为路由所需的推理能力。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "type": "file",
+      "name": "GatewayInvocationResponseMapperTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "summary": "验证响应映射保留上游错误原因、将最终路由限流映射为 HTTP 429 并传递 Retry-After，同时确保解析器和构造器的编程错误不被吞掉。",
+      "tags": [
+        "测试",
+        "响应映射",
+        "错误处理",
+        "限流"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:GatewayInvocationResponseMapperTest",
+      "type": "class",
+      "name": "GatewayInvocationResponseMapperTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        35,
+        156
+      ],
+      "summary": "验证响应映射保留上游错误原因、将最终路由限流映射为 HTTP 429 并传递 Retry-After，同时确保解析器和构造器的编程错误不被吞掉。",
+      "tags": [
+        "测试",
+        "响应映射",
+        "错误处理",
+        "限流"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_preservesUpstreamErrorMessage_when_translatingFailure",
+      "type": "function",
+      "name": "test_preservesUpstreamErrorMessage_when_translatingFailure",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        42,
+        58
+      ],
+      "summary": "验证转换上游失败时保留原始错误消息。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_propagatesUnexpectedFailure_when_upstreamErrorParserFails",
+      "type": "function",
+      "name": "test_propagatesUnexpectedFailure_when_upstreamErrorParserFails",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        60,
+        71
+      ],
+      "summary": "验证错误解析器编程错误继续向外传播。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_propagatesUnexpectedFailure_when_errorBodyBuilderFails",
+      "type": "function",
+      "name": "test_propagatesUnexpectedFailure_when_errorBodyBuilderFails",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        73,
+        84
+      ],
+      "summary": "验证错误体构造器编程错误继续向外传播。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_returnsTooManyRequests_when_latestUpstreamFailureIsRateLimited",
+      "type": "function",
+      "name": "test_returnsTooManyRequests_when_latestUpstreamFailureIsRateLimited",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        91,
+        101
+      ],
+      "summary": "验证最后上游失败为限流时返回 HTTP 429。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_returnsClaudeRateLimitError_when_latestUpstreamFailureIsRateLimited",
+      "type": "function",
+      "name": "test_returnsClaudeRateLimitError_when_latestUpstreamFailureIsRateLimited",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        103,
+        113
+      ],
+      "summary": "验证最后限流失败返回 Messages rate_limit_error。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_forwardsRetryAfterHeader_when_upstreamRateLimitedBeforeStreamOpened",
+      "type": "function",
+      "name": "test_forwardsRetryAfterHeader_when_upstreamRateLimitedBeforeStreamOpened",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        115,
+        127
+      ],
+      "summary": "验证流打开前限流仍透传 Retry-After。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:failedClaudeInvocation",
+      "type": "function",
+      "name": "failedClaudeInvocation",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "lineRange": [
+        129,
+        155
+      ],
+      "summary": "构造包含路由失败历史和上游响应信息的 Messages 调用失败样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:ProtocolConversionProgramRegistryTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_converterHasNonEmptyFieldMappings_when_registeredInRegistry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_everyMappingHasRequiredFields_when_descriptionProvided",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_marksDroppedFieldUnmapped_when_targetHasNoEquivalentField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_exposesLeafFieldMapping_when_toolDefinitionContainsMultipleFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_exposesRoundTripMappings_when_claudeRoutesToBedrockMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:test_usesReverseExecutableDirection_when_describingRouteResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:allConverterDirections",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java:stubConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:StreamingPassthroughUsageExtractorTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_flushesCompletedEvent_when_upstreamEventArrives",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_relaysUpstreamBody_when_claudeStreamHasNoTerminalEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_extractsUsage_when_claudeStreamOmitsTrailingBlankLine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_detectsTerminalEvent_when_claudeStreamOmitsEventLines",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_acceptsDoneMarker_when_chatCompletionStreamEnds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_extractsUsage_when_imagesStreamEmitsCompletedEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_extractsUsage_when_imageEditStreamEmitsCompletedEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java:test_relaysUpstreamBodyUnchanged_when_imagesStreamIsPassedThrough",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java:ClaudeMessagesGatewayRequestTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java:shouldDetectAdvancedToolAndReasoningRequirementsFromConversationHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java:shouldTreatOutputEffortAsReasoningCapabilityRequirement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ClaudeMessagesGatewayRequestTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolContractRegistry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:GatewayInvocationResponseMapperTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_preservesUpstreamErrorMessage_when_translatingFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_propagatesUnexpectedFailure_when_upstreamErrorParserFails",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_propagatesUnexpectedFailure_when_errorBodyBuilderFails",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_returnsTooManyRequests_when_latestUpstreamFailureIsRateLimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_returnsClaudeRateLimitError_when_latestUpstreamFailureIsRateLimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:test_forwardsRetryAfterHeader_when_upstreamRateLimitedBeforeStreamOpened",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java:failedClaudeInvocation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/UpstreamResponseMetadata.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistryTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/StreamingPassthroughUsageExtractor.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

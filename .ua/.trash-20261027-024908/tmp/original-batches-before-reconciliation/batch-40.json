@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "id": "pipeline:.github/workflows/deploy.yml",
+      "type": "pipeline",
+      "name": "deploy.yml",
+      "filePath": ".github/workflows/deploy.yml",
+      "summary": "通过 GitHub Actions 将仓库内容交付到远程服务器，校验部署配置并执行 Docker Compose 构建启动与服务检查。",
+      "tags": [
+        "持续集成",
+        "自动部署",
+        "GitHub Actions"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "pipeline:.github/workflows/deploy.yml:deploy",
+      "type": "pipeline",
+      "name": "deploy",
+      "filePath": ".github/workflows/deploy.yml",
+      "summary": "执行仓库工作流中声明的校验、构建和部署步骤，协调部署所需的配置及命令。",
+      "tags": [
+        "部署作业",
+        "工作流"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": [
+    {
+      "source": "pipeline:.github/workflows/deploy.yml",
+      "target": "pipeline:.github/workflows/deploy.yml:deploy",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "pipeline:.github/workflows/deploy.yml",
+      "target": "service:backend/Dockerfile",
+      "type": "deploys",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "pipeline:.github/workflows/deploy.yml",
+      "target": "service:frontend/Dockerfile",
+      "type": "deploys",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "pipeline:.github/workflows/deploy.yml",
+      "target": "service:docker-compose.yml",
+      "type": "deploys",
+      "weight": 0.7,
+      "direction": "forward"
+    }
+  ]
+}

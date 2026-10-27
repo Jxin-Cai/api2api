@@ -1,0 +1,360 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "list",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "operator"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 30,
+          "endLine": 42,
+          "params": [
+            "operator",
+            "rule"
+          ]
+        },
+        {
+          "name": "delete",
+          "startLine": 44,
+          "endLine": 48,
+          "params": [
+            "operator",
+            "id"
+          ]
+        },
+        {
+          "name": "view",
+          "startLine": 50,
+          "endLine": 58,
+          "params": [
+            "rule"
+          ]
+        },
+        {
+          "name": "assertAdmin",
+          "startLine": 60,
+          "endLine": 63,
+          "params": [
+            "operator"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "TokenQuotaAdminService",
+          "startLine": 16,
+          "endLine": 69,
+          "methods": [
+            "list",
+            "save",
+            "delete",
+            "view",
+            "assertAdmin"
+          ],
+          "properties": [
+            "MILLION",
+            "repository",
+            "users",
+            "windows"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "list",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "delete",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "TokenQuotaAdminService",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "list",
+          "callee": "assertAdmin",
+          "lineNumber": 26
+        },
+        {
+          "caller": "list",
+          "callee": "new QuotaPage",
+          "lineNumber": 27
+        },
+        {
+          "caller": "list",
+          "callee": "repository.findAll().stream().map(this::view).toList",
+          "lineNumber": 27
+        },
+        {
+          "caller": "list",
+          "callee": "repository.findAll().stream().map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "list",
+          "callee": "repository.findAll().stream",
+          "lineNumber": 27
+        },
+        {
+          "caller": "list",
+          "callee": "repository.findAll",
+          "lineNumber": 27
+        },
+        {
+          "caller": "list",
+          "callee": "repository.targets",
+          "lineNumber": 27
+        },
+        {
+          "caller": "list",
+          "callee": "windows.zoneId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "save",
+          "callee": "assertAdmin",
+          "lineNumber": 32
+        },
+        {
+          "caller": "save",
+          "callee": "repository.targetExists",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "rule.scope",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "rule.targetId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "new BusinessException",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "repository.save",
+          "lineNumber": 36
+        },
+        {
+          "caller": "save",
+          "callee": "new BusinessException",
+          "lineNumber": 38
+        },
+        {
+          "caller": "save",
+          "callee": "new BusinessException",
+          "lineNumber": 40
+        },
+        {
+          "caller": "save",
+          "callee": "view",
+          "lineNumber": 41
+        },
+        {
+          "caller": "delete",
+          "callee": "assertAdmin",
+          "lineNumber": 46
+        },
+        {
+          "caller": "delete",
+          "callee": "repository.delete",
+          "lineNumber": 47
+        },
+        {
+          "caller": "delete",
+          "callee": "new BusinessException",
+          "lineNumber": 47
+        },
+        {
+          "caller": "view",
+          "callee": "windows.current",
+          "lineNumber": 51
+        },
+        {
+          "caller": "view",
+          "callee": "rule.period",
+          "lineNumber": 51
+        },
+        {
+          "caller": "view",
+          "callee": "repository.consumed",
+          "lineNumber": 52
+        },
+        {
+          "caller": "view",
+          "callee": "new RuleView",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "Long.toString",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "rule.id",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "rule.scope",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "Long.toString",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "rule.targetId",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "rule.model",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "rule.period",
+          "lineNumber": 53
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens().divide",
+          "lineNumber": 54
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens",
+          "lineNumber": 54
+        },
+        {
+          "caller": "view",
+          "callee": "rule.enabled",
+          "lineNumber": 54
+        },
+        {
+          "caller": "view",
+          "callee": "consumed.divide",
+          "lineNumber": 54
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens().subtract(consumed).max(BigDecimal.ZERO).divide",
+          "lineNumber": 55
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens().subtract(consumed).max",
+          "lineNumber": 55
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens().subtract",
+          "lineNumber": 55
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens",
+          "lineNumber": 55
+        },
+        {
+          "caller": "view",
+          "callee": "rule.enabled",
+          "lineNumber": 56
+        },
+        {
+          "caller": "view",
+          "callee": "consumed.compareTo",
+          "lineNumber": 56
+        },
+        {
+          "caller": "view",
+          "callee": "rule.limitTokens",
+          "lineNumber": 56
+        },
+        {
+          "caller": "view",
+          "callee": "rule.period",
+          "lineNumber": 57
+        },
+        {
+          "caller": "view",
+          "callee": "window.endExclusive",
+          "lineNumber": 57
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "users.findById(operator).orElseThrow(() -> new BusinessException(\"USER_NOT_FOUND\")).assertCanAccess",
+          "lineNumber": 61
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "users.findById(operator).orElseThrow",
+          "lineNumber": 61
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "users.findById",
+          "lineNumber": 61
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "new BusinessException",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 4,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    }
+  ]
+}

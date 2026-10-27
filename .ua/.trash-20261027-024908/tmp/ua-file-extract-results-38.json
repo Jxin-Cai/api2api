@@ -1,0 +1,114 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "backend/Dockerfile",
+      "language": "dockerfile",
+      "fileCategory": "infra",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "services": [
+        {
+          "name": "backend-build",
+          "image": "${MAVEN_IMAGE}",
+          "ports": [],
+          "startLine": 4,
+          "endLine": 9
+        },
+        {
+          "name": "${JRE_IMAGE}",
+          "image": "${JRE_IMAGE}",
+          "ports": [
+            8080
+          ],
+          "startLine": 10,
+          "endLine": 15
+        }
+      ],
+      "steps": [
+        {
+          "name": "ARG MAVEN_IMAGE=maven:3.9.9-eclipse-temurin-17",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "name": "ARG JRE_IMAGE=eclipse-temurin:17-jre",
+          "startLine": 2,
+          "endLine": 2
+        },
+        {
+          "name": "FROM ${MAVEN_IMAGE} AS backend-build",
+          "startLine": 4,
+          "endLine": 4
+        },
+        {
+          "name": "WORKDIR /workspace",
+          "startLine": 5,
+          "endLine": 5
+        },
+        {
+          "name": "COPY pom.xml ./",
+          "startLine": 6,
+          "endLine": 6
+        },
+        {
+          "name": "COPY src/main ./src/main",
+          "startLine": 7,
+          "endLine": 7
+        },
+        {
+          "name": "RUN mvn -q -DskipTests package",
+          "startLine": 8,
+          "endLine": 8
+        },
+        {
+          "name": "FROM ${JRE_IMAGE}",
+          "startLine": 10,
+          "endLine": 10
+        },
+        {
+          "name": "WORKDIR /app",
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "COPY --from=backend-build /workspace/target/*.jar /app/api2api.ja",
+          "startLine": 12,
+          "endLine": 12
+        },
+        {
+          "name": "EXPOSE 8080",
+          "startLine": 13,
+          "endLine": 13
+        },
+        {
+          "name": "ENTRYPOINT [\"java\", \"-jar\", \"/app/api2api.jar\"]",
+          "startLine": 14,
+          "endLine": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "serviceCount": 2,
+        "stepCount": 12
+      }
+    }
+  ]
+}

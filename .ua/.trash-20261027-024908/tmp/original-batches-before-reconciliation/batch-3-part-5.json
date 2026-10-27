@@ -1,0 +1,2951 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "type": "file",
+      "name": "ProviderModelAvailabilityServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "summary": "验证模型可用性查询保持只读、幂等，并随渠道启停、模型状态、协议映射及限流到期动态变化，且与路由判断一致。",
+      "tags": [
+        "测试",
+        "模型可用性",
+        "限流",
+        "路由"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:ProviderModelAvailabilityServiceTest",
+      "type": "class",
+      "name": "ProviderModelAvailabilityServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        40,
+        328
+      ],
+      "summary": "验证模型可用性查询保持只读、幂等，并随渠道启停、模型状态、协议映射及限流到期动态变化，且与路由判断一致。",
+      "tags": [
+        "测试",
+        "模型可用性",
+        "限流",
+        "路由"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_performs_only_reads_when_availability_is_requested_repeatedly",
+      "type": "function",
+      "name": "test_performs_only_reads_when_availability_is_requested_repeatedly",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        48,
+        62
+      ],
+      "summary": "验证重复请求模型可用性仅执行仓储读取。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_preserves_model_status_and_timestamps_when_expired_isolation_is_displayed",
+      "type": "function",
+      "name": "test_preserves_model_status_and_timestamps_when_expired_isolation_is_displayed",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        64,
+        81
+      ],
+      "summary": "验证显示已到期限流模型时不修改状态和时间戳。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_keeps_results_idempotent_when_channel_status_changes_are_repeated",
+      "type": "function",
+      "name": "test_keeps_results_idempotent_when_channel_status_changes_are_repeated",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        83,
+        102
+      ],
+      "summary": "验证重复切换渠道状态时模型可用性结果保持幂等。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_matches_routing_enablement_when_model_status_changes",
+      "type": "function",
+      "name": "test_matches_routing_enablement_when_model_status_changes",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        104,
+        126
+      ],
+      "summary": "验证模型状态变化后的列表结果与路由可用性一致。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_returns_requested_alias_once_when_multiple_providers_support_it",
+      "type": "function",
+      "name": "test_returns_requested_alias_once_when_multiple_providers_support_it",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        128,
+        138
+      ],
+      "summary": "验证多个渠道支持同一请求别名时只返回一次。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_keeps_model_when_another_enabled_provider_supports_it",
+      "type": "function",
+      "name": "test_keeps_model_when_another_enabled_provider_supports_it",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        140,
+        152
+      ],
+      "summary": "验证关闭一个渠道后其他启用渠道仍能提供模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_removes_model_when_last_supporting_provider_is_disabled",
+      "type": "function",
+      "name": "test_removes_model_when_last_supporting_provider_is_disabled",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        154,
+        167
+      ],
+      "summary": "验证最后一个支持渠道禁用后模型从列表移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_restores_model_when_provider_is_reenabled",
+      "type": "function",
+      "name": "test_restores_model_when_provider_is_reenabled",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        169,
+        183
+      ],
+      "summary": "验证渠道重新启用后模型重新可用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_preserves_explicit_model_disable_when_provider_is_reenabled",
+      "type": "function",
+      "name": "test_preserves_explicit_model_disable_when_provider_is_reenabled",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        185,
+        199
+      ],
+      "summary": "验证重新启用渠道不覆盖模型显式禁用状态。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_returns_empty_when_no_providers_exist",
+      "type": "function",
+      "name": "test_returns_empty_when_no_providers_exist",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        201,
+        211
+      ],
+      "summary": "验证没有渠道时返回空模型集合。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_returns_empty_when_enabled_provider_has_no_models",
+      "type": "function",
+      "name": "test_returns_empty_when_enabled_provider_has_no_models",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        213,
+        225
+      ],
+      "summary": "验证启用渠道没有模型时返回空集合。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_removes_model_when_provider_is_removed_between_queries",
+      "type": "function",
+      "name": "test_removes_model_when_provider_is_removed_between_queries",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        227,
+        238
+      ],
+      "summary": "验证查询间删除渠道后立即移除模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_removes_model_when_last_support_is_removed_between_queries",
+      "type": "function",
+      "name": "test_removes_model_when_last_support_is_removed_between_queries",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        240,
+        253
+      ],
+      "summary": "验证查询间移除最后一个支持项后模型不可用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_excludes_model_when_its_upstream_protocol_is_no_longer_mapped",
+      "type": "function",
+      "name": "test_excludes_model_when_its_upstream_protocol_is_no_longer_mapped",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        255,
+        268
+      ],
+      "summary": "验证模型上游协议不在渠道映射中时排除该模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_excludes_model_when_support_is_not_enabled",
+      "type": "function",
+      "name": "test_excludes_model_when_support_is_not_enabled",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        270,
+        283
+      ],
+      "summary": "验证非启用模型支持项不进入可用列表。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_restores_model_when_rate_limit_isolation_has_expired",
+      "type": "function",
+      "name": "test_restores_model_when_rate_limit_isolation_has_expired",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        285,
+        298
+      ],
+      "summary": "验证模型限流到期后在查询结果中恢复可用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_excludes_model_when_rate_limit_has_no_reset_time",
+      "type": "function",
+      "name": "test_excludes_model_when_rate_limit_has_no_reset_time",
+      "filePath": "backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "lineRange": [
+        300,
+        312
+      ],
+      "summary": "验证缺少限流恢复时间的模型继续不可用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "type": "file",
+      "name": "ChannelEvaluationApplicationServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "summary": "验证渠道评测默认选择已启用模型、拒绝未启用模型，并在探测返回分数后完成运行中评测。",
+      "tags": [
+        "测试",
+        "渠道评测",
+        "状态转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:ChannelEvaluationApplicationServiceTest",
+      "type": "class",
+      "name": "ChannelEvaluationApplicationServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        51,
+        191
+      ],
+      "summary": "验证渠道评测默认选择已启用模型、拒绝未启用模型，并在探测返回分数后完成运行中评测。",
+      "tags": [
+        "测试",
+        "渠道评测",
+        "状态转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:test_submits_enabled_models_when_model_list_is_empty",
+      "type": "function",
+      "name": "test_submits_enabled_models_when_model_list_is_empty",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        57,
+        83
+      ],
+      "summary": "验证未指定模型时提交已启用模型，保存运行状态并传递探测任务标识。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:test_rejects_submit_when_requested_model_is_not_enabled",
+      "type": "function",
+      "name": "test_rejects_submit_when_requested_model_is_not_enabled",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        85,
+        106
+      ],
+      "summary": "验证请求未启用模型时抛出业务错误且不提交探测、不保存评测。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:test_marks_in_flight_run_succeeded_when_probe_reports_score",
+      "type": "function",
+      "name": "test_marks_in_flight_run_succeeded_when_probe_reports_score",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        108,
+        131
+      ],
+      "summary": "验证探测返回分数后将运行中的评测更新为成功并保存结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:service",
+      "type": "function",
+      "name": "service",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        133,
+        148
+      ],
+      "summary": "创建注入仓储、探测端口与固定时钟的评测应用服务测试实例。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:runningEvaluation",
+      "type": "function",
+      "name": "runningEvaluation",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        150,
+        161
+      ],
+      "summary": "创建已提交且已标记运行的评测样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:channelWithEnabledModel",
+      "type": "function",
+      "name": "channelWithEnabledModel",
+      "filePath": "backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "lineRange": [
+        163,
+        190
+      ],
+      "summary": "构造包含已启用模型与同协议映射的渠道领域样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "type": "file",
+      "name": "RoutingPolicyServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "summary": "验证路由策略对协议映射、原生协议限制、转换能力、候选重试及单模型限流隔离的处理。",
+      "tags": [
+        "测试",
+        "路由策略",
+        "协议转换",
+        "故障转移"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:RoutingPolicyServiceTest",
+      "type": "class",
+      "name": "RoutingPolicyServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        42,
+        495
+      ],
+      "summary": "验证路由策略对协议映射、原生协议限制、转换能力、候选重试及单模型限流隔离的处理。",
+      "tags": [
+        "测试",
+        "路由策略",
+        "协议转换",
+        "故障转移"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_usesConfiguredUpstreamProtocol_when_requestProtocolHasMapping",
+      "type": "function",
+      "name": "test_usesConfiguredUpstreamProtocol_when_requestProtocolHasMapping",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        47,
+        85
+      ],
+      "summary": "验证请求协议有映射时采用配置的上游协议和模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_dropsConvertedCandidates_when_nativeProtocolOnlyIsRequired",
+      "type": "function",
+      "name": "test_dropsConvertedCandidates_when_nativeProtocolOnlyIsRequired",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        87,
+        115
+      ],
+      "summary": "验证原生协议限定过滤需要协议转换的候选。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_usesOnlyMappedUpstreamProtocol_when_modelIsAlsoRegisteredUnderAnotherProtocol",
+      "type": "function",
+      "name": "test_usesOnlyMappedUpstreamProtocol_when_modelIsAlsoRegisteredUnderAnotherProtocol",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        117,
+        158
+      ],
+      "summary": "验证模型注册在多种协议下时仅采用映射指定的协议。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_usesModelProtocol_when_mappedProtocolCannotServeModel",
+      "type": "function",
+      "name": "test_usesModelProtocol_when_mappedProtocolCannotServeModel",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        160,
+        198
+      ],
+      "summary": "验证映射协议无法服务模型时采用模型实际协议。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_retriesRemainingCandidate_when_attemptFailsWithRetryableFailure",
+      "type": "function",
+      "name": "test_retriesRemainingCandidate_when_attemptFailsWithRetryableFailure",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        200,
+        231
+      ],
+      "summary": "验证可重试失败后切换到剩余路由候选。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:claudeChannel",
+      "type": "function",
+      "name": "claudeChannel",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        233,
+        247
+      ],
+      "summary": "构造配置 Messages 协议的渠道测试样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_derivesUpstreamProtocolFromModelSupport_when_requestMappingMissing",
+      "type": "function",
+      "name": "test_derivesUpstreamProtocolFromModelSupport_when_requestMappingMissing",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        249,
+        281
+      ],
+      "summary": "验证缺少请求映射时可从模型支持推导上游协议。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_selectsChatCompletionsCandidate_when_claudeStreamingRequiresFullChatBridge",
+      "type": "function",
+      "name": "test_selectsChatCompletionsCandidate_when_claudeStreamingRequiresFullChatBridge",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        283,
+        326
+      ],
+      "summary": "验证 Messages 流式完整转换需求选择 Chat Completions 候选。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_doesNotDeriveCandidate_when_conversionCapabilityDoesNotSatisfyRequirement",
+      "type": "function",
+      "name": "test_doesNotDeriveCandidate_when_conversionCapabilityDoesNotSatisfyRequirement",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        328,
+        356
+      ],
+      "summary": "验证转换能力不满足需求时不推导路由候选。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_doesNotDeriveCandidate_when_conversionDefinitionMissing",
+      "type": "function",
+      "name": "test_doesNotDeriveCandidate_when_conversionDefinitionMissing",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        358,
+        386
+      ],
+      "summary": "验证缺少转换定义时不推导跨协议候选。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_keepsOtherModelRoutable_when_ChannelModelIsRateLimited",
+      "type": "function",
+      "name": "test_keepsOtherModelRoutable_when_ChannelModelIsRateLimited",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        388,
+        438
+      ],
+      "summary": "验证一个模型被限流后同渠道其他模型仍可路由。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:model",
+      "type": "function",
+      "name": "model",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        440,
+        458
+      ],
+      "summary": "构造指定别名、上游模型和协议的模型支持样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:definition",
+      "type": "function",
+      "name": "definition",
+      "filePath": "backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "lineRange": [
+        469,
+        485
+      ],
+      "summary": "构建包含转换能力、映射文档和实现状态的协议转换测试定义。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "type": "file",
+      "name": "ProviderGatewayCallAdapterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "summary": "通过本地 HTTP 服务验证网关适配器的原始响应、流式调用、端点选择、查询参数及 multipart 转发，并覆盖流式错误不重发与 Retry-After 传递。",
+      "tags": [
+        "测试",
+        "HTTP",
+        "流式传输",
+        "网关"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:ProviderGatewayCallAdapterTest",
+      "type": "class",
+      "name": "ProviderGatewayCallAdapterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        55,
+        579
+      ],
+      "summary": "通过本地 HTTP 服务验证网关适配器的原始响应、流式调用、端点选择、查询参数及 multipart 转发，并覆盖流式错误不重发与 Retry-After 传递。",
+      "tags": [
+        "测试",
+        "HTTP",
+        "流式传输",
+        "网关"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_returnsRawStatusHeadersAndBody_when_forwardSucceeds",
+      "type": "function",
+      "name": "test_returnsRawStatusHeadersAndBody_when_forwardSucceeds",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        67,
+        83
+      ],
+      "summary": "验证普通转发保留上游状态码、响应头和正文。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_returnsRawErrorResponse_when_forwardReceivesError",
+      "type": "function",
+      "name": "test_returnsRawErrorResponse_when_forwardReceivesError",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        85,
+        100
+      ],
+      "summary": "验证普通转发保留上游错误响应。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_returnsStatusHeadersAndBody_when_openStreamSucceeds",
+      "type": "function",
+      "name": "test_returnsStatusHeadersAndBody_when_openStreamSucceeds",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        102,
+        117
+      ],
+      "summary": "验证流式调用返回状态码、响应头和可读取正文。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_usesInvokeModelStreamEndpoint_when_claudeStreamRoutesToBedrock",
+      "type": "function",
+      "name": "test_usesInvokeModelStreamEndpoint_when_claudeStreamRoutesToBedrock",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        119,
+        137
+      ],
+      "summary": "验证 Messages 流式路由到 Bedrock 时使用 InvokeModel 流端点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_treatsModelNotFoundAsRetryable_when_protocolFallbackIsAvailable",
+      "type": "function",
+      "name": "test_treatsModelNotFoundAsRetryable_when_protocolFallbackIsAvailable",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        139,
+        151
+      ],
+      "summary": "验证存在协议回退可能时模型不存在错误标记为可重试。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_doesNotRetryStreamingRequest_when_upstreamRateLimits",
+      "type": "function",
+      "name": "test_doesNotRetryStreamingRequest_when_upstreamRateLimits",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        153,
+        169
+      ],
+      "summary": "验证流式请求遇到上游限流只发送一次。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_forwardsQueryString_when_clientSuppliesOne",
+      "type": "function",
+      "name": "test_forwardsQueryString_when_clientSuppliesOne",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        171,
+        188
+      ],
+      "summary": "验证同协议转发保留客户端查询字符串。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_usesCountTokensEndpoint_when_operationIsCountTokens",
+      "type": "function",
+      "name": "test_usesCountTokensEndpoint_when_operationIsCountTokens",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        190,
+        207
+      ],
+      "summary": "验证 CountTokens 操作采用专用计数端点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_postsMultipartFormToEditsEndpoint_when_operationIsImageEdits",
+      "type": "function",
+      "name": "test_postsMultipartFormToEditsEndpoint_when_operationIsImageEdits",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        209,
+        239
+      ],
+      "summary": "验证图像编辑将文件和文本字段编码为 multipart 并发往 edits 端点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_dropsQueryString_when_upstreamProtocolDiffers",
+      "type": "function",
+      "name": "test_dropsQueryString_when_upstreamProtocolDiffers",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        241,
+        258
+      ],
+      "summary": "验证跨协议调用丢弃客户端查询字符串。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_doesNotRetryStreamingRequest_when_upstreamReturnsServerError",
+      "type": "function",
+      "name": "test_doesNotRetryStreamingRequest_when_upstreamReturnsServerError",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        260,
+        276
+      ],
+      "summary": "验证上游服务错误不会导致流式请求重发。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_carriesRetryAfterHeader_when_upstreamRateLimitsStream",
+      "type": "function",
+      "name": "test_carriesRetryAfterHeader_when_upstreamRateLimitsStream",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        278,
+        294
+      ],
+      "summary": "验证流式限流异常保留可解析的 Retry-After 信息。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:recordingServer",
+      "type": "function",
+      "name": "recordingServer",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        296,
+        308
+      ],
+      "summary": "启动记录调用次数的本地 HTTP 测试服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:capturingServer",
+      "type": "function",
+      "name": "capturingServer",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        310,
+        329
+      ],
+      "summary": "启动捕获请求 URI、内容类型和正文的本地 HTTP 服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:serverThatFailsWith",
+      "type": "function",
+      "name": "serverThatFailsWith",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        331,
+        343
+      ],
+      "summary": "启动返回指定错误状态和错误正文的本地 HTTP 服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:rateLimitedServerWithRetryAfter",
+      "type": "function",
+      "name": "rateLimitedServerWithRetryAfter",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        345,
+        357
+      ],
+      "summary": "启动携带 Retry-After 响应头的限流测试服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:server",
+      "type": "function",
+      "name": "server",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        359,
+        372
+      ],
+      "summary": "启动提供指定状态码和正文的本地 HTTP 服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:serverThatRateLimitsOnce",
+      "type": "function",
+      "name": "serverThatRateLimitsOnce",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        374,
+        390
+      ],
+      "summary": "启动首次限流、随后成功并统计请求次数的测试服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:bedrockStreamingServer",
+      "type": "function",
+      "name": "bedrockStreamingServer",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        392,
+        407
+      ],
+      "summary": "启动模拟 Bedrock 流式响应并记录调用次数的本地服务。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:adapter",
+      "type": "function",
+      "name": "adapter",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        430,
+        443
+      ],
+      "summary": "创建注入测试端点、转换器和 HTTP 配置的网关适配器。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:channel",
+      "type": "function",
+      "name": "channel",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        445,
+        467
+      ],
+      "summary": "构建包含协议映射和模型支持的渠道测试样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:candidate",
+      "type": "function",
+      "name": "candidate",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        473,
+        488
+      ],
+      "summary": "构建选定渠道和协议转换路线的路由候选。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:definition",
+      "type": "function",
+      "name": "definition",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        494,
+        505
+      ],
+      "summary": "构建包含转换能力、映射文档和实现状态的协议转换测试定义。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:modelSupport",
+      "type": "function",
+      "name": "modelSupport",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "lineRange": [
+        507,
+        519
+      ],
+      "summary": "构建用于网关路由测试的模型支持项。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "type": "file",
+      "name": "ProviderModelFetchAdapterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "summary": "通过本地 HTTP 服务验证模型发现的鉴权、列表格式兼容、默认路径选择和上游认证错误详情。",
+      "tags": [
+        "测试",
+        "模型发现",
+        "HTTP",
+        "鉴权"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:ProviderModelFetchAdapterTest",
+      "type": "class",
+      "name": "ProviderModelFetchAdapterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        28,
+        192
+      ],
+      "summary": "通过本地 HTTP 服务验证模型发现的鉴权、列表格式兼容、默认路径选择和上游认证错误详情。",
+      "tags": [
+        "测试",
+        "模型发现",
+        "HTTP",
+        "鉴权"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_sendsStoredKey_when_fetchingModels",
+      "type": "function",
+      "name": "test_sendsStoredKey_when_fetchingModels",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        41,
+        64
+      ],
+      "summary": "验证模型拉取将保存的渠道密钥放入 Bearer 鉴权头。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_fetchesModels_when_openAiListUsesDataAndId",
+      "type": "function",
+      "name": "test_fetchesModels_when_openAiListUsesDataAndId",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        66,
+        94
+      ],
+      "summary": "验证兼容 data/id 格式的模型列表、GET 请求及上游协议填充。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_fetchesNewModels_when_hostAlreadyContainsV1AndListUsesModelsAliases",
+      "type": "function",
+      "name": "test_fetchesNewModels_when_hostAlreadyContainsV1AndListUsesModelsAliases",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        96,
+        120
+      ],
+      "summary": "验证地址含 v1 时仍正确拉取 models 别名格式中的模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_requestsDefaultModelsPath_when_customModelsPathProvided",
+      "type": "function",
+      "name": "test_requestsDefaultModelsPath_when_customModelsPathProvided",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        122,
+        152
+      ],
+      "summary": "验证传入自定义模型路径后仍请求默认 /v1/models 并携带鉴权头。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_includesFailureReason_when_upstreamReturnsUnauthorized",
+      "type": "function",
+      "name": "test_includesFailureReason_when_upstreamReturnsUnauthorized",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        154,
+        179
+      ],
+      "summary": "验证上游 401 被转为认证失败业务错误并包含失败原因。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:adapter",
+      "type": "function",
+      "name": "adapter",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "lineRange": [
+        181,
+        191
+      ],
+      "summary": "创建允许本地 HTTP 地址并注入固定时钟的模型拉取测试适配器。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "type": "file",
+      "name": "DefaultProtocolConversionServiceAdapterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "summary": "验证协议转换服务的同协议透传及请求规范化行为，覆盖 Responses 作者字段、助手文本和从 Messages 重放的推理内容。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "请求规范化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:DefaultProtocolConversionServiceAdapterTest",
+      "type": "class",
+      "name": "DefaultProtocolConversionServiceAdapterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        24,
+        162
+      ],
+      "summary": "验证协议转换服务的同协议透传及请求规范化行为，覆盖 Responses 作者字段、助手文本和从 Messages 重放的推理内容。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "请求规范化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_forwardsBodyUnchanged_when_clientAndUpstreamProtocolsMatch",
+      "type": "function",
+      "name": "test_forwardsBodyUnchanged_when_clientAndUpstreamProtocolsMatch",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        33,
+        53
+      ],
+      "summary": "验证同协议请求转换保留无需规范化的原始正文。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_marksResultAsPassthrough_when_clientAndUpstreamProtocolsMatch",
+      "type": "function",
+      "name": "test_marksResultAsPassthrough_when_clientAndUpstreamProtocolsMatch",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        55,
+        70
+      ],
+      "summary": "验证同协议转换结果标记为透传。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_removesAuthor_when_responsesRequestPassesThrough",
+      "type": "function",
+      "name": "test_removesAuthor_when_responsesRequestPassesThrough",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        76,
+        90
+      ],
+      "summary": "验证 Responses 同协议请求规范化时移除输入项 author 字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_normalizesAssistantText_when_responsesRequestUsesSameProtocolRoute",
+      "type": "function",
+      "name": "test_normalizesAssistantText_when_responsesRequestUsesSameProtocolRoute",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        92,
+        109
+      ],
+      "summary": "验证 Responses 同协议路由将助手文本规范化为目标输入结构。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_normalizesReplayedReasoning_when_messagesConvertToResponses",
+      "type": "function",
+      "name": "test_normalizesReplayedReasoning_when_messagesConvertToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        111,
+        138
+      ],
+      "summary": "验证 Messages 请求转 Responses 时规范化重放推理内容。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:definition",
+      "type": "function",
+      "name": "definition",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "lineRange": [
+        140,
+        152
+      ],
+      "summary": "构建具有完整转换能力的测试用协议转换定义。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:ProviderModelAvailabilityServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_performs_only_reads_when_availability_is_requested_repeatedly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_preserves_model_status_and_timestamps_when_expired_isolation_is_displayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_keeps_results_idempotent_when_channel_status_changes_are_repeated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_matches_routing_enablement_when_model_status_changes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_returns_requested_alias_once_when_multiple_providers_support_it",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_keeps_model_when_another_enabled_provider_supports_it",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_removes_model_when_last_supporting_provider_is_disabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_restores_model_when_provider_is_reenabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_preserves_explicit_model_disable_when_provider_is_reenabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_returns_empty_when_no_providers_exist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_returns_empty_when_enabled_provider_has_no_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_removes_model_when_provider_is_removed_between_queries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_removes_model_when_last_support_is_removed_between_queries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_excludes_model_when_its_upstream_protocol_is_no_longer_mapped",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_excludes_model_when_support_is_not_enabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_restores_model_when_rate_limit_isolation_has_expired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java:test_excludes_model_when_rate_limit_has_no_reset_time",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:ChannelEvaluationApplicationServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:test_submits_enabled_models_when_model_list_is_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:test_rejects_submit_when_requested_model_is_not_enabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:test_marks_in_flight_run_succeeded_when_probe_reports_score",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:service",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:runningEvaluation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java:channelWithEnabledModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationScore.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationTrigger.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationScheduleRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:RoutingPolicyServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_usesConfiguredUpstreamProtocol_when_requestProtocolHasMapping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_dropsConvertedCandidates_when_nativeProtocolOnlyIsRequired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_usesOnlyMappedUpstreamProtocol_when_modelIsAlsoRegisteredUnderAnotherProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_usesModelProtocol_when_mappedProtocolCannotServeModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_retriesRemainingCandidate_when_attemptFailsWithRetryableFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:claudeChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_derivesUpstreamProtocolFromModelSupport_when_requestMappingMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_selectsChatCompletionsCandidate_when_claudeStreamingRequiresFullChatBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_doesNotDeriveCandidate_when_conversionCapabilityDoesNotSatisfyRequirement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_doesNotDeriveCandidate_when_conversionDefinitionMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:test_keepsOtherModelRoutable_when_ChannelModelIsRateLimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java:definition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/FailoverAction.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteAttempt.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:ProviderGatewayCallAdapterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_returnsRawStatusHeadersAndBody_when_forwardSucceeds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_returnsRawErrorResponse_when_forwardReceivesError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_returnsStatusHeadersAndBody_when_openStreamSucceeds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_usesInvokeModelStreamEndpoint_when_claudeStreamRoutesToBedrock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_treatsModelNotFoundAsRetryable_when_protocolFallbackIsAvailable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_doesNotRetryStreamingRequest_when_upstreamRateLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_forwardsQueryString_when_clientSuppliesOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_usesCountTokensEndpoint_when_operationIsCountTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_postsMultipartFormToEditsEndpoint_when_operationIsImageEdits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_dropsQueryString_when_upstreamProtocolDiffers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_doesNotRetryStreamingRequest_when_upstreamReturnsServerError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:test_carriesRetryAfterHeader_when_upstreamRateLimitsStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:recordingServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:capturingServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:serverThatFailsWith",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:rateLimitedServerWithRetryAfter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:serverThatRateLimitsOnce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:bedrockStreamingServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:adapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:channel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:candidate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:definition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java:modelSupport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/UpstreamGatewayException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelMappingResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRoute.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:ProviderModelFetchAdapterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_sendsStoredKey_when_fetchingModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_fetchesModels_when_openAiListUsesDataAndId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_fetchesNewModels_when_hostAlreadyContainsV1AndListUsesModelsAliases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_requestsDefaultModelsPath_when_customModelsPathProvided",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:test_includesFailureReason_when_upstreamReturnsUnauthorized",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java:adapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderModelFetchAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:DefaultProtocolConversionServiceAdapterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_forwardsBodyUnchanged_when_clientAndUpstreamProtocolsMatch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_marksResultAsPassthrough_when_clientAndUpstreamProtocolsMatch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_removesAuthor_when_responsesRequestPassesThrough",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_normalizesAssistantText_when_responsesRequestUsesSameProtocolRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:test_normalizesReplayedReasoning_when_messagesConvertToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java:definition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/channel/ProviderModelAvailabilityServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderModelAvailabilityService.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/evaluation/ChannelEvaluationApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/domain/routing/service/RoutingPolicyServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+"usageRecordApi.ts":{"summary":"封装个人与管理员用量分页查询，清洗正整数标识、ISO 时间和空筛选项，将后端记录、分页与筛选汇总转换为前端契约。","tags":["api-客户端","用量记录","查询规范化"],"functions":{"toBackendParams":"清理可选筛选值并转换为后端字段名，无效时间区间不传入查询。","toFrontendPage":"规范化分页与记录，并使用后端全筛选范围 Token 汇总构建总量和平均值所需数据。","queryUsageRecords":"按指定范围接口查询后端页，并保留响应信封同时转换数据。"}},
+"types.ts":{"summary":"定义用量记录、筛选、分页及汇总类型，区分用户与管理员可见字段，包含 Token 明细、首字及总耗时、请求 IP 和诊断。","tags":["类型定义","用量记录","分页契约"]},
+"useUsageRecords.ts":{"summary":"根据个人或管理员范围选择用量查询接口，将范围与筛选对象纳入 React Query 缓存键并返回分页结果。","tags":["react-hook","用量查询","查询缓存"]},
+"UsageRecordStatusTag.tsx":{"summary":"将成功、处理中和失败等调用状态渲染为颜色标签，并兼容未知状态。","tags":["react-组件","请求状态","标签"]},
+"UsageRecordTable.tsx":{"summary":"按个人或管理员范围展示分页用量记录与 Token 明细，管理员附加用户、IP、渠道列及可展开诊断。","tags":["react-组件","用量记录","分页表格"]},
+"UsageTokenSummary.tsx":{"summary":"展示当前筛选范围的实际与总 Token、记录总量和每条均值，处理缺省与非法数值并提供加载骨架和可访问性提示。","tags":["react-组件","用量汇总","筛选统计"]}
+}

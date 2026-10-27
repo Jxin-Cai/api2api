@@ -1,0 +1,8 @@
+{
+"types.ts":{"summary":"定义凭证管理表单编辑分区，仅允许名称和模型分组两类编辑。","tags":["类型定义","凭证管理","编辑状态"]},
+"useApiCredentialMutations.ts":{"summary":"集中封装凭证创建、改名、改分组、配额、启停、删除和密钥展示 mutation，使用统一凭证查询失效入口刷新列表。","tags":["react-hook","凭证管理","缓存失效"]},
+"ApiCredentialCreateModal.tsx":{"summary":"创建 API Key 并展示返回的明文，要求选择模型分组，关闭前提示确认已安全保存密钥并在重新打开时清空状态。","tags":["react-组件","凭证创建","密钥展示"]},
+"ApiCredentialEditDrawer.tsx":{"summary":"提供凭证名称和绑定模型分组的分区编辑，调用对应 mutation 并反馈更新结果，提示白名单由分组统一控制。","tags":["react-组件","凭证编辑","模型分组"]},
+"ApiCredentialTablePanel.tsx":{"summary":"展示用户凭证、模型限制及实际与总 Token 用量，协调创建编辑、启停删除与密钥受控复制。高风险操作使用确认框，密钥展示等待原确认框关闭后由用户点击复制。","tags":["react-组件","凭证管理","密钥展示","用量统计"],"functions":{"handleToggleStatus":"按当前启停状态提交相反的状态变更并提示结果。","handleDelete":"提交凭证删除并显示成功或失败提示。","confirmToggleStatus":"显示启用或停用影响确认，确认后执行状态变更。","confirmDelete":"提示删除后密钥失效但保留历史记录，再提交删除操作。","handleReveal":"确认当前环境适合展示后拉取明文，待确认框关闭再展示复制块，避免失去用户手势导致自动剪贴板失败。"}},
+"ApiCredentialToolbar.tsx":{"summary":"提供凭证名称或标识搜索、列表刷新和创建入口，并显示加载状态。","tags":["react-组件","凭证搜索","工具栏"]}
+}

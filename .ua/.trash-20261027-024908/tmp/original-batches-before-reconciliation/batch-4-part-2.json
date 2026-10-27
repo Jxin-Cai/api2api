@@ -1,0 +1,1241 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "type": "file",
+      "name": "JdbcChannelEvaluationScheduleMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "summary": "通过命名参数 JDBC 读写渠道评测调度，按触发时间筛选和排序到期任务，并支持渠道级查询与删除。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:JdbcChannelEvaluationScheduleMapper",
+      "type": "class",
+      "name": "JdbcChannelEvaluationScheduleMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        18,
+        125
+      ],
+      "summary": "通过命名参数 JDBC 读写渠道评测调度，按触发时间筛选和排序到期任务，并支持渠道级查询与删除。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        43,
+        54
+      ],
+      "summary": "插入渠道评测 Cron 调度记录及触发时间。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        56,
+        69
+      ],
+      "summary": "更新调度的 Cron、时区、模型、启用状态和触发时间。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        71,
+        78
+      ],
+      "summary": "按调度标识读取单条记录。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectByProviderChannelId",
+      "type": "function",
+      "name": "selectByProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        80,
+        87
+      ],
+      "summary": "按渠道标识读取其评测调度。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectDue",
+      "type": "function",
+      "name": "selectDue",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        89,
+        102
+      ],
+      "summary": "筛选已启用且下次触发时间到期的调度，按时间和标识排序并限制数量。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:deleteByProviderChannelId",
+      "type": "function",
+      "name": "deleteByProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        104,
+        110
+      ],
+      "summary": "删除指定渠道的调度记录。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        112,
+        124
+      ],
+      "summary": "将调度标识、Cron、时区、模型 JSON 和触发时间绑定为命名 SQL 参数。",
+      "tags": [
+        "JDBC",
+        "评测调度",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "type": "file",
+      "name": "ChannelEvaluationPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "summary": "保存渠道评测的数据库字段，包括模型、任务状态、评分、模型识别、探测计数、Token 用量、报告摘要及审计时间。",
+      "tags": [
+        "持久化对象",
+        "渠道评测",
+        "数据模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java:ChannelEvaluationPO",
+      "type": "class",
+      "name": "ChannelEvaluationPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "lineRange": [
+        10,
+        42
+      ],
+      "summary": "保存渠道评测的数据库字段，包括模型、任务状态、评分、模型识别、探测计数、Token 用量、报告摘要及审计时间。",
+      "tags": [
+        "持久化对象",
+        "渠道评测",
+        "数据模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "type": "file",
+      "name": "ChannelEvaluationSchedulePO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "summary": "保存渠道评测调度的 Cron、时区、模型列表、启用标记以及上次和下次触发时间。",
+      "tags": [
+        "持久化对象",
+        "评测调度",
+        "数据模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java:ChannelEvaluationSchedulePO",
+      "type": "class",
+      "name": "ChannelEvaluationSchedulePO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "lineRange": [
+        9,
+        25
+      ],
+      "summary": "保存渠道评测调度的 Cron、时区、模型列表、启用标记以及上次和下次触发时间。",
+      "tags": [
+        "持久化对象",
+        "评测调度",
+        "数据模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "type": "file",
+      "name": "EvaluationScoreSummaryPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "summary": "承载渠道评测聚合统计查询结果，包括总数、已评分与失败数以及平均、最低和最高评分。",
+      "tags": [
+        "持久化对象",
+        "评分统计",
+        "渠道评测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java:EvaluationScoreSummaryPO",
+      "type": "class",
+      "name": "EvaluationScoreSummaryPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "lineRange": [
+        9,
+        21
+      ],
+      "summary": "承载渠道评测聚合统计查询结果，包括总数、已评分与失败数以及平均、最低和最高评分。",
+      "tags": [
+        "持久化对象",
+        "评分统计",
+        "渠道评测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "type": "file",
+      "name": "GlobalExceptionAdvice.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "summary": "为普通 HTTP 接口统一映射认证、业务、参数绑定与校验异常；记录未预期异常的完整堆栈并返回通用服务器错误。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:GlobalExceptionAdvice",
+      "type": "class",
+      "name": "GlobalExceptionAdvice",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        22,
+        107
+      ],
+      "summary": "为普通 HTTP 接口统一映射认证、业务、参数绑定与校验异常；记录未预期异常的完整堆栈并返回通用服务器错误。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleAuthenticationRequired",
+      "type": "function",
+      "name": "handleAuthenticationRequired",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        30,
+        34
+      ],
+      "summary": "将缺少认证异常映射为 HTTP 401 和统一认证错误码。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBusinessException",
+      "type": "function",
+      "name": "handleBusinessException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        36,
+        40
+      ],
+      "summary": "将领域业务异常映射为 HTTP 400 并保留业务错误码与消息。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleMethodArgumentNotValidException",
+      "type": "function",
+      "name": "handleMethodArgumentNotValidException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        42,
+        45
+      ],
+      "summary": "将请求体验证错误汇总为字段消息并返回 HTTP 400。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBindException",
+      "type": "function",
+      "name": "handleBindException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        47,
+        53
+      ],
+      "summary": "汇总参数绑定字段错误并生成统一 HTTP 400 响应。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleConstraintViolationException",
+      "type": "function",
+      "name": "handleConstraintViolationException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        55,
+        61
+      ],
+      "summary": "汇总约束违例路径和消息并返回 HTTP 400。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleHttpMessageNotReadableException",
+      "type": "function",
+      "name": "handleHttpMessageNotReadableException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        63,
+        66
+      ],
+      "summary": "将不可读取的请求体转换为统一参数错误响应。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBadRequest",
+      "type": "function",
+      "name": "handleBadRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        68,
+        76
+      ],
+      "summary": "将非法参数、不可读请求体及不支持请求方法等异常统一转换为参数错误响应。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleException",
+      "type": "function",
+      "name": "handleException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "lineRange": [
+        78,
+        83
+      ],
+      "summary": "记录未预期异常完整堆栈并返回通用 HTTP 500 错误。",
+      "tags": [
+        "异常处理",
+        "HTTP",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "type": "file",
+      "name": "AdminChannelEvaluationController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "summary": "提供管理员渠道评测接口，提交评测、查询历史、读取及更新 Cron 调度，并将协议请求组装为应用命令。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道评测"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:AdminChannelEvaluationController",
+      "type": "class",
+      "name": "AdminChannelEvaluationController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "lineRange": [
+        38,
+        115
+      ],
+      "summary": "提供管理员渠道评测接口，提交评测、查询历史、读取及更新 Cron 调度，并将协议请求组装为应用命令。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道评测"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:submit",
+      "type": "function",
+      "name": "submit",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "lineRange": [
+        53,
+        67
+      ],
+      "summary": "解析操作者身份，将可空模型请求转换为评测提交命令并返回创建结果。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道评测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:history",
+      "type": "function",
+      "name": "history",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "lineRange": [
+        69,
+        84
+      ],
+      "summary": "校验历史查询参数并调用应用服务获取分页评测历史与汇总。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道评测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:loadSchedule",
+      "type": "function",
+      "name": "loadSchedule",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "lineRange": [
+        86,
+        98
+      ],
+      "summary": "读取指定渠道的评测调度并转换为响应。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道评测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:upsertSchedule",
+      "type": "function",
+      "name": "upsertSchedule",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "lineRange": [
+        100,
+        114
+      ],
+      "summary": "构建 Cron 调度命令，调用应用服务保存并返回当前调度。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道评测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "type": "file",
+      "name": "ChannelEvaluationHttpConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "summary": "将评测 HTTP 请求转换为应用命令，并组装评测、评分统计及调度响应；解析 limit/offset、排序字段和状态，处理 Cron 时区的 UTC 缺省与错误。",
+      "tags": [
+        "MapStruct",
+        "对象转换",
+        "评测调度",
+        "分页"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java:ChannelEvaluationHttpConverter",
+      "type": "class",
+      "name": "ChannelEvaluationHttpConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "lineRange": [
+        35,
+        204
+      ],
+      "summary": "将评测 HTTP 请求转换为应用命令，并组装评测、评分统计及调度响应；解析 limit/offset、排序字段和状态，处理 Cron 时区的 UTC 缺省与错误。",
+      "tags": [
+        "MapStruct",
+        "对象转换",
+        "评测调度",
+        "分页"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:JdbcChannelEvaluationScheduleMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:JdbcChannelEvaluationScheduleMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectByProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectByProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectDue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:selectDue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:deleteByProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:deleteByProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java:ChannelEvaluationPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java:ChannelEvaluationPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java:ChannelEvaluationSchedulePO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java:ChannelEvaluationSchedulePO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java:EvaluationScoreSummaryPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java:EvaluationScoreSummaryPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:GlobalExceptionAdvice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:GlobalExceptionAdvice",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleAuthenticationRequired",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleAuthenticationRequired",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleMethodArgumentNotValidException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleMethodArgumentNotValidException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBindException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBindException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleConstraintViolationException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleConstraintViolationException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleHttpMessageNotReadableException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleHttpMessageNotReadableException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBadRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleBadRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java:handleException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/GlobalExceptionAdvice.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:AdminChannelEvaluationController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:AdminChannelEvaluationController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:submit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:submit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:loadSchedule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:loadSchedule",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:upsertSchedule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:upsertSchedule",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/UpsertChannelEvaluationScheduleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationSchedule.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminSubmitChannelEvaluationRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpsertChannelEvaluationScheduleRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationHistoryResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationScheduleResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationSubmitResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/QueryChannelEvaluationHistoryRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java:ChannelEvaluationHttpConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java:ChannelEvaluationHttpConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/UpsertChannelEvaluationScheduleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/dto/ChannelEvaluationHistoryPage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationSchedule.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationCron.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationScoreSummary.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationSortField.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminSubmitChannelEvaluationRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpsertChannelEvaluationScheduleRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationHistoryResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationScheduleResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelEvaluationSubmitResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/QueryChannelEvaluationHistoryRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationScheduleMapper.java:JdbcChannelEvaluationScheduleMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java:ChannelEvaluationScheduleMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:submit",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submit",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:history",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:history",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:loadSchedule",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:loadSchedule",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminChannelEvaluationController.java:upsertSchedule",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:upsertSchedule",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverter.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

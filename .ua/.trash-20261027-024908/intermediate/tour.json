@@ -1,0 +1,160 @@
+[
+  {
+    "order": 1,
+    "title": "项目定位与学习地图",
+    "description": "从 README 了解 API2API 的目标：为客户端提供统一的多协议 AI 网关，集中完成鉴权、模型映射、协议转换、渠道路由与用量治理。项目由独立的 Spring Boot 后端和 React 管理前端组成，客户端网关调用与用户、管理员门户承担不同职责。后续先沿一次网关请求理解后端，再学习前端如何管理这些能力，最后了解部署交付。",
+    "nodeIds": ["document:README.md"]
+  },
+  {
+    "order": 2,
+    "title": "后端启动与领域边界",
+    "description": "承接项目概览，从真实入口 Api2ApiApplication 了解后端启动、配置属性扫描、定时任务和 UTC 时钟装配，再用 HTTP 接入层、应用编排层、领域层与基础设施层建立 DDD 阅读框架。ProtocolType 是高扇入的公共领域概念，GatewayInvocation 用聚合状态约束一次调用的生命周期。ProviderChannelRepository 则定义渠道持久化与模型限流操作的端口，展示领域规则与具体存储实现之间的边界。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java"
+    ],
+    "languageLesson": "Java 接口可以表达领域所需的能力，而由基础设施提供具体实现；枚举则把支持的协议收敛为明确的取值集合，减少业务逻辑中的字符串判断。"
+  },
+  {
+    "order": 3,
+    "title": "请求接入与应用编排",
+    "description": "有了分层框架，再从 GatewayProtocolController 看 Messages、Responses、Chat Completions 和图像操作如何进入网关。GatewayRequestMapper 把契约解析结果、密钥头、追踪标识和入口上下文整理成不可变的 InvokeGatewayCommand，使 HTTP 细节形成明确的应用输入。高扇出的 GatewayInvocationApplicationService 随后编排鉴权、候选选择、协议转换、同步或流式故障切换与用量收尾，是理解完整请求流程的主线。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+      "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayRequestMapper.java",
+      "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java"
+    ]
+  },
+  {
+    "order": 4,
+    "title": "凭据权限与统一配额",
+    "description": "沿着应用编排的准入阶段，先通过 ApiCredentialApplicationService 区分密钥可用性、所有权、模型分组白名单与统一令牌配额的职责。TokenQuotaRule 描述模型分组或指定 API Key 的预算，TokenQuotaWindow 根据时钟和时区计算日、周、月及累计周期，TokenQuotaService 在准入短事务中锁定相关目标并检查适用规则。TokenQuotaExceededException 明确表达调用方预算耗尽，帮助理解为什么额度不足应作为准入失败处理，而不能归咎于上游渠道。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java"
+    ]
+  },
+  {
+    "order": 5,
+    "title": "候选路由与故障切换",
+    "description": "通过准入后，DefaultRoutingPolicyService 按渠道启用状态、模型支持和协议转换能力生成路线，再依据偏好、优先级与同级轮询确定候选顺序。RouteCandidate 把渠道、客户端模型、上游模型和转换路线组合起来，ProviderGatewayCallAdapter 则按上游协议选择实际调用策略。发生失败时，RouteFailureType 区分授权错误、令牌限流、并发限流、过载与超时等原因，路由策略据可重试性和已尝试路线决定继续切换还是终止。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/domain/routing/service/DefaultRoutingPolicyService.java",
+      "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderGatewayCallAdapter.java"
+    ]
+  },
+  {
+    "order": 6,
+    "title": "协议载荷与转换规则",
+    "description": "理解候选中的协议路线后，再看 ProtocolPayload 如何用协议、内容和流式标记描述转换输入。DefaultProtocolConversionServiceAdapter 按协议对及请求或响应方向分派转换，GenericProtocolMessageConverter 处理消息、多模态、工具历史、推理、缓存与结构化输出等语义。ProtocolConversionProgramRegistry 为转换程序建立不可变索引并拒绝重复注册，ExecutableConversionRule 将执行入口与字段映射说明绑定，使转换行为和管理端展示的规则元数据保持共同来源。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java",
+      "file:backend/src/main/java/com/api2api/infr/protocol/conversion/ExecutableConversionRule.java"
+    ]
+  },
+  {
+    "order": 7,
+    "title": "流式事件与响应生命周期",
+    "description": "普通载荷转换之后，流式响应还需要维护跨事件的状态：GatewayStreamingConversionContext 保存两侧协议、模型和渠道信息，UnifiedStreamingConversionAdapter 按协议对选择 SSE 转换状态机。GatewayStreamingResponseMapper 将调用映射为流式 HTTP 响应，选择转换或透传，跟踪首个语义 Token，并在结束或中断时完成计量。StreamingIdleTimeoutInputStream 区分首字节与空闲超时，配合响应映射中的客户端断连识别，帮助理解网络流生命周期如何影响失败归类。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "file:backend/src/main/java/com/api2api/infr/client/provider/StreamingIdleTimeoutInputStream.java"
+    ]
+  },
+  {
+    "order": 8,
+    "title": "用量事实与结算闭环",
+    "description": "接着把同步和流式调用的结果收敛为统一计量：UnifiedTokenUsage 隔离不同协议的输入、输出、缓存创建与缓存读取令牌格式，并标记用量是否已知。UsageRecord 同时支持非终态调用的额度预留和终态调用的用量事实，UsageRecordRepository 定义预留更新、取消及原始或加权令牌汇总，使准入阶段的占用能在调用结束后结算。UsageQueryApplicationService 再按用户或管理员权限组织分页与过滤，并补充关联名称，将计量数据转化为门户可查询的信息。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "file:backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java"
+    ]
+  },
+  {
+    "order": 9,
+    "title": "仓储落地与数据迁移",
+    "description": "在理解领域端口和用量闭环后，ProviderChannelRepositoryImpl 展示渠道聚合与持久化对象之间的转换，JdbcTokenQuotaRepository 展示统一配额规则、准入行锁和周期消费统计如何落到数据库。V1 迁移建立渠道、协议转换、凭据及用量等核心表，V29 迁移新增统一令牌配额，并迁移旧额度、回填用量记录的准入分组及建立时间索引。把仓储实现与版本化迁移一起阅读，可以将前面的业务规则对应到实际存储结构和历史数据演进。",
+    "nodeIds": [
+      "file:backend/src/main/java/com/api2api/infr/repository/channel/ProviderChannelRepositoryImpl.java",
+      "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "table:backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "schema:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql"
+    ],
+    "languageLesson": "版本化 SQL 迁移既可以调整表结构，也可以转换既有数据；阅读迁移时应同时关注数据回填、约束与索引，才能理解新代码依赖哪些存储前提。"
+  },
+  {
+    "order": 10,
+    "title": "前端启动与门户装配",
+    "description": "理解后端能力后，转向真实前端入口 main.tsx，认识 React 根节点、持久化主题、全局提供者和路由的初始化职责。AppProviders 组合查询客户端、中文组件配置、主题与动效上下文，routes.tsx 和 adminRoutes.tsx 则组织登录、用户门户、管理员门户及认证和角色守卫。结合前端各节点摘要建立 FSD 的应用、页面、部件、功能、实体与共享层阅读框架；图中跨目录导入关系有限，后续分层说明依据节点职责，不将其视为已验证的完整依赖链。",
+    "nodeIds": [
+      "file:frontend/src/main.tsx",
+      "file:frontend/src/app/providers/AppProviders.tsx",
+      "file:frontend/src/app/router/routes.tsx",
+      "file:frontend/src/app/router/adminRoutes.tsx"
+    ]
+  },
+  {
+    "order": 11,
+    "title": "前端分层与渠道管理",
+    "description": "以渠道管理为例延续前面的 FSD 框架：AdminChannelsPage 在页面层组合管理面板并注入模型部件，ChannelModelsPanel 在部件层组织模型统计、编辑与验证获取弹窗。ProviderChannelTablePanel 承担搜索、筛选、表单和模型拉取等功能交互，useProviderChannels 负责实体查询、选择项及缓存失效，shared/api/client.ts 提供携带会话 Cookie 的统一请求和错误处理。对照这些节点的摘要，可以理解不同前端层各自承担的职责，以及界面如何表达前面学过的渠道与模型治理概念。",
+    "nodeIds": [
+      "file:frontend/src/pages/AdminChannelsPage.tsx",
+      "file:frontend/src/widgets/channel-models-panel/ui/ChannelModelsPanel.tsx",
+      "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "file:frontend/src/entities/provider-channel/model/useProviderChannels.ts",
+      "file:frontend/src/shared/api/client.ts"
+    ],
+    "languageLesson": "React 自定义 Hook 可以封装查询状态和缓存操作，让界面组件专注于展示与交互；这里的 useProviderChannels 就承担渠道实体的查询与缓存职责。"
+  },
+  {
+    "order": 12,
+    "title": "配额管理与前后端契约",
+    "description": "在渠道管理之后，用统一配额页面把前端交互与后端准入规则对应起来：AdminTokenQuotasPage 提供页面入口，TokenQuotaPanel 展示规则、消费、余额和重置时间并提供新增入口，QuotaFormModal 编辑目标、模型、周期及百万令牌额度。token-quota 实体入口封装查询、增删改接口与用量轮询，保存或删除成功后刷新配额和凭据缓存，使相关界面同步更新。后端 TokenQuotaAdminService 校验管理员权限与目标有效性，并统一输出百万 Token 单位的消费、余额和重置时间，使这一管理流程与前面学习的统一配额语义衔接。",
+    "nodeIds": [
+      "file:frontend/src/pages/AdminTokenQuotasPage.tsx",
+      "file:frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "file:frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "file:frontend/src/entities/token-quota/index.ts",
+      "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java"
+    ]
+  },
+  {
+    "order": 13,
+    "title": "独立构建与容器部署",
+    "description": "前后端的业务职责明确后，再看两个项目如何分别构建和运行：后端 Dockerfile 使用 Maven 构建制品并交给 JRE 运行，前端 Dockerfile 使用 Node 构建静态资源并交给 Nginx 托管。frontend/nginx.conf 配置单页应用回退和接口代理，并关闭流式缓冲、延长读取超时，将前面学习的流式响应要求延续到代理层。docker-compose.yml 编排数据库、后端和前端的环境、端口、数据卷及依赖，application.yml 则汇集后端数据库迁移、安全、上传和上游超时等可由环境变量覆盖的运行配置。",
+    "nodeIds": [
+      "service:backend/Dockerfile",
+      "service:frontend/Dockerfile",
+      "file:frontend/nginx.conf",
+      "service:docker-compose.yml",
+      "config:backend/src/main/resources/application.yml"
+    ],
+    "languageLesson": "多阶段 Docker 构建用多个 FROM 分离构建工具和运行环境；本项目的后端最终运行在 JRE 中，前端最终由 Nginx 托管构建产物。"
+  },
+  {
+    "order": 14,
+    "title": "工程配置与自动交付",
+    "description": "最后把容器部署放回完整工程流程：backend/pom.xml 定义后端依赖、测试、编译与打包配置，frontend/package.json 定义前端依赖以及开发、构建、类型检查和测试脚本。根目录的环境变量模板提供 Compose 运行配置的入口，让同一套交付结构适应不同运行环境。GitHub Actions 的 deploy.yml 将仓库交付到远程服务器，校验部署配置并执行 Compose 构建启动与服务检查，串起从独立工程到运行服务的交付链路。",
+    "nodeIds": [
+      "config:backend/pom.xml",
+      "config:frontend/package.json",
+      "config:.env.example",
+      "pipeline:.github/workflows/deploy.yml"
+    ]
+  }
+]

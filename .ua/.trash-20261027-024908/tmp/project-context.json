@@ -1,0 +1,40 @@
+{
+  "projectRoot": "/Users/jxin/Desktop/Project/products/2api/api2api",
+  "projectName": "api2api",
+  "projectDescription": "面向AI应用的多协议网关与管理平台，提供Claude Messages、OpenAI Responses、Chat Completions协议转换、供应商路由和用量治理。",
+  "readme": "<div align=\"center\">\n\n<img src=\"./frontend/public/logo.png\" width=\"132\" alt=\"API2API Logo\" />\n\n# API2API\n\n**一个入口连接多种 AI API：协议转换、智能路由、故障切换与用量治理。**\n\n[![Java](https://img.shields.io/badge/Java-17-ED8B00.svg?logo=openjdk&logoColor=white)](https://openjdk.org/)\n[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-6DB33F.svg?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)\n[![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react&logoColor=1F2328)](https://react.dev/)\n[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org/)\n[![Docker](https://img.shields.io/badge/Docker_Compose-ready-2496ED.svg?logo=docker&logoColor=white)](https://docs.docker.com/compose/)\n[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)\n\n[快速开始](#快速开始)&ensp;|&ensp;[网关调用](#网关调用)&ensp;|&ensp;[协议转换说明](./CLAUDE_MESSAGES_CONVERSION.md)&ensp;|&ensp;[许可证](./LICENSE)&ensp;|&ensp;[参与贡献](#参与贡献)\n\n</div>\n\n<br/>\n\nAPI2API 是一个面向 AI 应用的多协议网关与管理平台。客户端可以继续使用熟悉的 Claude Messages、OpenAI Responses 或 OpenAI Chat Completions 接口，API2API 会根据配置完成鉴权、模型映射、协议转换和供应商路由，并以客户端所选协议返回结果。\n\n它适合需要统一管理多个模型供应商、平滑迁移 SDK、提供内部 AI API 服务，或希望集中治理密钥、额度与用量的团队。\n\n> [!NOTE]\n> 项目当前处于早期开发阶段，配置结构、数据库迁移与接口细节仍可能演进。生产使用前请完成安全加固与兼容性验证。\n\n<br/>\n\n## 目录\n\n- [为什么选择 API2API](#为什么选择-api2api)\n- [核心能力](#核心能力)\n- [支持的协议](#支持的协议)\n- [快速开始](#快速开始)\n- [首次配置](#首次配置)\n- [网关调用](#网关调用)\n- [架构概览](#架构概览)\n- [技术栈](#技术栈)\n- [本地开发](#本地开发)\n- [生产部署](#生产部署)\n- [安全建议](#安全建议)\n- [参与贡献](#参与贡献)\n- [许可证](#许可证)\n\n<br/>\n\n## 为什么选择 API2API\n\n接入多个 AI 供应商后，应用通常需要同时处理协议差异、模型命名、密钥管理、渠道故障和用量统计。把这些逻辑散落在每个业务应用中，会让升级与迁移越来越困难。\n\nAPI2API 将它们收敛为一个统一网关：\n\n| 层面 | API2API 的作用 |\n|---|---|\n| **协议** | 对外暴露主流兼容接口，在网关内完成请求、响应与流式事件转换 |\n| **模型** | 将客户端模型名映射到不同渠道的真实模型，并维护模型白名单 |\n| **路由** | 按优先级选择可用渠道，在失败时尝试候选渠道 |\n| **凭据** | 为调用方签发独立 API Key，限制可用模型与累计 Token |\n| **治理** | 记录调用结果、延迟和 Token，提供用户端与管理端仪表盘 |\n\n业务应用只依赖一个 Base URL 和一枚 API Key，供应商调整与协议适配留在网关侧完成。\n\n<br/>\n\n## 核心能力\n\n### 协议与路由\n\n- **三种客户端入口** — 兼容 Claude Messages、OpenAI Responses 和 OpenAI Chat Completions\n- **协议双向转换** — 按转换定义处理消息、工具调用、推理内容、用量与流式事件\n- **模型映射** — 将统一模型名映射到供应商渠道中的具体模型\n- **优先级路由** — 为同一模型配置多个渠道及其优先顺序\n- **故障切换** — 根据上游失败类型决定是否继续尝试候选渠道\n- **流式响应** — 转发并转换 Server-Sent Events，支持首字节与空闲超时控制\n\n### 访问与用量治理\n\n- **独立 API Key** — 为不同用户或应用签发、禁用、删除和查看密钥\n- **模型分组** — 复用模型白名单，并将分组绑定到 API Key\n- **Token 限额** — 设置累计 Token 上限，阻止超额调用\n- **调用记录** — 查询请求协议、模型、渠道、状态、耗时和 Token 明细\n- **双层门户** — 普通用户查看自己的密钥与用量，管理员维护全局配置\n\n### 管理与可观测性\n\n- **供应商渠道管理** — 配置上游地址、协议、渠道密钥和渠道状态\n- **模型发现** — 从供应商拉取模型列表，筛选并保存渠道模型\n- **转换定义浏览** — 查看协议方向、实现状态和字段映射详情\n- **仪表盘** — 展示请求量、成功率、Token 趋势、协议分布和用户排行\n- **用户管理** — 创建账号、调整角色与账号状态\n\n<br/>\n\n## 支持的协议\n\n### 客户端入口\n\n| 协议 | Endpoint | 鉴权方式 |\n|---|---|---|\n| Claude Messages | `POST /v1/messages` | `x-api-key` 或 Bearer Token |\n| OpenAI Responses | `POST /v1/responses` | Bearer Token 或 `x-api-key` |\n| OpenAI Chat Completions | `POST /v1/chat/completions` | Bearer Token 或 `x-api-key` |\n| OpenAI Images | `POST /v1/image",
+  "entryPoints": [
+    "backend/src/main/java/com/api2api/Api2ApiApplication.java",
+    "frontend/src/main.tsx"
+  ],
+  "directoryTree": [
+    "backend/",
+    "backend/.env.example",
+    "backend/Dockerfile",
+    "backend/pom.xml",
+    "backend/src/",
+    "frontend/",
+    "frontend/.env.example",
+    "frontend/.env.local",
+    "frontend/Dockerfile",
+    "frontend/index.html",
+    "frontend/nginx.conf",
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/public/",
+    "frontend/scripts/",
+    "frontend/src/",
+    "frontend/tests/",
+    "frontend/tsconfig.app.json",
+    "frontend/tsconfig.json",
+    "frontend/tsconfig.node.json",
+    "frontend/tsconfig.test.json",
+    "frontend/vite.config.ts",
+    "docs/",
+    "docs/mvp.md",
+    "docs/operations-monitoring.md",
+    "docs/三个月规划会议分析.md",
+    ".github/",
+    ".github/workflows/"
+  ]
+}

@@ -1,0 +1,528 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/view-protocol-conversions/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-conversions/model/useProtocolConversionMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "useProtocolConversionMutations",
+          "startLine": 10,
+          "endLine": 21,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useProtocolConversionMutations",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useProtocolConversionMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 11
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 13
+        },
+        {
+          "caller": "useProtocolConversionMutations",
+          "callee": "useMutation",
+          "lineNumber": 16
+        },
+        {
+          "caller": "useProtocolConversionMutations",
+          "callee": "useMutation",
+          "lineNumber": 17
+        },
+        {
+          "caller": "useProtocolConversionMutations",
+          "callee": "useMutation",
+          "lineNumber": 18
+        },
+        {
+          "caller": "useProtocolConversionMutations",
+          "callee": "getProtocolConversionByDirection",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-conversions/ui/ProtocolConversionDetailDrawer.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 176,
+      "nonEmptyLines": 158,
+      "functions": [
+        {
+          "name": "ProtocolConversionDetailDrawer",
+          "startLine": 23,
+          "endLine": 106,
+          "params": [
+            "{ open, definitionId = null, conversion = null, onClose, onStatusChanged }"
+          ]
+        },
+        {
+          "name": "StatusTag",
+          "startLine": 108,
+          "endLine": 110,
+          "params": [
+            "{ status }"
+          ]
+        },
+        {
+          "name": "ImplementationStatusTag",
+          "startLine": 112,
+          "endLine": 116,
+          "params": [
+            "{ status }"
+          ]
+        },
+        {
+          "name": "MappingOverview",
+          "startLine": 118,
+          "endLine": 132,
+          "params": [
+            "{ requestMapping, responseMapping }"
+          ]
+        },
+        {
+          "name": "InlineProtocolMetadata",
+          "startLine": 134,
+          "endLine": 165,
+          "params": [
+            "{ sourceProtocol, targetProtocol }"
+          ]
+        },
+        {
+          "name": "formatTimestamp",
+          "startLine": 167,
+          "endLine": 176,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionDetailDrawer",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "useProtocolConversionDetail",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "useProtocolConversionMutations",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "useState",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "useState",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "Grid.useBreakpoint",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "useEffect",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "setCurrent",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "useEffect",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "setActiveTab",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleToggle",
+          "callee": "disableMutation.mutateAsync",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleToggle",
+          "callee": "enableMutation.mutateAsync",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleToggle",
+          "callee": "setCurrent",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleToggle",
+          "callee": "onStatusChanged",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "detailQuery.refetch",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "formatProtocolDirection",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "formatTimestamp",
+          "lineNumber": 80
+        },
+        {
+          "caller": "ProtocolConversionDetailDrawer",
+          "callee": "formatTimestamp",
+          "lineNumber": 81
+        },
+        {
+          "caller": "MappingOverview",
+          "callee": "useMemo",
+          "lineNumber": 119
+        },
+        {
+          "caller": "MappingOverview",
+          "callee": "buildMappingView",
+          "lineNumber": 119
+        },
+        {
+          "caller": "MappingOverview",
+          "callee": "useMemo",
+          "lineNumber": 120
+        },
+        {
+          "caller": "MappingOverview",
+          "callee": "buildMappingView",
+          "lineNumber": 120
+        },
+        {
+          "caller": "InlineProtocolMetadata",
+          "callee": "useProtocolMetadataDetail",
+          "lineNumber": 135
+        },
+        {
+          "caller": "InlineProtocolMetadata",
+          "callee": "useProtocolMetadataDetail",
+          "lineNumber": 136
+        },
+        {
+          "caller": "InlineProtocolMetadata",
+          "callee": "items.push",
+          "lineNumber": 145
+        },
+        {
+          "caller": "InlineProtocolMetadata",
+          "callee": "sourceDetail.sections.map",
+          "lineNumber": 149
+        },
+        {
+          "caller": "InlineProtocolMetadata",
+          "callee": "items.push",
+          "lineNumber": 154
+        },
+        {
+          "caller": "InlineProtocolMetadata",
+          "callee": "targetDetail.sections.map",
+          "lineNumber": 158
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "new Intl.DateTimeFormat('zh-CN', {\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n  }).format",
+          "lineNumber": 169
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-conversions/ui/ProtocolConversionFilterBar.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "ProtocolConversionFilterBar",
+          "startLine": 18,
+          "endLine": 37,
+          "params": [
+            "{ value, protocolOptions = [], onChange, onDirectionSearch, onReset }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionFilterBar",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "message.warning",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "onDirectionSearch",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ProtocolConversionFilterBar",
+          "callee": "onChange",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ProtocolConversionFilterBar",
+          "callee": "onChange",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ProtocolConversionFilterBar",
+          "callee": "onChange",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ProtocolConversionFilterBar",
+          "callee": "onChange",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-conversions/ui/ProtocolConversionTablePanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 61,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "ProtocolConversionTablePanel",
+          "startLine": 15,
+          "endLine": 61,
+          "params": [
+            "{ initialFilters = {} }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionTablePanel",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useProtocolConversions",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useProtocolConversionMutations",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useState",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useState",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "Array.from(new Set(conversions.flatMap((item) => [item.sourceProtocol, item.targetProtocol]))).map",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "Array.from",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "conversions.flatMap",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "conversions.filter",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "directionMutation.mutateAsync",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "setDirectionConversion",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "setSelectedId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "String",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleDirectionSearch",
+          "callee": "message.error",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "String",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "setSelectedId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "String",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "setFilters",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "handleDirectionSearch",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "setSelectedId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "String",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "setSelectedId",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "setDirectionConversion",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ProtocolConversionTablePanel",
+          "callee": "setDirectionConversion",
+          "lineNumber": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

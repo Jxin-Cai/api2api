@@ -1,0 +1,1069 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "type": "file",
+      "name": "ProtocolResponseUsageMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "summary": "以统一用量模型为中介，映射三种协议的输入、输出、总量及缓存读写计量字段。",
+      "tags": [
+        "协议转换",
+        "用量映射",
+        "缓存计量"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java:ProtocolResponseUsageMapper",
+      "type": "class",
+      "name": "ProtocolResponseUsageMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "lineRange": [
+        8,
+        103
+      ],
+      "summary": "以统一用量模型为中介，映射三种协议的输入、输出、总量及缓存读写计量字段。",
+      "tags": [
+        "协议转换",
+        "用量映射",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java:toChatUsage",
+      "type": "function",
+      "name": "toChatUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "lineRange": [
+        43,
+        55
+      ],
+      "summary": "将统一令牌计量写为补全协议用量，并在存在缓存时补充缓存读写明细。",
+      "tags": [
+        "协议转换",
+        "用量映射",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java:toResponsesUsage",
+      "type": "function",
+      "name": "toResponsesUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "lineRange": [
+        57,
+        69
+      ],
+      "summary": "将统一令牌计量写为 Responses 用量，并仅在非零时附加缓存细分。",
+      "tags": [
+        "协议转换",
+        "用量映射",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolSupportConfiguration.java",
+      "type": "file",
+      "name": "ProtocolSupportConfiguration.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ProtocolSupportConfiguration.java",
+      "summary": "注册共享 JSON 协议处理组件，使各转换器复用应用的对象映射器。",
+      "tags": [
+        "依赖注入",
+        "协议处理",
+        "配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java",
+      "type": "file",
+      "name": "ResponsesProtocolConstants.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java",
+      "summary": "集中定义 Responses 压缩与不透明状态的占位文本及压缩类型识别规则。",
+      "tags": [
+        "协议常量",
+        "上下文压缩",
+        "类型识别"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java:ResponsesProtocolConstants",
+      "type": "class",
+      "name": "ResponsesProtocolConstants",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java",
+      "lineRange": [
+        7,
+        19
+      ],
+      "summary": "集中定义 Responses 压缩与不透明状态的占位文本及压缩类型识别规则。",
+      "tags": [
+        "协议常量",
+        "上下文压缩",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "type": "file",
+      "name": "ResponsesSseEmitter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "summary": "封装 Responses SSE 的事件序号、写出刷新、基础响应、用量及输出文本汇总。",
+      "tags": [
+        "流式响应",
+        "事件发送",
+        "用量映射"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:ResponsesSseEmitter",
+      "type": "class",
+      "name": "ResponsesSseEmitter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "lineRange": [
+        20,
+        119
+      ],
+      "summary": "封装 Responses SSE 的事件序号、写出刷新、基础响应、用量及输出文本汇总。",
+      "tags": [
+        "流式响应",
+        "事件发送",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:writeEvent",
+      "type": "function",
+      "name": "writeEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "lineRange": [
+        42,
+        54
+      ],
+      "summary": "为事件补充单调序号，按 SSE 格式写出事件名和 JSON 并刷新输出。",
+      "tags": [
+        "流式响应",
+        "事件发送",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:responsesUsage",
+      "type": "function",
+      "name": "responsesUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "lineRange": [
+        72,
+        92
+      ],
+      "summary": "构建含输入输出、总量、缓存读取和缓存创建明细的用量节点。",
+      "tags": [
+        "流式响应",
+        "事件发送",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:collectOutputText",
+      "type": "function",
+      "name": "collectOutputText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "lineRange": [
+        105,
+        118
+      ],
+      "summary": "遍历输出项内容，仅拼接非空的输出文本。",
+      "tags": [
+        "流式响应",
+        "事件发送",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java",
+      "type": "file",
+      "name": "ProtocolShapeKind.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java",
+      "summary": "枚举协议结构定义的请求、响应与流式事件类型。",
+      "tags": [
+        "协议结构",
+        "类型枚举",
+        "契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java:ProtocolShapeKind",
+      "type": "class",
+      "name": "ProtocolShapeKind",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java",
+      "lineRange": [
+        3,
+        7
+      ],
+      "summary": "枚举协议结构定义的请求、响应与流式事件类型。",
+      "tags": [
+        "协议结构",
+        "类型枚举",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "type": "file",
+      "name": "InFlightConcurrencyCalculator.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "summary": "将请求起止时刻展开为增减事件，计算每个半开时间桶内的最高并发数。",
+      "tags": [
+        "并发统计",
+        "时间聚合",
+        "扫描算法"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java:InFlightConcurrencyCalculator",
+      "type": "class",
+      "name": "InFlightConcurrencyCalculator",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "lineRange": [
+        16,
+        67
+      ],
+      "summary": "将请求起止时刻展开为增减事件，计算每个半开时间桶内的最高并发数。",
+      "tags": [
+        "并发统计",
+        "时间聚合",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java:peakPerBucket",
+      "type": "function",
+      "name": "peakPerBucket",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "lineRange": [
+        38,
+        63
+      ],
+      "summary": "为每个时间桶裁剪请求生存区间，排序并扫描开始结束事件得到桶内最高并发。",
+      "tags": [
+        "并发统计",
+        "时间聚合",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "type": "file",
+      "name": "TimeBucket.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "summary": "定义左闭右开的时间桶并按指定正时长拆分窗口，支持截止时刻过滤和末桶裁剪。",
+      "tags": [
+        "时间桶",
+        "时间窗口",
+        "聚合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java:TimeBucket",
+      "type": "class",
+      "name": "TimeBucket",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "lineRange": [
+        12,
+        46
+      ],
+      "summary": "定义左闭右开的时间桶并按指定正时长拆分窗口，支持截止时刻过滤和末桶裁剪。",
+      "tags": [
+        "时间桶",
+        "时间窗口",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java:split",
+      "type": "function",
+      "name": "split",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "lineRange": [
+        31,
+        45
+      ],
+      "summary": "按正时长顺序划分时间窗口，裁剪最后时间桶并过滤截止时间之后的桶。",
+      "tags": [
+        "时间桶",
+        "时间窗口",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "type": "file",
+      "name": "JdbcTimestampSupport.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "summary": "在 JDBC 时间戳与领域 Instant 之间执行可空转换。",
+      "tags": [
+        "持久化",
+        "时间转换",
+        "工具函数"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:JdbcTimestampSupport",
+      "type": "class",
+      "name": "JdbcTimestampSupport",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "lineRange": [
+        8,
+        21
+      ],
+      "summary": "在 JDBC 时间戳与领域 Instant 之间执行可空转换。",
+      "tags": [
+        "持久化",
+        "时间转换",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:JdbcTimestampSupport",
+      "type": "function",
+      "name": "JdbcTimestampSupport",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "lineRange": [
+        10,
+        11
+      ],
+      "summary": "初始化JdbcTimestampSupport的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "持久化",
+        "时间转换",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:timestamp",
+      "type": "function",
+      "name": "timestamp",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "将可空 Instant 转换为 JDBC 时间戳。",
+      "tags": [
+        "持久化",
+        "时间转换",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:instant",
+      "type": "function",
+      "name": "instant",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "从结果集读取可空时间戳并转为 Instant。",
+      "tags": [
+        "持久化",
+        "时间转换",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "type": "file",
+      "name": "ApiKeyMaterialProtectionProperties.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "summary": "绑定密钥材料加密配置，解析历史轮换密钥并校验当前版本号为正。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "密钥轮换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:ApiKeyMaterialProtectionProperties",
+      "type": "class",
+      "name": "ApiKeyMaterialProtectionProperties",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        7,
+        50
+      ],
+      "summary": "绑定密钥材料加密配置，解析历史轮换密钥并校验当前版本号为正。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getEncryptionKey",
+      "type": "function",
+      "name": "getEncryptionKey",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        14,
+        16
+      ],
+      "summary": "读取ApiKeyMaterialProtectionProperties配置中的EncryptionKey属性。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setEncryptionKey",
+      "type": "function",
+      "name": "setEncryptionKey",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "设置ApiKeyMaterialProtectionProperties配置中的EncryptionKey属性。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getPreviousEncryptionKeys",
+      "type": "function",
+      "name": "getPreviousEncryptionKeys",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "读取ApiKeyMaterialProtectionProperties配置中的PreviousEncryptionKeys属性。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setPreviousEncryptionKeys",
+      "type": "function",
+      "name": "setPreviousEncryptionKeys",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "设置ApiKeyMaterialProtectionProperties配置中的PreviousEncryptionKeys属性。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:previousEncryptionKeyList",
+      "type": "function",
+      "name": "previousEncryptionKeyList",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        30,
+        38
+      ],
+      "summary": "按逗号或分号分隔历史加密密钥，清理空白项后返回列表。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getKeyVersion",
+      "type": "function",
+      "name": "getKeyVersion",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "读取ApiKeyMaterialProtectionProperties配置中的KeyVersion属性。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setKeyVersion",
+      "type": "function",
+      "name": "setKeyVersion",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "lineRange": [
+        44,
+        49
+      ],
+      "summary": "设置ApiKeyMaterialProtectionProperties配置中的KeyVersion属性。",
+      "tags": [
+        "密钥保护",
+        "配置绑定",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "type": "file",
+      "name": "AuthenticationRequiredException.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "summary": "表示 HTTP 管理接口缺少已认证用户会话。",
+      "tags": [
+        "身份认证",
+        "接口异常",
+        "会话"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java:AuthenticationRequiredException",
+      "type": "class",
+      "name": "AuthenticationRequiredException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "lineRange": [
+        6,
+        11
+      ],
+      "summary": "表示 HTTP 管理接口缺少已认证用户会话。",
+      "tags": [
+        "身份认证",
+        "接口异常",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java:AuthenticationRequiredException",
+      "type": "function",
+      "name": "AuthenticationRequiredException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "初始化AuthenticationRequiredException的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "身份认证",
+        "接口异常",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "type": "file",
+      "name": "ClientDisconnectDetector.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "summary": "遍历异常因果链和受抑制异常，识别下游客户端中断并避免将其误计为上游失败。",
+      "tags": [
+        "连接中断",
+        "异常分类",
+        "网关"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:ClientDisconnectDetector",
+      "type": "class",
+      "name": "ClientDisconnectDetector",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "lineRange": [
+        14,
+        66
+      ],
+      "summary": "遍历异常因果链和受抑制异常，识别下游客户端中断并避免将其误计为上游失败。",
+      "tags": [
+        "连接中断",
+        "异常分类",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:walk",
+      "type": "function",
+      "name": "walk",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "lineRange": [
+        27,
+        45
+      ],
+      "summary": "遍历因果链、非受检 I/O 包装和受抑制异常，避免异常引用环并查找断连证据。",
+      "tags": [
+        "连接中断",
+        "异常分类",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:matches",
+      "type": "function",
+      "name": "matches",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "lineRange": [
+        47,
+        65
+      ],
+      "summary": "识别异步响应失效、容器客户端终止类及特定 I/O 断管或刷新失败消息。",
+      "tags": [
+        "连接中断",
+        "异常分类",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java",
+      "type": "file",
+      "name": "GatewayModelListResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java",
+      "summary": "定义兼容模型列表响应，并对模型集合进行不可变复制。",
+      "tags": [
+        "模型列表",
+        "响应对象",
+        "不可变数据"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java:GatewayModelListResponse",
+      "type": "class",
+      "name": "GatewayModelListResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java",
+      "lineRange": [
+        8,
+        13
+      ],
+      "summary": "定义兼容模型列表响应，并对模型集合进行不可变复制。",
+      "tags": [
+        "模型列表",
+        "响应对象",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java",
+      "type": "file",
+      "name": "GatewayModelResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java",
+      "summary": "定义网关公开的兼容模型描述，包含模型标识、创建时间和所有者字段。",
+      "tags": [
+        "模型描述",
+        "响应对象",
+        "协议兼容"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java:GatewayModelResponse",
+      "type": "class",
+      "name": "GatewayModelResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java",
+      "lineRange": [
+        8,
+        14
+      ],
+      "summary": "定义网关公开的兼容模型描述，包含模型标识、创建时间和所有者字段。",
+      "tags": [
+        "模型描述",
+        "响应对象",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java:ProtocolResponseUsageMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java:toChatUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolResponseUsageMapper.java:toResponsesUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesProtocolConstants.java:ResponsesProtocolConstants",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:ResponsesSseEmitter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:writeEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:responsesUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesSseEmitter.java:collectOutputText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java:ProtocolShapeKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolShapeKind.java:ProtocolShapeKind",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java:InFlightConcurrencyCalculator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculator.java:peakPerBucket",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java:TimeBucket",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/TimeBucket.java:split",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:JdbcTimestampSupport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:JdbcTimestampSupport",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:JdbcTimestampSupport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:JdbcTimestampSupport",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:timestamp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:timestamp",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:instant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/common/JdbcTimestampSupport.java:instant",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:ApiKeyMaterialProtectionProperties",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:ApiKeyMaterialProtectionProperties",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getEncryptionKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getEncryptionKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setEncryptionKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setEncryptionKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getPreviousEncryptionKeys",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getPreviousEncryptionKeys",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setPreviousEncryptionKeys",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setPreviousEncryptionKeys",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:previousEncryptionKeyList",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:previousEncryptionKeyList",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getKeyVersion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:getKeyVersion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setKeyVersion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/ApiKeyMaterialProtectionProperties.java:setKeyVersion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java:AuthenticationRequiredException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java:AuthenticationRequiredException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java:AuthenticationRequiredException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/AuthenticationRequiredException.java:AuthenticationRequiredException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:ClientDisconnectDetector",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:walk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java:GatewayModelListResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelListResponse.java:GatewayModelListResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java:GatewayModelResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayModelResponse.java:GatewayModelResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:walk",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ClientDisconnectDetector.java:matches",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

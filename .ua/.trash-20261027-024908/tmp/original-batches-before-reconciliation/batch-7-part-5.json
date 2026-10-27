@@ -1,0 +1,1974 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "type": "file",
+      "name": "AbstractProtocolMessageConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "summary": "提供协议转换器的公共骨架，统一处理转换能力、JSON 与 SSE 分支、用量提取和转换程序缓存。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "流式处理"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:AbstractProtocolMessageConverter",
+      "type": "class",
+      "name": "AbstractProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        21,
+        276
+      ],
+      "summary": "提供协议转换器的公共骨架，统一处理转换能力、JSON 与 SSE 分支、用量提取和转换程序缓存。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "领域对象"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:AbstractProtocolMessageConverter",
+      "type": "function",
+      "name": "AbstractProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        31,
+        47
+      ],
+      "summary": "初始化AbstractProtocolMessageConverter的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:sourceProtocol",
+      "type": "function",
+      "name": "sourceProtocol",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        49,
+        52
+      ],
+      "summary": "返回或判断AbstractProtocolMessageConverter的sourceProtocol属性，供调用方访问封装状态。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:targetProtocol",
+      "type": "function",
+      "name": "targetProtocol",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        54,
+        57
+      ],
+      "summary": "返回或判断AbstractProtocolMessageConverter的targetProtocol属性，供调用方访问封装状态。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:direction",
+      "type": "function",
+      "name": "direction",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        59,
+        62
+      ],
+      "summary": "返回或判断AbstractProtocolMessageConverter的direction属性，供调用方访问封装状态。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:capability",
+      "type": "function",
+      "name": "capability",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        64,
+        67
+      ],
+      "summary": "返回或判断AbstractProtocolMessageConverter的capability属性，供调用方访问封装状态。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:convert",
+      "type": "function",
+      "name": "convert",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        69,
+        92
+      ],
+      "summary": "校验载荷源协议与转换需求，分派 JSON 或 SSE 转换并生成统一用量结果。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:conversionProgram",
+      "type": "function",
+      "name": "conversionProgram",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        104,
+        125
+      ],
+      "summary": "延迟构造并缓存字段映射驱动的协议转换程序。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:mapStopToFinishReason",
+      "type": "function",
+      "name": "mapStopToFinishReason",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        154,
+        165
+      ],
+      "summary": "将消息协议停止原因映射为补全协议结束原因，并拒绝缺少停止原因的非法输入。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:mapFinishToStopReason",
+      "type": "function",
+      "name": "mapFinishToStopReason",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        167,
+        177
+      ],
+      "summary": "把补全协议结束原因映射为消息协议停止原因，未提供原因时使用默认结束语义。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:firstTextFromClaudeContent",
+      "type": "function",
+      "name": "firstTextFromClaudeContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        179,
+        200
+      ],
+      "summary": "从消息内容字符串或内容块数组提取文本并拼接。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:claudeMessagesToOpenAiInput",
+      "type": "function",
+      "name": "claudeMessagesToOpenAiInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        202,
+        214
+      ],
+      "summary": "遍历消息并提取角色和文本，构建目标协议输入数组。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:openAiMessagesToClaudeMessages",
+      "type": "function",
+      "name": "openAiMessagesToClaudeMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        216,
+        234
+      ],
+      "summary": "把输入消息转换为消息协议格式，并处理角色及内容字段差异。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:extractOpenAiContentText",
+      "type": "function",
+      "name": "extractOpenAiContentText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        236,
+        257
+      ],
+      "summary": "从字符串或多内容块数组中提取可用文本。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:firstOutputText",
+      "type": "function",
+      "name": "firstOutputText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "lineRange": [
+        259,
+        275
+      ],
+      "summary": "遍历响应输出项，汇总各内容数组中的文本。",
+      "tags": [
+        "协议转换",
+        "转换骨架",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "type": "file",
+      "name": "BedrockClaudeMessagesProtocolMessageConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "summary": "在 Claude Messages 与 Bedrock 消息协议之间转换请求与响应，清理平台差异字段并合并兼容性所需的测试特性。",
+      "tags": [
+        "协议转换",
+        "平台兼容",
+        "请求规范化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:BedrockClaudeMessagesProtocolMessageConverter",
+      "type": "class",
+      "name": "BedrockClaudeMessagesProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "lineRange": [
+        12,
+        146
+      ],
+      "summary": "在 Claude Messages 与 Bedrock 消息协议之间转换请求与响应，清理平台差异字段并合并兼容性所需的测试特性。",
+      "tags": [
+        "协议转换",
+        "平台兼容",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:BedrockClaudeMessagesProtocolMessageConverter",
+      "type": "function",
+      "name": "BedrockClaudeMessagesProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "lineRange": [
+        43,
+        52
+      ],
+      "summary": "初始化BedrockClaudeMessagesProtocolMessageConverter的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "协议转换",
+        "平台兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:convertRequestJson",
+      "type": "function",
+      "name": "convertRequestJson",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "lineRange": [
+        54,
+        68
+      ],
+      "summary": "复制消息请求并清理模型、流式与不受支持字段，规范化工具并合并 Bedrock 测试特性。",
+      "tags": [
+        "协议转换",
+        "平台兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:mergeAnthropicBetaFeatures",
+      "type": "function",
+      "name": "mergeAnthropicBetaFeatures",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "lineRange": [
+        86,
+        106
+      ],
+      "summary": "合并请求已有、入站协商及兼容性校验要求的测试特性，去重后写入目标请求。",
+      "tags": [
+        "协议转换",
+        "平台兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:addContextManagementBetaFeatures",
+      "type": "function",
+      "name": "addContextManagementBetaFeatures",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "lineRange": [
+        108,
+        127
+      ],
+      "summary": "扫描上下文编辑策略，为思考清理、工具清理等能力加入所需测试特性。",
+      "tags": [
+        "协议转换",
+        "平台兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "type": "file",
+      "name": "BedrockClaudeMessagesRequestValidator.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "summary": "校验 Bedrock 消息请求的内容来源、工具模式及输入示例，并收集高级工具功能所需的测试特性。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "平台兼容"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:BedrockClaudeMessagesRequestValidator",
+      "type": "class",
+      "name": "BedrockClaudeMessagesRequestValidator",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        10,
+        201
+      ],
+      "summary": "校验 Bedrock 消息请求的内容来源、工具模式及输入示例，并收集高级工具功能所需的测试特性。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateContentValue",
+      "type": "function",
+      "name": "validateContentValue",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        53,
+        79
+      ],
+      "summary": "仅遍历协议定义的内容数组，验证图像、文档及嵌套工具结果内容，避免误解工具输入 JSON。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateBase64Source",
+      "type": "function",
+      "name": "validateBase64Source",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        81,
+        94
+      ],
+      "summary": "验证图像或文档内容的来源对象及 Base64 来源类型。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateTools",
+      "type": "function",
+      "name": "validateTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        96,
+        152
+      ],
+      "summary": "校验工具数组、类型、延迟加载和输入示例，拒绝不受支持组合并收集所需测试特性。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "方法"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateCustomToolSchema",
+      "type": "function",
+      "name": "validateCustomToolSchema",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        154,
+        164
+      ],
+      "summary": "要求自定义工具输入模式为对象模式，并验证必要字段结构。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateInputExamples",
+      "type": "function",
+      "name": "validateInputExamples",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        166,
+        181
+      ],
+      "summary": "校验工具输入示例的数组类型、数量上限及示例对象结构。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:optionalBoolean",
+      "type": "function",
+      "name": "optionalBoolean",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "lineRange": [
+        183,
+        193
+      ],
+      "summary": "读取可选布尔字段，对缺省值返回假并对非布尔值抛出协议校验异常。",
+      "tags": [
+        "请求校验",
+        "工具模式",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "type": "file",
+      "name": "BedrockWebSearchToolCompatibility.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "summary": "将托管网页搜索工具转换为 Bedrock 可接受的自定义工具，并把调用次数、域名和地理位置约束写入工具说明。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:BedrockWebSearchToolCompatibility",
+      "type": "class",
+      "name": "BedrockWebSearchToolCompatibility",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        19,
+        192
+      ],
+      "summary": "将托管网页搜索工具转换为 Bedrock 可接受的自定义工具，并把调用次数、域名和地理位置约束写入工具说明。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:normalizeRequest",
+      "type": "function",
+      "name": "normalizeRequest",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        31,
+        42
+      ],
+      "summary": "遍历请求工具数组，将匹配的托管网页搜索工具替换为兼容的自定义工具。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "type": "function",
+      "name": "toCustomTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        44,
+        67
+      ],
+      "summary": "验证网页搜索工具字段并把次数、域名和位置限制编码为自定义工具的描述及输入模式。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:validateKnownFields",
+      "type": "function",
+      "name": "validateKnownFields",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        69,
+        80
+      ],
+      "summary": "检查网页搜索工具字段是否在受支持集合内，发现未知字段时拒绝转换。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:validateAllowedCallers",
+      "type": "function",
+      "name": "validateAllowedCallers",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        89,
+        103
+      ],
+      "summary": "校验网页搜索允许调用者列表的类型及支持值。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendDomainConstraint",
+      "type": "function",
+      "name": "appendDomainConstraint",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        115,
+        130
+      ],
+      "summary": "检查允许域名和禁止域名是否互斥，并将有效域名约束追加到工具说明。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:domainList",
+      "type": "function",
+      "name": "domainList",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        136,
+        149
+      ],
+      "summary": "校验域名数组和每项文本，生成供工具说明使用的域名列表。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendLocationConstraint",
+      "type": "function",
+      "name": "appendLocationConstraint",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "lineRange": [
+        151,
+        184
+      ],
+      "summary": "校验用户地理位置对象及字段，把位置约束追加到工具描述。",
+      "tags": [
+        "网页搜索",
+        "工具兼容",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "type": "file",
+      "name": "ChatCompletionsToResponsesStreamingConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "summary": "把 Chat Completions 的 SSE 增量转换为 Responses 事件序列，维护推理、消息及工具调用状态并汇总用量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "用量映射"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ChatCompletionsToResponsesStreamingConverter",
+      "type": "class",
+      "name": "ChatCompletionsToResponsesStreamingConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        31,
+        526
+      ],
+      "summary": "把 Chat Completions 的 SSE 增量转换为 Responses 事件序列，维护推理、消息及工具调用状态并汇总用量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "领域对象"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:transform",
+      "type": "function",
+      "name": "transform",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        43,
+        81
+      ],
+      "summary": "逐行解析上游 SSE，转换内容增量和结束信号，写出 Responses 事件并返回聚合用量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "type": "function",
+      "name": "handleChunk",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        83,
+        122
+      ],
+      "summary": "更新响应标识、模型及用量，分派推理、正文、拒绝和工具调用增量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureCreated",
+      "type": "function",
+      "name": "ensureCreated",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        124,
+        133
+      ],
+      "summary": "仅发送一次响应创建事件，初始化空输出和进行中状态。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitReasoningDelta",
+      "type": "function",
+      "name": "emitReasoningDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        135,
+        161
+      ],
+      "summary": "打开推理输出项，维护索引及标识并发送推理摘要增量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeReasoning",
+      "type": "function",
+      "name": "closeReasoning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        163,
+        191
+      ],
+      "summary": "补发推理摘要完成及输出项完成事件，将累计推理内容加入完整响应。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitMessageDelta",
+      "type": "function",
+      "name": "emitMessageDelta",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        193,
+        213
+      ],
+      "summary": "关闭前一推理项，按正文或拒绝类型切换消息内容并发送文本增量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureMessage",
+      "type": "function",
+      "name": "ensureMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        215,
+        238
+      ],
+      "summary": "创建带索引和唯一标识的助手消息项，发送内容块起始事件。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "type": "function",
+      "name": "closeMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        240,
+        268
+      ],
+      "summary": "结束当前正文或拒绝内容，发送完成事件并保存完整消息输出项。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitToolCallDeltas",
+      "type": "function",
+      "name": "emitToolCallDeltas",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        270,
+        306
+      ],
+      "summary": "按工具索引累积调用标识、名称和参数，延迟宣告并逐步发送函数参数增量。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:announceTool",
+      "type": "function",
+      "name": "announceTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        308,
+        322
+      ],
+      "summary": "为缺失的工具调用标识生成值，宣告进行中的函数调用输出项。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeTools",
+      "type": "function",
+      "name": "closeTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        324,
+        351
+      ],
+      "summary": "按输出索引结束工具调用，补齐尚未宣告的工具项并保存参数及完整输出。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "type": "function",
+      "name": "finalizeStream",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        362,
+        396
+      ],
+      "summary": "结束推理、消息和工具输出，附上用量并按完成原因发送最终 Responses 事件。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:updateUsage",
+      "type": "function",
+      "name": "updateUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        398,
+        409
+      ],
+      "summary": "从补全用量及缓存明细提取输入、输出和缓存令牌，更新转换状态。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "function",
+      "name": "writeOutputItemEvent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        428,
+        438
+      ],
+      "summary": "组装带输出索引和对象标识的输出项事件，交由 SSE 写出逻辑发送。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:messagePart",
+      "type": "function",
+      "name": "messagePart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        444,
+        455
+      ],
+      "summary": "按是否拒绝构造拒绝内容块或正文内容块。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:toolItem",
+      "type": "function",
+      "name": "toolItem",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "lineRange": [
+        457,
+        466
+      ],
+      "summary": "由工具状态生成包含调用标识、名称、参数和状态的函数调用输出项。",
+      "tags": [
+        "流式转换",
+        "事件状态机",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "type": "file",
+      "name": "ClaudeClientToolBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "summary": "将客户端执行的终端、文本编辑和记忆工具转换为通用自定义工具模式，同时保留工具执行语义。",
+      "tags": [
+        "客户端工具",
+        "工具桥接",
+        "模式转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:ClaudeClientToolBridge",
+      "type": "class",
+      "name": "ClaudeClientToolBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "lineRange": [
+        13,
+        123
+      ],
+      "summary": "将客户端执行的终端、文本编辑和记忆工具转换为通用自定义工具模式，同时保留工具执行语义。",
+      "tags": [
+        "客户端工具",
+        "工具桥接",
+        "领域对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:toCustomTool",
+      "type": "function",
+      "name": "toCustomTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "lineRange": [
+        30,
+        56
+      ],
+      "summary": "识别终端、文本编辑或记忆工具版本，生成保留其执行契约的自定义工具定义。",
+      "tags": [
+        "客户端工具",
+        "工具桥接",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:editorSchema",
+      "type": "function",
+      "name": "editorSchema",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "lineRange": [
+        67,
+        97
+      ],
+      "summary": "根据编辑工具版本构造命令、路径、文本及行范围等参数的 JSON 模式。",
+      "tags": [
+        "客户端工具",
+        "工具桥接",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:description",
+      "type": "function",
+      "name": "description",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "lineRange": [
+        99,
+        122
+      ],
+      "summary": "根据客户端工具类型及配置生成保留会话、编辑或记忆操作语义的工具说明。",
+      "tags": [
+        "客户端工具",
+        "工具桥接",
+        "方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:AbstractProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:AbstractProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:sourceProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:sourceProtocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:targetProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:targetProtocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:direction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:direction",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:capability",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:capability",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:convert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:convert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:conversionProgram",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:conversionProgram",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:mapStopToFinishReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:mapFinishToStopReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:firstTextFromClaudeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:claudeMessagesToOpenAiInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:openAiMessagesToClaudeMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:extractOpenAiContentText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:firstOutputText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/conversion/ProtocolConversionProgram.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:BedrockClaudeMessagesProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:BedrockClaudeMessagesProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:convertRequestJson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:mergeAnthropicBetaFeatures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:addContextManagementBetaFeatures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:BedrockClaudeMessagesRequestValidator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateContentValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateBase64Source",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateCustomToolSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateInputExamples",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:optionalBoolean",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:BedrockWebSearchToolCompatibility",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:normalizeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:validateKnownFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:validateAllowedCallers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendDomainConstraint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:domainList",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendLocationConstraint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ChatCompletionsToResponsesStreamingConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:transform",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureCreated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitReasoningDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitMessageDelta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitToolCallDeltas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:announceTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:updateUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:messagePart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:toolItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:ClaudeClientToolBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:toCustomTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:editorSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:description",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:AbstractProtocolMessageConverter",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:convert",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:convert",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:convert",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:conversionProgram",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:conversionProgram",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/conversion/ProtocolConversionProgram.java:singleRule",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:claudeMessagesToOpenAiInput",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:firstTextFromClaudeContent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:firstOutputText",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:extractOpenAiContentText",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:BedrockClaudeMessagesProtocolMessageConverter",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/AbstractProtocolMessageConverter.java:AbstractProtocolMessageConverter",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:convertRequestJson",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:normalizeRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:convertRequestJson",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:mergeAnthropicBetaFeatures",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:mergeAnthropicBetaFeatures",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesProtocolMessageConverter.java:addContextManagementBetaFeatures",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateContentValue",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateBase64Source",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateTools",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateCustomToolSchema",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateTools",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateInputExamples",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:validateTools",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockClaudeMessagesRequestValidator.java:optionalBoolean",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:normalizeRequest",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:validateKnownFields",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:validateAllowedCallers",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendDomainConstraint",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:toCustomTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendLocationConstraint",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:appendDomainConstraint",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/BedrockWebSearchToolCompatibility.java:domainList",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:transform",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureCreated",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:updateUsage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitReasoningDelta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitMessageDelta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:handleChunk",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitToolCallDeltas",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitReasoningDelta",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitReasoningDelta",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeReasoning",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitMessageDelta",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeReasoning",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitMessageDelta",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitMessageDelta",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureMessage",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureMessage",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:messagePart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:messagePart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitToolCallDeltas",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeReasoning",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitToolCallDeltas",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:emitToolCallDeltas",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:announceTool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:announceTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:toolItem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:announceTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeTools",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:announceTool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeTools",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:toolItem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeTools",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:writeOutputItemEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureCreated",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeReasoning",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:closeTools",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:finalizeStream",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ChatCompletionsToResponsesStreamingConverter.java:ensureMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:toCustomTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:editorSchema",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:toCustomTool",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeClientToolBridge.java:description",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

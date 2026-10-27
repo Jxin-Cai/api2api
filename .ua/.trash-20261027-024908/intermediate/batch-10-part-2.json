@@ -1,0 +1,800 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "type": "file",
+      "name": "ResponsesImageRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "summary": "解析 Responses 图像工具请求、工具选择、调用预算与多模态历史；为规划器生成兼容函数定义，并将既有图像结果还原为可编辑图像输入。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:ResponsesImageRequest",
+      "type": "class",
+      "name": "ResponsesImageRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        20,
+        271
+      ],
+      "summary": "解析 Responses 图像工具请求、工具选择、调用预算与多模态历史；为规划器生成兼容函数定义，并将既有图像结果还原为可编辑图像输入。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:parse",
+      "type": "function",
+      "name": "parse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        35,
+        73
+      ],
+      "summary": "校验图像工具唯一性、模型、动作、partial_images 和调用预算；按工具选择决定是否隐式补充图像工具。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:plannerRequest",
+      "type": "function",
+      "name": "plannerRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        116,
+        157
+      ],
+      "summary": "复制请求并关闭流式存储，将图像工具替换为规划函数；把历史图像结果转换为可移植的用户图像内容。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:functionTool",
+      "type": "function",
+      "name": "functionTool",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        159,
+        172
+      ],
+      "summary": "生成包含必填 prompt 与 action 的严格函数 schema，供规划器选择图像生成或编辑。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:prompt",
+      "type": "function",
+      "name": "prompt",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        174,
+        190
+      ],
+      "summary": "合并系统指令与各消息文本为独立图像提示，缺少提示时拒绝请求。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:inputImages",
+      "type": "function",
+      "name": "inputImages",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        192,
+        207
+      ],
+      "summary": "从原图像生成结果和多模态内容中收集可编辑输入，拒绝缺失图像结果或不支持的 file_id。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:imageChoiceAllows",
+      "type": "function",
+      "name": "imageChoiceAllows",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "lineRange": [
+        243,
+        254
+      ],
+      "summary": "识别 auto、required、指定 image_generation 与 allowed_tools 选择是否允许图像调用。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "请求解析",
+        "工具选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "type": "file",
+      "name": "ProtocolOperationTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "summary": "验证网关协议操作的可用协议、计费属性、流式能力、multipart 表单接收及原生协议限制。",
+      "tags": [
+        "测试",
+        "协议操作",
+        "计费",
+        "请求类型"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java:ProtocolOperationTest",
+      "type": "class",
+      "name": "ProtocolOperationTest",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "lineRange": [
+        8,
+        76
+      ],
+      "summary": "验证网关协议操作的可用协议、计费属性、流式能力、multipart 表单接收及原生协议限制。",
+      "tags": [
+        "测试",
+        "协议操作",
+        "计费",
+        "请求类型"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java:test_isAvailableOnEveryProtocol_when_operationIsInvoke",
+      "type": "function",
+      "name": "test_isAvailableOnEveryProtocol_when_operationIsInvoke",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "lineRange": [
+        10,
+        19
+      ],
+      "summary": "验证INVOKE 在全部协议上可用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java:test_isAvailableOnlyOnImagesProtocol_when_operationIsImageEdits",
+      "type": "function",
+      "name": "test_isAvailableOnlyOnImagesProtocol_when_operationIsImageEdits",
+      "filePath": "backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "lineRange": [
+        21,
+        33
+      ],
+      "summary": "验证图像编辑只在图像协议可用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "type": "file",
+      "name": "ProviderHttpClientPropertiesTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "summary": "验证上游 HTTP 客户端的默认连接和读超时，以及按协议操作选择图像和 Token 计数端点的配置。",
+      "tags": [
+        "测试",
+        "配置",
+        "HTTP",
+        "端点选择"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:ProviderHttpClientPropertiesTest",
+      "type": "class",
+      "name": "ProviderHttpClientPropertiesTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        11,
+        118
+      ],
+      "summary": "验证上游 HTTP 客户端的默认连接和读超时，以及按协议操作选择图像和 Token 计数端点的配置。",
+      "tags": [
+        "测试",
+        "配置",
+        "HTTP",
+        "端点选择"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsTenMinuteUpstreamReadTimeout_when_notConfigured",
+      "type": "function",
+      "name": "test_returnsTenMinuteUpstreamReadTimeout_when_notConfigured",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        13,
+        23
+      ],
+      "summary": "验证未配置时上游读取超时为十分钟。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsFiveMinuteStreamingFirstByteTimeout_when_notConfigured",
+      "type": "function",
+      "name": "test_returnsFiveMinuteStreamingFirstByteTimeout_when_notConfigured",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        25,
+        35
+      ],
+      "summary": "验证未配置时流式首字节超时为五分钟。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsTenSecondConnectTimeout_when_notConfigured",
+      "type": "function",
+      "name": "test_returnsTenSecondConnectTimeout_when_notConfigured",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        37,
+        47
+      ],
+      "summary": "验证未配置时连接超时为十秒。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsTenMinuteStreamingIdleTimeout_when_notConfigured",
+      "type": "function",
+      "name": "test_returnsTenMinuteStreamingIdleTimeout_when_notConfigured",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        49,
+        59
+      ],
+      "summary": "验证未配置时流式空闲超时为十分钟。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsImagesGenerationsPath_when_openaiImagesPathNotConfigured",
+      "type": "function",
+      "name": "test_returnsImagesGenerationsPath_when_openaiImagesPathNotConfigured",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        61,
+        71
+      ],
+      "summary": "验证默认图像生成端点正确。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsImagesEditsPath_when_operationIsImageEdits",
+      "type": "function",
+      "name": "test_returnsImagesEditsPath_when_operationIsImageEdits",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        73,
+        83
+      ],
+      "summary": "验证图像编辑操作使用 edits 端点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsImagesVariationsPath_when_operationIsImageVariations",
+      "type": "function",
+      "name": "test_returnsImagesVariationsPath_when_operationIsImageVariations",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        85,
+        95
+      ],
+      "summary": "验证图像变体操作使用 variations 端点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsCountTokensPath_when_operationIsCountTokens",
+      "type": "function",
+      "name": "test_returnsCountTokensPath_when_operationIsCountTokens",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "lineRange": [
+        97,
+        107
+      ],
+      "summary": "验证Token 计数操作使用计数端点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "type": "file",
+      "name": "UpstreamHttpHeaderPolicyTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "summary": "验证上游请求头策略替换凭据、过滤代理与连接头、合并 beta 值，并按协议维护版本和流式 Accept。",
+      "tags": [
+        "测试",
+        "请求头",
+        "鉴权",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:UpstreamHttpHeaderPolicyTest",
+      "type": "class",
+      "name": "UpstreamHttpHeaderPolicyTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        10,
+        176
+      ],
+      "summary": "验证上游请求头策略替换凭据、过滤代理与连接头、合并 beta 值，并按协议维护版本和流式 Accept。",
+      "tags": [
+        "测试",
+        "请求头",
+        "鉴权",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_replacesClientCredentials_when_buildingUpstreamHeaders",
+      "type": "function",
+      "name": "test_replacesClientCredentials_when_buildingUpstreamHeaders",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        12,
+        33
+      ],
+      "summary": "验证构建上游头时替换客户端凭据。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_forwardsClientFingerprintHeaders_when_notDenied",
+      "type": "function",
+      "name": "test_forwardsClientFingerprintHeaders_when_notDenied",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        35,
+        57
+      ],
+      "summary": "验证允许的客户端指纹请求头被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_dropsConnectionFramingHeaders_when_clientSendsThem",
+      "type": "function",
+      "name": "test_dropsConnectionFramingHeaders_when_clientSendsThem",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        59,
+        79
+      ],
+      "summary": "验证连接定界相关头被过滤。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_mergesRepeatedValues_when_clientSplitsAnthropicBetaAcrossHeaderLines",
+      "type": "function",
+      "name": "test_mergesRepeatedValues_when_clientSplitsAnthropicBetaAcrossHeaderLines",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        81,
+        97
+      ],
+      "summary": "验证跨多行的 Anthropic beta 值被合并。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_keepsClientAnthropicVersion_when_clientSuppliesOne",
+      "type": "function",
+      "name": "test_keepsClientAnthropicVersion_when_clientSuppliesOne",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        99,
+        116
+      ],
+      "summary": "验证客户端提供的 Anthropic 版本被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_dropsForwardingHeaders_when_clientArrivesThroughProxy",
+      "type": "function",
+      "name": "test_dropsForwardingHeaders_when_clientArrivesThroughProxy",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        118,
+        140
+      ],
+      "summary": "验证代理转发链相关头被删除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:addsClaudeVersionAndStreamingAcceptHeader",
+      "type": "function",
+      "name": "addsClaudeVersionAndStreamingAcceptHeader",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        142,
+        157
+      ],
+      "summary": "验证 Messages 上游请求自动设置版本头与流式 Accept。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_omitsAnthropicBetaHeader_when_targetUsesBedrockInvokeModelBody",
+      "type": "function",
+      "name": "test_omitsAnthropicBetaHeader_when_targetUsesBedrockInvokeModelBody",
+      "filePath": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "lineRange": [
+        159,
+        175
+      ],
+      "summary": "验证Bedrock InvokeModel 请求不携带 Anthropic beta 头。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:ResponsesImageRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:plannerRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:functionTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:inputImages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:imageChoiceAllows",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java:ProtocolOperationTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java:test_isAvailableOnEveryProtocol_when_operationIsInvoke",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java:test_isAvailableOnlyOnImagesProtocol_when_operationIsImageEdits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:ProviderHttpClientPropertiesTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsTenMinuteUpstreamReadTimeout_when_notConfigured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsFiveMinuteStreamingFirstByteTimeout_when_notConfigured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsTenSecondConnectTimeout_when_notConfigured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsTenMinuteStreamingIdleTimeout_when_notConfigured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsImagesGenerationsPath_when_openaiImagesPathNotConfigured",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsImagesEditsPath_when_operationIsImageEdits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsImagesVariationsPath_when_operationIsImageVariations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java:test_returnsCountTokensPath_when_operationIsCountTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:UpstreamHttpHeaderPolicyTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_replacesClientCredentials_when_buildingUpstreamHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_forwardsClientFingerprintHeaders_when_notDenied",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_dropsConnectionFramingHeaders_when_clientSendsThem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_mergesRepeatedValues_when_clientSplitsAnthropicBetaAcrossHeaderLines",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_keepsClientAnthropicVersion_when_clientSuppliesOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_dropsForwardingHeaders_when_clientArrivesThroughProxy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:addsClaudeVersionAndStreamingAcceptHeader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java:test_omitsAnthropicBetaHeader_when_targetUsesBedrockInvokeModelBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/gateway/ProtocolOperationTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/ProviderHttpClientPropertiesTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/client/provider/ProviderHttpClientProperties.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicyTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/client/provider/UpstreamHttpHeaderPolicy.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

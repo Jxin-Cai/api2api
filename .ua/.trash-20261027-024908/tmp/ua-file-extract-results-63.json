@@ -1,0 +1,1635 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ModelGroupRepository",
+          "startLine": 11,
+          "endLine": 19,
+          "methods": [
+            "save",
+            "findAll",
+            "findById",
+            "findByOwnerUserId",
+            "existsByOwnerAndNameExcludingId",
+            "existsCredentialBinding",
+            "softDeleteById"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelGroupRepository",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 93,
+      "nonEmptyLines": 81,
+      "functions": [
+        {
+          "name": "findAll",
+          "startLine": 25,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "save",
+          "startLine": 30,
+          "endLine": 39,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 41,
+          "endLine": 45,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findByOwnerUserId",
+          "startLine": 47,
+          "endLine": 51,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "existsByOwnerAndNameExcludingId",
+          "startLine": 53,
+          "endLine": 61,
+          "params": [
+            "ownerUserId",
+            "name",
+            "excludedId"
+          ]
+        },
+        {
+          "name": "existsCredentialBinding",
+          "startLine": 63,
+          "endLine": 66,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "softDeleteById",
+          "startLine": 68,
+          "endLine": 72,
+          "params": [
+            "id",
+            "deletedAt"
+          ]
+        },
+        {
+          "name": "toPO",
+          "startLine": 74,
+          "endLine": 85,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 87,
+          "endLine": 92,
+          "params": [
+            "po"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupRepositoryImpl",
+          "startLine": 18,
+          "endLine": 93,
+          "methods": [
+            "findAll",
+            "save",
+            "findById",
+            "findByOwnerUserId",
+            "existsByOwnerAndNameExcludingId",
+            "existsCredentialBinding",
+            "softDeleteById",
+            "toPO",
+            "toDomain"
+          ],
+          "properties": [
+            "mapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "findAll",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "findByOwnerUserId",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "existsByOwnerAndNameExcludingId",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "existsCredentialBinding",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "softDeleteById",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "ModelGroupRepositoryImpl",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream().map(this::toDomain).toList",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream().map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll().stream",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findAll",
+          "callee": "mapper.selectAll",
+          "lineNumber": 27
+        },
+        {
+          "caller": "save",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 32
+        },
+        {
+          "caller": "save",
+          "callee": "toPO",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.selectById",
+          "lineNumber": 34
+        },
+        {
+          "caller": "save",
+          "callee": "group.getId().value",
+          "lineNumber": 34
+        },
+        {
+          "caller": "save",
+          "callee": "group.getId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.insert",
+          "lineNumber": 35
+        },
+        {
+          "caller": "save",
+          "callee": "mapper.update",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findById",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 43
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable(mapper.selectById(id.value())).map",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findById",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findById",
+          "callee": "mapper.selectById",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findById",
+          "callee": "id.value",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findByOwnerUserId",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findByOwnerUserId",
+          "callee": "mapper.selectByOwnerUserId(ownerUserId.getValue()).stream().map(this::toDomain).toList",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findByOwnerUserId",
+          "callee": "mapper.selectByOwnerUserId(ownerUserId.getValue()).stream().map",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findByOwnerUserId",
+          "callee": "mapper.selectByOwnerUserId(ownerUserId.getValue()).stream",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findByOwnerUserId",
+          "callee": "mapper.selectByOwnerUserId",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findByOwnerUserId",
+          "callee": "ownerUserId.getValue",
+          "lineNumber": 50
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "mapper.existsByOwnerAndNameExcludingId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Objects.requireNonNull(ownerUserId, \"Owner user id must not be null\").getValue",
+          "lineNumber": 57
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 57
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Objects.requireNonNull(name, \"Model group name must not be null\").getValue",
+          "lineNumber": 58
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Objects.requireNonNull(excludedId, \"Excluded model group id must not be null\").value",
+          "lineNumber": 59
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 59
+        },
+        {
+          "caller": "existsCredentialBinding",
+          "callee": "mapper.existsCredentialBinding",
+          "lineNumber": 65
+        },
+        {
+          "caller": "existsCredentialBinding",
+          "callee": "Objects.requireNonNull(id, \"Model group id must not be null\").value",
+          "lineNumber": 65
+        },
+        {
+          "caller": "existsCredentialBinding",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 65
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "mapper.softDeleteById",
+          "lineNumber": 70
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "Objects.requireNonNull(id, \"Model group id must not be null\").value",
+          "lineNumber": 70
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 70
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 71
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue())\n                .name(group.getName().getValue())\n                .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist()))\n                .modelDailyLimits(ModelDailyLimitsTextCodec.encode(group.getModelDailyLimits()))\n                .createdAt(group.getCreatedAt())\n                .updatedAt(group.getUpdatedAt())\n                .deleted(false).build",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue())\n                .name(group.getName().getValue())\n                .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist()))\n                .modelDailyLimits(ModelDailyLimitsTextCodec.encode(group.getModelDailyLimits()))\n                .createdAt(group.getCreatedAt())\n                .updatedAt(group.getUpdatedAt()).deleted",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue())\n                .name(group.getName().getValue())\n                .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist()))\n                .modelDailyLimits(ModelDailyLimitsTextCodec.encode(group.getModelDailyLimits()))\n                .createdAt(group.getCreatedAt()).updatedAt",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue())\n                .name(group.getName().getValue())\n                .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist()))\n                .modelDailyLimits(ModelDailyLimitsTextCodec.encode(group.getModelDailyLimits())).createdAt",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue())\n                .name(group.getName().getValue())\n                .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist())).modelDailyLimits",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue())\n                .name(group.getName().getValue()).modelWhitelist",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value())\n                .ownerUserId(group.getOwnerUserId().getValue()).name",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder()\n                .id(group.getId().value()).ownerUserId",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder().id",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelGroupPO.builder",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getId().value",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getId",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getOwnerUserId().getValue",
+          "lineNumber": 77
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getOwnerUserId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getName().getValue",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getName",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelWhitelistTextCodec.encode",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getModelWhitelist",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toPO",
+          "callee": "ModelDailyLimitsTextCodec.encode",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getModelDailyLimits",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getCreatedAt",
+          "lineNumber": 81
+        },
+        {
+          "caller": "toPO",
+          "callee": "group.getUpdatedAt",
+          "lineNumber": 82
+        },
+        {
+          "caller": "toDomain",
+          "callee": "ModelGroup.rehydrate",
+          "lineNumber": 88
+        },
+        {
+          "caller": "toDomain",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getId",
+          "lineNumber": 88
+        },
+        {
+          "caller": "toDomain",
+          "callee": "UserAccountId.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getOwnerUserId",
+          "lineNumber": 88
+        },
+        {
+          "caller": "toDomain",
+          "callee": "ModelGroupName.of",
+          "lineNumber": 89
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getName",
+          "lineNumber": 89
+        },
+        {
+          "caller": "toDomain",
+          "callee": "ModelWhitelistTextCodec.decode",
+          "lineNumber": 89
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getModelWhitelist",
+          "lineNumber": 89
+        },
+        {
+          "caller": "toDomain",
+          "callee": "ModelDailyLimitsTextCodec.decode",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getModelDailyLimits",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getCreatedAt",
+          "lineNumber": 91
+        },
+        {
+          "caller": "toDomain",
+          "callee": "po.getUpdatedAt",
+          "lineNumber": 91
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 8,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 114,
+      "nonEmptyLines": 99,
+      "functions": [
+        {
+          "name": "selectAll",
+          "startLine": 39,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "insert",
+          "startLine": 44,
+          "endLine": 50,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "update",
+          "startLine": 52,
+          "endLine": 60,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "selectById",
+          "startLine": 62,
+          "endLine": 67,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "selectByOwnerUserId",
+          "startLine": 69,
+          "endLine": 74,
+          "params": [
+            "ownerUserId"
+          ]
+        },
+        {
+          "name": "existsByOwnerAndNameExcludingId",
+          "startLine": 76,
+          "endLine": 85,
+          "params": [
+            "ownerUserId",
+            "name",
+            "excludedId"
+          ]
+        },
+        {
+          "name": "existsCredentialBinding",
+          "startLine": 87,
+          "endLine": 93,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "softDeleteById",
+          "startLine": 95,
+          "endLine": 101,
+          "params": [
+            "id",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "params",
+          "startLine": 103,
+          "endLine": 113,
+          "params": [
+            "group"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JdbcModelGroupMapper",
+          "startLine": 18,
+          "endLine": 114,
+          "methods": [
+            "selectAll",
+            "insert",
+            "update",
+            "selectById",
+            "selectByOwnerUserId",
+            "existsByOwnerAndNameExcludingId",
+            "existsCredentialBinding",
+            "softDeleteById",
+            "params"
+          ],
+          "properties": [
+            "COLUMNS",
+            "jdbcTemplate",
+            "rowMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "selectAll",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "insert",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "update",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "selectById",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "selectByOwnerUserId",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "existsByOwnerAndNameExcludingId",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "existsCredentialBinding",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "softDeleteById",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "JdbcModelGroupMapper",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "selectAll",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 41
+        },
+        {
+          "caller": "insert",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 46
+        },
+        {
+          "caller": "insert",
+          "callee": "params",
+          "lineNumber": 49
+        },
+        {
+          "caller": "update",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 54
+        },
+        {
+          "caller": "update",
+          "callee": "params",
+          "lineNumber": 59
+        },
+        {
+          "caller": "selectById",
+          "callee": "DataAccessUtils.singleResult",
+          "lineNumber": 64
+        },
+        {
+          "caller": "selectById",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 64
+        },
+        {
+          "caller": "selectById",
+          "callee": "Map.of",
+          "lineNumber": 66
+        },
+        {
+          "caller": "selectByOwnerUserId",
+          "callee": "jdbcTemplate.query",
+          "lineNumber": 71
+        },
+        {
+          "caller": "selectByOwnerUserId",
+          "callee": "Map.of",
+          "lineNumber": 73
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "jdbcTemplate.queryForObject",
+          "lineNumber": 78
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Map.of",
+          "lineNumber": 83
+        },
+        {
+          "caller": "existsByOwnerAndNameExcludingId",
+          "callee": "Boolean.TRUE.equals",
+          "lineNumber": 84
+        },
+        {
+          "caller": "existsCredentialBinding",
+          "callee": "jdbcTemplate.queryForObject",
+          "lineNumber": 89
+        },
+        {
+          "caller": "existsCredentialBinding",
+          "callee": "Map.of",
+          "lineNumber": 91
+        },
+        {
+          "caller": "existsCredentialBinding",
+          "callee": "Boolean.TRUE.equals",
+          "lineNumber": 92
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "jdbcTemplate.update",
+          "lineNumber": 97
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "new MapSqlParameterSource().addValue(\"id\", id).addValue",
+          "lineNumber": 100
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 100
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 100
+        },
+        {
+          "caller": "softDeleteById",
+          "callee": "timestamp",
+          "lineNumber": 100
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId())\n                .addValue(\"ownerUserId\", group.getOwnerUserId())\n                .addValue(\"name\", group.getName())\n                .addValue(\"modelWhitelist\", group.getModelWhitelist())\n                .addValue(\"modelDailyLimits\", group.getModelDailyLimits() == null ? \"{}\" : group.getModelDailyLimits())\n                .addValue(\"createdAt\", timestamp(group.getCreatedAt()))\n                .addValue(\"updatedAt\", timestamp(group.getUpdatedAt())).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId())\n                .addValue(\"ownerUserId\", group.getOwnerUserId())\n                .addValue(\"name\", group.getName())\n                .addValue(\"modelWhitelist\", group.getModelWhitelist())\n                .addValue(\"modelDailyLimits\", group.getModelDailyLimits() == null ? \"{}\" : group.getModelDailyLimits())\n                .addValue(\"createdAt\", timestamp(group.getCreatedAt())).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId())\n                .addValue(\"ownerUserId\", group.getOwnerUserId())\n                .addValue(\"name\", group.getName())\n                .addValue(\"modelWhitelist\", group.getModelWhitelist())\n                .addValue(\"modelDailyLimits\", group.getModelDailyLimits() == null ? \"{}\" : group.getModelDailyLimits()).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId())\n                .addValue(\"ownerUserId\", group.getOwnerUserId())\n                .addValue(\"name\", group.getName())\n                .addValue(\"modelWhitelist\", group.getModelWhitelist()).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId())\n                .addValue(\"ownerUserId\", group.getOwnerUserId())\n                .addValue(\"name\", group.getName()).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId())\n                .addValue(\"ownerUserId\", group.getOwnerUserId()).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource()\n                .addValue(\"id\", group.getId()).addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 104
+        },
+        {
+          "caller": "params",
+          "callee": "group.getId",
+          "lineNumber": 105
+        },
+        {
+          "caller": "params",
+          "callee": "group.getOwnerUserId",
+          "lineNumber": 106
+        },
+        {
+          "caller": "params",
+          "callee": "group.getName",
+          "lineNumber": 107
+        },
+        {
+          "caller": "params",
+          "callee": "group.getModelWhitelist",
+          "lineNumber": 108
+        },
+        {
+          "caller": "params",
+          "callee": "group.getModelDailyLimits",
+          "lineNumber": 109
+        },
+        {
+          "caller": "params",
+          "callee": "group.getModelDailyLimits",
+          "lineNumber": 109
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 110
+        },
+        {
+          "caller": "params",
+          "callee": "group.getCreatedAt",
+          "lineNumber": 110
+        },
+        {
+          "caller": "params",
+          "callee": "timestamp",
+          "lineNumber": 111
+        },
+        {
+          "caller": "params",
+          "callee": "group.getUpdatedAt",
+          "lineNumber": 111
+        },
+        {
+          "caller": "params",
+          "callee": "group.isDeleted",
+          "lineNumber": 112
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "ModelGroupMapper",
+          "startLine": 7,
+          "endLine": 16,
+          "methods": [
+            "insert",
+            "selectAll",
+            "update",
+            "selectById",
+            "selectByOwnerUserId",
+            "existsByOwnerAndNameExcludingId",
+            "existsCredentialBinding",
+            "softDeleteById"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelGroupMapper",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 193,
+      "nonEmptyLines": 176,
+      "functions": [
+        {
+          "name": "listMyCredentials",
+          "startLine": 76,
+          "endLine": 91,
+          "params": [
+            "zoneId",
+            "request"
+          ]
+        },
+        {
+          "name": "createCredential",
+          "startLine": 93,
+          "endLine": 111,
+          "params": [
+            "createRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "revealCredentialSecret",
+          "startLine": 113,
+          "endLine": 124,
+          "params": [
+            "credentialId",
+            "request"
+          ]
+        },
+        {
+          "name": "renameCredential",
+          "startLine": 126,
+          "endLine": 138,
+          "params": [
+            "credentialId",
+            "renameRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "changeModelGroup",
+          "startLine": 140,
+          "endLine": 152,
+          "params": [
+            "credentialId",
+            "changeRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "disableCredential",
+          "startLine": 154,
+          "endLine": 165,
+          "params": [
+            "credentialId",
+            "request"
+          ]
+        },
+        {
+          "name": "enableCredential",
+          "startLine": 167,
+          "endLine": 178,
+          "params": [
+            "credentialId",
+            "request"
+          ]
+        },
+        {
+          "name": "deleteCredential",
+          "startLine": 180,
+          "endLine": 192,
+          "params": [
+            "credentialId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialController",
+          "startLine": 49,
+          "endLine": 193,
+          "methods": [
+            "listMyCredentials",
+            "createCredential",
+            "revealCredentialSecret",
+            "renameCredential",
+            "changeModelGroup",
+            "disableCredential",
+            "enableCredential",
+            "deleteCredential"
+          ],
+          "properties": [
+            "apiCredentialApplicationService",
+            "apiCredentialHttpConverter",
+            "currentUserContextResolver",
+            "identifierFactory",
+            "apiKeyMaterialHelper",
+            "apiKeyMaterialProtector",
+            "timeWindowHelper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listMyCredentials",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "createCredential",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "revealCredentialSecret",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "renameCredential",
+          "line": 126,
+          "isDefault": false
+        },
+        {
+          "name": "changeModelGroup",
+          "line": 140,
+          "isDefault": false
+        },
+        {
+          "name": "disableCredential",
+          "line": 154,
+          "isDefault": false
+        },
+        {
+          "name": "enableCredential",
+          "line": 167,
+          "isDefault": false
+        },
+        {
+          "name": "deleteCredential",
+          "line": 180,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredentialController",
+          "line": 49,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listMyCredentials",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 81
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 82
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "timeWindowHelper.getTodayStartInclusive",
+          "lineNumber": 83
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "timeWindowHelper.getTodayEndExclusive",
+          "lineNumber": 84
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "apiCredentialApplicationService.listMyCredentialUsageViews",
+          "lineNumber": 86
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "ApiResponse.success",
+          "lineNumber": 90
+        },
+        {
+          "caller": "listMyCredentials",
+          "callee": "apiCredentialHttpConverter.toUsageListResponse",
+          "lineNumber": 90
+        },
+        {
+          "caller": "createCredential",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 98
+        },
+        {
+          "caller": "createCredential",
+          "callee": "identifierFactory.newApiCredentialId",
+          "lineNumber": 99
+        },
+        {
+          "caller": "createCredential",
+          "callee": "apiKeyMaterialHelper.generateApiKeyMaterial",
+          "lineNumber": 100
+        },
+        {
+          "caller": "createCredential",
+          "callee": "apiCredentialHttpConverter.toCreateCommand",
+          "lineNumber": 101
+        },
+        {
+          "caller": "createCredential",
+          "callee": "apiKeyMaterialProtector.protect",
+          "lineNumber": 106
+        },
+        {
+          "caller": "createCredential",
+          "callee": "keyMaterial.getPlaintextKey",
+          "lineNumber": 106
+        },
+        {
+          "caller": "createCredential",
+          "callee": "apiCredentialApplicationService.createCredential",
+          "lineNumber": 108
+        },
+        {
+          "caller": "createCredential",
+          "callee": "ApiResponse.success",
+          "lineNumber": 109
+        },
+        {
+          "caller": "createCredential",
+          "callee": "apiCredentialHttpConverter.toCreateResponse",
+          "lineNumber": 109
+        },
+        {
+          "caller": "createCredential",
+          "callee": "keyMaterial.getPlaintextKey",
+          "lineNumber": 110
+        },
+        {
+          "caller": "revealCredentialSecret",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 118
+        },
+        {
+          "caller": "revealCredentialSecret",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 119
+        },
+        {
+          "caller": "revealCredentialSecret",
+          "callee": "apiCredentialApplicationService.revealSecret",
+          "lineNumber": 120
+        },
+        {
+          "caller": "revealCredentialSecret",
+          "callee": "apiCredentialHttpConverter.toRevealCommand",
+          "lineNumber": 121
+        },
+        {
+          "caller": "revealCredentialSecret",
+          "callee": "ApiResponse.success",
+          "lineNumber": 123
+        },
+        {
+          "caller": "revealCredentialSecret",
+          "callee": "apiCredentialHttpConverter.toRevealResponse",
+          "lineNumber": 123
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 132
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 133
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "apiCredentialHttpConverter.toRenameCommand",
+          "lineNumber": 134
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "apiCredentialApplicationService.renameCredential",
+          "lineNumber": 136
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "ApiResponse.success",
+          "lineNumber": 137
+        },
+        {
+          "caller": "renameCredential",
+          "callee": "apiCredentialHttpConverter.toResponse",
+          "lineNumber": 137
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 146
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 147
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "apiCredentialHttpConverter.toChangeModelGroupCommand",
+          "lineNumber": 148
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "apiCredentialApplicationService.changeModelGroup",
+          "lineNumber": 150
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "ApiResponse.success",
+          "lineNumber": 151
+        },
+        {
+          "caller": "changeModelGroup",
+          "callee": "apiCredentialHttpConverter.toResponse",
+          "lineNumber": 151
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 159
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 160
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "apiCredentialHttpConverter.toChangeStatusCommand",
+          "lineNumber": 161
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "apiCredentialApplicationService.disableCredential",
+          "lineNumber": 163
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "ApiResponse.success",
+          "lineNumber": 164
+        },
+        {
+          "caller": "disableCredential",
+          "callee": "apiCredentialHttpConverter.toResponse",
+          "lineNumber": 164
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 172
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 173
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "apiCredentialHttpConverter.toChangeStatusCommand",
+          "lineNumber": 174
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "apiCredentialApplicationService.enableCredential",
+          "lineNumber": 176
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "ApiResponse.success",
+          "lineNumber": 177
+        },
+        {
+          "caller": "enableCredential",
+          "callee": "apiCredentialHttpConverter.toResponse",
+          "lineNumber": 177
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 185
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "DeleteApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(ApiCredentialId.of(credentialId)).build",
+          "lineNumber": 186
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "DeleteApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 186
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "DeleteApiCredentialCommand.builder().ownerUserId",
+          "lineNumber": 186
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "DeleteApiCredentialCommand.builder",
+          "lineNumber": 186
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 188
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "apiCredentialApplicationService.deleteCredential",
+          "lineNumber": 190
+        },
+        {
+          "caller": "deleteCredential",
+          "callee": "ApiResponse.success",
+          "lineNumber": 191
+        }
+      ],
+      "metrics": {
+        "importCount": 25,
+        "exportCount": 9,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 66,
+      "functions": [
+        {
+          "name": "listMyGroups",
+          "startLine": 38,
+          "endLine": 42,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "createGroup",
+          "startLine": 44,
+          "endLine": 51,
+          "params": [
+            "body",
+            "request"
+          ]
+        },
+        {
+          "name": "updateGroup",
+          "startLine": 53,
+          "endLine": 61,
+          "params": [
+            "groupId",
+            "body",
+            "request"
+          ]
+        },
+        {
+          "name": "deleteGroup",
+          "startLine": 63,
+          "endLine": 72,
+          "params": [
+            "groupId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupController",
+          "startLine": 28,
+          "endLine": 73,
+          "methods": [
+            "listMyGroups",
+            "createGroup",
+            "updateGroup",
+            "deleteGroup"
+          ],
+          "properties": [
+            "applicationService",
+            "converter",
+            "currentUserContextResolver",
+            "identifierFactory"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listMyGroups",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "createGroup",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "updateGroup",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "deleteGroup",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "ModelGroupController",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listMyGroups",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 40
+        },
+        {
+          "caller": "listMyGroups",
+          "callee": "ApiResponse.success",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listMyGroups",
+          "callee": "converter.toListResponse",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listMyGroups",
+          "callee": "applicationService.listAdminGroupViews",
+          "lineNumber": 41
+        },
+        {
+          "caller": "createGroup",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 47
+        },
+        {
+          "caller": "createGroup",
+          "callee": "applicationService.createGroup",
+          "lineNumber": 48
+        },
+        {
+          "caller": "createGroup",
+          "callee": "converter.toCreateCommand",
+          "lineNumber": 48
+        },
+        {
+          "caller": "createGroup",
+          "callee": "identifierFactory.newModelGroupId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "createGroup",
+          "callee": "ApiResponse.success",
+          "lineNumber": 50
+        },
+        {
+          "caller": "createGroup",
+          "callee": "converter.toResponse",
+          "lineNumber": 50
+        },
+        {
+          "caller": "createGroup",
+          "callee": "applicationService.viewGroup",
+          "lineNumber": 50
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 57
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "applicationService.updateGroup",
+          "lineNumber": 58
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "converter.toUpdateCommand",
+          "lineNumber": 58
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "ApiResponse.success",
+          "lineNumber": 60
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "converter.toResponse",
+          "lineNumber": 60
+        },
+        {
+          "caller": "updateGroup",
+          "callee": "applicationService.viewGroup",
+          "lineNumber": 60
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "applicationService.deleteGroup",
+          "lineNumber": 67
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "DeleteModelGroupCommand.builder()\n                .ownerUserId(ownerUserId)\n                .modelGroupId(ModelGroupId.of(groupId)).build",
+          "lineNumber": 67
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "DeleteModelGroupCommand.builder()\n                .ownerUserId(ownerUserId).modelGroupId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "DeleteModelGroupCommand.builder().ownerUserId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "DeleteModelGroupCommand.builder",
+          "lineNumber": 67
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 69
+        },
+        {
+          "caller": "deleteGroup",
+          "callee": "ApiResponse.success",
+          "lineNumber": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 12,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    }
+  ]
+}

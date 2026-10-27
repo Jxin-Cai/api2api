@@ -1,0 +1,2628 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "file",
+      "name": "ChannelProtocolMapping.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "summary": "以不可变记录表达客户端协议到上游协议的映射，并校验两侧协议非空。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java:ChannelProtocolMapping",
+      "type": "class",
+      "name": "ChannelProtocolMapping",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "lineRange": [
+        8,
+        18
+      ],
+      "summary": "以不可变记录表达客户端协议到上游协议的映射，并校验两侧协议非空。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "通过静态工厂构造 ChannelProtocolMapping，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "file",
+      "name": "ModelSupportSource.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "summary": "区分模型支持关系来自手动维护还是上游拉取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java:ModelSupportSource",
+      "type": "class",
+      "name": "ModelSupportSource",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "lineRange": [
+        6,
+        9
+      ],
+      "summary": "区分模型支持关系来自手动维护还是上游拉取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "file",
+      "name": "ProviderChannel.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "summary": "供应商渠道聚合根，集中维护端点配置、协议映射、模型支持列表和启停状态。负责协议兼容约束、模型组合去重及路由顺序。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "type": "class",
+      "name": "ProviderChannel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        16,
+        468
+      ],
+      "summary": "供应商渠道聚合根，集中维护端点配置、协议映射、模型支持列表和启停状态。负责协议兼容约束、模型组合去重及路由顺序。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "type": "function",
+      "name": "ProviderChannel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        30,
+        54
+      ],
+      "summary": "初始化 ProviderChannel 的状态并建立构造约束。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        56,
+        66
+      ],
+      "summary": "创建 ProviderChannel 并初始化业务状态。 同名重载接收不同参数形式。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:rehydrate",
+      "type": "function",
+      "name": "rehydrate",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        94,
+        119
+      ],
+      "summary": "根据持久化状态重建 ProviderChannel。 同名重载接收不同参数形式。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:rename",
+      "type": "function",
+      "name": "rename",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        149,
+        157
+      ],
+      "summary": "更新渠道名称并推进修改时间。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:updateEndpoint",
+      "type": "function",
+      "name": "updateEndpoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        159,
+        169
+      ],
+      "summary": "更新渠道主机与密钥引用并记录修改时间。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:changeModelsPath",
+      "type": "function",
+      "name": "changeModelsPath",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        171,
+        179
+      ],
+      "summary": "更新用于模型发现的路径配置。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:changeRoutePriority",
+      "type": "function",
+      "name": "changeRoutePriority",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        181,
+        188
+      ],
+      "summary": "更新渠道路由优先级。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceProtocolMappings",
+      "type": "function",
+      "name": "replaceProtocolMappings",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        190,
+        198
+      ],
+      "summary": "规范化并替换协议映射，校验现有模型仍使用受支持协议，不满足时抛出领域异常。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:addOrUpdateModel",
+      "type": "function",
+      "name": "addOrUpdateModel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        200,
+        214
+      ],
+      "summary": "校验上游协议受支持，按请求模型、上游模型与协议组合新增或更新条目；更新时保留旧标识、状态与限流信息。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceModels",
+      "type": "function",
+      "name": "replaceModels",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        216,
+        225
+      ],
+      "summary": "规范化模型列表，校验协议支持和组合唯一性后整体替换。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:enableModel",
+      "type": "function",
+      "name": "enableModel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        227,
+        233
+      ],
+      "summary": "按支持项标识查找并启用模型，未命中时抛出领域异常。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:disableModel",
+      "type": "function",
+      "name": "disableModel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        235,
+        241
+      ],
+      "summary": "按支持项标识查找并停用模型，未命中时抛出领域异常。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:removeModel",
+      "type": "function",
+      "name": "removeModel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        250,
+        264
+      ],
+      "summary": "删除请求模型与上游协议匹配的支持项；无匹配时保持集合不变。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:enable",
+      "type": "function",
+      "name": "enable",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        266,
+        280
+      ],
+      "summary": "幂等地把渠道状态置为 ENABLED 并更新时间。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:disable",
+      "type": "function",
+      "name": "disable",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        282,
+        289
+      ],
+      "summary": "幂等地把渠道状态置为 DISABLED 并更新时间。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:isEnabledForRouting",
+      "type": "function",
+      "name": "isEnabledForRouting",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        291,
+        293
+      ],
+      "summary": "判断渠道当前是否处于启用状态。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsUpstreamProtocol",
+      "type": "function",
+      "name": "supportsUpstreamProtocol",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        295,
+        298
+      ],
+      "summary": "判断渠道协议映射是否包含给定上游协议。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocolFor",
+      "type": "function",
+      "name": "upstreamProtocolFor",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        300,
+        306
+      ],
+      "summary": "查找客户端协议对应的上游协议。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocols",
+      "type": "function",
+      "name": "upstreamProtocols",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        308,
+        312
+      ],
+      "summary": "从协议映射中提取去重的上游协议集合。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsModel",
+      "type": "function",
+      "name": "supportsModel",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        314,
+        316
+      ],
+      "summary": "判断渠道是否存在匹配请求模型和上游协议的支持项。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupport",
+      "type": "function",
+      "name": "findModelSupport",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        318,
+        327
+      ],
+      "summary": "返回已启用且匹配请求模型与上游协议的首个支持项。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupports",
+      "type": "function",
+      "name": "findModelSupports",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        329,
+        337
+      ],
+      "summary": "筛选已启用且匹配请求模型与上游协议的全部支持项。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeProtocolMappings",
+      "type": "function",
+      "name": "normalizeProtocolMappings",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        367,
+        382
+      ],
+      "summary": "拒绝空映射集合及重复客户端协议，并检查双侧协议兼容性。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeModels",
+      "type": "function",
+      "name": "normalizeModels",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        384,
+        400
+      ],
+      "summary": "检查模型的上游协议受支持，拒绝重复三元组合及同一请求模型与协议下多个首选模型。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:id",
+      "type": "function",
+      "name": "id",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        408,
+        410
+      ],
+      "summary": "返回 id 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:name",
+      "type": "function",
+      "name": "name",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        412,
+        414
+      ],
+      "summary": "返回 name 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:host",
+      "type": "function",
+      "name": "host",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        416,
+        418
+      ],
+      "summary": "返回 host 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:keyRef",
+      "type": "function",
+      "name": "keyRef",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        420,
+        422
+      ],
+      "summary": "返回 keyRef 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:modelsPath",
+      "type": "function",
+      "name": "modelsPath",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        424,
+        426
+      ],
+      "summary": "返回 modelsPath 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:routePriority",
+      "type": "function",
+      "name": "routePriority",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        428,
+        430
+      ],
+      "summary": "返回 routePriority 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportedProtocols",
+      "type": "function",
+      "name": "supportedProtocols",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        432,
+        436
+      ],
+      "summary": "在ProviderChannel中执行 supportedProtocols 操作。协调 protocolMappings.stream()\n                .map(ChannelProtocolMapping::requestProtocol).collect、protocolMappings.stream().map、protocolMappings.stream、java.util.stream.Collectors.toCollection 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:protocolMappings",
+      "type": "function",
+      "name": "protocolMappings",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        438,
+        440
+      ],
+      "summary": "在ProviderChannel中执行 protocolMappings 操作。协调 Set.copyOf 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportedModels",
+      "type": "function",
+      "name": "supportedModels",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        442,
+        444
+      ],
+      "summary": "在ProviderChannel中执行 supportedModels 操作。协调 List.copyOf 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:status",
+      "type": "function",
+      "name": "status",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        446,
+        448
+      ],
+      "summary": "返回 status 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:createdAt",
+      "type": "function",
+      "name": "createdAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        450,
+        452
+      ],
+      "summary": "返回 createdAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:updatedAt",
+      "type": "function",
+      "name": "updatedAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "lineRange": [
+        454,
+        456
+      ],
+      "summary": "返回 updatedAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "渠道管理",
+        "模型映射",
+        "路由约束"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "file",
+      "name": "ProviderChannelName.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "summary": "封装供应商渠道名称，执行非空及长度限制，并提供值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:ProviderChannelName",
+      "type": "class",
+      "name": "ProviderChannelName",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        8,
+        53
+      ],
+      "summary": "封装供应商渠道名称，执行非空及长度限制，并提供值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:ProviderChannelName",
+      "type": "function",
+      "name": "ProviderChannelName",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        14,
+        23
+      ],
+      "summary": "初始化 ProviderChannelName 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        25,
+        27
+      ],
+      "summary": "通过静态工厂构造 ProviderChannelName，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        33,
+        42
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        44,
+        47
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "lineRange": [
+        49,
+        52
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "type": "file",
+      "name": "ProviderChannelStatus.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "summary": "枚举渠道的 ENABLED、DISABLED 与 RATE_LIMITED 状态，用于路由启用与限流隔离；软删除不属于该枚举。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java:ProviderChannelStatus",
+      "type": "class",
+      "name": "ProviderChannelStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "枚举渠道的 ENABLED、DISABLED 与 RATE_LIMITED 状态，用于路由启用与限流隔离；软删除不属于该枚举。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "file",
+      "name": "ProviderHost.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "summary": "封装上游供应商主机地址，校验并去除尾部斜杠，提供模型或协议端点路径拼接。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:ProviderHost",
+      "type": "class",
+      "name": "ProviderHost",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        8,
+        72
+      ],
+      "summary": "封装上游供应商主机地址，校验并去除尾部斜杠，提供模型或协议端点路径拼接。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:ProviderHost",
+      "type": "function",
+      "name": "ProviderHost",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        12,
+        21
+      ],
+      "summary": "初始化 ProviderHost 的状态并建立构造约束。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "通过静态工厂构造 ProviderHost，封装传入参数。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:resolvePath",
+      "type": "function",
+      "name": "resolvePath",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        27,
+        38
+      ],
+      "summary": "将端点路径与规范化主机地址拼接，统一处理路径起始斜杠。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        52,
+        61
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        63,
+        66
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "lineRange": [
+        68,
+        71
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "值对象",
+        "端点地址",
+        "路径处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "file",
+      "name": "ProviderKeyRef.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "summary": "封装供应商密钥引用，执行非空及长度限制并以内部值比较对象。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:ProviderKeyRef",
+      "type": "class",
+      "name": "ProviderKeyRef",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        8,
+        53
+      ],
+      "summary": "封装供应商密钥引用，执行非空及长度限制并以内部值比较对象。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:ProviderKeyRef",
+      "type": "function",
+      "name": "ProviderKeyRef",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        14,
+        23
+      ],
+      "summary": "初始化 ProviderKeyRef 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        25,
+        27
+      ],
+      "summary": "通过静态工厂构造 ProviderKeyRef，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        33,
+        42
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        44,
+        47
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "lineRange": [
+        49,
+        52
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "file",
+      "name": "ProviderModelsPath.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "summary": "封装上游模型列表路径，默认使用 /v1/models，并规范化路径前导斜杠。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:ProviderModelsPath",
+      "type": "class",
+      "name": "ProviderModelsPath",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        8,
+        56
+      ],
+      "summary": "封装上游模型列表路径，默认使用 /v1/models，并规范化路径前导斜杠。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:ProviderModelsPath",
+      "type": "function",
+      "name": "ProviderModelsPath",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        14,
+        23
+      ],
+      "summary": "初始化 ProviderModelsPath 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        25,
+        30
+      ],
+      "summary": "返回 DEFAULT 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        32,
+        34
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        36,
+        45
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        47,
+        50
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "lineRange": [
+        52,
+        55
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "file",
+      "name": "RoutePriority.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "summary": "封装非负路由优先级，提供整数值访问、顺序比较和值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:RoutePriority",
+      "type": "class",
+      "name": "RoutePriority",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        8,
+        53
+      ],
+      "summary": "封装非负路由优先级，提供整数值访问、顺序比较和值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:RoutePriority",
+      "type": "function",
+      "name": "RoutePriority",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        12,
+        17
+      ],
+      "summary": "初始化 RoutePriority 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        19,
+        21
+      ],
+      "summary": "通过静态工厂构造 RoutePriority，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:compareTo",
+      "type": "function",
+      "name": "compareTo",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        27,
+        31
+      ],
+      "summary": "比较两个优先级值的顺序。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        33,
+        42
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        44,
+        47
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "lineRange": [
+        49,
+        52
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java:ChannelProtocolMapping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java:ChannelProtocolMapping",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java:ModelSupportSource",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java:ModelSupportSource",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:rehydrate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:rehydrate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:rename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:rename",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:updateEndpoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:updateEndpoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:changeModelsPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:changeModelsPath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:changeRoutePriority",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:changeRoutePriority",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceProtocolMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceProtocolMappings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:addOrUpdateModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:addOrUpdateModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:enableModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:enableModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:disableModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:disableModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:removeModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:removeModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:enable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:enable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:disable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:disable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:isEnabledForRouting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:isEnabledForRouting",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsUpstreamProtocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsUpstreamProtocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocolFor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocolFor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocols",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupport",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupports",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeProtocolMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:id",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:id",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:name",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:name",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:host",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:host",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:keyRef",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:keyRef",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:modelsPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:modelsPath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:routePriority",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:routePriority",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportedProtocols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportedProtocols",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:protocolMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:protocolMappings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportedModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportedModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:status",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:status",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:createdAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:createdAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:updatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:updatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:ProviderChannelName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:ProviderChannelName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:ProviderChannelName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:ProviderChannelName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java:ProviderChannelStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelStatus.java:ProviderChannelStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:ProviderHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:ProviderHost",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:ProviderHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:ProviderHost",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:resolvePath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:resolvePath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:ProviderKeyRef",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:ProviderKeyRef",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:ProviderKeyRef",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:ProviderKeyRef",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:ProviderModelsPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:ProviderModelsPath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:ProviderModelsPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:ProviderModelsPath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:RoutePriority",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:RoutePriority",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:RoutePriority",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:RoutePriority",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:compareTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:compareTo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeProtocolMappings",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:ProviderChannel",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceProtocolMappings",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeProtocolMappings",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:addOrUpdateModel",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:replaceModels",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:normalizeModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsUpstreamProtocol",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:upstreamProtocols",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsModel",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupport",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupport",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsUpstreamProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:findModelSupports",
+      "target": "function:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java:supportsUpstreamProtocol",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

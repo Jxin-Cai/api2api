@@ -1,0 +1,10 @@
+{
+"MultipartFormPayload.java":{"summary":"以不可变的有序文本字段及文件部分表示 multipart/form-data 载荷，保留重复字段和文件顺序以支持 image[] 等位置敏感参数。","tags":["数据模型","multipart","有序载荷"]},
+"MultipartFormPayloadCodec.java":{"summary":"定义多段表单与网关 JSON 信封之间的转换端口，文本字段保留在顶层以兼容模型读取、stream 判断及路由模型改写。","tags":["端口接口","multipart","json-信封"]},
+"MultipartFormBodyWriter.java":{"summary":"把已解析的表单重新序列化为 RFC 7578 请求体，生成新 boundary 并编码可能破坏 Content-Disposition 引号结构的字符。","tags":["请求编码","multipart","上游请求"],"functions":{"write":"按字段和文件顺序写入新 boundary、多段头部及内容，返回字节请求体与 Content-Type。"}},
+"JsonMultipartFormPayloadCodec.java":{"summary":"以 JSON 顶层成员存储文本字段，重复值保存为数组，true/false 转为布尔值供协议契约识别；文件保存于保留成员并使用 base64 编码。","tags":["序列化","multipart","json-信封"],"functions":{"encode":"将文本字段和文件部分编码为 JSON 信封，保留重复字段并将文件内容 base64 化。","decode":"解析信封并恢复有序文本字段和文件，布尔值恢复为原始文本形式。","readEnvelope":"校验信封非空且为 JSON 对象，解析失败显式抛出异常。"}},
+"MultipartFormRequestReader.java":{"summary":"通过 Servlet Part API 读取网关多段请求，区分文本与文件并保留顺序，避免把查询字符串误当成表单字段。","tags":["http-适配","multipart","请求解析"],"functions":{"read":"拒绝非 multipart/form-data 请求，遍历 Part 并分别构造文本字段及文件列表。","charsetOf":"从 Part Content-Type 提取字符集，缺省或无法识别时采用 UTF-8。"}},
+"ResponsesImagePayloadMapper.java":{"summary":"将 Responses 图片工具输入映射为图片生成 JSON 或编辑用 multipart 信封，校验动作、图片数量、MIME 类型和大小；编辑图片仅支持 base64 data URL。","tags":["协议适配","图片请求","载荷校验"],"functions":{"map":"根据已选动作构造生成或编辑载荷，拒绝空提示、无效 mask、缺少输入图及总大小越界。","decodeImage":"解析 PNG、JPEG 或 WebP 的 base64 data URL，校验内容及 50 MiB 单图限制并生成文件部分。"}},
+"MultipartFormBodyWriterTest.java":"验证多段写入声明 boundary，保留文本与文件属性，缺省文件类型使用 octet-stream，并安全处理文件名引号。",
+"MultipartFormRequestReaderTest.java":"验证 Servlet 多段读取正确区分文本和文件、忽略查询参数，并拒绝非多段请求。"
+}

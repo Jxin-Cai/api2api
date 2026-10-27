@@ -1,0 +1,4474 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupOptionsController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "list",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupOptionsController",
+          "startLine": 15,
+          "endLine": 27,
+          "methods": [
+            "list"
+          ],
+          "properties": [
+            "service",
+            "converter",
+            "users"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "list",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ModelGroupOptionsController",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "list",
+          "callee": "ApiResponse.success",
+          "lineNumber": 25
+        },
+        {
+          "caller": "list",
+          "callee": "converter.toListResponse",
+          "lineNumber": 25
+        },
+        {
+          "caller": "list",
+          "callee": "service.listMyGroupViews",
+          "lineNumber": 25
+        },
+        {
+          "caller": "list",
+          "callee": "users.resolveCurrentUserId",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 192,
+      "nonEmptyLines": 175,
+      "functions": [
+        {
+          "name": "toCreateCommand",
+          "startLine": 42,
+          "endLine": 59,
+          "params": [
+            "request",
+            "ownerUserId",
+            "apiCredentialId",
+            "keyMaterial",
+            "encryptedKeyMaterial"
+          ]
+        },
+        {
+          "name": "toRenameCommand",
+          "startLine": 61,
+          "endLine": 71,
+          "params": [
+            "request",
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "toChangeModelGroupCommand",
+          "startLine": 73,
+          "endLine": 83,
+          "params": [
+            "request",
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "toChangeTokenLimitCommand",
+          "startLine": 85,
+          "endLine": 95,
+          "params": [
+            "request",
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "toChangeStatusCommand",
+          "startLine": 97,
+          "endLine": 105,
+          "params": [
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "toListResponse",
+          "startLine": 107,
+          "endLine": 111,
+          "params": [
+            "credentials"
+          ]
+        },
+        {
+          "name": "toUsageListResponse",
+          "startLine": 113,
+          "endLine": 117,
+          "params": [
+            "credentialViews"
+          ]
+        },
+        {
+          "name": "toRevealCommand",
+          "startLine": 119,
+          "endLine": 124,
+          "params": [
+            "ownerUserId",
+            "apiCredentialId"
+          ]
+        },
+        {
+          "name": "toRevealResponse",
+          "startLine": 126,
+          "endLine": 132,
+          "params": [
+            "secret"
+          ]
+        },
+        {
+          "name": "toCreateResponse",
+          "startLine": 134,
+          "endLine": 139,
+          "params": [
+            "credential",
+            "plainApiKey"
+          ]
+        },
+        {
+          "name": "toResponse",
+          "startLine": 141,
+          "endLine": 154,
+          "params": [
+            "credential"
+          ]
+        },
+        {
+          "name": "toResponse",
+          "startLine": 156,
+          "endLine": 173,
+          "params": [
+            "view"
+          ]
+        },
+        {
+          "name": "toSortedModelNames",
+          "startLine": 175,
+          "endLine": 177,
+          "params": [
+            "models"
+          ]
+        },
+        {
+          "name": "toModelWhitelist",
+          "startLine": 179,
+          "endLine": 185,
+          "params": [
+            "modelNames"
+          ]
+        },
+        {
+          "name": "toModelWhitelistResponse",
+          "startLine": 187,
+          "endLine": 191,
+          "params": [
+            "whitelist"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialHttpConverter",
+          "startLine": 39,
+          "endLine": 192,
+          "methods": [
+            "toCreateCommand",
+            "toRenameCommand",
+            "toChangeModelGroupCommand",
+            "toChangeTokenLimitCommand",
+            "toChangeStatusCommand",
+            "toListResponse",
+            "toUsageListResponse",
+            "toRevealCommand",
+            "toRevealResponse",
+            "toCreateResponse",
+            "toResponse",
+            "toResponse",
+            "toSortedModelNames",
+            "toModelWhitelist",
+            "toModelWhitelistResponse"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "toCreateCommand",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "toRenameCommand",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "toChangeModelGroupCommand",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "toChangeTokenLimitCommand",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "toChangeStatusCommand",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "toListResponse",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "toUsageListResponse",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "toRevealCommand",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "toRevealResponse",
+          "line": 126,
+          "isDefault": false
+        },
+        {
+          "name": "toCreateResponse",
+          "line": 134,
+          "isDefault": false
+        },
+        {
+          "name": "toResponse",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "toResponse",
+          "line": 156,
+          "isDefault": false
+        },
+        {
+          "name": "ApiCredentialHttpConverter",
+          "line": 39,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName()))\n                .keyHash(keyMaterial.getKeyHash())\n                .keyPreview(keyMaterial.getKeyPreview())\n                .encryptedKeyMaterial(encryptedKeyMaterial)\n                .modelGroupId(ModelGroupId.of(request.getModelGroupId()))\n                .tokenLimit(TokenLimit.unlimited()).build",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName()))\n                .keyHash(keyMaterial.getKeyHash())\n                .keyPreview(keyMaterial.getKeyPreview())\n                .encryptedKeyMaterial(encryptedKeyMaterial)\n                .modelGroupId(ModelGroupId.of(request.getModelGroupId())).tokenLimit",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName()))\n                .keyHash(keyMaterial.getKeyHash())\n                .keyPreview(keyMaterial.getKeyPreview())\n                .encryptedKeyMaterial(encryptedKeyMaterial).modelGroupId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName()))\n                .keyHash(keyMaterial.getKeyHash())\n                .keyPreview(keyMaterial.getKeyPreview()).encryptedKeyMaterial",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName()))\n                .keyHash(keyMaterial.getKeyHash()).keyPreview",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName())).keyHash",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId).name",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder().ownerUserId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "CreateApiCredentialCommand.builder",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "ApiCredentialName.of",
+          "lineNumber": 52
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "request.getName",
+          "lineNumber": 52
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "keyMaterial.getKeyHash",
+          "lineNumber": 53
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "keyMaterial.getKeyPreview",
+          "lineNumber": 54
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 56
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "request.getModelGroupId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "toCreateCommand",
+          "callee": "TokenLimit.unlimited",
+          "lineNumber": 57
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "RenameApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .name(ApiCredentialName.of(request.getName())).build",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "RenameApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId).name",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "RenameApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "RenameApiCredentialCommand.builder().ownerUserId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "RenameApiCredentialCommand.builder",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "ApiCredentialName.of",
+          "lineNumber": 69
+        },
+        {
+          "caller": "toRenameCommand",
+          "callee": "request.getName",
+          "lineNumber": 69
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "ChangeModelGroupCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .modelGroupId(ModelGroupId.of(request.getModelGroupId())).build",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "ChangeModelGroupCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId).modelGroupId",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "ChangeModelGroupCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "ChangeModelGroupCommand.builder().ownerUserId",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "ChangeModelGroupCommand.builder",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 81
+        },
+        {
+          "caller": "toChangeModelGroupCommand",
+          "callee": "request.getModelGroupId",
+          "lineNumber": 81
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "ChangeTokenLimitCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId)\n                .tokenLimit(TokenLimit.of(request.getTokenLimit())).build",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "ChangeTokenLimitCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId).tokenLimit",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "ChangeTokenLimitCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "ChangeTokenLimitCommand.builder().ownerUserId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "ChangeTokenLimitCommand.builder",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "TokenLimit.of",
+          "lineNumber": 93
+        },
+        {
+          "caller": "toChangeTokenLimitCommand",
+          "callee": "request.getTokenLimit",
+          "lineNumber": 93
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeApiCredentialStatusCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId).build",
+          "lineNumber": 101
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeApiCredentialStatusCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 101
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeApiCredentialStatusCommand.builder().ownerUserId",
+          "lineNumber": 101
+        },
+        {
+          "caller": "toChangeStatusCommand",
+          "callee": "ChangeApiCredentialStatusCommand.builder",
+          "lineNumber": 101
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "ApiCredentialListResponse.builder()\n                .credentials(credentials.stream().map(this::toResponse).toList()).build",
+          "lineNumber": 108
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "ApiCredentialListResponse.builder().credentials",
+          "lineNumber": 108
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "ApiCredentialListResponse.builder",
+          "lineNumber": 108
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "credentials.stream().map(this::toResponse).toList",
+          "lineNumber": 109
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "credentials.stream().map",
+          "lineNumber": 109
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "credentials.stream",
+          "lineNumber": 109
+        },
+        {
+          "caller": "toUsageListResponse",
+          "callee": "ApiCredentialListResponse.builder()\n                .credentials(credentialViews.stream().map(this::toResponse).toList()).build",
+          "lineNumber": 114
+        },
+        {
+          "caller": "toUsageListResponse",
+          "callee": "ApiCredentialListResponse.builder().credentials",
+          "lineNumber": 114
+        },
+        {
+          "caller": "toUsageListResponse",
+          "callee": "ApiCredentialListResponse.builder",
+          "lineNumber": 114
+        },
+        {
+          "caller": "toUsageListResponse",
+          "callee": "credentialViews.stream().map(this::toResponse).toList",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toUsageListResponse",
+          "callee": "credentialViews.stream().map",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toUsageListResponse",
+          "callee": "credentialViews.stream",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toRevealCommand",
+          "callee": "RevealApiCredentialSecretCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(apiCredentialId).build",
+          "lineNumber": 120
+        },
+        {
+          "caller": "toRevealCommand",
+          "callee": "RevealApiCredentialSecretCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId",
+          "lineNumber": 120
+        },
+        {
+          "caller": "toRevealCommand",
+          "callee": "RevealApiCredentialSecretCommand.builder().ownerUserId",
+          "lineNumber": 120
+        },
+        {
+          "caller": "toRevealCommand",
+          "callee": "RevealApiCredentialSecretCommand.builder",
+          "lineNumber": 120
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "RevealApiCredentialSecretResponse.builder()\n                .apiCredentialId(secret.getApiCredentialId().value())\n                .keyPreview(secret.getKeyPreview().getValue())\n                .plaintextApiKey(secret.getPlaintextApiKey()).build",
+          "lineNumber": 127
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "RevealApiCredentialSecretResponse.builder()\n                .apiCredentialId(secret.getApiCredentialId().value())\n                .keyPreview(secret.getKeyPreview().getValue()).plaintextApiKey",
+          "lineNumber": 127
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "RevealApiCredentialSecretResponse.builder()\n                .apiCredentialId(secret.getApiCredentialId().value()).keyPreview",
+          "lineNumber": 127
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "RevealApiCredentialSecretResponse.builder().apiCredentialId",
+          "lineNumber": 127
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "RevealApiCredentialSecretResponse.builder",
+          "lineNumber": 127
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "secret.getApiCredentialId().value",
+          "lineNumber": 128
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "secret.getApiCredentialId",
+          "lineNumber": 128
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "secret.getKeyPreview().getValue",
+          "lineNumber": 129
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "secret.getKeyPreview",
+          "lineNumber": 129
+        },
+        {
+          "caller": "toRevealResponse",
+          "callee": "secret.getPlaintextApiKey",
+          "lineNumber": 130
+        },
+        {
+          "caller": "toCreateResponse",
+          "callee": "CreateApiCredentialResponse.builder()\n                .credential(toResponse(credential))\n                .plaintextApiKey(plainApiKey).build",
+          "lineNumber": 135
+        },
+        {
+          "caller": "toCreateResponse",
+          "callee": "CreateApiCredentialResponse.builder()\n                .credential(toResponse(credential)).plaintextApiKey",
+          "lineNumber": 135
+        },
+        {
+          "caller": "toCreateResponse",
+          "callee": "CreateApiCredentialResponse.builder().credential",
+          "lineNumber": 135
+        },
+        {
+          "caller": "toCreateResponse",
+          "callee": "CreateApiCredentialResponse.builder",
+          "lineNumber": 135
+        },
+        {
+          "caller": "toCreateResponse",
+          "callee": "toResponse",
+          "lineNumber": 136
+        },
+        {
+          "caller": "toSortedModelNames",
+          "callee": "models.stream().map(ModelName::getValue).sorted().toList",
+          "lineNumber": 176
+        },
+        {
+          "caller": "toSortedModelNames",
+          "callee": "models.stream().map(ModelName::getValue).sorted",
+          "lineNumber": 176
+        },
+        {
+          "caller": "toSortedModelNames",
+          "callee": "models.stream().map",
+          "lineNumber": 176
+        },
+        {
+          "caller": "toSortedModelNames",
+          "callee": "models.stream",
+          "lineNumber": 176
+        },
+        {
+          "caller": "toModelWhitelist",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 180
+        },
+        {
+          "caller": "toModelWhitelist",
+          "callee": "models.add",
+          "lineNumber": 182
+        },
+        {
+          "caller": "toModelWhitelist",
+          "callee": "ModelName.of",
+          "lineNumber": 182
+        },
+        {
+          "caller": "toModelWhitelist",
+          "callee": "ModelWhitelist.of",
+          "lineNumber": 184
+        },
+        {
+          "caller": "toModelWhitelistResponse",
+          "callee": "whitelist.getModels().stream()\n                .map(ModelName::getValue).toList",
+          "lineNumber": 188
+        },
+        {
+          "caller": "toModelWhitelistResponse",
+          "callee": "whitelist.getModels().stream().map",
+          "lineNumber": 188
+        },
+        {
+          "caller": "toModelWhitelistResponse",
+          "callee": "whitelist.getModels().stream",
+          "lineNumber": 188
+        },
+        {
+          "caller": "toModelWhitelistResponse",
+          "callee": "whitelist.getModels",
+          "lineNumber": 188
+        }
+      ],
+      "metrics": {
+        "importCount": 26,
+        "exportCount": 13,
+        "functionCount": 15,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/credential/dto/CreateApiCredentialRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "CreateApiCredentialRequest",
+          "startLine": 14,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "name",
+            "modelGroupId",
+            "tokenLimit"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateApiCredentialRequest",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/credential/dto/ModelGroupRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "ModelGroupRequest",
+          "startLine": 11,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "name",
+            "modelWhitelist",
+            "modelDailyLimits"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelGroupRequest",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/credential/ApiCredentialApplicationServiceTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 202,
+      "nonEmptyLines": 187,
+      "functions": [
+        {
+          "name": "test_returns_credential_whitelist_when_api_key_is_active",
+          "startLine": 41,
+          "endLine": 69,
+          "params": []
+        },
+        {
+          "name": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "startLine": 71,
+          "endLine": 106,
+          "params": []
+        },
+        {
+          "name": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "startLine": 108,
+          "endLine": 153,
+          "params": []
+        },
+        {
+          "name": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "startLine": 155,
+          "endLine": 201,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiCredentialApplicationServiceTest",
+          "startLine": 39,
+          "endLine": 202,
+          "methods": [
+            "test_returns_credential_whitelist_when_api_key_is_active",
+            "test_soft_deletes_credential_when_owner_requests_deletion",
+            "test_returns_actual_and_total_tokens_when_listing_credentials",
+            "test_marks_model_rate_limited_when_group_daily_limit_is_reached"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "mock",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "ApiKeyHash.of",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "\"a\".repeat",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "when(apiCredentialRepository.findByKeyHash(keyHash)).thenReturn",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "when",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "apiCredentialRepository.findByKeyHash",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "Optional.of",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "new ApiCredentialApplicationService",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "Clock.fixed",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "Instant.parse",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "service.authenticateForModelListing",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "assertThat(result).isSameAs",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "assertThat",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "verify(credential).assertUsable",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_returns_credential_whitelist_when_api_key_is_active",
+          "callee": "verify",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "mock",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "UserAccountId.of",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "Instant.parse",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "when(userAccountRepository.findById(userAccountId)).thenReturn",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "when",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "Optional.of",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "when(apiCredentialRepository.findById(credentialId)).thenReturn",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "when",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "apiCredentialRepository.findById",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "Optional.of",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "new ApiCredentialApplicationService",
+          "lineNumber": 87
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "Clock.fixed",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "DeleteApiCredentialCommand.builder()\n                .ownerUserId(userAccountId)\n                .apiCredentialId(credentialId).build",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "DeleteApiCredentialCommand.builder()\n                .ownerUserId(userAccountId).apiCredentialId",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "DeleteApiCredentialCommand.builder().ownerUserId",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "DeleteApiCredentialCommand.builder",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "service.deleteCredential",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "verify(apiCredentialRepository).softDeleteById",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_soft_deletes_credential_when_owner_requests_deletion",
+          "callee": "verify",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 111
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 114
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 117
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "mock",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "UserAccountId.of",
+          "lineNumber": 119
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 120
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "Instant.parse",
+          "lineNumber": 122
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "Instant.parse",
+          "lineNumber": 123
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when(userAccountRepository.findById(userAccountId)).thenReturn",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "Optional.of",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when(apiCredentialRepository.findByOwnerUserId(userAccountId)).thenReturn",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "apiCredentialRepository.findByOwnerUserId",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "List.of",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when(credential.getId()).thenReturn",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "credential.getId",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when(usageRecordRepository.sumTotalTokensByApiCredential(credentialId)).thenReturn",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "usageRecordRepository.sumTotalTokensByApiCredential",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when(usageRecordRepository.sumActualTokensByApiCredential(credentialId)).thenReturn",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "usageRecordRepository.sumActualTokensByApiCredential",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "new BigDecimal",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when(usageRecordRepository.sumTokens(any())).thenReturn",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "when",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "usageRecordRepository.sumTokens",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "any",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "new ApiCredentialApplicationService",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "Clock.fixed",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "Instant.parse",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "service.listMyCredentialUsageViews",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "assertThat(views)\n                .extracting(\n                        ApiCredentialUsageView::consumedTokens,\n                        ApiCredentialUsageView::totalTokens,\n                        ApiCredentialUsageView::todayConsumedTokens,\n                        ApiCredentialUsageView::todayTotalTokens\n                ).containsExactly",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "assertThat(views).extracting",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "assertThat",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "tuple",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "new BigDecimal",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_returns_actual_and_total_tokens_when_listing_credentials",
+          "callee": "new BigDecimal",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 158
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 160
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 162
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 164
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "mock",
+          "lineNumber": 165
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "UserAccountId.of",
+          "lineNumber": 166
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 168
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ModelName.of",
+          "lineNumber": 169
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "Instant.parse",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ModelGroup.create",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ModelGroupName.of",
+          "lineNumber": 172
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ModelWhitelist.of",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "Set.of",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "ModelDailyLimits.of",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "Map.of",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(userAccountRepository.findById(userAccountId)).thenReturn",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "Optional.of",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(apiCredentialRepository.findByOwnerUserId(userAccountId)).thenReturn",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "apiCredentialRepository.findByOwnerUserId",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "List.of",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(modelGroupRepository.findByOwnerUserId(userAccountId)).thenReturn",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "modelGroupRepository.findByOwnerUserId",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "List.of",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(credential.getId()).thenReturn",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "credential.getId",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(credential.getModelGroupId()).thenReturn",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "credential.getModelGroupId",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(usageRecordRepository.sumActualTokensByApiCredential(credentialId)).thenReturn",
+          "lineNumber": 182
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 182
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "usageRecordRepository.sumActualTokensByApiCredential",
+          "lineNumber": 182
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(usageRecordRepository.sumTokens(any())).thenReturn",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "usageRecordRepository.sumTokens",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "any",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "UsageTokenBreakdown.zeroKnown",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when(dailyUsageService.limitedModels(credential)).thenReturn",
+          "lineNumber": 184
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "when",
+          "lineNumber": 184
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "dailyUsageService.limitedModels",
+          "lineNumber": 184
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "Set.of",
+          "lineNumber": 184
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "new ApiCredentialApplicationService",
+          "lineNumber": 185
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "Clock.fixed",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "now.minusSeconds",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "now.plusSeconds",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "service.listMyCredentialUsageViews",
+          "lineNumber": 197
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "assertThat(views.get(0).rateLimitedModels()).containsExactly",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "assertThat",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "views.get(0).rateLimitedModels",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_marks_model_rate_limited_when_group_daily_limit_is_reached",
+          "callee": "views.get",
+          "lineNumber": 200
+        }
+      ],
+      "metrics": {
+        "importCount": 19,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/credential/ModelGroupApplicationServiceTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 172,
+      "nonEmptyLines": 147,
+      "functions": [
+        {
+          "name": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "startLine": 47,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "startLine": 60,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "test_updates_effective_group_support_when_provider_availability_changes",
+          "startLine": 74,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "startLine": 91,
+          "endLine": 106,
+          "params": []
+        },
+        {
+          "name": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "startLine": 108,
+          "endLine": 120,
+          "params": []
+        },
+        {
+          "name": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "startLine": 122,
+          "endLine": 134,
+          "params": []
+        },
+        {
+          "name": "configuredGroup",
+          "startLine": 136,
+          "endLine": 139,
+          "params": []
+        },
+        {
+          "name": "test_rejects_deletion_when_group_has_bound_credentials",
+          "startLine": 141,
+          "endLine": 171,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupApplicationServiceTest",
+          "startLine": 34,
+          "endLine": 172,
+          "methods": [
+            "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+            "test_returns_empty_support_when_group_whitelist_is_empty",
+            "test_updates_effective_group_support_when_provider_availability_changes",
+            "test_preserves_saved_configuration_when_provider_support_disappears",
+            "test_serializes_no_effective_models_when_group_has_no_provider_support",
+            "test_keeps_daily_limit_status_when_provider_is_unavailable",
+            "configuredGroup",
+            "test_rejects_deletion_when_group_has_bound_credentials"
+          ],
+          "properties": [
+            "MODEL",
+            "NOW",
+            "owner",
+            "users",
+            "groups",
+            "usage",
+            "availability",
+            "clock",
+            "service"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "configuredGroup",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "when(availability.availableModels()).thenReturn",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "when",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "availability.availableModels",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "Set.of",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "ModelName.of",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "service.viewGroup",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "assertThat(view.effectiveModels()).containsExactly",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "assertThat",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_intersects_permissions_when_provider_also_supports_models_outside_group",
+          "callee": "view.effectiveModels",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "configuredGroup",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "group.update",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "group.getName",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "ModelWhitelist.empty",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "ModelDailyLimits.empty",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "when(availability.availableModels()).thenReturn",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "when",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "availability.availableModels",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "Set.of",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "service.viewGroup",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "assertThat(view.effectiveModels()).isEmpty",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "assertThat",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_returns_empty_support_when_group_whitelist_is_empty",
+          "callee": "view.effectiveModels",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "configuredGroup",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when(users.findById(owner)).thenReturn",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "users.findById",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Optional.of",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "mock",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when(groups.findAll()).thenReturn",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "groups.findAll",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "List.of",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when(availability.availableModels()).thenReturn(Set.of(MODEL)).thenReturn(Set.of()).thenReturn",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when(availability.availableModels()).thenReturn(Set.of(MODEL)).thenReturn",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when(availability.availableModels()).thenReturn",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "when",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "availability.availableModels",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Set.of",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Set.of",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Set.of",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews(owner).get(0).effectiveModels",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews(owner).get",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews(owner).get(0).effectiveModels",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews(owner).get",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews(owner).get(0).effectiveModels",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews(owner).get",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "service.listMyGroupViews",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "assertThat(List.of(before, disabled, restored)).containsExactly",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "assertThat",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "List.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Set.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Set.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_updates_effective_group_support_when_provider_availability_changes",
+          "callee": "Set.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "configuredGroup",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "when(availability.availableModels()).thenReturn",
+          "lineNumber": 95
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "when",
+          "lineNumber": 95
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "availability.availableModels",
+          "lineNumber": 95
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "Set.of",
+          "lineNumber": 95
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "new ModelGroupHttpConverter",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "new ModelDailyLimitWindow",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "converter.toResponse",
+          "lineNumber": 99
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "service.viewGroup",
+          "lineNumber": 99
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "assertThat(response.getModelWhitelist()).containsExactly",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "assertThat",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "response.getModelWhitelist",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "MODEL.value",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "assertThat(response.getModelDailyLimits()).containsExactlyEntriesOf",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "assertThat",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "response.getModelDailyLimits",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "Map.of",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "MODEL.value",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "assertThat(response.getUpdatedAt()).isEqualTo",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "assertThat",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "response.getUpdatedAt",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "verify(groups, never()).save",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "verify",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_preserves_saved_configuration_when_provider_support_disappears",
+          "callee": "never",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "configuredGroup",
+          "lineNumber": 111
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "when(availability.availableModels()).thenReturn",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "when",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "availability.availableModels",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "Set.of",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "new ModelGroupHttpConverter",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "new ModelDailyLimitWindow",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "converter.toResponse",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "service.viewGroup",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "assertThat(response.getEffectiveModels()).isEmpty",
+          "lineNumber": 119
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "assertThat",
+          "lineNumber": 119
+        },
+        {
+          "caller": "test_serializes_no_effective_models_when_group_has_no_provider_support",
+          "callee": "response.getEffectiveModels",
+          "lineNumber": 119
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "configuredGroup",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "when(availability.availableModels()).thenReturn",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "when",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "availability.availableModels",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "Set.of",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "when(usage.loadTodayUsageByGroup(owner)).thenReturn",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "when",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "usage.loadTodayUsageByGroup",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "Map.of",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "group.getId",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "Map.of",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "BigDecimal.valueOf",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "service.viewGroup",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "assertThat(view.rateLimitedModels()).containsExactly",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "assertThat",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_keeps_daily_limit_status_when_provider_is_unavailable",
+          "callee": "view.rateLimitedModels",
+          "lineNumber": 133
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "ModelGroup.create",
+          "lineNumber": 137
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 137
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "ModelGroupName.of",
+          "lineNumber": 137
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "ModelWhitelist.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "Set.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "ModelDailyLimits.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "configuredGroup",
+          "callee": "Map.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "mock",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "mock",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "mock",
+          "lineNumber": 146
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "mock",
+          "lineNumber": 147
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "UserAccountId.of",
+          "lineNumber": 148
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 149
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when(userRepository.findById(userId)).thenReturn",
+          "lineNumber": 150
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when",
+          "lineNumber": 150
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "userRepository.findById",
+          "lineNumber": 150
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "Optional.of",
+          "lineNumber": 150
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when(groupRepository.findById(groupId)).thenReturn",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "groupRepository.findById",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "Optional.of",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when(group.getId()).thenReturn",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "group.getId",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when(groupRepository.existsCredentialBinding(groupId)).thenReturn",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "when",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "groupRepository.existsCredentialBinding",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "new ModelGroupApplicationService",
+          "lineNumber": 154
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "mock",
+          "lineNumber": 157
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "mock",
+          "lineNumber": 158
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "Clock.fixed",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "Instant.parse",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "DeleteModelGroupCommand.builder()\n                .ownerUserId(userId)\n                .modelGroupId(groupId).build",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "DeleteModelGroupCommand.builder()\n                .ownerUserId(userId).modelGroupId",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "DeleteModelGroupCommand.builder().ownerUserId",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "DeleteModelGroupCommand.builder",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "assertThatThrownBy(() -> service.deleteGroup(command))\n                .isInstanceOf(BusinessException.class).hasMessage",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "assertThatThrownBy(() -> service.deleteGroup(command)).isInstanceOf",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "service.deleteGroup",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "verify(groupRepository, never()).softDeleteById",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "verify",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "never",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_rejects_deletion_when_group_has_bound_credentials",
+          "callee": "Instant.parse",
+          "lineNumber": 170
+        }
+      ],
+      "metrics": {
+        "importCount": 14,
+        "exportCount": 0,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/quota/TokenQuotaServiceTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 78,
+      "functions": [
+        {
+          "name": "arrangeCredential",
+          "startLine": 25,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "startLine": 31,
+          "endLine": 40,
+          "params": [
+            "period"
+          ]
+        },
+        {
+          "name": "test_rejects_key_when_group_budget_still_has_capacity",
+          "startLine": 42,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "test_rejects_group_when_key_budget_still_has_capacity",
+          "startLine": 54,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "test_allows_other_model_when_rule_limits_specific_model",
+          "startLine": 66,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "test_allows_request_when_consumption_is_below_limit",
+          "startLine": 77,
+          "endLine": 85,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TokenQuotaServiceTest",
+          "startLine": 18,
+          "endLine": 86,
+          "methods": [
+            "arrangeCredential",
+            "test_rejects_request_when_group_period_budget_is_exhausted",
+            "test_rejects_key_when_group_budget_still_has_capacity",
+            "test_rejects_group_when_key_budget_still_has_capacity",
+            "test_allows_other_model_when_rule_limits_specific_model",
+            "test_allows_request_when_consumption_is_below_limit"
+          ],
+          "properties": [
+            "repository",
+            "credential",
+            "service",
+            "model"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "arrangeCredential",
+          "callee": "when(credential.getId()).thenReturn",
+          "lineNumber": 27
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "when",
+          "lineNumber": 27
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "credential.getId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 27
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "when(credential.getModelGroupId()).thenReturn",
+          "lineNumber": 28
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "when",
+          "lineNumber": 28
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "credential.getModelGroupId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "arrangeCredential",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "when(repository.findApplicable(20, 10)).thenReturn",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "when",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "repository.findApplicable",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "List.of",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "when(repository.consumed(eq(rule), any())).thenReturn",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "when",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "repository.consumed",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "eq",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "any",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "assertThatThrownBy(() -> service.assertAvailable(credential, model)).isInstanceOf",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_rejects_request_when_group_period_budget_is_exhausted",
+          "callee": "service.assertAvailable",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "when(repository.findApplicable(20, 10)).thenReturn",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "when",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "repository.findApplicable",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "List.of",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "when(repository.consumed(eq(group), any())).thenReturn",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "when",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "repository.consumed",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "eq",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "any",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "when(repository.consumed(eq(key), any())).thenReturn",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "when",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "repository.consumed",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "eq",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "any",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "assertThatThrownBy(() -> service.assertAvailable(credential, model)).hasMessageContaining",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_rejects_key_when_group_budget_still_has_capacity",
+          "callee": "service.assertAvailable",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "when(repository.findApplicable(20, 10)).thenReturn",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "when",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "repository.findApplicable",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "List.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "when(repository.consumed(eq(key), any())).thenReturn",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "when",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "repository.consumed",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "eq",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "any",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "when(repository.consumed(eq(group), any())).thenReturn",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "when",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "repository.consumed",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "eq",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "any",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "assertThatThrownBy(() -> service.assertAvailable(credential, model)).hasMessageContaining",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_rejects_group_when_key_budget_still_has_capacity",
+          "callee": "service.assertAvailable",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "when(repository.findApplicable(20, 10)).thenReturn",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "when",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "repository.findApplicable",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "List.of",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "service.assertAvailable",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "verify(repository, never()).consumed",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "verify",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "never",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "any",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_allows_other_model_when_rule_limits_specific_model",
+          "callee": "any",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "when(repository.findApplicable(20, 10)).thenReturn",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "when",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "repository.findApplicable",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "List.of",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "when(repository.consumed(eq(rule), any())).thenReturn",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "when",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "repository.consumed",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "eq",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "any",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "new BigDecimal",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "assertThatCode(() -> service.assertAvailable(credential, model)).doesNotThrowAnyException",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "assertThatCode",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_allows_request_when_consumption_is_below_limit",
+          "callee": "service.assertAvailable",
+          "lineNumber": 84
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRoutingTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 243,
+      "nonEmptyLines": 224,
+      "functions": [
+        {
+          "name": "setUp",
+          "startLine": 68,
+          "endLine": 96,
+          "params": []
+        },
+        {
+          "name": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "startLine": 98,
+          "endLine": 108,
+          "params": []
+        },
+        {
+          "name": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "startLine": 110,
+          "endLine": 121,
+          "params": []
+        },
+        {
+          "name": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "startLine": 123,
+          "endLine": 132,
+          "params": []
+        },
+        {
+          "name": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "startLine": 134,
+          "endLine": 146,
+          "params": []
+        },
+        {
+          "name": "test_settles_original_image_usage_when_generation_completes",
+          "startLine": 148,
+          "endLine": 156,
+          "params": []
+        },
+        {
+          "name": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "startLine": 158,
+          "endLine": 165,
+          "params": []
+        },
+        {
+          "name": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "startLine": 167,
+          "endLine": 175,
+          "params": []
+        },
+        {
+          "name": "test_cancels_reservation_when_image_stream_is_truncated",
+          "startLine": 177,
+          "endLine": 187,
+          "params": []
+        },
+        {
+          "name": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "startLine": 189,
+          "endLine": 201,
+          "params": []
+        },
+        {
+          "name": "invoke",
+          "startLine": 203,
+          "endLine": 205,
+          "params": [
+            "stream"
+          ]
+        },
+        {
+          "name": "invoke",
+          "startLine": 207,
+          "endLine": 214,
+          "params": [
+            "stream",
+            "expectedStatus"
+          ]
+        },
+        {
+          "name": "credential",
+          "startLine": 216,
+          "endLine": 223,
+          "params": [
+            "allowImages",
+            "limit"
+          ]
+        },
+        {
+          "name": "channel",
+          "startLine": 225,
+          "endLine": 232,
+          "params": [
+            "id",
+            "priority"
+          ]
+        },
+        {
+          "name": "definition",
+          "startLine": 234,
+          "endLine": 238,
+          "params": []
+        },
+        {
+          "name": "mapping",
+          "startLine": 240,
+          "endLine": 242,
+          "params": [
+            "direction"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImageRoutingTest",
+          "startLine": 58,
+          "endLine": 243,
+          "methods": [
+            "setUp",
+            "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+            "test_skips_channel_routing_when_group_budget_is_exhausted",
+            "test_uses_native_images_route_when_only_images_conversion_is_registered",
+            "test_fails_over_to_second_image_channel_when_first_returns_503",
+            "test_settles_original_image_usage_when_generation_completes",
+            "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+            "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+            "test_cancels_reservation_when_image_stream_is_truncated",
+            "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+            "invoke",
+            "invoke",
+            "credential",
+            "channel",
+            "definition",
+            "mapping"
+          ],
+          "properties": [
+            "NOW",
+            "json",
+            "upstream",
+            "usage",
+            "channels",
+            "credentials",
+            "bridge",
+            "quotas"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setUp",
+          "callee": "Clock.fixed",
+          "lineNumber": 70
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GatewayApiKeyHashHelper",
+          "lineNumber": 71
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GatewayIdentifierHelper",
+          "lineNumber": 72
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(credentials.findByKeyHash(any())).thenReturn",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "credentials.findByKeyHash",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "any",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "Optional.of",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "credential",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "TokenLimit.unlimited",
+          "lineNumber": 73
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(usage.sumActualTokensByApiCredential(any())).thenReturn",
+          "lineNumber": 74
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 74
+        },
+        {
+          "caller": "setUp",
+          "callee": "usage.sumActualTokensByApiCredential",
+          "lineNumber": 74
+        },
+        {
+          "caller": "setUp",
+          "callee": "any",
+          "lineNumber": 74
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(channels.findEnabledForRouting()).thenReturn",
+          "lineNumber": 75
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 75
+        },
+        {
+          "caller": "setUp",
+          "callee": "channels.findEnabledForRouting",
+          "lineNumber": 75
+        },
+        {
+          "caller": "setUp",
+          "callee": "List.of",
+          "lineNumber": 75
+        },
+        {
+          "caller": "setUp",
+          "callee": "channel",
+          "lineNumber": 75
+        },
+        {
+          "caller": "setUp",
+          "callee": "channel",
+          "lineNumber": 75
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 76
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(definitions.findAll()).thenReturn",
+          "lineNumber": 77
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 77
+        },
+        {
+          "caller": "setUp",
+          "callee": "definitions.findAll",
+          "lineNumber": 77
+        },
+        {
+          "caller": "setUp",
+          "callee": "List.of",
+          "lineNumber": 77
+        },
+        {
+          "caller": "setUp",
+          "callee": "definition",
+          "lineNumber": 77
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 78
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(transactions.getTransaction(any())).thenReturn",
+          "lineNumber": 79
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 79
+        },
+        {
+          "caller": "setUp",
+          "callee": "transactions.getTransaction",
+          "lineNumber": 79
+        },
+        {
+          "caller": "setUp",
+          "callee": "any",
+          "lineNumber": 79
+        },
+        {
+          "caller": "setUp",
+          "callee": "new SimpleTransactionStatus",
+          "lineNumber": 79
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(quotas.lockCredential(any())).thenAnswer",
+          "lineNumber": 80
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 80
+        },
+        {
+          "caller": "setUp",
+          "callee": "quotas.lockCredential",
+          "lineNumber": 80
+        },
+        {
+          "caller": "setUp",
+          "callee": "any",
+          "lineNumber": 80
+        },
+        {
+          "caller": "setUp",
+          "callee": "call.getArgument",
+          "lineNumber": 80
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GatewayInvocationApplicationService",
+          "lineNumber": 81
+        },
+        {
+          "caller": "setUp",
+          "callee": "new DefaultRoutingPolicyService",
+          "lineNumber": 83
+        },
+        {
+          "caller": "setUp",
+          "callee": "new DefaultProtocolConversionServiceAdapter",
+          "lineNumber": 84
+        },
+        {
+          "caller": "setUp",
+          "callee": "List.of",
+          "lineNumber": 84
+        },
+        {
+          "caller": "setUp",
+          "callee": "List.of",
+          "lineNumber": 84
+        },
+        {
+          "caller": "setUp",
+          "callee": "new OpenAIImagesUsageExtractor",
+          "lineNumber": 84
+        },
+        {
+          "caller": "setUp",
+          "callee": "new DefaultGatewayInvocationService",
+          "lineNumber": 85
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 85
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 86
+        },
+        {
+          "caller": "setUp",
+          "callee": "new JsonMultipartFormPayloadCodec",
+          "lineNumber": 87
+        },
+        {
+          "caller": "setUp",
+          "callee": "new ResponsesImageBridge",
+          "lineNumber": 88
+        },
+        {
+          "caller": "setUp",
+          "callee": "new ResponsesImagePayloadMapper",
+          "lineNumber": 88
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GatewayRequestMapper",
+          "lineNumber": 89
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GatewayInvocationResponseMapper",
+          "lineNumber": 90
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GatewayProtocolErrorBodyBuilder",
+          "lineNumber": 90
+        },
+        {
+          "caller": "setUp",
+          "callee": "new ProtocolContractRegistry",
+          "lineNumber": 91
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 91
+        },
+        {
+          "caller": "setUp",
+          "callee": "new StreamingPassthroughUsageExtractor",
+          "lineNumber": 92
+        },
+        {
+          "caller": "setUp",
+          "callee": "when(upstream.forward(any(), anyString(), anyBoolean(), any())).thenReturn",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "when",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "upstream.forward",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "any",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "anyString",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "anyBoolean",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "any",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "ProviderGatewayResponse.of",
+          "lineNumber": 93
+        },
+        {
+          "caller": "setUp",
+          "callee": "Map.of",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "when(upstream.forward(any(), anyString(), anyBoolean(), any())).thenReturn",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "when",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "upstream.forward",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "any",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "anyString",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "anyBoolean",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "any",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "ProviderGatewayResponse.of",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "Map.of",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "invoke",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "verify(channels, org.mockito.Mockito.never()).markModelRateLimited",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "verify",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "org.mockito.Mockito.never",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "any",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "any",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "any",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_keeps_channel_available_when_upstream_returns_user_concurrency_limit",
+          "callee": "any",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "new com.api2api.domain.quota.TokenQuotaRule",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "org.mockito.Mockito.doThrow(new com.api2api.application.quota.TokenQuotaExceededException(rule, NOW.plusSeconds(60)))\n                .when(quotas).assertAvailable",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "org.mockito.Mockito.doThrow(new com.api2api.application.quota.TokenQuotaExceededException(rule, NOW.plusSeconds(60))).when",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "org.mockito.Mockito.doThrow",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "new com.api2api.application.quota.TokenQuotaExceededException",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "NOW.plusSeconds",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "any",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "any",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "org.assertj.core.api.Assertions.assertThatThrownBy(() -> invoke(false)).isInstanceOf",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "org.assertj.core.api.Assertions.assertThatThrownBy",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "invoke",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_skips_channel_routing_when_group_budget_is_exhausted",
+          "callee": "org.mockito.Mockito.verifyNoInteractions",
+          "lineNumber": 120
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "invoke",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "verify(upstream).forward",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "verify",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "route.capture",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "anyString",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "eq",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "any",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "assertThat(route.getValue().clientProtocol()).isEqualTo",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "assertThat",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "route.getValue().clientProtocol",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "route.getValue",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "assertThat(route.getValue().upstreamProtocol()).isEqualTo",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "assertThat",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "route.getValue().upstreamProtocol",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_uses_native_images_route_when_only_images_conversion_is_registered",
+          "callee": "route.getValue",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "when(upstream.forward(any(), anyString(), anyBoolean(), any()))\n                .thenReturn(ProviderGatewayResponse.of(ProtocolType.OPENAI_IMAGES, 503, Map.of(), \"{\\\"error\\\":{\\\"message\\\":\\\"Busy\\\"}}\", false)).thenReturn",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "when(upstream.forward(any(), anyString(), anyBoolean(), any())).thenReturn",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "when",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "upstream.forward",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "any",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "anyString",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "anyBoolean",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "any",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "ProviderGatewayResponse.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "Map.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "ProviderGatewayResponse.of",
+          "lineNumber": 139
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "Map.of",
+          "lineNumber": 139
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "invoke",
+          "lineNumber": 141
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 143
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "verify(upstream, times(2)).forward",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "verify",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "times",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "route.capture",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "anyString",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "eq",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "any",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "assertThat(route.getAllValues()).extracting(candidate -> candidate.providerChannelId().value()).containsExactly",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "assertThat(route.getAllValues()).extracting",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "assertThat",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "route.getAllValues",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "candidate.providerChannelId().value",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_fails_over_to_second_image_channel_when_first_returns_503",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "invoke",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "verify(usage).update",
+          "lineNumber": 154
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "verify",
+          "lineNumber": 154
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "record.capture",
+          "lineNumber": 154
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "assertThat(record.getValue().tokenUsage().totalTokens()).isEqualTo",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "assertThat",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "record.getValue().tokenUsage().totalTokens",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "record.getValue().tokenUsage",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_settles_original_image_usage_when_generation_completes",
+          "callee": "record.getValue",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "when(credentials.findByKeyHash(any())).thenReturn",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "when",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "credentials.findByKeyHash",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "any",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "Optional.of",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "credential",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "TokenLimit.unlimited",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "assertThatThrownBy(() -> invoke(false)).isInstanceOf(IllegalStateException.class).hasMessageContaining",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "assertThatThrownBy(() -> invoke(false)).isInstanceOf",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "invoke",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_denies_image_model_before_transport_when_key_only_allows_main_model",
+          "callee": "verifyNoInteractions",
+          "lineNumber": 164
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "when(credentials.findByKeyHash(any())).thenReturn",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "when",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "credentials.findByKeyHash",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "any",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "Optional.of",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "credential",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "TokenLimit.of",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "when(usage.sumActualTokensByApiCredential(any())).thenReturn",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "when",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "usage.sumActualTokensByApiCredential",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "any",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "BigDecimal.valueOf",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "assertThatThrownBy(() -> invoke(false)).isInstanceOf(IllegalStateException.class).hasMessageContaining",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "assertThatThrownBy(() -> invoke(false)).isInstanceOf",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "invoke",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_denies_exhausted_quota_before_transport_when_bridged_image_starts",
+          "callee": "verifyNoInteractions",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "when(upstream.openStream(any(), anyString(), any())).thenReturn",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "when",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "upstream.openStream",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "any",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "anyString",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "any",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "ProviderStreamingResponse.of",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "Map.of",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "\"data: {}\\n\\n\".getBytes",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "((StreamingResponseBody) invoke(true)).writeTo",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "invoke",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "verify(usage).cancelReservation",
+          "lineNumber": 185
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "verify",
+          "lineNumber": 185
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "any",
+          "lineNumber": 185
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "verify(usage, never()).update",
+          "lineNumber": 186
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "verify",
+          "lineNumber": 186
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "never",
+          "lineNumber": 186
+        },
+        {
+          "caller": "test_cancels_reservation_when_image_stream_is_truncated",
+          "callee": "any",
+          "lineNumber": 186
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "when(upstream.openStream(any(), anyString(), any())).thenReturn",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "when",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "upstream.openStream",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "any",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "anyString",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "any",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "ProviderStreamingResponse.of",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "Map.of",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "(\"data: {\\\"type\\\":\\\"image_generation.completed\\\",\"\n                + \"\\\"b64_json\\\":\\\"aW1hZ2U=\\\",\\\"usage\\\":{\\\"input_tokens\\\":10,\\\"output_tokens\\\":20}}\\n\\n\").getBytes",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "((StreamingResponseBody) invoke(true)).writeTo",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "invoke",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 198
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "verify(usage).update",
+          "lineNumber": 199
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "verify",
+          "lineNumber": 199
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "record.capture",
+          "lineNumber": 199
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "assertThat(record.getValue().tokenUsage().totalTokens()).isEqualTo",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "assertThat",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "record.getValue().tokenUsage().totalTokens",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "record.getValue().tokenUsage",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_records_stream_usage_when_images_send_completion_data_without_event_header",
+          "callee": "record.getValue",
+          "lineNumber": 200
+        },
+        {
+          "caller": "invoke",
+          "callee": "invoke",
+          "lineNumber": 204
+        },
+        {
+          "caller": "invoke",
+          "callee": "bridge.tryHandle(request, \"Bearer test-key\", null, null,\n                InboundRequestContext.empty(), new MockHttpServletResponse()).orElseThrow",
+          "lineNumber": 210
+        },
+        {
+          "caller": "invoke",
+          "callee": "bridge.tryHandle",
+          "lineNumber": 210
+        },
+        {
+          "caller": "invoke",
+          "callee": "InboundRequestContext.empty",
+          "lineNumber": 211
+        },
+        {
+          "caller": "invoke",
+          "callee": "new MockHttpServletResponse",
+          "lineNumber": 211
+        },
+        {
+          "caller": "invoke",
+          "callee": "assertThat(entity.getStatusCode().value()).isEqualTo",
+          "lineNumber": 212
+        },
+        {
+          "caller": "invoke",
+          "callee": "assertThat",
+          "lineNumber": 212
+        },
+        {
+          "caller": "invoke",
+          "callee": "entity.getStatusCode().value",
+          "lineNumber": 212
+        },
+        {
+          "caller": "invoke",
+          "callee": "entity.getStatusCode",
+          "lineNumber": 212
+        },
+        {
+          "caller": "credential",
+          "callee": "Set.of",
+          "lineNumber": 218
+        },
+        {
+          "caller": "credential",
+          "callee": "com.api2api.domain.credential.model.ModelName.of",
+          "lineNumber": 218
+        },
+        {
+          "caller": "credential",
+          "callee": "com.api2api.domain.credential.model.ModelName.of",
+          "lineNumber": 218
+        },
+        {
+          "caller": "credential",
+          "callee": "Set.of",
+          "lineNumber": 219
+        },
+        {
+          "caller": "credential",
+          "callee": "com.api2api.domain.credential.model.ModelName.of",
+          "lineNumber": 219
+        },
+        {
+          "caller": "credential",
+          "callee": "ApiCredential.create",
+          "lineNumber": 220
+        },
+        {
+          "caller": "credential",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 220
+        },
+        {
+          "caller": "credential",
+          "callee": "UserAccountId.of",
+          "lineNumber": 220
+        },
+        {
+          "caller": "credential",
+          "callee": "ApiCredentialName.of",
+          "lineNumber": 220
+        },
+        {
+          "caller": "credential",
+          "callee": "new GatewayApiKeyHashHelper().hashBearerToken",
+          "lineNumber": 221
+        },
+        {
+          "caller": "credential",
+          "callee": "new GatewayApiKeyHashHelper",
+          "lineNumber": 221
+        },
+        {
+          "caller": "credential",
+          "callee": "ApiKeyPreview.of",
+          "lineNumber": 221
+        },
+        {
+          "caller": "credential",
+          "callee": "EncryptedApiKeyMaterial.unavailable",
+          "lineNumber": 222
+        },
+        {
+          "caller": "credential",
+          "callee": "ModelGroupId.of",
+          "lineNumber": 222
+        },
+        {
+          "caller": "credential",
+          "callee": "ModelWhitelist.of",
+          "lineNumber": 222
+        },
+        {
+          "caller": "channel",
+          "callee": "ProviderChannel.rehydrate",
+          "lineNumber": 226
+        },
+        {
+          "caller": "channel",
+          "callee": "ProviderChannelId.of",
+          "lineNumber": 226
+        },
+        {
+          "caller": "channel",
+          "callee": "ProviderChannelName.of",
+          "lineNumber": 226
+        },
+        {
+          "caller": "channel",
+          "callee": "ProviderHost.of",
+          "lineNumber": 227
+        },
+        {
+          "caller": "channel",
+          "callee": "ProviderKeyRef.of",
+          "lineNumber": 227
+        },
+        {
+          "caller": "channel",
+          "callee": "Set.of",
+          "lineNumber": 228
+        },
+        {
+          "caller": "channel",
+          "callee": "ChannelProtocolMapping.of",
+          "lineNumber": 228
+        },
+        {
+          "caller": "channel",
+          "callee": "List.of",
+          "lineNumber": 229
+        },
+        {
+          "caller": "channel",
+          "callee": "ChannelModelSupport.create",
+          "lineNumber": 229
+        },
+        {
+          "caller": "channel",
+          "callee": "ChannelModelSupportId.of",
+          "lineNumber": 229
+        },
+        {
+          "caller": "channel",
+          "callee": "ModelName.of",
+          "lineNumber": 229
+        },
+        {
+          "caller": "channel",
+          "callee": "ModelName.of",
+          "lineNumber": 229
+        },
+        {
+          "caller": "channel",
+          "callee": "RoutePriority.of",
+          "lineNumber": 230
+        },
+        {
+          "caller": "definition",
+          "callee": "ProtocolConversionDefinition.create",
+          "lineNumber": 235
+        },
+        {
+          "caller": "definition",
+          "callee": "ProtocolConversionDefinitionId.of",
+          "lineNumber": 235
+        },
+        {
+          "caller": "definition",
+          "callee": "ConversionCapability.of",
+          "lineNumber": 236
+        },
+        {
+          "caller": "definition",
+          "callee": "Set.of",
+          "lineNumber": 236
+        },
+        {
+          "caller": "definition",
+          "callee": "mapping",
+          "lineNumber": 237
+        },
+        {
+          "caller": "definition",
+          "callee": "mapping",
+          "lineNumber": 237
+        },
+        {
+          "caller": "mapping",
+          "callee": "MappingDocument.of",
+          "lineNumber": 241
+        },
+        {
+          "caller": "mapping",
+          "callee": "List.of",
+          "lineNumber": 241
+        },
+        {
+          "caller": "mapping",
+          "callee": "FieldMapping.of",
+          "lineNumber": 241
+        }
+      ],
+      "metrics": {
+        "importCount": 25,
+        "exportCount": 0,
+        "functionCount": 16,
+        "classCount": 1
+      }
+    }
+  ]
+}

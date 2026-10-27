@@ -1,0 +1,191 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "ProtocolMetadataDetailModal",
+          "startLine": 11,
+          "endLine": 32,
+          "params": [
+            "{\n  protocolType,\n  open,\n  onClose,\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolMetadataDetailModal",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 76,
+      "functions": [
+        {
+          "name": "ProtocolMetadataDetailPanel",
+          "startLine": 11,
+          "endLine": 84,
+          "params": [
+            "{ protocolType }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolMetadataDetailPanel",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolMetadataDetailPanel",
+          "callee": "useProtocolMetadataDetail",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ProtocolMetadataDetailPanel",
+          "callee": "refetch",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProtocolMetadataDetailPanel",
+          "callee": "getProtocolMeta",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProtocolMetadataDetailPanel",
+          "callee": "detail.sections.slice(0, 3).map",
+          "lineNumber": 70
+        },
+        {
+          "caller": "ProtocolMetadataDetailPanel",
+          "callee": "detail.sections.slice",
+          "lineNumber": 70
+        },
+        {
+          "caller": "ProtocolMetadataDetailPanel",
+          "callee": "detail.sections.map",
+          "lineNumber": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataOverviewPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "ProtocolMetadataOverviewPanel",
+          "startLine": 7,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolMetadataOverviewPanel",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolMetadataOverviewPanel",
+          "callee": "useProtocolMetadataList",
+          "lineNumber": 8
+        },
+        {
+          "caller": "ProtocolMetadataOverviewPanel",
+          "callee": "useSearchParams",
+          "lineNumber": 9
+        },
+        {
+          "caller": "ProtocolMetadataOverviewPanel",
+          "callee": "searchParams.get",
+          "lineNumber": 10
+        },
+        {
+          "caller": "handleProtocolSelect",
+          "callee": "nextParams.set",
+          "lineNumber": 14
+        },
+        {
+          "caller": "handleProtocolSelect",
+          "callee": "setSearchParams",
+          "lineNumber": 15
+        },
+        {
+          "caller": "handleModalClose",
+          "callee": "nextParams.delete",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleModalClose",
+          "callee": "setSearchParams",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ProtocolMetadataOverviewPanel",
+          "callee": "refetch",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ProtocolMetadataOverviewPanel",
+          "callee": "protocols.map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ProtocolMetadataOverviewPanel",
+          "callee": "handleProtocolSelect",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

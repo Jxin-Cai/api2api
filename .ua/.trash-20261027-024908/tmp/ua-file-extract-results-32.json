@@ -1,0 +1,220 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/login-by-username/api/loginApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "loginByUsername",
+          "startLine": 7,
+          "endLine": 9,
+          "params": [
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "loginByUsername",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "loginByUsername",
+          "callee": "apiClient.post",
+          "lineNumber": 8
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/login-by-username/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/login-by-username/model/useLoginByUsername.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "useLoginByUsername",
+          "startLine": 7,
+          "endLine": 18,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useLoginByUsername",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useLoginByUsername",
+          "callee": "useQueryClient",
+          "lineNumber": 8
+        },
+        {
+          "caller": "useLoginByUsername",
+          "callee": "useMutation",
+          "lineNumber": 9
+        },
+        {
+          "caller": "useLoginByUsername",
+          "callee": "loginByUsername",
+          "lineNumber": 11
+        },
+        {
+          "caller": "useLoginByUsername",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/login-by-username/ui/LoginForm.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 90,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "getLandingPath",
+          "startLine": 10,
+          "endLine": 15,
+          "params": [
+            "role",
+            "redirect"
+          ]
+        },
+        {
+          "name": "LoginForm",
+          "startLine": 17,
+          "endLine": 90,
+          "params": [
+            "{ onSuccess }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoginForm",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getLandingPath",
+          "callee": "redirect.startsWith",
+          "lineNumber": 11
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useNavigate",
+          "lineNumber": 18
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useSearchParams",
+          "lineNumber": 19
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "App.useApp",
+          "lineNumber": 20
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useLoginByUsername",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "mutation.mutateAsync",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "values.username.trim",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "onSuccess",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "navigate",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "getLandingPath",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "searchParams.get",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleFinish",
+          "callee": "notification.error",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

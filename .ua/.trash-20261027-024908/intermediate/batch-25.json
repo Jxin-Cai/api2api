@@ -1,0 +1,450 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "type": "file",
+      "name": "usageRecordApi.ts",
+      "filePath": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "summary": "封装个人与管理员用量分页查询，清洗正整数标识、ISO 时间和空筛选项，将后端记录、分页与筛选汇总转换为前端契约。",
+      "tags": [
+        "api-客户端",
+        "用量记录",
+        "查询规范化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:toBackendParams",
+      "type": "function",
+      "name": "toBackendParams",
+      "filePath": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "lineRange": [
+        51,
+        66
+      ],
+      "summary": "清理可选筛选值并转换为后端字段名，无效时间区间不传入查询。",
+      "tags": [
+        "api-客户端",
+        "用量记录",
+        "查询规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:toFrontendPage",
+      "type": "function",
+      "name": "toFrontendPage",
+      "filePath": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "lineRange": [
+        68,
+        88
+      ],
+      "summary": "规范化分页与记录，并使用后端全筛选范围 Token 汇总构建总量和平均值所需数据。",
+      "tags": [
+        "api-客户端",
+        "用量记录",
+        "查询规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryUsageRecords",
+      "type": "function",
+      "name": "queryUsageRecords",
+      "filePath": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "lineRange": [
+        90,
+        99
+      ],
+      "summary": "按指定范围接口查询后端页，并保留响应信封同时转换数据。",
+      "tags": [
+        "api-客户端",
+        "用量记录",
+        "查询规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryMyUsageRecords",
+      "type": "function",
+      "name": "queryMyUsageRecords",
+      "filePath": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "lineRange": [
+        101,
+        105
+      ],
+      "summary": "在usageRecordApi中执行 queryMyUsageRecords 操作。协调 queryUsageRecords 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "用量记录",
+        "查询规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryAdminUsageRecords",
+      "type": "function",
+      "name": "queryAdminUsageRecords",
+      "filePath": "frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "lineRange": [
+        107,
+        111
+      ],
+      "summary": "在usageRecordApi中执行 queryAdminUsageRecords 操作。协调 queryUsageRecords 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "用量记录",
+        "查询规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/usage-record/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/entities/usage-record/model/types.ts",
+      "summary": "定义用量记录、筛选、分页及汇总类型，区分用户与管理员可见字段，包含 Token 明细、首字及总耗时、请求 IP 和诊断。",
+      "tags": [
+        "类型定义",
+        "用量记录",
+        "分页契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "type": "file",
+      "name": "useUsageRecords.ts",
+      "filePath": "frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "summary": "根据个人或管理员范围选择用量查询接口，将范围与筛选对象纳入 React Query 缓存键并返回分页结果。",
+      "tags": [
+        "react-hook",
+        "用量查询",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/model/useUsageRecords.ts:useUsageRecords",
+      "type": "function",
+      "name": "useUsageRecords",
+      "filePath": "frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "lineRange": [
+        18,
+        30
+      ],
+      "summary": "初始化 useUsageRecords 的状态并建立构造约束。",
+      "tags": [
+        "react-hook",
+        "用量查询",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "type": "file",
+      "name": "UsageRecordStatusTag.tsx",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "summary": "将成功、处理中和失败等调用状态渲染为颜色标签，并兼容未知状态。",
+      "tags": [
+        "react-组件",
+        "请求状态",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:statusMeta",
+      "type": "function",
+      "name": "statusMeta",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "lineRange": [
+        8,
+        20
+      ],
+      "summary": "在UsageRecordStatusTag中执行 statusMeta 操作。协调 status.toUpperCase 等调用处理输入与状态。",
+      "tags": [
+        "react-组件",
+        "请求状态",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:UsageRecordStatusTag",
+      "type": "function",
+      "name": "UsageRecordStatusTag",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "lineRange": [
+        22,
+        29
+      ],
+      "summary": "初始化 UsageRecordStatusTag 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "请求状态",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "type": "file",
+      "name": "UsageRecordTable.tsx",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "summary": "按个人或管理员范围展示分页用量记录与 Token 明细，管理员附加用户、IP、渠道列及可展开诊断。",
+      "tags": [
+        "react-组件",
+        "用量记录",
+        "分页表格"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx:UsageRecordTable",
+      "type": "function",
+      "name": "UsageRecordTable",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "lineRange": [
+        27,
+        84
+      ],
+      "summary": "初始化 UsageRecordTable 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "用量记录",
+        "分页表格"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "type": "file",
+      "name": "UsageTokenSummary.tsx",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "summary": "展示当前筛选范围的实际与总 Token、记录总量和每条均值，处理缺省与非法数值并提供加载骨架和可访问性提示。",
+      "tags": [
+        "react-组件",
+        "用量汇总",
+        "筛选统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx:UsageTokenSummary",
+      "type": "function",
+      "name": "UsageTokenSummary",
+      "filePath": "frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "lineRange": [
+        29,
+        104
+      ],
+      "summary": "初始化 UsageTokenSummary 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "用量汇总",
+        "筛选统计"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:toBackendParams",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:toFrontendPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryMyUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryMyUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryAdminUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryAdminUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "target": "file:frontend/src/entities/usage-record/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "target": "function:frontend/src/entities/usage-record/model/useUsageRecords.ts:useUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "target": "function:frontend/src/entities/usage-record/model/useUsageRecords.ts:useUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "target": "file:frontend/src/entities/usage-record/api/usageRecordApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/model/useUsageRecords.ts",
+      "target": "file:frontend/src/entities/usage-record/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:statusMeta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:UsageRecordStatusTag",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:UsageRecordStatusTag",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx:UsageRecordTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx:UsageRecordTable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "target": "file:frontend/src/entities/usage-record/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageRecordTable.tsx",
+      "target": "file:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx:UsageTokenSummary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx:UsageTokenSummary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "target": "file:frontend/src/entities/usage-record/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/usage-record/ui/UsageTokenSummary.tsx",
+      "target": "file:frontend/src/entities/usage-record/ui/UsageTokenSummary.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryUsageRecords",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:toBackendParams",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryUsageRecords",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:toFrontendPage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryMyUsageRecords",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryUsageRecords",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryAdminUsageRecords",
+      "target": "function:frontend/src/entities/usage-record/api/usageRecordApi.ts:queryUsageRecords",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:UsageRecordStatusTag",
+      "target": "function:frontend/src/entities/usage-record/ui/UsageRecordStatusTag.tsx:statusMeta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,1165 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "type": "file",
+      "name": "GatewayInvocationResponseMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "将网关领域调用结果和可选原始上游响应映射为 HTTP 输出；同协议保留上游状态、正文和响应头，跨协议错误转换为对应错误体，并根据最后一次路由失败映射限流或超时状态。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:GatewayInvocationResponseMapper",
+      "type": "class",
+      "name": "GatewayInvocationResponseMapper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        30,
+        256
+      ],
+      "summary": "将网关领域调用结果和可选原始上游响应映射为 HTTP 输出；同协议保留上游状态、正文和响应头，跨协议错误转换为对应错误体，并根据最后一次路由失败映射限流或超时状态。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "type": "function",
+      "name": "toRawResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "根据领域调用状态与原始上游响应选择透传、协议转换或合成错误响应，并保留上游限流元数据。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderResponse",
+      "type": "function",
+      "name": "mapProviderResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        89,
+        98
+      ],
+      "summary": "将上游正文、状态、响应头和内容类型映射为网关原始响应。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "type": "function",
+      "name": "mapProviderFailure",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        100,
+        114
+      ],
+      "summary": "同协议上游错误原样返回，跨协议时按客户端格式重建错误体并保留状态和头。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:upstreamErrorMessage",
+      "type": "function",
+      "name": "upstreamErrorMessage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        116,
+        137
+      ],
+      "summary": "从 error.message、message、detail 或 error 提取上游原因，非 JSON 错误保持原文。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeUpstreamErrorBody",
+      "type": "function",
+      "name": "buildClaudeUpstreamErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        139,
+        149
+      ],
+      "summary": "将上游 HTTP 状态映射为 Messages 错误类型。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapSuccessResponse",
+      "type": "function",
+      "name": "mapSuccessResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        156,
+        173
+      ],
+      "summary": "要求存在非空响应转换结果，并按调用是否流式选择 JSON 或 SSE 内容类型。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapFailureResponse",
+      "type": "function",
+      "name": "mapFailureResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        175,
+        191
+      ],
+      "summary": "根据领域错误映射状态与协议错误体，并保留失败尝试的上游响应头。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorToHttpStatus",
+      "type": "function",
+      "name": "mapErrorToHttpStatus",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        193,
+        208
+      ],
+      "summary": "结合调用错误类别与最后路由失败区分认证、限流、超时、不可用和网关错误。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeErrorBody",
+      "type": "function",
+      "name": "buildClaudeErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        218,
+        230
+      ],
+      "summary": "按认证、权限、限额、转换或上游失败生成 Messages 错误对象。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorTypeToOpenAIType",
+      "type": "function",
+      "name": "mapErrorTypeToOpenAIType",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "lineRange": [
+        236,
+        246
+      ],
+      "summary": "将领域错误转换为 OpenAI 兼容错误类型，区分上游限流。",
+      "tags": [
+        "HTTP",
+        "响应映射",
+        "错误处理",
+        "网关"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "type": "file",
+      "name": "GatewayProtocolException.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "summary": "封装客户端协议、HTTP 状态与错误类型的网关运行时异常，并提供无效请求工厂方法。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:GatewayProtocolException",
+      "type": "class",
+      "name": "GatewayProtocolException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "lineRange": [
+        11,
+        39
+      ],
+      "summary": "封装客户端协议、HTTP 状态与错误类型的网关运行时异常，并提供无效请求工厂方法。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:GatewayProtocolException",
+      "type": "function",
+      "name": "GatewayProtocolException",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "lineRange": [
+        17,
+        22
+      ],
+      "summary": "构造携带客户端协议、HTTP 状态和错误类型的网关异常。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:badRequest",
+      "type": "function",
+      "name": "badRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "lineRange": [
+        24,
+        26
+      ],
+      "summary": "创建指定协议的 HTTP 400 无效请求异常。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:protocol",
+      "type": "function",
+      "name": "protocol",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "lineRange": [
+        28,
+        30
+      ],
+      "summary": "读取异常对应的客户端协议。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:status",
+      "type": "function",
+      "name": "status",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "lineRange": [
+        32,
+        34
+      ],
+      "summary": "读取异常应返回的 HTTP 状态。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:errorType",
+      "type": "function",
+      "name": "errorType",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "读取异常对应的协议错误类型。",
+      "tags": [
+        "异常模型",
+        "HTTP",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "type": "file",
+      "name": "GatewayStreamingResponseMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "summary": "将网关流式调用转换为 StreamingResponseBody，按是否跨协议选择转换或透传并提取用量；跟踪首个语义 Token，区分客户端断连与上游中断并完成调用计量。",
+      "tags": [
+        "流式传输",
+        "SSE",
+        "协议适配",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:GatewayStreamingResponseMapper",
+      "type": "class",
+      "name": "GatewayStreamingResponseMapper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "lineRange": [
+        28,
+        199
+      ],
+      "summary": "将网关流式调用转换为 StreamingResponseBody，按是否跨协议选择转换或透传并提取用量；跟踪首个语义 Token，区分客户端断连与上游中断并完成调用计量。",
+      "tags": [
+        "流式传输",
+        "SSE",
+        "协议适配",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:toResponseBody",
+      "type": "function",
+      "name": "toResponseBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "lineRange": [
+        41,
+        130
+      ],
+      "summary": "创建流式回调，跟踪首语义 Token，转换或透传上游内容并提取用量；区分断连、I/O 和运行时失败并完成调用。",
+      "tags": [
+        "流式传输",
+        "SSE",
+        "协议适配",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:writeStreamingError",
+      "type": "function",
+      "name": "writeStreamingError",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "lineRange": [
+        136,
+        176
+      ],
+      "summary": "按 Messages、Responses、Chat 或图像协议写入 SSE 错误帧，写入失败时将其附加为原 I/O 异常的 suppressed 原因。",
+      "tags": [
+        "流式传输",
+        "SSE",
+        "协议适配",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:applyHeaders",
+      "type": "function",
+      "name": "applyHeaders",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "lineRange": [
+        178,
+        197
+      ],
+      "summary": "应用上游状态与允许的响应头，按是否转换选择 SSE 内容类型并关闭代理缓冲。",
+      "tags": [
+        "流式传输",
+        "SSE",
+        "协议适配",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "type": "file",
+      "name": "ResponsesImageBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "summary": "将带 image_generation 工具的 Responses 请求桥接为图像规划、图像调用与最终封套，处理工具选择、图像预算、上游协议支持、计量和 SSE 输出。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:ResponsesImageBridge",
+      "type": "class",
+      "name": "ResponsesImageBridge",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        41,
+        295
+      ],
+      "summary": "将带 image_generation 工具的 Responses 请求桥接为图像规划、图像调用与最终封套，处理工具选择、图像预算、上游协议支持、计量和 SSE 输出。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:ResponsesImageBridge",
+      "type": "function",
+      "name": "ResponsesImageBridge",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        55,
+        71
+      ],
+      "summary": "注入网关调用、请求解析、图像字段和输出封套等桥接依赖。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:tryHandle",
+      "type": "function",
+      "name": "tryHandle",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        73,
+        135
+      ],
+      "summary": "判断图像桥接是否适用并执行接口与协议校验，按工具选择进入规划或强制执行，处理流式和非流式响应。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:execute",
+      "type": "function",
+      "name": "execute",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        137,
+        171
+      ],
+      "summary": "执行规划返回的图像调用，检查预算和工具调用类型，再组合图像结果与规划文本。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:generate",
+      "type": "function",
+      "name": "generate",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        173,
+        190
+      ],
+      "summary": "使用请求覆盖字段和图像输入构建生成或编辑命令，按原生图像操作执行并计量结果。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:streamImage",
+      "type": "function",
+      "name": "streamImage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        192,
+        221
+      ],
+      "summary": "生成 Responses SSE 生命周期、文本与图像事件，处理错误并完成输出。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:plan",
+      "type": "function",
+      "name": "plan",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        223,
+        233
+      ],
+      "summary": "构建并发送内部 Responses 规划调用，计入内部调用用量并解析上游结果。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:child",
+      "type": "function",
+      "name": "child",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "lineRange": [
+        279,
+        294
+      ],
+      "summary": "构建规划或图像子调用命令，保留操作者、请求上下文和计量归属。",
+      "tags": [
+        "Responses",
+        "图像生成",
+        "工具调用",
+        "用量统计"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:GatewayInvocationResponseMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:GatewayInvocationResponseMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:upstreamErrorMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeUpstreamErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapSuccessResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapFailureResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorToHttpStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorTypeToOpenAIType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/UpstreamResponseMetadata.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/ConversionTrace.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:GatewayProtocolException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:GatewayProtocolException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:GatewayProtocolException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:GatewayProtocolException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:badRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:badRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:protocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:protocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:status",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:status",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:errorType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java:errorType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolException.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:GatewayStreamingResponseMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:GatewayStreamingResponseMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:toResponseBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:toResponseBody",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:writeStreamingError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java:applyHeaders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/StreamingPassthroughPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:ResponsesImageBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:ResponsesImageBridge",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:ResponsesImageBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:ResponsesImageBridge",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:tryHandle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:tryHandle",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:generate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:streamImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:plan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:child",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/AuthenticateApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProtocolOperation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderStreamingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/StreamingPassthroughPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolcontract/acl/ExecutableProtocolContract.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:tryHandle",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:parse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:execute",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:prompt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:execute",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:inputImages",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java:plan",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageRequest.java:plannerRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageBridgeTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

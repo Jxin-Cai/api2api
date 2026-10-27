@@ -1,0 +1,1401 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "type": "file",
+      "name": "JsonGatewayPayloadModelMappingAdapter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "summary": "实现请求模型改写端口，为普通 JSON 请求替换根级 model 字段；Bedrock 使用 URI 选择模型，保持正文原样，并明确拒绝空正文或非对象 JSON。",
+      "tags": [
+        "协议适配",
+        "模型映射",
+        "JSON"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "type": "class",
+      "name": "JsonGatewayPayloadModelMappingAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "lineRange": [
+        17,
+        49
+      ],
+      "summary": "实现请求模型改写端口，为普通 JSON 请求替换根级 model 字段；Bedrock 使用 URI 选择模型，保持正文原样，并明确拒绝空正文或非对象 JSON。",
+      "tags": [
+        "协议适配",
+        "模型映射",
+        "JSON"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "type": "function",
+      "name": "JsonGatewayPayloadModelMappingAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "注入 Jackson ObjectMapper 以执行协议请求模型改写。",
+      "tags": [
+        "协议适配",
+        "模型映射",
+        "JSON"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:rewriteModel",
+      "type": "function",
+      "name": "rewriteModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "lineRange": [
+        26,
+        48
+      ],
+      "summary": "校验协议、模型及正文，为普通 JSON 对象替换 model 字段；Bedrock 请求正文透传，JSON 错误转换为协议异常。",
+      "tags": [
+        "协议适配",
+        "模型映射",
+        "JSON"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "type": "file",
+      "name": "ChannelEvaluationRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "summary": "实现渠道评测记录仓储，将领域模型与持久化对象互转，支持单条与批量保存及按渠道分页查询。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:ChannelEvaluationRepositoryImpl",
+      "type": "class",
+      "name": "ChannelEvaluationRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        19,
+        77
+      ],
+      "summary": "实现渠道评测记录仓储，将领域模型与持久化对象互转，支持单条与批量保存及按渠道分页查询。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        29,
+        38
+      ],
+      "summary": "转换评测记录并按标识是否已存在选择插入或更新。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        40,
+        44
+      ],
+      "summary": "按标识读取并恢复可选评测记录。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findHistory",
+      "type": "function",
+      "name": "findHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        46,
+        50
+      ],
+      "summary": "按渠道标识和历史查询条件恢复评测领域记录集合。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:countHistory",
+      "type": "function",
+      "name": "countHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        52,
+        56
+      ],
+      "summary": "委托 Mapper 统计符合筛选条件的历史评测数量。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:summarize",
+      "type": "function",
+      "name": "summarize",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        58,
+        62
+      ],
+      "summary": "将持久化评分统计转换为领域评测汇总。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findInFlight",
+      "type": "function",
+      "name": "findInFlight",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        64,
+        70
+      ],
+      "summary": "读取仍处于待处理或运行状态的评测记录并恢复领域对象。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:deleteByProviderChannelId",
+      "type": "function",
+      "name": "deleteByProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "lineRange": [
+        72,
+        76
+      ],
+      "summary": "删除指定渠道关联的评测记录。",
+      "tags": [
+        "仓储",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "type": "file",
+      "name": "ChannelEvaluationScheduleRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "summary": "实现渠道评测调度仓储，支持按渠道查找调度、增改保存、查询到期任务及删除渠道调度。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:ChannelEvaluationScheduleRepositoryImpl",
+      "type": "class",
+      "name": "ChannelEvaluationScheduleRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "lineRange": [
+        18,
+        66
+      ],
+      "summary": "实现渠道评测调度仓储，支持按渠道查找调度、增改保存、查询到期任务及删除渠道调度。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "lineRange": [
+        28,
+        37
+      ],
+      "summary": "转换调度并根据渠道对应调度是否存在选择更新或插入。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "lineRange": [
+        39,
+        43
+      ],
+      "summary": "按调度标识查询并恢复可选领域调度。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findByProviderChannelId",
+      "type": "function",
+      "name": "findByProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "lineRange": [
+        45,
+        50
+      ],
+      "summary": "按渠道标识加载并恢复评测调度。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findDue",
+      "type": "function",
+      "name": "findDue",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "lineRange": [
+        52,
+        59
+      ],
+      "summary": "读取指定时刻已到期的调度并恢复领域模型。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:deleteByProviderChannelId",
+      "type": "function",
+      "name": "deleteByProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "lineRange": [
+        61,
+        65
+      ],
+      "summary": "删除指定渠道的评测调度记录。",
+      "tags": [
+        "仓储",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "type": "file",
+      "name": "ChannelEvaluationPersistenceConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "summary": "将评测记录和 Cron 调度在领域模型与持久化对象之间互转，处理评分报告、模型名称列表 JSON、可空值及调度时区。",
+      "tags": [
+        "对象转换",
+        "渠道评测",
+        "JSON",
+        "评测调度"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java:ChannelEvaluationPersistenceConverter",
+      "type": "class",
+      "name": "ChannelEvaluationPersistenceConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "lineRange": [
+        30,
+        178
+      ],
+      "summary": "将评测记录和 Cron 调度在领域模型与持久化对象之间互转，处理评分报告、模型名称列表 JSON、可空值及调度时区。",
+      "tags": [
+        "对象转换",
+        "渠道评测",
+        "JSON",
+        "评测调度"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "type": "file",
+      "name": "ChannelEvaluationMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "summary": "定义评测记录 Mapper 契约，覆盖插入、更新、按标识查询及按渠道筛选、排序和统计。",
+      "tags": [
+        "接口",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java:ChannelEvaluationMapper",
+      "type": "class",
+      "name": "ChannelEvaluationMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "lineRange": [
+        8,
+        25
+      ],
+      "summary": "定义评测记录 Mapper 契约，覆盖插入、更新、按标识查询及按渠道筛选、排序和统计。",
+      "tags": [
+        "接口",
+        "渠道评测",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "type": "file",
+      "name": "ChannelEvaluationScheduleMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "summary": "定义评测调度 Mapper 契约，覆盖按渠道查询、到期调度查询、保存更新及按渠道删除。",
+      "tags": [
+        "接口",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java:ChannelEvaluationScheduleMapper",
+      "type": "class",
+      "name": "ChannelEvaluationScheduleMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "lineRange": [
+        7,
+        20
+      ],
+      "summary": "定义评测调度 Mapper 契约，覆盖按渠道查询、到期调度查询、保存更新及按渠道删除。",
+      "tags": [
+        "接口",
+        "评测调度",
+        "持久化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "type": "file",
+      "name": "JdbcChannelEvaluationMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "summary": "通过命名参数 JDBC 读写评测记录，构建模型与状态筛选条件，采用白名单排序并执行分页及总数查询。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:JdbcChannelEvaluationMapper",
+      "type": "class",
+      "name": "JdbcChannelEvaluationMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        24,
+        274
+      ],
+      "summary": "通过命名参数 JDBC 读写评测记录，构建模型与状态筛选条件，采用白名单排序并执行分页及总数查询。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        77,
+        94
+      ],
+      "summary": "插入包含评分、失败原因和审计时间的完整评测记录。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        96,
+        122
+      ],
+      "summary": "更新评测状态、探测任务、评分结果和运行时间。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        124,
+        131
+      ],
+      "summary": "按标识查询单条评测记录。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectHistory",
+      "type": "function",
+      "name": "selectHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        133,
+        145
+      ],
+      "summary": "构建历史过滤、白名单排序及 limit/offset 分页 SQL 并查询评测记录。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:countHistory",
+      "type": "function",
+      "name": "countHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        147,
+        156
+      ],
+      "summary": "使用与历史列表相同的过滤条件统计记录总量。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:summarize",
+      "type": "function",
+      "name": "summarize",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        158,
+        173
+      ],
+      "summary": "查询评测总数、评分和失败数量及评分均值与极值。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectInFlight",
+      "type": "function",
+      "name": "selectInFlight",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        175,
+        184
+      ],
+      "summary": "按数量限制查询尚未结束的评测任务。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:deleteByProviderChannelId",
+      "type": "function",
+      "name": "deleteByProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        186,
+        192
+      ],
+      "summary": "删除指定渠道下的全部评测记录。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:whereClause",
+      "type": "function",
+      "name": "whereClause",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        194,
+        215
+      ],
+      "summary": "组装渠道、模型、状态及时间范围过滤条件，并使用命名参数绑定值。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "lineRange": [
+        225,
+        253
+      ],
+      "summary": "绑定评测标识、状态、分数报告、运行时长及时间戳到 SQL 参数。",
+      "tags": [
+        "JDBC",
+        "渠道评测",
+        "分页",
+        "排序"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:rewriteModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:rewriteModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayPayloadModelMappingPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:ChannelEvaluationRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:ChannelEvaluationRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findHistory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:countHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:countHistory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:summarize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:summarize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findInFlight",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:findInFlight",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:deleteByProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:deleteByProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationHistoryQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationScoreSummary.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:ChannelEvaluationScheduleRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:ChannelEvaluationScheduleRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findByProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findByProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findDue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:findDue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:deleteByProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:deleteByProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationSchedule.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationScheduleId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationScheduleRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java:ChannelEvaluationPersistenceConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java:ChannelEvaluationPersistenceConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationSchedule.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationScheduleId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationCron.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationScore.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationTrigger.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ProbeUpstreamFormat.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationScoreSummary.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/converter/ChannelEvaluationPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java:ChannelEvaluationMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java:ChannelEvaluationMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationHistoryQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java:ChannelEvaluationScheduleMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java:ChannelEvaluationScheduleMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationScheduleMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationSchedulePO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:JdbcChannelEvaluationMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:JdbcChannelEvaluationMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectHistory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:countHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:countHistory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:summarize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:summarize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectInFlight",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:selectInFlight",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:deleteByProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:deleteByProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:whereClause",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationHistoryQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationSortField.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/ChannelEvaluationPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/evaluation/po/EvaluationScoreSummaryPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java:JsonGatewayPayloadModelMappingAdapter",
+      "target": "class:backend/src/main/java/com/api2api/application/gateway/GatewayPayloadModelMappingPort.java:GatewayPayloadModelMappingPort",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationRepositoryImpl.java:ChannelEvaluationRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationRepository.java:ChannelEvaluationRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/ChannelEvaluationScheduleRepositoryImpl.java:ChannelEvaluationScheduleRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationScheduleRepository.java:ChannelEvaluationScheduleRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/JdbcChannelEvaluationMapper.java:JdbcChannelEvaluationMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/evaluation/mapper/ChannelEvaluationMapper.java:ChannelEvaluationMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

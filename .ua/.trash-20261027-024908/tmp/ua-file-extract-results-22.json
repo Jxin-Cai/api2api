@@ -1,0 +1,2403 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "hasPart",
+          "startLine": 19,
+          "endLine": 22,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "requireName",
+          "startLine": 49,
+          "endLine": 54,
+          "params": [
+            "name"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MultipartFormPayload",
+          "startLine": 12,
+          "endLine": 55,
+          "methods": [
+            "hasPart",
+            "requireName"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "hasPart",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "MultipartFormPayload",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "hasPart",
+          "callee": "fields.stream().anyMatch",
+          "lineNumber": 20
+        },
+        {
+          "caller": "hasPart",
+          "callee": "fields.stream",
+          "lineNumber": 20
+        },
+        {
+          "caller": "hasPart",
+          "callee": "field.name().equals",
+          "lineNumber": 20
+        },
+        {
+          "caller": "hasPart",
+          "callee": "field.name",
+          "lineNumber": 20
+        },
+        {
+          "caller": "hasPart",
+          "callee": "files.stream().anyMatch",
+          "lineNumber": 21
+        },
+        {
+          "caller": "hasPart",
+          "callee": "files.stream",
+          "lineNumber": 21
+        },
+        {
+          "caller": "hasPart",
+          "callee": "file.name().equals",
+          "lineNumber": 21
+        },
+        {
+          "caller": "hasPart",
+          "callee": "file.name",
+          "lineNumber": 21
+        },
+        {
+          "caller": "content",
+          "callee": "content.clone",
+          "lineNumber": 41
+        },
+        {
+          "caller": "requireName",
+          "callee": "name.isBlank",
+          "lineNumber": 50
+        },
+        {
+          "caller": "requireName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/MultipartFormPayloadCodec.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "MultipartFormPayloadCodec",
+          "startLine": 11,
+          "endLine": 16,
+          "methods": [
+            "encode",
+            "decode"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MultipartFormPayloadCodec",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/client/provider/MultipartFormBodyWriter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 64,
+      "functions": [
+        {
+          "name": "MultipartFormBodyWriter",
+          "startLine": 25,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "write",
+          "startLine": 28,
+          "endLine": 50,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "filenameOf",
+          "startLine": 52,
+          "endLine": 54,
+          "params": [
+            "file"
+          ]
+        },
+        {
+          "name": "contentTypeOf",
+          "startLine": 56,
+          "endLine": 60,
+          "params": [
+            "file"
+          ]
+        },
+        {
+          "name": "quote",
+          "startLine": 66,
+          "endLine": 68,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "writeAscii",
+          "startLine": 70,
+          "endLine": 72,
+          "params": [
+            "out",
+            "text"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MultipartFormBodyWriter",
+          "startLine": 19,
+          "endLine": 73,
+          "methods": [
+            "MultipartFormBodyWriter",
+            "write",
+            "filenameOf",
+            "contentTypeOf",
+            "quote",
+            "writeAscii"
+          ],
+          "properties": [
+            "CRLF",
+            "BOUNDARY_PREFIX",
+            "DEFAULT_FILE_CONTENT_TYPE"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "write",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 29
+        },
+        {
+          "caller": "write",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 30
+        },
+        {
+          "caller": "write",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 31
+        },
+        {
+          "caller": "write",
+          "callee": "payload.fields",
+          "lineNumber": 32
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 33
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 34
+        },
+        {
+          "caller": "write",
+          "callee": "quote",
+          "lineNumber": 34
+        },
+        {
+          "caller": "write",
+          "callee": "field.name",
+          "lineNumber": 34
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 35
+        },
+        {
+          "caller": "write",
+          "callee": "out.writeBytes",
+          "lineNumber": 36
+        },
+        {
+          "caller": "write",
+          "callee": "field.value().getBytes",
+          "lineNumber": 36
+        },
+        {
+          "caller": "write",
+          "callee": "field.value",
+          "lineNumber": 36
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 37
+        },
+        {
+          "caller": "write",
+          "callee": "payload.files",
+          "lineNumber": 39
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 40
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 41
+        },
+        {
+          "caller": "write",
+          "callee": "quote",
+          "lineNumber": 41
+        },
+        {
+          "caller": "write",
+          "callee": "file.name",
+          "lineNumber": 41
+        },
+        {
+          "caller": "write",
+          "callee": "quote",
+          "lineNumber": 42
+        },
+        {
+          "caller": "write",
+          "callee": "filenameOf",
+          "lineNumber": 42
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 43
+        },
+        {
+          "caller": "write",
+          "callee": "contentTypeOf",
+          "lineNumber": 43
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 44
+        },
+        {
+          "caller": "write",
+          "callee": "out.writeBytes",
+          "lineNumber": 45
+        },
+        {
+          "caller": "write",
+          "callee": "file.content",
+          "lineNumber": 45
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 46
+        },
+        {
+          "caller": "write",
+          "callee": "writeAscii",
+          "lineNumber": 48
+        },
+        {
+          "caller": "write",
+          "callee": "new UpstreamRequestBody",
+          "lineNumber": 49
+        },
+        {
+          "caller": "write",
+          "callee": "out.toByteArray",
+          "lineNumber": 49
+        },
+        {
+          "caller": "filenameOf",
+          "callee": "file.filename",
+          "lineNumber": 53
+        },
+        {
+          "caller": "filenameOf",
+          "callee": "file.filename().isBlank",
+          "lineNumber": 53
+        },
+        {
+          "caller": "filenameOf",
+          "callee": "file.filename",
+          "lineNumber": 53
+        },
+        {
+          "caller": "filenameOf",
+          "callee": "file.name",
+          "lineNumber": 53
+        },
+        {
+          "caller": "filenameOf",
+          "callee": "file.filename",
+          "lineNumber": 53
+        },
+        {
+          "caller": "contentTypeOf",
+          "callee": "file.contentType",
+          "lineNumber": 57
+        },
+        {
+          "caller": "contentTypeOf",
+          "callee": "file.contentType().isBlank",
+          "lineNumber": 57
+        },
+        {
+          "caller": "contentTypeOf",
+          "callee": "file.contentType",
+          "lineNumber": 57
+        },
+        {
+          "caller": "contentTypeOf",
+          "callee": "file.contentType",
+          "lineNumber": 59
+        },
+        {
+          "caller": "quote",
+          "callee": "value.replace(\"\\r\", \"%0D\").replace(\"\\n\", \"%0A\").replace",
+          "lineNumber": 67
+        },
+        {
+          "caller": "quote",
+          "callee": "value.replace(\"\\r\", \"%0D\").replace",
+          "lineNumber": 67
+        },
+        {
+          "caller": "quote",
+          "callee": "value.replace",
+          "lineNumber": 67
+        },
+        {
+          "caller": "writeAscii",
+          "callee": "out.writeBytes",
+          "lineNumber": 71
+        },
+        {
+          "caller": "writeAscii",
+          "callee": "text.getBytes",
+          "lineNumber": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 140,
+      "nonEmptyLines": 128,
+      "functions": [
+        {
+          "name": "JsonMultipartFormPayloadCodec",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "encode",
+          "startLine": 44,
+          "endLine": 69,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "decode",
+          "startLine": 71,
+          "endLine": 98,
+          "params": [
+            "envelope"
+          ]
+        },
+        {
+          "name": "readEnvelope",
+          "startLine": 100,
+          "endLine": 113,
+          "params": [
+            "envelope"
+          ]
+        },
+        {
+          "name": "groupByName",
+          "startLine": 115,
+          "endLine": 121,
+          "params": [
+            "fields"
+          ]
+        },
+        {
+          "name": "scalar",
+          "startLine": 123,
+          "endLine": 128,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "text",
+          "startLine": 130,
+          "endLine": 135,
+          "params": [
+            "node"
+          ]
+        },
+        {
+          "name": "textOrNull",
+          "startLine": 137,
+          "endLine": 139,
+          "params": [
+            "node"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JsonMultipartFormPayloadCodec",
+          "startLine": 29,
+          "endLine": 140,
+          "methods": [
+            "JsonMultipartFormPayloadCodec",
+            "encode",
+            "decode",
+            "readEnvelope",
+            "groupByName",
+            "scalar",
+            "text",
+            "textOrNull"
+          ],
+          "properties": [
+            "FILES_MEMBER",
+            "FILE_NAME",
+            "FILE_FILENAME",
+            "FILE_CONTENT_TYPE",
+            "FILE_DATA",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "JsonMultipartFormPayloadCodec",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "encode",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "decode",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "JsonMultipartFormPayloadCodec",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "JsonMultipartFormPayloadCodec",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 41
+        },
+        {
+          "caller": "encode",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 46
+        },
+        {
+          "caller": "encode",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 47
+        },
+        {
+          "caller": "encode",
+          "callee": "groupByName(payload.fields()).forEach",
+          "lineNumber": 48
+        },
+        {
+          "caller": "encode",
+          "callee": "groupByName",
+          "lineNumber": 48
+        },
+        {
+          "caller": "encode",
+          "callee": "payload.fields",
+          "lineNumber": 48
+        },
+        {
+          "caller": "encode",
+          "callee": "values.size",
+          "lineNumber": 49
+        },
+        {
+          "caller": "encode",
+          "callee": "root.set",
+          "lineNumber": 50
+        },
+        {
+          "caller": "encode",
+          "callee": "scalar",
+          "lineNumber": 50
+        },
+        {
+          "caller": "encode",
+          "callee": "values.get",
+          "lineNumber": 50
+        },
+        {
+          "caller": "encode",
+          "callee": "root.putArray",
+          "lineNumber": 53
+        },
+        {
+          "caller": "encode",
+          "callee": "values.forEach",
+          "lineNumber": 54
+        },
+        {
+          "caller": "encode",
+          "callee": "array.add",
+          "lineNumber": 54
+        },
+        {
+          "caller": "encode",
+          "callee": "scalar",
+          "lineNumber": 54
+        },
+        {
+          "caller": "encode",
+          "callee": "root.putArray",
+          "lineNumber": 56
+        },
+        {
+          "caller": "encode",
+          "callee": "payload.files",
+          "lineNumber": 57
+        },
+        {
+          "caller": "encode",
+          "callee": "files.addObject",
+          "lineNumber": 58
+        },
+        {
+          "caller": "encode",
+          "callee": "node.put",
+          "lineNumber": 59
+        },
+        {
+          "caller": "encode",
+          "callee": "file.name",
+          "lineNumber": 59
+        },
+        {
+          "caller": "encode",
+          "callee": "node.put",
+          "lineNumber": 60
+        },
+        {
+          "caller": "encode",
+          "callee": "file.filename",
+          "lineNumber": 60
+        },
+        {
+          "caller": "encode",
+          "callee": "node.put",
+          "lineNumber": 61
+        },
+        {
+          "caller": "encode",
+          "callee": "file.contentType",
+          "lineNumber": 61
+        },
+        {
+          "caller": "encode",
+          "callee": "node.put",
+          "lineNumber": 62
+        },
+        {
+          "caller": "encode",
+          "callee": "Base64.getEncoder().encodeToString",
+          "lineNumber": 62
+        },
+        {
+          "caller": "encode",
+          "callee": "Base64.getEncoder",
+          "lineNumber": 62
+        },
+        {
+          "caller": "encode",
+          "callee": "file.content",
+          "lineNumber": 62
+        },
+        {
+          "caller": "encode",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 65
+        },
+        {
+          "caller": "encode",
+          "callee": "new IllegalStateException",
+          "lineNumber": 67
+        },
+        {
+          "caller": "decode",
+          "callee": "readEnvelope",
+          "lineNumber": 73
+        },
+        {
+          "caller": "decode",
+          "callee": "new ArrayList<>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "decode",
+          "callee": "root.fields",
+          "lineNumber": 75
+        },
+        {
+          "caller": "decode",
+          "callee": "members.hasNext",
+          "lineNumber": 76
+        },
+        {
+          "caller": "decode",
+          "callee": "members.next",
+          "lineNumber": 77
+        },
+        {
+          "caller": "decode",
+          "callee": "FILES_MEMBER.equals",
+          "lineNumber": 78
+        },
+        {
+          "caller": "decode",
+          "callee": "member.getKey",
+          "lineNumber": 78
+        },
+        {
+          "caller": "decode",
+          "callee": "member.getValue",
+          "lineNumber": 81
+        },
+        {
+          "caller": "decode",
+          "callee": "value.isArray",
+          "lineNumber": 82
+        },
+        {
+          "caller": "decode",
+          "callee": "value.forEach",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decode",
+          "callee": "fields.add",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decode",
+          "callee": "new TextField",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decode",
+          "callee": "member.getKey",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decode",
+          "callee": "text",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decode",
+          "callee": "fields.add",
+          "lineNumber": 85
+        },
+        {
+          "caller": "decode",
+          "callee": "new TextField",
+          "lineNumber": 85
+        },
+        {
+          "caller": "decode",
+          "callee": "member.getKey",
+          "lineNumber": 85
+        },
+        {
+          "caller": "decode",
+          "callee": "text",
+          "lineNumber": 85
+        },
+        {
+          "caller": "decode",
+          "callee": "new ArrayList<>",
+          "lineNumber": 88
+        },
+        {
+          "caller": "decode",
+          "callee": "root.path",
+          "lineNumber": 89
+        },
+        {
+          "caller": "decode",
+          "callee": "files.add",
+          "lineNumber": 90
+        },
+        {
+          "caller": "decode",
+          "callee": "new FilePart",
+          "lineNumber": 90
+        },
+        {
+          "caller": "decode",
+          "callee": "node.path(FILE_NAME).asText",
+          "lineNumber": 91
+        },
+        {
+          "caller": "decode",
+          "callee": "node.path",
+          "lineNumber": 91
+        },
+        {
+          "caller": "decode",
+          "callee": "textOrNull",
+          "lineNumber": 92
+        },
+        {
+          "caller": "decode",
+          "callee": "node.get",
+          "lineNumber": 92
+        },
+        {
+          "caller": "decode",
+          "callee": "textOrNull",
+          "lineNumber": 93
+        },
+        {
+          "caller": "decode",
+          "callee": "node.get",
+          "lineNumber": 93
+        },
+        {
+          "caller": "decode",
+          "callee": "Base64.getDecoder().decode",
+          "lineNumber": 94
+        },
+        {
+          "caller": "decode",
+          "callee": "Base64.getDecoder",
+          "lineNumber": 94
+        },
+        {
+          "caller": "decode",
+          "callee": "node.path(FILE_DATA).asText",
+          "lineNumber": 94
+        },
+        {
+          "caller": "decode",
+          "callee": "node.path",
+          "lineNumber": 94
+        },
+        {
+          "caller": "decode",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 97
+        },
+        {
+          "caller": "readEnvelope",
+          "callee": "envelope.isBlank",
+          "lineNumber": 101
+        },
+        {
+          "caller": "readEnvelope",
+          "callee": "new IllegalStateException",
+          "lineNumber": 102
+        },
+        {
+          "caller": "readEnvelope",
+          "callee": "objectMapper.readTree",
+          "lineNumber": 105
+        },
+        {
+          "caller": "readEnvelope",
+          "callee": "root.isObject",
+          "lineNumber": 106
+        },
+        {
+          "caller": "readEnvelope",
+          "callee": "new IllegalStateException",
+          "lineNumber": 107
+        },
+        {
+          "caller": "readEnvelope",
+          "callee": "new IllegalStateException",
+          "lineNumber": 111
+        },
+        {
+          "caller": "groupByName",
+          "callee": "new LinkedHashMap<>",
+          "lineNumber": 116
+        },
+        {
+          "caller": "groupByName",
+          "callee": "grouped.computeIfAbsent(field.name(), ignored -> new ArrayList<>()).add",
+          "lineNumber": 118
+        },
+        {
+          "caller": "groupByName",
+          "callee": "grouped.computeIfAbsent",
+          "lineNumber": 118
+        },
+        {
+          "caller": "groupByName",
+          "callee": "field.name",
+          "lineNumber": 118
+        },
+        {
+          "caller": "groupByName",
+          "callee": "new ArrayList<>",
+          "lineNumber": 118
+        },
+        {
+          "caller": "groupByName",
+          "callee": "field.value",
+          "lineNumber": 118
+        },
+        {
+          "caller": "scalar",
+          "callee": "\"true\".equals",
+          "lineNumber": 124
+        },
+        {
+          "caller": "scalar",
+          "callee": "\"false\".equals",
+          "lineNumber": 124
+        },
+        {
+          "caller": "scalar",
+          "callee": "objectMapper.getNodeFactory().booleanNode",
+          "lineNumber": 125
+        },
+        {
+          "caller": "scalar",
+          "callee": "objectMapper.getNodeFactory",
+          "lineNumber": 125
+        },
+        {
+          "caller": "scalar",
+          "callee": "Boolean.parseBoolean",
+          "lineNumber": 125
+        },
+        {
+          "caller": "scalar",
+          "callee": "objectMapper.getNodeFactory().textNode",
+          "lineNumber": 127
+        },
+        {
+          "caller": "scalar",
+          "callee": "objectMapper.getNodeFactory",
+          "lineNumber": 127
+        },
+        {
+          "caller": "text",
+          "callee": "node.isNull",
+          "lineNumber": 131
+        },
+        {
+          "caller": "text",
+          "callee": "node.isMissingNode",
+          "lineNumber": 131
+        },
+        {
+          "caller": "text",
+          "callee": "node.isValueNode",
+          "lineNumber": 134
+        },
+        {
+          "caller": "text",
+          "callee": "node.asText",
+          "lineNumber": 134
+        },
+        {
+          "caller": "text",
+          "callee": "node.toString",
+          "lineNumber": 134
+        },
+        {
+          "caller": "textOrNull",
+          "callee": "node.isNull",
+          "lineNumber": 138
+        },
+        {
+          "caller": "textOrNull",
+          "callee": "node.asText",
+          "lineNumber": 138
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/MultipartFormRequestReader.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 72,
+      "functions": [
+        {
+          "name": "read",
+          "startLine": 29,
+          "endLine": 44,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "isMultipartForm",
+          "startLine": 46,
+          "endLine": 49,
+          "params": [
+            "contentType"
+          ]
+        },
+        {
+          "name": "partsOf",
+          "startLine": 51,
+          "endLine": 57,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "bytesOf",
+          "startLine": 59,
+          "endLine": 65,
+          "params": [
+            "part"
+          ]
+        },
+        {
+          "name": "charsetOf",
+          "startLine": 67,
+          "endLine": 78,
+          "params": [
+            "part"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MultipartFormRequestReader",
+          "startLine": 26,
+          "endLine": 79,
+          "methods": [
+            "read",
+            "isMultipartForm",
+            "partsOf",
+            "bytesOf",
+            "charsetOf"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "read",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "MultipartFormRequestReader",
+          "line": 26,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "read",
+          "callee": "isMultipartForm",
+          "lineNumber": 30
+        },
+        {
+          "caller": "read",
+          "callee": "request.getContentType",
+          "lineNumber": 30
+        },
+        {
+          "caller": "read",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 31
+        },
+        {
+          "caller": "read",
+          "callee": "partsOf",
+          "lineNumber": 33
+        },
+        {
+          "caller": "read",
+          "callee": "new ArrayList<>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "read",
+          "callee": "new ArrayList<>",
+          "lineNumber": 35
+        },
+        {
+          "caller": "read",
+          "callee": "part.getSubmittedFileName",
+          "lineNumber": 37
+        },
+        {
+          "caller": "read",
+          "callee": "fields.add",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "new TextField",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "part.getName",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "new String",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "bytesOf",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "charsetOf",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "files.add",
+          "lineNumber": 40
+        },
+        {
+          "caller": "read",
+          "callee": "new FilePart",
+          "lineNumber": 40
+        },
+        {
+          "caller": "read",
+          "callee": "part.getName",
+          "lineNumber": 40
+        },
+        {
+          "caller": "read",
+          "callee": "part.getSubmittedFileName",
+          "lineNumber": 40
+        },
+        {
+          "caller": "read",
+          "callee": "part.getContentType",
+          "lineNumber": 40
+        },
+        {
+          "caller": "read",
+          "callee": "bytesOf",
+          "lineNumber": 40
+        },
+        {
+          "caller": "read",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 43
+        },
+        {
+          "caller": "isMultipartForm",
+          "callee": "contentType.toLowerCase(Locale.ROOT).startsWith",
+          "lineNumber": 48
+        },
+        {
+          "caller": "isMultipartForm",
+          "callee": "contentType.toLowerCase",
+          "lineNumber": 48
+        },
+        {
+          "caller": "partsOf",
+          "callee": "request.getParts",
+          "lineNumber": 53
+        },
+        {
+          "caller": "partsOf",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 55
+        },
+        {
+          "caller": "bytesOf",
+          "callee": "part.getInputStream",
+          "lineNumber": 60
+        },
+        {
+          "caller": "bytesOf",
+          "callee": "input.readAllBytes",
+          "lineNumber": 61
+        },
+        {
+          "caller": "bytesOf",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 63
+        },
+        {
+          "caller": "bytesOf",
+          "callee": "part.getName",
+          "lineNumber": 63
+        },
+        {
+          "caller": "charsetOf",
+          "callee": "part.getContentType",
+          "lineNumber": 68
+        },
+        {
+          "caller": "charsetOf",
+          "callee": "MediaType.parseMediaType(contentType).getCharset",
+          "lineNumber": 73
+        },
+        {
+          "caller": "charsetOf",
+          "callee": "MediaType.parseMediaType",
+          "lineNumber": 73
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImagePayloadMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 87,
+      "nonEmptyLines": 82,
+      "functions": [
+        {
+          "name": "map",
+          "startLine": 32,
+          "endLine": 66,
+          "params": [
+            "request",
+            "prompt",
+            "selectedAction"
+          ]
+        },
+        {
+          "name": "decodeImage",
+          "startLine": 68,
+          "endLine": 84,
+          "params": [
+            "name",
+            "dataUrl"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImagePayloadMapper",
+          "startLine": 20,
+          "endLine": 87,
+          "methods": [
+            "map",
+            "decodeImage"
+          ],
+          "properties": [
+            "MAX_IMAGE_BYTES",
+            "MAX_REQUEST_BYTES",
+            "MAX_IMAGES",
+            "IMAGE_TYPES",
+            "OPTIONS",
+            "mapper",
+            "multipartCodec"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ResponsesImagePayloadMapper",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "map",
+          "callee": "prompt.isBlank",
+          "lineNumber": 33
+        },
+        {
+          "caller": "map",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 33
+        },
+        {
+          "caller": "map",
+          "callee": "request.tool",
+          "lineNumber": 34
+        },
+        {
+          "caller": "map",
+          "callee": "ImageAction.parse",
+          "lineNumber": 35
+        },
+        {
+          "caller": "map",
+          "callee": "tool.path(\"action\").asText",
+          "lineNumber": 35
+        },
+        {
+          "caller": "map",
+          "callee": "tool.path",
+          "lineNumber": 35
+        },
+        {
+          "caller": "map",
+          "callee": "request.inputImages",
+          "lineNumber": 36
+        },
+        {
+          "caller": "map",
+          "callee": "inputImages.isEmpty",
+          "lineNumber": 38
+        },
+        {
+          "caller": "map",
+          "callee": "ImageAction.parse",
+          "lineNumber": 39
+        },
+        {
+          "caller": "map",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 41
+        },
+        {
+          "caller": "map",
+          "callee": "mapper.createObjectNode().put(\"model\", request.imageModel()).put(\"prompt\", prompt)\n                .put(\"n\", 1).put",
+          "lineNumber": 42
+        },
+        {
+          "caller": "map",
+          "callee": "mapper.createObjectNode().put(\"model\", request.imageModel()).put(\"prompt\", prompt).put",
+          "lineNumber": 42
+        },
+        {
+          "caller": "map",
+          "callee": "mapper.createObjectNode().put(\"model\", request.imageModel()).put",
+          "lineNumber": 42
+        },
+        {
+          "caller": "map",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 42
+        },
+        {
+          "caller": "map",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 42
+        },
+        {
+          "caller": "map",
+          "callee": "request.imageModel",
+          "lineNumber": 42
+        },
+        {
+          "caller": "map",
+          "callee": "request.streaming",
+          "lineNumber": 43
+        },
+        {
+          "caller": "map",
+          "callee": "tool.hasNonNull",
+          "lineNumber": 45
+        },
+        {
+          "caller": "map",
+          "callee": "payload.set",
+          "lineNumber": 45
+        },
+        {
+          "caller": "map",
+          "callee": "tool.get",
+          "lineNumber": 45
+        },
+        {
+          "caller": "map",
+          "callee": "request.streaming",
+          "lineNumber": 47
+        },
+        {
+          "caller": "map",
+          "callee": "tool.has",
+          "lineNumber": 47
+        },
+        {
+          "caller": "map",
+          "callee": "payload.set",
+          "lineNumber": 47
+        },
+        {
+          "caller": "map",
+          "callee": "tool.get",
+          "lineNumber": 47
+        },
+        {
+          "caller": "map",
+          "callee": "tool.hasNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "map",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 49
+        },
+        {
+          "caller": "map",
+          "callee": "payload.remove",
+          "lineNumber": 50
+        },
+        {
+          "caller": "map",
+          "callee": "new ImageRequest",
+          "lineNumber": 51
+        },
+        {
+          "caller": "map",
+          "callee": "payload.toString",
+          "lineNumber": 51
+        },
+        {
+          "caller": "map",
+          "callee": "inputImages.isEmpty",
+          "lineNumber": 53
+        },
+        {
+          "caller": "map",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 53
+        },
+        {
+          "caller": "map",
+          "callee": "inputImages.size",
+          "lineNumber": 54
+        },
+        {
+          "caller": "map",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 54
+        },
+        {
+          "caller": "map",
+          "callee": "new ArrayList<>",
+          "lineNumber": 55
+        },
+        {
+          "caller": "map",
+          "callee": "files.add",
+          "lineNumber": 56
+        },
+        {
+          "caller": "map",
+          "callee": "decodeImage",
+          "lineNumber": 56
+        },
+        {
+          "caller": "map",
+          "callee": "tool.path",
+          "lineNumber": 57
+        },
+        {
+          "caller": "map",
+          "callee": "mask.isMissingNode",
+          "lineNumber": 58
+        },
+        {
+          "caller": "map",
+          "callee": "mask.isNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "map",
+          "callee": "files.add",
+          "lineNumber": 58
+        },
+        {
+          "caller": "map",
+          "callee": "decodeImage",
+          "lineNumber": 58
+        },
+        {
+          "caller": "map",
+          "callee": "mask.path(\"image_url\").asText",
+          "lineNumber": 58
+        },
+        {
+          "caller": "map",
+          "callee": "mask.path",
+          "lineNumber": 58
+        },
+        {
+          "caller": "map",
+          "callee": "files.stream().mapToLong(FilePart::size).sum",
+          "lineNumber": 59
+        },
+        {
+          "caller": "map",
+          "callee": "files.stream().mapToLong",
+          "lineNumber": 59
+        },
+        {
+          "caller": "map",
+          "callee": "files.stream",
+          "lineNumber": 59
+        },
+        {
+          "caller": "map",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 60
+        },
+        {
+          "caller": "map",
+          "callee": "new ArrayList<>",
+          "lineNumber": 62
+        },
+        {
+          "caller": "map",
+          "callee": "payload.fields().forEachRemaining",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "payload.fields",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "fields.add",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "new TextField",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "field.getKey",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "field.getValue().asText",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "field.getValue",
+          "lineNumber": 63
+        },
+        {
+          "caller": "map",
+          "callee": "new ImageRequest",
+          "lineNumber": 64
+        },
+        {
+          "caller": "map",
+          "callee": "multipartCodec.encode",
+          "lineNumber": 64
+        },
+        {
+          "caller": "map",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 64
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "dataUrl.indexOf",
+          "lineNumber": 69
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "dataUrl.startsWith",
+          "lineNumber": 70
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 71
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "dataUrl.substring",
+          "lineNumber": 73
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "IMAGE_TYPES.contains",
+          "lineNumber": 74
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 74
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "dataUrl.substring",
+          "lineNumber": 75
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "data.length",
+          "lineNumber": 76
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 77
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "Base64.getDecoder().decode",
+          "lineNumber": 80
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "Base64.getDecoder",
+          "lineNumber": 80
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 81
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "ResponsesImageRequest.invalid",
+          "lineNumber": 82
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "new FilePart",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "\"mask\".equals",
+          "lineNumber": 83
+        },
+        {
+          "caller": "decodeImage",
+          "callee": "mime.substring",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/client/provider/MultipartFormBodyWriterTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 88,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "test_declaresBoundaryInContentType_when_writingForm",
+          "startLine": 14,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "startLine": 30,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "startLine": 42,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "startLine": 59,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "test_escapesQuotes_when_filenameContainsQuote",
+          "startLine": 74,
+          "endLine": 87,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MultipartFormBodyWriterTest",
+          "startLine": 12,
+          "endLine": 88,
+          "methods": [
+            "test_declaresBoundaryInContentType_when_writingForm",
+            "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+            "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+            "test_fallsBackToOctetStream_when_fileHasNoContentType",
+            "test_escapesQuotes_when_filenameContainsQuote"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "List.of",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "new TextField",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "List.of",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "MultipartFormBodyWriter.write",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "body.contentType().substring",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "body.contentType",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "\"multipart/form-data; boundary=\".length",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "assertThat(body.contentType()).startsWith",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "assertThat",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "body.contentType",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "assertThat(new String(body.content(), StandardCharsets.UTF_8))\n                .startsWith(\"--\" + boundary + \"\\r\\n\").endsWith",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "assertThat(new String(body.content(), StandardCharsets.UTF_8)).startsWith",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "assertThat",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "new String",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_declaresBoundaryInContentType_when_writingForm",
+          "callee": "body.content",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "List.of",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "new TextField",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "List.of",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "new String",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "MultipartFormBodyWriter.write(payload).content",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "MultipartFormBodyWriter.write",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "assertThat(body).contains",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_writesTextFieldAsFormDataPart_when_fieldIsPresent",
+          "callee": "assertThat",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "List.of",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "List.of",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "new FilePart",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "new String",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "MultipartFormBodyWriter.write(payload).content",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "MultipartFormBodyWriter.write",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "assertThat(body).contains",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_writesFilePartWithFilenameAndContentType_when_fileIsPresent",
+          "callee": "assertThat",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "List.of",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "List.of",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "new FilePart",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "new String",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "MultipartFormBodyWriter.write(payload).content",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "MultipartFormBodyWriter.write",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "assertThat(body).contains",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_fallsBackToOctetStream_when_fileHasNoContentType",
+          "callee": "assertThat",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "new MultipartFormPayload",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "List.of",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "List.of",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "new FilePart",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "new String",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "MultipartFormBodyWriter.write(payload).content",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "MultipartFormBodyWriter.write",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "assertThat(body).contains",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_escapesQuotes_when_filenameContainsQuote",
+          "callee": "assertThat",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/gateway/MultipartFormRequestReaderTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "startLine": 17,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "test_readsFileParts_when_partHasFilename",
+          "startLine": 33,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "test_ignoresQueryParameters_when_readingFormFields",
+          "startLine": 52,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "startLine": 67,
+          "endLine": 77,
+          "params": []
+        },
+        {
+          "name": "multipartRequest",
+          "startLine": 79,
+          "endLine": 83,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MultipartFormRequestReaderTest",
+          "startLine": 13,
+          "endLine": 84,
+          "methods": [
+            "test_readsTextPartsAsFields_when_partHasNoFilename",
+            "test_readsFileParts_when_partHasFilename",
+            "test_ignoresQueryParameters_when_readingFormFields",
+            "test_rejectsRequest_when_contentTypeIsNotMultipart",
+            "multipartRequest"
+          ],
+          "properties": [
+            "reader"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "multipartRequest",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "request.addPart",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "new MockPart",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "\"gpt-image-1\".getBytes",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "request.addPart",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "new MockPart",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "\"a cat\".getBytes",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "reader.read",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "assertThat(payload.fields()).containsExactly",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "assertThat",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "payload.fields",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "new TextField",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "new TextField",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "assertThat(payload.files()).isEmpty",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "assertThat",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_readsTextPartsAsFields_when_partHasNoFilename",
+          "callee": "payload.files",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "multipartRequest",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "new MockPart",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "image.getHeaders().setContentType",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "image.getHeaders",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "request.addPart",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "reader.read",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat(payload.files()).hasSize",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat(payload.files().get(0).name()).isEqualTo",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get(0).name",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat(payload.files().get(0).filename()).isEqualTo",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get(0).filename",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat(payload.files().get(0).contentType()).isEqualTo",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get(0).contentType",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat(payload.files().get(0).content()).containsExactly",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "assertThat",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get(0).content",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files().get",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_readsFileParts_when_partHasFilename",
+          "callee": "payload.files",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "multipartRequest",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "request.setQueryString",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "request.addParameter",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "request.addPart",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "new MockPart",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "\"gpt-image-1\".getBytes",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "reader.read",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "assertThat(payload.hasPart(\"beta\")).isFalse",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "assertThat",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_ignoresQueryParameters_when_readingFormFields",
+          "callee": "payload.hasPart",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "callee": "new MockHttpServletRequest",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "callee": "request.setContentType",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "callee": "assertThatThrownBy(() -> reader.read(request))\n                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "callee": "assertThatThrownBy(() -> reader.read(request)).isInstanceOf",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_rejectsRequest_when_contentTypeIsNotMultipart",
+          "callee": "reader.read",
+          "lineNumber": 74
+        },
+        {
+          "caller": "multipartRequest",
+          "callee": "new MockHttpServletRequest",
+          "lineNumber": 80
+        },
+        {
+          "caller": "multipartRequest",
+          "callee": "request.setContentType",
+          "lineNumber": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    }
+  ]
+}

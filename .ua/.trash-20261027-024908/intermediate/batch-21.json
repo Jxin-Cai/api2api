@@ -1,0 +1,1175 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "type": "file",
+      "name": "protocolConversionApi.ts",
+      "filePath": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "summary": "封装协议转换定义列表、详情和状态维护的 HTTP 请求，供转换能力管理页面使用。",
+      "tags": [
+        "api-客户端",
+        "协议转换",
+        "管理接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:listProtocolConversions",
+      "type": "function",
+      "name": "listProtocolConversions",
+      "filePath": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "在protocolConversionApi中执行 listProtocolConversions 操作。协调 apiClient.get 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "协议转换",
+        "管理接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:getProtocolConversion",
+      "type": "function",
+      "name": "getProtocolConversion",
+      "filePath": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "lineRange": [
+        17,
+        21
+      ],
+      "summary": "在protocolConversionApi中执行 getProtocolConversion 操作。协调 apiClient.get、encodeId 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "协议转换",
+        "管理接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:getProtocolConversionByDirection",
+      "type": "function",
+      "name": "getProtocolConversionByDirection",
+      "filePath": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "lineRange": [
+        23,
+        30
+      ],
+      "summary": "在protocolConversionApi中执行 getProtocolConversionByDirection 操作。协调 apiClient.get 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "协议转换",
+        "管理接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:enableProtocolConversion",
+      "type": "function",
+      "name": "enableProtocolConversion",
+      "filePath": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "lineRange": [
+        32,
+        36
+      ],
+      "summary": "在protocolConversionApi中执行 enableProtocolConversion 操作。协调 apiClient.patch、encodeId 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "协议转换",
+        "管理接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:disableProtocolConversion",
+      "type": "function",
+      "name": "disableProtocolConversion",
+      "filePath": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "lineRange": [
+        38,
+        42
+      ],
+      "summary": "在protocolConversionApi中执行 disableProtocolConversion 操作。协调 apiClient.patch、encodeId 等调用处理输入与状态。",
+      "tags": [
+        "api-客户端",
+        "协议转换",
+        "管理接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "type": "file",
+      "name": "mappingView.ts",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "summary": "将协议字段映射文档转换为语义分组、覆盖度及保真度视图，解析数组与通配符路径，并推断缺少显式标注的映射类型。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parseFieldPath",
+      "type": "function",
+      "name": "parseFieldPath",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        136,
+        143
+      ],
+      "summary": "把字段路径解析为属性、数组、选择器与通配符片段。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parsePathPart",
+      "type": "function",
+      "name": "parsePathPart",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        145,
+        168
+      ],
+      "summary": "拆分单层路径中的数组或选择器语法，保留未匹配部分作为属性片段。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingTypeMeta",
+      "type": "function",
+      "name": "getMappingTypeMeta",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        170,
+        172
+      ],
+      "summary": "在mappingView中执行 getMappingTypeMeta 操作。处理 type 参数。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getLossinessMeta",
+      "type": "function",
+      "name": "getLossinessMeta",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        174,
+        183
+      ],
+      "summary": "根据映射损失程度返回显示元数据，未知值使用通用回退。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "type": "function",
+      "name": "inferMappingViewType",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        185,
+        225
+      ],
+      "summary": "优先采用显式映射类型，结合路径、目标字段和损失标注推断重命名、重塑、默认或未映射类型。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingCoverageStatus",
+      "type": "function",
+      "name": "getMappingCoverageStatus",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        233,
+        242
+      ],
+      "summary": "结合目标字段是否有效及损失程度确定完整、部分或未覆盖状态。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "type": "function",
+      "name": "buildMappingView",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        244,
+        306
+      ],
+      "summary": "把字段映射归入语义组并计算已覆盖、部分和未覆盖数量，按关注程度排序。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferSemanticGroup",
+      "type": "function",
+      "name": "inferSemanticGroup",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        308,
+        330
+      ],
+      "summary": "优先按显式类别归组，再依据路径关键词识别语义类别，无法识别时归入其他。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:normalizeMappingType",
+      "type": "function",
+      "name": "normalizeMappingType",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        332,
+        353
+      ],
+      "summary": "把后端映射类型规范化为前端支持的显示类别。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:groupFromCategory",
+      "type": "function",
+      "name": "groupFromCategory",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        355,
+        382
+      ],
+      "summary": "将显式字段类别映射为预定义语义分组。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:sortGroups",
+      "type": "function",
+      "name": "sortGroups",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        384,
+        399
+      ],
+      "summary": "优先排列未映射项较多的组，再按覆盖比例、损失数量与标题排序。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:isLikelyRename",
+      "type": "function",
+      "name": "isLikelyRename",
+      "filePath": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "lineRange": [
+        416,
+        425
+      ],
+      "summary": "根据路径末段名称差异与深度接近程度推断字段重命名。",
+      "tags": [
+        "视图转换",
+        "字段映射",
+        "路径解析"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/entities/protocol-conversion/model/types.ts",
+      "summary": "定义协议转换列表与详情、转换能力、映射文档和字段映射 HTTP 类型，包含实现状态、映射类别及有损程度。",
+      "tags": [
+        "类型定义",
+        "协议转换",
+        "字段映射"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "type": "file",
+      "name": "useProtocolConversions.ts",
+      "filePath": "frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "summary": "通过 React Query 查询转换列表和按标识查询详情，统一查询键与列表失效入口，并在标识为空时禁用详情请求。",
+      "tags": [
+        "react-hook",
+        "协议转换",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts:useProtocolConversions",
+      "type": "function",
+      "name": "useProtocolConversions",
+      "filePath": "frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "lineRange": [
+        12,
+        22
+      ],
+      "summary": "初始化 useProtocolConversions 的状态并建立构造约束。",
+      "tags": [
+        "react-hook",
+        "协议转换",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts:useProtocolConversionDetail",
+      "type": "function",
+      "name": "useProtocolConversionDetail",
+      "filePath": "frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "lineRange": [
+        24,
+        30
+      ],
+      "summary": "在useProtocolConversions中执行 useProtocolConversionDetail 操作。协调 useQuery、protocolConversionQueryKeys.detail、getProtocolConversion 等调用处理输入与状态。",
+      "tags": [
+        "react-hook",
+        "协议转换",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "type": "file",
+      "name": "CapabilityTags.tsx",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "summary": "根据协议能力元数据渲染流式、工具、推理等能力与内容类型标签，紧凑模式省略不支持的能力。",
+      "tags": [
+        "react-组件",
+        "转换能力",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx:CapabilityTags",
+      "type": "function",
+      "name": "CapabilityTags",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "lineRange": [
+        16,
+        33
+      ],
+      "summary": "初始化 CapabilityTags 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "转换能力",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "type": "file",
+      "name": "FieldMappingHierarchy.tsx",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "summary": "以层级分组展示字段映射，汇总覆盖数量并用路径、映射类型、损失标签和说明展示单行转换语义。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "层级视图"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:FieldMappingHierarchy",
+      "type": "function",
+      "name": "FieldMappingHierarchy",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "lineRange": [
+        15,
+        105
+      ],
+      "summary": "初始化 FieldMappingHierarchy 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "层级视图"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:GroupLabel",
+      "type": "function",
+      "name": "GroupLabel",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "lineRange": [
+        107,
+        122
+      ],
+      "summary": "在FieldMappingHierarchy中执行 GroupLabel 操作。处理 { group } 参数。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "层级视图"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:MappingRow",
+      "type": "function",
+      "name": "MappingRow",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "lineRange": [
+        132,
+        173
+      ],
+      "summary": "在FieldMappingHierarchy中执行 MappingRow 操作。协调 [row.sourceType || row.targetType ? `类型：${row.sourceType ?? '-'} → ${row.targetType ?? '-'}` : null,\n              row.defaultValue ? `默认：${row.defaultValue}` : null,\n              row.condition ? `条件：${row.condition}` : null,\n              row.notes].filter(Boolean).join、[row.sourceType || row.targetType ? `类型：${row.sourceType ?? '-'} → ${row.targetType ?? '-'}` : null,\n              row.defaultValue ? `默认：${row.defaultValue}` : null,\n              row.condition ? `条件：${row.condition}` : null,\n              row.notes].filter 等调用处理输入与状态。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "层级视图"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:SummaryMetric",
+      "type": "function",
+      "name": "SummaryMetric",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "lineRange": [
+        177,
+        187
+      ],
+      "summary": "在FieldMappingHierarchy中执行 SummaryMetric 操作。处理 { icon, label, hint, value, tone } 参数。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "层级视图"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "type": "file",
+      "name": "FieldMappingTable.tsx",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "summary": "通过表格展示源目标字段、映射类型和损失程度，提供骨架加载态及映射摘要。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "表格"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx:FieldMappingTable",
+      "type": "function",
+      "name": "FieldMappingTable",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "lineRange": [
+        14,
+        100
+      ],
+      "summary": "初始化 FieldMappingTable 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "字段映射",
+        "表格"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "type": "file",
+      "name": "FieldPathText.tsx",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "summary": "把协议字段路径渲染为可复制的分段文本，为数组、通配符和选择器提供可读说明并可显示层级深度。",
+      "tags": [
+        "react-组件",
+        "路径展示",
+        "可复制文本"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:FieldPathText",
+      "type": "function",
+      "name": "FieldPathText",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "lineRange": [
+        13,
+        65
+      ],
+      "summary": "初始化 FieldPathText 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "路径展示",
+        "可复制文本"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:getSegmentDisplay",
+      "type": "function",
+      "name": "getSegmentDisplay",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "lineRange": [
+        67,
+        92
+      ],
+      "summary": "在FieldPathText中执行 getSegmentDisplay 操作。协调 segment.value.slice、segment.value.split、segment.value.indexOf 等调用处理输入与状态。",
+      "tags": [
+        "react-组件",
+        "路径展示",
+        "可复制文本"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "type": "file",
+      "name": "MappingTypeTag.tsx",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "summary": "读取映射类型元数据并渲染对应颜色和文案的标签。",
+      "tags": [
+        "react-组件",
+        "映射类型",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx:MappingTypeTag",
+      "type": "function",
+      "name": "MappingTypeTag",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "初始化 MappingTypeTag 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "映射类型",
+        "标签"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "type": "file",
+      "name": "ProtocolConversionRow.tsx",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "summary": "展示协议转换方向、定义类型、启用与实现状态及紧凑能力标签，支持选中背景与自定义操作区。",
+      "tags": [
+        "react-组件",
+        "协议转换",
+        "列表项"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx:ProtocolConversionRow",
+      "type": "function",
+      "name": "ProtocolConversionRow",
+      "filePath": "frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "lineRange": [
+        16,
+        35
+      ],
+      "summary": "初始化 ProtocolConversionRow 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "协议转换",
+        "列表项"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:listProtocolConversions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:listProtocolConversions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:getProtocolConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:getProtocolConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:getProtocolConversionByDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:getProtocolConversionByDirection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:enableProtocolConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:enableProtocolConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:disableProtocolConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts:disableProtocolConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "target": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parseFieldPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parseFieldPath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parsePathPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingTypeMeta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingTypeMeta",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getLossinessMeta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getLossinessMeta",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingCoverageStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingCoverageStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferSemanticGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:normalizeMappingType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:groupFromCategory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:sortGroups",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:isLikelyRename",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "target": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts:useProtocolConversions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts:useProtocolConversions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts:useProtocolConversionDetail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "target": "function:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts:useProtocolConversionDetail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "target": "file:frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx:CapabilityTags",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx:CapabilityTags",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:FieldMappingHierarchy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:FieldMappingHierarchy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:GroupLabel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:MappingRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx:SummaryMetric",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx:FieldMappingTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx:FieldMappingTable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:FieldPathText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:FieldPathText",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:getSegmentDisplay",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx:MappingTypeTag",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx:MappingTypeTag",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx:ProtocolConversionRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx:ProtocolConversionRow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "target": "file:frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parseFieldPath",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parsePathPart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:normalizeMappingType",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getLossinessMeta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:isLikelyRename",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingCoverageStatus",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getLossinessMeta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferMappingViewType",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parseFieldPath",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingTypeMeta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getLossinessMeta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:getMappingCoverageStatus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:buildMappingView",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferSemanticGroup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:inferSemanticGroup",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:groupFromCategory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:isLikelyRename",
+      "target": "function:frontend/src/entities/protocol-conversion/model/mappingView.ts:parseFieldPath",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:FieldPathText",
+      "target": "function:frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx:getSegmentDisplay",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

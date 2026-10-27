@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/app/styles/global.css",
+      "type": "file",
+      "name": "global.css",
+      "filePath": "frontend/src/app/styles/global.css",
+      "summary": "定义应用全局布局、基础视觉样式及通用组件外观，使页面共享统一的展示规则。",
+      "tags": [
+        "样式",
+        "全局基础"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/app/styles/reset.css",
+      "type": "file",
+      "name": "reset.css",
+      "filePath": "frontend/src/app/styles/reset.css",
+      "summary": "重置浏览器默认样式，为后续设计令牌与组件样式提供一致的基础。",
+      "tags": [
+        "样式",
+        "全局基础"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/app/styles/tokens.css",
+      "type": "file",
+      "name": "tokens.css",
+      "filePath": "frontend/src/app/styles/tokens.css",
+      "summary": "集中声明全局 CSS 设计变量，供页面和组件复用颜色、间距、圆角与阴影。",
+      "tags": [
+        "样式",
+        "设计变量"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/app/styles/global.css",
+      "target": "file:frontend/src/app/styles/tokens.css",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/app/styles/global.css",
+      "target": "file:frontend/src/app/styles/tokens.css",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    }
+  ]
+}

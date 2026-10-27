@@ -1,0 +1,401 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/api-credential/api/apiCredentialApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 136,
+      "nonEmptyLines": 122,
+      "functions": [
+        {
+          "name": "normalizeCredential",
+          "startLine": 41,
+          "endLine": 60,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "credentialPath",
+          "startLine": 62,
+          "endLine": 64,
+          "params": [
+            "credentialId",
+            "suffix"
+          ]
+        },
+        {
+          "name": "listApiCredentials",
+          "startLine": 66,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "createApiCredential",
+          "startLine": 75,
+          "endLine": 86,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "revealApiCredentialSecret",
+          "startLine": 88,
+          "endLine": 98,
+          "params": [
+            "credentialId"
+          ]
+        },
+        {
+          "name": "renameApiCredential",
+          "startLine": 100,
+          "endLine": 106,
+          "params": [
+            "credentialId",
+            "params"
+          ]
+        },
+        {
+          "name": "changeApiCredentialModelGroup",
+          "startLine": 108,
+          "endLine": 114,
+          "params": [
+            "credentialId",
+            "params"
+          ]
+        },
+        {
+          "name": "changeApiCredentialTokenLimit",
+          "startLine": 116,
+          "endLine": 122,
+          "params": [
+            "credentialId",
+            "params"
+          ]
+        },
+        {
+          "name": "enableApiCredential",
+          "startLine": 124,
+          "endLine": 127,
+          "params": [
+            "credentialId"
+          ]
+        },
+        {
+          "name": "disableApiCredential",
+          "startLine": 129,
+          "endLine": 132,
+          "params": [
+            "credentialId"
+          ]
+        },
+        {
+          "name": "deleteApiCredential",
+          "startLine": 134,
+          "endLine": 136,
+          "params": [
+            "credentialId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listApiCredentials",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "createApiCredential",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "revealApiCredentialSecret",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "renameApiCredential",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "changeApiCredentialModelGroup",
+          "line": 108,
+          "isDefault": false
+        },
+        {
+          "name": "changeApiCredentialTokenLimit",
+          "line": 116,
+          "isDefault": false
+        },
+        {
+          "name": "enableApiCredential",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "disableApiCredential",
+          "line": 129,
+          "isDefault": false
+        },
+        {
+          "name": "deleteApiCredential",
+          "line": 134,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "normalizeCredential",
+          "callee": "String",
+          "lineNumber": 43
+        },
+        {
+          "caller": "normalizeCredential",
+          "callee": "String",
+          "lineNumber": 45
+        },
+        {
+          "caller": "normalizeCredential",
+          "callee": "Number",
+          "lineNumber": 48
+        },
+        {
+          "caller": "normalizeCredential",
+          "callee": "Number",
+          "lineNumber": 49
+        },
+        {
+          "caller": "normalizeCredential",
+          "callee": "Number",
+          "lineNumber": 50
+        },
+        {
+          "caller": "normalizeCredential",
+          "callee": "Number",
+          "lineNumber": 51
+        },
+        {
+          "caller": "normalizeCredential",
+          "callee": "Number",
+          "lineNumber": 52
+        },
+        {
+          "caller": "credentialPath",
+          "callee": "encodeURIComponent",
+          "lineNumber": 63
+        },
+        {
+          "caller": "listApiCredentials",
+          "callee": "browserTimeZone",
+          "lineNumber": 67
+        },
+        {
+          "caller": "listApiCredentials",
+          "callee": "await apiClient.get",
+          "lineNumber": 68
+        },
+        {
+          "caller": "listApiCredentials",
+          "callee": "(response.data.credentials ?? []).map",
+          "lineNumber": 71
+        },
+        {
+          "caller": "createApiCredential",
+          "callee": "await apiClient.post",
+          "lineNumber": 78
+        },
+        {
+          "caller": "createApiCredential",
+          "callee": "normalizeCredential",
+          "lineNumber": 82
+        },
+        {
+          "caller": "revealApiCredentialSecret",
+          "callee": "await apiClient.post",
+          "lineNumber": 89
+        },
+        {
+          "caller": "revealApiCredentialSecret",
+          "callee": "credentialPath",
+          "lineNumber": 89
+        },
+        {
+          "caller": "revealApiCredentialSecret",
+          "callee": "String",
+          "lineNumber": 93
+        },
+        {
+          "caller": "renameApiCredential",
+          "callee": "await apiClient.patch",
+          "lineNumber": 104
+        },
+        {
+          "caller": "renameApiCredential",
+          "callee": "credentialPath",
+          "lineNumber": 104
+        },
+        {
+          "caller": "renameApiCredential",
+          "callee": "normalizeCredential",
+          "lineNumber": 105
+        },
+        {
+          "caller": "changeApiCredentialModelGroup",
+          "callee": "await apiClient.put",
+          "lineNumber": 112
+        },
+        {
+          "caller": "changeApiCredentialModelGroup",
+          "callee": "credentialPath",
+          "lineNumber": 112
+        },
+        {
+          "caller": "changeApiCredentialModelGroup",
+          "callee": "normalizeCredential",
+          "lineNumber": 113
+        },
+        {
+          "caller": "changeApiCredentialTokenLimit",
+          "callee": "await apiClient.put",
+          "lineNumber": 120
+        },
+        {
+          "caller": "changeApiCredentialTokenLimit",
+          "callee": "credentialPath",
+          "lineNumber": 120
+        },
+        {
+          "caller": "changeApiCredentialTokenLimit",
+          "callee": "normalizeCredential",
+          "lineNumber": 121
+        },
+        {
+          "caller": "enableApiCredential",
+          "callee": "await apiClient.patch",
+          "lineNumber": 125
+        },
+        {
+          "caller": "enableApiCredential",
+          "callee": "credentialPath",
+          "lineNumber": 125
+        },
+        {
+          "caller": "enableApiCredential",
+          "callee": "normalizeCredential",
+          "lineNumber": 126
+        },
+        {
+          "caller": "disableApiCredential",
+          "callee": "await apiClient.patch",
+          "lineNumber": 130
+        },
+        {
+          "caller": "disableApiCredential",
+          "callee": "credentialPath",
+          "lineNumber": 130
+        },
+        {
+          "caller": "disableApiCredential",
+          "callee": "normalizeCredential",
+          "lineNumber": 131
+        },
+        {
+          "caller": "deleteApiCredential",
+          "callee": "apiClient.delete",
+          "lineNumber": 135
+        },
+        {
+          "caller": "deleteApiCredential",
+          "callee": "credentialPath",
+          "lineNumber": 135
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 9,
+        "functionCount": 11,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/api-credential/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 52,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/api-credential/model/useApiCredentials.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "useApiCredentials",
+          "startLine": 14,
+          "endLine": 30,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "API_CREDENTIALS_QUERY_KEY",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "useApiCredentials",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useApiCredentials",
+          "callee": "useQuery",
+          "lineNumber": 15
+        },
+        {
+          "caller": "useApiCredentials",
+          "callee": "listApiCredentials",
+          "lineNumber": 18
+        },
+        {
+          "caller": "useApiCredentials",
+          "callee": "credentials.map",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

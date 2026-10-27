@@ -1,0 +1,124 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/app/router/index.tsx",
+      "type": "file",
+      "name": "index.tsx",
+      "filePath": "frontend/src/app/router/index.tsx",
+      "summary": "使用 createBrowserRouter 将路由表构造成浏览器路由实例，并通过 barrel 入口同时导出路由配置。",
+      "tags": [
+        "入口点",
+        "浏览器路由",
+        "公开接口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/app/router/lazyPages.ts",
+      "type": "file",
+      "name": "lazyPages.ts",
+      "filePath": "frontend/src/app/router/lazyPages.ts",
+      "summary": "集中声明用户与管理员仪表盘、API Key 和用量页面的懒加载组件，统一使用动态模块重试包装器。",
+      "tags": [
+        "懒加载",
+        "页面入口",
+        "动态导入"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/app/router/lazyWithRetry.ts",
+      "type": "file",
+      "name": "lazyWithRetry.ts",
+      "filePath": "frontend/src/app/router/lazyWithRetry.ts",
+      "summary": "为 React.lazy 包装动态导入，分块加载错误时通过共享策略决定是否刷新页面；刷新时返回未完成 Promise，其他错误继续抛出交由路由错误边界处理，导入成功后清除重试标记。",
+      "tags": [
+        "懒加载",
+        "加载恢复",
+        "错误传播"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/app/router/lazyWithRetry.ts:lazyWithRetry",
+      "type": "function",
+      "name": "lazyWithRetry",
+      "filePath": "frontend/src/app/router/lazyWithRetry.ts",
+      "lineRange": [
+        5,
+        20
+      ],
+      "summary": "执行组件动态导入，成功清除分块重试状态；满足共享重试条件时刷新当前页面并维持挂起，否则重新抛出原错误。",
+      "tags": [
+        "懒加载",
+        "加载恢复",
+        "错误传播"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/app/router/routes.tsx",
+      "type": "file",
+      "name": "routes.tsx",
+      "filePath": "frontend/src/app/router/routes.tsx",
+      "summary": "定义登录、用户门户和管理员门户路由树，组合认证与角色守卫、布局、错误边界、懒加载页面及未匹配路径回退。",
+      "tags": [
+        "路由配置",
+        "认证守卫",
+        "页面布局"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/app/router/index.tsx",
+      "target": "file:frontend/src/app/router/routes.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/app/router/lazyPages.ts",
+      "target": "file:frontend/src/app/router/lazyWithRetry.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/app/router/lazyWithRetry.ts",
+      "target": "function:frontend/src/app/router/lazyWithRetry.ts:lazyWithRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/app/router/lazyWithRetry.ts",
+      "target": "function:frontend/src/app/router/lazyWithRetry.ts:lazyWithRetry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/app/router/routes.tsx",
+      "target": "file:frontend/src/app/router/adminRoutes.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/app/router/routes.tsx",
+      "target": "file:frontend/src/app/router/lazyPages.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/app/router/lazyPages.ts",
+      "target": "file:frontend/src/app/router/lazyWithRetry.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

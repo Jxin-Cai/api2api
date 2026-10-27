@@ -1,0 +1,1205 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "type": "file",
+      "name": "AesGcmApiKeyMaterialProtector.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "summary": "使用 AES-GCM 和随机 nonce 保护可展示 API Key，启动时要求配置加密键；解密支持历史键与历史格式兼容，失败映射为业务异常。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "type": "class",
+      "name": "AesGcmApiKeyMaterialProtector",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        21,
+        161
+      ],
+      "summary": "使用 AES-GCM 和随机 nonce 保护可展示 API Key，启动时要求配置加密键；解密支持历史键与历史格式兼容，失败映射为业务异常。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "type": "function",
+      "name": "AesGcmApiKeyMaterialProtector",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        40,
+        54
+      ],
+      "summary": "初始化 AesGcmApiKeyMaterialProtector 的状态并建立构造约束。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:protect",
+      "type": "function",
+      "name": "protect",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        56,
+        73
+      ],
+      "summary": "使用当前配置键和随机 nonce 加密明文 API Key，返回带版本的密钥材料。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:reveal",
+      "type": "function",
+      "name": "reveal",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        75,
+        98
+      ],
+      "summary": "验证密钥材料，按配置与历史解密键逐个尝试恢复明文，兼容旧格式并报告最终失败。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:buildDecryptKeySpecs",
+      "type": "function",
+      "name": "buildDecryptKeySpecs",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        100,
+        111
+      ],
+      "summary": "汇集当前键、配置的历史键及兼容键，去重构造解密候选。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:decrypt",
+      "type": "function",
+      "name": "decrypt",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        119,
+        128
+      ],
+      "summary": "使用指定键、保存的 nonce 及 GCM 认证标签解密并还原 UTF-8 文本。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:encryptWithConfiguredKey",
+      "type": "function",
+      "name": "encryptWithConfiguredKey",
+      "filePath": "backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "lineRange": [
+        134,
+        151
+      ],
+      "summary": "使用显式传入的键与版本构造加密材料，供兼容性测试生成样本。",
+      "tags": [
+        "密钥保护",
+        "aes-gcm",
+        "兼容解密"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "type": "file",
+      "name": "ApiKeyHasher.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "summary": "集中定义 API Key 的 SHA-256 十六进制指纹，保证创建与网关鉴权使用一致的摘要格式。",
+      "tags": [
+        "工具函数",
+        "sha-256",
+        "凭证鉴权"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:ApiKeyHasher",
+      "type": "class",
+      "name": "ApiKeyHasher",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "lineRange": [
+        10,
+        24
+      ],
+      "summary": "集中定义 API Key 的 SHA-256 十六进制指纹，保证创建与网关鉴权使用一致的摘要格式。",
+      "tags": [
+        "工具函数",
+        "sha-256",
+        "凭证鉴权"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:ApiKeyHasher",
+      "type": "function",
+      "name": "ApiKeyHasher",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "lineRange": [
+        12,
+        13
+      ],
+      "summary": "初始化 ApiKeyHasher 的状态并建立构造约束。",
+      "tags": [
+        "工具函数",
+        "sha-256",
+        "凭证鉴权"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:hash",
+      "type": "function",
+      "name": "hash",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "lineRange": [
+        15,
+        23
+      ],
+      "summary": "在ApiKeyHasher中执行 hash 操作。协调 MessageDigest.getInstance、digest.digest、plaintextKey.getBytes、ApiKeyHash.of、HexFormat.of().formatHex 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "sha-256",
+        "凭证鉴权"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "type": "file",
+      "name": "IdentifierFactory.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "summary": "在 HTTP 边界创建各聚合所需的领域标识，集中封装标识生成与类型构造。",
+      "tags": [
+        "标识工厂",
+        "http-边界",
+        "领域类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:IdentifierFactory",
+      "type": "class",
+      "name": "IdentifierFactory",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "lineRange": [
+        13,
+        39
+      ],
+      "summary": "在 HTTP 边界创建各聚合所需的领域标识，集中封装标识生成与类型构造。",
+      "tags": [
+        "标识工厂",
+        "http-边界",
+        "领域类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newUserAccountId",
+      "type": "function",
+      "name": "newUserAccountId",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "lineRange": [
+        16,
+        20
+      ],
+      "summary": "在IdentifierFactory中执行 newUserAccountId 操作。协调 System.currentTimeMillis、ThreadLocalRandom.current().nextLong、ThreadLocalRandom.current、UserAccountId.of 等调用处理输入与状态。",
+      "tags": [
+        "标识工厂",
+        "http-边界",
+        "领域类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newProviderChannelId",
+      "type": "function",
+      "name": "newProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "lineRange": [
+        22,
+        26
+      ],
+      "summary": "在IdentifierFactory中执行 newProviderChannelId 操作。协调 System.currentTimeMillis、ThreadLocalRandom.current().nextLong、ThreadLocalRandom.current、ProviderChannelId.of 等调用处理输入与状态。",
+      "tags": [
+        "标识工厂",
+        "http-边界",
+        "领域类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newApiCredentialId",
+      "type": "function",
+      "name": "newApiCredentialId",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "lineRange": [
+        28,
+        32
+      ],
+      "summary": "在IdentifierFactory中执行 newApiCredentialId 操作。协调 System.currentTimeMillis、ThreadLocalRandom.current().nextLong、ThreadLocalRandom.current、ApiCredentialId.of 等调用处理输入与状态。",
+      "tags": [
+        "标识工厂",
+        "http-边界",
+        "领域类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newModelGroupId",
+      "type": "function",
+      "name": "newModelGroupId",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "lineRange": [
+        34,
+        38
+      ],
+      "summary": "在IdentifierFactory中执行 newModelGroupId 操作。协调 System.currentTimeMillis、ThreadLocalRandom.current().nextLong、ThreadLocalRandom.current、ModelGroupId.of 等调用处理输入与状态。",
+      "tags": [
+        "标识工厂",
+        "http-边界",
+        "领域类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "type": "file",
+      "name": "ApiCredentialController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "提供用户凭证管理接口，解析当前用户并把创建、展示、重命名、分组变更、配额与启停删除请求转换为应用命令；创建时生成并加密密钥材料。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:ApiCredentialController",
+      "type": "class",
+      "name": "ApiCredentialController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        51,
+        209
+      ],
+      "summary": "提供用户凭证管理接口，解析当前用户并把创建、展示、重命名、分组变更、配额与启停删除请求转换为应用命令；创建时生成并加密密钥材料。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "type": "function",
+      "name": "listMyCredentials",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        78,
+        93
+      ],
+      "summary": "在ApiCredentialController中执行 listMyCredentials 操作。协调 currentUserContextResolver.resolveCurrentUserId、UsageTimeRange.of、timeWindowHelper.getTodayStartInclusive、timeWindowHelper.getTodayEndExclusive、apiCredentialApplicationService.listMyCredentialUsageViews 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "type": "function",
+      "name": "createCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        95,
+        113
+      ],
+      "summary": "在ApiCredentialController中执行 createCredential 操作。协调 currentUserContextResolver.resolveCurrentUserId、identifierFactory.newApiCredentialId、apiKeyMaterialHelper.generateApiKeyMaterial、apiCredentialHttpConverter.toCreateCommand、apiKeyMaterialProtector.protect 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "type": "function",
+      "name": "revealCredentialSecret",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        115,
+        126
+      ],
+      "summary": "在ApiCredentialController中执行 revealCredentialSecret 操作。协调 currentUserContextResolver.resolveCurrentUserId、ApiCredentialId.of、apiCredentialApplicationService.revealSecret、apiCredentialHttpConverter.toRevealCommand、ApiResponse.success 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "type": "function",
+      "name": "renameCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        128,
+        140
+      ],
+      "summary": "在ApiCredentialController中执行 renameCredential 操作。协调 currentUserContextResolver.resolveCurrentUserId、ApiCredentialId.of、apiCredentialHttpConverter.toRenameCommand、apiCredentialApplicationService.renameCredential、ApiResponse.success 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "type": "function",
+      "name": "changeModelGroup",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        142,
+        154
+      ],
+      "summary": "在ApiCredentialController中执行 changeModelGroup 操作。协调 currentUserContextResolver.resolveCurrentUserId、ApiCredentialId.of、apiCredentialHttpConverter.toChangeModelGroupCommand、apiCredentialApplicationService.changeModelGroup、ApiResponse.success 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeTokenLimit",
+      "type": "function",
+      "name": "changeTokenLimit",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        156,
+        168
+      ],
+      "summary": "在ApiCredentialController中执行 changeTokenLimit 操作。协调 currentUserContextResolver.resolveCurrentUserId、ApiCredentialId.of、apiCredentialHttpConverter.toChangeTokenLimitCommand、apiCredentialApplicationService.changeTokenLimit、ApiResponse.success 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "type": "function",
+      "name": "disableCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        170,
+        181
+      ],
+      "summary": "在ApiCredentialController中执行 disableCredential 操作。协调 currentUserContextResolver.resolveCurrentUserId、ApiCredentialId.of、apiCredentialHttpConverter.toChangeStatusCommand、apiCredentialApplicationService.disableCredential、ApiResponse.success 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "type": "function",
+      "name": "enableCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        183,
+        194
+      ],
+      "summary": "在ApiCredentialController中执行 enableCredential 操作。协调 currentUserContextResolver.resolveCurrentUserId、ApiCredentialId.of、apiCredentialHttpConverter.toChangeStatusCommand、apiCredentialApplicationService.enableCredential、ApiResponse.success 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "type": "function",
+      "name": "deleteCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "lineRange": [
+        196,
+        208
+      ],
+      "summary": "在ApiCredentialController中执行 deleteCredential 操作。协调 currentUserContextResolver.resolveCurrentUserId、DeleteApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId)\n                .apiCredentialId(ApiCredentialId.of(credentialId)).build、DeleteApiCredentialCommand.builder()\n                .ownerUserId(ownerUserId).apiCredentialId、DeleteApiCredentialCommand.builder().ownerUserId、DeleteApiCredentialCommand.builder 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "凭证管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "type": "file",
+      "name": "ApiKeyMaterialHelper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "summary": "生成带统一前缀的随机 API Key，并一次性组合明文、SHA-256 指纹及脱敏预览，供创建响应与加密持久化流程使用。",
+      "tags": [
+        "工具函数",
+        "密钥生成",
+        "脱敏预览"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:ApiKeyMaterialHelper",
+      "type": "class",
+      "name": "ApiKeyMaterialHelper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "lineRange": [
+        15,
+        75
+      ],
+      "summary": "生成带统一前缀的随机 API Key，并一次性组合明文、SHA-256 指纹及脱敏预览，供创建响应与加密持久化流程使用。",
+      "tags": [
+        "工具函数",
+        "密钥生成",
+        "脱敏预览"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:generateApiKeyMaterial",
+      "type": "function",
+      "name": "generateApiKeyMaterial",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "lineRange": [
+        52,
+        57
+      ],
+      "summary": "在ApiKeyMaterialHelper中执行 generateApiKeyMaterial 操作。协调 generatePlaintextKey、hashKey、createPreview、new ApiKeyMaterial 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "密钥生成",
+        "脱敏预览"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:hashKey",
+      "type": "function",
+      "name": "hashKey",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "lineRange": [
+        63,
+        65
+      ],
+      "summary": "在ApiKeyMaterialHelper中执行 hashKey 操作。协调 ApiKeyHasher.hash 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "密钥生成",
+        "脱敏预览"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:protect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:protect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:reveal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:reveal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:buildDecryptKeySpecs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:decrypt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:encryptWithConfiguredKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiKeyMaterialProtector.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/EncryptedApiKeyMaterial.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:ApiKeyHasher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:ApiKeyHasher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:ApiKeyHasher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:ApiKeyHasher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:hash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java:hash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:IdentifierFactory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:IdentifierFactory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newUserAccountId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newUserAccountId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newApiCredentialId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newApiCredentialId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newModelGroupId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newModelGroupId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:ApiCredentialController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:ApiCredentialController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeTokenLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeTokenLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiKeyMaterialProtector.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeApiCredentialStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeTokenLimitCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/CreateApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/RenameApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ApiCredentialListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ApiCredentialResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ChangeModelGroupRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ChangeTokenLimitRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/CreateApiCredentialRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/CreateApiCredentialResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:ApiKeyMaterialHelper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:ApiKeyMaterialHelper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:generateApiKeyMaterial",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:generateApiKeyMaterial",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:hashKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:hashKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiKeyPreview.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiKeyHasher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:AesGcmApiKeyMaterialProtector",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:buildDecryptKeySpecs",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:reveal",
+      "target": "function:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java:decrypt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:generateApiKeyMaterial",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiKeyMaterialHelper.java:hashKey",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

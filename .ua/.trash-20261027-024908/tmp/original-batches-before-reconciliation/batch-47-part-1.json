@@ -1,0 +1,888 @@
+{
+  "nodes": [
+    {
+      "id": "config:.ua/config.json",
+      "type": "config",
+      "name": "config.json",
+      "filePath": ".ua/config.json",
+      "summary": "配置知识图谱分析时包含测试文件。",
+      "tags": [
+        "知识图谱",
+        "分析配置",
+        "测试覆盖"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:backend/.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": "backend/.env.example",
+      "summary": "提供数据库、初始管理员、端口及上游和流式超时等环境变量模板。",
+      "tags": [
+        "环境配置",
+        "部署参数",
+        "超时配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "type": "file",
+      "name": "Api2ApiApplication.java",
+      "filePath": "backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "summary": "启动 Spring Boot 后端，扫描配置属性、启用定时任务并提供 UTC 时钟。",
+      "tags": [
+        "应用入口",
+        "依赖注入",
+        "定时任务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/Api2ApiApplication.java:Api2ApiApplication",
+      "type": "class",
+      "name": "Api2ApiApplication",
+      "filePath": "backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "lineRange": [
+        9,
+        21
+      ],
+      "summary": "启动 Spring Boot 后端，扫描配置属性、启用定时任务并提供 UTC 时钟。",
+      "tags": [
+        "应用入口",
+        "依赖注入",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/Api2ApiApplication.java:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "以 Spring Boot 启动网关后端应用。",
+      "tags": [
+        "应用入口",
+        "依赖注入",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/Api2ApiApplication.java:clock",
+      "type": "function",
+      "name": "clock",
+      "filePath": "backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "提供使用 UTC 时区的系统时钟 Bean。",
+      "tags": [
+        "应用入口",
+        "依赖注入",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java",
+      "type": "file",
+      "name": "BootstrapAdminProperties.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java",
+      "summary": "以配置属性记录承载初始化管理员的用户名与密码。",
+      "tags": [
+        "管理员初始化",
+        "配置绑定",
+        "数据记录"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java:BootstrapAdminProperties",
+      "type": "class",
+      "name": "BootstrapAdminProperties",
+      "filePath": "backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java",
+      "lineRange": [
+        5,
+        10
+      ],
+      "summary": "以配置属性记录承载初始化管理员的用户名与密码。",
+      "tags": [
+        "管理员初始化",
+        "配置绑定",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "type": "file",
+      "name": "GatewayInvocationState.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "summary": "定义网关调用从创建、认证和路由到转换、转发及成功失败的生命周期状态。",
+      "tags": [
+        "网关调用",
+        "状态枚举",
+        "生命周期"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java:GatewayInvocationState",
+      "type": "class",
+      "name": "GatewayInvocationState",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "lineRange": [
+        6,
+        18
+      ],
+      "summary": "定义网关调用从创建、认证和路由到转换、转发及成功失败的生命周期状态。",
+      "tags": [
+        "网关调用",
+        "状态枚举",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java:isTerminal",
+      "type": "function",
+      "name": "isTerminal",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "判断网关调用是否已成功或失败。",
+      "tags": [
+        "网关调用",
+        "状态枚举",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "type": "file",
+      "name": "MappingMetadata.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "summary": "以映射文档的别名值对象暴露方向、标题、说明和字段映射，并支持不可变追加。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "值对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:MappingMetadata",
+      "type": "class",
+      "name": "MappingMetadata",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        8,
+        42
+      ],
+      "summary": "以映射文档的别名值对象暴露方向、标题、说明和字段映射，并支持不可变追加。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:MappingMetadata",
+      "type": "function",
+      "name": "MappingMetadata",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "初始化MappingMetadata的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "依据传入参数构造MappingMetadata，封装对应的领域状态。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:append",
+      "type": "function",
+      "name": "append",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        19,
+        21
+      ],
+      "summary": "返回追加指定字段映射后的新元数据值对象，保留原实例不变。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:toDocument",
+      "type": "function",
+      "name": "toDocument",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "返回当前元数据封装的映射文档。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:direction",
+      "type": "function",
+      "name": "direction",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        27,
+        29
+      ],
+      "summary": "读取映射方向。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:title",
+      "type": "function",
+      "name": "title",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        31,
+        33
+      ],
+      "summary": "读取映射文档标题。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:summary",
+      "type": "function",
+      "name": "summary",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        35,
+        37
+      ],
+      "summary": "读取映射文档说明。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:fieldMappings",
+      "type": "function",
+      "name": "fieldMappings",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "lineRange": [
+        39,
+        41
+      ],
+      "summary": "读取不可变字段映射列表。",
+      "tags": [
+        "协议转换",
+        "映射元数据",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "type": "file",
+      "name": "ProtocolConversionId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "summary": "以正整数封装协议转换标识，提供领域定义标识互转和值相等语义。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "值对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:ProtocolConversionId",
+      "type": "class",
+      "name": "ProtocolConversionId",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        8,
+        45
+      ],
+      "summary": "以正整数封装协议转换标识，提供领域定义标识互转和值相等语义。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:ProtocolConversionId",
+      "type": "function",
+      "name": "ProtocolConversionId",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        11,
+        16
+      ],
+      "summary": "初始化ProtocolConversionId的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "依据传入参数构造ProtocolConversionId，封装对应的领域状态。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:toDefinitionId",
+      "type": "function",
+      "name": "toDefinitionId",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "将兼容标识转换为领域转换定义标识。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "读取经过校验的正整数标识值。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        30,
+        39
+      ],
+      "summary": "比较ProtocolConversionId的领域属性，判断两个实例是否具有相同值。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "lineRange": [
+        41,
+        44
+      ],
+      "summary": "根据ProtocolConversionId的领域属性计算与值相等规则一致的哈希值。",
+      "tags": [
+        "协议转换",
+        "标识校验",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "type": "file",
+      "name": "ProtocolMetadataException.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "summary": "表示协议元数据处理失败的领域异常，支持保留原始异常原因。",
+      "tags": [
+        "协议元数据",
+        "领域异常",
+        "错误传播"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java:ProtocolMetadataException",
+      "type": "class",
+      "name": "ProtocolMetadataException",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "lineRange": [
+        3,
+        12
+      ],
+      "summary": "表示协议元数据处理失败的领域异常，支持保留原始异常原因。",
+      "tags": [
+        "协议元数据",
+        "领域异常",
+        "领域对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java:ProtocolMetadataException",
+      "type": "function",
+      "name": "ProtocolMetadataException",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "初始化ProtocolMetadataException的依赖和状态，并按构造规则保存传入参数。",
+      "tags": [
+        "协议元数据",
+        "领域异常",
+        "方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:backend/pom.xml",
+      "type": "config",
+      "name": "pom.xml",
+      "filePath": "backend/pom.xml",
+      "summary": "定义 Java 21 与 Spring Boot 后端的 Maven 依赖、测试框架、编译和打包插件。",
+      "tags": [
+        "构建配置",
+        "依赖管理",
+        "后端"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "target": "class:backend/src/main/java/com/api2api/Api2ApiApplication.java:Api2ApiApplication",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "target": "class:backend/src/main/java/com/api2api/Api2ApiApplication.java:Api2ApiApplication",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "target": "function:backend/src/main/java/com/api2api/Api2ApiApplication.java:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "target": "function:backend/src/main/java/com/api2api/Api2ApiApplication.java:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "target": "function:backend/src/main/java/com/api2api/Api2ApiApplication.java:clock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "target": "function:backend/src/main/java/com/api2api/Api2ApiApplication.java:clock",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java:BootstrapAdminProperties",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/BootstrapAdminProperties.java:BootstrapAdminProperties",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java:GatewayInvocationState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java:GatewayInvocationState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java:isTerminal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationState.java:isTerminal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:MappingMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:MappingMetadata",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:MappingMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:MappingMetadata",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:append",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:append",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:toDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:toDocument",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:direction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:direction",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:title",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:title",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:summary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:summary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:fieldMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/MappingMetadata.java:fieldMappings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:ProtocolConversionId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:ProtocolConversionId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:ProtocolConversionId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:ProtocolConversionId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:toDefinitionId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:toDefinitionId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionId.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java:ProtocolMetadataException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java:ProtocolMetadataException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java:ProtocolMetadataException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataException.java:ProtocolMetadataException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "config:backend/pom.xml",
+      "target": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:backend/.env.example",
+      "target": "file:backend/src/main/java/com/api2api/Api2ApiApplication.java",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:backend/.env.example",
+      "target": "class:backend/src/main/java/com/api2api/infr/client/evaluation/EvaluationProbeProperties.java:EvaluationProbeProperties",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

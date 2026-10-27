@@ -1,0 +1,736 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 256,
+      "nonEmptyLines": 226,
+      "functions": [
+        {
+          "name": "toRawResponse",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "invocation"
+          ]
+        },
+        {
+          "name": "toRawResponse",
+          "startLine": 49,
+          "endLine": 52,
+          "params": [
+            "invocation",
+            "upstreamMetadata"
+          ]
+        },
+        {
+          "name": "toRawResponse",
+          "startLine": 54,
+          "endLine": 56,
+          "params": [
+            "outcome"
+          ]
+        },
+        {
+          "name": "toRawResponse",
+          "startLine": 58,
+          "endLine": 83,
+          "params": [
+            "outcome",
+            "upstreamMetadata"
+          ]
+        },
+        {
+          "name": "requiresProtocolConversion",
+          "startLine": 85,
+          "endLine": 87,
+          "params": [
+            "providerResponse",
+            "invocation"
+          ]
+        },
+        {
+          "name": "mapProviderResponse",
+          "startLine": 89,
+          "endLine": 98,
+          "params": [
+            "providerResponse"
+          ]
+        },
+        {
+          "name": "mapProviderFailure",
+          "startLine": 100,
+          "endLine": 114,
+          "params": [
+            "providerResponse",
+            "clientProtocol"
+          ]
+        },
+        {
+          "name": "upstreamErrorMessage",
+          "startLine": 116,
+          "endLine": 137,
+          "params": [
+            "body"
+          ]
+        },
+        {
+          "name": "buildClaudeUpstreamErrorBody",
+          "startLine": 139,
+          "endLine": 149,
+          "params": [
+            "statusCode",
+            "message"
+          ]
+        },
+        {
+          "name": "buildOpenAIUpstreamErrorBody",
+          "startLine": 151,
+          "endLine": 154,
+          "params": [
+            "statusCode",
+            "message"
+          ]
+        },
+        {
+          "name": "mapSuccessResponse",
+          "startLine": 156,
+          "endLine": 173,
+          "params": [
+            "invocation"
+          ]
+        },
+        {
+          "name": "mapFailureResponse",
+          "startLine": 175,
+          "endLine": 191,
+          "params": [
+            "invocation",
+            "upstreamMetadata"
+          ]
+        },
+        {
+          "name": "mapErrorToHttpStatus",
+          "startLine": 193,
+          "endLine": 208,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "buildProtocolErrorBody",
+          "startLine": 210,
+          "endLine": 216,
+          "params": [
+            "protocol",
+            "error"
+          ]
+        },
+        {
+          "name": "buildClaudeErrorBody",
+          "startLine": 218,
+          "endLine": 230,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "buildOpenAIErrorBody",
+          "startLine": 232,
+          "endLine": 234,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "mapErrorTypeToOpenAIType",
+          "startLine": 236,
+          "endLine": 246,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "latestRouteFailureType",
+          "startLine": 248,
+          "endLine": 254,
+          "params": [
+            "error"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayInvocationResponseMapper",
+          "startLine": 30,
+          "endLine": 256,
+          "methods": [
+            "toRawResponse",
+            "toRawResponse",
+            "toRawResponse",
+            "toRawResponse",
+            "requiresProtocolConversion",
+            "mapProviderResponse",
+            "mapProviderFailure",
+            "upstreamErrorMessage",
+            "buildClaudeUpstreamErrorBody",
+            "buildOpenAIUpstreamErrorBody",
+            "mapSuccessResponse",
+            "mapFailureResponse",
+            "mapErrorToHttpStatus",
+            "buildProtocolErrorBody",
+            "buildClaudeErrorBody",
+            "buildOpenAIErrorBody",
+            "mapErrorTypeToOpenAIType",
+            "latestRouteFailureType"
+          ],
+          "properties": [
+            "objectMapper",
+            "errorBodyBuilder"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "toRawResponse",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "toRawResponse",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "toRawResponse",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayInvocationResponseMapper",
+          "line": 30,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toRawResponse",
+          "callee": "toRawResponse",
+          "lineNumber": 41
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "UpstreamResponseMetadata.empty",
+          "lineNumber": 41
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 50
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "toRawResponse",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "GatewayInvocationOutcome.withoutProviderResponse",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "toRawResponse",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "UpstreamResponseMetadata.empty",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "outcome.invocation",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "invocation.result",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "outcome.hasProviderResponse",
+          "lineNumber": 70
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "result.status",
+          "lineNumber": 71
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "mapProviderFailure",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "outcome.providerResponse",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "invocation.requestProtocol",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "requiresProtocolConversion",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "outcome.providerResponse",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "mapProviderResponse",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "outcome.providerResponse",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "result.status",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "mapSuccessResponse",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toRawResponse",
+          "callee": "mapFailureResponse",
+          "lineNumber": 81
+        },
+        {
+          "caller": "requiresProtocolConversion",
+          "callee": "providerResponse.protocol",
+          "lineNumber": 86
+        },
+        {
+          "caller": "requiresProtocolConversion",
+          "callee": "invocation.requestProtocol",
+          "lineNumber": 86
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "GatewayRawResponse.of",
+          "lineNumber": 90
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "providerResponse.body",
+          "lineNumber": 91
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "providerResponse.statusCode",
+          "lineNumber": 92
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "GatewayResponseHeaderFilter.extractContentType",
+          "lineNumber": 93
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "providerResponse.headers",
+          "lineNumber": 94
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "providerResponse.streaming",
+          "lineNumber": 95
+        },
+        {
+          "caller": "mapProviderResponse",
+          "callee": "providerResponse.headers",
+          "lineNumber": 96
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "providerResponse.protocol",
+          "lineNumber": 101
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "mapProviderResponse",
+          "lineNumber": 102
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "upstreamErrorMessage",
+          "lineNumber": 104
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "providerResponse.body",
+          "lineNumber": 104
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "buildClaudeUpstreamErrorBody",
+          "lineNumber": 106
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "providerResponse.statusCode",
+          "lineNumber": 106
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "buildOpenAIUpstreamErrorBody",
+          "lineNumber": 107
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "providerResponse.statusCode",
+          "lineNumber": 107
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "GatewayRawResponse.of",
+          "lineNumber": 108
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "providerResponse.statusCode",
+          "lineNumber": 110
+        },
+        {
+          "caller": "mapProviderFailure",
+          "callee": "providerResponse.headers",
+          "lineNumber": 112
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "body.isBlank",
+          "lineNumber": 117
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "objectMapper.readTree",
+          "lineNumber": 121
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "List.of",
+          "lineNumber": 122
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "root.path(\"error\").path",
+          "lineNumber": 123
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "root.path",
+          "lineNumber": 123
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "root.path",
+          "lineNumber": 124
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "root.path",
+          "lineNumber": 125
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "root.path",
+          "lineNumber": 126
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "candidate.isTextual",
+          "lineNumber": 128
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "candidate.asText().isBlank",
+          "lineNumber": 128
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "candidate.asText",
+          "lineNumber": 128
+        },
+        {
+          "caller": "upstreamErrorMessage",
+          "callee": "candidate.asText",
+          "lineNumber": 129
+        },
+        {
+          "caller": "buildClaudeUpstreamErrorBody",
+          "callee": "errorBodyBuilder.buildClaudeErrorBody",
+          "lineNumber": 148
+        },
+        {
+          "caller": "buildOpenAIUpstreamErrorBody",
+          "callee": "errorBodyBuilder.buildOpenAIErrorBody",
+          "lineNumber": 153
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "invocation.conversionTrace",
+          "lineNumber": 157
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "conversionTrace.responseConversion",
+          "lineNumber": 158
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "new IllegalStateException",
+          "lineNumber": 159
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "conversionTrace.responseConversion",
+          "lineNumber": 162
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "responseConversion.body",
+          "lineNumber": 163
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "body.isBlank",
+          "lineNumber": 164
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "new IllegalStateException",
+          "lineNumber": 165
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "invocation.result().streaming",
+          "lineNumber": 168
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "invocation.result",
+          "lineNumber": 168
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "GatewayRawResponse.of",
+          "lineNumber": 172
+        },
+        {
+          "caller": "mapSuccessResponse",
+          "callee": "HttpStatus.OK.value",
+          "lineNumber": 172
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "invocation.result",
+          "lineNumber": 179
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "result.error",
+          "lineNumber": 180
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "new IllegalStateException",
+          "lineNumber": 182
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "invocation.requestProtocol",
+          "lineNumber": 185
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "mapErrorToHttpStatus",
+          "lineNumber": 186
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "buildProtocolErrorBody",
+          "lineNumber": 187
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "GatewayRawResponse.of",
+          "lineNumber": 189
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "httpStatus.value",
+          "lineNumber": 190
+        },
+        {
+          "caller": "mapFailureResponse",
+          "callee": "upstreamMetadata.headers",
+          "lineNumber": 190
+        },
+        {
+          "caller": "mapErrorToHttpStatus",
+          "callee": "error.errorType",
+          "lineNumber": 194
+        },
+        {
+          "caller": "mapErrorToHttpStatus",
+          "callee": "latestRouteFailureType",
+          "lineNumber": 195
+        },
+        {
+          "caller": "mapErrorToHttpStatus",
+          "callee": "error.errorType",
+          "lineNumber": 202
+        },
+        {
+          "caller": "buildProtocolErrorBody",
+          "callee": "buildClaudeErrorBody",
+          "lineNumber": 212
+        },
+        {
+          "caller": "buildProtocolErrorBody",
+          "callee": "buildOpenAIErrorBody",
+          "lineNumber": 213
+        },
+        {
+          "caller": "buildProtocolErrorBody",
+          "callee": "buildOpenAIErrorBody",
+          "lineNumber": 214
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "error.errorType",
+          "lineNumber": 219
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "latestRouteFailureType(error).isRateLimited",
+          "lineNumber": 225
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "latestRouteFailureType",
+          "lineNumber": 225
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "errorBodyBuilder.buildClaudeErrorBody",
+          "lineNumber": 229
+        },
+        {
+          "caller": "buildClaudeErrorBody",
+          "callee": "error.message",
+          "lineNumber": 229
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "errorBodyBuilder.buildOpenAIErrorBody",
+          "lineNumber": 233
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "mapErrorTypeToOpenAIType",
+          "lineNumber": 233
+        },
+        {
+          "caller": "buildOpenAIErrorBody",
+          "callee": "error.message",
+          "lineNumber": 233
+        },
+        {
+          "caller": "mapErrorTypeToOpenAIType",
+          "callee": "error.errorType",
+          "lineNumber": 237
+        },
+        {
+          "caller": "mapErrorTypeToOpenAIType",
+          "callee": "latestRouteFailureType(error).isRateLimited",
+          "lineNumber": 242
+        },
+        {
+          "caller": "mapErrorTypeToOpenAIType",
+          "callee": "latestRouteFailureType",
+          "lineNumber": 242
+        },
+        {
+          "caller": "latestRouteFailureType",
+          "callee": "error.failures",
+          "lineNumber": 249
+        },
+        {
+          "caller": "latestRouteFailureType",
+          "callee": "failures.isEmpty",
+          "lineNumber": 250
+        },
+        {
+          "caller": "latestRouteFailureType",
+          "callee": "failures.get(failures.size() - 1).failureType",
+          "lineNumber": 253
+        },
+        {
+          "caller": "latestRouteFailureType",
+          "callee": "failures.get",
+          "lineNumber": 253
+        },
+        {
+          "caller": "latestRouteFailureType",
+          "callee": "failures.size",
+          "lineNumber": 253
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 4,
+        "functionCount": 18,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "TokenQuotaExceededException",
+          "startLine": 10,
+          "endLine": 14,
+          "params": [
+            "rule",
+            "resetAt"
+          ]
+        },
+        {
+          "name": "resetAt",
+          "startLine": 16,
+          "endLine": 16,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TokenQuotaExceededException",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [
+            "TokenQuotaExceededException",
+            "resetAt"
+          ],
+          "properties": [
+            "resetAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TokenQuotaExceededException",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "resetAt",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "TokenQuotaExceededException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "TokenQuotaExceededException",
+          "callee": "rule.scope",
+          "lineNumber": 11
+        },
+        {
+          "caller": "TokenQuotaExceededException",
+          "callee": "rule.period",
+          "lineNumber": 11
+        },
+        {
+          "caller": "TokenQuotaExceededException",
+          "callee": "rule.model().isEmpty",
+          "lineNumber": 12
+        },
+        {
+          "caller": "TokenQuotaExceededException",
+          "callee": "rule.model",
+          "lineNumber": 12
+        },
+        {
+          "caller": "TokenQuotaExceededException",
+          "callee": "rule.model",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/quota/QuotaScope.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "QuotaScope",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "QuotaScope",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "QuotaTarget",
+          "startLine": 4,
+          "endLine": 4,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "QuotaTarget",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "appliesTo",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "requestedModel"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "TokenQuotaRule",
+          "startLine": 7,
+          "endLine": 23,
+          "methods": [
+            "appliesTo"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "appliesTo",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "TokenQuotaRule",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "appliesTo",
+          "callee": "model.isEmpty",
+          "lineNumber": 21
+        },
+        {
+          "caller": "appliesTo",
+          "callee": "model.equals",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

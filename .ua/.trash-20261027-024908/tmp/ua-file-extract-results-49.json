@@ -1,0 +1,3474 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 23,
+  "filesSkipped": [
+    "frontend/nginx.conf",
+    "frontend/src/entities/api-credential/ui/ApiKeySecretBlock.css"
+  ],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 23,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 22,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/test/java/com/api2api/domain/channel/model/ProviderChannelTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 72,
+      "functions": [
+        {
+          "name": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "startLine": 15,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "startLine": 35,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "channelWithModels",
+          "startLine": 50,
+          "endLine": 64,
+          "params": [
+            "models"
+          ]
+        },
+        {
+          "name": "model",
+          "startLine": 66,
+          "endLine": 83,
+          "params": [
+            "id",
+            "name",
+            "status"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderChannelTest",
+          "startLine": 10,
+          "endLine": 84,
+          "methods": [
+            "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+            "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+            "channelWithModels",
+            "model"
+          ],
+          "properties": [
+            "CREATED_AT",
+            "REENABLED_AT"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "channelWithModels",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "List.of",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "model",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "model",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "channel.enable",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat(channel.supportedModels()).allSatisfy",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "channel.supportedModels",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat(model.status()).isEqualTo",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "model.status",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat(model.rateLimitedAt()).isNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "model.rateLimitedAt",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat(model.rateLimitResetAt()).isNull",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "assertThat",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_restoresAllRateLimitedModels_when_ChannelIsReenabled",
+          "callee": "model.rateLimitResetAt",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "channelWithModels",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "List.of",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "model",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "model",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "channel.enable",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "assertThat(channel.supportedModels().get(1).status()).isEqualTo",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "assertThat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "channel.supportedModels().get(1).status",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "channel.supportedModels().get",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_keepsManuallyDisabledModelsDisabled_when_ChannelIsReenabled",
+          "callee": "channel.supportedModels",
+          "lineNumber": 47
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "ProviderChannel.rehydrate",
+          "lineNumber": 51
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "ProviderChannelId.of",
+          "lineNumber": 52
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "ProviderChannelName.of",
+          "lineNumber": 53
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "ProviderHost.of",
+          "lineNumber": 54
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "ProviderKeyRef.of",
+          "lineNumber": 55
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "Set.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "channelWithModels",
+          "callee": "ChannelProtocolMapping.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "model",
+          "callee": "CREATED_AT.plusSeconds",
+          "lineNumber": 68
+        },
+        {
+          "caller": "model",
+          "callee": "ChannelModelSupport.rehydrate",
+          "lineNumber": 69
+        },
+        {
+          "caller": "model",
+          "callee": "ChannelModelSupportId.of",
+          "lineNumber": 70
+        },
+        {
+          "caller": "model",
+          "callee": "ModelName.of",
+          "lineNumber": 71
+        },
+        {
+          "caller": "model",
+          "callee": "ModelName.of",
+          "lineNumber": 72
+        },
+        {
+          "caller": "model",
+          "callee": "RoutePriority.of",
+          "lineNumber": 74
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/domain/evaluation/model/EvaluationScoreTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "startLine": 11,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "test_rejects_raw_score_when_it_exceeds_max",
+          "startLine": 18,
+          "endLine": 23,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationScoreTest",
+          "startLine": 9,
+          "endLine": 24,
+          "methods": [
+            "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+            "test_rejects_raw_score_when_it_exceeds_max"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "callee": "EvaluationScore.of",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "callee": "new BigDecimal",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "callee": "new BigDecimal",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "callee": "assertThat(score.value()).isEqualByComparingTo",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "callee": "assertThat",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_rebases_raw_score_onto_100_when_denominator_is_not_100",
+          "callee": "score.value",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_rejects_raw_score_when_it_exceeds_max",
+          "callee": "assertThatThrownBy(() -> EvaluationScore.of(new BigDecimal(\"21\"), new BigDecimal(\"20\")))\n                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_rejects_raw_score_when_it_exceeds_max",
+          "callee": "assertThatThrownBy(() -> EvaluationScore.of(new BigDecimal(\"21\"), new BigDecimal(\"20\"))).isInstanceOf",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_rejects_raw_score_when_it_exceeds_max",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_rejects_raw_score_when_it_exceeds_max",
+          "callee": "EvaluationScore.of",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_rejects_raw_score_when_it_exceeds_max",
+          "callee": "new BigDecimal",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_rejects_raw_score_when_it_exceeds_max",
+          "callee": "new BigDecimal",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/domain/usage/model/PageRequestSpecTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "test_acceptsTwentyRecords_when_dashboardRecentCallsUseCompactPage",
+          "startLine": 10,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "test_rejectsUnsupportedPageSize_when_sizeIsNotAllowed",
+          "startLine": 17,
+          "endLine": 22,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PageRequestSpecTest",
+          "startLine": 8,
+          "endLine": 23,
+          "methods": [
+            "test_acceptsTwentyRecords_when_dashboardRecentCallsUseCompactPage",
+            "test_rejectsUnsupportedPageSize_when_sizeIsNotAllowed"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_acceptsTwentyRecords_when_dashboardRecentCallsUseCompactPage",
+          "callee": "PageRequestSpec.of",
+          "lineNumber": 12
+        },
+        {
+          "caller": "test_acceptsTwentyRecords_when_dashboardRecentCallsUseCompactPage",
+          "callee": "assertThat(pageRequest.getSize()).isEqualTo",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_acceptsTwentyRecords_when_dashboardRecentCallsUseCompactPage",
+          "callee": "assertThat",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_acceptsTwentyRecords_when_dashboardRecentCallsUseCompactPage",
+          "callee": "pageRequest.getSize",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_rejectsUnsupportedPageSize_when_sizeIsNotAllowed",
+          "callee": "assertThatIllegalArgumentException()\n                .isThrownBy(() -> PageRequestSpec.of(1, 30)).withMessage",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_rejectsUnsupportedPageSize_when_sizeIsNotAllowed",
+          "callee": "assertThatIllegalArgumentException().isThrownBy",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_rejectsUnsupportedPageSize_when_sizeIsNotAllowed",
+          "callee": "assertThatIllegalArgumentException",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_rejectsUnsupportedPageSize_when_sizeIsNotAllowed",
+          "callee": "PageRequestSpec.of",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/domain/usage/model/UsageTokenBreakdownTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "test_calculates_weighted_actual_tokens_when_all_token_types_are_present",
+          "startLine": 10,
+          "endLine": 20,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageTokenBreakdownTest",
+          "startLine": 8,
+          "endLine": 21,
+          "methods": [
+            "test_calculates_weighted_actual_tokens_when_all_token_types_are_present"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_calculates_weighted_actual_tokens_when_all_token_types_are_present",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_calculates_weighted_actual_tokens_when_all_token_types_are_present",
+          "callee": "breakdown.actualTokens",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_calculates_weighted_actual_tokens_when_all_token_types_are_present",
+          "callee": "assertThat(actualTokens).isEqualByComparingTo",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_calculates_weighted_actual_tokens_when_all_token_types_are_present",
+          "callee": "assertThat",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/client/evaluation/ProbeReportCompactorTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "test_drops_full_responses_when_compacting_probe_items",
+          "startLine": 11,
+          "endLine": 30,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProbeReportCompactorTest",
+          "startLine": 9,
+          "endLine": 31,
+          "methods": [
+            "test_drops_full_responses_when_compacting_probe_items"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "new ObjectMapper",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "new EvaluationProbeProperties",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "new ProbeReportCompactor",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "report.put",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "report.put",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "report.putArray(\"items\").addObject",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "report.putArray",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "item.put",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "item.put",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "item.put",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "item.put",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "compactor.compact",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "assertThat(compacted).contains",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "assertThat",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "assertThat(compacted).contains",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "assertThat",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "assertThat(compacted).doesNotContain",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_drops_full_responses_when_compacting_probe_items",
+          "callee": "assertThat",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/client/evaluation/ProbeVerdictTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "test_maps_warning_string_when_passed_is_textual",
+          "startLine": 12,
+          "endLine": 18,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProbeVerdictTest",
+          "startLine": 10,
+          "endLine": 19,
+          "methods": [
+            "test_maps_warning_string_when_passed_is_textual"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat(ProbeVerdict.of(TextNode.valueOf(\"warning\"))).isEqualTo",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "ProbeVerdict.of",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "TextNode.valueOf",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat(ProbeVerdict.of(BooleanNode.TRUE)).isEqualTo",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "ProbeVerdict.of",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat(ProbeVerdict.of(BooleanNode.FALSE)).isEqualTo",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "ProbeVerdict.of",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat(ProbeVerdict.of(null)).isEqualTo",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "assertThat",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_maps_warning_string_when_passed_is_textual",
+          "callee": "ProbeVerdict.of",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/client/provider/OutboundUriGuardTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "test_returnsUri_when_httpUpstreamUsesPublicHost",
+          "startLine": 11,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "test_allowsPrivateNetworkHost_when_insecureHostsAreDisabled",
+          "startLine": 23,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+          "startLine": 35,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+          "startLine": 46,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "test_rejectsUnsupportedScheme_when_upstreamUsesFtp",
+          "startLine": 57,
+          "endLine": 66,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OutboundUriGuardTest",
+          "startLine": 9,
+          "endLine": 67,
+          "methods": [
+            "test_returnsUri_when_httpUpstreamUsesPublicHost",
+            "test_allowsPrivateNetworkHost_when_insecureHostsAreDisabled",
+            "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+            "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+            "test_rejectsUnsupportedScheme_when_upstreamUsesFtp"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_returnsUri_when_httpUpstreamUsesPublicHost",
+          "callee": "URI.create",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_returnsUri_when_httpUpstreamUsesPublicHost",
+          "callee": "OutboundUriGuard.verify",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_returnsUri_when_httpUpstreamUsesPublicHost",
+          "callee": "assertThat(verifiedUri).isEqualTo",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_returnsUri_when_httpUpstreamUsesPublicHost",
+          "callee": "assertThat",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_allowsPrivateNetworkHost_when_insecureHostsAreDisabled",
+          "callee": "URI.create",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_allowsPrivateNetworkHost_when_insecureHostsAreDisabled",
+          "callee": "OutboundUriGuard.verify",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_allowsPrivateNetworkHost_when_insecureHostsAreDisabled",
+          "callee": "assertThat(verifiedUri).isEqualTo",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_allowsPrivateNetworkHost_when_insecureHostsAreDisabled",
+          "callee": "assertThat",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+          "callee": "URI.create",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+          "callee": "assertThatThrownBy(() -> OutboundUriGuard.verify(uri, false))\n                .isInstanceOf(IllegalArgumentException.class).hasMessage",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+          "callee": "assertThatThrownBy(() -> OutboundUriGuard.verify(uri, false)).isInstanceOf",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_rejectsLocalhost_when_insecureHostsAreDisabled",
+          "callee": "OutboundUriGuard.verify",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+          "callee": "URI.create",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+          "callee": "assertThatThrownBy(() -> OutboundUriGuard.verify(uri, false))\n                .isInstanceOf(IllegalArgumentException.class).hasMessage",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+          "callee": "assertThatThrownBy(() -> OutboundUriGuard.verify(uri, false)).isInstanceOf",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_rejectsMetadataAddress_when_insecureHostsAreDisabled",
+          "callee": "OutboundUriGuard.verify",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_rejectsUnsupportedScheme_when_upstreamUsesFtp",
+          "callee": "URI.create",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_rejectsUnsupportedScheme_when_upstreamUsesFtp",
+          "callee": "assertThatThrownBy(() -> OutboundUriGuard.verify(uri, true))\n                .isInstanceOf(IllegalArgumentException.class).hasMessage",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_rejectsUnsupportedScheme_when_upstreamUsesFtp",
+          "callee": "assertThatThrownBy(() -> OutboundUriGuard.verify(uri, true)).isInstanceOf",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_rejectsUnsupportedScheme_when_upstreamUsesFtp",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_rejectsUnsupportedScheme_when_upstreamUsesFtp",
+          "callee": "OutboundUriGuard.verify",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/client/provider/StreamingIdleTimeoutInputStreamTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "startLine": 15,
+          "endLine": 29,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "StreamingIdleTimeoutInputStreamTest",
+          "startLine": 13,
+          "endLine": 52,
+          "methods": [
+            "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "new BlockingInputStream",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "new StreamingIdleTimeoutInputStream",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "Duration.ofMillis",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "assertThatThrownBy(stream::read)\n                .isInstanceOf(SocketTimeoutException.class).hasMessageContaining",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "assertThatThrownBy(stream::read).isInstanceOf",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_throwsSocketTimeoutException_when_firstBodyByteNeverArrives",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 26
+        },
+        {
+          "caller": "read",
+          "callee": "closed.await",
+          "lineNumber": 37
+        },
+        {
+          "caller": "read",
+          "callee": "new IOException",
+          "lineNumber": 38
+        },
+        {
+          "caller": "read",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 42
+        },
+        {
+          "caller": "read",
+          "callee": "Thread.currentThread",
+          "lineNumber": 42
+        },
+        {
+          "caller": "read",
+          "callee": "new IOException",
+          "lineNumber": 43
+        },
+        {
+          "caller": "close",
+          "callee": "closed.countDown",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/client/provider/UpstreamUrlResolverTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "keepsUrlWhenOverrideIsBlank",
+          "startLine": 9,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "replacesLocalhostWithConfiguredDockerHost",
+          "startLine": 18,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "replacesLoopbackWithConfiguredDockerHost",
+          "startLine": 28,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "keepsNonLocalhostUrl",
+          "startLine": 38,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UpstreamUrlResolverTest",
+          "startLine": 7,
+          "endLine": 47,
+          "methods": [
+            "keepsUrlWhenOverrideIsBlank",
+            "replacesLocalhostWithConfiguredDockerHost",
+            "replacesLoopbackWithConfiguredDockerHost",
+            "keepsNonLocalhostUrl"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "keepsUrlWhenOverrideIsBlank",
+          "callee": "new ProviderHttpClientProperties",
+          "lineNumber": 11
+        },
+        {
+          "caller": "keepsUrlWhenOverrideIsBlank",
+          "callee": "new UpstreamUrlResolver",
+          "lineNumber": 12
+        },
+        {
+          "caller": "keepsUrlWhenOverrideIsBlank",
+          "callee": "assertThat(resolver.resolve(\"http://localhost:4141/v1/models\")).isEqualTo",
+          "lineNumber": 14
+        },
+        {
+          "caller": "keepsUrlWhenOverrideIsBlank",
+          "callee": "assertThat",
+          "lineNumber": 14
+        },
+        {
+          "caller": "keepsUrlWhenOverrideIsBlank",
+          "callee": "resolver.resolve",
+          "lineNumber": 14
+        },
+        {
+          "caller": "replacesLocalhostWithConfiguredDockerHost",
+          "callee": "new ProviderHttpClientProperties",
+          "lineNumber": 20
+        },
+        {
+          "caller": "replacesLocalhostWithConfiguredDockerHost",
+          "callee": "properties.setUpstreamHostOverride",
+          "lineNumber": 21
+        },
+        {
+          "caller": "replacesLocalhostWithConfiguredDockerHost",
+          "callee": "new UpstreamUrlResolver",
+          "lineNumber": 22
+        },
+        {
+          "caller": "replacesLocalhostWithConfiguredDockerHost",
+          "callee": "assertThat(resolver.resolve(\"http://localhost:4141/v1/models?limit=10\")).isEqualTo",
+          "lineNumber": 24
+        },
+        {
+          "caller": "replacesLocalhostWithConfiguredDockerHost",
+          "callee": "assertThat",
+          "lineNumber": 24
+        },
+        {
+          "caller": "replacesLocalhostWithConfiguredDockerHost",
+          "callee": "resolver.resolve",
+          "lineNumber": 24
+        },
+        {
+          "caller": "replacesLoopbackWithConfiguredDockerHost",
+          "callee": "new ProviderHttpClientProperties",
+          "lineNumber": 30
+        },
+        {
+          "caller": "replacesLoopbackWithConfiguredDockerHost",
+          "callee": "properties.setUpstreamHostOverride",
+          "lineNumber": 31
+        },
+        {
+          "caller": "replacesLoopbackWithConfiguredDockerHost",
+          "callee": "new UpstreamUrlResolver",
+          "lineNumber": 32
+        },
+        {
+          "caller": "replacesLoopbackWithConfiguredDockerHost",
+          "callee": "assertThat(resolver.resolve(\"http://127.0.0.1:4141/v1/models\")).isEqualTo",
+          "lineNumber": 34
+        },
+        {
+          "caller": "replacesLoopbackWithConfiguredDockerHost",
+          "callee": "assertThat",
+          "lineNumber": 34
+        },
+        {
+          "caller": "replacesLoopbackWithConfiguredDockerHost",
+          "callee": "resolver.resolve",
+          "lineNumber": 34
+        },
+        {
+          "caller": "keepsNonLocalhostUrl",
+          "callee": "new ProviderHttpClientProperties",
+          "lineNumber": 40
+        },
+        {
+          "caller": "keepsNonLocalhostUrl",
+          "callee": "properties.setUpstreamHostOverride",
+          "lineNumber": 41
+        },
+        {
+          "caller": "keepsNonLocalhostUrl",
+          "callee": "new UpstreamUrlResolver",
+          "lineNumber": 42
+        },
+        {
+          "caller": "keepsNonLocalhostUrl",
+          "callee": "assertThat(resolver.resolve(\"https://api.example.com/v1/models\")).isEqualTo",
+          "lineNumber": 44
+        },
+        {
+          "caller": "keepsNonLocalhostUrl",
+          "callee": "assertThat",
+          "lineNumber": 44
+        },
+        {
+          "caller": "keepsNonLocalhostUrl",
+          "callee": "resolver.resolve",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/monitoring/HostResourceReaderTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 75,
+      "functions": [
+        {
+          "name": "test_excludesGuestTicks_when_readingCpu",
+          "startLine": 14,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "test_usesAvailableMemory_when_linuxCountersExist",
+          "startLine": 24,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "test_rejectsIncompleteMemory_when_availableCounterMissing",
+          "startLine": 34,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "test_readsThreeLoadWindows_when_loadavgExists",
+          "startLine": 42,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "test_waitsForSecondSample_when_cpuHasNoBaseline",
+          "startLine": 52,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+          "startLine": 60,
+          "endLine": 67,
+          "params": []
+        },
+        {
+          "name": "test_returnsUnknown_when_cpuCountersReset",
+          "startLine": 69,
+          "endLine": 76,
+          "params": []
+        },
+        {
+          "name": "test_returnsUnknown_when_resourceLimitIsUnavailable",
+          "startLine": 78,
+          "endLine": 84,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "HostResourceReaderTest",
+          "startLine": 10,
+          "endLine": 85,
+          "methods": [
+            "test_excludesGuestTicks_when_readingCpu",
+            "test_usesAvailableMemory_when_linuxCountersExist",
+            "test_rejectsIncompleteMemory_when_availableCounterMissing",
+            "test_readsThreeLoadWindows_when_loadavgExists",
+            "test_waitsForSecondSample_when_cpuHasNoBaseline",
+            "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+            "test_returnsUnknown_when_cpuCountersReset",
+            "test_returnsUnknown_when_resourceLimitIsUnavailable"
+          ],
+          "properties": [
+            "proc",
+            "reader"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_excludesGuestTicks_when_readingCpu",
+          "callee": "Files.writeString",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_excludesGuestTicks_when_readingCpu",
+          "callee": "proc.resolve",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_excludesGuestTicks_when_readingCpu",
+          "callee": "reader.readCpu",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_excludesGuestTicks_when_readingCpu",
+          "callee": "assertThat(result).isEqualTo",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_excludesGuestTicks_when_readingCpu",
+          "callee": "assertThat",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_excludesGuestTicks_when_readingCpu",
+          "callee": "new HostResourceReader.CpuTicks",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_usesAvailableMemory_when_linuxCountersExist",
+          "callee": "Files.writeString",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_usesAvailableMemory_when_linuxCountersExist",
+          "callee": "proc.resolve",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_usesAvailableMemory_when_linuxCountersExist",
+          "callee": "reader.readMemory",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_usesAvailableMemory_when_linuxCountersExist",
+          "callee": "assertThat(result).isEqualTo",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_usesAvailableMemory_when_linuxCountersExist",
+          "callee": "assertThat",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_usesAvailableMemory_when_linuxCountersExist",
+          "callee": "new SystemSnapshot.Resource",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_rejectsIncompleteMemory_when_availableCounterMissing",
+          "callee": "Files.writeString",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejectsIncompleteMemory_when_availableCounterMissing",
+          "callee": "proc.resolve",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_rejectsIncompleteMemory_when_availableCounterMissing",
+          "callee": "assertThatThrownBy(() -> reader.readMemory(proc)).isInstanceOf",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_rejectsIncompleteMemory_when_availableCounterMissing",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_rejectsIncompleteMemory_when_availableCounterMissing",
+          "callee": "reader.readMemory",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_readsThreeLoadWindows_when_loadavgExists",
+          "callee": "Files.writeString",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_readsThreeLoadWindows_when_loadavgExists",
+          "callee": "proc.resolve",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_readsThreeLoadWindows_when_loadavgExists",
+          "callee": "reader.readLoad",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readsThreeLoadWindows_when_loadavgExists",
+          "callee": "assertThat(result).containsExactly",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_readsThreeLoadWindows_when_loadavgExists",
+          "callee": "assertThat",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_waitsForSecondSample_when_cpuHasNoBaseline",
+          "callee": "new HostResourceReader.CpuTicks",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_waitsForSecondSample_when_cpuHasNoBaseline",
+          "callee": "assertThat(HostResourceReader.cpuPercent(null, current)).isNull",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_waitsForSecondSample_when_cpuHasNoBaseline",
+          "callee": "assertThat",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_waitsForSecondSample_when_cpuHasNoBaseline",
+          "callee": "HostResourceReader.cpuPercent",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+          "callee": "new HostResourceReader.CpuTicks",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+          "callee": "new HostResourceReader.CpuTicks",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+          "callee": "assertThat(HostResourceReader.cpuPercent(previous, current)).isEqualTo",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+          "callee": "assertThat",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_calculatesIntervalUsage_when_cpuCountersAdvance",
+          "callee": "HostResourceReader.cpuPercent",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_returnsUnknown_when_cpuCountersReset",
+          "callee": "new HostResourceReader.CpuTicks",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_returnsUnknown_when_cpuCountersReset",
+          "callee": "new HostResourceReader.CpuTicks",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_returnsUnknown_when_cpuCountersReset",
+          "callee": "assertThat(HostResourceReader.cpuPercent(previous, current)).isNull",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_returnsUnknown_when_cpuCountersReset",
+          "callee": "assertThat",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_returnsUnknown_when_cpuCountersReset",
+          "callee": "HostResourceReader.cpuPercent",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_returnsUnknown_when_resourceLimitIsUnavailable",
+          "callee": "HostResourceReader.resource",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_returnsUnknown_when_resourceLimitIsUnavailable",
+          "callee": "assertThat(result.percent()).isNull",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_returnsUnknown_when_resourceLimitIsUnavailable",
+          "callee": "assertThat",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_returnsUnknown_when_resourceLimitIsUnavailable",
+          "callee": "result.percent",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/protocol/BedrockEventStreamReaderTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 168,
+      "nonEmptyLines": 140,
+      "functions": [
+        {
+          "name": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "startLine": 22,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "startLine": 37,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "startLine": 50,
+          "endLine": 63,
+          "params": []
+        },
+        {
+          "name": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "startLine": 65,
+          "endLine": 79,
+          "params": []
+        },
+        {
+          "name": "test_returnsEndOfStream_when_noFrameRemains",
+          "startLine": 81,
+          "endLine": 91,
+          "params": []
+        },
+        {
+          "name": "test_rejectsFrame_when_lengthsAreInvalid",
+          "startLine": 93,
+          "endLine": 103,
+          "params": [
+            "totalLength",
+            "headersLength"
+          ]
+        },
+        {
+          "name": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "startLine": 105,
+          "endLine": 113,
+          "params": []
+        },
+        {
+          "name": "test_rejectsHeader_when_typeIsUnsupported",
+          "startLine": 115,
+          "endLine": 123,
+          "params": []
+        },
+        {
+          "name": "test_propagatesReadFailure_when_upstreamStreamFails",
+          "startLine": 125,
+          "endLine": 136,
+          "params": []
+        },
+        {
+          "name": "stringHeaders",
+          "startLine": 138,
+          "endLine": 151,
+          "params": []
+        },
+        {
+          "name": "frame",
+          "startLine": 153,
+          "endLine": 167,
+          "params": [
+            "headers",
+            "payload"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BedrockEventStreamReaderTest",
+          "startLine": 20,
+          "endLine": 168,
+          "methods": [
+            "test_decodesFrame_when_headersAndPayloadArePresent",
+            "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+            "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+            "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+            "test_returnsEndOfStream_when_noFrameRemains",
+            "test_rejectsFrame_when_lengthsAreInvalid",
+            "test_rejectsFrame_when_checksumBytesAreTruncated",
+            "test_rejectsHeader_when_typeIsUnsupported",
+            "test_propagatesReadFailure_when_upstreamStreamFails",
+            "stringHeaders",
+            "frame"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "stringHeaders",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "\"{\\\"bytes\\\":\\\"hello\\\"}\".getBytes",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "frame",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "assertThat(event).extracting(\"eventType\", \"messageType\", \"exceptionType\", \"payload\").containsExactly",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "assertThat(event).extracting",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_decodesFrame_when_headersAndPayloadArePresent",
+          "callee": "assertThat",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "frame",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "stringHeaders",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "assertThat(event.exceptionType()).isEqualTo",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "assertThat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_retainsExceptionType_when_frameDescribesUpstreamFailure",
+          "callee": "event.exceptionType",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "headers.write",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "headers.write",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "stringHeaders",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "frame",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "headers.toByteArray",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "assertThat(event.eventType()).isEqualTo",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "assertThat",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_skipsTypedMetadata_when_unrecognizedHeaderPrecedesEventType",
+          "callee": "event.eventType",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "bytes.write",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "frame",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "stringHeaders",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "bytes.write",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "frame",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "stringHeaders",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "bytes.toByteArray",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "assertThat(Arrays.asList(first.eventType(), second.eventType())).containsExactly",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "assertThat",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "Arrays.asList",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "first.eventType",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_readsConsecutiveFrames_when_streamContainsMultipleEvents",
+          "callee": "second.eventType",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_returnsEndOfStream_when_noFrameRemains",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_returnsEndOfStream_when_noFrameRemains",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 87
+        },
+        {
+          "caller": "test_returnsEndOfStream_when_noFrameRemains",
+          "callee": "assertThat(event).isNull",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_returnsEndOfStream_when_noFrameRemains",
+          "callee": "assertThat",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "ByteBuffer.allocate(12).putInt(totalLength).putInt(headersLength).putInt(0).array",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "ByteBuffer.allocate(12).putInt(totalLength).putInt(headersLength).putInt",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "ByteBuffer.allocate(12).putInt(totalLength).putInt",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "ByteBuffer.allocate(12).putInt",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "ByteBuffer.allocate",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 98
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "assertThatThrownBy(() -> BedrockEventStreamReader.readEvent(stream))\n                .isInstanceOf(IOException.class).hasMessage",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "assertThatThrownBy(() -> BedrockEventStreamReader.readEvent(stream)).isInstanceOf",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_rejectsFrame_when_lengthsAreInvalid",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "frame",
+          "lineNumber": 108
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "stringHeaders",
+          "lineNumber": 108
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 109
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "Arrays.copyOf",
+          "lineNumber": 109
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "assertThatThrownBy(() -> BedrockEventStreamReader.readEvent(stream)).isInstanceOf",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_rejectsFrame_when_checksumBytesAreTruncated",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_rejectsHeader_when_typeIsUnsupported",
+          "callee": "new ByteArrayInputStream",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_rejectsHeader_when_typeIsUnsupported",
+          "callee": "frame",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_rejectsHeader_when_typeIsUnsupported",
+          "callee": "assertThatThrownBy(() -> BedrockEventStreamReader.readEvent(stream))\n                .isInstanceOf(IOException.class).hasMessage",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_rejectsHeader_when_typeIsUnsupported",
+          "callee": "assertThatThrownBy(() -> BedrockEventStreamReader.readEvent(stream)).isInstanceOf",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_rejectsHeader_when_typeIsUnsupported",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_rejectsHeader_when_typeIsUnsupported",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_propagatesReadFailure_when_upstreamStreamFails",
+          "callee": "new IOException",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_propagatesReadFailure_when_upstreamStreamFails",
+          "callee": "new InputStream",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_propagatesReadFailure_when_upstreamStreamFails",
+          "callee": "assertThatThrownBy(() -> BedrockEventStreamReader.readEvent(stream)).isSameAs",
+          "lineNumber": 135
+        },
+        {
+          "caller": "test_propagatesReadFailure_when_upstreamStreamFails",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 135
+        },
+        {
+          "caller": "test_propagatesReadFailure_when_upstreamStreamFails",
+          "callee": "BedrockEventStreamReader.readEvent",
+          "lineNumber": 135
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 139
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "new DataOutputStream",
+          "lineNumber": 140
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "namesAndValues[index].getBytes",
+          "lineNumber": 142
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "namesAndValues[index + 1].getBytes",
+          "lineNumber": 143
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "output.writeByte",
+          "lineNumber": 144
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "output.write",
+          "lineNumber": 145
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "output.writeByte",
+          "lineNumber": 146
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "output.writeShort",
+          "lineNumber": 147
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "output.write",
+          "lineNumber": 148
+        },
+        {
+          "caller": "stringHeaders",
+          "callee": "bytes.toByteArray",
+          "lineNumber": 150
+        },
+        {
+          "caller": "frame",
+          "callee": "new ByteArrayOutputStream",
+          "lineNumber": 154
+        },
+        {
+          "caller": "frame",
+          "callee": "new DataOutputStream",
+          "lineNumber": 155
+        },
+        {
+          "caller": "frame",
+          "callee": "output.writeInt",
+          "lineNumber": 156
+        },
+        {
+          "caller": "frame",
+          "callee": "output.writeInt",
+          "lineNumber": 157
+        },
+        {
+          "caller": "frame",
+          "callee": "new CRC32",
+          "lineNumber": 158
+        },
+        {
+          "caller": "frame",
+          "callee": "crc.update",
+          "lineNumber": 159
+        },
+        {
+          "caller": "frame",
+          "callee": "bytes.toByteArray",
+          "lineNumber": 159
+        },
+        {
+          "caller": "frame",
+          "callee": "output.writeInt",
+          "lineNumber": 160
+        },
+        {
+          "caller": "frame",
+          "callee": "crc.getValue",
+          "lineNumber": 160
+        },
+        {
+          "caller": "frame",
+          "callee": "output.write",
+          "lineNumber": 161
+        },
+        {
+          "caller": "frame",
+          "callee": "output.write",
+          "lineNumber": 162
+        },
+        {
+          "caller": "frame",
+          "callee": "crc.reset",
+          "lineNumber": 163
+        },
+        {
+          "caller": "frame",
+          "callee": "crc.update",
+          "lineNumber": 164
+        },
+        {
+          "caller": "frame",
+          "callee": "bytes.toByteArray",
+          "lineNumber": 164
+        },
+        {
+          "caller": "frame",
+          "callee": "output.writeInt",
+          "lineNumber": 165
+        },
+        {
+          "caller": "frame",
+          "callee": "crc.getValue",
+          "lineNumber": 165
+        },
+        {
+          "caller": "frame",
+          "callee": "bytes.toByteArray",
+          "lineNumber": 166
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapperTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+          "startLine": 13,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+          "startLine": 26,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "test_mapsDocxMediaType_when_filenameExtensionIsKnown",
+          "startLine": 39,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ClaudeResponsesMediaMapperTest",
+          "startLine": 9,
+          "endLine": 51,
+          "methods": [
+            "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+            "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+            "test_mapsDocxMediaType_when_filenameExtensionIsKnown"
+          ],
+          "properties": [
+            "objectMapper"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+          "callee": "block.put",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+          "callee": "ClaudeResponsesMediaMapper.filenameFor",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+          "callee": "assertThat(filename).isEqualTo",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_appendsMediaExtension_when_documentTitleHasNoExtension",
+          "callee": "assertThat",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+          "callee": "block.put",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+          "callee": "ClaudeResponsesMediaMapper.filenameFor",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+          "callee": "assertThat(filename).isEqualTo",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_keepsTitleExtension_when_documentTitleAlreadyHasOne",
+          "callee": "assertThat",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_mapsDocxMediaType_when_filenameExtensionIsKnown",
+          "callee": "ClaudeResponsesMediaMapper.mediaTypeFromFilename",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_mapsDocxMediaType_when_filenameExtensionIsKnown",
+          "callee": "assertThat(mediaType).isEqualTo",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_mapsDocxMediaType_when_filenameExtensionIsKnown",
+          "callee": "assertThat",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/protocol/GptModelVersionTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 67,
+      "functions": [
+        {
+          "name": "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+          "startLine": 12,
+          "endLine": 29,
+          "params": [
+            "model",
+            "major",
+            "minor"
+          ]
+        },
+        {
+          "name": "test_returnsEmpty_when_modelIsNotVersionedGpt",
+          "startLine": 31,
+          "endLine": 39,
+          "params": [
+            "model"
+          ]
+        },
+        {
+          "name": "test_returnsEmpty_when_modelIsNull",
+          "startLine": 41,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "test_treatsNewMajorAsAtLeast_when_gateTargetsOlderMinorRelease",
+          "startLine": 50,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "test_isNotAtLeast_when_minorReleasePredatesGate",
+          "startLine": 62,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "test_isNotAtLeast_when_modelIsUnversioned",
+          "startLine": 74,
+          "endLine": 84,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GptModelVersionTest",
+          "startLine": 10,
+          "endLine": 85,
+          "methods": [
+            "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+            "test_returnsEmpty_when_modelIsNotVersionedGpt",
+            "test_returnsEmpty_when_modelIsNull",
+            "test_treatsNewMajorAsAtLeast_when_gateTargetsOlderMinorRelease",
+            "test_isNotAtLeast_when_minorReleasePredatesGate",
+            "test_isNotAtLeast_when_modelIsUnversioned"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+          "callee": "GptModelVersion.parse(model).orElseThrow",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+          "callee": "GptModelVersion.parse",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+          "callee": "assertThat(version).isEqualTo",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+          "callee": "assertThat",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_parsesMajorAndMinor_when_modelIsVersionedGpt",
+          "callee": "new GptModelVersion",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNotVersionedGpt",
+          "callee": "GptModelVersion.parse(model).isPresent",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNotVersionedGpt",
+          "callee": "GptModelVersion.parse",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNotVersionedGpt",
+          "callee": "assertThat(parsed).isFalse",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNotVersionedGpt",
+          "callee": "assertThat",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNull",
+          "callee": "GptModelVersion.parse(null).isPresent",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNull",
+          "callee": "GptModelVersion.parse",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNull",
+          "callee": "assertThat(parsed).isFalse",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_returnsEmpty_when_modelIsNull",
+          "callee": "assertThat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_treatsNewMajorAsAtLeast_when_gateTargetsOlderMinorRelease",
+          "callee": "GptModelVersion.isAtLeast",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_treatsNewMajorAsAtLeast_when_gateTargetsOlderMinorRelease",
+          "callee": "assertThat(atLeast).isTrue",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_treatsNewMajorAsAtLeast_when_gateTargetsOlderMinorRelease",
+          "callee": "assertThat",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_isNotAtLeast_when_minorReleasePredatesGate",
+          "callee": "GptModelVersion.isAtLeast",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_isNotAtLeast_when_minorReleasePredatesGate",
+          "callee": "assertThat(atLeast).isFalse",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_isNotAtLeast_when_minorReleasePredatesGate",
+          "callee": "assertThat",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_isNotAtLeast_when_modelIsUnversioned",
+          "callee": "GptModelVersion.isAtLeast",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_isNotAtLeast_when_modelIsUnversioned",
+          "callee": "assertThat(atLeast).isFalse",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_isNotAtLeast_when_modelIsUnversioned",
+          "callee": "assertThat",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/repository/analytics/InFlightConcurrencyCalculatorTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "startLine": 15,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "startLine": 29,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "startLine": 39,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "startLine": 52,
+          "endLine": 58,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InFlightConcurrencyCalculatorTest",
+          "startLine": 11,
+          "endLine": 59,
+          "methods": [
+            "test_counts_overlapping_requests_when_they_share_a_bucket",
+            "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+            "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+            "test_stops_buckets_at_cutoff_when_window_extends_into_the_future"
+          ],
+          "properties": [
+            "T0"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "TimeBucket.split",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "List.of",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "new Interval",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "new Interval",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "new Interval",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "InFlightConcurrencyCalculator.peakPerBucket",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "assertThat(peaks).containsExactly",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_counts_overlapping_requests_when_they_share_a_bucket",
+          "callee": "assertThat",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "TimeBucket.split",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "List.of",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "new Interval",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "InFlightConcurrencyCalculator.peakPerBucket",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "assertThat(peaks).containsExactly",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_carries_running_request_into_next_bucket_when_it_spans_the_boundary",
+          "callee": "assertThat",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "TimeBucket.split",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "List.of",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "new Interval",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "new Interval",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "InFlightConcurrencyCalculator.peakPerBucket",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "assertThat(peaks).containsExactly",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_does_not_overlap_back_to_back_requests_when_end_equals_next_start",
+          "callee": "assertThat",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "TimeBucket.split",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "assertThat(buckets).hasSize",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "assertThat",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "assertThat(buckets.get(2).start()).isEqualTo",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "assertThat",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "buckets.get(2).start",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "buckets.get",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_stops_buckets_at_cutoff_when_window_extends_into_the_future",
+          "callee": "T0.plusSeconds",
+          "lineNumber": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/repository/common/UsageTokenSqlFragmentsTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "test_prefixes_total_token_columns_when_alias_is_provided",
+          "startLine": 9,
+          "endLine": 18,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageTokenSqlFragmentsTest",
+          "startLine": 7,
+          "endLine": 19,
+          "methods": [
+            "test_prefixes_total_token_columns_when_alias_is_provided"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_prefixes_total_token_columns_when_alias_is_provided",
+          "callee": "assertThat(UsageTokenSqlFragments.totalTokensWithPrefix(\"r.\")).isEqualTo",
+          "lineNumber": 11
+        },
+        {
+          "caller": "test_prefixes_total_token_columns_when_alias_is_provided",
+          "callee": "assertThat",
+          "lineNumber": 11
+        },
+        {
+          "caller": "test_prefixes_total_token_columns_when_alias_is_provided",
+          "callee": "UsageTokenSqlFragments.totalTokensWithPrefix",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/gateway/ClientDisconnectDetectorTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+          "startLine": 14,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "test_detectsDisconnect_when_tomcatClientAborts",
+          "startLine": 26,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_detectsDisconnect_when_brokenPipeIsWrapped",
+          "startLine": 35,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "test_doesNotDetectDisconnect_when_upstreamStreamEndsEarly",
+          "startLine": 44,
+          "endLine": 51,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ClientDisconnectDetectorTest",
+          "startLine": 12,
+          "endLine": 52,
+          "methods": [
+            "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+            "test_detectsDisconnect_when_tomcatClientAborts",
+            "test_detectsDisconnect_when_brokenPipeIsWrapped",
+            "test_doesNotDetectDisconnect_when_upstreamStreamEndsEarly"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+          "callee": "new AsyncRequestNotUsableException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+          "callee": "new IOException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+          "callee": "ClientDisconnectDetector.isClientDisconnect",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+          "callee": "assertThat(disconnected).isTrue",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_detectsDisconnect_when_asyncRequestIsNotUsable",
+          "callee": "assertThat",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_detectsDisconnect_when_tomcatClientAborts",
+          "callee": "new ClientAbortException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_detectsDisconnect_when_tomcatClientAborts",
+          "callee": "new IOException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_detectsDisconnect_when_tomcatClientAborts",
+          "callee": "ClientDisconnectDetector.isClientDisconnect",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_detectsDisconnect_when_tomcatClientAborts",
+          "callee": "assertThat(disconnected).isTrue",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_detectsDisconnect_when_tomcatClientAborts",
+          "callee": "assertThat",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_detectsDisconnect_when_brokenPipeIsWrapped",
+          "callee": "new UncheckedIOException",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_detectsDisconnect_when_brokenPipeIsWrapped",
+          "callee": "new IOException",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_detectsDisconnect_when_brokenPipeIsWrapped",
+          "callee": "ClientDisconnectDetector.isClientDisconnect",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_detectsDisconnect_when_brokenPipeIsWrapped",
+          "callee": "assertThat(disconnected).isTrue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_detectsDisconnect_when_brokenPipeIsWrapped",
+          "callee": "assertThat",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_doesNotDetectDisconnect_when_upstreamStreamEndsEarly",
+          "callee": "new EOFException",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_doesNotDetectDisconnect_when_upstreamStreamEndsEarly",
+          "callee": "ClientDisconnectDetector.isClientDisconnect",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_doesNotDetectDisconnect_when_upstreamStreamEndsEarly",
+          "callee": "assertThat(disconnected).isFalse",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_doesNotDetectDisconnect_when_upstreamStreamEndsEarly",
+          "callee": "assertThat",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/gateway/ResponsesImageRequestTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 48,
+      "functions": [
+        {
+          "name": "test_returns_null_when_request_has_no_tools",
+          "startLine": 12,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "startLine": 21,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "startLine": 31,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "test_treats_blank_hosted_call_as_image_call",
+          "startLine": 42,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "startLine": 54,
+          "endLine": 65,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResponsesImageRequestTest",
+          "startLine": 9,
+          "endLine": 66,
+          "methods": [
+            "test_returns_null_when_request_has_no_tools",
+            "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+            "test_sends_function_instead_of_hosted_tool_when_planning",
+            "test_treats_blank_hosted_call_as_image_call",
+            "test_treats_completed_hosted_call_as_image_call_to_bridge"
+          ],
+          "properties": [
+            "mapper"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "mapper.createObjectNode().put(\"model\", \"gpt-5.6-sol\").put",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "ResponsesImageRequest.parse",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "body.toString",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "assertThat(request).isNull",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_returns_null_when_request_has_no_tools",
+          "callee": "assertThat",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "mapper.createObjectNode().put(\"model\", \"gpt-5.6-sol\").put",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "body.putArray(\"tools\").addObject().put(\"type\", \"function\").put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "body.putArray(\"tools\").addObject().put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "body.putArray(\"tools\").addObject",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "body.putArray",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "ResponsesImageRequest.parse",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "body.toString",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "assertThat(request.body().at(\"/tools/1/type\").asText()).isEqualTo",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "assertThat",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "request.body().at(\"/tools/1/type\").asText",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "request.body().at",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_injects_hosted_tool_when_agent_tools_omit_image_generation",
+          "callee": "request.body",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "mapper.createObjectNode().put(\"model\", \"gpt-5.6-sol\").put",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "body.putArray(\"tools\").addObject().put",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "body.putArray(\"tools\").addObject",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "body.putArray",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "ResponsesImageRequest.parse",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "body.toString",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "request.plannerRequest",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "assertThat(planned.at(\"/tools/0/name\").asText()).isEqualTo",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "assertThat",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "planned.at(\"/tools/0/name\").asText",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_sends_function_instead_of_hosted_tool_when_planning",
+          "callee": "planned.at",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "mapper.createObjectNode().put(\"model\", \"gpt-5.6-sol\").put",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "body.putArray(\"tools\").addObject().put",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "body.putArray(\"tools\").addObject",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "body.putArray",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "ResponsesImageRequest.parse",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "body.toString",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "mapper.createObjectNode().put(\"type\", \"image_generation_call\").put",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "request.isImageCall",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "assertThat(imageCall).isTrue",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_treats_blank_hosted_call_as_image_call",
+          "callee": "assertThat",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode().put(\"model\", \"gpt-5.6-sol\").put",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "body.putArray(\"tools\").addObject().put",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "body.putArray(\"tools\").addObject",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "body.putArray",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "ResponsesImageRequest.parse",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "body.toString",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode().put(\"type\", \"image_generation_call\")\n                .put(\"status\", \"completed\").put",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode().put(\"type\", \"image_generation_call\").put",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode().put",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "mapper.createObjectNode",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "request.isImageCall",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "assertThat(imageCall).isTrue",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_treats_completed_hosted_call_as_image_call_to_bridge",
+          "callee": "assertThat",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "docs/operations-monitoring.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 40,
+      "nonEmptyLines": 27,
+      "sections": [
+        {
+          "heading": "运维监控",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "观测内容",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "采样与范围",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "配置",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "实现参考",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "验证",
+          "level": 2,
+          "line": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": "frontend/scripts/test.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 24,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/layouts/AuthRouteLayout.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "AuthRouteLayout",
+          "startLine": 5,
+          "endLine": 11,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthRouteLayout",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/layouts/ProtectedRouteLayout.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "ProtectedRouteLayout",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "{ portal }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtectedRouteLayout",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/api-credential/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "exports": [
+        {
+          "name": "ApiCredentialStatusTag",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ApiKeySecretBlock",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/api-credential/ui/ApiCredentialStatusTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "getStatusMeta",
+          "startLine": 10,
+          "endLine": 19,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "ApiCredentialStatusTag",
+          "startLine": 21,
+          "endLine": 28,
+          "params": [
+            "{ status, showDot = true }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialStatusTag",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getStatusMeta",
+          "callee": "status.toUpperCase",
+          "lineNumber": 11
+        },
+        {
+          "caller": "ApiCredentialStatusTag",
+          "callee": "getStatusMeta",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,1717 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "type": "file",
+      "name": "ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "summary": "验证 Messages 与 Responses 新能力桥接，覆盖程序化调用、压缩状态、提示缓存稳定性、自定义工具、评分失败及输出回退。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "程序化工具",
+        "缓存"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:ClaudeMessagesOpenAIResponsesLatestFeaturesTest",
+      "type": "class",
+      "name": "ClaudeMessagesOpenAIResponsesLatestFeaturesTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        13,
+        401
+      ],
+      "summary": "验证 Messages 与 Responses 新能力桥接，覆盖程序化调用、压缩状态、提示缓存稳定性、自定义工具、评分失败及输出回退。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "程序化工具",
+        "缓存"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_omitsDirectOnlyAllowedCallers_when_targetIsGpt55",
+      "type": "function",
+      "name": "test_omitsDirectOnlyAllowedCallers_when_targetIsGpt55",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        19,
+        35
+      ],
+      "summary": "验证直接调用限定的 allowed_callers 在不需要时省略。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsProgrammaticToolCalling_when_claudeToolAllowsCodeExecutionCaller",
+      "type": "function",
+      "name": "test_mapsProgrammaticToolCalling_when_claudeToolAllowsCodeExecutionCaller",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        37,
+        59
+      ],
+      "summary": "验证代码执行调用者映射为程序化工具调用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsProgrammaticToolCalling_when_targetIsNextGptGenerationVariant",
+      "type": "function",
+      "name": "test_mapsProgrammaticToolCalling_when_targetIsNextGptGenerationVariant",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        61,
+        82
+      ],
+      "summary": "验证新一代模型变体保留程序化调用。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_preservesProgramCaller_when_toolResultIsReplayed",
+      "type": "function",
+      "name": "test_preservesProgramCaller_when_toolResultIsReplayed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        84,
+        131
+      ],
+      "summary": "验证工具结果回放保留程序调用者。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_omitsExperimentalCacheBreakpoints_when_targetIsGpt56",
+      "type": "function",
+      "name": "test_omitsExperimentalCacheBreakpoints_when_targetIsGpt56",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        133,
+        154
+      ],
+      "summary": "验证目标不支持时省略实验缓存断点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_rejectsNonTextResult_when_programmaticCallIsPending",
+      "type": "function",
+      "name": "test_rejectsNonTextResult_when_programmaticCallIsPending",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        156,
+        177
+      ],
+      "summary": "验证程序调用未完成时拒绝非文本结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsProgramOutputToCodeExecutionResult_when_programCompletes",
+      "type": "function",
+      "name": "test_mapsProgramOutputToCodeExecutionResult_when_programCompletes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        179,
+        198
+      ],
+      "summary": "验证程序输出映射为代码执行结果。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_keepsPromptCacheKeyStable_when_followupTurnIsAppended",
+      "type": "function",
+      "name": "test_keepsPromptCacheKeyStable_when_followupTurnIsAppended",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        200,
+        222
+      ],
+      "summary": "验证追加后续轮次不改变提示缓存键。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsPauseTurn_when_responseOnlyContainsReplayableState",
+      "type": "function",
+      "name": "test_mapsPauseTurn_when_responseOnlyContainsReplayableState",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        224,
+        242
+      ],
+      "summary": "验证仅含可回放状态时映射 pause_turn。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_prunesPreCompactionHistory_when_openAiCompactionStateIsReplayed",
+      "type": "function",
+      "name": "test_prunesPreCompactionHistory_when_openAiCompactionStateIsReplayed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        244,
+        269
+      ],
+      "summary": "验证重放压缩状态时裁剪压缩前历史。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_usesReadableSummary_when_nativeClaudeCompactionIsReceived",
+      "type": "function",
+      "name": "test_usesReadableSummary_when_nativeClaudeCompactionIsReceived",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        271,
+        290
+      ],
+      "summary": "验证原生压缩使用可读摘要。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_roundTripsCustomToolCall_when_claudeReturnsToolResult",
+      "type": "function",
+      "name": "test_roundTripsCustomToolCall_when_claudeReturnsToolResult",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        292,
+        318
+      ],
+      "summary": "验证自定义工具调用与结果往返保持。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_removesEmptyPages_when_responsesCallsClaudeCodeReadTool",
+      "type": "function",
+      "name": "test_removesEmptyPages_when_responsesCallsClaudeCodeReadTool",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        320,
+        337
+      ],
+      "summary": "验证Read 工具空 pages 参数被移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsCacheWriteUsage_when_openAiReportsExplicitCachePopulation",
+      "type": "function",
+      "name": "test_mapsCacheWriteUsage_when_openAiReportsExplicitCachePopulation",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        339,
+        354
+      ],
+      "summary": "验证显式缓存填充用量映射为缓存写入。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_usesOutputTextFallback_when_outputItemsAreMissing",
+      "type": "function",
+      "name": "test_usesOutputTextFallback_when_outputItemsAreMissing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        356,
+        369
+      ],
+      "summary": "验证无输出项时采用 output_text 回退。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_throwsConversionError_when_openAiResponseFailed",
+      "type": "function",
+      "name": "test_throwsConversionError_when_openAiResponseFailed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "lineRange": [
+        371,
+        382
+      ],
+      "summary": "验证失败 Responses 响应转为明确转换错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "type": "file",
+      "name": "ClaudeMessagesUsageExtractorTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "summary": "验证 Messages 用量提取器对标准字段、兼容别名、显式零值、缓存创建细分及压缩迭代用量的优先级规则。",
+      "tags": [
+        "测试",
+        "用量统计",
+        "缓存",
+        "兼容性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:ClaudeMessagesUsageExtractorTest",
+      "type": "class",
+      "name": "ClaudeMessagesUsageExtractorTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        9,
+        138
+      ],
+      "summary": "验证 Messages 用量提取器对标准字段、兼容别名、显式零值、缓存创建细分及压缩迭代用量的优先级规则。",
+      "tags": [
+        "测试",
+        "用量统计",
+        "缓存",
+        "兼容性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_preservesZeroCacheRead_when_standardFieldExplicitlyReportsZero",
+      "type": "function",
+      "name": "test_preservesZeroCacheRead_when_standardFieldExplicitlyReportsZero",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        14,
+        28
+      ],
+      "summary": "验证标准缓存读取字段显式零值优先。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_mapsCachedTokensToCacheRead_when_standardCacheReadIsMissing",
+      "type": "function",
+      "name": "test_mapsCachedTokensToCacheRead_when_standardCacheReadIsMissing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        30,
+        42
+      ],
+      "summary": "验证标准缓存读取缺失时采用 cached_tokens 别名。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_preservesStandardCacheRead_when_cachedTokensAliasAlsoExists",
+      "type": "function",
+      "name": "test_preservesStandardCacheRead_when_cachedTokensAliasAlsoExists",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        44,
+        57
+      ],
+      "summary": "验证标准缓存读取优先于别名。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_sumsCacheCreationDetails_when_aggregateCreationFieldIsZero",
+      "type": "function",
+      "name": "test_sumsCacheCreationDetails_when_aggregateCreationFieldIsZero",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        59,
+        73
+      ],
+      "summary": "验证缓存创建总量为零时求和明细。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_mapsOpenAICompatibleTokenAliases_when_standardFieldsAreMissing",
+      "type": "function",
+      "name": "test_mapsOpenAICompatibleTokenAliases_when_standardFieldsAreMissing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        75,
+        87
+      ],
+      "summary": "验证标准 Token 缺失时采用兼容别名。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_mapsCompletionTokensAlias_when_standardOutputFieldIsMissing",
+      "type": "function",
+      "name": "test_mapsCompletionTokensAlias_when_standardOutputFieldIsMissing",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        89,
+        101
+      ],
+      "summary": "验证缺少标准输出字段时采用 completion_tokens。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_prefersTopLevelTokens_whenServerCompactionAlsoReportsIterations",
+      "type": "function",
+      "name": "test_prefersTopLevelTokens_whenServerCompactionAlsoReportsIterations",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        103,
+        119
+      ],
+      "summary": "验证顶层用量优先于压缩迭代统计。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_sumsIterationTokens_whenTopLevelTokensAreAbsent",
+      "type": "function",
+      "name": "test_sumsIterationTokens_whenTopLevelTokensAreAbsent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "lineRange": [
+        121,
+        137
+      ],
+      "summary": "验证缺少顶层用量时求和迭代 Token。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "type": "file",
+      "name": "ClaudeResponsesCurrentSchemaTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "summary": "验证当前 Responses schema 对角色文本类型、预算下限、思考控制、输出格式、缓存开关和逐消息 effort 配置的规范化。",
+      "tags": [
+        "测试",
+        "Responses",
+        "schema",
+        "请求规范化"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:ClaudeResponsesCurrentSchemaTest",
+      "type": "class",
+      "name": "ClaudeResponsesCurrentSchemaTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        18,
+        321
+      ],
+      "summary": "验证当前 Responses schema 对角色文本类型、预算下限、思考控制、输出格式、缓存开关和逐消息 effort 配置的规范化。",
+      "tags": [
+        "测试",
+        "Responses",
+        "schema",
+        "请求规范化"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_usesOutputText_when_claudeAssistantHistoryIsConverted",
+      "type": "function",
+      "name": "test_usesOutputText_when_claudeAssistantHistoryIsConverted",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        22,
+        42
+      ],
+      "summary": "验证助手历史文本使用 output_text。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_keepsInputText_when_historyIsNotAssistant",
+      "type": "function",
+      "name": "test_keepsInputText_when_historyIsNotAssistant",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        44,
+        61
+      ],
+      "summary": "验证非助手历史使用 input_text。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_preservesRoleSpecificContent_when_historyContainsToolContinuation",
+      "type": "function",
+      "name": "test_preservesRoleSpecificContent_when_historyContainsToolContinuation",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        63,
+        91
+      ],
+      "summary": "验证工具续轮保留各角色内容类型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_usesRoleSpecificSearchText_when_searchResultAppearsInHistory",
+      "type": "function",
+      "name": "test_usesRoleSpecificSearchText_when_searchResultAppearsInHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        93,
+        108
+      ],
+      "summary": "验证历史搜索结果使用角色相关文本类型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_usesOutputText_when_assistantCompactionSummaryIsReplayed",
+      "type": "function",
+      "name": "test_usesOutputText_when_assistantCompactionSummaryIsReplayed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        110,
+        125
+      ],
+      "summary": "验证助手压缩摘要使用 output_text。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsInputOnlyCacheBreakpoint_when_assistantTextHasCacheControl",
+      "type": "function",
+      "name": "test_omitsInputOnlyCacheBreakpoint_when_assistantTextHasCacheControl",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        127,
+        140
+      ],
+      "summary": "验证助手文本省略仅输入可用的缓存断点。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsReasoning_when_nonReasoningModelReceivesDisabledThinking",
+      "type": "function",
+      "name": "test_omitsReasoning_when_nonReasoningModelReceivesDisabledThinking",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        152,
+        163
+      ],
+      "summary": "验证非推理模型关闭思考时省略 reasoning。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsSummary_when_reasoningIsDisabled",
+      "type": "function",
+      "name": "test_omitsSummary_when_reasoningIsDisabled",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        165,
+        176
+      ],
+      "summary": "验证禁用推理时省略 summary。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_preservesLegacySchema_when_outputConfigOnlyContainsEffort",
+      "type": "function",
+      "name": "test_preservesLegacySchema_when_outputConfigOnlyContainsEffort",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        178,
+        195
+      ],
+      "summary": "验证仅有 effort 配置时保留旧 schema。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_emitsOnlyType_when_outputFormatDoesNotAcceptSchema",
+      "type": "function",
+      "name": "test_emitsOnlyType_when_outputFormatDoesNotAcceptSchema",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        197,
+        211
+      ],
+      "summary": "验证不接受 schema 的输出格式只输出 type。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_gatesExplicitCacheParameters_when_upstreamCacheSupportIsEnabled",
+      "type": "function",
+      "name": "test_gatesExplicitCacheParameters_when_upstreamCacheSupportIsEnabled",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        213,
+        236
+      ],
+      "summary": "验证显式缓存参数受上游能力开关控制。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsExplicitCacheParameters_when_configurationUsesDefault",
+      "type": "function",
+      "name": "test_omitsExplicitCacheParameters_when_configurationUsesDefault",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        238,
+        249
+      ],
+      "summary": "验证默认配置省略显式缓存参数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_rejectsUnrepresentableMode_when_conversionWouldLoseSemantics",
+      "type": "function",
+      "name": "test_rejectsUnrepresentableMode_when_conversionWouldLoseSemantics",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        251,
+        267
+      ],
+      "summary": "验证无法保留语义的模式被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_rejectsUnknownEffort_when_invalidEffortIsProvided",
+      "type": "function",
+      "name": "test_rejectsUnknownEffort_when_invalidEffortIsProvided",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        269,
+        278
+      ],
+      "summary": "验证未知 effort 值被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_rejectsTransientSystemMessage_when_lifetimeCannotBePreserved",
+      "type": "function",
+      "name": "test_rejectsTransientSystemMessage_when_lifetimeCannotBePreserved",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        280,
+        290
+      ],
+      "summary": "验证无法保留生命周期的临时系统消息被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_mapsPerMessageEffort_when_configurationFollowsNewUserInput",
+      "type": "function",
+      "name": "test_mapsPerMessageEffort_when_configurationFollowsNewUserInput",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "lineRange": [
+        292,
+        304
+      ],
+      "summary": "验证逐消息 effort 随新增用户输入正确生效。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "type": "file",
+      "name": "ConversationEffortBridgeTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "summary": "验证会话级 effort 配置跨 Messages 与 Responses 转换时的覆盖和继承规则，同时保留提示、格式、历史与原请求不变。",
+      "tags": [
+        "测试",
+        "会话配置",
+        "推理配置",
+        "协议转换"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:ConversationEffortBridgeTest",
+      "type": "class",
+      "name": "ConversationEffortBridgeTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        19,
+        318
+      ],
+      "summary": "验证会话级 effort 配置跨 Messages 与 Responses 转换时的覆盖和继承规则，同时保留提示、格式、历史与原请求不变。",
+      "tags": [
+        "测试",
+        "会话配置",
+        "推理配置",
+        "协议转换"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_usesMessageEffort_when_topLevelReasoningIsAbsent",
+      "type": "function",
+      "name": "test_usesMessageEffort_when_topLevelReasoningIsAbsent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        32,
+        43
+      ],
+      "summary": "验证顶层未指定推理时采用消息 effort。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesNativeConfigurationHistory_when_protocolDoesNotChange",
+      "type": "function",
+      "name": "test_preservesNativeConfigurationHistory_when_protocolDoesNotChange",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        45,
+        58
+      ],
+      "summary": "验证协议不变时保留原生配置历史。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesSampling_when_legacyAdaptiveModelHasNoThinkingOverride",
+      "type": "function",
+      "name": "test_preservesSampling_when_legacyAdaptiveModelHasNoThinkingOverride",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        60,
+        73
+      ],
+      "summary": "验证旧 adaptive 模型无思考覆盖时保留采样。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_usesAdaptiveThinking_when_responsesTargetsModernClaude",
+      "type": "function",
+      "name": "test_usesAdaptiveThinking_when_responsesTargetsModernClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        75,
+        87
+      ],
+      "summary": "验证现代目标采用 adaptive 思考。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesXhigh_when_targetSupportsModernEffortLevels",
+      "type": "function",
+      "name": "test_preservesXhigh_when_targetSupportsModernEffortLevels",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        89,
+        100
+      ],
+      "summary": "验证支持新等级的目标保留 xhigh。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_omitsSamplingOverride_when_targetUsesAdaptiveThinking",
+      "type": "function",
+      "name": "test_omitsSamplingOverride_when_targetUsesAdaptiveThinking",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        102,
+        113
+      ],
+      "summary": "验证adaptive 思考目标省略采样覆盖。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:activationCases",
+      "type": "function",
+      "name": "activationCases",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        115,
+        128
+      ],
+      "summary": "提供不同目标模型与会话配置的思考能力激活测试组合。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_resolvesCurrentEffort_when_claudeConfigurationCrossesTurnBoundaries",
+      "type": "function",
+      "name": "test_resolvesCurrentEffort_when_claudeConfigurationCrossesTurnBoundaries",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        130,
+        141
+      ],
+      "summary": "验证跨轮次配置解析当前有效 effort。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesPromptText_when_effortOnlySystemMessagesArePresent",
+      "type": "function",
+      "name": "test_preservesPromptText_when_effortOnlySystemMessagesArePresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        143,
+        156
+      ],
+      "summary": "验证仅含 effort 的系统消息不破坏提示文本。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesSystemText_when_effortUpdateAlsoCarriesInstructions",
+      "type": "function",
+      "name": "test_preservesSystemText_when_effortUpdateAlsoCarriesInstructions",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        158,
+        168
+      ],
+      "summary": "验证携指令的 effort 更新保留系统文本。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesFormat_when_effectiveEffortOverridesTopLevelConfig",
+      "type": "function",
+      "name": "test_preservesFormat_when_effectiveEffortOverridesTopLevelConfig",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        170,
+        183
+      ],
+      "summary": "验证有效 effort 覆盖仍保留输出格式。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesCallerRequest_when_resolvingEffort",
+      "type": "function",
+      "name": "test_preservesCallerRequest_when_resolvingEffort",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        185,
+        196
+      ],
+      "summary": "验证解析 effort 不修改调用方请求。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_mapsMaxToSupportedLevel_when_targetIsOlderResponsesModel",
+      "type": "function",
+      "name": "test_mapsMaxToSupportedLevel_when_targetIsOlderResponsesModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        198,
+        208
+      ],
+      "summary": "验证旧 Responses 目标将 max 映射为支持等级。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_rejectsUnsupportedMessageConfig_when_itCannotBeMapped",
+      "type": "function",
+      "name": "test_rejectsUnsupportedMessageConfig_when_itCannotBeMapped",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        210,
+        220
+      ],
+      "summary": "验证无法映射的消息配置被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_rejectsMessageConfig_when_roleIsNotSystem",
+      "type": "function",
+      "name": "test_rejectsMessageConfig_when_roleIsNotSystem",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        222,
+        231
+      ],
+      "summary": "验证非系统角色携带配置被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_keepsBaseEffort_when_messageConfigHasNoOverride",
+      "type": "function",
+      "name": "test_keepsBaseEffort_when_messageConfigHasNoOverride",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        233,
+        244
+      ],
+      "summary": "验证消息无覆盖时保留基础 effort。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_appliesLatestUpdate_when_responsesContainsConfigurationHistory",
+      "type": "function",
+      "name": "test_appliesLatestUpdate_when_responsesContainsConfigurationHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        246,
+        261
+      ],
+      "summary": "验证配置历史采用最新更新。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesConversation_when_responsesConfigurationItemsAreConsumed",
+      "type": "function",
+      "name": "test_preservesConversation_when_responsesConfigurationItemsAreConsumed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        263,
+        275
+      ],
+      "summary": "验证消费配置项后保留对话内容。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_rejectsUnsupportedUpdate_when_responsesConfigurationIsInvalid",
+      "type": "function",
+      "name": "test_rejectsUnsupportedUpdate_when_responsesConfigurationIsInvalid",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        277,
+        287
+      ],
+      "summary": "验证非法 Responses 配置更新被拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:responsesRequest",
+      "type": "function",
+      "name": "responsesRequest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        297,
+        306
+      ],
+      "summary": "构造包含指定会话 effort 更新的 Responses 请求样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:convert",
+      "type": "function",
+      "name": "convert",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "lineRange": [
+        308,
+        317
+      ],
+      "summary": "执行指定协议和模型的请求转换并解析目标 JSON。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:ClaudeMessagesOpenAIResponsesLatestFeaturesTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_omitsDirectOnlyAllowedCallers_when_targetIsGpt55",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsProgrammaticToolCalling_when_claudeToolAllowsCodeExecutionCaller",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsProgrammaticToolCalling_when_targetIsNextGptGenerationVariant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_preservesProgramCaller_when_toolResultIsReplayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_omitsExperimentalCacheBreakpoints_when_targetIsGpt56",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_rejectsNonTextResult_when_programmaticCallIsPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsProgramOutputToCodeExecutionResult_when_programCompletes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_keepsPromptCacheKeyStable_when_followupTurnIsAppended",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsPauseTurn_when_responseOnlyContainsReplayableState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_prunesPreCompactionHistory_when_openAiCompactionStateIsReplayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_usesReadableSummary_when_nativeClaudeCompactionIsReceived",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_roundTripsCustomToolCall_when_claudeReturnsToolResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_removesEmptyPages_when_responsesCallsClaudeCodeReadTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_mapsCacheWriteUsage_when_openAiReportsExplicitCachePopulation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_usesOutputTextFallback_when_outputItemsAreMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java:test_throwsConversionError_when_openAiResponseFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesOpenAIResponsesLatestFeaturesTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:ClaudeMessagesUsageExtractorTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_preservesZeroCacheRead_when_standardFieldExplicitlyReportsZero",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_mapsCachedTokensToCacheRead_when_standardCacheReadIsMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_preservesStandardCacheRead_when_cachedTokensAliasAlsoExists",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_sumsCacheCreationDetails_when_aggregateCreationFieldIsZero",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_mapsOpenAICompatibleTokenAliases_when_standardFieldsAreMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_mapsCompletionTokensAlias_when_standardOutputFieldIsMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_prefersTopLevelTokens_whenServerCompactionAlsoReportsIterations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java:test_sumsIterationTokens_whenTopLevelTokensAreAbsent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:ClaudeResponsesCurrentSchemaTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_usesOutputText_when_claudeAssistantHistoryIsConverted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_keepsInputText_when_historyIsNotAssistant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_preservesRoleSpecificContent_when_historyContainsToolContinuation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_usesRoleSpecificSearchText_when_searchResultAppearsInHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_usesOutputText_when_assistantCompactionSummaryIsReplayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsInputOnlyCacheBreakpoint_when_assistantTextHasCacheControl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsReasoning_when_nonReasoningModelReceivesDisabledThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsSummary_when_reasoningIsDisabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_preservesLegacySchema_when_outputConfigOnlyContainsEffort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_emitsOnlyType_when_outputFormatDoesNotAcceptSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_gatesExplicitCacheParameters_when_upstreamCacheSupportIsEnabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_omitsExplicitCacheParameters_when_configurationUsesDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_rejectsUnrepresentableMode_when_conversionWouldLoseSemantics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_rejectsUnknownEffort_when_invalidEffortIsProvided",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_rejectsTransientSystemMessage_when_lifetimeCannotBePreserved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java:test_mapsPerMessageEffort_when_configurationFollowsNewUserInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesCurrentSchemaTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:ConversationEffortBridgeTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_usesMessageEffort_when_topLevelReasoningIsAbsent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesNativeConfigurationHistory_when_protocolDoesNotChange",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesSampling_when_legacyAdaptiveModelHasNoThinkingOverride",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_usesAdaptiveThinking_when_responsesTargetsModernClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesXhigh_when_targetSupportsModernEffortLevels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_omitsSamplingOverride_when_targetUsesAdaptiveThinking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:activationCases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_resolvesCurrentEffort_when_claudeConfigurationCrossesTurnBoundaries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesPromptText_when_effortOnlySystemMessagesArePresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesSystemText_when_effortUpdateAlsoCarriesInstructions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesFormat_when_effectiveEffortOverridesTopLevelConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesCallerRequest_when_resolvingEffort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_mapsMaxToSupportedLevel_when_targetIsOlderResponsesModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_rejectsUnsupportedMessageConfig_when_itCannotBeMapped",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_rejectsMessageConfig_when_roleIsNotSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_keepsBaseEffort_when_messageConfigHasNoOverride",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_appliesLatestUpdate_when_responsesContainsConfigurationHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_preservesConversation_when_responsesConfigurationItemsAreConsumed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:test_rejectsUnsupportedUpdate_when_responsesConfigurationIsInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:responsesRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java:convert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/ClaudeMessagesUsageExtractor.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ConversationEffortBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

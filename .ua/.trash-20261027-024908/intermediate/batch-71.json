@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "id": "schema:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql",
+      "type": "schema",
+      "name": "V29__admin_token_quotas.sql",
+      "filePath": "backend/src/main/resources/db/migration/V29__admin_token_quotas.sql",
+      "summary": "新增统一令牌配额规则，将模型分组每日限额及凭证终身额度迁移后清零旧字段；为用量记录回填准入时的分组归属，并建立分组和凭证的时间索引。",
+      "tags": ["数据库迁移", "令牌配额", "历史兼容", "用量归属"],
+      "complexity": "moderate",
+      "languageNotes": "使用 PostgreSQL JSONB 横向展开迁移旧模型限额，以 NUMERIC(24, 6) 保存正数额度；唯一约束按作用域、目标、模型与周期区分规则。"
+    },
+    {
+      "id": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "table",
+      "name": "token_quota_rules",
+      "filePath": "backend/src/main/resources/db/migration/V29__admin_token_quotas.sql",
+      "lineRange": [1, 12],
+      "summary": "保存模型分组或 API Key 的令牌配额，支持全模型或指定模型及日、周、月、终身周期；以唯一约束防止同一目标和周期重复配置，并记录启用状态及审计时间。",
+      "tags": ["配额规则", "数据表", "唯一约束", "周期限额"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "schema:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql",
+      "target": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "schema:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql",
+      "target": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

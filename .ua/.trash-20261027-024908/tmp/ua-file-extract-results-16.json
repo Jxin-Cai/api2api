@@ -1,0 +1,4525 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 21,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 21,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 21,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/credential/ModelGroupDailyUsageService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "loadTodayUsageByGroup",
+          "startLine": 29,
+          "endLine": 39,
+          "params": [
+            "ownerUserId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelGroupDailyUsageService",
+          "startLine": 21,
+          "endLine": 40,
+          "methods": [
+            "loadTodayUsageByGroup"
+          ],
+          "properties": [
+            "usageRecordRepository",
+            "dailyLimitWindow"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "loadTodayUsageByGroup",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ModelGroupDailyUsageService",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "new HashMap<>",
+          "lineNumber": 31
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "usageRecordRepository.sumActualTokensByOwnerGroupedByModel",
+          "lineNumber": 32
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "dailyLimitWindow.today",
+          "lineNumber": 33
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "usageByGroup\n                    .computeIfAbsent(usage.modelGroupId(), ignored -> new HashMap<>()).merge",
+          "lineNumber": 34
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "usageByGroup.computeIfAbsent",
+          "lineNumber": 34
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "usage.modelGroupId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "new HashMap<>",
+          "lineNumber": 35
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "usage.model",
+          "lineNumber": 36
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "usage.actualTokens",
+          "lineNumber": 36
+        },
+        {
+          "caller": "loadTodayUsageByGroup",
+          "callee": "Collections.unmodifiableMap",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/InboundRequestContext.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 74,
+      "functions": [
+        {
+          "name": "empty",
+          "startLine": 28,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "headers",
+            "rawQuery",
+            "operation",
+            "clientIp"
+          ]
+        },
+        {
+          "name": "ofHeaders",
+          "startLine": 38,
+          "endLine": 40,
+          "params": [
+            "headers"
+          ]
+        },
+        {
+          "name": "clientIp",
+          "startLine": 42,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "hasRawQuery",
+          "startLine": 44,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "normalizeQuery",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "rawQuery"
+          ]
+        },
+        {
+          "name": "copyHeaders",
+          "startLine": 56,
+          "endLine": 68,
+          "params": [
+            "headers"
+          ]
+        },
+        {
+          "name": "equals",
+          "startLine": 70,
+          "endLine": 80,
+          "params": [
+            "other"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 82,
+          "endLine": 85,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InboundRequestContext",
+          "startLine": 14,
+          "endLine": 86,
+          "methods": [
+            "empty",
+            "of",
+            "ofHeaders",
+            "clientIp",
+            "hasRawQuery",
+            "normalizeQuery",
+            "copyHeaders",
+            "equals",
+            "hashCode"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "empty",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "of",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "ofHeaders",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "clientIp",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "hasRawQuery",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "InboundRequestContext",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "empty",
+          "callee": "new InboundRequestContext",
+          "lineNumber": 29
+        },
+        {
+          "caller": "empty",
+          "callee": "Map.of",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "new InboundRequestContext",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ofHeaders",
+          "callee": "new InboundRequestContext",
+          "lineNumber": 39
+        },
+        {
+          "caller": "normalizeQuery",
+          "callee": "rawQuery.trim",
+          "lineNumber": 52
+        },
+        {
+          "caller": "normalizeQuery",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 53
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.isEmpty",
+          "lineNumber": 57
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "Map.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream()\n                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank())\n                .filter(entry -> entry.getValue() != null).collect",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream()\n                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank()).filter",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream().filter",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet().stream",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "headers.entrySet",
+          "lineNumber": 60
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey().isBlank",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey",
+          "lineNumber": 61
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getValue",
+          "lineNumber": 62
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "Collectors.toUnmodifiableMap",
+          "lineNumber": 63
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey().trim",
+          "lineNumber": 64
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getKey",
+          "lineNumber": 64
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "List.copyOf",
+          "lineNumber": 65
+        },
+        {
+          "caller": "copyHeaders",
+          "callee": "entry.getValue",
+          "lineNumber": 65
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 76
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 77
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 79
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 84
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 185,
+      "nonEmptyLines": 152,
+      "functions": [
+        {
+          "name": "InvokeGatewayCommand",
+          "startLine": 29,
+          "endLine": 42,
+          "params": [
+            "builder"
+          ]
+        },
+        {
+          "name": "builder",
+          "startLine": 44,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "requireNotBlank",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "value",
+            "message"
+          ]
+        },
+        {
+          "name": "getGatewayInvocationId",
+          "startLine": 56,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "getGatewayRequestId",
+          "startLine": 60,
+          "endLine": 62,
+          "params": []
+        },
+        {
+          "name": "getUsageRecordId",
+          "startLine": 64,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "getKeyHash",
+          "startLine": 68,
+          "endLine": 70,
+          "params": []
+        },
+        {
+          "name": "getRequestedCredentialModel",
+          "startLine": 72,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "getRequestedModel",
+          "startLine": 76,
+          "endLine": 78,
+          "params": []
+        },
+        {
+          "name": "getRequestProtocol",
+          "startLine": 80,
+          "endLine": 82,
+          "params": []
+        },
+        {
+          "name": "getRequestBody",
+          "startLine": 84,
+          "endLine": 86,
+          "params": []
+        },
+        {
+          "name": "getInbound",
+          "startLine": 88,
+          "endLine": 90,
+          "params": []
+        },
+        {
+          "name": "isStreaming",
+          "startLine": 92,
+          "endLine": 94,
+          "params": []
+        },
+        {
+          "name": "isToolCallingRequired",
+          "startLine": 96,
+          "endLine": 98,
+          "params": []
+        },
+        {
+          "name": "isReasoningRequired",
+          "startLine": 100,
+          "endLine": 102,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvokeGatewayCommand",
+          "startLine": 14,
+          "endLine": 185,
+          "methods": [
+            "InvokeGatewayCommand",
+            "builder",
+            "requireNotBlank",
+            "getGatewayInvocationId",
+            "getGatewayRequestId",
+            "getUsageRecordId",
+            "getKeyHash",
+            "getRequestedCredentialModel",
+            "getRequestedModel",
+            "getRequestProtocol",
+            "getRequestBody",
+            "getInbound",
+            "isStreaming",
+            "isToolCallingRequired",
+            "isReasoningRequired"
+          ],
+          "properties": [
+            "gatewayInvocationId",
+            "gatewayRequestId",
+            "usageRecordId",
+            "keyHash",
+            "requestedCredentialModel",
+            "requestedModel",
+            "requestProtocol",
+            "requestBody",
+            "inbound",
+            "streaming",
+            "toolCallingRequired",
+            "reasoningRequired"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "builder",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "getGatewayInvocationId",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "getGatewayRequestId",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "getUsageRecordId",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "getKeyHash",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestedCredentialModel",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestedModel",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestProtocol",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestBody",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "getInbound",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "isStreaming",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "isToolCallingRequired",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "isReasoningRequired",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "InvokeGatewayCommand",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 31
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 32
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 33
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 35
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 36
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "requireNotBlank",
+          "lineNumber": 37
+        },
+        {
+          "caller": "InvokeGatewayCommand",
+          "callee": "InboundRequestContext.empty",
+          "lineNumber": 38
+        },
+        {
+          "caller": "builder",
+          "callee": "new Builder",
+          "lineNumber": 45
+        },
+        {
+          "caller": "requireNotBlank",
+          "callee": "Objects.requireNonNull(value, message).trim",
+          "lineNumber": 49
+        },
+        {
+          "caller": "requireNotBlank",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "requireNotBlank",
+          "callee": "required.isEmpty",
+          "lineNumber": 50
+        },
+        {
+          "caller": "requireNotBlank",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 51
+        },
+        {
+          "caller": "build",
+          "callee": "new InvokeGatewayCommand",
+          "lineNumber": 182
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 14,
+        "functionCount": 15,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/usage/UsageQueryApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 135,
+      "nonEmptyLines": 119,
+      "functions": [
+        {
+          "name": "queryMyUsageRecords",
+          "startLine": 44,
+          "endLine": 70,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "queryAdminUsageRecords",
+          "startLine": 72,
+          "endLine": 95,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "toViews",
+          "startLine": 97,
+          "endLine": 106,
+          "params": [
+            "records",
+            "adminView"
+          ]
+        },
+        {
+          "name": "username",
+          "startLine": 108,
+          "endLine": 115,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "apiCredentialName",
+          "startLine": 117,
+          "endLine": 124,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "providerChannelName",
+          "startLine": 126,
+          "endLine": 134,
+          "params": [
+            "record"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageQueryApplicationService",
+          "startLine": 28,
+          "endLine": 135,
+          "methods": [
+            "queryMyUsageRecords",
+            "queryAdminUsageRecords",
+            "toViews",
+            "username",
+            "apiCredentialName",
+            "providerChannelName"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "apiCredentialRepository",
+            "providerChannelRepository",
+            "usageRecordRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "queryMyUsageRecords",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "queryAdminUsageRecords",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "UsageQueryApplicationService",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "userAccountRepository.findById(command.getCurrentUserId()).orElseThrow",
+          "lineNumber": 46
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 46
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getCurrentUserId",
+          "lineNumber": 46
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "new BusinessException",
+          "lineNumber": 47
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "currentUser.assertCanAccess",
+          "lineNumber": 48
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 50
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "apiCredentialRepository.findById(command.getApiCredentialId()).orElseThrow",
+          "lineNumber": 51
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "apiCredentialRepository.findById",
+          "lineNumber": 51
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 51
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "new BusinessException",
+          "lineNumber": 52
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "apiCredential.assertOwnedBy",
+          "lineNumber": 53
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getCurrentUserId",
+          "lineNumber": 53
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 56
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getStartInclusive",
+          "lineNumber": 57
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getEndExclusive",
+          "lineNumber": 58
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "PageRequestSpec.of",
+          "lineNumber": 60
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getPage",
+          "lineNumber": 60
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getSize",
+          "lineNumber": 60
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "UsageRecordFilter.forUserPortal",
+          "lineNumber": 61
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getCurrentUserId",
+          "lineNumber": 62
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 63
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 64
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 65
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "usageRecordRepository.query",
+          "lineNumber": 68
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "PagedUsageRecordViews.of",
+          "lineNumber": 69
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "toViews",
+          "lineNumber": 69
+        },
+        {
+          "caller": "queryMyUsageRecords",
+          "callee": "page.getRecords",
+          "lineNumber": 69
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "userAccountRepository.findById(command.getOperatorUserId()).orElseThrow",
+          "lineNumber": 74
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 74
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 74
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "new BusinessException",
+          "lineNumber": 75
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "operator.assertCanAccess",
+          "lineNumber": 76
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 78
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getStartInclusive",
+          "lineNumber": 79
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getEndExclusive",
+          "lineNumber": 80
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "PageRequestSpec.of",
+          "lineNumber": 82
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getPage",
+          "lineNumber": 82
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getSize",
+          "lineNumber": 82
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "UsageRecordFilter.of",
+          "lineNumber": 83
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getUserAccountId",
+          "lineNumber": 84
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getApiCredentialId",
+          "lineNumber": 85
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 86
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 87
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 88
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "usageRecordRepository.query",
+          "lineNumber": 93
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "PagedUsageRecordViews.of",
+          "lineNumber": 94
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "toViews",
+          "lineNumber": 94
+        },
+        {
+          "caller": "queryAdminUsageRecords",
+          "callee": "page.getRecords",
+          "lineNumber": 94
+        },
+        {
+          "caller": "toViews",
+          "callee": "records.stream()\n                .map(record -> UsageRecordView.of(\n                        record,\n                        username(record),\n                        apiCredentialName(record),\n                        adminView ? providerChannelName(record) : null\n                )).toList",
+          "lineNumber": 98
+        },
+        {
+          "caller": "toViews",
+          "callee": "records.stream().map",
+          "lineNumber": 98
+        },
+        {
+          "caller": "toViews",
+          "callee": "records.stream",
+          "lineNumber": 98
+        },
+        {
+          "caller": "toViews",
+          "callee": "UsageRecordView.of",
+          "lineNumber": 99
+        },
+        {
+          "caller": "toViews",
+          "callee": "username",
+          "lineNumber": 101
+        },
+        {
+          "caller": "toViews",
+          "callee": "apiCredentialName",
+          "lineNumber": 102
+        },
+        {
+          "caller": "toViews",
+          "callee": "providerChannelName",
+          "lineNumber": 103
+        },
+        {
+          "caller": "username",
+          "callee": "record.getUserAccountId",
+          "lineNumber": 109
+        },
+        {
+          "caller": "username",
+          "callee": "userAccountRepository.findById(record.getUserAccountId())\n                .map(user -> user.getUsername().getValue()).orElse",
+          "lineNumber": 112
+        },
+        {
+          "caller": "username",
+          "callee": "userAccountRepository.findById(record.getUserAccountId()).map",
+          "lineNumber": 112
+        },
+        {
+          "caller": "username",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 112
+        },
+        {
+          "caller": "username",
+          "callee": "record.getUserAccountId",
+          "lineNumber": 112
+        },
+        {
+          "caller": "username",
+          "callee": "user.getUsername().getValue",
+          "lineNumber": 113
+        },
+        {
+          "caller": "username",
+          "callee": "user.getUsername",
+          "lineNumber": 113
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "record.getApiCredentialId",
+          "lineNumber": 118
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "apiCredentialRepository.findById(record.getApiCredentialId())\n                .map(credential -> credential.getName().getValue()).orElse",
+          "lineNumber": 121
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "apiCredentialRepository.findById(record.getApiCredentialId()).map",
+          "lineNumber": 121
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "apiCredentialRepository.findById",
+          "lineNumber": 121
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "record.getApiCredentialId",
+          "lineNumber": 121
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "credential.getName().getValue",
+          "lineNumber": 122
+        },
+        {
+          "caller": "apiCredentialName",
+          "callee": "credential.getName",
+          "lineNumber": 122
+        },
+        {
+          "caller": "providerChannelName",
+          "callee": "record.getProviderChannelId",
+          "lineNumber": 127
+        },
+        {
+          "caller": "providerChannelName",
+          "callee": "providerChannelRepository.findById(record.getProviderChannelId())\n                .map(ProviderChannel::name)\n                .map(Object::toString).orElse",
+          "lineNumber": 130
+        },
+        {
+          "caller": "providerChannelName",
+          "callee": "providerChannelRepository.findById(record.getProviderChannelId())\n                .map(ProviderChannel::name).map",
+          "lineNumber": 130
+        },
+        {
+          "caller": "providerChannelName",
+          "callee": "providerChannelRepository.findById(record.getProviderChannelId()).map",
+          "lineNumber": 130
+        },
+        {
+          "caller": "providerChannelName",
+          "callee": "providerChannelRepository.findById",
+          "lineNumber": 130
+        },
+        {
+          "caller": "providerChannelName",
+          "callee": "record.getProviderChannelId",
+          "lineNumber": 130
+        }
+      ],
+      "metrics": {
+        "importCount": 19,
+        "exportCount": 3,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/usage/command/QueryAdminUsageRecordsCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 32,
+      "classes": [
+        {
+          "name": "QueryAdminUsageRecordsCommand",
+          "startLine": 17,
+          "endLine": 44,
+          "methods": [],
+          "properties": [
+            "operatorUserId",
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "providerChannelId",
+            "requestProtocol",
+            "startInclusive",
+            "endExclusive",
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "QueryAdminUsageRecordsCommand",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 29,
+      "classes": [
+        {
+          "name": "QueryMyUsageRecordsCommand",
+          "startLine": 16,
+          "endLine": 39,
+          "methods": [],
+          "properties": [
+            "currentUserId",
+            "apiCredentialId",
+            "requestedModel",
+            "requestProtocol",
+            "startInclusive",
+            "endExclusive",
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "QueryMyUsageRecordsCommand",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "PagedUsageRecordViews",
+          "startLine": 16,
+          "endLine": 28,
+          "params": [
+            "records",
+            "page",
+            "size",
+            "totalElements",
+            "filteredTokenTotal"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 30,
+          "endLine": 38,
+          "params": [
+            "records",
+            "page"
+          ]
+        },
+        {
+          "name": "totalPages",
+          "startLine": 40,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "getRecords",
+          "startLine": 47,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "getPage",
+          "startLine": 51,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "getSize",
+          "startLine": 55,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "getTotalElements",
+          "startLine": 59,
+          "endLine": 61,
+          "params": []
+        },
+        {
+          "name": "getFilteredTokenTotal",
+          "startLine": 63,
+          "endLine": 65,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PagedUsageRecordViews",
+          "startLine": 8,
+          "endLine": 66,
+          "methods": [
+            "PagedUsageRecordViews",
+            "of",
+            "totalPages",
+            "getRecords",
+            "getPage",
+            "getSize",
+            "getTotalElements",
+            "getFilteredTokenTotal"
+          ],
+          "properties": [
+            "records",
+            "page",
+            "size",
+            "totalElements",
+            "filteredTokenTotal"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "totalPages",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "getRecords",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "getPage",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "getSize",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "getTotalElements",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "getFilteredTokenTotal",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "PagedUsageRecordViews",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PagedUsageRecordViews",
+          "callee": "List.copyOf",
+          "lineNumber": 23
+        },
+        {
+          "caller": "PagedUsageRecordViews",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 23
+        },
+        {
+          "caller": "PagedUsageRecordViews",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 27
+        },
+        {
+          "caller": "of",
+          "callee": "new PagedUsageRecordViews",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "page.getPage",
+          "lineNumber": 33
+        },
+        {
+          "caller": "of",
+          "callee": "page.getSize",
+          "lineNumber": 34
+        },
+        {
+          "caller": "of",
+          "callee": "page.getTotalElements",
+          "lineNumber": 35
+        },
+        {
+          "caller": "of",
+          "callee": "page.getFilteredTokenTotal",
+          "lineNumber": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/usage/dto/UsageRecordView.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "UsageRecordView",
+          "startLine": 13,
+          "endLine": 18,
+          "params": [
+            "record",
+            "username",
+            "apiCredentialName",
+            "providerChannelName"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "record",
+            "username",
+            "apiCredentialName",
+            "providerChannelName"
+          ]
+        },
+        {
+          "name": "record",
+          "startLine": 24,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "username",
+          "startLine": 28,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "apiCredentialName",
+          "startLine": 32,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "providerChannelName",
+          "startLine": 36,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "getRecord",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "getUsername",
+          "startLine": 44,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "getApiCredentialName",
+          "startLine": 48,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "getProviderChannelName",
+          "startLine": 52,
+          "endLine": 54,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageRecordView",
+          "startLine": 6,
+          "endLine": 55,
+          "methods": [
+            "UsageRecordView",
+            "of",
+            "record",
+            "username",
+            "apiCredentialName",
+            "providerChannelName",
+            "getRecord",
+            "getUsername",
+            "getApiCredentialName",
+            "getProviderChannelName"
+          ],
+          "properties": [
+            "record",
+            "username",
+            "apiCredentialName",
+            "providerChannelName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "record",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "username",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "apiCredentialName",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "providerChannelName",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "getRecord",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "getUsername",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "getApiCredentialName",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "getProviderChannelName",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecordView",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageRecordView",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 14
+        },
+        {
+          "caller": "of",
+          "callee": "new UsageRecordView",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 10,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "GatewayInvocationId",
+          "startLine": 12,
+          "endLine": 20,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 34,
+          "endLine": 43,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 45,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 50,
+          "endLine": 55,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayInvocationId",
+          "startLine": 8,
+          "endLine": 56,
+          "methods": [
+            "GatewayInvocationId",
+            "of",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayInvocationId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GatewayInvocationId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "GatewayInvocationId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "new GatewayInvocationId",
+          "lineNumber": 23
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 42
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "GatewayRequestId",
+          "startLine": 14,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 29,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 33,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 37,
+          "endLine": 46,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 48,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 53,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayRequestId",
+          "startLine": 8,
+          "endLine": 57,
+          "methods": [
+            "GatewayRequestId",
+            "of",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayRequestId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GatewayRequestId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "GatewayRequestId",
+          "callee": "value.trim",
+          "lineNumber": 18
+        },
+        {
+          "caller": "GatewayRequestId",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "GatewayRequestId",
+          "callee": "trimmed.length",
+          "lineNumber": 19
+        },
+        {
+          "caller": "GatewayRequestId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "new GatewayRequestId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 45
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/ModelGroupModelUsage.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "ModelGroupModelUsage",
+          "startLine": 11,
+          "endLine": 21,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ModelGroupModelUsage",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/PageRequestSpec.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "PageRequestSpec",
+          "startLine": 16,
+          "endLine": 25,
+          "params": [
+            "page",
+            "size"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "page",
+            "size"
+          ]
+        },
+        {
+          "name": "offset",
+          "startLine": 31,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "page",
+          "startLine": 35,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "size",
+          "startLine": 39,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "getPage",
+          "startLine": 43,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "getSize",
+          "startLine": 47,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 51,
+          "endLine": 60,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 62,
+          "endLine": 65,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PageRequestSpec",
+          "startLine": 9,
+          "endLine": 66,
+          "methods": [
+            "PageRequestSpec",
+            "of",
+            "offset",
+            "page",
+            "size",
+            "getPage",
+            "getSize",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "ALLOWED_SIZES",
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "offset",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "page",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "size",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "getPage",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "getSize",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "PageRequestSpec",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PageRequestSpec",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "PageRequestSpec",
+          "callee": "ALLOWED_SIZES.contains",
+          "lineNumber": 20
+        },
+        {
+          "caller": "PageRequestSpec",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 21
+        },
+        {
+          "caller": "of",
+          "callee": "new PageRequestSpec",
+          "lineNumber": 28
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 114,
+      "nonEmptyLines": 96,
+      "functions": [
+        {
+          "name": "PagedUsageRecords",
+          "startLine": 17,
+          "endLine": 41,
+          "params": [
+            "records",
+            "page",
+            "size",
+            "totalElements",
+            "filteredTokenTotal"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 43,
+          "endLine": 51,
+          "params": [
+            "records",
+            "page",
+            "size",
+            "totalElements",
+            "filteredTokenTotal"
+          ]
+        },
+        {
+          "name": "empty",
+          "startLine": 53,
+          "endLine": 62,
+          "params": [
+            "pageRequest"
+          ]
+        },
+        {
+          "name": "isEmpty",
+          "startLine": 64,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "totalPages",
+          "startLine": 68,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "records",
+          "startLine": 75,
+          "endLine": 77,
+          "params": []
+        },
+        {
+          "name": "page",
+          "startLine": 79,
+          "endLine": 81,
+          "params": []
+        },
+        {
+          "name": "size",
+          "startLine": 83,
+          "endLine": 85,
+          "params": []
+        },
+        {
+          "name": "totalElements",
+          "startLine": 87,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "filteredTokenTotal",
+          "startLine": 91,
+          "endLine": 93,
+          "params": []
+        },
+        {
+          "name": "getRecords",
+          "startLine": 95,
+          "endLine": 97,
+          "params": []
+        },
+        {
+          "name": "getPage",
+          "startLine": 99,
+          "endLine": 101,
+          "params": []
+        },
+        {
+          "name": "getSize",
+          "startLine": 103,
+          "endLine": 105,
+          "params": []
+        },
+        {
+          "name": "getTotalElements",
+          "startLine": 107,
+          "endLine": 109,
+          "params": []
+        },
+        {
+          "name": "getFilteredTokenTotal",
+          "startLine": 111,
+          "endLine": 113,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PagedUsageRecords",
+          "startLine": 9,
+          "endLine": 114,
+          "methods": [
+            "PagedUsageRecords",
+            "of",
+            "empty",
+            "isEmpty",
+            "totalPages",
+            "records",
+            "page",
+            "size",
+            "totalElements",
+            "filteredTokenTotal",
+            "getRecords",
+            "getPage",
+            "getSize",
+            "getTotalElements",
+            "getFilteredTokenTotal"
+          ],
+          "properties": [
+            "records",
+            "page",
+            "size",
+            "totalElements",
+            "filteredTokenTotal"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "empty",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "isEmpty",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "totalPages",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "records",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "page",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "size",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "totalElements",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "filteredTokenTotal",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "getRecords",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "getPage",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "getSize",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "getTotalElements",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "getFilteredTokenTotal",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "PagedUsageRecords",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 24
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 26
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 29
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 32
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "records.stream()\n                .map(record -> Objects.requireNonNull(record, \"Usage record must not be null\")).toList",
+          "lineNumber": 34
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "records.stream().map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "records.stream",
+          "lineNumber": 34
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 35
+        },
+        {
+          "caller": "PagedUsageRecords",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 40
+        },
+        {
+          "caller": "of",
+          "callee": "new PagedUsageRecords",
+          "lineNumber": 50
+        },
+        {
+          "caller": "empty",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 54
+        },
+        {
+          "caller": "empty",
+          "callee": "new PagedUsageRecords",
+          "lineNumber": 55
+        },
+        {
+          "caller": "empty",
+          "callee": "List.of",
+          "lineNumber": 56
+        },
+        {
+          "caller": "empty",
+          "callee": "nonNullPageRequest.page",
+          "lineNumber": 57
+        },
+        {
+          "caller": "empty",
+          "callee": "nonNullPageRequest.size",
+          "lineNumber": 58
+        },
+        {
+          "caller": "empty",
+          "callee": "UsageTokenBreakdown.zeroKnown",
+          "lineNumber": 60
+        },
+        {
+          "caller": "isEmpty",
+          "callee": "records.isEmpty",
+          "lineNumber": 65
+        },
+        {
+          "caller": "records",
+          "callee": "List.copyOf",
+          "lineNumber": 76
+        },
+        {
+          "caller": "getRecords",
+          "callee": "records",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 15,
+        "functionCount": 15,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "UsageDuration",
+          "startLine": 14,
+          "endLine": 19,
+          "params": [
+            "millis"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 21,
+          "endLine": 23,
+          "params": [
+            "millis"
+          ]
+        },
+        {
+          "name": "between",
+          "startLine": 25,
+          "endLine": 32,
+          "params": [
+            "startedAt",
+            "endedAt"
+          ]
+        },
+        {
+          "name": "millis",
+          "startLine": 34,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "getMillis",
+          "startLine": 38,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 42,
+          "endLine": 51,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 53,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 58,
+          "endLine": 63,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageDuration",
+          "startLine": 10,
+          "endLine": 64,
+          "methods": [
+            "UsageDuration",
+            "of",
+            "between",
+            "millis",
+            "getMillis",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "millis"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "between",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "millis",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "getMillis",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "UsageDuration",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageDuration",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "of",
+          "callee": "new UsageDuration",
+          "lineNumber": 22
+        },
+        {
+          "caller": "between",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 26
+        },
+        {
+          "caller": "between",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 27
+        },
+        {
+          "caller": "between",
+          "callee": "nonNullEndedAt.isBefore",
+          "lineNumber": 28
+        },
+        {
+          "caller": "between",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 29
+        },
+        {
+          "caller": "between",
+          "callee": "new UsageDuration",
+          "lineNumber": 31
+        },
+        {
+          "caller": "between",
+          "callee": "Duration.between(nonNullStartedAt, nonNullEndedAt).toMillis",
+          "lineNumber": 31
+        },
+        {
+          "caller": "between",
+          "callee": "Duration.between",
+          "lineNumber": 31
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 396,
+      "nonEmptyLines": 345,
+      "functions": [
+        {
+          "name": "UsageRecord",
+          "startLine": 47,
+          "endLine": 96,
+          "params": [
+            "id",
+            "requestId",
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "clientIp",
+            "firstTokenMillis",
+            "upstreamModel",
+            "requestProtocol",
+            "upstreamProtocol",
+            "providerChannelId",
+            "status",
+            "tokenUsage",
+            "streaming",
+            "startedAt",
+            "endedAt",
+            "duration",
+            "errorDiagnostic",
+            "createdAt"
+          ]
+        },
+        {
+          "name": "fromInvocation",
+          "startLine": 98,
+          "endLine": 135,
+          "params": [
+            "id",
+            "invocation",
+            "now"
+          ]
+        },
+        {
+          "name": "reserve",
+          "startLine": 156,
+          "endLine": 195,
+          "params": [
+            "id",
+            "invocation",
+            "streaming",
+            "reservedActualTokens",
+            "now"
+          ]
+        },
+        {
+          "name": "toUsageStatus",
+          "startLine": 197,
+          "endLine": 203,
+          "params": [
+            "invocationStatus"
+          ]
+        },
+        {
+          "name": "providerChannelIdOf",
+          "startLine": 205,
+          "endLine": 210,
+          "params": [
+            "result"
+          ]
+        },
+        {
+          "name": "validateStatusInvariant",
+          "startLine": 212,
+          "endLine": 235,
+          "params": []
+        },
+        {
+          "name": "totalTokens",
+          "startLine": 237,
+          "endLine": 239,
+          "params": []
+        },
+        {
+          "name": "isPending",
+          "startLine": 241,
+          "endLine": 243,
+          "params": []
+        },
+        {
+          "name": "isSuccessful",
+          "startLine": 245,
+          "endLine": 247,
+          "params": []
+        },
+        {
+          "name": "isFailed",
+          "startLine": 249,
+          "endLine": 251,
+          "params": []
+        },
+        {
+          "name": "id",
+          "startLine": 253,
+          "endLine": 255,
+          "params": []
+        },
+        {
+          "name": "requestId",
+          "startLine": 257,
+          "endLine": 259,
+          "params": []
+        },
+        {
+          "name": "userAccountId",
+          "startLine": 261,
+          "endLine": 263,
+          "params": []
+        },
+        {
+          "name": "apiCredentialId",
+          "startLine": 265,
+          "endLine": 267,
+          "params": []
+        },
+        {
+          "name": "requestedModel",
+          "startLine": 269,
+          "endLine": 271,
+          "params": []
+        },
+        {
+          "name": "upstreamModel",
+          "startLine": 273,
+          "endLine": 275,
+          "params": []
+        },
+        {
+          "name": "requestProtocol",
+          "startLine": 277,
+          "endLine": 279,
+          "params": []
+        },
+        {
+          "name": "upstreamProtocol",
+          "startLine": 281,
+          "endLine": 283,
+          "params": []
+        },
+        {
+          "name": "providerChannelId",
+          "startLine": 285,
+          "endLine": 287,
+          "params": []
+        },
+        {
+          "name": "status",
+          "startLine": 289,
+          "endLine": 291,
+          "params": []
+        },
+        {
+          "name": "tokenUsage",
+          "startLine": 293,
+          "endLine": 295,
+          "params": []
+        },
+        {
+          "name": "streaming",
+          "startLine": 297,
+          "endLine": 299,
+          "params": []
+        },
+        {
+          "name": "clientIp",
+          "startLine": 301,
+          "endLine": 301,
+          "params": []
+        },
+        {
+          "name": "getClientIp",
+          "startLine": 303,
+          "endLine": 303,
+          "params": []
+        },
+        {
+          "name": "firstTokenMillis",
+          "startLine": 305,
+          "endLine": 305,
+          "params": []
+        },
+        {
+          "name": "getFirstTokenMillis",
+          "startLine": 307,
+          "endLine": 307,
+          "params": []
+        },
+        {
+          "name": "startedAt",
+          "startLine": 309,
+          "endLine": 311,
+          "params": []
+        },
+        {
+          "name": "endedAt",
+          "startLine": 313,
+          "endLine": 315,
+          "params": []
+        },
+        {
+          "name": "duration",
+          "startLine": 317,
+          "endLine": 319,
+          "params": []
+        },
+        {
+          "name": "errorDiagnostic",
+          "startLine": 321,
+          "endLine": 323,
+          "params": []
+        },
+        {
+          "name": "createdAt",
+          "startLine": 325,
+          "endLine": 327,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 329,
+          "endLine": 331,
+          "params": []
+        },
+        {
+          "name": "getRequestId",
+          "startLine": 333,
+          "endLine": 335,
+          "params": []
+        },
+        {
+          "name": "getUserAccountId",
+          "startLine": 337,
+          "endLine": 339,
+          "params": []
+        },
+        {
+          "name": "getApiCredentialId",
+          "startLine": 341,
+          "endLine": 343,
+          "params": []
+        },
+        {
+          "name": "getRequestedModel",
+          "startLine": 345,
+          "endLine": 347,
+          "params": []
+        },
+        {
+          "name": "getUpstreamModel",
+          "startLine": 349,
+          "endLine": 351,
+          "params": []
+        },
+        {
+          "name": "getRequestProtocol",
+          "startLine": 353,
+          "endLine": 355,
+          "params": []
+        },
+        {
+          "name": "getUpstreamProtocol",
+          "startLine": 357,
+          "endLine": 359,
+          "params": []
+        },
+        {
+          "name": "getProviderChannelId",
+          "startLine": 361,
+          "endLine": 363,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 365,
+          "endLine": 367,
+          "params": []
+        },
+        {
+          "name": "getTokenUsage",
+          "startLine": 369,
+          "endLine": 371,
+          "params": []
+        },
+        {
+          "name": "isStreaming",
+          "startLine": 373,
+          "endLine": 375,
+          "params": []
+        },
+        {
+          "name": "getStartedAt",
+          "startLine": 377,
+          "endLine": 379,
+          "params": []
+        },
+        {
+          "name": "getEndedAt",
+          "startLine": 381,
+          "endLine": 383,
+          "params": []
+        },
+        {
+          "name": "getDuration",
+          "startLine": 385,
+          "endLine": 387,
+          "params": []
+        },
+        {
+          "name": "getErrorDiagnostic",
+          "startLine": 389,
+          "endLine": 391,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 393,
+          "endLine": 395,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageRecord",
+          "startLine": 25,
+          "endLine": 396,
+          "methods": [
+            "UsageRecord",
+            "fromInvocation",
+            "reserve",
+            "toUsageStatus",
+            "providerChannelIdOf",
+            "validateStatusInvariant",
+            "totalTokens",
+            "isPending",
+            "isSuccessful",
+            "isFailed",
+            "id",
+            "requestId",
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "upstreamModel",
+            "requestProtocol",
+            "upstreamProtocol",
+            "providerChannelId",
+            "status",
+            "tokenUsage",
+            "streaming",
+            "clientIp",
+            "getClientIp",
+            "firstTokenMillis",
+            "getFirstTokenMillis",
+            "startedAt",
+            "endedAt",
+            "duration",
+            "errorDiagnostic",
+            "createdAt",
+            "getId",
+            "getRequestId",
+            "getUserAccountId",
+            "getApiCredentialId",
+            "getRequestedModel",
+            "getUpstreamModel",
+            "getRequestProtocol",
+            "getUpstreamProtocol",
+            "getProviderChannelId",
+            "getStatus",
+            "getTokenUsage",
+            "isStreaming",
+            "getStartedAt",
+            "getEndedAt",
+            "getDuration",
+            "getErrorDiagnostic",
+            "getCreatedAt"
+          ],
+          "properties": [
+            "id",
+            "requestId",
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "clientIp",
+            "firstTokenMillis",
+            "upstreamModel",
+            "requestProtocol",
+            "upstreamProtocol",
+            "providerChannelId",
+            "status",
+            "tokenUsage",
+            "streaming",
+            "startedAt",
+            "endedAt",
+            "duration",
+            "errorDiagnostic",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "fromInvocation",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "reserve",
+          "line": 156,
+          "isDefault": false
+        },
+        {
+          "name": "totalTokens",
+          "line": 237,
+          "isDefault": false
+        },
+        {
+          "name": "isPending",
+          "line": 241,
+          "isDefault": false
+        },
+        {
+          "name": "isSuccessful",
+          "line": 245,
+          "isDefault": false
+        },
+        {
+          "name": "isFailed",
+          "line": 249,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 253,
+          "isDefault": false
+        },
+        {
+          "name": "requestId",
+          "line": 257,
+          "isDefault": false
+        },
+        {
+          "name": "userAccountId",
+          "line": 261,
+          "isDefault": false
+        },
+        {
+          "name": "apiCredentialId",
+          "line": 265,
+          "isDefault": false
+        },
+        {
+          "name": "requestedModel",
+          "line": 269,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamModel",
+          "line": 273,
+          "isDefault": false
+        },
+        {
+          "name": "requestProtocol",
+          "line": 277,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamProtocol",
+          "line": 281,
+          "isDefault": false
+        },
+        {
+          "name": "providerChannelId",
+          "line": 285,
+          "isDefault": false
+        },
+        {
+          "name": "status",
+          "line": 289,
+          "isDefault": false
+        },
+        {
+          "name": "tokenUsage",
+          "line": 293,
+          "isDefault": false
+        },
+        {
+          "name": "streaming",
+          "line": 297,
+          "isDefault": false
+        },
+        {
+          "name": "clientIp",
+          "line": 301,
+          "isDefault": false
+        },
+        {
+          "name": "getClientIp",
+          "line": 303,
+          "isDefault": false
+        },
+        {
+          "name": "firstTokenMillis",
+          "line": 305,
+          "isDefault": false
+        },
+        {
+          "name": "getFirstTokenMillis",
+          "line": 307,
+          "isDefault": false
+        },
+        {
+          "name": "startedAt",
+          "line": 309,
+          "isDefault": false
+        },
+        {
+          "name": "endedAt",
+          "line": 313,
+          "isDefault": false
+        },
+        {
+          "name": "duration",
+          "line": 317,
+          "isDefault": false
+        },
+        {
+          "name": "errorDiagnostic",
+          "line": 321,
+          "isDefault": false
+        },
+        {
+          "name": "createdAt",
+          "line": 325,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 329,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestId",
+          "line": 333,
+          "isDefault": false
+        },
+        {
+          "name": "getUserAccountId",
+          "line": 337,
+          "isDefault": false
+        },
+        {
+          "name": "getApiCredentialId",
+          "line": 341,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestedModel",
+          "line": 345,
+          "isDefault": false
+        },
+        {
+          "name": "getUpstreamModel",
+          "line": 349,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestProtocol",
+          "line": 353,
+          "isDefault": false
+        },
+        {
+          "name": "getUpstreamProtocol",
+          "line": 357,
+          "isDefault": false
+        },
+        {
+          "name": "getProviderChannelId",
+          "line": 361,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 365,
+          "isDefault": false
+        },
+        {
+          "name": "getTokenUsage",
+          "line": 369,
+          "isDefault": false
+        },
+        {
+          "name": "isStreaming",
+          "line": 373,
+          "isDefault": false
+        },
+        {
+          "name": "getStartedAt",
+          "line": 377,
+          "isDefault": false
+        },
+        {
+          "name": "getEndedAt",
+          "line": 381,
+          "isDefault": false
+        },
+        {
+          "name": "getDuration",
+          "line": 385,
+          "isDefault": false
+        },
+        {
+          "name": "getErrorDiagnostic",
+          "line": 389,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 393,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecord",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 69
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 70
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 71
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 72
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 73
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 77
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 80
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 81
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 83
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 84
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "this.endedAt.isBefore",
+          "lineNumber": 85
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 86
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 88
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "UsageDuration.between",
+          "lineNumber": 89
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "this.duration.equals",
+          "lineNumber": 90
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 91
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 94
+        },
+        {
+          "caller": "UsageRecord",
+          "callee": "validateStatusInvariant",
+          "lineNumber": 95
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 99
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.isTerminal",
+          "lineNumber": 100
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 101
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 103
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.result",
+          "lineNumber": 104
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 107
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.endedAt",
+          "lineNumber": 108
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "toUsageStatus",
+          "lineNumber": 111
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "result.status",
+          "lineNumber": 111
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "new UsageRecord",
+          "lineNumber": 112
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.requestId",
+          "lineNumber": 114
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.userAccountId",
+          "lineNumber": 115
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.apiCredentialId",
+          "lineNumber": 116
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.requestedModel",
+          "lineNumber": 117
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.clientIp",
+          "lineNumber": 118
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.firstTokenMillis",
+          "lineNumber": 119
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "result.upstreamModel",
+          "lineNumber": 120
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.requestProtocol",
+          "lineNumber": 121
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "result.upstreamProtocol",
+          "lineNumber": 122
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "providerChannelIdOf",
+          "lineNumber": 123
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "UsageTokenBreakdown.fromUnified",
+          "lineNumber": 125
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "result.usage",
+          "lineNumber": 125
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "result.streaming",
+          "lineNumber": 126
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.startedAt",
+          "lineNumber": 127
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "UsageDuration.between",
+          "lineNumber": 129
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "nonNullInvocation.startedAt",
+          "lineNumber": 129
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "UsageErrorDiagnostic.fromInvocationError",
+          "lineNumber": 131
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "result.error",
+          "lineNumber": 131
+        },
+        {
+          "caller": "fromInvocation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 133
+        },
+        {
+          "caller": "reserve",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 163
+        },
+        {
+          "caller": "reserve",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 164
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.isTerminal",
+          "lineNumber": 165
+        },
+        {
+          "caller": "reserve",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 166
+        },
+        {
+          "caller": "reserve",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 169
+        },
+        {
+          "caller": "reserve",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 171
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.startedAt",
+          "lineNumber": 171
+        },
+        {
+          "caller": "reserve",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 173
+        },
+        {
+          "caller": "reserve",
+          "callee": "new UsageRecord",
+          "lineNumber": 174
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.requestId",
+          "lineNumber": 176
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.userAccountId",
+          "lineNumber": 177
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.apiCredentialId",
+          "lineNumber": 178
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.requestedModel",
+          "lineNumber": 179
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.clientIp",
+          "lineNumber": 180
+        },
+        {
+          "caller": "reserve",
+          "callee": "invocation.requestProtocol",
+          "lineNumber": 183
+        },
+        {
+          "caller": "reserve",
+          "callee": "UsageDuration.between",
+          "lineNumber": 191
+        },
+        {
+          "caller": "reserve",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 193
+        },
+        {
+          "caller": "toUsageStatus",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 198
+        },
+        {
+          "caller": "providerChannelIdOf",
+          "callee": "result.finalCandidate",
+          "lineNumber": 206
+        },
+        {
+          "caller": "providerChannelIdOf",
+          "callee": "result.finalCandidate().providerChannelId",
+          "lineNumber": 209
+        },
+        {
+          "caller": "providerChannelIdOf",
+          "callee": "result.finalCandidate",
+          "lineNumber": 209
+        },
+        {
+          "caller": "validateStatusInvariant",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 216
+        },
+        {
+          "caller": "validateStatusInvariant",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 219
+        },
+        {
+          "caller": "validateStatusInvariant",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 225
+        },
+        {
+          "caller": "validateStatusInvariant",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 228
+        },
+        {
+          "caller": "validateStatusInvariant",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 233
+        },
+        {
+          "caller": "totalTokens",
+          "callee": "tokenUsage.totalTokens",
+          "lineNumber": 238
+        }
+      ],
+      "metrics": {
+        "importCount": 9,
+        "exportCount": 45,
+        "functionCount": 48,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 171,
+      "nonEmptyLines": 149,
+      "functions": [
+        {
+          "name": "UsageRecordFilter",
+          "startLine": 24,
+          "endLine": 46,
+          "params": [
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "providerChannelId",
+            "requestProtocol",
+            "timeRange",
+            "viewerRole"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 48,
+          "endLine": 66,
+          "params": [
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "providerChannelId",
+            "requestProtocol",
+            "timeRange",
+            "viewerRole"
+          ]
+        },
+        {
+          "name": "forUserPortal",
+          "startLine": 68,
+          "endLine": 84,
+          "params": [
+            "currentUserId",
+            "apiCredentialId",
+            "requestedModel",
+            "requestProtocol",
+            "timeRange"
+          ]
+        },
+        {
+          "name": "userAccountId",
+          "startLine": 86,
+          "endLine": 88,
+          "params": []
+        },
+        {
+          "name": "apiCredentialId",
+          "startLine": 90,
+          "endLine": 92,
+          "params": []
+        },
+        {
+          "name": "requestedModel",
+          "startLine": 94,
+          "endLine": 96,
+          "params": []
+        },
+        {
+          "name": "providerChannelId",
+          "startLine": 98,
+          "endLine": 100,
+          "params": []
+        },
+        {
+          "name": "requestProtocol",
+          "startLine": 102,
+          "endLine": 104,
+          "params": []
+        },
+        {
+          "name": "timeRange",
+          "startLine": 106,
+          "endLine": 108,
+          "params": []
+        },
+        {
+          "name": "viewerRole",
+          "startLine": 110,
+          "endLine": 112,
+          "params": []
+        },
+        {
+          "name": "getUserAccountId",
+          "startLine": 114,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "getApiCredentialId",
+          "startLine": 118,
+          "endLine": 120,
+          "params": []
+        },
+        {
+          "name": "getRequestedModel",
+          "startLine": 122,
+          "endLine": 124,
+          "params": []
+        },
+        {
+          "name": "getProviderChannelId",
+          "startLine": 126,
+          "endLine": 128,
+          "params": []
+        },
+        {
+          "name": "getRequestProtocol",
+          "startLine": 130,
+          "endLine": 132,
+          "params": []
+        },
+        {
+          "name": "getTimeRange",
+          "startLine": 134,
+          "endLine": 136,
+          "params": []
+        },
+        {
+          "name": "getViewerRole",
+          "startLine": 138,
+          "endLine": 140,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 142,
+          "endLine": 157,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 159,
+          "endLine": 170,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageRecordFilter",
+          "startLine": 14,
+          "endLine": 171,
+          "methods": [
+            "UsageRecordFilter",
+            "of",
+            "forUserPortal",
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "providerChannelId",
+            "requestProtocol",
+            "timeRange",
+            "viewerRole",
+            "getUserAccountId",
+            "getApiCredentialId",
+            "getRequestedModel",
+            "getProviderChannelId",
+            "getRequestProtocol",
+            "getTimeRange",
+            "getViewerRole",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "userAccountId",
+            "apiCredentialId",
+            "requestedModel",
+            "providerChannelId",
+            "requestProtocol",
+            "timeRange",
+            "viewerRole"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "forUserPortal",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "userAccountId",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "apiCredentialId",
+          "line": 90,
+          "isDefault": false
+        },
+        {
+          "name": "requestedModel",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "providerChannelId",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "requestProtocol",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "timeRange",
+          "line": 106,
+          "isDefault": false
+        },
+        {
+          "name": "viewerRole",
+          "line": 110,
+          "isDefault": false
+        },
+        {
+          "name": "getUserAccountId",
+          "line": 114,
+          "isDefault": false
+        },
+        {
+          "name": "getApiCredentialId",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestedModel",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "getProviderChannelId",
+          "line": 126,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestProtocol",
+          "line": 130,
+          "isDefault": false
+        },
+        {
+          "name": "getTimeRange",
+          "line": 134,
+          "isDefault": false
+        },
+        {
+          "name": "getViewerRole",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 159,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecordFilter",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageRecordFilter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 33
+        },
+        {
+          "caller": "UsageRecordFilter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "UsageRecordFilter",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 36
+        },
+        {
+          "caller": "UsageRecordFilter",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 39
+        },
+        {
+          "caller": "of",
+          "callee": "new UsageRecordFilter",
+          "lineNumber": 57
+        },
+        {
+          "caller": "forUserPortal",
+          "callee": "new UsageRecordFilter",
+          "lineNumber": 75
+        },
+        {
+          "caller": "forUserPortal",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 76
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 150
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 151
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 152
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 153
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 155
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 161
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 19,
+        "functionCount": 19,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "UsageRecordId",
+          "startLine": 12,
+          "endLine": 20,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "getValue",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 34,
+          "endLine": 43,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 45,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 50,
+          "endLine": 55,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageRecordId",
+          "startLine": 8,
+          "endLine": 56,
+          "methods": [
+            "UsageRecordId",
+            "of",
+            "value",
+            "getValue",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "getValue",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "UsageRecordId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageRecordId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "UsageRecordId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "new UsageRecordId",
+          "lineNumber": 23
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 42
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "UsageRecordStatus",
+          "startLine": 11,
+          "endLine": 16,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageRecordStatus",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "UsageTimeRange",
+          "startLine": 14,
+          "endLine": 20,
+          "params": [
+            "startInclusive",
+            "endExclusive"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "startInclusive",
+            "endExclusive"
+          ]
+        },
+        {
+          "name": "contains",
+          "startLine": 26,
+          "endLine": 29,
+          "params": [
+            "instant"
+          ]
+        },
+        {
+          "name": "startInclusive",
+          "startLine": 31,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "endExclusive",
+          "startLine": 35,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "getStartInclusive",
+          "startLine": 39,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "getEndExclusive",
+          "startLine": 43,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 47,
+          "endLine": 57,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 59,
+          "endLine": 62,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageTimeRange",
+          "startLine": 9,
+          "endLine": 63,
+          "methods": [
+            "UsageTimeRange",
+            "of",
+            "contains",
+            "startInclusive",
+            "endExclusive",
+            "getStartInclusive",
+            "getEndExclusive",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "startInclusive",
+            "endExclusive"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "contains",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "startInclusive",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "endExclusive",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "getStartInclusive",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "getEndExclusive",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "UsageTimeRange",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageTimeRange",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 15
+        },
+        {
+          "caller": "UsageTimeRange",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 16
+        },
+        {
+          "caller": "UsageTimeRange",
+          "callee": "this.endExclusive.isAfter",
+          "lineNumber": 17
+        },
+        {
+          "caller": "UsageTimeRange",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "of",
+          "callee": "new UsageTimeRange",
+          "lineNumber": 23
+        },
+        {
+          "caller": "contains",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 27
+        },
+        {
+          "caller": "contains",
+          "callee": "nonNullInstant.isBefore",
+          "lineNumber": 28
+        },
+        {
+          "caller": "contains",
+          "callee": "nonNullInstant.isBefore",
+          "lineNumber": 28
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 55
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 56
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 119,
+      "nonEmptyLines": 106,
+      "classes": [
+        {
+          "name": "UsageRecordRepository",
+          "startLine": 20,
+          "endLine": 119,
+          "methods": [
+            "save",
+            "update",
+            "cancelReservation",
+            "findById",
+            "findByRequestId",
+            "query",
+            "sumTotalTokensByApiCredential",
+            "sumActualTokensByApiCredential",
+            "sumActualTokensByModelGroupAndModel",
+            "sumActualTokensByOwnerGroupedByModel",
+            "sumTokens"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageRecordRepository",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "UsageTokenSqlFragments",
+          "startLine": 22,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "withPrefix",
+          "startLine": 33,
+          "endLine": 39,
+          "params": [
+            "prefix"
+          ]
+        },
+        {
+          "name": "totalTokensWithPrefix",
+          "startLine": 47,
+          "endLine": 56,
+          "params": [
+            "prefix"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageTokenSqlFragments",
+          "startLine": 11,
+          "endLine": 57,
+          "methods": [
+            "UsageTokenSqlFragments",
+            "withPrefix",
+            "totalTokensWithPrefix"
+          ],
+          "properties": [
+            "ACTUAL_TOKENS_SQL",
+            "TOTAL_TOKENS_SQL"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ACTUAL_TOKENS_SQL",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "TOTAL_TOKENS_SQL",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "withPrefix",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "totalTokensWithPrefix",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "UsageTokenSqlFragments",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "withPrefix",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "withPrefix",
+          "callee": "prefix.isBlank",
+          "lineNumber": 35
+        },
+        {
+          "caller": "withPrefix",
+          "callee": "ACTUAL_TOKENS_SQL.replace",
+          "lineNumber": 38
+        },
+        {
+          "caller": "totalTokensWithPrefix",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "totalTokensWithPrefix",
+          "callee": "prefix.isBlank",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "normalizeNumberMap",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "source"
+          ]
+        },
+        {
+          "name": "normalizeGroup",
+          "startLine": 22,
+          "endLine": 35,
+          "params": [
+            "group"
+          ]
+        },
+        {
+          "name": "listModelGroups",
+          "startLine": 37,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "createModelGroup",
+          "startLine": 42,
+          "endLine": 45,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "updateModelGroup",
+          "startLine": 47,
+          "endLine": 50,
+          "params": [
+            "id",
+            "params"
+          ]
+        },
+        {
+          "name": "deleteModelGroup",
+          "startLine": 52,
+          "endLine": 54,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listModelGroups",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "createModelGroup",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "updateModelGroup",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "deleteModelGroup",
+          "line": 52,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Object.fromEntries",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Object.entries(source ?? {}).map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Object.entries",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeNumberMap",
+          "callee": "Number",
+          "lineNumber": 19
+        },
+        {
+          "caller": "normalizeGroup",
+          "callee": "String",
+          "lineNumber": 24
+        },
+        {
+          "caller": "normalizeGroup",
+          "callee": "normalizeNumberMap",
+          "lineNumber": 28
+        },
+        {
+          "caller": "normalizeGroup",
+          "callee": "normalizeNumberMap",
+          "lineNumber": 29
+        },
+        {
+          "caller": "listModelGroups",
+          "callee": "await apiClient.get",
+          "lineNumber": 38
+        },
+        {
+          "caller": "listModelGroups",
+          "callee": "(response.data.groups ?? []).map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "createModelGroup",
+          "callee": "await apiClient.post",
+          "lineNumber": 43
+        },
+        {
+          "caller": "createModelGroup",
+          "callee": "normalizeGroup",
+          "lineNumber": 44
+        },
+        {
+          "caller": "updateModelGroup",
+          "callee": "await apiClient.put",
+          "lineNumber": 48
+        },
+        {
+          "caller": "updateModelGroup",
+          "callee": "encodeURIComponent",
+          "lineNumber": 48
+        },
+        {
+          "caller": "updateModelGroup",
+          "callee": "normalizeGroup",
+          "lineNumber": 49
+        },
+        {
+          "caller": "deleteModelGroup",
+          "callee": "apiClient.delete",
+          "lineNumber": 53
+        },
+        {
+          "caller": "deleteModelGroup",
+          "callee": "encodeURIComponent",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/model-group/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

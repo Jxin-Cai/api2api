@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/dashboard-metric/ui/DistributionPieChart.css",
+      "type": "file",
+      "name": "DistributionPieChart.css",
+      "filePath": "frontend/src/entities/dashboard-metric/ui/DistributionPieChart.css",
+      "summary": "定义分布饼图卡片及图例布局，使指标分布在仪表盘中保持一致的视觉呈现。",
+      "tags": [
+        "样式",
+        "仪表盘组件"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/entities/dashboard-metric/ui/MetricCard.css",
+      "type": "file",
+      "name": "MetricCard.css",
+      "filePath": "frontend/src/entities/dashboard-metric/ui/MetricCard.css",
+      "summary": "定义指标卡片的标题、数值、单位和趋势文字层级，使用设计变量统一颜色与排版。",
+      "tags": [
+        "样式",
+        "仪表盘组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/dashboard-metric/ui/TopRankList.css",
+      "type": "file",
+      "name": "TopRankList.css",
+      "filePath": "frontend/src/entities/dashboard-metric/ui/TopRankList.css",
+      "summary": "定义排行榜列表的条目、排名和数据展示样式，配合仪表盘卡片布局。",
+      "tags": [
+        "样式",
+        "仪表盘组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/entities/dashboard-metric/ui/TrendChart.css",
+      "type": "file",
+      "name": "TrendChart.css",
+      "filePath": "frontend/src/entities/dashboard-metric/ui/TrendChart.css",
+      "summary": "约束趋势图容器、画布、可滚动图例与多列提示框，避免高密度多序列信息超出视口。",
+      "tags": [
+        "样式",
+        "仪表盘组件"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/dashboard-metric/ui/DistributionPieChart.css",
+      "target": "file:frontend/src/app/styles/tokens.css",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/entities/dashboard-metric/ui/MetricCard.css",
+      "target": "file:frontend/src/app/styles/tokens.css",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/entities/dashboard-metric/ui/TopRankList.css",
+      "target": "file:frontend/src/app/styles/tokens.css",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "file:frontend/src/entities/dashboard-metric/ui/TrendChart.css",
+      "target": "file:frontend/src/app/styles/tokens.css",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    }
+  ]
+}

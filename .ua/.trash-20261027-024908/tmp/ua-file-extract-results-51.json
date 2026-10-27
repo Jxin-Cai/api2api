@@ -1,0 +1,1172 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 20,
+  "filesSkipped": [
+    "frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.css",
+    "frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.css",
+    "frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.css",
+    "frontend/src/features/view-operations/ui/OperationsPanel.css",
+    "frontend/src/features/view-protocol-metadata/ui/ProtocolMetadataDetailModal.css"
+  ],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 20,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 20,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/manage-channel-models/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "exports": [
+        {
+          "name": "useChannelModelMutations",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelModelEditorTable",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelModelFetchModal",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelModelMappingManagementPanel",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-model-groups/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "ModelGroupTablePanel",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-provider-channels/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 6,
+      "exports": [
+        {
+          "name": "useProviderChannelMutations",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelModelBatchFetchModal",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelFormDrawer",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelTablePanel",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelToolbar",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-user-accounts/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "exports": [
+        {
+          "name": "useUserAccountMutations",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "UserAccountActionPanel",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "UserCreateModal",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "UserEditDrawer",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/route-by-role/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "exports": [
+        {
+          "name": "RequireAuth",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "RequireRole",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "RoleLandingRedirect",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/route-by-role/ui/RequireAuth.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "RequireAuth",
+          "startLine": 12,
+          "endLine": 33,
+          "params": [
+            "{ children }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RequireAuth",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RequireAuth",
+          "callee": "useLocation",
+          "lineNumber": 13
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "useCurrentUser",
+          "lineNumber": 14
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "encodeURIComponent",
+          "lineNumber": 21
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "encodeURIComponent",
+          "lineNumber": 25
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "String(user.status).toUpperCase",
+          "lineNumber": 28
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "String",
+          "lineNumber": 28
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "refetch().catch",
+          "lineNumber": 29
+        },
+        {
+          "caller": "RequireAuth",
+          "callee": "refetch",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/route-by-role/ui/RequireRole.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "RequireRole",
+          "startLine": 16,
+          "endLine": 40,
+          "params": [
+            "{ role, children }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RequireRole",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RequireRole",
+          "callee": "useNavigate",
+          "lineNumber": 17
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "useCurrentUser",
+          "lineNumber": 18
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "navigate",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/route-by-role/ui/RoleLandingRedirect.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "isSafeRedirect",
+          "startLine": 7,
+          "endLine": 9,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "RoleLandingRedirect",
+          "startLine": 11,
+          "endLine": 29,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RoleLandingRedirect",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isSafeRedirect",
+          "callee": "Boolean",
+          "lineNumber": 8
+        },
+        {
+          "caller": "isSafeRedirect",
+          "callee": "value.startsWith",
+          "lineNumber": 8
+        },
+        {
+          "caller": "isSafeRedirect",
+          "callee": "value.startsWith",
+          "lineNumber": 8
+        },
+        {
+          "caller": "RoleLandingRedirect",
+          "callee": "useSearchParams",
+          "lineNumber": 12
+        },
+        {
+          "caller": "RoleLandingRedirect",
+          "callee": "useCurrentUser",
+          "lineNumber": 13
+        },
+        {
+          "caller": "RoleLandingRedirect",
+          "callee": "searchParams.get",
+          "lineNumber": 23
+        },
+        {
+          "caller": "RoleLandingRedirect",
+          "callee": "isSafeRedirect",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/switch-portal-navigation/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "PortalMenuSwitcher",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/switch-portal-navigation/ui/PortalMenuSwitcher.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "PortalMenuSwitcher",
+          "startLine": 12,
+          "endLine": 28,
+          "params": [
+            "{ currentPortal }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PortalMenuSwitcher",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PortalMenuSwitcher",
+          "callee": "useNavigate",
+          "lineNumber": 13
+        },
+        {
+          "caller": "PortalMenuSwitcher",
+          "callee": "useCurrentUser",
+          "lineNumber": 14
+        },
+        {
+          "caller": "PortalMenuSwitcher",
+          "callee": "navigate",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-admin-dashboard/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "AdminDashboardPanel",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-admin-dashboard/ui/AdminDashboardPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 133,
+      "nonEmptyLines": 123,
+      "functions": [
+        {
+          "name": "AdminDashboardPanel",
+          "startLine": 16,
+          "endLine": 133,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminDashboardPanel",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "useAdminDashboardMetrics",
+          "lineNumber": 17
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "resolveTimeZone",
+          "lineNumber": 18
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "useUsageDistributions",
+          "lineNumber": 23
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "resolveTimeZone",
+          "lineNumber": 23
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "useMemo",
+          "lineNumber": 26
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "(data?.protocolRequestRates ?? []).map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "query.refetch().catch",
+          "lineNumber": 41
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "query.refetch",
+          "lineNumber": 41
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 53
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 54
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "PROTOCOLS.map",
+          "lineNumber": 63
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "getProtocolMeta",
+          "lineNumber": 64
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "rateByProtocol.get",
+          "lineNumber": 65
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "rate?.requestsPerMinute?.toFixed",
+          "lineNumber": 70
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "normalizeRankItems",
+          "lineNumber": 86
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "normalizeRankItems",
+          "lineNumber": 89
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "normalizeTrendPoints",
+          "lineNumber": 118
+        },
+        {
+          "caller": "AdminDashboardPanel",
+          "callee": "normalizeTrendPoints",
+          "lineNumber": 126
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-front-dashboard/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "exports": [
+        {
+          "name": "FrontDashboardPanel",
+          "line": 2,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-front-dashboard/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-front-dashboard/ui/FrontDashboardPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 123,
+      "nonEmptyLines": 113,
+      "functions": [
+        {
+          "name": "FrontDashboardPanel",
+          "startLine": 27,
+          "endLine": 123,
+          "params": [
+            "{ zoneId }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FrontDashboardPanel",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "useNavigate",
+          "lineNumber": 28
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "useState",
+          "lineNumber": 29
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "resolveTimeZone",
+          "lineNumber": 30
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "useFrontDashboardMetrics",
+          "lineNumber": 31
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "useUsageDistributions",
+          "lineNumber": 32
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "useFrontKeyMetrics",
+          "lineNumber": 33
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "useApiCredentials",
+          "lineNumber": 34
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "query.refetch().catch",
+          "lineNumber": 40
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "query.refetch",
+          "lineNumber": 40
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 46
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 47
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 48
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 49
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "normalizeRankItems",
+          "lineNumber": 60
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "normalizeRankItems",
+          "lineNumber": 63
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "setSelectedCredentialIds",
+          "lineNumber": 78
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "keyMetricsQuery.refetch().catch",
+          "lineNumber": 86
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "keyMetricsQuery.refetch",
+          "lineNumber": 86
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "normalizeTrendPoints",
+          "lineNumber": 89
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "normalizeConcurrencyPoints",
+          "lineNumber": 97
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "navigate",
+          "lineNumber": 109
+        },
+        {
+          "caller": "FrontDashboardPanel",
+          "callee": "buildAppUsageQuery",
+          "lineNumber": 109
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-operations/api/operationsApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "useSystemMetrics",
+          "startLine": 36,
+          "endLine": 44,
+          "params": [
+            "live"
+          ]
+        },
+        {
+          "name": "useOperationsTraffic",
+          "startLine": 46,
+          "endLine": 55,
+          "params": [
+            "live"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "useSystemMetrics",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "useOperationsTraffic",
+          "line": 46,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useSystemMetrics",
+          "callee": "useQuery",
+          "lineNumber": 37
+        },
+        {
+          "caller": "useSystemMetrics",
+          "callee": "await apiClient.get",
+          "lineNumber": 39
+        },
+        {
+          "caller": "useOperationsTraffic",
+          "callee": "resolveTimeZone",
+          "lineNumber": 47
+        },
+        {
+          "caller": "useOperationsTraffic",
+          "callee": "useQuery",
+          "lineNumber": 48
+        },
+        {
+          "caller": "useOperationsTraffic",
+          "callee": "await apiClient.get",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-operations/ui/OperationsPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 150,
+      "nonEmptyLines": 135,
+      "functions": [
+        {
+          "name": "percent",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "bytes",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "resourceDetail",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "resource"
+          ]
+        },
+        {
+          "name": "uptime",
+          "startLine": 31,
+          "endLine": 35,
+          "params": [
+            "milliseconds"
+          ]
+        },
+        {
+          "name": "ResourceCard",
+          "startLine": 37,
+          "endLine": 53,
+          "params": [
+            "{ title, value, detail, loading, isLoad = false }"
+          ]
+        },
+        {
+          "name": "OperationsPanel",
+          "startLine": 55,
+          "endLine": 150,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OperationsPanel",
+          "line": 55,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "percent",
+          "callee": "value.toFixed",
+          "lineNumber": 19
+        },
+        {
+          "caller": "bytes",
+          "callee": "(value / 1024 ** 3).toFixed",
+          "lineNumber": 24
+        },
+        {
+          "caller": "bytes",
+          "callee": "(value / 1024 ** 2).toFixed",
+          "lineNumber": 24
+        },
+        {
+          "caller": "resourceDetail",
+          "callee": "bytes",
+          "lineNumber": 28
+        },
+        {
+          "caller": "resourceDetail",
+          "callee": "bytes",
+          "lineNumber": 28
+        },
+        {
+          "caller": "uptime",
+          "callee": "Math.floor",
+          "lineNumber": 33
+        },
+        {
+          "caller": "uptime",
+          "callee": "Math.floor",
+          "lineNumber": 34
+        },
+        {
+          "caller": "uptime",
+          "callee": "Math.floor",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ResourceCard",
+          "callee": "percent",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ResourceCard",
+          "callee": "Math.min",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ResourceCard",
+          "callee": "percent",
+          "lineNumber": 47
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "useState",
+          "lineNumber": 56
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "useSystemMetrics",
+          "lineNumber": 57
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "useOperationsTraffic",
+          "lineNumber": 58
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "useState",
+          "lineNumber": 59
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "useEffect",
+          "lineNumber": 62
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "setHistory",
+          "lineNumber": 64
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "previous.at",
+          "lineNumber": 65
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "[...previous, data].slice",
+          "lineNumber": 66
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "history.flatMap",
+          "lineNumber": 73
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "([['CPU', sample.cpuPercent], ['内存', sample.memory.percent], ['JVM 堆', sample.runtime.heap.percent]] as const)\n      .filter((item): item is readonly ['CPU' | '内存' | 'JVM 堆', number] => item[1] != null)\n      .map",
+          "lineNumber": 74
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "([['CPU', sample.cpuPercent], ['内存', sample.memory.percent], ['JVM 堆', sample.runtime.heap.percent]] as const)\n      .filter",
+          "lineNumber": 74
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "new Date(sample.sampledAt).toLocaleTimeString",
+          "lineNumber": 76
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "system.refetch",
+          "lineNumber": 85
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "traffic.refetch",
+          "lineNumber": 85
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "new Date(data.sampledAt).toLocaleString",
+          "lineNumber": 93
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "data.notices.join",
+          "lineNumber": 98
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "resourceDetail",
+          "lineNumber": 107
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "resourceDetail",
+          "lineNumber": 109
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "data?.loadAverage[0]?.toFixed",
+          "lineNumber": 111
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "uptime",
+          "lineNumber": 124
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "data.loadAverage.map(value => value.toFixed(2)).join",
+          "lineNumber": 125
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "data.loadAverage.map",
+          "lineNumber": 125
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "value.toFixed",
+          "lineNumber": 125
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "resourceDetail",
+          "lineNumber": 126
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "percent",
+          "lineNumber": 126
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "percent",
+          "lineNumber": 127
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "new Date(traffic.data.sampledAt).toLocaleTimeString",
+          "lineNumber": 137
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "traffic.refetch",
+          "lineNumber": 139
+        },
+        {
+          "caller": "OperationsPanel",
+          "callee": "normalizeConcurrencyPoints",
+          "lineNumber": 141
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-conversions/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "exports": [
+        {
+          "name": "useProtocolConversionMutations",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionDetailDrawer",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionFilterBar",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolConversionTablePanel",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/view-protocol-metadata/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "exports": [
+        {
+          "name": "ProtocolMetadataOverviewPanel",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "ProtocolMetadataDetailPanel",
+          "line": 2,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 32,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

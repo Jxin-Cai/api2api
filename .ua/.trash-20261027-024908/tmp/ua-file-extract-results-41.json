@@ -1,0 +1,767 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 28,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 28,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 28
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/resources/db/migration/V10__add_bedrock_converse_protocol_definitions.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 48,
+      "nonEmptyLines": 47,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V11__enable_claude_bedrock_advanced_capabilities.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 27,
+      "nonEmptyLines": 26,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V12__enable_openai_responses_bedrock_stream_reasoning.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 25,
+      "nonEmptyLines": 24,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V13__enable_claude_responses_stream_tools.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 13,
+      "nonEmptyLines": 13,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V14__enable_responses_claude_response_features.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 11,
+      "nonEmptyLines": 11,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V15__describe_latest_claude_conversion_capabilities.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 27,
+      "nonEmptyLines": 26,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V16__repair_usage_token_totals.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 10,
+      "nonEmptyLines": 10,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V17__add_bedrock_claude_messages_protocol.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 41,
+      "nonEmptyLines": 41,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V18__add_model_groups.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 57,
+      "nonEmptyLines": 49,
+      "definitions": [
+        {
+          "name": "model_groups",
+          "kind": "table",
+          "fields": [
+            "id",
+            "owner_user_id",
+            "name",
+            "model_whitelist",
+            "created_at",
+            "updated_at",
+            "deleted"
+          ],
+          "startLine": 1,
+          "endLine": 9
+        },
+        {
+          "name": "uk_model_groups_owner_name_active",
+          "kind": "index",
+          "fields": [],
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "idx_api_credentials_model_group",
+          "kind": "index",
+          "fields": [],
+          "startLine": 55,
+          "endLine": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 3
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V19__isolate_rate_limits_by_channel_model.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "definitions": [
+        {
+          "name": "idx_channel_model_supports_rate_limit_reset",
+          "kind": "index",
+          "fields": [],
+          "startLine": 5,
+          "endLine": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V1__init_schema.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 96,
+      "nonEmptyLines": 90,
+      "definitions": [
+        {
+          "name": "user_accounts",
+          "kind": "table",
+          "fields": [
+            "id",
+            "username",
+            "display_name",
+            "role",
+            "status",
+            "created_at",
+            "updated_at",
+            "deleted"
+          ],
+          "startLine": 1,
+          "endLine": 10
+        },
+        {
+          "name": "api_credentials",
+          "kind": "table",
+          "fields": [
+            "id",
+            "owner_user_id",
+            "name",
+            "model_whitelist",
+            "token_limit",
+            "status",
+            "created_at",
+            "updated_at",
+            "last_used_at",
+            "deleted"
+          ],
+          "startLine": 12,
+          "endLine": 25
+        },
+        {
+          "name": "provider_channels",
+          "kind": "table",
+          "fields": [
+            "id",
+            "name",
+            "host",
+            "supported_protocols",
+            "status",
+            "created_at",
+            "updated_at",
+            "deleted"
+          ],
+          "startLine": 27,
+          "endLine": 37
+        },
+        {
+          "name": "channel_model_supports",
+          "kind": "table",
+          "fields": [
+            "id",
+            "provider_channel_id",
+            "requested_model",
+            "upstream_model",
+            "upstream_protocol",
+            "priority",
+            "source",
+            "status",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 39,
+          "endLine": 50
+        },
+        {
+          "name": "protocol_conversion_definitions",
+          "kind": "table",
+          "fields": [
+            "id",
+            "source_protocol",
+            "target_protocol",
+            "kind",
+            "status",
+            "implementation_status",
+            "supports_streaming",
+            "supports_tool_calling",
+            "supports_reasoning",
+            "supports_usage_mapping",
+            "supports_cache_token_mapping",
+            "request_mapping_json",
+            "response_mapping_json",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 52,
+          "endLine": 69
+        },
+        {
+          "name": "usage_records",
+          "kind": "table",
+          "fields": [
+            "id",
+            "request_id",
+            "user_account_id",
+            "api_credential_id",
+            "requested_model",
+            "upstream_model",
+            "request_protocol",
+            "upstream_protocol",
+            "provider_channel_id",
+            "status",
+            "input_tokens",
+            "output_tokens",
+            "cache_creation_input_tokens",
+            "cache_read_input_tokens",
+            "total_tokens",
+            "streaming",
+            "error_type",
+            "error_message",
+            "started_at",
+            "ended_at"
+          ],
+          "startLine": 71,
+          "endLine": 92
+        },
+        {
+          "name": "idx_usage_records_user_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 94,
+          "endLine": 94
+        },
+        {
+          "name": "idx_usage_records_api_credential",
+          "kind": "index",
+          "fields": [],
+          "startLine": 95,
+          "endLine": 95
+        },
+        {
+          "name": "idx_usage_records_provider_channel",
+          "kind": "index",
+          "fields": [],
+          "startLine": 96,
+          "endLine": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 9
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V20__remove_bedrock_claude_messages_protocol.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 49,
+      "nonEmptyLines": 43,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V21__add_bedrock_claude_messages_protocol.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 41,
+      "nonEmptyLines": 41,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V22__remove_bedrock_converse_protocol.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 39,
+      "nonEmptyLines": 35,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V23__enable_responses_claude_full_bridge.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 19,
+      "nonEmptyLines": 18,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V24__add_channel_evaluations.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 72,
+      "nonEmptyLines": 66,
+      "definitions": [
+        {
+          "name": "channel_evaluations",
+          "kind": "table",
+          "fields": [
+            "id",
+            "provider_channel_id",
+            "requested_model",
+            "upstream_format",
+            "provider_run_id",
+            "status",
+            "trigger_type",
+            "detected_family",
+            "detected_model",
+            "detected_confidence",
+            "family_mismatch",
+            "channel_signature",
+            "report_url",
+            "passed_probe_count",
+            "warning_probe_count",
+            "failed_probe_count",
+            "total_input_tokens",
+            "total_output_tokens",
+            "error_message",
+            "report_summary",
+            "requested_at",
+            "started_at",
+            "completed_at",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 2,
+          "endLine": 32
+        },
+        {
+          "name": "channel_evaluation_schedules",
+          "kind": "table",
+          "fields": [
+            "id",
+            "provider_channel_id",
+            "cron_expression",
+            "zone_id",
+            "same",
+            "enabled",
+            "last_triggered_at",
+            "next_trigger_at",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 53,
+          "endLine": 68
+        },
+        {
+          "name": "idx_channel_evaluations_channel_requested_at",
+          "kind": "index",
+          "fields": [],
+          "startLine": 35,
+          "endLine": 35
+        },
+        {
+          "name": "idx_channel_evaluations_channel_score",
+          "kind": "index",
+          "fields": [],
+          "startLine": 39,
+          "endLine": 39
+        },
+        {
+          "name": "idx_channel_evaluations_unfinished",
+          "kind": "index",
+          "fields": [],
+          "startLine": 44,
+          "endLine": 44
+        },
+        {
+          "name": "uk_channel_evaluations_provider_run_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 48,
+          "endLine": 48
+        },
+        {
+          "name": "idx_channel_evaluation_schedules_due",
+          "kind": "index",
+          "fields": [],
+          "startLine": 70,
+          "endLine": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 7
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V25__add_openai_images_protocol.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 37,
+      "nonEmptyLines": 37,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V26__add_model_group_daily_limits.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "definitions": [
+        {
+          "name": "idx_usage_records_credential_model_started",
+          "kind": "index",
+          "fields": [],
+          "startLine": 7,
+          "endLine": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V27__add_usage_latency_and_client_ip.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "definitions": [
+        {
+          "name": "idx_usage_records_client_ip",
+          "kind": "index",
+          "fields": [],
+          "startLine": 5,
+          "endLine": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V28__enable_claude_chat_completions_full_bridge.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 27,
+      "nonEmptyLines": 26,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V2__align_persistence_schema.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 40,
+      "nonEmptyLines": 33,
+      "definitions": [
+        {
+          "name": "idx_usage_records_started_at",
+          "kind": "index",
+          "fields": [],
+          "startLine": 35,
+          "endLine": 35
+        },
+        {
+          "name": "idx_usage_records_protocol_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 36,
+          "endLine": 36
+        },
+        {
+          "name": "idx_usage_records_model_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 37,
+          "endLine": 37
+        },
+        {
+          "name": "idx_usage_records_provider_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 38,
+          "endLine": 38
+        },
+        {
+          "name": "uk_channel_model_supports_combination",
+          "kind": "index",
+          "fields": [],
+          "startLine": 39,
+          "endLine": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 5
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V3__seed_development_data.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 44,
+      "nonEmptyLines": 41,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V4__enable_protocol_transform_conversions.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 83,
+      "nonEmptyLines": 78,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V5__add_user_account_password_hash.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V6__add_channel_priority_and_preferred_model.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V7__add_provider_channel_protocol_mappings.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 22,
+      "nonEmptyLines": 20,
+      "definitions": [
+        {
+          "name": "provider_channel_protocol_mappings",
+          "kind": "table",
+          "fields": [
+            "provider_channel_id",
+            "request_protocol",
+            "upstream_protocol",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V8__add_api_key_encrypted_material.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 12,
+      "nonEmptyLines": 10,
+      "definitions": [
+        {
+          "name": "idx_usage_records_api_credential_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 6,
+          "endLine": 6
+        },
+        {
+          "name": "idx_usage_records_requested_model_time",
+          "kind": "index",
+          "fields": [],
+          "startLine": 10,
+          "endLine": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 2
+      }
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V9__repair_usage_record_duration_millis.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    }
+  ]
+}

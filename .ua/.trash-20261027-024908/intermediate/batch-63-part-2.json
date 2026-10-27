@@ -1,0 +1,1105 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "type": "file",
+      "name": "ModelGroupMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "summary": "定义模型组表的数据库读写接口，包含全局目录、全局名称检查、所有者查询、密钥绑定和软删除操作。",
+      "tags": [
+        "数据访问接口",
+        "模型组存储",
+        "全局目录"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java:ModelGroupMapper",
+      "type": "class",
+      "name": "ModelGroupMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "summary": "定义模型组表的数据库读写接口，包含全局目录、全局名称检查、所有者查询、密钥绑定和软删除操作。",
+      "tags": [
+        "数据访问接口",
+        "模型组存储",
+        "全局目录"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        7,
+        16
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "type": "file",
+      "name": "ApiCredentialController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "提供用户密钥列表、签发、明文揭示、名称与模型组更新、启停和删除接口；列表按时区构建当日用量窗口，新建时生成并加密密钥材料。",
+      "tags": [
+        "密钥接口",
+        "会话身份",
+        "密钥材料"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:ApiCredentialController",
+      "type": "class",
+      "name": "ApiCredentialController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "提供用户密钥列表、签发、明文揭示、名称与模型组更新、启停和删除接口；列表按时区构建当日用量窗口，新建时生成并加密密钥材料。",
+      "tags": [
+        "密钥接口",
+        "会话身份",
+        "密钥材料"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        49,
+        193
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "type": "function",
+      "name": "listMyCredentials",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "从会话读取用户，按请求时区构建今日半开窗口，查询并转换带用量和限流模型的密钥列表。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        76,
+        91
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "type": "function",
+      "name": "createCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "生成密钥身份和材料，加密明文后转换创建命令，保存后仅本次返回生成的明文。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        93,
+        111
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "type": "function",
+      "name": "revealCredentialSecret",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "绑定当前用户和目标密钥，执行授权揭示并转换密钥材料响应。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        113,
+        124
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "type": "function",
+      "name": "renameCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "绑定当前用户和密钥标识，将新名称转换为命令并返回更新密钥。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        126,
+        138
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "type": "function",
+      "name": "changeModelGroup",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "绑定当前用户和密钥标识，提交新模型组选择并返回更新密钥。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        140,
+        152
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "type": "function",
+      "name": "disableCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "由当前所有者禁用指定密钥并返回更新状态。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        154,
+        165
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "type": "function",
+      "name": "enableCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "由当前所有者启用指定密钥并返回更新状态。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        167,
+        178
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "type": "function",
+      "name": "deleteCredential",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "summary": "绑定当前用户和密钥身份，执行软删除命令并返回成功响应。",
+      "tags": [
+        "业务方法",
+        "密钥接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        180,
+        192
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "type": "file",
+      "name": "ModelGroupController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "summary": "在管理员路由下提供全局模型组列表和创建、更新、删除接口，绑定会话操作者并返回包含当前有效模型的视图。",
+      "tags": [
+        "管理接口",
+        "全局模型组",
+        "请求适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:ModelGroupController",
+      "type": "class",
+      "name": "ModelGroupController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "summary": "在管理员路由下提供全局模型组列表和创建、更新、删除接口，绑定会话操作者并返回包含当前有效模型的视图。",
+      "tags": [
+        "管理接口",
+        "全局模型组",
+        "请求适配"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        28,
+        73
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:listMyGroups",
+      "type": "function",
+      "name": "listMyGroups",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "summary": "读取当前操作者并调用管理员全局模型组视图查询，转换为列表响应。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:createGroup",
+      "type": "function",
+      "name": "createGroup",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "summary": "生成模型组身份并绑定操作者创建组，返回含有效支持模型的详情。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        51
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:updateGroup",
+      "type": "function",
+      "name": "updateGroup",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "summary": "解析路径模型组标识和当前操作者，提交配置更新并返回模型组视图。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        61
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:deleteGroup",
+      "type": "function",
+      "name": "deleteGroup",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "summary": "绑定操作者和模型组标识，执行带权限和绑定约束的删除命令。",
+      "tags": [
+        "业务方法",
+        "管理接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        63,
+        72
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java:ModelGroupMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java:ModelGroupMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/credential/po/ModelGroupPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:ApiCredentialController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:ApiCredentialController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ApiKeyMaterialProtector.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeApiCredentialStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/ChangeModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/CreateApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/RenameApiCredentialCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/ApiCredentialUsageView.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/dto/RevealedApiCredentialSecret.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ApiCredentialListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ApiCredentialResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ChangeModelGroupRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/CreateApiCredentialRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/CreateApiCredentialResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RenameApiCredentialRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/RevealApiCredentialSecretResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:ModelGroupController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:ModelGroupController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:listMyGroups",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:listMyGroups",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:createGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:createGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:updateGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:updateGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:deleteGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:deleteGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/ModelGroupApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/credential/command/DeleteModelGroupCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/converter/ModelGroupHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ModelGroupListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ModelGroupRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/credential/dto/ModelGroupResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:listMyCredentialUsageViews",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:listMyCredentials",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toUsageListResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newApiCredentialId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toCreateCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:createCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:createCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toCreateResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:revealSecret",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toRevealCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:revealCredentialSecret",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toRevealResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toRenameCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:renameCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:renameCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toChangeModelGroupCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:changeModelGroup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:changeModelGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toChangeStatusCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:disableCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:disableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toChangeStatusCommand",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:enableCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:enableCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/credential/converter/ApiCredentialHttpConverter.java:toResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "target": "function:backend/src/main/java/com/api2api/application/credential/ApiCredentialApplicationService.java:deleteCredential",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ApiCredentialController.java:deleteCredential",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:listMyGroups",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:listMyGroups",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:createGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:createGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java:newModelGroupId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:createGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:updateGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:updateGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:deleteGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/credential/ModelGroupController.java:deleteGroup",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

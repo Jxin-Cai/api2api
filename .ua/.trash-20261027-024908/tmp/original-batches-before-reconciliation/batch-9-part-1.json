@@ -1,0 +1,1734 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "type": "file",
+      "name": "ProviderModelController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "summary": "提供用户可选供应商模型列表接口，从当前会话解析用户并调用渠道应用服务，将结果映射为列表响应。",
+      "tags": [
+        "http-控制器",
+        "模型列表",
+        "用户会话"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java:ProviderModelController",
+      "type": "class",
+      "name": "ProviderModelController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "lineRange": [
+        18,
+        45
+      ],
+      "summary": "提供用户可选供应商模型列表接口，从当前会话解析用户并调用渠道应用服务，将结果映射为列表响应。",
+      "tags": [
+        "http-控制器",
+        "模型列表",
+        "用户会话"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java:listProviderModels",
+      "type": "function",
+      "name": "listProviderModels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "lineRange": [
+        29,
+        36
+      ],
+      "summary": "在ProviderModelController中执行 listProviderModels 操作。协调 currentUserContextResolver.resolveCurrentUserId、providerChannelApplicationService.listProviderModelOptions(userId).stream()\n                .map(this::toResponse).toList、providerChannelApplicationService.listProviderModelOptions(userId).stream().map、providerChannelApplicationService.listProviderModelOptions(userId).stream、providerChannelApplicationService.listProviderModelOptions 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "模型列表",
+        "用户会话"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "type": "file",
+      "name": "ProviderModelOptionListResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "summary": "封装可选择供应商模型的 HTTP 列表响应。",
+      "tags": [
+        "响应模型",
+        "模型列表",
+        "http"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java:ProviderModelOptionListResponse",
+      "type": "class",
+      "name": "ProviderModelOptionListResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "lineRange": [
+        9,
+        16
+      ],
+      "summary": "封装可选择供应商模型的 HTTP 列表响应。",
+      "tags": [
+        "响应模型",
+        "模型列表",
+        "http"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "type": "file",
+      "name": "ProviderModelOptionResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "summary": "描述可选模型名、提供该模型的渠道数量及支持协议集合。",
+      "tags": [
+        "响应模型",
+        "模型发现",
+        "协议集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java:ProviderModelOptionResponse",
+      "type": "class",
+      "name": "ProviderModelOptionResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "lineRange": [
+        10,
+        19
+      ],
+      "summary": "描述可选模型名、提供该模型的渠道数量及支持协议集合。",
+      "tags": [
+        "响应模型",
+        "模型发现",
+        "协议集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "type": "file",
+      "name": "DashboardController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "summary": "提供用户和管理员仪表盘查询接口，解析身份、时间窗口及分页，调用统计应用服务后组装 HTTP 响应；分布统计使用当前自然月窗口。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:DashboardController",
+      "type": "class",
+      "name": "DashboardController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "lineRange": [
+        36,
+        134
+      ],
+      "summary": "提供用户和管理员仪表盘查询接口，解析身份、时间窗口及分页，调用统计应用服务后组装 HTTP 响应；分布统计使用当前自然月窗口。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontDashboard",
+      "type": "function",
+      "name": "getFrontDashboard",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "lineRange": [
+        56,
+        70
+      ],
+      "summary": "查询用户 Token 指标、API Key 数量和最近调用，转换为用户仪表盘响应。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontKeyMetrics",
+      "type": "function",
+      "name": "getFrontKeyMetrics",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "lineRange": [
+        72,
+        84
+      ],
+      "summary": "查询用户凭证排名及趋势，返回凭证维度指标。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontDistributions",
+      "type": "function",
+      "name": "getFrontDistributions",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "lineRange": [
+        86,
+        93
+      ],
+      "summary": "在DashboardController中执行 getFrontDistributions 操作。协调 currentUserContextResolver.resolveCurrentUserId、currentMonthWindow、request.getZoneId、ApiResponse.success、toDistributionResponse 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getAdminDistributions",
+      "type": "function",
+      "name": "getAdminDistributions",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "lineRange": [
+        95,
+        102
+      ],
+      "summary": "在DashboardController中执行 getAdminDistributions 操作。协调 currentUserContextResolver.resolveOperatorUserId、currentMonthWindow、request.getZoneId、ApiResponse.success、toDistributionResponse 等调用处理输入与状态。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getAdminDashboard",
+      "type": "function",
+      "name": "getAdminDashboard",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "lineRange": [
+        121,
+        133
+      ],
+      "summary": "查询管理员平台指标，转换为管理员仪表盘响应。",
+      "tags": [
+        "http-控制器",
+        "仪表盘",
+        "统计查询"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "type": "file",
+      "name": "DashboardTimeWindowHelper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "summary": "按指定时区生成仪表盘所需的当日、自然月、最近调用和趋势时间窗口，集中提供默认时区及时间跨度。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:DashboardTimeWindowHelper",
+      "type": "class",
+      "name": "DashboardTimeWindowHelper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        12,
+        101
+      ],
+      "summary": "按指定时区生成仪表盘所需的当日、自然月、最近调用和趋势时间窗口，集中提供默认时区及时间跨度。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTodayStartInclusive",
+      "type": "function",
+      "name": "getTodayStartInclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        20,
+        25
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getTodayStartInclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone).atStartOfDay、LocalDate.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTodayEndExclusive",
+      "type": "function",
+      "name": "getTodayEndExclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        27,
+        33
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getTodayEndExclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .plusDays(1)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone)\n                .plusDays(1).atStartOfDay、LocalDate.now(zone).plusDays、LocalDate.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getThirtyDayStartInclusive",
+      "type": "function",
+      "name": "getThirtyDayStartInclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        35,
+        41
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getThirtyDayStartInclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .minusDays(29)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone)\n                .minusDays(29).atStartOfDay、LocalDate.now(zone).minusDays、LocalDate.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getMonthStartInclusive",
+      "type": "function",
+      "name": "getMonthStartInclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        43,
+        49
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getMonthStartInclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .withDayOfMonth(1)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone)\n                .withDayOfMonth(1).atStartOfDay、LocalDate.now(zone).withDayOfMonth、LocalDate.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getMonthEndExclusive",
+      "type": "function",
+      "name": "getMonthEndExclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        51,
+        58
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getMonthEndExclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .plusMonths(1)\n                .withDayOfMonth(1)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone)\n                .plusMonths(1)\n                .withDayOfMonth(1).atStartOfDay、LocalDate.now(zone)\n                .plusMonths(1).withDayOfMonth、LocalDate.now(zone).plusMonths 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentCallsStartInclusive",
+      "type": "function",
+      "name": "getRecentCallsStartInclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        60,
+        62
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getRecentCallsStartInclusive 操作。协调 Instant.now().minus、Instant.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentCallsEndExclusive",
+      "type": "function",
+      "name": "getRecentCallsEndExclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        64,
+        66
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getRecentCallsEndExclusive 操作。协调 Instant.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentRateStartInclusive",
+      "type": "function",
+      "name": "getRecentRateStartInclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        68,
+        70
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getRecentRateStartInclusive 操作。协调 Instant.now().minus、Instant.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentRateEndExclusive",
+      "type": "function",
+      "name": "getRecentRateEndExclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        72,
+        74
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getRecentRateEndExclusive 操作。协调 Instant.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTrendStartInclusive",
+      "type": "function",
+      "name": "getTrendStartInclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        76,
+        82
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getTrendStartInclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .minusDays(days - 1)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone)\n                .minusDays(days - 1).atStartOfDay、LocalDate.now(zone).minusDays、LocalDate.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTrendEndExclusive",
+      "type": "function",
+      "name": "getTrendEndExclusive",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        84,
+        90
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getTrendEndExclusive 操作。协调 parseZoneId、LocalDate.now(zone)\n                .plusDays(1)\n                .atStartOfDay(zone).toInstant、LocalDate.now(zone)\n                .plusDays(1).atStartOfDay、LocalDate.now(zone).plusDays、LocalDate.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getEvaluationInstant",
+      "type": "function",
+      "name": "getEvaluationInstant",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "lineRange": [
+        93,
+        95
+      ],
+      "summary": "在DashboardTimeWindowHelper中执行 getEvaluationInstant 操作。协调 Instant.now 等调用处理输入与状态。",
+      "tags": [
+        "工具函数",
+        "时间窗口",
+        "时区"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "type": "file",
+      "name": "DashboardCommandConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "summary": "把仪表盘 HTTP 请求转换为应用层查询命令，补齐分页和趋势默认值，并将凭证标识与时间窗口转换为领域类型。",
+      "tags": [
+        "协议转换",
+        "查询命令",
+        "时间窗口"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:DashboardCommandConverter",
+      "type": "class",
+      "name": "DashboardCommandConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "lineRange": [
+        20,
+        103
+      ],
+      "summary": "把仪表盘 HTTP 请求转换为应用层查询命令，补齐分页和趋势默认值，并将凭证标识与时间窗口转换为领域类型。",
+      "tags": [
+        "协议转换",
+        "查询命令",
+        "时间窗口"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetFrontDashboardCommand",
+      "type": "function",
+      "name": "toGetFrontDashboardCommand",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "lineRange": [
+        30,
+        50
+      ],
+      "summary": "在DashboardCommandConverter中执行 toGetFrontDashboardCommand 操作。协调 effectiveZoneId、request.getZoneId、GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))\n                .recentCallsPage(request.getRecentCallsPage() == null\n                        ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage())\n                .recentCallsSize(request.getRecentCallsSize() == null\n                        ? DEFAULT_RECENT_CALLS_SIZE : request.getRecentCallsSize())\n                .zoneId(zoneId).build、GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))\n                .recentCallsPage(request.getRecentCallsPage() == null\n                        ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage())\n                .recentCallsSize(request.getRecentCallsSize() == null\n                        ? DEFAULT_RECENT_CALLS_SIZE : request.getRecentCallsSize()).zoneId、GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))\n                .recentCallsPage(request.getRecentCallsPage() == null\n                        ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage()).recentCallsSize 等调用处理输入与状态。",
+      "tags": [
+        "协议转换",
+        "查询命令",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetFrontKeyMetricsCommand",
+      "type": "function",
+      "name": "toGetFrontKeyMetricsCommand",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "lineRange": [
+        52,
+        74
+      ],
+      "summary": "在DashboardCommandConverter中执行 toGetFrontKeyMetricsCommand 操作。协调 effectiveZoneId、request.getZoneId、request.getTrendDays、request.getCredentialIds、List.of 等调用处理输入与状态。",
+      "tags": [
+        "协议转换",
+        "查询命令",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetAdminDashboardCommand",
+      "type": "function",
+      "name": "toGetAdminDashboardCommand",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "lineRange": [
+        76,
+        98
+      ],
+      "summary": "在DashboardCommandConverter中执行 toGetAdminDashboardCommand 操作。协调 effectiveZoneId、request.getZoneId、request.getRecentRateMinutes、request.getTrendDays、GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes))\n                .recentRateEndExclusive(timeWindowHelper.getRecentRateEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))\n                .zoneId(zoneId)\n                .asOf(timeWindowHelper.getEvaluationInstant()).build 等调用处理输入与状态。",
+      "tags": [
+        "协议转换",
+        "查询命令",
+        "时间窗口"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "type": "file",
+      "name": "DashboardResponseConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "summary": "使用显式组装和 MapStruct 映射将仪表盘领域统计转为 HTTP 响应，解包领域标识及 Token 数量并转换排名与趋势列表。",
+      "tags": [
+        "响应映射",
+        "mapstruct",
+        "仪表盘"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:DashboardResponseConverter",
+      "type": "class",
+      "name": "DashboardResponseConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "lineRange": [
+        39,
+        142
+      ],
+      "summary": "使用显式组装和 MapStruct 映射将仪表盘领域统计转为 HTTP 响应，解包领域标识及 Token 数量并转换排名与趋势列表。",
+      "tags": [
+        "响应映射",
+        "mapstruct",
+        "仪表盘"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toFrontDashboardResponse",
+      "type": "function",
+      "name": "toFrontDashboardResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "lineRange": [
+        42,
+        57
+      ],
+      "summary": "在DashboardResponseConverter中执行 toFrontDashboardResponse 操作。协调 FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens()))\n                .apiKeyCount(apiKeyCount)\n                .recentCalls(recentCalls.getRecords().stream().map(this::toRecentCallResponse).toList()).build、FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens()))\n                .apiKeyCount(apiKeyCount).recentCalls、FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens())).apiKeyCount、FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens())).monthTotalTokens、FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens())).monthActualTokens 等调用处理输入与状态。",
+      "tags": [
+        "响应映射",
+        "mapstruct",
+        "仪表盘"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toFrontKeyMetricsResponse",
+      "type": "function",
+      "name": "toFrontKeyMetricsResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "lineRange": [
+        59,
+        70
+      ],
+      "summary": "在DashboardResponseConverter中执行 toFrontKeyMetricsResponse 操作。协调 FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .credentialTokenTrends(metrics.getCredentialTokenTrends().stream()\n                        .map(this::toCredentialTokenTrendPointResponse).toList())\n                .credentialConcurrencyTrends(metrics.getCredentialConcurrencyTrends().stream()\n                        .map(this::toCredentialConcurrencyTrendPointResponse).toList()).build、FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .credentialTokenTrends(metrics.getCredentialTokenTrends().stream()\n                        .map(this::toCredentialTokenTrendPointResponse).toList()).credentialConcurrencyTrends、FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList()).credentialTokenTrends、FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList()).monthlyTopCredentials、FrontKeyMetricsResponse.builder().dailyTopCredentials 等调用处理输入与状态。",
+      "tags": [
+        "响应映射",
+        "mapstruct",
+        "仪表盘"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toAdminDashboardResponse",
+      "type": "function",
+      "name": "toAdminDashboardResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "lineRange": [
+        72,
+        89
+      ],
+      "summary": "在DashboardResponseConverter中执行 toAdminDashboardResponse 操作。协调 AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList())\n                .channelTokenTrends(metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList())\n                .todayConcurrencyTrends(metrics.getTodayConcurrencyTrends().stream()\n                        .map(this::toConcurrencyTrendPointResponse).toList())\n                .dailySlowestChannels(metrics.getDailySlowestChannels().stream()\n                        .map(this::toChannelLatencyRankingResponse).toList()).build、AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList())\n                .channelTokenTrends(metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList())\n                .todayConcurrencyTrends(metrics.getTodayConcurrencyTrends().stream()\n                        .map(this::toConcurrencyTrendPointResponse).toList()).dailySlowestChannels、AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList())\n                .channelTokenTrends(metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList()).todayConcurrencyTrends、AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList()).channelTokenTrends、AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList()).protocolTokenTrends 等调用处理输入与状态。",
+      "tags": [
+        "响应映射",
+        "mapstruct",
+        "仪表盘"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toRecentCallResponse",
+      "type": "function",
+      "name": "toRecentCallResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "lineRange": [
+        95,
+        105
+      ],
+      "summary": "在DashboardResponseConverter中执行 toRecentCallResponse 操作。处理 record 参数。",
+      "tags": [
+        "响应映射",
+        "mapstruct",
+        "仪表盘"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "type": "file",
+      "name": "AdminDashboardResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "summary": "聚合管理员仪表盘的协议请求速率、当日与月 Token、用户排名、协议及渠道趋势、并发趋势和慢渠道排名。",
+      "tags": [
+        "响应模型",
+        "管理员仪表盘",
+        "统计指标"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java:AdminDashboardResponse",
+      "type": "class",
+      "name": "AdminDashboardResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "lineRange": [
+        12,
+        27
+      ],
+      "summary": "聚合管理员仪表盘的协议请求速率、当日与月 Token、用户排名、协议及渠道趋势、并发趋势和慢渠道排名。",
+      "tags": [
+        "响应模型",
+        "管理员仪表盘",
+        "统计指标"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "type": "file",
+      "name": "ChannelLatencyRankingResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "summary": "表示渠道响应延迟排名，包含渠道标识、名称、最大及平均总耗时、首 Token 延迟和请求数量。",
+      "tags": [
+        "响应模型",
+        "渠道延迟",
+        "排名"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java:ChannelLatencyRankingResponse",
+      "type": "class",
+      "name": "ChannelLatencyRankingResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "lineRange": [
+        11,
+        25
+      ],
+      "summary": "表示渠道响应延迟排名，包含渠道标识、名称、最大及平均总耗时、首 Token 延迟和请求数量。",
+      "tags": [
+        "响应模型",
+        "渠道延迟",
+        "排名"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "type": "file",
+      "name": "ChannelTokenTrendPointResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "summary": "表示一个时间桶中的渠道 Token 总量及渠道标识与名称。",
+      "tags": [
+        "响应模型",
+        "渠道趋势",
+        "时间桶"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java:ChannelTokenTrendPointResponse",
+      "type": "class",
+      "name": "ChannelTokenTrendPointResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "lineRange": [
+        13,
+        24
+      ],
+      "summary": "表示一个时间桶中的渠道 Token 总量及渠道标识与名称。",
+      "tags": [
+        "响应模型",
+        "渠道趋势",
+        "时间桶"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "type": "file",
+      "name": "ConcurrencyTrendPointResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "summary": "表示平台在单个时间桶内的峰值并发数。",
+      "tags": [
+        "响应模型",
+        "并发趋势",
+        "时间桶"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java:ConcurrencyTrendPointResponse",
+      "type": "class",
+      "name": "ConcurrencyTrendPointResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "lineRange": [
+        12,
+        21
+      ],
+      "summary": "表示平台在单个时间桶内的峰值并发数。",
+      "tags": [
+        "响应模型",
+        "并发趋势",
+        "时间桶"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java:ProviderModelController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java:ProviderModelController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java:listProviderModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java:listProviderModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/dto/ProviderModelOption.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java:ProviderModelOptionListResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java:ProviderModelOptionListResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java:ProviderModelOptionResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java:ProviderModelOptionResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:DashboardController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:DashboardController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontDashboard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontDashboard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontKeyMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontKeyMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontDistributions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getFrontDistributions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getAdminDistributions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getAdminDistributions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getAdminDashboard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java:getAdminDashboard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/DashboardApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontDashboardResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontKeyMetricsResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetAdminDashboardRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetFrontDashboardRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetFrontKeyMetricsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/UsageDistributionResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:DashboardTimeWindowHelper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:DashboardTimeWindowHelper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTodayStartInclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTodayStartInclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTodayEndExclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTodayEndExclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getThirtyDayStartInclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getThirtyDayStartInclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getMonthStartInclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getMonthStartInclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getMonthEndExclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getMonthEndExclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentCallsStartInclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentCallsStartInclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentCallsEndExclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentCallsEndExclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentRateStartInclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentRateStartInclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentRateEndExclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getRecentRateEndExclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTrendStartInclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTrendStartInclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTrendEndExclusive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getTrendEndExclusive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getEvaluationInstant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java:getEvaluationInstant",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:DashboardCommandConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:DashboardCommandConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetFrontDashboardCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetFrontDashboardCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetFrontKeyMetricsCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetFrontKeyMetricsCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetAdminDashboardCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java:toGetAdminDashboardCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetAdminDashboardCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontDashboardCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/dashboard/command/GetFrontKeyMetricsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetAdminDashboardRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetFrontDashboardRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetFrontKeyMetricsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:DashboardResponseConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:DashboardResponseConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toFrontDashboardResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toFrontDashboardResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toFrontKeyMetricsResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toFrontKeyMetricsResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toAdminDashboardResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toAdminDashboardResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java:toRecentCallResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolRequestRate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UserTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/CredentialConcurrencyTrendPointResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/CredentialTokenRankingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/CredentialTokenTrendPointResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontDashboardRecentCallResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontDashboardResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontKeyMetricsResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ProtocolRequestRateResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ProtocolTokenTrendPointResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/TokenAmountResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/UserTokenRankingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java:AdminDashboardResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java:AdminDashboardResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java:ChannelLatencyRankingResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java:ChannelLatencyRankingResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java:ChannelTokenTrendPointResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java:ChannelTokenTrendPointResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java:ConcurrencyTrendPointResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java:ConcurrencyTrendPointResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

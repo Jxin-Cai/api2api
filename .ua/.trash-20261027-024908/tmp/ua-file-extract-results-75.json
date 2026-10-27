@@ -1,0 +1,419 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/manage-token-quotas/QuotaFormModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 59,
+      "functions": [
+        {
+          "name": "QuotaFormModal",
+          "startLine": 9,
+          "endLine": 60,
+          "params": [
+            "{ open, rule, initialScope, targets, onClose }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PERIOD_LABELS",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "QuotaFormModal",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Form.useForm",
+          "lineNumber": 10
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "useQueryClient",
+          "lineNumber": 11
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "useModelGroups",
+          "lineNumber": 12
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Form.useWatch",
+          "lineNumber": 13
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Form.useWatch",
+          "lineNumber": 14
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "targets.find",
+          "lineNumber": 15
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "groups.find",
+          "lineNumber": 16
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "useMutation",
+          "lineNumber": 17
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "saveQuota",
+          "lineNumber": 18
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "client.invalidateQueries",
+          "lineNumber": 20
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "client.invalidateQueries",
+          "lineNumber": 21
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "onClose",
+          "lineNumber": 22
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "useEffect",
+          "lineNumber": 25
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "form.resetFields",
+          "lineNumber": 27
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "form.setFieldsValue",
+          "lineNumber": 28
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "mutation.reset",
+          "lineNumber": 29
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "mutation.mutate",
+          "lineNumber": 34
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "form.setFieldsValue",
+          "lineNumber": 36
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "form.setFieldValue",
+          "lineNumber": 39
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "targets.filter((item) => item.scope === scope).map",
+          "lineNumber": 40
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "targets.filter",
+          "lineNumber": 40
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Array.from(new Set([...(group?.modelWhitelist ?? []), ...(rule?.model ? [rule.model] : [])])).map",
+          "lineNumber": 43
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Array.from",
+          "lineNumber": 43
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Object.entries(PERIOD_LABELS).map",
+          "lineNumber": 46
+        },
+        {
+          "caller": "QuotaFormModal",
+          "callee": "Object.entries",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-token-quotas/TokenQuotaPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 63,
+      "functions": [
+        {
+          "name": "millions",
+          "startLine": 10,
+          "endLine": 10,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "TokenQuotaPanel",
+          "startLine": 11,
+          "endLine": 64,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TokenQuotaPanel",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "millions",
+          "callee": "Number(value).toLocaleString",
+          "lineNumber": 10
+        },
+        {
+          "caller": "millions",
+          "callee": "Number",
+          "lineNumber": 10
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "theme.useToken",
+          "lineNumber": 12
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useTokenQuotas",
+          "lineNumber": 13
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "App.useApp",
+          "lineNumber": 14
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useQueryClient",
+          "lineNumber": 15
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useState",
+          "lineNumber": 16
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useState",
+          "lineNumber": 19
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "useMutation",
+          "lineNumber": 20
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "client.invalidateQueries",
+          "lineNumber": 23
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "client.invalidateQueries",
+          "lineNumber": 24
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "message.success",
+          "lineNumber": 25
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "message.error",
+          "lineNumber": 27
+        },
+        {
+          "caller": "targetFor",
+          "callee": "targets.find",
+          "lineNumber": 29
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "rules.filter",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "`${targetFor(rule)?.name ?? ''} ${targetFor(rule)?.ownerName ?? ''} ${rule.targetId} ${rule.model}`.toLowerCase().includes",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "`${targetFor(rule)?.name ?? ''} ${targetFor(rule)?.ownerName ?? ''} ${rule.targetId} ${rule.model}`.toLowerCase",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "targetFor",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "targetFor",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "search.toLowerCase",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "targetFor",
+          "lineNumber": 33
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "targetFor",
+          "lineNumber": 34
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "targetFor",
+          "lineNumber": 34
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "millions",
+          "lineNumber": 39
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "millions",
+          "lineNumber": 39
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "millions",
+          "lineNumber": 40
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "new Date(value).toLocaleString",
+          "lineNumber": 43
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setEditing",
+          "lineNumber": 45
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setOpen",
+          "lineNumber": 45
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "modal.confirm",
+          "lineNumber": 46
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "deletion.mutateAsync",
+          "lineNumber": 47
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "query.refetch",
+          "lineNumber": 51
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setScope",
+          "lineNumber": 55
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setSearch",
+          "lineNumber": 57
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "query.refetch",
+          "lineNumber": 58
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setEditing",
+          "lineNumber": 58
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setOpen",
+          "lineNumber": 58
+        },
+        {
+          "caller": "TokenQuotaPanel",
+          "callee": "setOpen",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,973 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "type": "file",
+      "name": "ProtocolMetadataApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "summary": "校验管理员访问权限后提供协议元数据列表、协议类型查询和标识查询，并将缺失记录转换为业务错误。",
+      "tags": [
+        "应用服务",
+        "协议元数据",
+        "权限校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:ProtocolMetadataApplicationService",
+      "type": "class",
+      "name": "ProtocolMetadataApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "summary": "校验管理员访问权限后提供协议元数据列表、协议类型查询和标识查询，并将缺失记录转换为业务错误。",
+      "tags": [
+        "应用服务",
+        "协议元数据",
+        "权限校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        18,
+        53
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:listAll",
+      "type": "function",
+      "name": "listAll",
+      "filePath": "backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "summary": "验证操作者具备后台访问权限后查询所有协议元数据。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        28,
+        32
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:getByProtocolType",
+      "type": "function",
+      "name": "getByProtocolType",
+      "filePath": "backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "summary": "验证后台权限并按协议类型查找元数据，缺失时抛出业务异常。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        34,
+        39
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:getById",
+      "type": "function",
+      "name": "getById",
+      "filePath": "backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "summary": "验证后台权限并按标识查找协议元数据，缺失时抛出业务异常。",
+      "tags": [
+        "业务方法",
+        "应用服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        41,
+        46
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java",
+      "type": "file",
+      "name": "ProtocolContractViolationException.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java",
+      "summary": "表示协议请求、响应或字段不满足契约结构时的异常，保留底层解析原因。",
+      "tags": [
+        "协议契约",
+        "校验异常",
+        "错误传播"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java:ProtocolContractViolationException",
+      "type": "class",
+      "name": "ProtocolContractViolationException",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java",
+      "summary": "表示协议请求、响应或字段不满足契约结构时的异常，保留底层解析原因。",
+      "tags": [
+        "协议契约",
+        "校验异常",
+        "错误传播"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        3,
+        12
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "type": "file",
+      "name": "FieldSection.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "summary": "枚举协议字段的基础、消息、内容块、工具、推理、流式及用量等分组和展示标签。",
+      "tags": [
+        "字段分组",
+        "枚举类型",
+        "协议元数据"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java:FieldSection",
+      "type": "class",
+      "name": "FieldSection",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "summary": "枚举协议字段的基础、消息、内容块、工具、推理、流式及用量等分组和展示标签。",
+      "tags": [
+        "字段分组",
+        "枚举类型",
+        "协议元数据"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        3,
+        23
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java",
+      "type": "file",
+      "name": "FieldType.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java",
+      "summary": "枚举协议字段的结构类型，供契约字段校验和元数据展示共同使用。",
+      "tags": [
+        "字段类型",
+        "枚举类型",
+        "结构校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java:FieldType",
+      "type": "class",
+      "name": "FieldType",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java",
+      "summary": "枚举协议字段的结构类型，供契约字段校验和元数据展示共同使用。",
+      "tags": [
+        "字段类型",
+        "枚举类型",
+        "结构校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        3,
+        11
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "type": "file",
+      "name": "ProtocolFieldDefinition.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "summary": "定义协议字段身份、名称、路径、数据类型、必填性、分组、输入输出方向、说明、用途和排序信息。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:ProtocolFieldDefinition",
+      "type": "class",
+      "name": "ProtocolFieldDefinition",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "summary": "定义协议字段身份、名称、路径、数据类型、必填性、分组、输入输出方向、说明、用途和排序信息。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        5,
+        110
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:ProtocolFieldDefinition",
+      "type": "function",
+      "name": "ProtocolFieldDefinition",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "summary": "初始化 ProtocolFieldDefinition，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        18,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "summary": "ProtocolFieldDefinition 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        58
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "type": "file",
+      "name": "ProtocolFieldDefinitionId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "summary": "以非空标识值封装协议字段定义身份，提供受控创建和数值访问。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java:ProtocolFieldDefinitionId",
+      "type": "class",
+      "name": "ProtocolFieldDefinitionId",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "summary": "以非空标识值封装协议字段定义身份，提供受控创建和数值访问。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        5,
+        43
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "summary": "ProtocolFieldDefinitionId 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        17
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "type": "file",
+      "name": "ProtocolMetadata.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "封装协议名称、规范版本、默认端点及字段定义，支持字段总数、方向筛选和分组查询。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:ProtocolMetadata",
+      "type": "class",
+      "name": "ProtocolMetadata",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "封装协议名称、规范版本、默认端点及字段定义，支持字段总数、方向筛选和分组查询。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        12,
+        124
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:ProtocolMetadata",
+      "type": "function",
+      "name": "ProtocolMetadata",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "初始化 ProtocolMetadata，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        45
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:rehydrate",
+      "type": "function",
+      "name": "rehydrate",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "根据已保存的身份、字段集合和审计时间恢复协议元数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        59
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:fieldsBySection",
+      "type": "function",
+      "name": "fieldsBySection",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "按字段所属区域分组，供协议元数据详情展示。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        61,
+        64
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:inputFields",
+      "type": "function",
+      "name": "inputFields",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "筛选用于输入或双向交互的协议字段。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        66,
+        70
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:outputFields",
+      "type": "function",
+      "name": "outputFields",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "筛选用于输出或双向交互的协议字段。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        72,
+        76
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:fieldCount",
+      "type": "function",
+      "name": "fieldCount",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "summary": "返回当前协议定义的字段总数。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        78,
+        80
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "type": "file",
+      "name": "ProtocolMetadataId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "summary": "以非空标识值封装协议元数据身份，供仓储与管理接口定位协议记录。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java:ProtocolMetadataId",
+      "type": "class",
+      "name": "ProtocolMetadataId",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "summary": "以非空标识值封装协议元数据身份，供仓储与管理接口定位协议记录。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        5,
+        43
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "summary": "ProtocolMetadataId 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        17
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java",
+      "type": "file",
+      "name": "UsageDirection.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java",
+      "summary": "区分协议字段用于输入、输出或双向交互。",
+      "tags": [
+        "使用方向",
+        "枚举类型",
+        "协议字段"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java:UsageDirection",
+      "type": "class",
+      "name": "UsageDirection",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java",
+      "summary": "区分协议字段用于输入、输出或双向交互。",
+      "tags": [
+        "使用方向",
+        "枚举类型",
+        "协议字段"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        3,
+        7
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:ProtocolMetadataApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:ProtocolMetadataApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:listAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:listAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:getByProtocolType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:getByProtocolType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:getById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java:getById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/repository/ProtocolMetadataRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/protocolmetadata/ProtocolMetadataApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java:ProtocolContractViolationException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java:ProtocolContractViolationException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java:FieldSection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java:FieldSection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java:FieldType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java:FieldType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:ProtocolFieldDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:ProtocolFieldDefinition",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:ProtocolFieldDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java:ProtocolFieldDefinitionId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java:ProtocolFieldDefinitionId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:ProtocolMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:ProtocolMetadata",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:ProtocolMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:rehydrate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:rehydrate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:fieldsBySection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:fieldsBySection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:inputFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:inputFields",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:outputFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:outputFields",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:fieldCount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java:fieldCount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java:ProtocolMetadataId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java:ProtocolMetadataId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java:UsageDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java:UsageDirection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ProtocolContractViolationException.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/protocol/contract/ProtocolContractRegistryTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocolmetadata/ProtocolMetadataRepositoryImplTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocolmetadata/ProtocolMetadataRepositoryImplTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocolmetadata/ProtocolMetadataRepositoryImplTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldSection.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/FieldType.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinition.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolFieldDefinitionId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadata.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/ProtocolMetadataId.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolmetadata/model/UsageDirection.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/protocol/contract/ProtocolContractRegistryTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ParsedGatewayRequest.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/protocol/contract/ProtocolContractRegistryTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocolmetadata/ProtocolMetadataRepositoryImplTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolContractRegistry.java",
+      "target": "file:backend/src/test/java/com/api2api/infr/repository/protocolmetadata/ProtocolMetadataRepositoryImplTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "target": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ProtocolMetadataHttpConverterTest.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

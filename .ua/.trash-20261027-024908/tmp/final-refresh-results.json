@@ -1,0 +1,151 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "ApiCredentialToolbar",
+          "startLine": 17,
+          "endLine": 39,
+          "params": [
+            "{ search, onSearchChange, onCreateClick, onRefresh, loading = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialToolbar",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialToolbar",
+          "callee": "onSearchChange",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-model-groups/model/useModelGroupMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "useModelGroupMutations",
+          "startLine": 22,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useModelGroupMutations",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 23
+        },
+        {
+          "caller": "invalidateGroups",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 25
+        },
+        {
+          "caller": "invalidateGroups",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 26
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "Promise.all",
+          "lineNumber": 29
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 30
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 31
+        },
+        {
+          "caller": "invalidateGroupPermissions",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 32
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useMutation",
+          "lineNumber": 37
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "createModelGroup",
+          "lineNumber": 38
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useMutation",
+          "lineNumber": 41
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "updateModelGroup",
+          "lineNumber": 42
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "useMutation",
+          "lineNumber": 45
+        },
+        {
+          "caller": "useModelGroupMutations",
+          "callee": "deleteModelGroup",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

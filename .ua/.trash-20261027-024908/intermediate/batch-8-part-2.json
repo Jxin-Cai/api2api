@@ -1,0 +1,3845 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "type": "file",
+      "name": "ConversationEffortBridge.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "summary": "解析跨协议会话中的推理强度更新，在新用户输入边界激活 Claude 待生效配置，并转换 Responses 的会话推理设置。",
+      "tags": [
+        "会话配置",
+        "推理强度",
+        "状态桥接"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:ConversationEffortBridge",
+      "type": "class",
+      "name": "ConversationEffortBridge",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "lineRange": [
+        9,
+        137
+      ],
+      "summary": "解析跨协议会话中的推理强度更新，在新用户输入边界激活 Claude 待生效配置，并转换 Responses 的会话推理设置。",
+      "tags": [
+        "会话配置",
+        "推理强度",
+        "状态桥接"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:resolveClaudeRequest",
+      "type": "function",
+      "name": "resolveClaudeRequest",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "lineRange": [
+        24,
+        77
+      ],
+      "summary": "遍历消息历史中的会话配置更新，仅在新增用户输入后激活待处理的推理强度，避免在工具循环中切换。",
+      "tags": [
+        "会话配置",
+        "推理强度",
+        "状态桥接"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:resolveResponsesReasoning",
+      "type": "function",
+      "name": "resolveResponsesReasoning",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "lineRange": [
+        79,
+        99
+      ],
+      "summary": "读取 Responses 会话配置中的推理强度并合并到当前请求的 reasoning 设置。",
+      "tags": [
+        "会话配置",
+        "推理强度",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:hasNewUserInput",
+      "type": "function",
+      "name": "hasNewUserInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "lineRange": [
+        105,
+        118
+      ],
+      "summary": "判断新增用户输入，用于会话推理强度配置解析。",
+      "tags": [
+        "会话配置",
+        "推理强度",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:validateFields",
+      "type": "function",
+      "name": "validateFields",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "lineRange": [
+        127,
+        136
+      ],
+      "summary": "校验字段，支撑会话推理强度配置解析。",
+      "tags": [
+        "会话配置",
+        "推理强度",
+        "状态桥接"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "type": "file",
+      "name": "ConverterFieldMappingDescriptions.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "summary": "注册不同协议及请求响应方向的字段映射说明，记录转换规则、内容类别与有损等级，供执行程序及管理界面展示。",
+      "tags": [
+        "字段映射",
+        "转换元数据",
+        "注册表"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java:ConverterFieldMappingDescriptions",
+      "type": "class",
+      "name": "ConverterFieldMappingDescriptions",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "lineRange": [
+        17,
+        492
+      ],
+      "summary": "注册不同协议及请求响应方向的字段映射说明，记录转换规则、内容类别与有损等级，供执行程序及管理界面展示。",
+      "tags": [
+        "字段映射",
+        "转换元数据",
+        "注册表"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java:detailedMapping",
+      "type": "function",
+      "name": "detailedMapping",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "lineRange": [
+        462,
+        479
+      ],
+      "summary": "提供详细映射，用于协议转换字段映射说明。",
+      "tags": [
+        "字段映射",
+        "转换元数据",
+        "注册表"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "type": "file",
+      "name": "DefaultProtocolConversionServiceAdapter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "summary": "将领域协议转换服务接入 Spring 转换策略与用量提取器，按协议对及方向分派请求和响应转换，并支持同协议兼容处理。",
+      "tags": [
+        "服务适配",
+        "策略分派",
+        "协议转换",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:DefaultProtocolConversionServiceAdapter",
+      "type": "class",
+      "name": "DefaultProtocolConversionServiceAdapter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "lineRange": [
+        25,
+        131
+      ],
+      "summary": "将领域协议转换服务接入 Spring 转换策略与用量提取器，按协议对及方向分派请求和响应转换，并支持同协议兼容处理。",
+      "tags": [
+        "服务适配",
+        "策略分派",
+        "协议转换",
+        "用量统计"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertRequest",
+      "type": "function",
+      "name": "convertRequest",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "lineRange": [
+        49,
+        66
+      ],
+      "summary": "查找满足转换需求的请求转换器；支持同协议兼容转换，并在需要时回退到领域转换流程。",
+      "tags": [
+        "服务适配",
+        "策略分派",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertResponse",
+      "type": "function",
+      "name": "convertResponse",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "lineRange": [
+        68,
+        87
+      ],
+      "summary": "按原始客户端协议选择响应转换器，并在同协议场景中保留载荷与统一用量。",
+      "tags": [
+        "服务适配",
+        "策略分派",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:registeredConverter",
+      "type": "function",
+      "name": "registeredConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "lineRange": [
+        99,
+        109
+      ],
+      "summary": "提供已注册转换器，用于网关协议转换分派。",
+      "tags": [
+        "服务适配",
+        "策略分派",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:extractUsage",
+      "type": "function",
+      "name": "extractUsage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "lineRange": [
+        111,
+        120
+      ],
+      "summary": "提取用量，支撑网关协议转换分派。",
+      "tags": [
+        "服务适配",
+        "策略分派",
+        "协议转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "type": "file",
+      "name": "GenericProtocolMessageConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "summary": "实现 Claude Messages、Chat Completions 与 Responses 的请求和响应双向转换，覆盖消息、多模态、工具历史、推理状态、缓存及结构化输出。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用",
+        "推理状态",
+        "多模态"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:GenericProtocolMessageConverter",
+      "type": "class",
+      "name": "GenericProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        26,
+        3949
+      ],
+      "summary": "实现 Claude Messages、Chat Completions 与 Responses 的请求和响应双向转换，覆盖消息、多模态、工具历史、推理状态、缓存及结构化输出。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用",
+        "推理状态",
+        "多模态"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:GenericProtocolMessageConverter",
+      "type": "function",
+      "name": "GenericProtocolMessageConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        56,
+        74
+      ],
+      "summary": "初始化GenericProtocolMessageConverter的依赖与运行配置，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:supports",
+      "type": "function",
+      "name": "supports",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        104,
+        110
+      ],
+      "summary": "判断，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeRequestToChat",
+      "type": "function",
+      "name": "claudeRequestToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        124,
+        139
+      ],
+      "summary": "将Claude请求转换为Chat Completions，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeToChatModelParameters",
+      "type": "function",
+      "name": "mapClaudeToChatModelParameters",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        141,
+        155
+      ],
+      "summary": "映射Claude目标Chat Completions模型参数，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeToChatTools",
+      "type": "function",
+      "name": "mapClaudeToChatTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        193,
+        221
+      ],
+      "summary": "映射Claude目标Chat Completions工具定义，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeToChatOutputFormat",
+      "type": "function",
+      "name": "mapClaudeToChatOutputFormat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        223,
+        246
+      ],
+      "summary": "映射Claude目标Chat Completions输出格式，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:assembleClaudeToChatMessages",
+      "type": "function",
+      "name": "assembleClaudeToChatMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        248,
+        264
+      ],
+      "summary": "组装Claude目标Chat Completions消息列表，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeSystemToChatText",
+      "type": "function",
+      "name": "claudeSystemToChatText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        266,
+        282
+      ],
+      "summary": "将Claude系统提示词转换为Chat Completions文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatReasoningEffort",
+      "type": "function",
+      "name": "chatReasoningEffort",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        305,
+        327
+      ],
+      "summary": "提供Chat Completions推理推理强度，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolsToChat",
+      "type": "function",
+      "name": "claudeToolsToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        329,
+        360
+      ],
+      "summary": "将Claude工具定义转换为Chat Completions，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeServiceTierToChat",
+      "type": "function",
+      "name": "mapClaudeServiceTierToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        362,
+        372
+      ],
+      "summary": "映射Claude服务等级目标Chat Completions，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolChoiceToChat",
+      "type": "function",
+      "name": "claudeToolChoiceToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        374,
+        396
+      ],
+      "summary": "将Claude工具选择策略转换为Chat Completions，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeMessagesToChatMessages",
+      "type": "function",
+      "name": "claudeMessagesToChatMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        398,
+        411
+      ],
+      "summary": "将Claude消息列表转换为Chat Completions消息列表，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertAssistantMessageToChat",
+      "type": "function",
+      "name": "convertAssistantMessageToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        413,
+        466
+      ],
+      "summary": "转换助手消息目标Chat Completions，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertUserMessageToChat",
+      "type": "function",
+      "name": "convertUserMessageToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        478,
+        555
+      ],
+      "summary": "转换用户消息目标Chat Completions，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendChatDocumentPart",
+      "type": "function",
+      "name": "appendChatDocumentPart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        581,
+        596
+      ],
+      "summary": "追加Chat Completions文档片段，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:extractToolResultContent",
+      "type": "function",
+      "name": "extractToolResultContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        598,
+        614
+      ],
+      "summary": "提取工具结果内容，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:extractToolResultImages",
+      "type": "function",
+      "name": "extractToolResultImages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        616,
+        626
+      ],
+      "summary": "提取工具结果图片列表，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeImageSourceToChatImageUrl",
+      "type": "function",
+      "name": "claudeImageSourceToChatImageUrl",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        628,
+        649
+      ],
+      "summary": "将Claude图片源转换为Chat Completions图片URL，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeChatToolHistory",
+      "type": "function",
+      "name": "normalizeChatToolHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        651,
+        702
+      ],
+      "summary": "对 Chat 工具调用历史进行规范化，使助手工具调用与用户结果消息形成可接受的顺序。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolUseToChatFunctionCall",
+      "type": "function",
+      "name": "claudeToolUseToChatFunctionCall",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        704,
+        714
+      ],
+      "summary": "将Claude工具使用转换为Chat Completions函数调用，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeRequestToResponses",
+      "type": "function",
+      "name": "claudeRequestToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        726,
+        823
+      ],
+      "summary": "将 Claude 请求映射为 Responses 结构，协调工具、推理、缓存控制、上下文管理及多模态消息转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:validateClaudeResponsesRequest",
+      "type": "function",
+      "name": "validateClaudeResponsesRequest",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        825,
+        854
+      ],
+      "summary": "校验ClaudeResponses请求，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeServiceTierToResponses",
+      "type": "function",
+      "name": "mapClaudeServiceTierToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        856,
+        867
+      ],
+      "summary": "映射Claude服务等级目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeSystemToResponsesInput",
+      "type": "function",
+      "name": "claudeSystemToResponsesInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        869,
+        892
+      ],
+      "summary": "将Claude系统提示词转换为Responses输入，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeMessagesToResponsesInput",
+      "type": "function",
+      "name": "claudeMessagesToResponsesInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        900,
+        974
+      ],
+      "summary": "将Claude消息列表转换为Responses输入，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:restoreToolOutputNamespaces",
+      "type": "function",
+      "name": "restoreToolOutputNamespaces",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        976,
+        989
+      ],
+      "summary": "恢复工具输出命名空间，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertToolUseBlockToResponses",
+      "type": "function",
+      "name": "convertToolUseBlockToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        999,
+        1012
+      ],
+      "summary": "转换工具使用内容块目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertToolResultBlockToResponses",
+      "type": "function",
+      "name": "convertToolResultBlockToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1014,
+        1028
+      ],
+      "summary": "转换工具结果内容块目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertThinkingBlockToResponses",
+      "type": "function",
+      "name": "convertThinkingBlockToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1030,
+        1044
+      ],
+      "summary": "转换思考状态内容块目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsClaudeCompactionState",
+      "type": "function",
+      "name": "containsClaudeCompactionState",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1053,
+        1068
+      ],
+      "summary": "判断Claude上下文压缩状态，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsClaudeToolUse",
+      "type": "function",
+      "name": "containsClaudeToolUse",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1070,
+        1080
+      ],
+      "summary": "判断Claude工具使用，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:collectClaudeToolCallers",
+      "type": "function",
+      "name": "collectClaudeToolCallers",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1082,
+        1101
+      ],
+      "summary": "收集Claude工具调用方，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:flushResponsesMessage",
+      "type": "function",
+      "name": "flushResponsesMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1103,
+        1116
+      ],
+      "summary": "输出并清空Responses消息，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:addClaudeTextPart",
+      "type": "function",
+      "name": "addClaudeTextPart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1128,
+        1140
+      ],
+      "summary": "添加Claude文本片段，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:applyResponsesCacheBreakpoint",
+      "type": "function",
+      "name": "applyResponsesCacheBreakpoint",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1166,
+        1178
+      ],
+      "summary": "应用Responses缓存断点，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:applyTopLevelCacheControl",
+      "type": "function",
+      "name": "applyTopLevelCacheControl",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1180,
+        1195
+      ],
+      "summary": "应用顶层层级缓存控制，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:lastResponsesCacheablePart",
+      "type": "function",
+      "name": "lastResponsesCacheablePart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1197,
+        1218
+      ],
+      "summary": "提供最后Responses可缓存片段，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:validateClaudeCacheControl",
+      "type": "function",
+      "name": "validateClaudeCacheControl",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1235,
+        1244
+      ],
+      "summary": "校验Claude缓存控制，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsResponsesCacheBreakpoint",
+      "type": "function",
+      "name": "containsResponsesCacheBreakpoint",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1246,
+        1258
+      ],
+      "summary": "判断Responses缓存断点，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsResponsesCacheBreakpointPart",
+      "type": "function",
+      "name": "containsResponsesCacheBreakpointPart",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1260,
+        1270
+      ],
+      "summary": "判断Responses缓存断点片段，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesPromptCacheKey",
+      "type": "function",
+      "name": "responsesPromptCacheKey",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1272,
+        1285
+      ],
+      "summary": "提供Responses提示词缓存键，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:firstClaudeUserContent",
+      "type": "function",
+      "name": "firstClaudeUserContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1287,
+        1297
+      ],
+      "summary": "提供首个Claude用户内容，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeThinkingToResponses",
+      "type": "function",
+      "name": "claudeThinkingToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1299,
+        1327
+      ],
+      "summary": "将Claude思考状态转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeCompactionToResponses",
+      "type": "function",
+      "name": "claudeCompactionToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1329,
+        1342
+      ],
+      "summary": "将Claude上下文压缩转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolResultToResponses",
+      "type": "function",
+      "name": "claudeToolResultToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1354,
+        1391
+      ],
+      "summary": "将Claude工具结果转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolResultOutputToResponses",
+      "type": "function",
+      "name": "claudeToolResultOutputToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1393,
+        1429
+      ],
+      "summary": "将Claude工具结果输出转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeProgrammaticToolResultToResponses",
+      "type": "function",
+      "name": "claudeProgrammaticToolResultToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1431,
+        1448
+      ],
+      "summary": "将Claude程序化工具结果转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolChoiceToResponses",
+      "type": "function",
+      "name": "claudeToolChoiceToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1460,
+        1475
+      ],
+      "summary": "将Claude工具选择策略转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesReasoningConfig",
+      "type": "function",
+      "name": "responsesReasoningConfig",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1477,
+        1523
+      ],
+      "summary": "提供Responses推理配置，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsResponsesReasoningState",
+      "type": "function",
+      "name": "containsResponsesReasoningState",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1525,
+        1542
+      ],
+      "summary": "判断Responses推理状态，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:reasoningEffortFromBudget",
+      "type": "function",
+      "name": "reasoningEffortFromBudget",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1544,
+        1556
+      ],
+      "summary": "提供推理推理强度来源预算，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolsToResponses",
+      "type": "function",
+      "name": "claudeToolsToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1558,
+        1633
+      ],
+      "summary": "将Claude工具定义转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapWebSearchToolToResponses",
+      "type": "function",
+      "name": "mapWebSearchToolToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1635,
+        1650
+      ],
+      "summary": "映射网络搜索工具目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapCodeExecutionToolToResponses",
+      "type": "function",
+      "name": "mapCodeExecutionToolToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1652,
+        1663
+      ],
+      "summary": "映射代码执行工具目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapCustomToolToResponses",
+      "type": "function",
+      "name": "mapCustomToolToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1672,
+        1699
+      ],
+      "summary": "映射自定义工具目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeToolInputSchema",
+      "type": "function",
+      "name": "normalizeToolInputSchema",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1701,
+        1713
+      ],
+      "summary": "规范化工具输入结构，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapMcpServerToResponses",
+      "type": "function",
+      "name": "mapMcpServerToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1720,
+        1761
+      ],
+      "summary": "映射MCP服务端目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mcpDeferred",
+      "type": "function",
+      "name": "mcpDeferred",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1763,
+        1792
+      ],
+      "summary": "提供MCP延迟加载，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mcpAllowedTools",
+      "type": "function",
+      "name": "mcpAllowedTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1794,
+        1829
+      ],
+      "summary": "提供MCP允许的工具定义，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:ensureResponseTextFormat",
+      "type": "function",
+      "name": "ensureResponseTextFormat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1831,
+        1868
+      ],
+      "summary": "确保响应文本格式，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesContextManagement",
+      "type": "function",
+      "name": "responsesContextManagement",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1870,
+        1908
+      ],
+      "summary": "将 Claude 上下文编辑转换为 Responses 压缩配置，忽略清除思考和工具的编辑，并拒绝不支持或有损的压缩选项。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:isReasoningModel",
+      "type": "function",
+      "name": "isReasoningModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1945,
+        1955
+      ],
+      "summary": "判断推理模型，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatRequestToClaude",
+      "type": "function",
+      "name": "chatRequestToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        1957,
+        2026
+      ],
+      "summary": "将Chat Completions请求转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolDefinitionsToClaude",
+      "type": "function",
+      "name": "chatToolDefinitionsToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2034,
+        2058
+      ],
+      "summary": "将Chat Completions工具定义转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeChatToolParameters",
+      "type": "function",
+      "name": "normalizeChatToolParameters",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2060,
+        2077
+      ],
+      "summary": "规范化Chat Completions工具参数，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolChoiceToClaude",
+      "type": "function",
+      "name": "chatToolChoiceToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2079,
+        2113
+      ],
+      "summary": "将Chat Completions工具选择策略转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeClaudeToolHistory",
+      "type": "function",
+      "name": "normalizeClaudeToolHistory",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2115,
+        2142
+      ],
+      "summary": "规范化Claude工具历史，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendNormalizedClaudeAssistant",
+      "type": "function",
+      "name": "appendNormalizedClaudeAssistant",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2144,
+        2172
+      ],
+      "summary": "追加已规范化Claude助手，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendClaudeMessageWithoutToolResults",
+      "type": "function",
+      "name": "appendClaudeMessageWithoutToolResults",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2174,
+        2188
+      ],
+      "summary": "追加Claude消息去除工具结果列表，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mergeConsecutiveClaudeMessages",
+      "type": "function",
+      "name": "mergeConsecutiveClaudeMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2190,
+        2203
+      ],
+      "summary": "合并相邻Claude消息列表，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatContentToSystemText",
+      "type": "function",
+      "name": "chatContentToSystemText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2212,
+        2233
+      ],
+      "summary": "将Chat Completions内容转换为系统提示词文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatMessageContentToClaude",
+      "type": "function",
+      "name": "chatMessageContentToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2235,
+        2269
+      ],
+      "summary": "将Chat Completions消息内容转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolMessageToClaude",
+      "type": "function",
+      "name": "chatToolMessageToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2271,
+        2287
+      ],
+      "summary": "将Chat Completions工具消息转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatContentBlocksToClaude",
+      "type": "function",
+      "name": "chatContentBlocksToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2289,
+        2328
+      ],
+      "summary": "将Chat Completions内容内容块列表转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatImageUrlToClaudeImage",
+      "type": "function",
+      "name": "chatImageUrlToClaudeImage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2330,
+        2348
+      ],
+      "summary": "将Chat Completions图片URL转换为Claude图片，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatFunctionCallToClaudeToolUse",
+      "type": "function",
+      "name": "chatFunctionCallToClaudeToolUse",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2354,
+        2366
+      ],
+      "summary": "将Chat Completions函数调用转换为Claude工具使用，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatRequestToResponses",
+      "type": "function",
+      "name": "chatRequestToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2368,
+        2382
+      ],
+      "summary": "将Chat Completions请求转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapChatToResponsesModelParameters",
+      "type": "function",
+      "name": "mapChatToResponsesModelParameters",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2384,
+        2395
+      ],
+      "summary": "映射Chat Completions目标Responses模型参数，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapChatToResponsesTools",
+      "type": "function",
+      "name": "mapChatToResponsesTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2407,
+        2435
+      ],
+      "summary": "映射Chat Completions目标Responses工具定义，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatFunctionDefinitionToResponsesTool",
+      "type": "function",
+      "name": "chatFunctionDefinitionToResponsesTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2437,
+        2449
+      ],
+      "summary": "将Chat Completions函数定义转换为Responses工具，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolChoiceToResponses",
+      "type": "function",
+      "name": "chatToolChoiceToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2451,
+        2465
+      ],
+      "summary": "将Chat Completions工具选择策略转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatLegacyFunctionCallToResponsesToolChoice",
+      "type": "function",
+      "name": "chatLegacyFunctionCallToResponsesToolChoice",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2467,
+        2483
+      ],
+      "summary": "将Chat Completions旧版函数调用转换为Responses工具选择策略，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapChatToResponsesTextFormat",
+      "type": "function",
+      "name": "mapChatToResponsesTextFormat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2485,
+        2506
+      ],
+      "summary": "映射Chat Completions目标Responses文本格式，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatMessagesToResponsesInput",
+      "type": "function",
+      "name": "chatMessagesToResponsesInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2508,
+        2529
+      ],
+      "summary": "将Chat Completions消息列表转换为Responses输入，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:addChatUserMessageToResponsesInput",
+      "type": "function",
+      "name": "addChatUserMessageToResponsesInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2541,
+        2558
+      ],
+      "summary": "添加Chat Completions用户消息目标Responses输入，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatContentPartToResponses",
+      "type": "function",
+      "name": "chatContentPartToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2560,
+        2586
+      ],
+      "summary": "将Chat Completions内容片段转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:addChatAssistantMessageToResponsesInput",
+      "type": "function",
+      "name": "addChatAssistantMessageToResponsesInput",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2597,
+        2619
+      ],
+      "summary": "添加Chat Completions助手消息目标Responses输入，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:assembleChatAssistantResponsesText",
+      "type": "function",
+      "name": "assembleChatAssistantResponsesText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2621,
+        2636
+      ],
+      "summary": "组装Chat Completions助手Responses文本，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesRequestToChat",
+      "type": "function",
+      "name": "responsesRequestToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2670,
+        2684
+      ],
+      "summary": "将Responses请求转换为Chat Completions，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatModelParameters",
+      "type": "function",
+      "name": "mapResponsesToChatModelParameters",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2695,
+        2706
+      ],
+      "summary": "映射Responses目标Chat Completions模型参数，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatTools",
+      "type": "function",
+      "name": "mapResponsesToChatTools",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2708,
+        2742
+      ],
+      "summary": "映射Responses目标Chat Completions工具定义，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatToolChoice",
+      "type": "function",
+      "name": "mapResponsesToChatToolChoice",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2744,
+        2765
+      ],
+      "summary": "映射Responses目标Chat Completions工具选择策略，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatResponseFormat",
+      "type": "function",
+      "name": "mapResponsesToChatResponseFormat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2774,
+        2790
+      ],
+      "summary": "映射Responses目标Chat Completions响应格式，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:assembleResponsesToChatMessages",
+      "type": "function",
+      "name": "assembleResponsesToChatMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2792,
+        2803
+      ],
+      "summary": "组装Responses目标Chat Completions消息列表，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesInputItemsToChatMessages",
+      "type": "function",
+      "name": "responsesInputItemsToChatMessages",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2805,
+        2864
+      ],
+      "summary": "将Responses输入条目列表转换为Chat Completions消息列表，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendResponsesMessageItemToChat",
+      "type": "function",
+      "name": "appendResponsesMessageItemToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2874,
+        2902
+      ],
+      "summary": "追加Responses消息条目目标Chat Completions，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesUserPartsToChatParts",
+      "type": "function",
+      "name": "responsesUserPartsToChatParts",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2914,
+        2960
+      ],
+      "summary": "将Responses用户片段列表转换为Chat Completions片段列表，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:extractResponsesReasoningText",
+      "type": "function",
+      "name": "extractResponsesReasoningText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2962,
+        2979
+      ],
+      "summary": "提取Responses推理文本，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendResponsesFunctionCallToChat",
+      "type": "function",
+      "name": "appendResponsesFunctionCallToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        2981,
+        3028
+      ],
+      "summary": "追加Responses函数调用目标Chat Completions，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:isValidFunctionCallArguments",
+      "type": "function",
+      "name": "isValidFunctionCallArguments",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3030,
+        3040
+      ],
+      "summary": "判断有效函数调用参数，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendResponsesFunctionCallOutputToChat",
+      "type": "function",
+      "name": "appendResponsesFunctionCallOutputToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3042,
+        3054
+      ],
+      "summary": "追加Responses函数调用输出目标Chat Completions，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesFunctionCallOutputText",
+      "type": "function",
+      "name": "responsesFunctionCallOutputText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3056,
+        3067
+      ],
+      "summary": "提供Responses函数调用输出文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseToChat",
+      "type": "function",
+      "name": "claudeResponseToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3073,
+        3117
+      ],
+      "summary": "将Claude响应转换为Chat Completions，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseToResponses",
+      "type": "function",
+      "name": "claudeResponseToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3119,
+        3209
+      ],
+      "summary": "将Claude响应转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:flushClaudeResponseMessage",
+      "type": "function",
+      "name": "flushClaudeResponseMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3211,
+        3229
+      ],
+      "summary": "输出并清空Claude响应消息，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseThinkingToResponses",
+      "type": "function",
+      "name": "claudeResponseThinkingToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3231,
+        3280
+      ],
+      "summary": "将Claude响应思考状态转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseCompactionToResponses",
+      "type": "function",
+      "name": "claudeResponseCompactionToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3282,
+        3302
+      ],
+      "summary": "将Claude响应上下文压缩转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeContainerToResponsesConversation",
+      "type": "function",
+      "name": "claudeContainerToResponsesConversation",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3304,
+        3317
+      ],
+      "summary": "将Claude容器转换为Responses会话，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:toResponsesResponseId",
+      "type": "function",
+      "name": "toResponsesResponseId",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3319,
+        3330
+      ],
+      "summary": "转换为Responses响应标识，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesOutputText",
+      "type": "function",
+      "name": "responsesOutputText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3340,
+        3355
+      ],
+      "summary": "提供Responses输出文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:applyClaudeStopReasonToResponses",
+      "type": "function",
+      "name": "applyClaudeStopReasonToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3357,
+        3371
+      ],
+      "summary": "应用Claude终止原因目标Responses，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatResponseToClaude",
+      "type": "function",
+      "name": "chatResponseToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3381,
+        3449
+      ],
+      "summary": "将Chat Completions响应转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatResponseContentText",
+      "type": "function",
+      "name": "chatResponseContentText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3451,
+        3477
+      ],
+      "summary": "提供Chat Completions响应内容文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatResponseToResponses",
+      "type": "function",
+      "name": "chatResponseToResponses",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3489,
+        3568
+      ],
+      "summary": "将Chat Completions响应转换为Responses，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesResponseToChat",
+      "type": "function",
+      "name": "responsesResponseToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3570,
+        3665
+      ],
+      "summary": "将 Responses 输出条目聚合为 Chat 助手消息，映射工具调用、推理、结束原因与用量。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesFinishReasonToChat",
+      "type": "function",
+      "name": "responsesFinishReasonToChat",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3667,
+        3678
+      ],
+      "summary": "将Responses完成原因转换为Chat Completions，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesToolOutputText",
+      "type": "function",
+      "name": "responsesToolOutputText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3680,
+        3692
+      ],
+      "summary": "提供Responses工具输出文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesResponseToClaude",
+      "type": "function",
+      "name": "responsesResponseToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3694,
+        3728
+      ],
+      "summary": "将Responses响应转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesCompactionVisibleText",
+      "type": "function",
+      "name": "responsesCompactionVisibleText",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3740,
+        3760
+      ],
+      "summary": "提供Responses上下文压缩可见文本，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesOutputToClaudeContent",
+      "type": "function",
+      "name": "responsesOutputToClaudeContent",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3762,
+        3828
+      ],
+      "summary": "将Responses输出转换为Claude内容，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesReasoningToClaude",
+      "type": "function",
+      "name": "responsesReasoningToClaude",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3834,
+        3852
+      ],
+      "summary": "将Responses推理转换为Claude，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesProgramToClaudeServerTool",
+      "type": "function",
+      "name": "responsesProgramToClaudeServerTool",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3864,
+        3874
+      ],
+      "summary": "将Responses程序转换为Claude服务端工具，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesProgramOutputToClaudeResult",
+      "type": "function",
+      "name": "responsesProgramOutputToClaudeResult",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3876,
+        3890
+      ],
+      "summary": "将Responses程序输出转换为Claude结果，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesStopReason",
+      "type": "function",
+      "name": "responsesStopReason",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3892,
+        3921
+      ],
+      "summary": "提供Responses终止原因，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:throwIfResponsesFailed",
+      "type": "function",
+      "name": "throwIfResponsesFailed",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3923,
+        3933
+      ],
+      "summary": "抛出异常条件Responses失败，支撑通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:outputMessage",
+      "type": "function",
+      "name": "outputMessage",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "lineRange": [
+        3935,
+        3947
+      ],
+      "summary": "提供输出消息，用于通用协议请求与响应转换。",
+      "tags": [
+        "协议转换",
+        "消息映射",
+        "工具调用"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "type": "file",
+      "name": "OpenAIChatCompletionsUsageExtractor.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "summary": "从 Chat Completions 响应提取统一用量，拆分提示词令牌与缓存读取、写入令牌，并处理缺失统计。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:OpenAIChatCompletionsUsageExtractor",
+      "type": "class",
+      "name": "OpenAIChatCompletionsUsageExtractor",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "lineRange": [
+        8,
+        43
+      ],
+      "summary": "从 Chat Completions 响应提取统一用量，拆分提示词令牌与缓存读取、写入令牌，并处理缺失统计。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:protocol",
+      "type": "function",
+      "name": "protocol",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "lineRange": [
+        11,
+        14
+      ],
+      "summary": "提供协议，用于Chat Completions 用量归一化。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:extract",
+      "type": "function",
+      "name": "extract",
+      "filePath": "backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "lineRange": [
+        16,
+        23
+      ],
+      "summary": "从 Chat Completions 响应提取统一用量，拆分提示词令牌与缓存读取、写入令牌，并处理缺失统计。",
+      "tags": [
+        "用量统计",
+        "缓存令牌",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:ConversationEffortBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:resolveClaudeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:resolveResponsesReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:hasNewUserInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:validateFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java:ConverterFieldMappingDescriptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java:detailedMapping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:DefaultProtocolConversionServiceAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:DefaultProtocolConversionServiceAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:registeredConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:extractUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRoute.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/service/DefaultProtocolConversionService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:GenericProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:GenericProtocolMessageConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:supports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:supports",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeRequestToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeToChatModelParameters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeToChatTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeToChatOutputFormat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:assembleClaudeToChatMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeSystemToChatText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatReasoningEffort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolsToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeServiceTierToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolChoiceToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeMessagesToChatMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertAssistantMessageToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertUserMessageToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendChatDocumentPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:extractToolResultContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:extractToolResultImages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeImageSourceToChatImageUrl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeChatToolHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolUseToChatFunctionCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeRequestToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:validateClaudeResponsesRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapClaudeServiceTierToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeSystemToResponsesInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeMessagesToResponsesInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:restoreToolOutputNamespaces",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertToolUseBlockToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertToolResultBlockToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:convertThinkingBlockToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsClaudeCompactionState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsClaudeToolUse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:collectClaudeToolCallers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:flushResponsesMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:addClaudeTextPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:applyResponsesCacheBreakpoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:applyTopLevelCacheControl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:lastResponsesCacheablePart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:validateClaudeCacheControl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsResponsesCacheBreakpoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsResponsesCacheBreakpointPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesPromptCacheKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:firstClaudeUserContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeThinkingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeCompactionToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolResultToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolResultOutputToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeProgrammaticToolResultToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolChoiceToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesReasoningConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsResponsesReasoningState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:reasoningEffortFromBudget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolsToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapWebSearchToolToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapCodeExecutionToolToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapCustomToolToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeToolInputSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapMcpServerToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mcpDeferred",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mcpAllowedTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:ensureResponseTextFormat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesContextManagement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:isReasoningModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatRequestToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolDefinitionsToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeChatToolParameters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolChoiceToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:normalizeClaudeToolHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendNormalizedClaudeAssistant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendClaudeMessageWithoutToolResults",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mergeConsecutiveClaudeMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatContentToSystemText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatMessageContentToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolMessageToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatContentBlocksToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatImageUrlToClaudeImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatFunctionCallToClaudeToolUse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatRequestToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapChatToResponsesModelParameters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapChatToResponsesTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatFunctionDefinitionToResponsesTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatToolChoiceToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatLegacyFunctionCallToResponsesToolChoice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapChatToResponsesTextFormat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatMessagesToResponsesInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:addChatUserMessageToResponsesInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatContentPartToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:addChatAssistantMessageToResponsesInput",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:assembleChatAssistantResponsesText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesRequestToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatModelParameters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatTools",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatToolChoice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapResponsesToChatResponseFormat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:assembleResponsesToChatMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesInputItemsToChatMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendResponsesMessageItemToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesUserPartsToChatParts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:extractResponsesReasoningText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendResponsesFunctionCallToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:isValidFunctionCallArguments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendResponsesFunctionCallOutputToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesFunctionCallOutputText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:flushClaudeResponseMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseThinkingToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseCompactionToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeContainerToResponsesConversation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:toResponsesResponseId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesOutputText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:applyClaudeStopReasonToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatResponseToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatResponseContentText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:chatResponseToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesResponseToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesFinishReasonToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesToolOutputText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesResponseToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesCompactionVisibleText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesOutputToClaudeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesReasoningToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesProgramToClaudeServerTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesProgramOutputToClaudeResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesStopReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:throwIfResponsesFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:outputMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:OpenAIChatCompletionsUsageExtractor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:OpenAIChatCompletionsUsageExtractor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:protocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:protocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:extract",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:extract",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/ConverterFieldMappingDescriptions.java:detailedMapping",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java:detailed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertRequest",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java:passthrough",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:convertResponse",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:extractUsage",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/DefaultProtocolConversionServiceAdapter.java:DefaultProtocolConversionServiceAdapter",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/service/DefaultProtocolConversionService.java:DefaultProtocolConversionService",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:appendChatDocumentPart",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeResponsesMediaMapper.java:toChatFilePart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeRequestToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ConversationEffortBridge.java:resolveClaudeRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:containsClaudeCompactionState",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decodeItem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeThinkingToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decodeItem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeThinkingToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolResultToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesToolCallBridge.java:toResponsesCallId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolResultToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toResponsesCaller",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolsToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:toNamespace",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeToolsToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeToolsetBridge.java:validateNamespaceNames",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:mapCustomToolToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toResponsesAllowedCallers",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseThinkingToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:encode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseThinkingToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decodeItem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:claudeResponseThinkingToResponses",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:decode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesOutputToClaudeContent",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesProgrammaticToolBridge.java:toClaudeCaller",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesReasoningToClaude",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ClaudeThinkingStateBridge.java:decode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/GenericProtocolMessageConverter.java:responsesReasoningToClaude",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ResponsesReasoningBridge.java:encode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:extract",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/protocol/OpenAIChatCompletionsUsageExtractor.java:OpenAIChatCompletionsUsageExtractor",
+      "target": "class:backend/src/main/java/com/api2api/infr/protocol/UnifiedUsageExtractor.java:UnifiedUsageExtractor",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

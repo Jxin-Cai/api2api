@@ -1,0 +1,1330 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "type": "file",
+      "name": "AnalyticsGranularity.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "summary": "定义统计分桶粒度及对应持续时长，供令牌趋势聚合选择时间桶。",
+      "tags": [
+        "统计粒度",
+        "时间分桶",
+        "枚举类型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:AnalyticsGranularity",
+      "type": "class",
+      "name": "AnalyticsGranularity",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "summary": "定义统计分桶粒度及对应持续时长，供令牌趋势聚合选择时间桶。",
+      "tags": [
+        "统计粒度",
+        "时间分桶",
+        "枚举类型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        20
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:requireSupported",
+      "type": "function",
+      "name": "requireSupported",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "summary": "校验统计粒度属于允许集合，不支持时拒绝查询。",
+      "tags": [
+        "业务方法",
+        "统计粒度",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        15
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:isDaily",
+      "type": "function",
+      "name": "isDaily",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "summary": "判断统计粒度是否为按日聚合。",
+      "tags": [
+        "业务方法",
+        "统计粒度",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        19
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "file",
+      "name": "AnalyticsTimeWindow.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "以起始时刻、结束时刻与时区定义有效统计窗口，校验时间边界并提供持续时间计算。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:AnalyticsTimeWindow",
+      "type": "class",
+      "name": "AnalyticsTimeWindow",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "以起始时刻、结束时刻与时区定义有效统计窗口，校验时间边界并提供持续时间计算。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        10,
+        91
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:AnalyticsTimeWindow",
+      "type": "function",
+      "name": "AnalyticsTimeWindow",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "初始化 AnalyticsTimeWindow，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        16,
+        30
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "AnalyticsTimeWindow 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        32,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:contains",
+      "type": "function",
+      "name": "contains",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "判断给定时刻是否位于起点包含、终点不包含的统计区间内。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        39
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:durationMinutes",
+      "type": "function",
+      "name": "durationMinutes",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "将时间窗口持续时长换算为分钟。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        41,
+        44
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:durationMinutesExact",
+      "type": "function",
+      "name": "durationMinutesExact",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "summary": "以高精度计算窗口分钟数，供请求速率归一化。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        46,
+        48
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "type": "file",
+      "name": "ChannelLatencyRanking.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "表示渠道延迟排行项，保存渠道身份、请求量与延迟指标，支撑慢渠道排序展示。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:ChannelLatencyRanking",
+      "type": "class",
+      "name": "ChannelLatencyRanking",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "表示渠道延迟排行项，保存渠道身份、请求量与延迟指标，支撑慢渠道排序展示。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        10,
+        62
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getRank",
+      "type": "function",
+      "name": "getRank",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回渠道在慢渠道统计中的名次。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        35,
+        37
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getProviderChannelId",
+      "type": "function",
+      "name": "getProviderChannelId",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回统计项关联的上游渠道标识。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        39,
+        41
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getProviderChannelName",
+      "type": "function",
+      "name": "getProviderChannelName",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回统计项关联的上游渠道名称。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        43,
+        45
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getMaxDurationMillis",
+      "type": "function",
+      "name": "getMaxDurationMillis",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回该渠道请求的最大总耗时毫秒数。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        49
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getAvgDurationMillis",
+      "type": "function",
+      "name": "getAvgDurationMillis",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回该渠道请求的平均总耗时毫秒数。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        51,
+        53
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getMaxFirstTokenMillis",
+      "type": "function",
+      "name": "getMaxFirstTokenMillis",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回该渠道请求的最大首令牌延迟。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        55,
+        55
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getAvgFirstTokenMillis",
+      "type": "function",
+      "name": "getAvgFirstTokenMillis",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回该渠道请求的平均首令牌延迟。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        57,
+        57
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getRequestCount",
+      "type": "function",
+      "name": "getRequestCount",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "summary": "返回统计窗口内的请求数量。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        59,
+        61
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "type": "file",
+      "name": "ChannelTokenTrendPoint.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "summary": "封装时间桶内单一渠道的令牌消耗，关联渠道标识、名称与桶起止时刻。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:ChannelTokenTrendPoint",
+      "type": "class",
+      "name": "ChannelTokenTrendPoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "summary": "封装时间桶内单一渠道的令牌消耗，关联渠道标识、名称与桶起止时刻。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        11,
+        105
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:ChannelTokenTrendPoint",
+      "type": "function",
+      "name": "ChannelTokenTrendPoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "summary": "初始化 ChannelTokenTrendPoint，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "summary": "ChannelTokenTrendPoint 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        44
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "type": "file",
+      "name": "ConcurrencyTrendPoint.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "summary": "表示一个时间桶的并发统计点，用于运维和管理员仪表盘展示并发变化。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:ConcurrencyTrendPoint",
+      "type": "class",
+      "name": "ConcurrencyTrendPoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "summary": "表示一个时间桶的并发统计点，用于运维和管理员仪表盘展示并发变化。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        33
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getBucketStart",
+      "type": "function",
+      "name": "getBucketStart",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "summary": "返回统计时间桶的起始时刻。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        24
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getBucketEnd",
+      "type": "function",
+      "name": "getBucketEnd",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "summary": "返回统计时间桶的结束时刻。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        26,
+        28
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getPeakConcurrency",
+      "type": "function",
+      "name": "getPeakConcurrency",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "summary": "返回当前时间桶的峰值并发数。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        30,
+        32
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "type": "file",
+      "name": "CredentialConcurrencyTrendPoint.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "表示指定密钥在时间桶内的并发统计点，携带密钥身份与名称。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:CredentialConcurrencyTrendPoint",
+      "type": "class",
+      "name": "CredentialConcurrencyTrendPoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "表示指定密钥在时间桶内的并发统计点，携带密钥身份与名称。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        51
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getBucketStart",
+      "type": "function",
+      "name": "getBucketStart",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "返回统计时间桶的起始时刻。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        32,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getBucketEnd",
+      "type": "function",
+      "name": "getBucketEnd",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "返回统计时间桶的结束时刻。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        38
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getCredentialId",
+      "type": "function",
+      "name": "getCredentialId",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "返回并发统计所对应的密钥标识。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getCredentialName",
+      "type": "function",
+      "name": "getCredentialName",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "返回并发统计所对应的密钥名称。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getPeakConcurrency",
+      "type": "function",
+      "name": "getPeakConcurrency",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "summary": "返回当前时间桶的峰值并发数。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        48,
+        50
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "type": "file",
+      "name": "CredentialTokenRanking.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "summary": "封装密钥令牌消耗排行项，并定义令牌降序、密钥标识升序的稳定比较规则。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:CredentialTokenRanking",
+      "type": "class",
+      "name": "CredentialTokenRanking",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "summary": "封装密钥令牌消耗排行项，并定义令牌降序、密钥标识升序的稳定比较规则。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        11,
+        96
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:CredentialTokenRanking",
+      "type": "function",
+      "name": "CredentialTokenRanking",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "summary": "初始化 CredentialTokenRanking，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        35
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "summary": "CredentialTokenRanking 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        37,
+        44
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "type": "file",
+      "name": "CredentialTokenTrendPoint.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "summary": "封装指定密钥在时间桶内的令牌消耗趋势，保留密钥身份、名称与桶边界。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:CredentialTokenTrendPoint",
+      "type": "class",
+      "name": "CredentialTokenTrendPoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "summary": "封装指定密钥在时间桶内的令牌消耗趋势，保留密钥身份、名称与桶边界。",
+      "tags": [
+        "领域模型",
+        "数据封装",
+        "不可变对象"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        11,
+        114
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:CredentialTokenTrendPoint",
+      "type": "function",
+      "name": "CredentialTokenTrendPoint",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "summary": "初始化 CredentialTokenTrendPoint，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "summary": "CredentialTokenTrendPoint 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        44
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:zero",
+      "type": "function",
+      "name": "zero",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "summary": "为指定密钥与时间桶创建零令牌趋势点。",
+      "tags": [
+        "业务方法",
+        "领域模型",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        46,
+        53
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:AnalyticsGranularity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:AnalyticsGranularity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:requireSupported",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:requireSupported",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:isDaily",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:isDaily",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:AnalyticsTimeWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:AnalyticsTimeWindow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:AnalyticsTimeWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:contains",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:contains",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:durationMinutes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:durationMinutes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:durationMinutesExact",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java:durationMinutesExact",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:ChannelLatencyRanking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:ChannelLatencyRanking",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getRank",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getRank",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getProviderChannelId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getProviderChannelId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getProviderChannelName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getProviderChannelName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getMaxDurationMillis",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getMaxDurationMillis",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getAvgDurationMillis",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getAvgDurationMillis",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getMaxFirstTokenMillis",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getMaxFirstTokenMillis",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getAvgFirstTokenMillis",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getAvgFirstTokenMillis",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getRequestCount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java:getRequestCount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:ChannelTokenTrendPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:ChannelTokenTrendPoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:ChannelTokenTrendPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:ConcurrencyTrendPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:ConcurrencyTrendPoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getBucketStart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getBucketStart",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getBucketEnd",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getBucketEnd",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getPeakConcurrency",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java:getPeakConcurrency",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:CredentialConcurrencyTrendPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:CredentialConcurrencyTrendPoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getBucketStart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getBucketStart",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getBucketEnd",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getBucketEnd",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getCredentialId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getCredentialId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getCredentialName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getCredentialName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getPeakConcurrency",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java:getPeakConcurrency",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:CredentialTokenRanking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:CredentialTokenRanking",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:CredentialTokenRanking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:CredentialTokenTrendPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:CredentialTokenTrendPoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:CredentialTokenTrendPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:zero",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:zero",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

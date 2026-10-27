@@ -1,0 +1,12 @@
+{
+"protocolConversionApi.ts":{"summary":"封装协议转换定义列表、详情和状态维护的 HTTP 请求，供转换能力管理页面使用。","tags":["api-客户端","协议转换","管理接口"]},
+"mappingView.ts":{"summary":"将协议字段映射文档转换为语义分组、覆盖度及保真度视图，解析数组与通配符路径，并推断缺少显式标注的映射类型。","tags":["视图转换","字段映射","路径解析"],"functions":{"parseFieldPath":"把字段路径解析为属性、数组、选择器与通配符片段。","parsePathPart":"拆分单层路径中的数组或选择器语法，保留未匹配部分作为属性片段。","getLossinessMeta":"根据映射损失程度返回显示元数据，未知值使用通用回退。","inferMappingViewType":"优先采用显式映射类型，结合路径、目标字段和损失标注推断重命名、重塑、默认或未映射类型。","getMappingCoverageStatus":"结合目标字段是否有效及损失程度确定完整、部分或未覆盖状态。","buildMappingView":"把字段映射归入语义组并计算已覆盖、部分和未覆盖数量，按关注程度排序。","inferSemanticGroup":"优先按显式类别归组，再依据路径关键词识别语义类别，无法识别时归入其他。","normalizeMappingType":"把后端映射类型规范化为前端支持的显示类别。","groupFromCategory":"将显式字段类别映射为预定义语义分组。","sortGroups":"优先排列未映射项较多的组，再按覆盖比例、损失数量与标题排序。","isLikelyRename":"根据路径末段名称差异与深度接近程度推断字段重命名。"}},
+"types.ts":{"summary":"定义协议转换列表与详情、转换能力、映射文档和字段映射 HTTP 类型，包含实现状态、映射类别及有损程度。","tags":["类型定义","协议转换","字段映射"]},
+"useProtocolConversions.ts":{"summary":"通过 React Query 查询转换列表和按标识查询详情，统一查询键与列表失效入口，并在标识为空时禁用详情请求。","tags":["react-hook","协议转换","查询缓存"]},
+"CapabilityTags.tsx":{"summary":"根据协议能力元数据渲染流式、工具、推理等能力与内容类型标签，紧凑模式省略不支持的能力。","tags":["react-组件","转换能力","标签"]},
+"FieldMappingHierarchy.tsx":{"summary":"以层级分组展示字段映射，汇总覆盖数量并用路径、映射类型、损失标签和说明展示单行转换语义。","tags":["react-组件","字段映射","层级视图"]},
+"FieldMappingTable.tsx":{"summary":"通过表格展示源目标字段、映射类型和损失程度，提供骨架加载态及映射摘要。","tags":["react-组件","字段映射","表格"]},
+"FieldPathText.tsx":{"summary":"把协议字段路径渲染为可复制的分段文本，为数组、通配符和选择器提供可读说明并可显示层级深度。","tags":["react-组件","路径展示","可复制文本"]},
+"MappingTypeTag.tsx":{"summary":"读取映射类型元数据并渲染对应颜色和文案的标签。","tags":["react-组件","映射类型","标签"]},
+"ProtocolConversionRow.tsx":{"summary":"展示协议转换方向、定义类型、启用与实现状态及紧凑能力标签，支持选中背景与自定义操作区。","tags":["react-组件","协议转换","列表项"]}
+}

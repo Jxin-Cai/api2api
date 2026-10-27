@@ -1,0 +1,1929 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 19,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 19,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 19,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "UserAccountMapper",
+          "startLine": 10,
+          "endLine": 21,
+          "methods": [
+            "insert",
+            "update",
+            "selectById",
+            "selectByUsername",
+            "selectAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountMapper",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "classes": [
+        {
+          "name": "UserAccountPO",
+          "startLine": 12,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status",
+            "passwordHash",
+            "createdTime",
+            "updatedTime",
+            "deleted"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountPO",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/security/BCryptPasswordHasher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "hash",
+          "startLine": 14,
+          "endLine": 18,
+          "params": [
+            "rawPassword"
+          ]
+        },
+        {
+          "name": "matches",
+          "startLine": 20,
+          "endLine": 27,
+          "params": [
+            "rawPassword",
+            "passwordHash"
+          ]
+        },
+        {
+          "name": "requireRawPassword",
+          "startLine": 29,
+          "endLine": 35,
+          "params": [
+            "rawPassword"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BCryptPasswordHasher",
+          "startLine": 9,
+          "endLine": 36,
+          "methods": [
+            "hash",
+            "matches",
+            "requireRawPassword"
+          ],
+          "properties": [
+            "encoder"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "hash",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "matches",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "BCryptPasswordHasher",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "hash",
+          "callee": "requireRawPassword",
+          "lineNumber": 16
+        },
+        {
+          "caller": "hash",
+          "callee": "PasswordHash.of",
+          "lineNumber": 17
+        },
+        {
+          "caller": "hash",
+          "callee": "encoder.encode",
+          "lineNumber": 17
+        },
+        {
+          "caller": "matches",
+          "callee": "requireRawPassword",
+          "lineNumber": 25
+        },
+        {
+          "caller": "matches",
+          "callee": "encoder.matches",
+          "lineNumber": 26
+        },
+        {
+          "caller": "matches",
+          "callee": "passwordHash.getValue",
+          "lineNumber": 26
+        },
+        {
+          "caller": "requireRawPassword",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "requireRawPassword",
+          "callee": "requiredPassword.isBlank",
+          "lineNumber": 31
+        },
+        {
+          "caller": "requireRawPassword",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/AdminUserController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 137,
+      "nonEmptyLines": 124,
+      "functions": [
+        {
+          "name": "listUsers",
+          "startLine": 53,
+          "endLine": 59,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "getUser",
+          "startLine": 61,
+          "endLine": 69,
+          "params": [
+            "userId",
+            "request"
+          ]
+        },
+        {
+          "name": "createUser",
+          "startLine": 71,
+          "endLine": 82,
+          "params": [
+            "createRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "changeDisplayName",
+          "startLine": 84,
+          "endLine": 96,
+          "params": [
+            "userId",
+            "changeRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "changeRole",
+          "startLine": 98,
+          "endLine": 110,
+          "params": [
+            "userId",
+            "changeRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "disableUser",
+          "startLine": 112,
+          "endLine": 123,
+          "params": [
+            "userId",
+            "request"
+          ]
+        },
+        {
+          "name": "enableUser",
+          "startLine": 125,
+          "endLine": 136,
+          "params": [
+            "userId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AdminUserController",
+          "startLine": 35,
+          "endLine": 137,
+          "methods": [
+            "listUsers",
+            "getUser",
+            "createUser",
+            "changeDisplayName",
+            "changeRole",
+            "disableUser",
+            "enableUser"
+          ],
+          "properties": [
+            "userAccountApplicationService",
+            "adminUserHttpConverter",
+            "currentUserContextResolver",
+            "identifierFactory"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listUsers",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "getUser",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "createUser",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "changeDisplayName",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "changeRole",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "disableUser",
+          "line": 112,
+          "isDefault": false
+        },
+        {
+          "name": "enableUser",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "AdminUserController",
+          "line": 35,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listUsers",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 55
+        },
+        {
+          "caller": "listUsers",
+          "callee": "ApiResponse.success",
+          "lineNumber": 56
+        },
+        {
+          "caller": "listUsers",
+          "callee": "adminUserHttpConverter.toListResponse",
+          "lineNumber": 56
+        },
+        {
+          "caller": "listUsers",
+          "callee": "userAccountApplicationService.listUsers",
+          "lineNumber": 57
+        },
+        {
+          "caller": "getUser",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "getUser",
+          "callee": "userAccountApplicationService.getUser",
+          "lineNumber": 67
+        },
+        {
+          "caller": "getUser",
+          "callee": "UserAccountId.of",
+          "lineNumber": 67
+        },
+        {
+          "caller": "getUser",
+          "callee": "ApiResponse.success",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getUser",
+          "callee": "adminUserHttpConverter.toUserAccountResponse",
+          "lineNumber": 68
+        },
+        {
+          "caller": "createUser",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 76
+        },
+        {
+          "caller": "createUser",
+          "callee": "identifierFactory.newUserAccountId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "createUser",
+          "callee": "adminUserHttpConverter.toCreateUserCommand",
+          "lineNumber": 78
+        },
+        {
+          "caller": "createUser",
+          "callee": "userAccountApplicationService.createUser",
+          "lineNumber": 80
+        },
+        {
+          "caller": "createUser",
+          "callee": "ApiResponse.success",
+          "lineNumber": 81
+        },
+        {
+          "caller": "createUser",
+          "callee": "adminUserHttpConverter.toUserAccountResponse",
+          "lineNumber": 81
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "UserAccountId.of",
+          "lineNumber": 91
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "adminUserHttpConverter.toChangeDisplayNameCommand",
+          "lineNumber": 92
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "userAccountApplicationService.changeDisplayName",
+          "lineNumber": 94
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "ApiResponse.success",
+          "lineNumber": 95
+        },
+        {
+          "caller": "changeDisplayName",
+          "callee": "adminUserHttpConverter.toUserAccountResponse",
+          "lineNumber": 95
+        },
+        {
+          "caller": "changeRole",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 104
+        },
+        {
+          "caller": "changeRole",
+          "callee": "UserAccountId.of",
+          "lineNumber": 105
+        },
+        {
+          "caller": "changeRole",
+          "callee": "adminUserHttpConverter.toChangeRoleCommand",
+          "lineNumber": 106
+        },
+        {
+          "caller": "changeRole",
+          "callee": "userAccountApplicationService.changeRole",
+          "lineNumber": 108
+        },
+        {
+          "caller": "changeRole",
+          "callee": "ApiResponse.success",
+          "lineNumber": 109
+        },
+        {
+          "caller": "changeRole",
+          "callee": "adminUserHttpConverter.toUserAccountResponse",
+          "lineNumber": 109
+        },
+        {
+          "caller": "disableUser",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 117
+        },
+        {
+          "caller": "disableUser",
+          "callee": "UserAccountId.of",
+          "lineNumber": 118
+        },
+        {
+          "caller": "disableUser",
+          "callee": "adminUserHttpConverter.toChangeUserStatusCommand",
+          "lineNumber": 119
+        },
+        {
+          "caller": "disableUser",
+          "callee": "userAccountApplicationService.disableUser",
+          "lineNumber": 121
+        },
+        {
+          "caller": "disableUser",
+          "callee": "ApiResponse.success",
+          "lineNumber": 122
+        },
+        {
+          "caller": "disableUser",
+          "callee": "adminUserHttpConverter.toUserAccountResponse",
+          "lineNumber": 122
+        },
+        {
+          "caller": "enableUser",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 130
+        },
+        {
+          "caller": "enableUser",
+          "callee": "UserAccountId.of",
+          "lineNumber": 131
+        },
+        {
+          "caller": "enableUser",
+          "callee": "adminUserHttpConverter.toChangeUserStatusCommand",
+          "lineNumber": 132
+        },
+        {
+          "caller": "enableUser",
+          "callee": "userAccountApplicationService.enableUser",
+          "lineNumber": 134
+        },
+        {
+          "caller": "enableUser",
+          "callee": "ApiResponse.success",
+          "lineNumber": 135
+        },
+        {
+          "caller": "enableUser",
+          "callee": "adminUserHttpConverter.toUserAccountResponse",
+          "lineNumber": 135
+        }
+      ],
+      "metrics": {
+        "importCount": 16,
+        "exportCount": 8,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/converter/AdminUserHttpConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 67,
+      "classes": [
+        {
+          "name": "AdminUserHttpConverter",
+          "startLine": 24,
+          "endLine": 77,
+          "methods": [
+            "toCreateUserCommand",
+            "toChangeDisplayNameCommand",
+            "toChangeRoleCommand",
+            "toChangeUserStatusCommand",
+            "toUserAccountResponse",
+            "toListResponse",
+            "toUsername",
+            "toDisplayName"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminUserHttpConverter",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toListResponse",
+          "callee": "UserAccountListResponse.builder()\n                .users(userAccounts.stream().map(this::toUserAccountResponse).toList()).build",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "UserAccountListResponse.builder().users",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "UserAccountListResponse.builder",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "userAccounts.stream().map(this::toUserAccountResponse).toList",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "userAccounts.stream().map",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toListResponse",
+          "callee": "userAccounts.stream",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toUsername",
+          "callee": "Username.of",
+          "lineNumber": 71
+        },
+        {
+          "caller": "toDisplayName",
+          "callee": "DisplayName.of",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 14,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserDisplayNameRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "AdminChangeUserDisplayNameRequest",
+          "startLine": 11,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "displayName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminChangeUserDisplayNameRequest",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminChangeUserRoleRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "AdminChangeUserRoleRequest",
+          "startLine": 12,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "newRole"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminChangeUserRoleRequest",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateUserRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "AdminCreateUserRequest",
+          "startLine": 14,
+          "endLine": 31,
+          "methods": [],
+          "properties": [
+            "username",
+            "displayName",
+            "password",
+            "role"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminCreateUserRequest",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "UserAccountListResponse",
+          "startLine": 12,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "users"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountListResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/dto/UserAccountResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 24,
+      "classes": [
+        {
+          "name": "UserAccountResponse",
+          "startLine": 15,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountResponse",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "login",
+          "startLine": 45,
+          "endLine": 51,
+          "params": [
+            "loginRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "logout",
+          "startLine": 53,
+          "endLine": 57,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "getCurrentUser",
+          "startLine": 59,
+          "endLine": 64,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "updateCurrentUserProfile",
+          "startLine": 66,
+          "endLine": 78,
+          "params": [
+            "updateRequest",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AuthController",
+          "startLine": 30,
+          "endLine": 79,
+          "methods": [
+            "login",
+            "logout",
+            "getCurrentUser",
+            "updateCurrentUserProfile"
+          ],
+          "properties": [
+            "userAccountApplicationService",
+            "authHttpConverter",
+            "currentUserContextResolver"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "login",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "logout",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "getCurrentUser",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "updateCurrentUserProfile",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "AuthController",
+          "line": 30,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "login",
+          "callee": "authHttpConverter.toLoginCommand",
+          "lineNumber": 47
+        },
+        {
+          "caller": "login",
+          "callee": "userAccountApplicationService.login",
+          "lineNumber": 48
+        },
+        {
+          "caller": "login",
+          "callee": "currentUserContextResolver.bindCurrentUser",
+          "lineNumber": 49
+        },
+        {
+          "caller": "login",
+          "callee": "userAccount.getId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "login",
+          "callee": "ApiResponse.success",
+          "lineNumber": 50
+        },
+        {
+          "caller": "login",
+          "callee": "authHttpConverter.toLoginResponse",
+          "lineNumber": 50
+        },
+        {
+          "caller": "logout",
+          "callee": "currentUserContextResolver.clearCurrentUser",
+          "lineNumber": 55
+        },
+        {
+          "caller": "logout",
+          "callee": "ApiResponse.success",
+          "lineNumber": 56
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "userAccountApplicationService.getCurrentUser",
+          "lineNumber": 62
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "ApiResponse.success",
+          "lineNumber": 63
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "authHttpConverter.toCurrentUserResponse",
+          "lineNumber": 63
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 71
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "authHttpConverter.toUpdateCurrentUserProfileCommand",
+          "lineNumber": 72
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "userAccountApplicationService.updateCurrentUserProfile",
+          "lineNumber": 76
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "ApiResponse.success",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "authHttpConverter.toCurrentUserResponse",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 12,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 42,
+      "classes": [
+        {
+          "name": "AuthHttpConverter",
+          "startLine": 20,
+          "endLine": 50,
+          "methods": [
+            "toLoginCommand",
+            "toUpdateCurrentUserProfileCommand",
+            "toLoginResponse",
+            "toCurrentUserResponse",
+            "toUsername",
+            "toDisplayName"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthHttpConverter",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toUsername",
+          "callee": "Username.of",
+          "lineNumber": 44
+        },
+        {
+          "caller": "toDisplayName",
+          "callee": "DisplayName.of",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 11,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "CurrentUserResponse",
+          "startLine": 10,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CurrentUserResponse",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "LoginRequest",
+          "startLine": 11,
+          "endLine": 22,
+          "methods": [],
+          "properties": [
+            "username",
+            "password"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoginRequest",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "LoginResponse",
+          "startLine": 9,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "currentUserId",
+            "id",
+            "username",
+            "displayName",
+            "role",
+            "status"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoginResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "UpdateCurrentUserProfileRequest",
+          "startLine": 11,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "displayName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpdateCurrentUserProfileRequest",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "MapStructConfig",
+          "startLine": 11,
+          "endLine": 17,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MapStructConfig",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 106,
+      "nonEmptyLines": 99,
+      "functions": [
+        {
+          "name": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "startLine": 43,
+          "endLine": 105,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UsageQueryApplicationServiceTest",
+          "startLine": 38,
+          "endLine": 106,
+          "methods": [
+            "test_exposes_api_credential_name_when_querying_my_usage_records"
+          ],
+          "properties": [
+            "STARTED_AT",
+            "ENDED_AT"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "mock",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "mock",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "mock",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "mock",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "new UsageQueryApplicationService",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UserAccountId.of",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UserAccount.rehydrate",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "Username.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "DisplayName.of",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "mock",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))\n                .streaming(false)\n                .startedAt(STARTED_AT)\n                .endedAt(ENDED_AT)\n                .duration(UsageDuration.between(STARTED_AT, ENDED_AT))\n                .errorDiagnostic(null)\n                .createdAt(ENDED_AT).build",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))\n                .streaming(false)\n                .startedAt(STARTED_AT)\n                .endedAt(ENDED_AT)\n                .duration(UsageDuration.between(STARTED_AT, ENDED_AT))\n                .errorDiagnostic(null).createdAt",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))\n                .streaming(false)\n                .startedAt(STARTED_AT)\n                .endedAt(ENDED_AT)\n                .duration(UsageDuration.between(STARTED_AT, ENDED_AT)).errorDiagnostic",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))\n                .streaming(false)\n                .startedAt(STARTED_AT)\n                .endedAt(ENDED_AT).duration",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))\n                .streaming(false)\n                .startedAt(STARTED_AT).endedAt",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L))\n                .streaming(false).startedAt",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS)\n                .tokenUsage(UsageTokenBreakdown.known(10L, 20L, 0L, 0L)).streaming",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L))\n                .status(UsageRecordStatus.SUCCESS).tokenUsage",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .providerChannelId(ProviderChannelId.of(7L)).status",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES)\n                .upstreamProtocol(ProtocolType.CLAUDE_MESSAGES).providerChannelId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\"))\n                .requestProtocol(ProtocolType.CLAUDE_MESSAGES).upstreamProtocol",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L)\n                .upstreamModel(ModelName.of(\"claude-sonnet\")).requestProtocol",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\")\n                .firstTokenMillis(12L).upstreamModel",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\"))\n                .clientIp(\"127.0.0.1\").firstTokenMillis",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId)\n                .requestedModel(ModelName.of(\"claude-sonnet\")).clientIp",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId)\n                .apiCredentialId(credentialId).requestedModel",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\"))\n                .userAccountId(userId).apiCredentialId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L))\n                .requestId(GatewayRequestId.of(\"request-3\")).userAccountId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate()\n                .id(UsageRecordId.of(3L)).requestId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate().id",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecord.rehydrate",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageRecordId.of",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "GatewayRequestId.of",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "ModelName.of",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "ModelName.of",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "ProviderChannelId.of",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageDuration.between",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when(userAccountRepository.findById(userId)).thenReturn",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "Optional.of",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when(credential.getName()).thenReturn",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "credential.getName",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "ApiCredentialName.of",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when(apiCredentialRepository.findById(credentialId)).thenReturn",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "apiCredentialRepository.findById",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "Optional.of",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when(usageRecordRepository.query(any(), any())).thenReturn",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "when",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "usageRecordRepository.query",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "any",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "any",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "PagedUsageRecords.of",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "List.of",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "service.queryMyUsageRecords",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder()\n                .currentUserId(userId)\n                .startInclusive(STARTED_AT)\n                .endExclusive(ENDED_AT)\n                .page(1)\n                .size(50).build",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder()\n                .currentUserId(userId)\n                .startInclusive(STARTED_AT)\n                .endExclusive(ENDED_AT)\n                .page(1).size",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder()\n                .currentUserId(userId)\n                .startInclusive(STARTED_AT)\n                .endExclusive(ENDED_AT).page",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder()\n                .currentUserId(userId)\n                .startInclusive(STARTED_AT).endExclusive",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder()\n                .currentUserId(userId).startInclusive",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder().currentUserId",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "QueryMyUsageRecordsCommand.builder",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "assertThat(page.getRecords().get(0).getApiCredentialName()).isEqualTo",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "assertThat",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "page.getRecords().get(0).getApiCredentialName",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "page.getRecords().get",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_exposes_api_credential_name_when_querying_my_usage_records",
+          "callee": "page.getRecords",
+          "lineNumber": 104
+        }
+      ],
+      "metrics": {
+        "importCount": 25,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 89,
+      "nonEmptyLines": 75,
+      "functions": [
+        {
+          "name": "preservesExistingAdminPasswordHash",
+          "startLine": 31,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "initializesMissingAdminPasswordHashOnce",
+          "startLine": 52,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "adminWithPasswordHash",
+          "startLine": 77,
+          "endLine": 88,
+          "params": [
+            "passwordHash"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BootstrapAdminInitializerTest",
+          "startLine": 27,
+          "endLine": 89,
+          "methods": [
+            "preservesExistingAdminPasswordHash",
+            "initializesMissingAdminPasswordHashOnce",
+            "adminWithPasswordHash"
+          ],
+          "properties": [
+            "CLOCK"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "mock",
+          "lineNumber": 33
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "mock",
+          "lineNumber": 34
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "adminWithPasswordHash",
+          "lineNumber": 35
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "PasswordHash.of",
+          "lineNumber": 35
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "when(repository.findByUsername(Username.of(\"admin\"))).thenReturn",
+          "lineNumber": 36
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "when",
+          "lineNumber": 36
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "repository.findByUsername",
+          "lineNumber": 36
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "Username.of",
+          "lineNumber": 36
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "Optional.of",
+          "lineNumber": 36
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "new BootstrapAdminInitializer",
+          "lineNumber": 38
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "new BootstrapAdminProperties",
+          "lineNumber": 39
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "initializer.run",
+          "lineNumber": 45
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "verify(repository, never()).save",
+          "lineNumber": 47
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "verify",
+          "lineNumber": 47
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "never",
+          "lineNumber": 47
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "any",
+          "lineNumber": 47
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "verifyNoInteractions",
+          "lineNumber": 48
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "assertThat(existingAdmin.getPasswordHash()).isEqualTo",
+          "lineNumber": 49
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "assertThat",
+          "lineNumber": 49
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "existingAdmin.getPasswordHash",
+          "lineNumber": 49
+        },
+        {
+          "caller": "preservesExistingAdminPasswordHash",
+          "callee": "PasswordHash.of",
+          "lineNumber": 49
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "mock",
+          "lineNumber": 54
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "mock",
+          "lineNumber": 55
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "adminWithPasswordHash",
+          "lineNumber": 56
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "PasswordHash.of",
+          "lineNumber": 57
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "when(repository.findByUsername(Username.of(\"admin\"))).thenReturn",
+          "lineNumber": 58
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "when",
+          "lineNumber": 58
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "repository.findByUsername",
+          "lineNumber": 58
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "Username.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "Optional.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "when(passwordHasher.hash(\"admin123\")).thenReturn",
+          "lineNumber": 59
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "when",
+          "lineNumber": 59
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "passwordHasher.hash",
+          "lineNumber": 59
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "new BootstrapAdminInitializer",
+          "lineNumber": 61
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "new BootstrapAdminProperties",
+          "lineNumber": 62
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "initializer.run",
+          "lineNumber": 68
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 70
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "verify(repository).save",
+          "lineNumber": 71
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "verify",
+          "lineNumber": 71
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.capture",
+          "lineNumber": 71
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "assertThat(savedAdmin.getValue().getPasswordHash()).isEqualTo",
+          "lineNumber": 72
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "assertThat",
+          "lineNumber": 72
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.getValue().getPasswordHash",
+          "lineNumber": 72
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.getValue",
+          "lineNumber": 72
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "assertThat(savedAdmin.getValue().getRole()).isEqualTo",
+          "lineNumber": 73
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "assertThat",
+          "lineNumber": 73
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.getValue().getRole",
+          "lineNumber": 73
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.getValue",
+          "lineNumber": 73
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "assertThat(savedAdmin.getValue().getStatus()).isEqualTo",
+          "lineNumber": 74
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "assertThat",
+          "lineNumber": 74
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.getValue().getStatus",
+          "lineNumber": 74
+        },
+        {
+          "caller": "initializesMissingAdminPasswordHashOnce",
+          "callee": "savedAdmin.getValue",
+          "lineNumber": 74
+        },
+        {
+          "caller": "adminWithPasswordHash",
+          "callee": "UserAccount.rehydrate",
+          "lineNumber": 78
+        },
+        {
+          "caller": "adminWithPasswordHash",
+          "callee": "UserAccountId.of",
+          "lineNumber": 79
+        },
+        {
+          "caller": "adminWithPasswordHash",
+          "callee": "Username.of",
+          "lineNumber": 80
+        },
+        {
+          "caller": "adminWithPasswordHash",
+          "callee": "DisplayName.of",
+          "lineNumber": 81
+        },
+        {
+          "caller": "adminWithPasswordHash",
+          "callee": "Instant.parse",
+          "lineNumber": 85
+        },
+        {
+          "caller": "adminWithPasswordHash",
+          "callee": "Instant.parse",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    }
+  ]
+}

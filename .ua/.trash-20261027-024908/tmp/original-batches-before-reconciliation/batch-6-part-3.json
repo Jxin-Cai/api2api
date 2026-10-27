@@ -1,0 +1,1149 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "file",
+      "name": "InvocationError.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "summary": "封装调用错误类型、受长度限制的错误消息及候选失败列表，用于描述网关终止原因。",
+      "tags": [
+        "调用错误",
+        "消息规范化",
+        "失败追踪"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:InvocationError",
+      "type": "class",
+      "name": "InvocationError",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "summary": "封装调用错误类型、受长度限制的错误消息及候选失败列表，用于描述网关终止原因。",
+      "tags": [
+        "调用错误",
+        "消息规范化",
+        "失败追踪"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        10,
+        73
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "summary": "InvocationError 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "调用错误",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        27
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:withoutFailures",
+      "type": "function",
+      "name": "withoutFailures",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "summary": "创建不附带候选失败历史的调用错误。",
+      "tags": [
+        "业务方法",
+        "调用错误",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        29,
+        31
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:normalizeMessage",
+      "type": "function",
+      "name": "normalizeMessage",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "summary": "清理错误消息并限制长度，避免无界诊断内容进入领域对象。",
+      "tags": [
+        "业务方法",
+        "调用错误",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        33,
+        42
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "file",
+      "name": "InvocationErrorType.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "summary": "定义网关认证、路由、转换和上游失败等错误类别。",
+      "tags": [
+        "错误分类",
+        "枚举类型",
+        "网关模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java:InvocationErrorType",
+      "type": "class",
+      "name": "InvocationErrorType",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "summary": "定义网关认证、路由、转换和上游失败等错误类别。",
+      "tags": [
+        "错误分类",
+        "枚举类型",
+        "网关模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        6,
+        13
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "type": "file",
+      "name": "InvocationStatus.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "summary": "定义网关调用最终结果状态，区分成功和失败。",
+      "tags": [
+        "调用状态",
+        "枚举类型",
+        "网关模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java:InvocationStatus",
+      "type": "class",
+      "name": "InvocationStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "summary": "定义网关调用最终结果状态，区分成功和失败。",
+      "tags": [
+        "调用状态",
+        "枚举类型",
+        "网关模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        6,
+        9
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "type": "file",
+      "name": "DefaultGatewayInvocationService.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "实现网关调用领域服务，验证密钥可用性和额度，驱动认证、路由、转换记录及成功失败状态迁移。",
+      "tags": [
+        "领域服务",
+        "调用生命周期",
+        "凭据校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:DefaultGatewayInvocationService",
+      "type": "class",
+      "name": "DefaultGatewayInvocationService",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "实现网关调用领域服务，验证密钥可用性和额度，驱动认证、路由、转换记录及成功失败状态迁移。",
+      "tags": [
+        "领域服务",
+        "调用生命周期",
+        "凭据校验"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        15,
+        79
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:authenticate",
+      "type": "function",
+      "name": "authenticate",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "校验密钥状态、模型访问与额度，驱动调用进入已认证状态。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        30
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:route",
+      "type": "function",
+      "name": "route",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "将路由计划附加到已认证调用，驱动其进入可尝试候选状态。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        32,
+        37
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:recordConversion",
+      "type": "function",
+      "name": "recordConversion",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "按请求或响应方向记录转换结果，维护调用转换轨迹。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        39,
+        53
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeSuccess",
+      "type": "function",
+      "name": "completeSuccess",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "由候选和统一令牌用量构造成功结果，并完成调用。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        55,
+        66
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeFailure",
+      "type": "function",
+      "name": "completeFailure",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "summary": "由调用错误构造失败结果，并完成调用。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        68,
+        78
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "type": "file",
+      "name": "GatewayInvocationService.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "summary": "定义网关调用领域操作契约，将认证、路由、故障转移、转换记录和调用收尾与应用编排分离。",
+      "tags": [
+        "领域接口",
+        "调用生命周期",
+        "服务契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java:GatewayInvocationService",
+      "type": "class",
+      "name": "GatewayInvocationService",
+      "filePath": "backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "summary": "定义网关调用领域操作契约，将认证、路由、故障转移、转换记录和调用收尾与应用编排分离。",
+      "tags": [
+        "领域接口",
+        "调用生命周期",
+        "服务契约"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        49
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "type": "file",
+      "name": "ConversionKind.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "summary": "区分同协议透传与跨协议转换，并根据源协议与目标协议推导转换类别。",
+      "tags": [
+        "转换类别",
+        "枚举类型",
+        "协议适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:ConversionKind",
+      "type": "class",
+      "name": "ConversionKind",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "summary": "区分同协议透传与跨协议转换，并根据源协议与目标协议推导转换类别。",
+      "tags": [
+        "转换类别",
+        "枚举类型",
+        "协议适配"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        22
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "summary": "源目标协议相同时确定透传类别，否则确定跨协议转换类别。",
+      "tags": [
+        "业务方法",
+        "转换类别",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        17
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:matches",
+      "type": "function",
+      "name": "matches",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "summary": "判断当前转换类型是否与指定转换类别一致。",
+      "tags": [
+        "业务方法",
+        "转换类别",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        21
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "type": "file",
+      "name": "ConversionPayload.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "包装协议请求载荷，保留协议、响应体及流式属性并支持与基础载荷模型互转。",
+      "tags": [
+        "转换载荷",
+        "适配封装",
+        "协议模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:ConversionPayload",
+      "type": "class",
+      "name": "ConversionPayload",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "包装协议请求载荷，保留协议、响应体及流式属性并支持与基础载荷模型互转。",
+      "tags": [
+        "转换载荷",
+        "适配封装",
+        "协议模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        38
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "ConversionPayload 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "转换载荷",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        17
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "将基础协议载荷包装为兼容转换载荷。",
+      "tags": [
+        "业务方法",
+        "转换载荷",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        21
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:toProtocolPayload",
+      "type": "function",
+      "name": "toProtocolPayload",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "将兼容转换载荷还原为统一协议载荷。",
+      "tags": [
+        "业务方法",
+        "转换载荷",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        25
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:protocol",
+      "type": "function",
+      "name": "protocol",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "返回当前载荷所属的协议。",
+      "tags": [
+        "业务方法",
+        "转换载荷",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        27,
+        29
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:body",
+      "type": "function",
+      "name": "body",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "返回转换载荷或结果中的原始内容。",
+      "tags": [
+        "业务方法",
+        "转换载荷",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        33
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:streaming",
+      "type": "function",
+      "name": "streaming",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "summary": "返回协议载荷的流式标记。",
+      "tags": [
+        "业务方法",
+        "转换载荷",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        35,
+        37
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "type": "file",
+      "name": "ConversionRequirement.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "描述流式、工具调用与推理转换要求，携带路由上下文及去重后的实验特性标识。",
+      "tags": [
+        "转换需求",
+        "能力约束",
+        "路由上下文"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:ConversionRequirement",
+      "type": "class",
+      "name": "ConversionRequirement",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "描述流式、工具调用与推理转换要求，携带路由上下文及去重后的实验特性标识。",
+      "tags": [
+        "转换需求",
+        "能力约束",
+        "路由上下文"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        10,
+        81
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:ConversionRequirement",
+      "type": "function",
+      "name": "ConversionRequirement",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "初始化 ConversionRequirement，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "转换需求",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        17,
+        29
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "ConversionRequirement 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "转换需求",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        33
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:withAnthropicBetaFeatures",
+      "type": "function",
+      "name": "withAnthropicBetaFeatures",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "返回带去重实验特性列表的新转换需求，保留现有路由和能力约束。",
+      "tags": [
+        "业务方法",
+        "转换需求",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        35,
+        49
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:forRoute",
+      "type": "function",
+      "name": "forRoute",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "返回关联当前候选路由上下文的新转换需求。",
+      "tags": [
+        "业务方法",
+        "转换需求",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        51,
+        59
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:toProtocolConversionRequest",
+      "type": "function",
+      "name": "toProtocolConversionRequest",
+      "filePath": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "summary": "将领域转换需求映射为统一协议转换请求。",
+      "tags": [
+        "业务方法",
+        "转换需求",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        61,
+        68
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:InvocationError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:InvocationError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:withoutFailures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:withoutFailures",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java:normalizeMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java:InvocationErrorType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java:InvocationErrorType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java:InvocationStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java:InvocationStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:DefaultGatewayInvocationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:DefaultGatewayInvocationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:authenticate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:authenticate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:route",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:route",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:recordConversion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:recordConversion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeSuccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeSuccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeFailure",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java:GatewayInvocationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java:GatewayInvocationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:ConversionKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:ConversionKind",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:matches",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:ConversionPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:ConversionPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:toProtocolPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:toProtocolPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:protocol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:protocol",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:body",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:body",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:streaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java:streaming",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:ConversionRequirement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:ConversionRequirement",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:ConversionRequirement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:withAnthropicBetaFeatures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:withAnthropicBetaFeatures",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:forRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:forRoute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:toProtocolConversionRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java:toProtocolConversionRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeSuccess",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:completeFailure",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java:failed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:matches",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ConversionKind.java:from",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/domain/gateway/service/DefaultGatewayInvocationService.java:DefaultGatewayInvocationService",
+      "target": "class:backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java:GatewayInvocationService",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

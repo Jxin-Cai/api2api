@@ -1,0 +1,465 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "type": "file",
+      "name": "GatewayInvocationResponseMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "将调用领域终态转换为客户端 HTTP 响应，同协议保留上游原始响应，跨协议错误重建为客户端错误格式。依据最终候选失败类型将限流、超时及渠道不可用分别映射为 429、504 和 503，并保留上游响应头。",
+      "tags": [
+        "响应映射",
+        "错误分类",
+        "协议适配"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:GatewayInvocationResponseMapper",
+      "type": "class",
+      "name": "GatewayInvocationResponseMapper",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "将调用领域终态转换为客户端 HTTP 响应，同协议保留上游原始响应，跨协议错误重建为客户端错误格式。依据最终候选失败类型将限流、超时及渠道不可用分别映射为 429、504 和 503，并保留上游响应头。",
+      "tags": [
+        "响应映射",
+        "错误分类",
+        "协议适配"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        30,
+        256
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "type": "function",
+      "name": "toRawResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "根据是否有上游响应、调用终态与协议一致性选择原始透传、错误格式转换或领域成功失败映射。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        58,
+        83
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderResponse",
+      "type": "function",
+      "name": "mapProviderResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "保留上游状态码、响应体和响应头，按头信息确定媒体类型并生成原始响应。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        89,
+        98
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "type": "function",
+      "name": "mapProviderFailure",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "同协议错误原样返回；跨协议时提取上游消息并重建客户端错误体，保留真实状态码和响应头。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        100,
+        114
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:upstreamErrorMessage",
+      "type": "function",
+      "name": "upstreamErrorMessage",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "依序提取嵌套错误消息、顶层消息和详情，非 JSON 或无结构化文本时保留原始错误体。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        116,
+        137
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeUpstreamErrorBody",
+      "type": "function",
+      "name": "buildClaudeUpstreamErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "将上游常见状态码映射为 Messages 错误类型并委托错误构建器生成响应体。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        139,
+        149
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapSuccessResponse",
+      "type": "function",
+      "name": "mapSuccessResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "要求成功调用具有非空响应转换结果，按流式标记选择媒体类型并生成 200 响应。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        156,
+        173
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapFailureResponse",
+      "type": "function",
+      "name": "mapFailureResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "要求失败调用含错误对象，映射状态及客户端协议错误体，并附带上游响应头。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        175,
+        191
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorToHttpStatus",
+      "type": "function",
+      "name": "mapErrorToHttpStatus",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "按认证、额度与路由错误映射状态；上游失败时检查最后一次候选，区分限流 429、超时 504、不可用 503 和其他 502。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        193,
+        208
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeErrorBody",
+      "type": "function",
+      "name": "buildClaudeErrorBody",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "将调用错误映射为 Messages 错误格式，依据最后一次候选区分上游限流与普通 API 错误。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        218,
+        230
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorTypeToOpenAIType",
+      "type": "function",
+      "name": "mapErrorTypeToOpenAIType",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "summary": "将调用错误映射为兼容错误类型，并区分额度或上游限流、渠道不可用与普通 API 错误。",
+      "tags": [
+        "业务方法",
+        "响应映射",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        236,
+        246
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:GatewayInvocationResponseMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:GatewayInvocationResponseMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:upstreamErrorMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeUpstreamErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapSuccessResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapFailureResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorToHttpStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeErrorBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorTypeToOpenAIType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/ProviderGatewayResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/UpstreamResponseMetadata.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/ConversionTrace.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/UpstreamResponseMetadata.java:empty",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/application/gateway/GatewayInvocationOutcome.java:withoutProviderResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapSuccessResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:toRawResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapFailureResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderResponse",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:upstreamErrorMessage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapProviderFailure",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:buildClaudeUpstreamErrorBody",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapSuccessResponse",
+      "target": "function:backend/src/main/java/com/api2api/domain/gateway/model/ConversionTrace.java:responseConversion",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapFailureResponse",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/gateway/GatewayInvocationResponseMapper.java:mapErrorToHttpStatus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

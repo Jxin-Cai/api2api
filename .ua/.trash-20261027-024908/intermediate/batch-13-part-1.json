@@ -1,0 +1,2412 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "type": "file",
+      "name": "ModelDailyLimits.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "summary": "不可变的模型每日加权 Token 上限映射，未配置项表示无限额；校验限额为正并根据当日消费判断是否达到上限。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "type": "class",
+      "name": "ModelDailyLimits",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        14,
+        91
+      ],
+      "summary": "不可变的模型每日加权 Token 上限映射，未配置项表示无限额；校验限额为正并根据当日消费判断是否达到上限。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "type": "function",
+      "name": "ModelDailyLimits",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "初始化 ModelDailyLimits 的状态并建立构造约束。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "通过静态工厂构造 ModelDailyLimits，封装传入参数。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "function",
+      "name": "empty",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "在ModelDailyLimits中执行 empty 操作。协调 new ModelDailyLimits、Map.of 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limitFor",
+      "type": "function",
+      "name": "limitFor",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        30,
+        33
+      ],
+      "summary": "在ModelDailyLimits中执行 limitFor 操作。协调 Objects.requireNonNull、Optional.ofNullable、limits.get 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isExceeded",
+      "type": "function",
+      "name": "isExceeded",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        35,
+        43
+      ],
+      "summary": "在ModelDailyLimits中执行 isExceeded 操作。协调 Objects.requireNonNull、consumed.signum、new IllegalArgumentException、limitFor(modelName)\n                .map(limit -> consumed.compareTo(BigDecimal.valueOf(limit)) >= 0).orElse、limitFor(modelName).map 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isEmpty",
+      "type": "function",
+      "name": "isEmpty",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        45,
+        47
+      ],
+      "summary": "在ModelDailyLimits中执行 isEmpty 操作。协调 limits.isEmpty 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:normalize",
+      "type": "function",
+      "name": "normalize",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        49,
+        61
+      ],
+      "summary": "在ModelDailyLimits中执行 normalize 操作。协调 Objects.requireNonNull、new LinkedHashMap<>、limits.forEach、new IllegalArgumentException、normalized.put 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limits",
+      "type": "function",
+      "name": "limits",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        63,
+        65
+      ],
+      "summary": "返回 limits 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:getLimits",
+      "type": "function",
+      "name": "getLimits",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        67,
+        69
+      ],
+      "summary": "返回 limits 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        71,
+        80
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        82,
+        85
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "lineRange": [
+        87,
+        90
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "值对象",
+        "每日限额",
+        "加权消费"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "file",
+      "name": "ModelGroup.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "summary": "用户模型分组聚合，维护模型白名单与每日加权限额，校验归属、允许模型和分组当日消费，生成当前限流模型集合。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:ModelGroup",
+      "type": "class",
+      "name": "ModelGroup",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        12,
+        100
+      ],
+      "summary": "用户模型分组聚合，维护模型白名单与每日加权限额，校验归属、允许模型和分组当日消费，生成当前限流模型集合。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:ModelGroup",
+      "type": "function",
+      "name": "ModelGroup",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        22,
+        32
+      ],
+      "summary": "初始化 ModelGroup 的状态并建立构造约束。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        34,
+        38
+      ],
+      "summary": "创建 ModelGroup 并初始化业务状态。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:rehydrate",
+      "type": "function",
+      "name": "rehydrate",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        40,
+        44
+      ],
+      "summary": "根据持久化状态重建 ModelGroup。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        46,
+        60
+      ],
+      "summary": "替换分组名称、白名单与每日上限，维护修改时间。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:assertOwnedBy",
+      "type": "function",
+      "name": "assertOwnedBy",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        62,
+        66
+      ],
+      "summary": "在ModelGroup中执行 assertOwnedBy 操作。协调 ownerUserId.equals、Objects.requireNonNull、new IllegalStateException 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:assertDailyLimitAvailable",
+      "type": "function",
+      "name": "assertDailyLimitAvailable",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        72,
+        78
+      ],
+      "summary": "在ModelGroup中执行 assertDailyLimitAvailable 操作。协调 modelDailyLimits.isExceeded、new IllegalStateException、model.getValue 等调用处理输入与状态。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:rateLimitedModels",
+      "type": "function",
+      "name": "rateLimitedModels",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        81,
+        91
+      ],
+      "summary": "逐个配置模型比较当日消费与上限，返回不可变的受限模型集合。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        93,
+        93
+      ],
+      "summary": "返回 id 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getOwnerUserId",
+      "type": "function",
+      "name": "getOwnerUserId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        94,
+        94
+      ],
+      "summary": "返回 ownerUserId 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getName",
+      "type": "function",
+      "name": "getName",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        95,
+        95
+      ],
+      "summary": "返回 name 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getModelWhitelist",
+      "type": "function",
+      "name": "getModelWhitelist",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        96,
+        96
+      ],
+      "summary": "返回 modelWhitelist 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getModelDailyLimits",
+      "type": "function",
+      "name": "getModelDailyLimits",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        97,
+        97
+      ],
+      "summary": "返回 modelDailyLimits 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        98,
+        98
+      ],
+      "summary": "返回 createdAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getUpdatedAt",
+      "type": "function",
+      "name": "getUpdatedAt",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "lineRange": [
+        99,
+        99
+      ],
+      "summary": "返回 updatedAt 的当前值，供调用方读取。",
+      "tags": [
+        "聚合根",
+        "模型分组",
+        "每日限额"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "file",
+      "name": "ModelGroupId.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "summary": "封装模型分组正整数标识及值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:ModelGroupId",
+      "type": "class",
+      "name": "ModelGroupId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        6,
+        38
+      ],
+      "summary": "封装模型分组正整数标识及值相等语义。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:ModelGroupId",
+      "type": "function",
+      "name": "ModelGroupId",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        10,
+        15
+      ],
+      "summary": "初始化 ModelGroupId 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        17,
+        19
+      ],
+      "summary": "通过静态工厂构造 ModelGroupId，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        21,
+        23
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:getValue",
+      "type": "function",
+      "name": "getValue",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        25,
+        27
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        29,
+        32
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "lineRange": [
+        34,
+        37
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "file",
+      "name": "ModelGroupName.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "summary": "封装模型分组名称，规范化并限制长度为 1 至 100。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:ModelGroupName",
+      "type": "class",
+      "name": "ModelGroupName",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        6,
+        48
+      ],
+      "summary": "封装模型分组名称，规范化并限制长度为 1 至 100。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:ModelGroupName",
+      "type": "function",
+      "name": "ModelGroupName",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        11,
+        20
+      ],
+      "summary": "初始化 ModelGroupName 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "通过静态工厂构造 ModelGroupName，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:getValue",
+      "type": "function",
+      "name": "getValue",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        30,
+        32
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        34,
+        37
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        39,
+        42
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "lineRange": [
+        44,
+        47
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "type": "file",
+      "name": "ModelName.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "summary": "凭证限界上下文中的模型名值对象，校验规范化文本长度为 1 至 128。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:ModelName",
+      "type": "class",
+      "name": "ModelName",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        8,
+        57
+      ],
+      "summary": "凭证限界上下文中的模型名值对象，校验规范化文本长度为 1 至 128。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:ModelName",
+      "type": "function",
+      "name": "ModelName",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        14,
+        23
+      ],
+      "summary": "初始化 ModelName 的状态并建立构造约束。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        25,
+        27
+      ],
+      "summary": "通过静态工厂构造 ModelName，封装传入参数。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:getValue",
+      "type": "function",
+      "name": "getValue",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        33,
+        35
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        37,
+        46
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        48,
+        51
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "lineRange": [
+        53,
+        56
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "领域模型",
+        "类型定义",
+        "数据校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "type": "file",
+      "name": "ModelWhitelist.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "summary": "不可变的模型白名单，提供空集合、成员查询与集合访问，并用值相等语义比较允许模型。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:ModelWhitelist",
+      "type": "class",
+      "name": "ModelWhitelist",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        10,
+        84
+      ],
+      "summary": "不可变的模型白名单，提供空集合、成员查询与集合访问，并用值相等语义比较允许模型。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:ModelWhitelist",
+      "type": "function",
+      "name": "ModelWhitelist",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        14,
+        16
+      ],
+      "summary": "初始化 ModelWhitelist 的状态并建立构造约束。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "通过静态工厂构造 ModelWhitelist，封装传入参数。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:empty",
+      "type": "function",
+      "name": "empty",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "在ModelWhitelist中执行 empty 操作。协调 new ModelWhitelist、Set.of 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:contains",
+      "type": "function",
+      "name": "contains",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        26,
+        29
+      ],
+      "summary": "在ModelWhitelist中执行 contains 操作。协调 Objects.requireNonNull、models.contains 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:add",
+      "type": "function",
+      "name": "add",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        31,
+        36
+      ],
+      "summary": "在ModelWhitelist中执行 add 操作。协调 Objects.requireNonNull、new LinkedHashSet<>、changedModels.add、new ModelWhitelist 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:remove",
+      "type": "function",
+      "name": "remove",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        38,
+        43
+      ],
+      "summary": "在ModelWhitelist中执行 remove 操作。协调 Objects.requireNonNull、new LinkedHashSet<>、changedModels.remove、new ModelWhitelist 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:models",
+      "type": "function",
+      "name": "models",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        54,
+        56
+      ],
+      "summary": "返回 models 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:getModels",
+      "type": "function",
+      "name": "getModels",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        58,
+        60
+      ],
+      "summary": "返回 models 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        62,
+        71
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        73,
+        76
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "lineRange": [
+        78,
+        83
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "值对象",
+        "模型授权",
+        "不可变集合"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "type": "file",
+      "name": "TokenLimit.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "summary": "封装凭证累计 Token 限额，零表示无限额，提供配额耗尽判断与值相等语义。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:TokenLimit",
+      "type": "class",
+      "name": "TokenLimit",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        9,
+        77
+      ],
+      "summary": "封装凭证累计 Token 限额，零表示无限额，提供配额耗尽判断与值相等语义。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:TokenLimit",
+      "type": "function",
+      "name": "TokenLimit",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        13,
+        18
+      ],
+      "summary": "初始化 TokenLimit 的状态并建立构造约束。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        20,
+        22
+      ],
+      "summary": "通过静态工厂构造 TokenLimit，封装传入参数。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:unlimited",
+      "type": "function",
+      "name": "unlimited",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        24,
+        26
+      ],
+      "summary": "在TokenLimit中执行 unlimited 操作。协调 new TokenLimit 等调用处理输入与状态。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isUnlimited",
+      "type": "function",
+      "name": "isUnlimited",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        28,
+        30
+      ],
+      "summary": "在TokenLimit中执行 isUnlimited 操作。封装相应业务状态的计算或更新。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isExceededBy",
+      "type": "function",
+      "name": "isExceededBy",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        32,
+        37
+      ],
+      "summary": "在TokenLimit中执行 isExceededBy 操作。协调 new IllegalArgumentException、isUnlimited、Objects.requireNonNull、nonNullConsumedTokens.signum、nonNullConsumedTokens.compareTo 等调用处理输入与状态。 同名重载接收不同参数形式。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:value",
+      "type": "function",
+      "name": "value",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        47,
+        49
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:getValue",
+      "type": "function",
+      "name": "getValue",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        51,
+        53
+      ],
+      "summary": "返回 value 的当前值，供调用方读取。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        55,
+        64
+      ],
+      "summary": "按内部值判断对象相等性。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        66,
+        69
+      ],
+      "summary": "根据内部值计算哈希值。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:toString",
+      "type": "function",
+      "name": "toString",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "lineRange": [
+        71,
+        76
+      ],
+      "summary": "返回对象的字符串表示。",
+      "tags": [
+        "值对象",
+        "累计配额",
+        "token-限制"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:empty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limitFor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limitFor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isExceeded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isExceeded",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isEmpty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isEmpty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:normalize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:getLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:getLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:ModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:ModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:ModelGroup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:ModelGroup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:rehydrate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:rehydrate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:assertOwnedBy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:assertOwnedBy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:assertDailyLimitAvailable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:assertDailyLimitAvailable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:rateLimitedModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:rateLimitedModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getOwnerUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getOwnerUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getModelWhitelist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getModelWhitelist",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getModelDailyLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getModelDailyLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java:getUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:ModelGroupId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:ModelGroupId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:ModelGroupId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:ModelGroupId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:getValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:getValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:ModelGroupName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:ModelGroupName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:ModelGroupName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:ModelGroupName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:getValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:getValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:ModelName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:ModelName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:ModelName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:ModelName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:getValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:getValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelName.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:ModelWhitelist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:ModelWhitelist",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:ModelWhitelist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:ModelWhitelist",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:empty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:contains",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:contains",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:add",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:add",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:remove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:remove",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:getModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:getModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelWhitelist.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:TokenLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:TokenLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:TokenLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:TokenLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:unlimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:unlimited",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isUnlimited",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isUnlimited",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isExceededBy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isExceededBy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:getValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:getValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:toString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:toString",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:ModelDailyLimits",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:normalize",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:isExceeded",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/ModelDailyLimits.java:limitFor",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isExceededBy",
+      "target": "function:backend/src/main/java/com/api2api/domain/credential/model/TokenLimit.java:isUnlimited",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

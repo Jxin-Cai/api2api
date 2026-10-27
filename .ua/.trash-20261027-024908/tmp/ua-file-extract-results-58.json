@@ -1,0 +1,3154 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 1016,
+      "nonEmptyLines": 931,
+      "functions": [
+        {
+          "name": "invoke",
+          "startLine": 114,
+          "endLine": 116,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "invokeOutcome",
+          "startLine": 118,
+          "endLine": 144,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "openStreaming",
+          "startLine": 146,
+          "endLine": 179,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "completeStreamingSuccess",
+          "startLine": 181,
+          "endLine": 184,
+          "params": [
+            "streamingInvocation"
+          ]
+        },
+        {
+          "name": "completeStreamingSuccess",
+          "startLine": 186,
+          "endLine": 208,
+          "params": [
+            "streamingInvocation",
+            "usage"
+          ]
+        },
+        {
+          "name": "completeStreamingClientDisconnect",
+          "startLine": 210,
+          "endLine": 235,
+          "params": [
+            "streamingInvocation",
+            "usage"
+          ]
+        },
+        {
+          "name": "completeStreamingFailure",
+          "startLine": 237,
+          "endLine": 262,
+          "params": [
+            "streamingInvocation",
+            "exception"
+          ]
+        },
+        {
+          "name": "authenticateAndStartInvocation",
+          "startLine": 264,
+          "endLine": 308,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "appendUsageRecord",
+          "startLine": 310,
+          "endLine": 321,
+          "params": [
+            "usageRecordId",
+            "invocation"
+          ]
+        },
+        {
+          "name": "hasBillableSuccessfulUsage",
+          "startLine": 323,
+          "endLine": 333,
+          "params": [
+            "invocation"
+          ]
+        },
+        {
+          "name": "prepareRoute",
+          "startLine": 335,
+          "endLine": 351,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "invokeSynchronousRoute",
+          "startLine": 353,
+          "endLine": 414,
+          "params": [
+            "command",
+            "route",
+            "invocation",
+            "candidate"
+          ]
+        },
+        {
+          "name": "forwardSynchronousRequest",
+          "startLine": 416,
+          "endLine": 449,
+          "params": [
+            "command",
+            "route",
+            "invocation",
+            "candidate"
+          ]
+        },
+        {
+          "name": "completeSynchronousSuccess",
+          "startLine": 451,
+          "endLine": 486,
+          "params": [
+            "command",
+            "route",
+            "invocation",
+            "candidate",
+            "upstreamResponse"
+          ]
+        },
+        {
+          "name": "handleSynchronousRouteFailure",
+          "startLine": 488,
+          "endLine": 504,
+          "params": [
+            "command",
+            "invocation",
+            "routePlan",
+            "routeFailure",
+            "errorType",
+            "upstreamResponse"
+          ]
+        },
+        {
+          "name": "openStreamingRoute",
+          "startLine": 506,
+          "endLine": 553,
+          "params": [
+            "command",
+            "route",
+            "invocation",
+            "candidate"
+          ]
+        },
+        {
+          "name": "openProviderStream",
+          "startLine": 555,
+          "endLine": 590,
+          "params": [
+            "command",
+            "route",
+            "invocation",
+            "candidate"
+          ]
+        },
+        {
+          "name": "handleStreamingRouteFailure",
+          "startLine": 592,
+          "endLine": 609,
+          "params": [
+            "command",
+            "invocation",
+            "routePlan",
+            "routeFailure",
+            "errorType",
+            "upstreamMetadata"
+          ]
+        },
+        {
+          "name": "handleFailoverException",
+          "startLine": 611,
+          "endLine": 626,
+          "params": [
+            "command",
+            "invocation",
+            "routePlan",
+            "routeFailure",
+            "errorType"
+          ]
+        },
+        {
+          "name": "completeNoAvailableChannel",
+          "startLine": 628,
+          "endLine": 637,
+          "params": [
+            "command",
+            "invocation"
+          ]
+        },
+        {
+          "name": "completeAllCandidatesFailed",
+          "startLine": 639,
+          "endLine": 648,
+          "params": [
+            "command",
+            "invocation"
+          ]
+        },
+        {
+          "name": "requestBodyForCandidate",
+          "startLine": 650,
+          "endLine": 659,
+          "params": [
+            "command",
+            "candidate"
+          ]
+        },
+        {
+          "name": "conversionRequirement",
+          "startLine": 661,
+          "endLine": 669,
+          "params": [
+            "invocation",
+            "candidate"
+          ]
+        },
+        {
+          "name": "anthropicBetaFeatures",
+          "startLine": 671,
+          "endLine": 683,
+          "params": [
+            "incomingHeaders"
+          ]
+        },
+        {
+          "name": "rewriteResponseModel",
+          "startLine": 690,
+          "endLine": 707,
+          "params": [
+            "command",
+            "candidate",
+            "responseConversion"
+          ]
+        },
+        {
+          "name": "forwardToProvider",
+          "startLine": 709,
+          "endLine": 724,
+          "params": [
+            "port",
+            "candidate",
+            "upstreamRequestBody",
+            "streaming",
+            "inbound"
+          ]
+        },
+        {
+          "name": "recordAttemptFailure",
+          "startLine": 726,
+          "endLine": 729,
+          "params": [
+            "invocation",
+            "routeFailure"
+          ]
+        },
+        {
+          "name": "completeFailedInvocation",
+          "startLine": 731,
+          "endLine": 749,
+          "params": [
+            "command",
+            "invocation",
+            "errorType",
+            "decision"
+          ]
+        },
+        {
+          "name": "failureChannelId",
+          "startLine": 751,
+          "endLine": 758,
+          "params": [
+            "decision"
+          ]
+        },
+        {
+          "name": "failureMessage",
+          "startLine": 760,
+          "endLine": 767,
+          "params": [
+            "decision"
+          ]
+        },
+        {
+          "name": "safeFailureMessage",
+          "startLine": 769,
+          "endLine": 774,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "toRouteFailure",
+          "startLine": 776,
+          "endLine": 789,
+          "params": [
+            "candidate",
+            "exception"
+          ]
+        },
+        {
+          "name": "restoreExpiredAndFetchRoutableChannels",
+          "startLine": 799,
+          "endLine": 802,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "isolateRateLimitedModel",
+          "startLine": 804,
+          "endLine": 823,
+          "params": [
+            "candidate",
+            "failure"
+          ]
+        },
+        {
+          "name": "toRouteFailure",
+          "startLine": 825,
+          "endLine": 840,
+          "params": [
+            "candidate",
+            "response"
+          ]
+        },
+        {
+          "name": "isModelUnavailable",
+          "startLine": 842,
+          "endLine": 844,
+          "params": [
+            "statusCode",
+            "responseBody"
+          ]
+        },
+        {
+          "name": "logRouteAttempt",
+          "startLine": 846,
+          "endLine": 855,
+          "params": [
+            "command",
+            "candidate"
+          ]
+        },
+        {
+          "name": "logNoAvailableChannel",
+          "startLine": 857,
+          "endLine": 866,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "routeFailureType",
+          "startLine": 868,
+          "endLine": 870,
+          "params": [
+            "statusCode"
+          ]
+        },
+        {
+          "name": "statusFailureMessage",
+          "startLine": 874,
+          "endLine": 884,
+          "params": [
+            "statusCode",
+            "responseBody"
+          ]
+        },
+        {
+          "name": "toRouteFailure",
+          "startLine": 886,
+          "endLine": 896,
+          "params": [
+            "candidate",
+            "failureType",
+            "exception"
+          ]
+        },
+        {
+          "name": "mapUpstreamFailureType",
+          "startLine": 898,
+          "endLine": 900,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "safeReason",
+          "startLine": 902,
+          "endLine": 915,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "modelRateLimitedReason",
+          "startLine": 917,
+          "endLine": 922,
+          "params": [
+            "candidate",
+            "reason"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayInvocationApplicationService",
+          "startLine": 52,
+          "endLine": 1016,
+          "methods": [
+            "invoke",
+            "invokeOutcome",
+            "openStreaming",
+            "completeStreamingSuccess",
+            "completeStreamingSuccess",
+            "completeStreamingClientDisconnect",
+            "completeStreamingFailure",
+            "authenticateAndStartInvocation",
+            "appendUsageRecord",
+            "hasBillableSuccessfulUsage",
+            "prepareRoute",
+            "invokeSynchronousRoute",
+            "forwardSynchronousRequest",
+            "completeSynchronousSuccess",
+            "handleSynchronousRouteFailure",
+            "openStreamingRoute",
+            "openProviderStream",
+            "handleStreamingRouteFailure",
+            "handleFailoverException",
+            "completeNoAvailableChannel",
+            "completeAllCandidatesFailed",
+            "requestBodyForCandidate",
+            "conversionRequirement",
+            "anthropicBetaFeatures",
+            "rewriteResponseModel",
+            "forwardToProvider",
+            "recordAttemptFailure",
+            "completeFailedInvocation",
+            "failureChannelId",
+            "failureMessage",
+            "safeFailureMessage",
+            "toRouteFailure",
+            "restoreExpiredAndFetchRoutableChannels",
+            "isolateRateLimitedModel",
+            "toRouteFailure",
+            "isModelUnavailable",
+            "logRouteAttempt",
+            "logNoAvailableChannel",
+            "routeFailureType",
+            "statusFailureMessage",
+            "toRouteFailure",
+            "mapUpstreamFailureType",
+            "safeReason",
+            "modelRateLimitedReason"
+          ],
+          "properties": [
+            "MAX_FAILURE_REASON_LENGTH",
+            "DEFAULT_RESERVATION_TOKENS",
+            "modelRateLimitIsolationDuration",
+            "apiCredentialRepository",
+            "tokenQuotaService",
+            "usageRecordRepository",
+            "providerChannelRepository",
+            "conversionDefinitionRepository",
+            "routingPolicyService",
+            "protocolConversionService",
+            "gatewayInvocationService",
+            "providerGatewayCallPort",
+            "payloadModelMappingPort",
+            "streamingConversionPort",
+            "transactionManager",
+            "clock",
+            "MAX_ERROR_BODY_LENGTH"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "invoke",
+          "line": 114,
+          "isDefault": false
+        },
+        {
+          "name": "invokeOutcome",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "openStreaming",
+          "line": 146,
+          "isDefault": false
+        },
+        {
+          "name": "completeStreamingSuccess",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "completeStreamingSuccess",
+          "line": 186,
+          "isDefault": false
+        },
+        {
+          "name": "completeStreamingClientDisconnect",
+          "line": 210,
+          "isDefault": false
+        },
+        {
+          "name": "completeStreamingFailure",
+          "line": 237,
+          "isDefault": false
+        },
+        {
+          "name": "authenticateAndStartInvocation",
+          "line": 264,
+          "isDefault": false
+        },
+        {
+          "name": "appendUsageRecord",
+          "line": 310,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayInvocationApplicationService",
+          "line": 52,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "invoke",
+          "callee": "invokeOutcome(command).invocation",
+          "lineNumber": 115
+        },
+        {
+          "caller": "invoke",
+          "callee": "invokeOutcome",
+          "lineNumber": 115
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 119
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "prepareRoute",
+          "lineNumber": 121
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "route.invocation",
+          "lineNumber": 122
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "route.routePlan",
+          "lineNumber": 123
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "routePlan.hasCandidate",
+          "lineNumber": 125
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "completeNoAvailableChannel",
+          "lineNumber": 126
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "GatewayInvocationOutcome.withoutProviderResponse",
+          "lineNumber": 127
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "gatewayInvocationService.route",
+          "lineNumber": 130
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "Instant.now",
+          "lineNumber": 130
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "routePlan.firstCandidate",
+          "lineNumber": 131
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "invokeSynchronousRoute",
+          "lineNumber": 133
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "attempt.invocation",
+          "lineNumber": 134
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "attempt.retryNext",
+          "lineNumber": 135
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "attempt.nextCandidate",
+          "lineNumber": 136
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "attempt.outcome",
+          "lineNumber": 139
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "completeAllCandidatesFailed",
+          "lineNumber": 142
+        },
+        {
+          "caller": "invokeOutcome",
+          "callee": "GatewayInvocationOutcome.withoutProviderResponse",
+          "lineNumber": 143
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 147
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "command.isStreaming",
+          "lineNumber": 148
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 149
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "prepareRoute",
+          "lineNumber": 152
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "route.invocation",
+          "lineNumber": 153
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "route.routePlan",
+          "lineNumber": 154
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "routePlan.hasCandidate",
+          "lineNumber": 156
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "completeNoAvailableChannel",
+          "lineNumber": 157
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "GatewayStreamingInvocation.failed",
+          "lineNumber": 158
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 158
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "gatewayInvocationService.route",
+          "lineNumber": 161
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "Instant.now",
+          "lineNumber": 161
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "routePlan.firstCandidate",
+          "lineNumber": 162
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "UpstreamResponseMetadata.empty",
+          "lineNumber": 163
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "openStreamingRoute",
+          "lineNumber": 165
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.invocation",
+          "lineNumber": 166
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.upstreamMetadata().present",
+          "lineNumber": 167
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.upstreamMetadata",
+          "lineNumber": 167
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.upstreamMetadata",
+          "lineNumber": 168
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.retryNext",
+          "lineNumber": 170
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.nextCandidate",
+          "lineNumber": 171
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "attempt.streamingInvocation",
+          "lineNumber": 174
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "completeAllCandidatesFailed",
+          "lineNumber": 177
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "GatewayStreamingInvocation.failed",
+          "lineNumber": 178
+        },
+        {
+          "caller": "openStreaming",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 178
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "completeStreamingSuccess",
+          "lineNumber": 183
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "UnifiedTokenUsage.unknown",
+          "lineNumber": 183
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 188
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.opened",
+          "lineNumber": 189
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.invocation().isTerminal",
+          "lineNumber": 189
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 189
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "UnifiedTokenUsage.unknown",
+          "lineNumber": 192
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "gatewayInvocationService.completeSuccess",
+          "lineNumber": 193
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 194
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.candidate",
+          "lineNumber": 195
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "Instant.now",
+          "lineNumber": 198
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "log.info",
+          "lineNumber": 200
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "invocation.requestId().value",
+          "lineNumber": 202
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "invocation.requestId",
+          "lineNumber": 202
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.candidate().providerChannelId().value",
+          "lineNumber": 203
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.candidate().providerChannelId",
+          "lineNumber": 203
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.candidate",
+          "lineNumber": 203
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "finalUsage.usageKnown",
+          "lineNumber": 204
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "finalUsage.usageKnown",
+          "lineNumber": 205
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "finalUsage.totalTokens",
+          "lineNumber": 205
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "appendUsageRecord",
+          "lineNumber": 207
+        },
+        {
+          "caller": "completeStreamingSuccess",
+          "callee": "streamingInvocation.usageRecordId",
+          "lineNumber": 207
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 215
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.opened",
+          "lineNumber": 216
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.invocation().isTerminal",
+          "lineNumber": 216
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 216
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "UnifiedTokenUsage.unknown",
+          "lineNumber": 219
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "gatewayInvocationService.completeSuccess",
+          "lineNumber": 220
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 221
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.candidate",
+          "lineNumber": 222
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "Instant.now",
+          "lineNumber": 225
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "log.info",
+          "lineNumber": 227
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "invocation.requestId().value",
+          "lineNumber": 229
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "invocation.requestId",
+          "lineNumber": 229
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.candidate().providerChannelId().value",
+          "lineNumber": 230
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.candidate().providerChannelId",
+          "lineNumber": 230
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.candidate",
+          "lineNumber": 230
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "finalUsage.usageKnown",
+          "lineNumber": 231
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "finalUsage.usageKnown",
+          "lineNumber": 232
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "finalUsage.totalTokens",
+          "lineNumber": 232
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "appendUsageRecord",
+          "lineNumber": 234
+        },
+        {
+          "caller": "completeStreamingClientDisconnect",
+          "callee": "streamingInvocation.usageRecordId",
+          "lineNumber": 234
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 239
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.opened",
+          "lineNumber": 240
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.invocation().isTerminal",
+          "lineNumber": 240
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 240
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "InvocationError.of",
+          "lineNumber": 243
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "safeReason",
+          "lineNumber": 245
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.invocation().failures",
+          "lineNumber": 246
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 246
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "gatewayInvocationService.completeFailure",
+          "lineNumber": 248
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.invocation",
+          "lineNumber": 249
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "Instant.now",
+          "lineNumber": 252
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "log.warn",
+          "lineNumber": 254
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "invocation.requestId().value",
+          "lineNumber": 256
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "invocation.requestId",
+          "lineNumber": 256
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.candidate().providerChannelId().value",
+          "lineNumber": 257
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.candidate().providerChannelId",
+          "lineNumber": 257
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.candidate",
+          "lineNumber": 257
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "error.message",
+          "lineNumber": 258
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "appendUsageRecord",
+          "lineNumber": 261
+        },
+        {
+          "caller": "completeStreamingFailure",
+          "callee": "streamingInvocation.usageRecordId",
+          "lineNumber": 261
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 266
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "Instant.now",
+          "lineNumber": 267
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "ConversionRequirement.of(\n                command.isStreaming(),\n                command.isToolCallingRequired(),\n                command.isReasoningRequired()\n        ).withAnthropicBetaFeatures",
+          "lineNumber": 268
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "ConversionRequirement.of",
+          "lineNumber": 268
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.isStreaming",
+          "lineNumber": 269
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.isToolCallingRequired",
+          "lineNumber": 270
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.isReasoningRequired",
+          "lineNumber": 271
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "anthropicBetaFeatures",
+          "lineNumber": 272
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound().headers",
+          "lineNumber": 272
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound",
+          "lineNumber": 272
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "apiCredentialRepository.findByKeyHash(command.getKeyHash()).orElseThrow",
+          "lineNumber": 273
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "apiCredentialRepository.findByKeyHash",
+          "lineNumber": 273
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getKeyHash",
+          "lineNumber": 273
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "new BusinessException",
+          "lineNumber": 274
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "tokenQuotaService.lockCredential",
+          "lineNumber": 275
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.assertUsable",
+          "lineNumber": 276
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.assertModelAllowed",
+          "lineNumber": 277
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getRequestedCredentialModel",
+          "lineNumber": 277
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "usageRecordRepository.sumActualTokensByApiCredential",
+          "lineNumber": 278
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.getId",
+          "lineNumber": 278
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "currentConsumedTokens.signum",
+          "lineNumber": 279
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "new BusinessException",
+          "lineNumber": 280
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.assertQuotaAvailable",
+          "lineNumber": 282
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "tokenQuotaService.assertAvailable",
+          "lineNumber": 283
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getRequestedCredentialModel",
+          "lineNumber": 283
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "GatewayInvocation.start",
+          "lineNumber": 284
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getGatewayInvocationId",
+          "lineNumber": 285
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getGatewayRequestId",
+          "lineNumber": 286
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.getOwnerUserId",
+          "lineNumber": 287
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.getId",
+          "lineNumber": 288
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 289
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 290
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound().clientIp",
+          "lineNumber": 291
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound",
+          "lineNumber": 291
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "gatewayInvocationService.authenticate",
+          "lineNumber": 295
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound().operation().billable",
+          "lineNumber": 297
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound().operation",
+          "lineNumber": 297
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getInbound",
+          "lineNumber": 297
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "UsageRecord.reserve",
+          "lineNumber": 299
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 300
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "command.isStreaming",
+          "lineNumber": 300
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "usageRecordRepository.save",
+          "lineNumber": 302
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "credential.markUsed",
+          "lineNumber": 305
+        },
+        {
+          "caller": "authenticateAndStartInvocation",
+          "callee": "apiCredentialRepository.save",
+          "lineNumber": 306
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 312
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 313
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "hasBillableSuccessfulUsage",
+          "lineNumber": 314
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "usageRecordRepository.cancelReservation",
+          "lineNumber": 316
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "UsageRecord.fromInvocation",
+          "lineNumber": 319
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "Instant.now",
+          "lineNumber": 319
+        },
+        {
+          "caller": "appendUsageRecord",
+          "callee": "usageRecordRepository.update",
+          "lineNumber": 320
+        },
+        {
+          "caller": "hasBillableSuccessfulUsage",
+          "callee": "invocation.isTerminal",
+          "lineNumber": 324
+        },
+        {
+          "caller": "hasBillableSuccessfulUsage",
+          "callee": "invocation.result",
+          "lineNumber": 327
+        },
+        {
+          "caller": "hasBillableSuccessfulUsage",
+          "callee": "result.status",
+          "lineNumber": 328
+        },
+        {
+          "caller": "hasBillableSuccessfulUsage",
+          "callee": "result.usage",
+          "lineNumber": 331
+        },
+        {
+          "caller": "hasBillableSuccessfulUsage",
+          "callee": "usage.usageKnown",
+          "lineNumber": 332
+        },
+        {
+          "caller": "hasBillableSuccessfulUsage",
+          "callee": "usage.totalTokens",
+          "lineNumber": 332
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "new TransactionTemplate",
+          "lineNumber": 336
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "tx.execute",
+          "lineNumber": 337
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "authenticateAndStartInvocation",
+          "lineNumber": 337
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "Instant.now",
+          "lineNumber": 338
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "conversionDefinitionRepository.findAll",
+          "lineNumber": 339
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "restoreExpiredAndFetchRoutableChannels",
+          "lineNumber": 340
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "RoutingRequest.of",
+          "lineNumber": 341
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 342
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 343
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "invocation.requirement",
+          "lineNumber": 344
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "routingPolicyService.buildRoutePlan",
+          "lineNumber": 346
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "command.getInbound().operation().requiresNativeProtocol",
+          "lineNumber": 347
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "command.getInbound().operation",
+          "lineNumber": 347
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "command.getInbound",
+          "lineNumber": 347
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "routePlan.nativeProtocolOnly",
+          "lineNumber": 348
+        },
+        {
+          "caller": "prepareRoute",
+          "callee": "new PreparedRoute",
+          "lineNumber": 350
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "forwardSynchronousRequest",
+          "lineNumber": 360
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "providerCall.invocation",
+          "lineNumber": 361
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "providerCall.response",
+          "lineNumber": 362
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "upstreamResponse.successful",
+          "lineNumber": 363
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 364
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "isolateRateLimitedModel",
+          "lineNumber": 365
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "handleSynchronousRouteFailure",
+          "lineNumber": 366
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 369
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "SynchronousRouteAttempt.terminal",
+          "lineNumber": 375
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "completeSynchronousSuccess",
+          "lineNumber": 375
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 383
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "handleSynchronousRouteFailure",
+          "lineNumber": 384
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 387
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 393
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "isolateRateLimitedModel",
+          "lineNumber": 394
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "handleSynchronousRouteFailure",
+          "lineNumber": 395
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 398
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 404
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "mapUpstreamFailureType",
+          "lineNumber": 404
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "handleSynchronousRouteFailure",
+          "lineNumber": 405
+        },
+        {
+          "caller": "invokeSynchronousRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 408
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "invocation.startAttempt",
+          "lineNumber": 422
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "Instant.now",
+          "lineNumber": 422
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "logRouteAttempt",
+          "lineNumber": 423
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "ConversionPayload.of",
+          "lineNumber": 424
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 425
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "requestBodyForCandidate",
+          "lineNumber": 426
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "command.isStreaming",
+          "lineNumber": 427
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "protocolConversionService.convertRequest",
+          "lineNumber": 429
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 431
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "conversionRequirement",
+          "lineNumber": 432
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "route.conversionDefinitions",
+          "lineNumber": 433
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "gatewayInvocationService.recordConversion",
+          "lineNumber": 435
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "Instant.now",
+          "lineNumber": 439
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "forwardToProvider",
+          "lineNumber": 441
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "requestConversion.body",
+          "lineNumber": 444
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "command.isStreaming",
+          "lineNumber": 445
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "command.getInbound",
+          "lineNumber": 446
+        },
+        {
+          "caller": "forwardSynchronousRequest",
+          "callee": "new SynchronousProviderCall",
+          "lineNumber": 448
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "ConversionPayload.of",
+          "lineNumber": 458
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "upstreamResponse.protocol",
+          "lineNumber": 459
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "upstreamResponse.body",
+          "lineNumber": 460
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "upstreamResponse.streaming",
+          "lineNumber": 461
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "protocolConversionService.convertResponse",
+          "lineNumber": 463
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 465
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "conversionRequirement",
+          "lineNumber": 466
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "route.conversionDefinitions",
+          "lineNumber": 467
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "rewriteResponseModel",
+          "lineNumber": 469
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "gatewayInvocationService.recordConversion",
+          "lineNumber": 470
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "Instant.now",
+          "lineNumber": 474
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "responseConversion.usage().orElseGet",
+          "lineNumber": 476
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "responseConversion.usage",
+          "lineNumber": 476
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "gatewayInvocationService.completeSuccess",
+          "lineNumber": 477
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "command.isStreaming",
+          "lineNumber": 481
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "Instant.now",
+          "lineNumber": 482
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "appendUsageRecord",
+          "lineNumber": 484
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 484
+        },
+        {
+          "caller": "completeSynchronousSuccess",
+          "callee": "GatewayInvocationOutcome.of",
+          "lineNumber": 485
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "handleFailoverException",
+          "lineNumber": 496
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "failover.retryNext",
+          "lineNumber": 497
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "SynchronousRouteAttempt.retryNext",
+          "lineNumber": 498
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "failover.invocation",
+          "lineNumber": 498
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "failover.nextCandidate",
+          "lineNumber": 498
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "GatewayInvocationOutcome.withoutProviderResponse",
+          "lineNumber": 501
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "failover.invocation",
+          "lineNumber": 501
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "GatewayInvocationOutcome.of",
+          "lineNumber": 502
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "failover.invocation",
+          "lineNumber": 502
+        },
+        {
+          "caller": "handleSynchronousRouteFailure",
+          "callee": "SynchronousRouteAttempt.terminal",
+          "lineNumber": 503
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "openProviderStream",
+          "lineNumber": 513
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "GatewayStreamingInvocation.opened",
+          "lineNumber": 514
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "providerCall.invocation",
+          "lineNumber": 515
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 516
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "providerCall.response",
+          "lineNumber": 518
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "StreamingRouteAttempt.terminal",
+          "lineNumber": 520
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 522
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "handleStreamingRouteFailure",
+          "lineNumber": 523
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 526
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "UpstreamResponseMetadata.empty",
+          "lineNumber": 529
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 532
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "isolateRateLimitedModel",
+          "lineNumber": 533
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "handleStreamingRouteFailure",
+          "lineNumber": 534
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 537
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "exception.responseMetadata",
+          "lineNumber": 540
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "toRouteFailure",
+          "lineNumber": 543
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "mapUpstreamFailureType",
+          "lineNumber": 543
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "handleStreamingRouteFailure",
+          "lineNumber": 544
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "route.routePlan",
+          "lineNumber": 547
+        },
+        {
+          "caller": "openStreamingRoute",
+          "callee": "UpstreamResponseMetadata.empty",
+          "lineNumber": 550
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "invocation.startAttempt",
+          "lineNumber": 561
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "Instant.now",
+          "lineNumber": 561
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "logRouteAttempt",
+          "lineNumber": 562
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "candidate.requiresProtocolConversion",
+          "lineNumber": 563
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "streamingConversionPort.supports",
+          "lineNumber": 564
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 564
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 564
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "new ProtocolConversionException",
+          "lineNumber": 565
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "ConversionPayload.of",
+          "lineNumber": 567
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 568
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "requestBodyForCandidate",
+          "lineNumber": 569
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "protocolConversionService.convertRequest",
+          "lineNumber": 572
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 574
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "conversionRequirement",
+          "lineNumber": 575
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "route.conversionDefinitions",
+          "lineNumber": 576
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "gatewayInvocationService.recordConversion",
+          "lineNumber": 578
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "Instant.now",
+          "lineNumber": 582
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "providerGatewayCallPort.openStream",
+          "lineNumber": 584
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "requestConversion.body",
+          "lineNumber": 586
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "command.getInbound",
+          "lineNumber": 587
+        },
+        {
+          "caller": "openProviderStream",
+          "callee": "new StreamingProviderCall",
+          "lineNumber": 589
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "handleFailoverException",
+          "lineNumber": 600
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "failover.retryNext",
+          "lineNumber": 601
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "StreamingRouteAttempt.retryNext",
+          "lineNumber": 602
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "failover.invocation",
+          "lineNumber": 602
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "failover.nextCandidate",
+          "lineNumber": 602
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "StreamingRouteAttempt.terminal",
+          "lineNumber": 604
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "GatewayStreamingInvocation.failed",
+          "lineNumber": 604
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "failover.invocation",
+          "lineNumber": 605
+        },
+        {
+          "caller": "handleStreamingRouteFailure",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 606
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "recordAttemptFailure",
+          "lineNumber": 618
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "routingPolicyService.decideNext",
+          "lineNumber": 619
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "invocation.attempts",
+          "lineNumber": 619
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "decision.action",
+          "lineNumber": 620
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "FailoverResult.retryNext",
+          "lineNumber": 621
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "decision.nextCandidate",
+          "lineNumber": 621
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "completeFailedInvocation",
+          "lineNumber": 623
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "appendUsageRecord",
+          "lineNumber": 624
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 624
+        },
+        {
+          "caller": "handleFailoverException",
+          "callee": "FailoverResult.stop",
+          "lineNumber": 625
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "logNoAvailableChannel",
+          "lineNumber": 629
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "InvocationError.withoutFailures",
+          "lineNumber": 630
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "gatewayInvocationService.completeFailure",
+          "lineNumber": 634
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "command.isStreaming",
+          "lineNumber": 634
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "Instant.now",
+          "lineNumber": 634
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "appendUsageRecord",
+          "lineNumber": 635
+        },
+        {
+          "caller": "completeNoAvailableChannel",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 635
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "InvocationError.of",
+          "lineNumber": 640
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "invocation.failures",
+          "lineNumber": 643
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "gatewayInvocationService.completeFailure",
+          "lineNumber": 645
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "command.isStreaming",
+          "lineNumber": 645
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "Instant.now",
+          "lineNumber": 645
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "appendUsageRecord",
+          "lineNumber": 646
+        },
+        {
+          "caller": "completeAllCandidatesFailed",
+          "callee": "command.getUsageRecordId",
+          "lineNumber": 646
+        },
+        {
+          "caller": "requestBodyForCandidate",
+          "callee": "candidate.requiresModelMapping",
+          "lineNumber": 651
+        },
+        {
+          "caller": "requestBodyForCandidate",
+          "callee": "command.getRequestBody",
+          "lineNumber": 652
+        },
+        {
+          "caller": "requestBodyForCandidate",
+          "callee": "payloadModelMappingPort.rewriteModel",
+          "lineNumber": 654
+        },
+        {
+          "caller": "requestBodyForCandidate",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 655
+        },
+        {
+          "caller": "requestBodyForCandidate",
+          "callee": "command.getRequestBody",
+          "lineNumber": 656
+        },
+        {
+          "caller": "requestBodyForCandidate",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 657
+        },
+        {
+          "caller": "conversionRequirement",
+          "callee": "invocation.requirement().forRoute",
+          "lineNumber": 665
+        },
+        {
+          "caller": "conversionRequirement",
+          "callee": "invocation.requirement",
+          "lineNumber": 665
+        },
+        {
+          "caller": "conversionRequirement",
+          "callee": "candidate.providerChannelId().value",
+          "lineNumber": 666
+        },
+        {
+          "caller": "conversionRequirement",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 666
+        },
+        {
+          "caller": "conversionRequirement",
+          "callee": "candidate.upstreamModel().value",
+          "lineNumber": 667
+        },
+        {
+          "caller": "conversionRequirement",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 667
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.isEmpty",
+          "lineNumber": 672
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "List.of",
+          "lineNumber": 673
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream()\n                .filter(entry -> \"anthropic-beta\".equalsIgnoreCase(entry.getKey()))\n                .flatMap(entry -> entry.getValue().stream())\n                .flatMap(value -> Arrays.stream(value.split(\",\")))\n                .map(String::trim)\n                .filter(value -> !value.isEmpty())\n                .distinct().toList",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream()\n                .filter(entry -> \"anthropic-beta\".equalsIgnoreCase(entry.getKey()))\n                .flatMap(entry -> entry.getValue().stream())\n                .flatMap(value -> Arrays.stream(value.split(\",\")))\n                .map(String::trim)\n                .filter(value -> !value.isEmpty()).distinct",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream()\n                .filter(entry -> \"anthropic-beta\".equalsIgnoreCase(entry.getKey()))\n                .flatMap(entry -> entry.getValue().stream())\n                .flatMap(value -> Arrays.stream(value.split(\",\")))\n                .map(String::trim).filter",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream()\n                .filter(entry -> \"anthropic-beta\".equalsIgnoreCase(entry.getKey()))\n                .flatMap(entry -> entry.getValue().stream())\n                .flatMap(value -> Arrays.stream(value.split(\",\"))).map",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream()\n                .filter(entry -> \"anthropic-beta\".equalsIgnoreCase(entry.getKey()))\n                .flatMap(entry -> entry.getValue().stream()).flatMap",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream()\n                .filter(entry -> \"anthropic-beta\".equalsIgnoreCase(entry.getKey())).flatMap",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream().filter",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet().stream",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "incomingHeaders.entrySet",
+          "lineNumber": 675
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "\"anthropic-beta\".equalsIgnoreCase",
+          "lineNumber": 676
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "entry.getKey",
+          "lineNumber": 676
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "entry.getValue().stream",
+          "lineNumber": 677
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "entry.getValue",
+          "lineNumber": 677
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "Arrays.stream",
+          "lineNumber": 678
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "value.split",
+          "lineNumber": 678
+        },
+        {
+          "caller": "anthropicBetaFeatures",
+          "callee": "value.isEmpty",
+          "lineNumber": 680
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "candidate.requiresModelMapping",
+          "lineNumber": 695
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "command.getInbound().operation",
+          "lineNumber": 696
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "command.getInbound",
+          "lineNumber": 696
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "payloadModelMappingPort.rewriteModel",
+          "lineNumber": 699
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "candidate.clientProtocol",
+          "lineNumber": 699
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "responseConversion.body",
+          "lineNumber": 699
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "candidate.requestedModel",
+          "lineNumber": 699
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "ConversionResult.of",
+          "lineNumber": 700
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "responseConversion.sourceProtocol",
+          "lineNumber": 701
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "responseConversion.targetProtocol",
+          "lineNumber": 702
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "responseConversion.passthrough",
+          "lineNumber": 704
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "responseConversion.usage().orElse",
+          "lineNumber": 705
+        },
+        {
+          "caller": "rewriteResponseModel",
+          "callee": "responseConversion.usage",
+          "lineNumber": 705
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 716
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 717
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 718
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "port.forward",
+          "lineNumber": 719
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "candidate.upstreamProtocol().equals",
+          "lineNumber": 720
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 720
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "response.protocol",
+          "lineNumber": 720
+        },
+        {
+          "caller": "forwardToProvider",
+          "callee": "new BusinessException",
+          "lineNumber": 721
+        },
+        {
+          "caller": "recordAttemptFailure",
+          "callee": "invocation.recordAttemptFailure",
+          "lineNumber": 727
+        },
+        {
+          "caller": "recordAttemptFailure",
+          "callee": "Instant.now",
+          "lineNumber": 727
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "InvocationError.of",
+          "lineNumber": 737
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "failureMessage",
+          "lineNumber": 737
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "decision.failures",
+          "lineNumber": 737
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "log.warn",
+          "lineNumber": 738
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.getGatewayRequestId().value",
+          "lineNumber": 740
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.getGatewayRequestId",
+          "lineNumber": 740
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "failureChannelId",
+          "lineNumber": 741
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 742
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.getRequestedModel().value",
+          "lineNumber": 743
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 743
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.isStreaming",
+          "lineNumber": 744
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "error.message",
+          "lineNumber": 746
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "gatewayInvocationService.completeFailure",
+          "lineNumber": 748
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "command.isStreaming",
+          "lineNumber": 748
+        },
+        {
+          "caller": "completeFailedInvocation",
+          "callee": "Instant.now",
+          "lineNumber": 748
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "decision.failures",
+          "lineNumber": 752
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "failures.isEmpty",
+          "lineNumber": 753
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "failures.get",
+          "lineNumber": 756
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "failures.size",
+          "lineNumber": 756
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "String.valueOf",
+          "lineNumber": 757
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "latestFailure.providerChannelId().value",
+          "lineNumber": 757
+        },
+        {
+          "caller": "failureChannelId",
+          "callee": "latestFailure.providerChannelId",
+          "lineNumber": 757
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "decision.failures",
+          "lineNumber": 761
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "failures.isEmpty",
+          "lineNumber": 762
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "safeFailureMessage",
+          "lineNumber": 763
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "decision.reason",
+          "lineNumber": 763
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "failures.get",
+          "lineNumber": 765
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "failures.size",
+          "lineNumber": 765
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "safeFailureMessage",
+          "lineNumber": 766
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "latestFailure.failureType",
+          "lineNumber": 766
+        },
+        {
+          "caller": "failureMessage",
+          "callee": "latestFailure.reason",
+          "lineNumber": 766
+        },
+        {
+          "caller": "safeFailureMessage",
+          "callee": "message.length",
+          "lineNumber": 770
+        },
+        {
+          "caller": "safeFailureMessage",
+          "callee": "message.substring",
+          "lineNumber": 771
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "exception.failureType",
+          "lineNumber": 777
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "modelRateLimitedReason",
+          "lineNumber": 778
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "safeReason",
+          "lineNumber": 778
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "safeReason",
+          "lineNumber": 779
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "Instant.now",
+          "lineNumber": 780
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "RouteFailure.of",
+          "lineNumber": 781
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 782
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "exception.failureType",
+          "lineNumber": 783
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "exception.retryable",
+          "lineNumber": 785
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "exception.responseMetadata().retryAfter(now).orElse",
+          "lineNumber": 787
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "exception.responseMetadata().retryAfter",
+          "lineNumber": 787
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "exception.responseMetadata",
+          "lineNumber": 787
+        },
+        {
+          "caller": "restoreExpiredAndFetchRoutableChannels",
+          "callee": "providerChannelRepository.restoreModelRateLimitsBefore",
+          "lineNumber": 800
+        },
+        {
+          "caller": "restoreExpiredAndFetchRoutableChannels",
+          "callee": "providerChannelRepository.findEnabledForRouting",
+          "lineNumber": 801
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.failureType",
+          "lineNumber": 805
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.occurredAt().plus",
+          "lineNumber": 808
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.occurredAt",
+          "lineNumber": 808
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.retryAfter().orElse",
+          "lineNumber": 808
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.retryAfter",
+          "lineNumber": 808
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "providerChannelRepository.markModelRateLimited",
+          "lineNumber": 809
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.providerChannelId",
+          "lineNumber": 810
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 811
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.occurredAt",
+          "lineNumber": 812
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "log.warn",
+          "lineNumber": 815
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.providerChannelId().value",
+          "lineNumber": 817
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "failure.providerChannelId",
+          "lineNumber": 817
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "candidate.requestedModel().value",
+          "lineNumber": 818
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "candidate.requestedModel",
+          "lineNumber": 818
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "candidate.upstreamModel().value",
+          "lineNumber": 819
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 819
+        },
+        {
+          "caller": "isolateRateLimitedModel",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 820
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "RouteFailureType.fromHttpResponse",
+          "lineNumber": 826
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.statusCode",
+          "lineNumber": 826
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.body",
+          "lineNumber": 826
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "statusFailureMessage",
+          "lineNumber": 827
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.statusCode",
+          "lineNumber": 827
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.body",
+          "lineNumber": 827
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "modelRateLimitedReason",
+          "lineNumber": 829
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "Instant.now",
+          "lineNumber": 831
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "RouteFailure.of",
+          "lineNumber": 832
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 833
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "failureType.isRetryableByDefault",
+          "lineNumber": 836
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "isModelUnavailable",
+          "lineNumber": 836
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.statusCode",
+          "lineNumber": 836
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.body",
+          "lineNumber": 836
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "UpstreamResponseMetadata.of(response.headers()).retryAfter(now).orElse",
+          "lineNumber": 838
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "UpstreamResponseMetadata.of(response.headers()).retryAfter",
+          "lineNumber": 838
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "UpstreamResponseMetadata.of",
+          "lineNumber": 838
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "response.headers",
+          "lineNumber": 838
+        },
+        {
+          "caller": "isModelUnavailable",
+          "callee": "RouteFailureType.isModelUnavailableResponse",
+          "lineNumber": 843
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "log.info",
+          "lineNumber": 847
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "command.getGatewayRequestId().value",
+          "lineNumber": 849
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "command.getGatewayRequestId",
+          "lineNumber": 849
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "candidate.providerChannelId().value",
+          "lineNumber": 850
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 850
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "candidate.upstreamProtocol",
+          "lineNumber": 851
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "candidate.upstreamModel().value",
+          "lineNumber": 852
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 852
+        },
+        {
+          "caller": "logRouteAttempt",
+          "callee": "command.isStreaming",
+          "lineNumber": 853
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "log.warn",
+          "lineNumber": 858
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "command.getGatewayRequestId().value",
+          "lineNumber": 860
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "command.getGatewayRequestId",
+          "lineNumber": 860
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "command.getRequestProtocol",
+          "lineNumber": 861
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "command.getRequestedModel().value",
+          "lineNumber": 862
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 862
+        },
+        {
+          "caller": "logNoAvailableChannel",
+          "callee": "command.isStreaming",
+          "lineNumber": 863
+        },
+        {
+          "caller": "routeFailureType",
+          "callee": "RouteFailureType.fromHttpStatus",
+          "lineNumber": 869
+        },
+        {
+          "caller": "statusFailureMessage",
+          "callee": "responseBody.isBlank",
+          "lineNumber": 876
+        },
+        {
+          "caller": "statusFailureMessage",
+          "callee": "responseBody.replaceAll(\"\\\\s+\", \" \").trim",
+          "lineNumber": 879
+        },
+        {
+          "caller": "statusFailureMessage",
+          "callee": "responseBody.replaceAll",
+          "lineNumber": 879
+        },
+        {
+          "caller": "statusFailureMessage",
+          "callee": "compactBody.length",
+          "lineNumber": 880
+        },
+        {
+          "caller": "statusFailureMessage",
+          "callee": "compactBody.substring",
+          "lineNumber": 881
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "modelRateLimitedReason",
+          "lineNumber": 888
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "safeReason",
+          "lineNumber": 888
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "safeReason",
+          "lineNumber": 889
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "RouteFailure.withDefaultRetryable",
+          "lineNumber": 890
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "candidate.providerChannelId",
+          "lineNumber": 891
+        },
+        {
+          "caller": "toRouteFailure",
+          "callee": "Instant.now",
+          "lineNumber": 894
+        },
+        {
+          "caller": "mapUpstreamFailureType",
+          "callee": "RouteFailureType.fromExceptionMessage",
+          "lineNumber": 899
+        },
+        {
+          "caller": "mapUpstreamFailureType",
+          "callee": "safeReason",
+          "lineNumber": 899
+        },
+        {
+          "caller": "safeReason",
+          "callee": "exception.getMessage",
+          "lineNumber": 906
+        },
+        {
+          "caller": "safeReason",
+          "callee": "reason.isBlank",
+          "lineNumber": 907
+        },
+        {
+          "caller": "safeReason",
+          "callee": "exception.getClass().getSimpleName",
+          "lineNumber": 908
+        },
+        {
+          "caller": "safeReason",
+          "callee": "exception.getClass",
+          "lineNumber": 908
+        },
+        {
+          "caller": "safeReason",
+          "callee": "reason.trim",
+          "lineNumber": 910
+        },
+        {
+          "caller": "safeReason",
+          "callee": "trimmed.length",
+          "lineNumber": 911
+        },
+        {
+          "caller": "safeReason",
+          "callee": "trimmed.substring",
+          "lineNumber": 912
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.requestedModel().equals",
+          "lineNumber": 918
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.requestedModel",
+          "lineNumber": 918
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 918
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.requestedModel().value",
+          "lineNumber": 919
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.requestedModel",
+          "lineNumber": 919
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.requestedModel().value",
+          "lineNumber": 920
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.requestedModel",
+          "lineNumber": 920
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.upstreamModel().value",
+          "lineNumber": 920
+        },
+        {
+          "caller": "modelRateLimitedReason",
+          "callee": "candidate.upstreamModel",
+          "lineNumber": 920
+        },
+        {
+          "caller": "retryNext",
+          "callee": "new FailoverResult",
+          "lineNumber": 939
+        },
+        {
+          "caller": "retryNext",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 941
+        },
+        {
+          "caller": "stop",
+          "callee": "new FailoverResult",
+          "lineNumber": 946
+        },
+        {
+          "caller": "retryNext",
+          "callee": "new SynchronousRouteAttempt",
+          "lineNumber": 960
+        },
+        {
+          "caller": "retryNext",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 962
+        },
+        {
+          "caller": "terminal",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 968
+        },
+        {
+          "caller": "terminal",
+          "callee": "new SynchronousRouteAttempt",
+          "lineNumber": 972
+        },
+        {
+          "caller": "terminal",
+          "callee": "nonNullOutcome.invocation",
+          "lineNumber": 972
+        },
+        {
+          "caller": "retryNext",
+          "callee": "new StreamingRouteAttempt",
+          "lineNumber": 991
+        },
+        {
+          "caller": "retryNext",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 993
+        },
+        {
+          "caller": "terminal",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 1000
+        },
+        {
+          "caller": "terminal",
+          "callee": "new StreamingRouteAttempt",
+          "lineNumber": 1004
+        },
+        {
+          "caller": "terminal",
+          "callee": "nonNullInvocation.invocation",
+          "lineNumber": 1005
+        },
+        {
+          "caller": "terminal",
+          "callee": "nonNullInvocation.upstreamMetadata",
+          "lineNumber": 1008
+        }
+      ],
+      "metrics": {
+        "importCount": 32,
+        "exportCount": 10,
+        "functionCount": 44,
+        "classCount": 1
+      }
+    }
+  ]
+}

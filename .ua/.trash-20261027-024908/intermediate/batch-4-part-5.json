@@ -1,0 +1,2578 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "type": "file",
+      "name": "ClaudeResponsesBridgeRefinementTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "summary": "验证 Messages 与 Responses 桥接的推理重放、轮次阶段、MCP 配置与延迟加载、文本去重及拒绝结束原因。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "推理状态",
+        "MCP"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:ClaudeResponsesBridgeRefinementTest",
+      "type": "class",
+      "name": "ClaudeResponsesBridgeRefinementTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        26,
+        300
+      ],
+      "summary": "验证 Messages 与 Responses 桥接的推理重放、轮次阶段、MCP 配置与延迟加载、文本去重及拒绝结束原因。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "推理状态",
+        "MCP"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesOriginalReasoningItem_when_thinkingIsReplayed",
+      "type": "function",
+      "name": "test_preservesOriginalReasoningItem_when_thinkingIsReplayed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        33,
+        47
+      ],
+      "summary": "验证推理块重放时恢复原始 reasoning 项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_emitsSummary_when_onlyReasoningItemDoneArrives",
+      "type": "function",
+      "name": "test_emitsSummary_when_onlyReasoningItemDoneArrives",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        49,
+        60
+      ],
+      "summary": "验证仅收到推理项完成事件时仍输出全部思考摘要。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesTurnBoundary_when_responseHasPhase",
+      "type": "function",
+      "name": "test_preservesTurnBoundary_when_responseHasPhase",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        62,
+        72
+      ],
+      "summary": "验证响应 phase 保留轮次停止边界。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesTurnBoundary_when_phaseArrivesAfterText",
+      "type": "function",
+      "name": "test_preservesTurnBoundary_when_phaseArrivesAfterText",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        74,
+        87
+      ],
+      "summary": "验证文本之后到达的 phase 仍决定停止原因。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_loadsMcpToolsAccordingToDefaults_when_configUsesNestedDeferLoading",
+      "type": "function",
+      "name": "test_loadsMcpToolsAccordingToDefaults_when_configUsesNestedDeferLoading",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        109,
+        121
+      ],
+      "summary": "验证嵌套 defer_loading 配置按缺省规则设置 MCP 加载行为。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_eagerlyLoadsMcpServer_when_enabledToolsHaveMixedLoadingModes",
+      "type": "function",
+      "name": "test_eagerlyLoadsMcpServer_when_enabledToolsHaveMixedLoadingModes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        123,
+        133
+      ],
+      "summary": "验证工具加载模式混合时立即加载对应 MCP 服务器。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:mcpRequest",
+      "type": "function",
+      "name": "mcpRequest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        135,
+        144
+      ],
+      "summary": "构造 MCP 服务器、工具限制和加载策略的请求样本。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesConversation_when_foreignRedactedThinkingAppearsInHistory",
+      "type": "function",
+      "name": "test_preservesConversation_when_foreignRedactedThinkingAppearsInHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        146,
+        163
+      ],
+      "summary": "验证历史中的外部 redacted_thinking 不破坏对话内容。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesAllTextParts_when_messageItemCompletes",
+      "type": "function",
+      "name": "test_preservesAllTextParts_when_messageItemCompletes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        165,
+        180
+      ],
+      "summary": "验证消息项完成事件包含的多个文本部分全部输出。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_deduplicatesEachTextPart_when_partsAndItemBothComplete",
+      "type": "function",
+      "name": "test_deduplicatesEachTextPart_when_partsAndItemBothComplete",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        182,
+        198
+      ],
+      "summary": "验证文本部分与消息项均完成时每段文本仅输出一次。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesSummaryParts_when_summaryUsesMultipleIndexes",
+      "type": "function",
+      "name": "test_preservesSummaryParts_when_summaryUsesMultipleIndexes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        200,
+        221
+      ],
+      "summary": "验证多个摘要索引的思考内容全部保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_keepsCommentaryPhase_when_completionOmitsPreviouslyDeclaredPhase",
+      "type": "function",
+      "name": "test_keepsCommentaryPhase_when_completionOmitsPreviouslyDeclaredPhase",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        223,
+        237
+      ],
+      "summary": "验证最终事件省略 phase 时保留此前 commentary 阶段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesRefusalStopReason_when_commentaryContainsRefusal",
+      "type": "function",
+      "name": "test_preservesRefusalStopReason_when_commentaryContainsRefusal",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        239,
+        249
+      ],
+      "summary": "验证 commentary 含拒绝内容时保留 refusal 停止原因。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:stream",
+      "type": "function",
+      "name": "stream",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "lineRange": [
+        257,
+        268
+      ],
+      "summary": "将事件文本送入真实流式适配器并收集输出。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "type": "file",
+      "name": "ClaudeResponsesToolsetBridgeTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "summary": "验证工具集桥接保持命名空间和成员身份，覆盖浏览器与计算机工具成员、延迟加载、参数缓冲及重复调用保护。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "工具集",
+        "命名空间"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:ClaudeResponsesToolsetBridgeTest",
+      "type": "class",
+      "name": "ClaudeResponsesToolsetBridgeTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        26,
+        314
+      ],
+      "summary": "验证工具集桥接保持命名空间和成员身份，覆盖浏览器与计算机工具成员、延迟加载、参数缓冲及重复调用保护。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "工具集",
+        "命名空间"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_preservesToolsetIdentity_when_namespacedCallIsReplayed",
+      "type": "function",
+      "name": "test_preservesToolsetIdentity_when_namespacedCallIsReplayed",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        33,
+        50
+      ],
+      "summary": "验证带命名空间工具调用重放时保留工具集身份。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_emitsToolsetIdentity_when_namespacedCallStreams",
+      "type": "function",
+      "name": "test_emitsToolsetIdentity_when_namespacedCallStreams",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        52,
+        65
+      ],
+      "summary": "验证命名空间工具流式调用发出正确工具集名称。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_exposesComputerMembers_when_clientDeclaresComputerToolset",
+      "type": "function",
+      "name": "test_exposesComputerMembers_when_clientDeclaresComputerToolset",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        67,
+        76
+      ],
+      "summary": "验证默认计算机工具集公开预期成员。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_withholdsDisabledComputerMember_when_executorDisablesZoom",
+      "type": "function",
+      "name": "test_withholdsDisabledComputerMember_when_executorDisablesZoom",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        78,
+        88
+      ],
+      "summary": "验证禁用 zoom 时不公开该计算机工具成员。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_buffersMemberInput_when_responsesStreamsArgumentFragments",
+      "type": "function",
+      "name": "test_buffersMemberInput_when_responsesStreamsArgumentFragments",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        90,
+        107
+      ],
+      "summary": "验证分片工具参数被缓冲并在成员输入中正确输出。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_exposesDefaultBrowserMembers_when_clientDeclaresBrowserToolset",
+      "type": "function",
+      "name": "test_exposesDefaultBrowserMembers_when_clientDeclaresBrowserToolset",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        109,
+        118
+      ],
+      "summary": "验证默认浏览器工具集公开预期成员。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_withholdsOptionalBrowserMember_when_notExplicitlyEnabled",
+      "type": "function",
+      "name": "test_withholdsOptionalBrowserMember_when_notExplicitlyEnabled",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        120,
+        130
+      ],
+      "summary": "验证可选浏览器成员未明确启用时不公开。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_exposesOptionalBrowserMember_when_explicitlyEnabled",
+      "type": "function",
+      "name": "test_exposesOptionalBrowserMember_when_explicitlyEnabled",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        132,
+        143
+      ],
+      "summary": "验证明确启用后公开可选浏览器成员。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_eagerlyLoadsNestedFunctions_when_modelLacksToolSearch",
+      "type": "function",
+      "name": "test_eagerlyLoadsNestedFunctions_when_modelLacksToolSearch",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        145,
+        154
+      ],
+      "summary": "验证模型不支持工具搜索时取消嵌套函数延迟加载。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_activatesWholeToolset_when_historyInvokesOneMember",
+      "type": "function",
+      "name": "test_activatesWholeToolset_when_historyInvokesOneMember",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        156,
+        167
+      ],
+      "summary": "验证历史调用工具集任一成员后激活整个工具集。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_preservesUnrelatedDeferredTool_when_memberHasSameName",
+      "type": "function",
+      "name": "test_preservesUnrelatedDeferredTool_when_memberHasSameName",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        169,
+        182
+      ],
+      "summary": "验证同名成员不会误激活其他无关延迟工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_rejectsUnsupportedToolsetConfiguration_when_contractWouldChange",
+      "type": "function",
+      "name": "test_rejectsUnsupportedToolsetConfiguration_when_contractWouldChange",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        184,
+        196
+      ],
+      "summary": "验证会改变契约的不支持工具集配置被明确拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:deferredComputerRequest",
+      "type": "function",
+      "name": "deferredComputerRequest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        198,
+        207
+      ],
+      "summary": "构造启用延迟加载的计算机工具集请求。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_preservesDocumentText_when_contentSourceIsString",
+      "type": "function",
+      "name": "test_preservesDocumentText_when_contentSourceIsString",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        209,
+        225
+      ],
+      "summary": "验证字符串形式文档来源保留正文。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:screenshotHistory",
+      "type": "function",
+      "name": "screenshotHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        246,
+        257
+      ],
+      "summary": "构造包含屏幕截图工具调用的历史消息。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:stream",
+      "type": "function",
+      "name": "stream",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "lineRange": [
+        271,
+        282
+      ],
+      "summary": "将事件文本送入真实流式适配器并收集输出。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "type": "file",
+      "name": "UnifiedStreamingConversionAdapterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "summary": "覆盖统一流式转换适配器的跨协议 SSE 与 Bedrock 事件流行为，验证工具调用、推理签名、缓存用量、终止状态和截断流错误。",
+      "tags": [
+        "测试",
+        "流式传输",
+        "协议转换",
+        "回归测试"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:UnifiedStreamingConversionAdapterTest",
+      "type": "class",
+      "name": "UnifiedStreamingConversionAdapterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        32,
+        1478
+      ],
+      "summary": "覆盖统一流式转换适配器的跨协议 SSE 与 Bedrock 事件流行为，验证工具调用、推理签名、缓存用量、终止状态和截断流错误。",
+      "tags": [
+        "测试",
+        "流式传输",
+        "协议转换",
+        "回归测试"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsClaudeSse_when_invokeModelFrameContainsNativeClaudeEvent",
+      "type": "function",
+      "name": "test_emitsClaudeSse_when_invokeModelFrameContainsNativeClaudeEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        38,
+        65
+      ],
+      "summary": "验证 Bedrock InvokeModel 原生事件转换为 Messages SSE 并累计用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_restoresClientModel_when_invokeModelStartsMessage",
+      "type": "function",
+      "name": "test_restoresClientModel_when_invokeModelStartsMessage",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        67,
+        89
+      ],
+      "summary": "验证 Bedrock 消息开始事件恢复客户端请求的模型名。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_combinesUsage_when_invokeModelSplitsInputAndOutputUsage",
+      "type": "function",
+      "name": "test_combinesUsage_when_invokeModelSplitsInputAndOutputUsage",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        91,
+        117
+      ],
+      "summary": "验证跨输入输出事件正确合并缓存与 Token 用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_unwrapsStructuredOutputInput_when_invokeModelStreamsWrappedArray",
+      "type": "function",
+      "name": "test_unwrapsStructuredOutputInput_when_invokeModelStreamsWrappedArray",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        119,
+        156
+      ],
+      "summary": "验证结构化输出包装数组被还原为客户端工具输入。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_removesBedrockExtensions_when_invokeModelReturnsProviderMetadata",
+      "type": "function",
+      "name": "test_removesBedrockExtensions_when_invokeModelReturnsProviderMetadata",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        158,
+        177
+      ],
+      "summary": "验证下游事件不泄漏 Bedrock 扩展元数据。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_failsClosed_when_invokeModelStreamEndsBeforeMessageStop",
+      "type": "function",
+      "name": "test_failsClosed_when_invokeModelStreamEndsBeforeMessageStop",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        179,
+        194
+      ],
+      "summary": "验证 Bedrock 流缺少 message_stop 时明确报错。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_closesEachChatToolBlock_when_multipleToolCallsAreStreamedToClaude",
+      "type": "function",
+      "name": "test_closesEachChatToolBlock_when_multipleToolCallsAreStreamedToClaude",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        196,
+        238
+      ],
+      "summary": "验证多个 Chat 工具调用各自拥有匹配的开始与结束块。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_buffersChatToolArguments_when_toolNameArrivesLate",
+      "type": "function",
+      "name": "test_buffersChatToolArguments_when_toolNameArrivesLate",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        240,
+        272
+      ],
+      "summary": "验证工具名迟到时缓冲已有 Chat 工具参数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_reportsToolUseStopReason_when_streamedToolCallFinishesWithStop",
+      "type": "function",
+      "name": "test_reportsToolUseStopReason_when_streamedToolCallFinishesWithStop",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        274,
+        299
+      ],
+      "summary": "验证包含工具调用的流结束时返回 tool_use 停止原因。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_reportsToolUseStopReason_when_filteredStreamContainsToolCall",
+      "type": "function",
+      "name": "test_reportsToolUseStopReason_when_filteredStreamContainsToolCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        301,
+        326
+      ],
+      "summary": "验证过滤结束的流含工具调用时仍报告 tool_use。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_prefersCacheWriteTokens_when_chatStreamReportsBothWriteFields",
+      "type": "function",
+      "name": "test_prefersCacheWriteTokens_when_chatStreamReportsBothWriteFields",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        328,
+        358
+      ],
+      "summary": "验证 Chat 同时提供缓存写入字段时优先使用标准写入数量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_degradesUnknownStopReason_when_claudeStreamTargetsChat",
+      "type": "function",
+      "name": "test_degradesUnknownStopReason_when_claudeStreamTargetsChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        360,
+        388
+      ],
+      "summary": "验证 Messages 未知停止原因降级为 Chat stop。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_completesChatStream_when_claudeMessageDeltaOmitsStopReason",
+      "type": "function",
+      "name": "test_completesChatStream_when_claudeMessageDeltaOmitsStopReason",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        390,
+        412
+      ],
+      "summary": "验证 Messages delta 缺少停止原因时仍正确结束 Chat 流。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_reportsClaudeCacheUsage_when_claudeStreamTargetsChat",
+      "type": "function",
+      "name": "test_reportsClaudeCacheUsage_when_claudeStreamTargetsChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        414,
+        444
+      ],
+      "summary": "验证 Messages 缓存读写用量映射到 Chat 用量明细。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsEmptyToolArguments_when_chatToolCallStreamsNoArguments",
+      "type": "function",
+      "name": "test_emitsEmptyToolArguments_when_chatToolCallStreamsNoArguments",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        446,
+        472
+      ],
+      "summary": "验证工具未提供参数时输出空工具输入。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_announcesFallbackToolName_when_chatToolCallNeverReceivesName",
+      "type": "function",
+      "name": "test_announcesFallbackToolName_when_chatToolCallNeverReceivesName",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        474,
+        504
+      ],
+      "summary": "验证工具始终缺名时公布 unknown_tool 回退名称。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsResponsesLifecycle_when_chatStreamTargetsResponses",
+      "type": "function",
+      "name": "test_emitsResponsesLifecycle_when_chatStreamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        506,
+        545
+      ],
+      "summary": "验证 Chat 转 Responses 发出完整生命周期事件。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_closesResponsesToolCallWithCompleteArguments_when_chatArgumentsArriveInFirstChunk",
+      "type": "function",
+      "name": "test_closesResponsesToolCallWithCompleteArguments_when_chatArgumentsArriveInFirstChunk",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        547,
+        577
+      ],
+      "summary": "验证首帧含完整工具参数时 Responses 完成项保留完整 JSON。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_replaysBufferedResponsesToolArguments_when_chatToolNameArrivesLate",
+      "type": "function",
+      "name": "test_replaysBufferedResponsesToolArguments_when_chatToolNameArrivesLate",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        579,
+        606
+      ],
+      "summary": "验证 Chat 工具名迟到后重放缓冲参数到 Responses。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_mapsStreamingUsageAndLengthStatus_when_chatStreamTargetsResponses",
+      "type": "function",
+      "name": "test_mapsStreamingUsageAndLengthStatus_when_chatStreamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        608,
+        636
+      ],
+      "summary": "验证 Chat 转 Responses 保留缓存用量并将长度截断标记为未完成。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsResponsesItems_when_claudeStreamContainsTextAndToolUse",
+      "type": "function",
+      "name": "test_emitsResponsesItems_when_claudeStreamContainsTextAndToolUse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        638,
+        688
+      ],
+      "summary": "验证 Messages 文本和工具调用生成 Responses 输出项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_mapsClaudeCacheUsageAndMaxTokens_when_streamTargetsResponses",
+      "type": "function",
+      "name": "test_mapsClaudeCacheUsageAndMaxTokens_when_streamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        690,
+        724
+      ],
+      "summary": "验证 Messages 缓存用量和最大 Token 停止映射到 Responses。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_usesValidBlockIndexes_when_reasoningArrivesAfterText",
+      "type": "function",
+      "name": "test_usesValidBlockIndexes_when_reasoningArrivesAfterText",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        726,
+        751
+      ],
+      "summary": "验证文本之后到达的推理仍使用有效内容块索引。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_convertsOpenAIResponsesSse_when_targetIsClaudeSseWithToolUse",
+      "type": "function",
+      "name": "test_convertsOpenAIResponsesSse_when_targetIsClaudeSseWithToolUse",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        753,
+        800
+      ],
+      "summary": "验证 Responses 工具调用转换为 Messages SSE 的工具块与签名事件。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_stopsReadingUpstream_when_responsesTerminalEventIsReceived",
+      "type": "function",
+      "name": "test_stopsReadingUpstream_when_responsesTerminalEventIsReceived",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        802,
+        825
+      ],
+      "summary": "验证收到 Responses 终止事件后停止读取上游。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsClaudeToolUse_when_responsesStreamsCustomToolCall",
+      "type": "function",
+      "name": "test_emitsClaudeToolUse_when_responsesStreamsCustomToolCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        827,
+        869
+      ],
+      "summary": "验证 Responses 自定义工具调用转换为 Messages 工具输入。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_removesEmptyPages_when_responsesStreamsReadArguments",
+      "type": "function",
+      "name": "test_removesEmptyPages_when_responsesStreamsReadArguments",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        871,
+        911
+      ],
+      "summary": "验证 Read 工具参数中空 pages 字段被移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsOpaqueThinkingState_when_responsesStreamsCompaction",
+      "type": "function",
+      "name": "test_emitsOpaqueThinkingState_when_responsesStreamsCompaction",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        913,
+        948
+      ],
+      "summary": "验证 Responses 压缩事件生成可见文本和不透明思考状态。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsVisibleCompactText_when_compactionAliasOnlyAppearsInAddedEvent",
+      "type": "function",
+      "name": "test_emitsVisibleCompactText_when_compactionAliasOnlyAppearsInAddedEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        950,
+        975
+      ],
+      "summary": "验证压缩别名只在新增事件出现时仍输出压缩提示。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_linksProgramCallerToServerTool_when_responsesStreamsProgrammaticCall",
+      "type": "function",
+      "name": "test_linksProgramCallerToServerTool_when_responsesStreamsProgrammaticCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        977,
+        1019
+      ],
+      "summary": "验证程序化工具调用保留调用者与服务器工具的关联。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_mapsCacheWriteUsage_when_responsesStreamCompletes",
+      "type": "function",
+      "name": "test_mapsCacheWriteUsage_when_responsesStreamCompletes",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1021,
+        1045
+      ],
+      "summary": "验证 Responses 完成事件正确映射缓存读写用量。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsCompletedText_when_responsesOnlySendsDoneEvent",
+      "type": "function",
+      "name": "test_emitsCompletedText_when_responsesOnlySendsDoneEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1047,
+        1075
+      ],
+      "summary": "验证仅收到文本完成事件时仍输出完整文本。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_recoversOutputItems_when_responsesOnlySendsCompletedEnvelope",
+      "type": "function",
+      "name": "test_recoversOutputItems_when_responsesOnlySendsCompletedEnvelope",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1077,
+        1099
+      ],
+      "summary": "验证仅收到 completed 封套时恢复其中输出项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_throwsEofException_when_responsesStreamEndsBeforeTerminalEvent",
+      "type": "function",
+      "name": "test_throwsEofException_when_responsesStreamEndsBeforeTerminalEvent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1101,
+        1122
+      ],
+      "summary": "验证 Responses 在终止事件前 EOF 时报错且不伪造成功结束。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_throwsIOException_when_responsesStreamReportsFailure",
+      "type": "function",
+      "name": "test_throwsIOException_when_responsesStreamReportsFailure",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1124,
+        1145
+      ],
+      "summary": "验证 Responses 失败事件转为含上游原因的 I/O 错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_tunnelsSignatureDeltaThroughEncryptedContent_when_claudeStreamTargetsResponses",
+      "type": "function",
+      "name": "test_tunnelsSignatureDeltaThroughEncryptedContent_when_claudeStreamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1147,
+        1189
+      ],
+      "summary": "验证 Messages 思考签名通过 Responses encrypted_content 隧道往返保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_bridgesRedactedThinkingBlock_when_claudeStreamTargetsResponses",
+      "type": "function",
+      "name": "test_bridgesRedactedThinkingBlock_when_claudeStreamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1191,
+        1237
+      ],
+      "summary": "验证 redacted_thinking 块通过 Responses 桥接后保留不透明数据。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_restoresNativeSignature_when_responsesStreamCarriesBridgedThinkingState",
+      "type": "function",
+      "name": "test_restoresNativeSignature_when_responsesStreamCarriesBridgedThinkingState",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1239,
+        1275
+      ],
+      "summary": "验证 Responses 桥接思考状态恢复原生签名和思考文本。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_ignoresUnknownContentBlock_when_claudeStreamTargetsResponses",
+      "type": "function",
+      "name": "test_ignoresUnknownContentBlock_when_claudeStreamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1277,
+        1324
+      ],
+      "summary": "验证未知 Messages 内容块被忽略且不破坏正常文本。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_announcesUnnamedToolCall_when_chatStreamTargetsResponses",
+      "type": "function",
+      "name": "test_announcesUnnamedToolCall_when_chatStreamTargetsResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1326,
+        1351
+      ],
+      "summary": "验证 Chat 无名工具调用仍在 Responses 完成项中公布参数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_throwsIOException_when_chatToolArgumentsAreTruncated",
+      "type": "function",
+      "name": "test_throwsIOException_when_chatToolArgumentsAreTruncated",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1353,
+        1373
+      ],
+      "summary": "验证 Chat 工具参数截断为非法 JSON 时明确抛出 I/O 错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:context",
+      "type": "function",
+      "name": "context",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1375,
+        1389
+      ],
+      "summary": "构造源协议、目标协议和模型的流式上下文。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:dataEvents",
+      "type": "function",
+      "name": "dataEvents",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1397,
+        1408
+      ],
+      "summary": "解析下游 SSE JSON 数据事件并过滤结束标记。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:writeFrame",
+      "type": "function",
+      "name": "writeFrame",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1426,
+        1444
+      ],
+      "summary": "将事件头与正文写入 Bedrock 二进制帧，并写入帧长度及校验字段。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:writeStringHeader",
+      "type": "function",
+      "name": "writeStringHeader",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "lineRange": [
+        1454,
+        1463
+      ],
+      "summary": "按 Bedrock event-stream 格式编码字符串头字段。",
+      "tags": [
+        "测试",
+        "样本构建",
+        "辅助方法"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "type": "file",
+      "name": "AesGcmApiKeyMaterialProtectorTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "summary": "验证 AES-GCM API 密钥材料可用当前、旧版本和历史密钥解密，兼容已存明文，并在无匹配密钥时明确失败。",
+      "tags": [
+        "测试",
+        "AES-GCM",
+        "密钥轮换",
+        "兼容性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:AesGcmApiKeyMaterialProtectorTest",
+      "type": "class",
+      "name": "AesGcmApiKeyMaterialProtectorTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "lineRange": [
+        10,
+        82
+      ],
+      "summary": "验证 AES-GCM API 密钥材料可用当前、旧版本和历史密钥解密，兼容已存明文，并在无匹配密钥时明确失败。",
+      "tags": [
+        "测试",
+        "AES-GCM",
+        "密钥轮换",
+        "兼容性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:test_returns_plaintext_when_material_was_encrypted_with_legacy_default_key",
+      "type": "function",
+      "name": "test_returns_plaintext_when_material_was_encrypted_with_legacy_default_key",
+      "filePath": "backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "lineRange": [
+        22,
+        33
+      ],
+      "summary": "验证旧默认密钥加密的材料仍可解密。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:test_returns_plaintext_when_material_was_encrypted_with_previous_key",
+      "type": "function",
+      "name": "test_returns_plaintext_when_material_was_encrypted_with_previous_key",
+      "filePath": "backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "lineRange": [
+        35,
+        49
+      ],
+      "summary": "验证配置历史密钥后可解密旧密钥材料。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:test_throws_decryption_failed_when_no_key_matches",
+      "type": "function",
+      "name": "test_throws_decryption_failed_when_no_key_matches",
+      "filePath": "backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "lineRange": [
+        60,
+        73
+      ],
+      "summary": "验证没有任何匹配密钥时抛出密钥材料解密失败业务错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "type": "file",
+      "name": "ChannelEvaluationHttpConverterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "summary": "验证评测 HTTP 转换器对 Cron 时区的 UTC 缺省、空白清理和非法时区错误转换。",
+      "tags": [
+        "测试",
+        "时区",
+        "对象转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:ChannelEvaluationHttpConverterTest",
+      "type": "class",
+      "name": "ChannelEvaluationHttpConverterTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "lineRange": [
+        17,
+        64
+      ],
+      "summary": "验证评测 HTTP 转换器对 Cron 时区的 UTC 缺省、空白清理和非法时区错误转换。",
+      "tags": [
+        "测试",
+        "时区",
+        "对象转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:test_defaultsToUtc_when_zoneIsMissing",
+      "type": "function",
+      "name": "test_defaultsToUtc_when_zoneIsMissing",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "lineRange": [
+        21,
+        33
+      ],
+      "summary": "验证缺少 Cron 时区时命令使用 UTC。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:test_trimsZone_when_zoneHasSurroundingWhitespace",
+      "type": "function",
+      "name": "test_trimsZone_when_zoneHasSurroundingWhitespace",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "lineRange": [
+        35,
+        45
+      ],
+      "summary": "验证 Cron 时区字符串去除首尾空白后正确解析。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:test_rejectsInvalidZone_when_zoneCannotBeParsed",
+      "type": "function",
+      "name": "test_rejectsInvalidZone_when_zoneCannotBeParsed",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "lineRange": [
+        47,
+        58
+      ],
+      "summary": "验证非法时区被转换为包含原始时区的明确参数异常。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "type": "file",
+      "name": "GatewayProtocolExceptionAdviceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "summary": "验证网关异常处理按 Messages 或 OpenAI 格式返回认证、权限、限流和参数错误，并在流式断连时不返回错误体。",
+      "tags": [
+        "测试",
+        "异常处理",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:GatewayProtocolExceptionAdviceTest",
+      "type": "class",
+      "name": "GatewayProtocolExceptionAdviceTest",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        15,
+        164
+      ],
+      "summary": "验证网关异常处理按 Messages 或 OpenAI 格式返回认证、权限、限流和参数错误，并在流式断连时不返回错误体。",
+      "tags": [
+        "测试",
+        "异常处理",
+        "协议适配"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeBadRequestError_when_messagesRequestIsInvalid",
+      "type": "function",
+      "name": "test_returnsClaudeBadRequestError_when_messagesRequestIsInvalid",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        21,
+        36
+      ],
+      "summary": "验证 Messages 无效请求返回 invalid_request_error 和 HTTP 400。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeAuthenticationError_when_apiCredentialIsInvalid",
+      "type": "function",
+      "name": "test_returnsClaudeAuthenticationError_when_apiCredentialIsInvalid",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        38,
+        51
+      ],
+      "summary": "验证无效 API 凭据返回 Messages 认证错误和 HTTP 401。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudePermissionError_when_modelIsNotAllowed",
+      "type": "function",
+      "name": "test_returnsClaudePermissionError_when_modelIsNotAllowed",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        53,
+        66
+      ],
+      "summary": "验证模型权限不足返回 Messages 权限错误和 HTTP 403。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeRateLimitError_when_quotaIsExhausted",
+      "type": "function",
+      "name": "test_returnsClaudeRateLimitError_when_quotaIsExhausted",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        68,
+        81
+      ],
+      "summary": "验证配额耗尽返回限流错误和 HTTP 429。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsRateLimitError_when_modelDailyLimitIsExceeded",
+      "type": "function",
+      "name": "test_returnsRateLimitError_when_modelDailyLimitIsExceeded",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        83,
+        95
+      ],
+      "summary": "验证模型每日调用额度耗尽返回 HTTP 429。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsOpenAIErrorShape_when_responsesRequestIsInvalid",
+      "type": "function",
+      "name": "test_returnsOpenAIErrorShape_when_responsesRequestIsInvalid",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        97,
+        113
+      ],
+      "summary": "验证 Responses 无效请求使用 OpenAI 错误对象结构。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsOpenAIErrorShape_when_imagesEditsRequestIsInvalid",
+      "type": "function",
+      "name": "test_returnsOpenAIErrorShape_when_imagesEditsRequestIsInvalid",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        115,
+        128
+      ],
+      "summary": "验证图像编辑无效请求使用 OpenAI 错误对象结构。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeApiError_when_unexpectedExceptionOccurs",
+      "type": "function",
+      "name": "test_returnsClaudeApiError_when_unexpectedExceptionOccurs",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        130,
+        141
+      ],
+      "summary": "验证未预期异常返回 Messages 通用服务器错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsNoErrorBody_when_clientDisconnectsDuringStreaming",
+      "type": "function",
+      "name": "test_returnsNoErrorBody_when_clientDisconnectsDuringStreaming",
+      "filePath": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "lineRange": [
+        143,
+        157
+      ],
+      "summary": "验证流式客户端断开时不再返回错误响应体。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:ClaudeResponsesBridgeRefinementTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesOriginalReasoningItem_when_thinkingIsReplayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_emitsSummary_when_onlyReasoningItemDoneArrives",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesTurnBoundary_when_responseHasPhase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesTurnBoundary_when_phaseArrivesAfterText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_loadsMcpToolsAccordingToDefaults_when_configUsesNestedDeferLoading",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_eagerlyLoadsMcpServer_when_enabledToolsHaveMixedLoadingModes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:mcpRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesConversation_when_foreignRedactedThinkingAppearsInHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesAllTextParts_when_messageItemCompletes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_deduplicatesEachTextPart_when_partsAndItemBothComplete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesSummaryParts_when_summaryUsesMultipleIndexes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_keepsCommentaryPhase_when_completionOmitsPreviouslyDeclaredPhase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:test_preservesRefusalStopReason_when_commentaryContainsRefusal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java:stream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesBridgeRefinementTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:ClaudeResponsesToolsetBridgeTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_preservesToolsetIdentity_when_namespacedCallIsReplayed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_emitsToolsetIdentity_when_namespacedCallStreams",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_exposesComputerMembers_when_clientDeclaresComputerToolset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_withholdsDisabledComputerMember_when_executorDisablesZoom",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_buffersMemberInput_when_responsesStreamsArgumentFragments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_exposesDefaultBrowserMembers_when_clientDeclaresBrowserToolset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_withholdsOptionalBrowserMember_when_notExplicitlyEnabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_exposesOptionalBrowserMember_when_explicitlyEnabled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_eagerlyLoadsNestedFunctions_when_modelLacksToolSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_activatesWholeToolset_when_historyInvokesOneMember",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_preservesUnrelatedDeferredTool_when_memberHasSameName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_rejectsUnsupportedToolsetConfiguration_when_contractWouldChange",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:deferredComputerRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:test_preservesDocumentText_when_contentSourceIsString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:screenshotHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java:stream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/ClaudeResponsesToolsetBridgeTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:UnifiedStreamingConversionAdapterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsClaudeSse_when_invokeModelFrameContainsNativeClaudeEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_restoresClientModel_when_invokeModelStartsMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_combinesUsage_when_invokeModelSplitsInputAndOutputUsage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_unwrapsStructuredOutputInput_when_invokeModelStreamsWrappedArray",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_removesBedrockExtensions_when_invokeModelReturnsProviderMetadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_failsClosed_when_invokeModelStreamEndsBeforeMessageStop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_closesEachChatToolBlock_when_multipleToolCallsAreStreamedToClaude",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_buffersChatToolArguments_when_toolNameArrivesLate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_reportsToolUseStopReason_when_streamedToolCallFinishesWithStop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_reportsToolUseStopReason_when_filteredStreamContainsToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_prefersCacheWriteTokens_when_chatStreamReportsBothWriteFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_degradesUnknownStopReason_when_claudeStreamTargetsChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_completesChatStream_when_claudeMessageDeltaOmitsStopReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_reportsClaudeCacheUsage_when_claudeStreamTargetsChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsEmptyToolArguments_when_chatToolCallStreamsNoArguments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_announcesFallbackToolName_when_chatToolCallNeverReceivesName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsResponsesLifecycle_when_chatStreamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_closesResponsesToolCallWithCompleteArguments_when_chatArgumentsArriveInFirstChunk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_replaysBufferedResponsesToolArguments_when_chatToolNameArrivesLate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_mapsStreamingUsageAndLengthStatus_when_chatStreamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsResponsesItems_when_claudeStreamContainsTextAndToolUse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_mapsClaudeCacheUsageAndMaxTokens_when_streamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_usesValidBlockIndexes_when_reasoningArrivesAfterText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_convertsOpenAIResponsesSse_when_targetIsClaudeSseWithToolUse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_stopsReadingUpstream_when_responsesTerminalEventIsReceived",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsClaudeToolUse_when_responsesStreamsCustomToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_removesEmptyPages_when_responsesStreamsReadArguments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsOpaqueThinkingState_when_responsesStreamsCompaction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsVisibleCompactText_when_compactionAliasOnlyAppearsInAddedEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_linksProgramCallerToServerTool_when_responsesStreamsProgrammaticCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_mapsCacheWriteUsage_when_responsesStreamCompletes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_emitsCompletedText_when_responsesOnlySendsDoneEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_recoversOutputItems_when_responsesOnlySendsCompletedEnvelope",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_throwsEofException_when_responsesStreamEndsBeforeTerminalEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_throwsIOException_when_responsesStreamReportsFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_tunnelsSignatureDeltaThroughEncryptedContent_when_claudeStreamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_bridgesRedactedThinkingBlock_when_claudeStreamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_restoresNativeSignature_when_responsesStreamCarriesBridgedThinkingState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_ignoresUnknownContentBlock_when_claudeStreamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_announcesUnnamedToolCall_when_chatStreamTargetsResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:test_throwsIOException_when_chatToolArgumentsAreTruncated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:context",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:dataEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:writeFrame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java:writeStringHeader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRouteContext.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:AesGcmApiKeyMaterialProtectorTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:test_returns_plaintext_when_material_was_encrypted_with_legacy_default_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:test_returns_plaintext_when_material_was_encrypted_with_previous_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java:test_throws_decryption_failed_when_no_key_matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/EncryptedApiKeyMaterial.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:ChannelEvaluationHttpConverterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:test_defaultsToUtc_when_zoneIsMissing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:test_trimsZone_when_zoneHasSurroundingWhitespace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java:test_rejectsInvalidZone_when_zoneCannotBeParsed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/admin/converter/ChannelEvaluationHttpConverterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpsertChannelEvaluationScheduleRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:GatewayProtocolExceptionAdviceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeBadRequestError_when_messagesRequestIsInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeAuthenticationError_when_apiCredentialIsInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudePermissionError_when_modelIsNotAllowed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeRateLimitError_when_quotaIsExhausted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsRateLimitError_when_modelDailyLimitIsExceeded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsOpenAIErrorShape_when_responsesRequestIsInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsOpenAIErrorShape_when_imagesEditsRequestIsInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsClaudeApiError_when_unexpectedExceptionOccurs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java:test_returnsNoErrorBody_when_clientDisconnectsDuringStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolExceptionAdviceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/UnifiedStreamingConversionAdapter.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtectorTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/security/AesGcmApiKeyMaterialProtector.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+"AdminTokenQuotaController.java":{"summary":"提供管理员 Token 配额规则 REST 接口，解析操作者身份并委托应用服务查询、创建、更新与删除；请求以百万 Token 为单位输入，转换为原始 Token 上限。","tags":["http-控制器","token-配额","参数校验","单位换算"],"functions":{"list":"解析当前操作者并返回全部规则、配额目标及窗口时区。","create":"校验配额请求，将新规则标识设为零并把百万单位上限换算为 Token 后保存。","update":"拒绝非正路径标识，按现有规则标识转换并保存已校验的请求。","delete":"解析操作者身份并删除指定规则，成功返回空数据响应。"}},
+"_edges":[
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:list","target":"function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:list","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:create","target":"function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:save","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:update","target":"function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:save","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:delete","target":"function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:delete","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:list","target":"function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:create","target":"function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:update","target":"function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId","type":"calls","weight":0.8},
+{"source":"function:backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java:delete","target":"function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId","type":"calls","weight":0.8}
+]
+}

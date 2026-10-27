@@ -1,0 +1,246 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/widgets/app-shell/model/menu.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "getMenuItems",
+          "startLine": 29,
+          "endLine": 31,
+          "params": [
+            "portal"
+          ]
+        },
+        {
+          "name": "getActiveMenuKey",
+          "startLine": 33,
+          "endLine": 36,
+          "params": [
+            "pathname"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "appMenuItems",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "adminMenuItems",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "getMenuItems",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "getActiveMenuKey",
+          "line": 33,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getActiveMenuKey",
+          "callee": "allItems.find",
+          "lineNumber": 35
+        },
+        {
+          "caller": "getActiveMenuKey",
+          "callee": "pathname.startsWith",
+          "lineNumber": 35
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/app-shell/ui/AppShell.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 186,
+      "nonEmptyLines": 176,
+      "functions": [
+        {
+          "name": "AppShell",
+          "startLine": 52,
+          "endLine": 186,
+          "params": [
+            "{ portal }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AppShell",
+          "line": 52,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AppShell",
+          "callee": "useNavigate",
+          "lineNumber": 53
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useLocation",
+          "lineNumber": 54
+        },
+        {
+          "caller": "AppShell",
+          "callee": "Grid.useBreakpoint",
+          "lineNumber": 55
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useCurrentUser",
+          "lineNumber": 56
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useLogout",
+          "lineNumber": 57
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useUiStore",
+          "lineNumber": 58
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useThemeStore",
+          "lineNumber": 59
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useThemeStore",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useMemo",
+          "lineNumber": 61
+        },
+        {
+          "caller": "AppShell",
+          "callee": "getMenuItems",
+          "lineNumber": 61
+        },
+        {
+          "caller": "AppShell",
+          "callee": "useEffect",
+          "lineNumber": 63
+        },
+        {
+          "caller": "AppShell",
+          "callee": "onAuthExpired",
+          "lineNumber": 63
+        },
+        {
+          "caller": "AppShell",
+          "callee": "navigate",
+          "lineNumber": 64
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "logoutMutation.mutateAsync().catch",
+          "lineNumber": 68
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "logoutMutation.mutateAsync",
+          "lineNumber": 68
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "navigate",
+          "lineNumber": 69
+        },
+        {
+          "caller": "AppShell",
+          "callee": "getActiveMenuKey",
+          "lineNumber": 80
+        },
+        {
+          "caller": "AppShell",
+          "callee": "menuItems.map",
+          "lineNumber": 81
+        },
+        {
+          "caller": "AppShell",
+          "callee": "menuItems.find",
+          "lineNumber": 83
+        },
+        {
+          "caller": "AppShell",
+          "callee": "navigate",
+          "lineNumber": 85
+        },
+        {
+          "caller": "AppShell",
+          "callee": "setMobileDrawerOpen",
+          "lineNumber": 86
+        },
+        {
+          "caller": "AppShell",
+          "callee": "setMobileDrawerOpen",
+          "lineNumber": 100
+        },
+        {
+          "caller": "AppShell",
+          "callee": "setMobileDrawerOpen",
+          "lineNumber": 135
+        },
+        {
+          "caller": "AppShell",
+          "callee": "setSidebarCollapsed",
+          "lineNumber": 139
+        },
+        {
+          "caller": "AppShell",
+          "callee": "navigate",
+          "lineNumber": 161
+        },
+        {
+          "caller": "AppShell",
+          "callee": "handleLogout",
+          "lineNumber": 165
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

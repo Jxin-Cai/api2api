@@ -1,0 +1,5312 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 32,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 32,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 32,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/channel/ProviderModelController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "listProviderModels",
+          "startLine": 29,
+          "endLine": 36,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "toResponse",
+          "startLine": 38,
+          "endLine": 44,
+          "params": [
+            "option"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderModelController",
+          "startLine": 18,
+          "endLine": 45,
+          "methods": [
+            "listProviderModels",
+            "toResponse"
+          ],
+          "properties": [
+            "providerChannelApplicationService",
+            "currentUserContextResolver"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listProviderModels",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderModelController",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listProviderModels",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "providerChannelApplicationService.listProviderModelOptions(userId).stream()\n                .map(this::toResponse).toList",
+          "lineNumber": 32
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "providerChannelApplicationService.listProviderModelOptions(userId).stream().map",
+          "lineNumber": 32
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "providerChannelApplicationService.listProviderModelOptions(userId).stream",
+          "lineNumber": 32
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "providerChannelApplicationService.listProviderModelOptions",
+          "lineNumber": 32
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "ApiResponse.success",
+          "lineNumber": 35
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "ProviderModelOptionListResponse.builder().models(models).build",
+          "lineNumber": 35
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "ProviderModelOptionListResponse.builder().models",
+          "lineNumber": 35
+        },
+        {
+          "caller": "listProviderModels",
+          "callee": "ProviderModelOptionListResponse.builder",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toResponse",
+          "callee": "ProviderModelOptionResponse.builder()\n                .model(option.model().value())\n                .providerCount(option.providerCount())\n                .protocols(option.protocols()).build",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toResponse",
+          "callee": "ProviderModelOptionResponse.builder()\n                .model(option.model().value())\n                .providerCount(option.providerCount()).protocols",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toResponse",
+          "callee": "ProviderModelOptionResponse.builder()\n                .model(option.model().value()).providerCount",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toResponse",
+          "callee": "ProviderModelOptionResponse.builder().model",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toResponse",
+          "callee": "ProviderModelOptionResponse.builder",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toResponse",
+          "callee": "option.model().value",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toResponse",
+          "callee": "option.model",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toResponse",
+          "callee": "option.providerCount",
+          "lineNumber": 41
+        },
+        {
+          "caller": "toResponse",
+          "callee": "option.protocols",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "ProviderModelOptionListResponse",
+          "startLine": 9,
+          "endLine": 16,
+          "methods": [],
+          "properties": [
+            "models"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderModelOptionListResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/channel/dto/ProviderModelOptionResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "ProviderModelOptionResponse",
+          "startLine": 10,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "model",
+            "providerCount",
+            "protocols"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProviderModelOptionResponse",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 134,
+      "nonEmptyLines": 114,
+      "functions": [
+        {
+          "name": "getFrontDashboard",
+          "startLine": 56,
+          "endLine": 70,
+          "params": [
+            "dashboardRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "getFrontKeyMetrics",
+          "startLine": 72,
+          "endLine": 84,
+          "params": [
+            "metricsRequest",
+            "request"
+          ]
+        },
+        {
+          "name": "getFrontDistributions",
+          "startLine": 86,
+          "endLine": 93,
+          "params": [
+            "request",
+            "httpRequest"
+          ]
+        },
+        {
+          "name": "getAdminDistributions",
+          "startLine": 95,
+          "endLine": 102,
+          "params": [
+            "request",
+            "httpRequest"
+          ]
+        },
+        {
+          "name": "currentMonthWindow",
+          "startLine": 104,
+          "endLine": 112,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "toDistributionResponse",
+          "startLine": 114,
+          "endLine": 119,
+          "params": [
+            "models",
+            "channels"
+          ]
+        },
+        {
+          "name": "getAdminDashboard",
+          "startLine": 121,
+          "endLine": 133,
+          "params": [
+            "dashboardRequest",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardController",
+          "startLine": 36,
+          "endLine": 134,
+          "methods": [
+            "getFrontDashboard",
+            "getFrontKeyMetrics",
+            "getFrontDistributions",
+            "getAdminDistributions",
+            "currentMonthWindow",
+            "toDistributionResponse",
+            "getAdminDashboard"
+          ],
+          "properties": [
+            "dashboardApplicationService",
+            "dashboardCommandConverter",
+            "dashboardResponseConverter",
+            "currentUserContextResolver",
+            "dashboardTimeWindowHelper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getFrontDashboard",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "getFrontKeyMetrics",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "getFrontDistributions",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "getAdminDistributions",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "getAdminDashboard",
+          "line": 121,
+          "isDefault": false
+        },
+        {
+          "name": "DashboardController",
+          "line": 36,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getFrontDashboard",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "dashboardCommandConverter.toGetFrontDashboardCommand",
+          "lineNumber": 62
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "dashboardApplicationService.getFrontDashboard",
+          "lineNumber": 65
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "dashboardApplicationService.countFrontDashboardApiKeys",
+          "lineNumber": 66
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "dashboardApplicationService.queryFrontDashboardRecentCalls",
+          "lineNumber": 67
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "ApiResponse.success",
+          "lineNumber": 69
+        },
+        {
+          "caller": "getFrontDashboard",
+          "callee": "dashboardResponseConverter.toFrontDashboardResponse",
+          "lineNumber": 69
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "dashboardCommandConverter.toGetFrontKeyMetricsCommand",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "dashboardApplicationService.getFrontKeyMetrics",
+          "lineNumber": 81
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "ApiResponse.success",
+          "lineNumber": 83
+        },
+        {
+          "caller": "getFrontKeyMetrics",
+          "callee": "dashboardResponseConverter.toFrontKeyMetricsResponse",
+          "lineNumber": 83
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "currentUserContextResolver.resolveCurrentUserId",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "currentMonthWindow",
+          "lineNumber": 89
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "request.getZoneId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "ApiResponse.success",
+          "lineNumber": 90
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "toDistributionResponse",
+          "lineNumber": 90
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 91
+        },
+        {
+          "caller": "getFrontDistributions",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 92
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 97
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "currentMonthWindow",
+          "lineNumber": 98
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "request.getZoneId",
+          "lineNumber": 98
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "ApiResponse.success",
+          "lineNumber": 99
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "toDistributionResponse",
+          "lineNumber": 99
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 100
+        },
+        {
+          "caller": "getAdminDistributions",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 101
+        },
+        {
+          "caller": "currentMonthWindow",
+          "callee": "zoneId.isBlank",
+          "lineNumber": 105
+        },
+        {
+          "caller": "currentMonthWindow",
+          "callee": "zoneId.trim",
+          "lineNumber": 107
+        },
+        {
+          "caller": "currentMonthWindow",
+          "callee": "AnalyticsTimeWindow.of",
+          "lineNumber": 108
+        },
+        {
+          "caller": "currentMonthWindow",
+          "callee": "dashboardTimeWindowHelper.getMonthStartInclusive",
+          "lineNumber": 109
+        },
+        {
+          "caller": "currentMonthWindow",
+          "callee": "dashboardTimeWindowHelper.getMonthEndExclusive",
+          "lineNumber": 110
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.builder()\n                .models(models.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList())\n                .channels(channels.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList()).build",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.builder()\n                .models(models.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList()).channels",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.builder().models",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.builder",
+          "lineNumber": 115
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "models.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "models.stream().map",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "models.stream",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder().name(item.name()).value",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder().name",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "item.name",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "item.value",
+          "lineNumber": 116
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "channels.stream().map(item -> UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build()).toList",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "channels.stream().map",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "channels.stream",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder().name(item.name()).value(item.value()).build",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder().name(item.name()).value",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder().name",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "UsageDistributionResponse.DistributionItem.builder",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "item.name",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toDistributionResponse",
+          "callee": "item.value",
+          "lineNumber": 117
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "currentUserContextResolver.resolveOperatorUserId",
+          "lineNumber": 126
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "dashboardCommandConverter.toGetAdminDashboardCommand",
+          "lineNumber": 127
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "dashboardApplicationService.getAdminDashboard",
+          "lineNumber": 130
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "ApiResponse.success",
+          "lineNumber": 132
+        },
+        {
+          "caller": "getAdminDashboard",
+          "callee": "dashboardResponseConverter.toAdminDashboardResponse",
+          "lineNumber": 132
+        }
+      ],
+      "metrics": {
+        "importCount": 21,
+        "exportCount": 6,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/DashboardTimeWindowHelper.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 101,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "getTodayStartInclusive",
+          "startLine": 20,
+          "endLine": 25,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getTodayEndExclusive",
+          "startLine": 27,
+          "endLine": 33,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getThirtyDayStartInclusive",
+          "startLine": 35,
+          "endLine": 41,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getMonthStartInclusive",
+          "startLine": 43,
+          "endLine": 49,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getMonthEndExclusive",
+          "startLine": 51,
+          "endLine": 58,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getRecentCallsStartInclusive",
+          "startLine": 60,
+          "endLine": 62,
+          "params": [
+            "zoneId",
+            "minutes"
+          ]
+        },
+        {
+          "name": "getRecentCallsEndExclusive",
+          "startLine": 64,
+          "endLine": 66,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getRecentRateStartInclusive",
+          "startLine": 68,
+          "endLine": 70,
+          "params": [
+            "zoneId",
+            "minutes"
+          ]
+        },
+        {
+          "name": "getRecentRateEndExclusive",
+          "startLine": 72,
+          "endLine": 74,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getTrendStartInclusive",
+          "startLine": 76,
+          "endLine": 82,
+          "params": [
+            "zoneId",
+            "days"
+          ]
+        },
+        {
+          "name": "getTrendEndExclusive",
+          "startLine": 84,
+          "endLine": 90,
+          "params": [
+            "zoneId"
+          ]
+        },
+        {
+          "name": "getEvaluationInstant",
+          "startLine": 93,
+          "endLine": 95,
+          "params": []
+        },
+        {
+          "name": "parseZoneId",
+          "startLine": 97,
+          "endLine": 100,
+          "params": [
+            "zoneId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardTimeWindowHelper",
+          "startLine": 12,
+          "endLine": 101,
+          "methods": [
+            "getTodayStartInclusive",
+            "getTodayEndExclusive",
+            "getThirtyDayStartInclusive",
+            "getMonthStartInclusive",
+            "getMonthEndExclusive",
+            "getRecentCallsStartInclusive",
+            "getRecentCallsEndExclusive",
+            "getRecentRateStartInclusive",
+            "getRecentRateEndExclusive",
+            "getTrendStartInclusive",
+            "getTrendEndExclusive",
+            "getEvaluationInstant",
+            "parseZoneId"
+          ],
+          "properties": [
+            "DEFAULT_ZONE_ID",
+            "DEFAULT_RECENT_CALLS_MINUTES",
+            "DEFAULT_RECENT_RATE_MINUTES",
+            "DEFAULT_TREND_DAYS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DEFAULT_ZONE_ID",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "DEFAULT_RECENT_CALLS_MINUTES",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "DEFAULT_RECENT_RATE_MINUTES",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "DEFAULT_TREND_DAYS",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "getTodayStartInclusive",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "getTodayEndExclusive",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "getThirtyDayStartInclusive",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "getMonthStartInclusive",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "getMonthEndExclusive",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "getRecentCallsStartInclusive",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "getRecentCallsEndExclusive",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "getRecentRateStartInclusive",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "getRecentRateEndExclusive",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "getTrendStartInclusive",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "getTrendEndExclusive",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "getEvaluationInstant",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "DashboardTimeWindowHelper",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getTodayStartInclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getTodayStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getTodayStartInclusive",
+          "callee": "LocalDate.now(zone).atStartOfDay",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getTodayStartInclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getTodayEndExclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "getTodayEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusDays(1)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 29
+        },
+        {
+          "caller": "getTodayEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusDays(1).atStartOfDay",
+          "lineNumber": 29
+        },
+        {
+          "caller": "getTodayEndExclusive",
+          "callee": "LocalDate.now(zone).plusDays",
+          "lineNumber": 29
+        },
+        {
+          "caller": "getTodayEndExclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 29
+        },
+        {
+          "caller": "getThirtyDayStartInclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 36
+        },
+        {
+          "caller": "getThirtyDayStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .minusDays(29)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 37
+        },
+        {
+          "caller": "getThirtyDayStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .minusDays(29).atStartOfDay",
+          "lineNumber": 37
+        },
+        {
+          "caller": "getThirtyDayStartInclusive",
+          "callee": "LocalDate.now(zone).minusDays",
+          "lineNumber": 37
+        },
+        {
+          "caller": "getThirtyDayStartInclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 37
+        },
+        {
+          "caller": "getMonthStartInclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "getMonthStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .withDayOfMonth(1)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getMonthStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .withDayOfMonth(1).atStartOfDay",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getMonthStartInclusive",
+          "callee": "LocalDate.now(zone).withDayOfMonth",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getMonthStartInclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getMonthEndExclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 52
+        },
+        {
+          "caller": "getMonthEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusMonths(1)\n                .withDayOfMonth(1)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getMonthEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusMonths(1)\n                .withDayOfMonth(1).atStartOfDay",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getMonthEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusMonths(1).withDayOfMonth",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getMonthEndExclusive",
+          "callee": "LocalDate.now(zone).plusMonths",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getMonthEndExclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getRecentCallsStartInclusive",
+          "callee": "Instant.now().minus",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getRecentCallsStartInclusive",
+          "callee": "Instant.now",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getRecentCallsEndExclusive",
+          "callee": "Instant.now",
+          "lineNumber": 65
+        },
+        {
+          "caller": "getRecentRateStartInclusive",
+          "callee": "Instant.now().minus",
+          "lineNumber": 69
+        },
+        {
+          "caller": "getRecentRateStartInclusive",
+          "callee": "Instant.now",
+          "lineNumber": 69
+        },
+        {
+          "caller": "getRecentRateEndExclusive",
+          "callee": "Instant.now",
+          "lineNumber": 73
+        },
+        {
+          "caller": "getTrendStartInclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getTrendStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .minusDays(days - 1)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getTrendStartInclusive",
+          "callee": "LocalDate.now(zone)\n                .minusDays(days - 1).atStartOfDay",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getTrendStartInclusive",
+          "callee": "LocalDate.now(zone).minusDays",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getTrendStartInclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getTrendEndExclusive",
+          "callee": "parseZoneId",
+          "lineNumber": 85
+        },
+        {
+          "caller": "getTrendEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusDays(1)\n                .atStartOfDay(zone).toInstant",
+          "lineNumber": 86
+        },
+        {
+          "caller": "getTrendEndExclusive",
+          "callee": "LocalDate.now(zone)\n                .plusDays(1).atStartOfDay",
+          "lineNumber": 86
+        },
+        {
+          "caller": "getTrendEndExclusive",
+          "callee": "LocalDate.now(zone).plusDays",
+          "lineNumber": 86
+        },
+        {
+          "caller": "getTrendEndExclusive",
+          "callee": "LocalDate.now",
+          "lineNumber": 86
+        },
+        {
+          "caller": "getEvaluationInstant",
+          "callee": "Instant.now",
+          "lineNumber": 94
+        },
+        {
+          "caller": "parseZoneId",
+          "callee": "zoneId.isBlank",
+          "lineNumber": 98
+        },
+        {
+          "caller": "parseZoneId",
+          "callee": "ZoneId.of",
+          "lineNumber": 99
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 13,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 95,
+      "functions": [
+        {
+          "name": "toGetFrontDashboardCommand",
+          "startLine": 30,
+          "endLine": 50,
+          "params": [
+            "request",
+            "currentUserId"
+          ]
+        },
+        {
+          "name": "toGetFrontKeyMetricsCommand",
+          "startLine": 52,
+          "endLine": 74,
+          "params": [
+            "request",
+            "currentUserId"
+          ]
+        },
+        {
+          "name": "toGetAdminDashboardCommand",
+          "startLine": 76,
+          "endLine": 98,
+          "params": [
+            "request",
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "effectiveZoneId",
+          "startLine": 100,
+          "endLine": 102,
+          "params": [
+            "zoneId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardCommandConverter",
+          "startLine": 20,
+          "endLine": 103,
+          "methods": [
+            "toGetFrontDashboardCommand",
+            "toGetFrontKeyMetricsCommand",
+            "toGetAdminDashboardCommand",
+            "effectiveZoneId"
+          ],
+          "properties": [
+            "DEFAULT_RECENT_CALLS_PAGE",
+            "DEFAULT_RECENT_CALLS_SIZE",
+            "timeWindowHelper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "toGetFrontDashboardCommand",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "toGetFrontKeyMetricsCommand",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "toGetAdminDashboardCommand",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "DashboardCommandConverter",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "effectiveZoneId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "request.getZoneId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))\n                .recentCallsPage(request.getRecentCallsPage() == null\n                        ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage())\n                .recentCallsSize(request.getRecentCallsSize() == null\n                        ? DEFAULT_RECENT_CALLS_SIZE : request.getRecentCallsSize())\n                .zoneId(zoneId).build",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))\n                .recentCallsPage(request.getRecentCallsPage() == null\n                        ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage())\n                .recentCallsSize(request.getRecentCallsSize() == null\n                        ? DEFAULT_RECENT_CALLS_SIZE : request.getRecentCallsSize()).zoneId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId))\n                .recentCallsPage(request.getRecentCallsPage() == null\n                        ? DEFAULT_RECENT_CALLS_PAGE : request.getRecentCallsPage()).recentCallsSize",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES))\n                .recentCallsEndExclusive(timeWindowHelper.getRecentCallsEndExclusive(zoneId)).recentCallsPage",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentCallsStartInclusive(timeWindowHelper.getRecentCallsStartInclusive(\n                        zoneId, DashboardTimeWindowHelper.DEFAULT_RECENT_CALLS_MINUTES)).recentCallsEndExclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .thirtyDayEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId)).recentCallsStartInclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .thirtyDayStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId)).thirtyDayEndExclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId)).thirtyDayStartInclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId)).todayEndExclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder()\n                .currentUserId(currentUserId).todayStartInclusive",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder().currentUserId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "GetFrontDashboardCommand.builder",
+          "lineNumber": 35
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "timeWindowHelper.getTodayStartInclusive",
+          "lineNumber": 37
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "timeWindowHelper.getTodayEndExclusive",
+          "lineNumber": 38
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "timeWindowHelper.getMonthStartInclusive",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "timeWindowHelper.getMonthEndExclusive",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "timeWindowHelper.getRecentCallsStartInclusive",
+          "lineNumber": 41
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "timeWindowHelper.getRecentCallsEndExclusive",
+          "lineNumber": 43
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "request.getRecentCallsPage",
+          "lineNumber": 44
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "request.getRecentCallsPage",
+          "lineNumber": 45
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "request.getRecentCallsSize",
+          "lineNumber": 46
+        },
+        {
+          "caller": "toGetFrontDashboardCommand",
+          "callee": "request.getRecentCallsSize",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "effectiveZoneId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getZoneId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getTrendDays",
+          "lineNumber": 57
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getTrendDays",
+          "lineNumber": 58
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getCredentialIds",
+          "lineNumber": 59
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "List.of",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getCredentialIds().stream().map(ApiCredentialId::of).toList",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getCredentialIds().stream().map",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getCredentialIds().stream",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "request.getCredentialIds",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))\n                .trendCredentialIds(credentialIds)\n                .zoneId(zoneId)\n                .asOf(timeWindowHelper.getEvaluationInstant()).build",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))\n                .trendCredentialIds(credentialIds)\n                .zoneId(zoneId).asOf",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))\n                .trendCredentialIds(credentialIds).zoneId",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId)).trendCredentialIds",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays)).trendEndExclusive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId)).trendStartInclusive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId)).monthEndExclusive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId)).monthStartInclusive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId)).todayEndExclusive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder()\n                .currentUserId(currentUserId).todayStartInclusive",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder().currentUserId",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "GetFrontKeyMetricsCommand.builder",
+          "lineNumber": 62
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getTodayStartInclusive",
+          "lineNumber": 64
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getTodayEndExclusive",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getMonthStartInclusive",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getMonthEndExclusive",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getTrendStartInclusive",
+          "lineNumber": 68
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getTrendEndExclusive",
+          "lineNumber": 69
+        },
+        {
+          "caller": "toGetFrontKeyMetricsCommand",
+          "callee": "timeWindowHelper.getEvaluationInstant",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "effectiveZoneId",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "request.getZoneId",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "request.getRecentRateMinutes",
+          "lineNumber": 81
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "request.getRecentRateMinutes",
+          "lineNumber": 82
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "request.getTrendDays",
+          "lineNumber": 83
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "request.getTrendDays",
+          "lineNumber": 84
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes))\n                .recentRateEndExclusive(timeWindowHelper.getRecentRateEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))\n                .zoneId(zoneId)\n                .asOf(timeWindowHelper.getEvaluationInstant()).build",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes))\n                .recentRateEndExclusive(timeWindowHelper.getRecentRateEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId))\n                .zoneId(zoneId).asOf",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes))\n                .recentRateEndExclusive(timeWindowHelper.getRecentRateEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays))\n                .trendEndExclusive(timeWindowHelper.getTrendEndExclusive(zoneId)).zoneId",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes))\n                .recentRateEndExclusive(timeWindowHelper.getRecentRateEndExclusive(zoneId))\n                .trendStartInclusive(timeWindowHelper.getTrendStartInclusive(zoneId, trendDays)).trendEndExclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes))\n                .recentRateEndExclusive(timeWindowHelper.getRecentRateEndExclusive(zoneId)).trendStartInclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId))\n                .recentRateStartInclusive(timeWindowHelper.getRecentRateStartInclusive(zoneId, recentRateMinutes)).recentRateEndExclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId))\n                .monthEndExclusive(timeWindowHelper.getMonthEndExclusive(zoneId)).recentRateStartInclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId))\n                .monthStartInclusive(timeWindowHelper.getMonthStartInclusive(zoneId)).monthEndExclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId))\n                .todayEndExclusive(timeWindowHelper.getTodayEndExclusive(zoneId)).monthStartInclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId)\n                .todayStartInclusive(timeWindowHelper.getTodayStartInclusive(zoneId)).todayEndExclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder()\n                .operatorUserId(operatorUserId).todayStartInclusive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder().operatorUserId",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "GetAdminDashboardCommand.builder",
+          "lineNumber": 85
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getTodayStartInclusive",
+          "lineNumber": 87
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getTodayEndExclusive",
+          "lineNumber": 88
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getMonthStartInclusive",
+          "lineNumber": 89
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getMonthEndExclusive",
+          "lineNumber": 90
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getRecentRateStartInclusive",
+          "lineNumber": 91
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getRecentRateEndExclusive",
+          "lineNumber": 92
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getTrendStartInclusive",
+          "lineNumber": 93
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getTrendEndExclusive",
+          "lineNumber": 94
+        },
+        {
+          "caller": "toGetAdminDashboardCommand",
+          "callee": "timeWindowHelper.getEvaluationInstant",
+          "lineNumber": 96
+        },
+        {
+          "caller": "effectiveZoneId",
+          "callee": "zoneId.isBlank",
+          "lineNumber": 101
+        }
+      ],
+      "metrics": {
+        "importCount": 9,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/converter/DashboardResponseConverter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 142,
+      "nonEmptyLines": 126,
+      "functions": [
+        {
+          "name": "toFrontDashboardResponse",
+          "startLine": 42,
+          "endLine": 57,
+          "params": [
+            "metrics",
+            "apiKeyCount",
+            "recentCalls"
+          ]
+        },
+        {
+          "name": "toFrontKeyMetricsResponse",
+          "startLine": 59,
+          "endLine": 70,
+          "params": [
+            "metrics"
+          ]
+        },
+        {
+          "name": "toAdminDashboardResponse",
+          "startLine": 72,
+          "endLine": 89,
+          "params": [
+            "metrics"
+          ]
+        },
+        {
+          "name": "toTokenAmountResponse",
+          "startLine": 91,
+          "endLine": 93,
+          "params": [
+            "tokenAmount"
+          ]
+        },
+        {
+          "name": "toRecentCallResponse",
+          "startLine": 95,
+          "endLine": 105,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "toProtocolRequestRateResponse",
+          "startLine": 107,
+          "endLine": 107,
+          "params": [
+            "rate"
+          ]
+        },
+        {
+          "name": "toUserTokenRankingResponse",
+          "startLine": 109,
+          "endLine": 112,
+          "params": [
+            "ranking"
+          ]
+        },
+        {
+          "name": "toProtocolTokenTrendPointResponse",
+          "startLine": 114,
+          "endLine": 115,
+          "params": [
+            "point"
+          ]
+        },
+        {
+          "name": "toChannelTokenTrendPointResponse",
+          "startLine": 117,
+          "endLine": 120,
+          "params": [
+            "point"
+          ]
+        },
+        {
+          "name": "toCredentialTokenRankingResponse",
+          "startLine": 122,
+          "endLine": 125,
+          "params": [
+            "ranking"
+          ]
+        },
+        {
+          "name": "toCredentialTokenTrendPointResponse",
+          "startLine": 127,
+          "endLine": 130,
+          "params": [
+            "point"
+          ]
+        },
+        {
+          "name": "toConcurrencyTrendPointResponse",
+          "startLine": 132,
+          "endLine": 132,
+          "params": [
+            "point"
+          ]
+        },
+        {
+          "name": "toCredentialConcurrencyTrendPointResponse",
+          "startLine": 134,
+          "endLine": 137,
+          "params": [
+            "point"
+          ]
+        },
+        {
+          "name": "toChannelLatencyRankingResponse",
+          "startLine": 139,
+          "endLine": 141,
+          "params": [
+            "ranking"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardResponseConverter",
+          "startLine": 39,
+          "endLine": 142,
+          "methods": [
+            "toFrontDashboardResponse",
+            "toFrontKeyMetricsResponse",
+            "toAdminDashboardResponse",
+            "toTokenAmountResponse",
+            "toRecentCallResponse",
+            "toProtocolRequestRateResponse",
+            "toUserTokenRankingResponse",
+            "toProtocolTokenTrendPointResponse",
+            "toChannelTokenTrendPointResponse",
+            "toCredentialTokenRankingResponse",
+            "toCredentialTokenTrendPointResponse",
+            "toConcurrencyTrendPointResponse",
+            "toCredentialConcurrencyTrendPointResponse",
+            "toChannelLatencyRankingResponse"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "toFrontDashboardResponse",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "toFrontKeyMetricsResponse",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "toAdminDashboardResponse",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "DashboardResponseConverter",
+          "line": 39,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens()))\n                .apiKeyCount(apiKeyCount)\n                .recentCalls(recentCalls.getRecords().stream().map(this::toRecentCallResponse).toList()).build",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens()))\n                .apiKeyCount(apiKeyCount).recentCalls",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthTotalTokens(toTokenAmountResponse(metrics.getMonthTotalTokens())).apiKeyCount",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens()))\n                .monthActualTokens(toTokenAmountResponse(metrics.getMonthActualTokens())).monthTotalTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthActualTokens())).monthActualTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayTotalTokens(toTokenAmountResponse(metrics.getTodayTotalTokens())).monthTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens()))\n                .todayActualTokens(toTokenAmountResponse(metrics.getTodayActualTokens())).todayTotalTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder()\n                .todayTokens(toTokenAmountResponse(metrics.getTodayActualTokens())).todayActualTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder().todayTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "FrontDashboardResponse.builder",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "metrics.getTodayActualTokens",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "metrics.getTodayActualTokens",
+          "lineNumber": 49
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 50
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "metrics.getTodayTotalTokens",
+          "lineNumber": 50
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "metrics.getMonthActualTokens",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 52
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "metrics.getMonthActualTokens",
+          "lineNumber": 52
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 53
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "metrics.getMonthTotalTokens",
+          "lineNumber": 53
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "recentCalls.getRecords().stream().map(this::toRecentCallResponse).toList",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "recentCalls.getRecords().stream().map",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "recentCalls.getRecords().stream",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toFrontDashboardResponse",
+          "callee": "recentCalls.getRecords",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .credentialTokenTrends(metrics.getCredentialTokenTrends().stream()\n                        .map(this::toCredentialTokenTrendPointResponse).toList())\n                .credentialConcurrencyTrends(metrics.getCredentialConcurrencyTrends().stream()\n                        .map(this::toCredentialConcurrencyTrendPointResponse).toList()).build",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .credentialTokenTrends(metrics.getCredentialTokenTrends().stream()\n                        .map(this::toCredentialTokenTrendPointResponse).toList()).credentialConcurrencyTrends",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList())\n                .monthlyTopCredentials(metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList()).credentialTokenTrends",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "FrontKeyMetricsResponse.builder()\n                .dailyTopCredentials(metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList()).monthlyTopCredentials",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "FrontKeyMetricsResponse.builder().dailyTopCredentials",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "FrontKeyMetricsResponse.builder",
+          "lineNumber": 60
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getDailyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getDailyTopCredentials().stream().map",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getDailyTopCredentials().stream",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getDailyTopCredentials",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getMonthlyTopCredentials().stream()\n                        .map(this::toCredentialTokenRankingResponse).toList",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getMonthlyTopCredentials().stream().map",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getMonthlyTopCredentials().stream",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getMonthlyTopCredentials",
+          "lineNumber": 63
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialTokenTrends().stream()\n                        .map(this::toCredentialTokenTrendPointResponse).toList",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialTokenTrends().stream().map",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialTokenTrends().stream",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialTokenTrends",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialConcurrencyTrends().stream()\n                        .map(this::toCredentialConcurrencyTrendPointResponse).toList",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialConcurrencyTrends().stream().map",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialConcurrencyTrends().stream",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toFrontKeyMetricsResponse",
+          "callee": "metrics.getCredentialConcurrencyTrends",
+          "lineNumber": 67
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList())\n                .channelTokenTrends(metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList())\n                .todayConcurrencyTrends(metrics.getTodayConcurrencyTrends().stream()\n                        .map(this::toConcurrencyTrendPointResponse).toList())\n                .dailySlowestChannels(metrics.getDailySlowestChannels().stream()\n                        .map(this::toChannelLatencyRankingResponse).toList()).build",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList())\n                .channelTokenTrends(metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList())\n                .todayConcurrencyTrends(metrics.getTodayConcurrencyTrends().stream()\n                        .map(this::toConcurrencyTrendPointResponse).toList()).dailySlowestChannels",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList())\n                .channelTokenTrends(metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList()).todayConcurrencyTrends",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .protocolTokenTrends(metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList()).channelTokenTrends",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList())\n                .monthlyTopUsers(metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList()).protocolTokenTrends",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens()))\n                .dailyTopUsers(metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList()).monthlyTopUsers",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens()))\n                .monthTokens(toTokenAmountResponse(metrics.getMonthTokens())).dailyTopUsers",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList())\n                .todayTokens(toTokenAmountResponse(metrics.getTodayTokens())).monthTokens",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder()\n                .protocolRequestRates(metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList()).todayTokens",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder().protocolRequestRates",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "AdminDashboardResponse.builder",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolRequestRates().stream()\n                        .map(this::toProtocolRequestRateResponse).toList",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolRequestRates().stream().map",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolRequestRates().stream",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolRequestRates",
+          "lineNumber": 74
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getTodayTokens",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "toTokenAmountResponse",
+          "lineNumber": 77
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getMonthTokens",
+          "lineNumber": 77
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailyTopUsers().stream().map(this::toUserTokenRankingResponse).toList",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailyTopUsers().stream().map",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailyTopUsers().stream",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailyTopUsers",
+          "lineNumber": 78
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getMonthlyTopUsers().stream().map(this::toUserTokenRankingResponse).toList",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getMonthlyTopUsers().stream().map",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getMonthlyTopUsers().stream",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getMonthlyTopUsers",
+          "lineNumber": 79
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolTokenTrends().stream()\n                        .map(this::toProtocolTokenTrendPointResponse).toList",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolTokenTrends().stream().map",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolTokenTrends().stream",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getProtocolTokenTrends",
+          "lineNumber": 80
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getChannelTokenTrends().stream()\n                        .map(this::toChannelTokenTrendPointResponse).toList",
+          "lineNumber": 82
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getChannelTokenTrends().stream().map",
+          "lineNumber": 82
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getChannelTokenTrends().stream",
+          "lineNumber": 82
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getChannelTokenTrends",
+          "lineNumber": 82
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getTodayConcurrencyTrends().stream()\n                        .map(this::toConcurrencyTrendPointResponse).toList",
+          "lineNumber": 84
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getTodayConcurrencyTrends().stream().map",
+          "lineNumber": 84
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getTodayConcurrencyTrends().stream",
+          "lineNumber": 84
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getTodayConcurrencyTrends",
+          "lineNumber": 84
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailySlowestChannels().stream()\n                        .map(this::toChannelLatencyRankingResponse).toList",
+          "lineNumber": 86
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailySlowestChannels().stream().map",
+          "lineNumber": 86
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailySlowestChannels().stream",
+          "lineNumber": 86
+        },
+        {
+          "caller": "toAdminDashboardResponse",
+          "callee": "metrics.getDailySlowestChannels",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 30,
+        "exportCount": 4,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/AdminDashboardResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "classes": [
+        {
+          "name": "AdminDashboardResponse",
+          "startLine": 12,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "protocolRequestRates",
+            "todayTokens",
+            "monthTokens",
+            "dailyTopUsers",
+            "monthlyTopUsers",
+            "protocolTokenTrends",
+            "channelTokenTrends",
+            "todayConcurrencyTrends",
+            "dailySlowestChannels"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminDashboardResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelLatencyRankingResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "ChannelLatencyRankingResponse",
+          "startLine": 11,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "rank",
+            "providerChannelId",
+            "providerChannelName",
+            "maxDurationMillis",
+            "maxFirstTokenMillis",
+            "avgFirstTokenMillis",
+            "avgDurationMillis",
+            "requestCount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelLatencyRankingResponse",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ChannelTokenTrendPointResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "ChannelTokenTrendPointResponse",
+          "startLine": 13,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "bucketStart",
+            "bucketEnd",
+            "providerChannelId",
+            "providerChannelName",
+            "totalTokens"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelTokenTrendPointResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ConcurrencyTrendPointResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "ConcurrencyTrendPointResponse",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "bucketStart",
+            "bucketEnd",
+            "peakConcurrency"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ConcurrencyTrendPointResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/CredentialConcurrencyTrendPointResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "CredentialConcurrencyTrendPointResponse",
+          "startLine": 12,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "bucketStart",
+            "bucketEnd",
+            "credentialId",
+            "credentialName",
+            "peakConcurrency"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CredentialConcurrencyTrendPointResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/CredentialTokenRankingResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "CredentialTokenRankingResponse",
+          "startLine": 12,
+          "endLine": 22,
+          "methods": [],
+          "properties": [
+            "rank",
+            "credentialId",
+            "credentialName",
+            "totalTokens"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CredentialTokenRankingResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/CredentialTokenTrendPointResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "CredentialTokenTrendPointResponse",
+          "startLine": 13,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "bucketStart",
+            "bucketEnd",
+            "credentialId",
+            "credentialName",
+            "totalTokens"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CredentialTokenTrendPointResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontDashboardRecentCallResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 33,
+      "classes": [
+        {
+          "name": "FrontDashboardRecentCallResponse",
+          "startLine": 15,
+          "endLine": 36,
+          "methods": [],
+          "properties": [
+            "id",
+            "apiCredentialId",
+            "requestedModel",
+            "requestProtocol",
+            "status",
+            "inputTokens",
+            "outputTokens",
+            "cacheCreationInputTokens",
+            "cacheReadInputTokens",
+            "totalTokens",
+            "actualTokens",
+            "usageKnown",
+            "startedAt",
+            "endedAt",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FrontDashboardRecentCallResponse",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontDashboardResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 23,
+      "classes": [
+        {
+          "name": "FrontDashboardResponse",
+          "startLine": 12,
+          "endLine": 26,
+          "methods": [],
+          "properties": [
+            "todayTokens",
+            "todayActualTokens",
+            "todayTotalTokens",
+            "monthTokens",
+            "monthActualTokens",
+            "monthTotalTokens",
+            "apiKeyCount",
+            "recentCalls"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FrontDashboardResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/FrontKeyMetricsResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "FrontKeyMetricsResponse",
+          "startLine": 12,
+          "endLine": 22,
+          "methods": [],
+          "properties": [
+            "dailyTopCredentials",
+            "monthlyTopCredentials",
+            "credentialTokenTrends",
+            "credentialConcurrencyTrends"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FrontKeyMetricsResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetAdminDashboardRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "GetAdminDashboardRequest",
+          "startLine": 13,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "zoneId",
+            "recentRateMinutes",
+            "trendDays"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetAdminDashboardRequest",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetFrontDashboardRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "GetFrontDashboardRequest",
+          "startLine": 13,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "zoneId",
+            "recentCallsPage",
+            "recentCallsSize"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetFrontDashboardRequest",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/GetFrontKeyMetricsRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "GetFrontKeyMetricsRequest",
+          "startLine": 14,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "zoneId",
+            "trendDays",
+            "credentialIds"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetFrontKeyMetricsRequest",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ProtocolRequestRateResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "ProtocolRequestRateResponse",
+          "startLine": 12,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "protocol",
+            "requestCount",
+            "requestsPerMinute"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolRequestRateResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/ProtocolTokenTrendPointResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "ProtocolTokenTrendPointResponse",
+          "startLine": 14,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "bucketStart",
+            "bucketEnd",
+            "protocol",
+            "totalTokens"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolTokenTrendPointResponse",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/TokenAmountResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "TokenAmountResponse",
+          "startLine": 13,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "tokens",
+            "millions"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TokenAmountResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/UsageDistributionResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "UsageDistributionResponse",
+          "startLine": 7,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "models",
+            "channels"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageDistributionResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/dashboard/dto/UserTokenRankingResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "UserTokenRankingResponse",
+          "startLine": 12,
+          "endLine": 22,
+          "methods": [],
+          "properties": [
+            "rank",
+            "userAccountId",
+            "username",
+            "totalTokens"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserTokenRankingResponse",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/operations/OperationsController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "system",
+          "startLine": 29,
+          "endLine": 32,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "traffic",
+          "startLine": 34,
+          "endLine": 53,
+          "params": [
+            "request",
+            "zoneId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OperationsController",
+          "startLine": 19,
+          "endLine": 54,
+          "methods": [
+            "system",
+            "traffic"
+          ],
+          "properties": [
+            "operations",
+            "currentUser"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "system",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "traffic",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "OperationsController",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "system",
+          "callee": "ApiResponse.success",
+          "lineNumber": 31
+        },
+        {
+          "caller": "system",
+          "callee": "operations.system",
+          "lineNumber": 31
+        },
+        {
+          "caller": "system",
+          "callee": "currentUser.resolveOperatorUserId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "traffic",
+          "callee": "currentUser.resolveOperatorUserId",
+          "lineNumber": 37
+        },
+        {
+          "caller": "traffic",
+          "callee": "ZoneId.of",
+          "lineNumber": 40
+        },
+        {
+          "caller": "traffic",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 42
+        },
+        {
+          "caller": "traffic",
+          "callee": "operations.traffic",
+          "lineNumber": 44
+        },
+        {
+          "caller": "traffic",
+          "callee": "ApiResponse.success",
+          "lineNumber": 45
+        },
+        {
+          "caller": "traffic",
+          "callee": "new TrafficResponse",
+          "lineNumber": 45
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.sampledAt",
+          "lineNumber": 45
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.zoneId",
+          "lineNumber": 45
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.todayConcurrencyTrends().stream().map(point -> new ConcurrencyTrendPointResponse(point.bucketStart(), point.bucketEnd(), point.peakConcurrency())).toList",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.todayConcurrencyTrends().stream().map",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.todayConcurrencyTrends().stream",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.todayConcurrencyTrends",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "new ConcurrencyTrendPointResponse",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "point.bucketStart",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "point.bucketEnd",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "point.peakConcurrency",
+          "lineNumber": 46
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.dailySlowestChannels().stream().map(item -> ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value())\n                        .maxDurationMillis(item.maxDurationMillis()).avgDurationMillis(item.avgDurationMillis())\n                        .maxFirstTokenMillis(item.maxFirstTokenMillis()).avgFirstTokenMillis(item.avgFirstTokenMillis())\n                        .requestCount(item.requestCount()).build()).toList",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.dailySlowestChannels().stream().map",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.dailySlowestChannels().stream",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "data.dailySlowestChannels",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value())\n                        .maxDurationMillis(item.maxDurationMillis()).avgDurationMillis(item.avgDurationMillis())\n                        .maxFirstTokenMillis(item.maxFirstTokenMillis()).avgFirstTokenMillis(item.avgFirstTokenMillis())\n                        .requestCount(item.requestCount()).build",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value())\n                        .maxDurationMillis(item.maxDurationMillis()).avgDurationMillis(item.avgDurationMillis())\n                        .maxFirstTokenMillis(item.maxFirstTokenMillis()).avgFirstTokenMillis(item.avgFirstTokenMillis()).requestCount",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value())\n                        .maxDurationMillis(item.maxDurationMillis()).avgDurationMillis(item.avgDurationMillis())\n                        .maxFirstTokenMillis(item.maxFirstTokenMillis()).avgFirstTokenMillis",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value())\n                        .maxDurationMillis(item.maxDurationMillis()).avgDurationMillis(item.avgDurationMillis()).maxFirstTokenMillis",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value())\n                        .maxDurationMillis(item.maxDurationMillis()).avgDurationMillis",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value())\n                        .providerChannelName(item.providerChannelName().value()).maxDurationMillis",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId(item.providerChannelId().value()).providerChannelName",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder()\n                        .rank(item.rank()).providerChannelId",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder().rank",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "ChannelLatencyRankingResponse.builder",
+          "lineNumber": 47
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.rank",
+          "lineNumber": 48
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.providerChannelId().value",
+          "lineNumber": 48
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.providerChannelId",
+          "lineNumber": 48
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.providerChannelName().value",
+          "lineNumber": 49
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.providerChannelName",
+          "lineNumber": 49
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.maxDurationMillis",
+          "lineNumber": 50
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.avgDurationMillis",
+          "lineNumber": 50
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.maxFirstTokenMillis",
+          "lineNumber": 51
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.avgFirstTokenMillis",
+          "lineNumber": 51
+        },
+        {
+          "caller": "traffic",
+          "callee": "item.requestCount",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/application/operations/OperationsApplicationServiceTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 86,
+      "functions": [
+        {
+          "name": "user",
+          "startLine": 25,
+          "endLine": 28,
+          "params": [
+            "role",
+            "status"
+          ]
+        },
+        {
+          "name": "test_deniesSystemMetrics_when_operatorIsRegularUser",
+          "startLine": 30,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "test_neverCollectsHostData_when_operatorIsRegularUser",
+          "startLine": 38,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "test_deniesTraffic_when_operatorIsRegularUser",
+          "startLine": 48,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "test_deniesSystemMetrics_when_operatorMissing",
+          "startLine": 56,
+          "endLine": 62,
+          "params": []
+        },
+        {
+          "name": "test_collectsSystemMetrics_when_operatorIsAdmin",
+          "startLine": 64,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "startLine": 74,
+          "endLine": 82,
+          "params": []
+        },
+        {
+          "name": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "startLine": 84,
+          "endLine": 95,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OperationsApplicationServiceTest",
+          "startLine": 18,
+          "endLine": 96,
+          "methods": [
+            "user",
+            "test_deniesSystemMetrics_when_operatorIsRegularUser",
+            "test_neverCollectsHostData_when_operatorIsRegularUser",
+            "test_deniesTraffic_when_operatorIsRegularUser",
+            "test_deniesSystemMetrics_when_operatorMissing",
+            "test_collectsSystemMetrics_when_operatorIsAdmin",
+            "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+            "test_usesRequestedLocalDay_when_requestingTraffic"
+          ],
+          "properties": [
+            "users",
+            "analytics",
+            "collector",
+            "service",
+            "id"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "user",
+          "callee": "when(users.findById(id)).thenReturn",
+          "lineNumber": 26
+        },
+        {
+          "caller": "user",
+          "callee": "when",
+          "lineNumber": 26
+        },
+        {
+          "caller": "user",
+          "callee": "users.findById",
+          "lineNumber": 26
+        },
+        {
+          "caller": "user",
+          "callee": "Optional.of",
+          "lineNumber": 26
+        },
+        {
+          "caller": "user",
+          "callee": "UserAccount.rehydrate",
+          "lineNumber": 26
+        },
+        {
+          "caller": "user",
+          "callee": "Username.of",
+          "lineNumber": 26
+        },
+        {
+          "caller": "user",
+          "callee": "DisplayName.of",
+          "lineNumber": 27
+        },
+        {
+          "caller": "user",
+          "callee": "Instant.now",
+          "lineNumber": 27
+        },
+        {
+          "caller": "user",
+          "callee": "Instant.now",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorIsRegularUser",
+          "callee": "user",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorIsRegularUser",
+          "callee": "assertThatThrownBy(() -> service.system(id)).isInstanceOf(IllegalStateException.class).hasMessageContaining",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorIsRegularUser",
+          "callee": "assertThatThrownBy(() -> service.system(id)).isInstanceOf",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorIsRegularUser",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorIsRegularUser",
+          "callee": "service.system",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_neverCollectsHostData_when_operatorIsRegularUser",
+          "callee": "user",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_neverCollectsHostData_when_operatorIsRegularUser",
+          "callee": "catchThrowable",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_neverCollectsHostData_when_operatorIsRegularUser",
+          "callee": "service.system",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_neverCollectsHostData_when_operatorIsRegularUser",
+          "callee": "verifyNoInteractions",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_deniesTraffic_when_operatorIsRegularUser",
+          "callee": "user",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_deniesTraffic_when_operatorIsRegularUser",
+          "callee": "assertThatThrownBy(() -> service.traffic(id, ZoneId.of(\"UTC\"))).isInstanceOf",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_deniesTraffic_when_operatorIsRegularUser",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_deniesTraffic_when_operatorIsRegularUser",
+          "callee": "service.traffic",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_deniesTraffic_when_operatorIsRegularUser",
+          "callee": "ZoneId.of",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "when(users.findById(id)).thenReturn",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "when",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "users.findById",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "Optional.empty",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "assertThatThrownBy(() -> service.system(id)).isInstanceOf",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "assertThatThrownBy",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_deniesSystemMetrics_when_operatorMissing",
+          "callee": "service.system",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_collectsSystemMetrics_when_operatorIsAdmin",
+          "callee": "user",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_collectsSystemMetrics_when_operatorIsAdmin",
+          "callee": "service.system",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_collectsSystemMetrics_when_operatorIsAdmin",
+          "callee": "verify(collector).snapshot",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_collectsSystemMetrics_when_operatorIsAdmin",
+          "callee": "verify",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "user",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "service.traffic",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "ZoneId.of",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "verify(analytics).calculateConcurrencyTrends",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "verify",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "any",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "eq",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_preservesConcurrencyBucketSize_when_requestingTraffic",
+          "callee": "any",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "user",
+          "lineNumber": 87
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "ZoneId.of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "service.traffic",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "verify(analytics).findSlowestChannels",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "verify",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "window.capture",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "eq",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "assertThat(window.getValue().startInclusive()).isEqualTo",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "assertThat",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "window.getValue().startInclusive",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "window.getValue",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "result.sampledAt().atZone(zone).toLocalDate().atStartOfDay(zone).toInstant",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "result.sampledAt().atZone(zone).toLocalDate().atStartOfDay",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "result.sampledAt().atZone(zone).toLocalDate",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "result.sampledAt().atZone",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_usesRequestedLocalDay_when_requestingTraffic",
+          "callee": "result.sampledAt",
+          "lineNumber": 94
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 0,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/domain/analytics/service/DashboardAnalyticsServiceTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "startLine": 19,
+          "endLine": 48,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardAnalyticsServiceTest",
+          "startLine": 17,
+          "endLine": 49,
+          "methods": [
+            "test_exposes_actual_and_total_token_sums_when_building_front_metrics"
+          ],
+          "properties": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "mock",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "UserAccountId.of",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "AnalyticsTimeWindow.of",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "Instant.parse",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "Instant.parse",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "AnalyticsTimeWindow.of",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "Instant.parse",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "Instant.parse",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "when(repository.sumUserTokens(userAccountId, todayWindow)).thenReturn",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "when",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "repository.sumUserTokens",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "when(repository.sumUserTokens(userAccountId, monthWindow)).thenReturn",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "when",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "repository.sumUserTokens",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "UsageTokenBreakdown.known",
+          "lineNumber": 36
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "new DashboardAnalyticsService",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "service.buildFrontMetrics",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "FrontDashboardQuery.of",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat(metrics.getTodayActualTokens().getTokens()).isEqualByComparingTo",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getTodayActualTokens().getTokens",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getTodayActualTokens",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "new BigDecimal",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat(metrics.getTodayTotalTokens().getTokens()).isEqualByComparingTo",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getTodayTotalTokens().getTokens",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getTodayTotalTokens",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "new BigDecimal",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat(metrics.getMonthActualTokens().getTokens()).isEqualByComparingTo",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getMonthActualTokens().getTokens",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getMonthActualTokens",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "new BigDecimal",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat(metrics.getMonthTotalTokens().getTokens()).isEqualByComparingTo",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "assertThat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getMonthTotalTokens().getTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "metrics.getMonthTotalTokens",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_exposes_actual_and_total_token_sums_when_building_front_metrics",
+          "callee": "new BigDecimal",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/infr/monitoring/SystemMetricsCollectorTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "test_reportsHealthy_when_allMetricsBelowThreshold",
+          "startLine": 12,
+          "endLine": 18,
+          "params": []
+        },
+        {
+          "name": "test_reportsWarning_when_resourceReachesEightyPercent",
+          "startLine": 20,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "test_reportsCritical_when_resourceReachesNinetyFivePercent",
+          "startLine": 28,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "test_reportsCritical_when_normalizedLoadReachesOnePointFive",
+          "startLine": 36,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "test_reportsWarning_when_databaseHasWaiters",
+          "startLine": 44,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "test_doesNotClaimHealthy_when_metricUnavailable",
+          "startLine": 54,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "test_preservesCriticalSignal_when_otherMetricMissing",
+          "startLine": 62,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "startLine": 70,
+          "endLine": 79,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SystemMetricsCollectorTest",
+          "startLine": 9,
+          "endLine": 80,
+          "methods": [
+            "test_reportsHealthy_when_allMetricsBelowThreshold",
+            "test_reportsWarning_when_resourceReachesEightyPercent",
+            "test_reportsCritical_when_resourceReachesNinetyFivePercent",
+            "test_reportsCritical_when_normalizedLoadReachesOnePointFive",
+            "test_reportsWarning_when_databaseHasWaiters",
+            "test_doesNotClaimHealthy_when_metricUnavailable",
+            "test_preservesCriticalSignal_when_otherMetricMissing",
+            "test_reusesSnapshot_when_requestedWithinFiveSeconds"
+          ],
+          "properties": [
+            "idlePool"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_reportsHealthy_when_allMetricsBelowThreshold",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_reportsHealthy_when_allMetricsBelowThreshold",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_reportsHealthy_when_allMetricsBelowThreshold",
+          "callee": "assertThat",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_reportsWarning_when_resourceReachesEightyPercent",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_reportsWarning_when_resourceReachesEightyPercent",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_reportsWarning_when_resourceReachesEightyPercent",
+          "callee": "assertThat",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_reportsCritical_when_resourceReachesNinetyFivePercent",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_reportsCritical_when_resourceReachesNinetyFivePercent",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_reportsCritical_when_resourceReachesNinetyFivePercent",
+          "callee": "assertThat",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_reportsCritical_when_normalizedLoadReachesOnePointFive",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_reportsCritical_when_normalizedLoadReachesOnePointFive",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_reportsCritical_when_normalizedLoadReachesOnePointFive",
+          "callee": "assertThat",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_reportsWarning_when_databaseHasWaiters",
+          "callee": "new DatabasePool",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_reportsWarning_when_databaseHasWaiters",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_reportsWarning_when_databaseHasWaiters",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_reportsWarning_when_databaseHasWaiters",
+          "callee": "assertThat",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_doesNotClaimHealthy_when_metricUnavailable",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_doesNotClaimHealthy_when_metricUnavailable",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_doesNotClaimHealthy_when_metricUnavailable",
+          "callee": "assertThat",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_preservesCriticalSignal_when_otherMetricMissing",
+          "callee": "SystemMetricsCollector.health",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_preservesCriticalSignal_when_otherMetricMissing",
+          "callee": "assertThat(health).isEqualTo",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_preservesCriticalSignal_when_otherMetricMissing",
+          "callee": "assertThat",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "new SystemMetricsCollector",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "new HostResourceReader",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "mock",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "collector.snapshot",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "collector.snapshot",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "assertThat(second).isSameAs",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_reusesSnapshot_when_requestedWithinFiveSeconds",
+          "callee": "assertThat",
+          "lineNumber": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/dashboard/DashboardControllerTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 86,
+      "functions": [
+        {
+          "name": "setUp",
+          "startLine": 37,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "startLine": 51,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "startLine": 66,
+          "endLine": 82,
+          "params": []
+        },
+        {
+          "name": "assertCapturedWindowIsCurrentMonth",
+          "startLine": 84,
+          "endLine": 97,
+          "params": [
+            "zoneId",
+            "userAccountId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardControllerTest",
+          "startLine": 30,
+          "endLine": 98,
+          "methods": [
+            "setUp",
+            "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+            "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+            "assertCapturedWindowIsCurrentMonth"
+          ],
+          "properties": [
+            "dashboardApplicationService",
+            "timeWindowHelper",
+            "mvc",
+            "session"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setUp",
+          "callee": "MockMvcBuilders.standaloneSetup(new DashboardController(\n                        dashboardApplicationService,\n                        mock(DashboardCommandConverter.class),\n                        mock(DashboardResponseConverter.class),\n                        new CurrentUserContextResolver(),\n                        timeWindowHelper))\n                .setControllerAdvice(new GlobalExceptionAdvice()).build",
+          "lineNumber": 39
+        },
+        {
+          "caller": "setUp",
+          "callee": "MockMvcBuilders.standaloneSetup(new DashboardController(\n                        dashboardApplicationService,\n                        mock(DashboardCommandConverter.class),\n                        mock(DashboardResponseConverter.class),\n                        new CurrentUserContextResolver(),\n                        timeWindowHelper)).setControllerAdvice",
+          "lineNumber": 39
+        },
+        {
+          "caller": "setUp",
+          "callee": "MockMvcBuilders.standaloneSetup",
+          "lineNumber": 39
+        },
+        {
+          "caller": "setUp",
+          "callee": "new DashboardController",
+          "lineNumber": 39
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 41
+        },
+        {
+          "caller": "setUp",
+          "callee": "mock",
+          "lineNumber": 42
+        },
+        {
+          "caller": "setUp",
+          "callee": "new CurrentUserContextResolver",
+          "lineNumber": 43
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GlobalExceptionAdvice",
+          "lineNumber": 45
+        },
+        {
+          "caller": "setUp",
+          "callee": "new MockHttpSession",
+          "lineNumber": 47
+        },
+        {
+          "caller": "setUp",
+          "callee": "session.setAttribute",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "when(dashboardApplicationService.getDistribution(any(), eq(UserAccountId.of(1L)), eq(true))).thenReturn",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "when",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "any",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "eq",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "UserAccountId.of",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "eq",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "List.of",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "new UsageDistributionItem",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "when(dashboardApplicationService.getDistribution(any(), eq(UserAccountId.of(1L)), eq(false))).thenReturn",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "when",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "any",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "eq",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "UserAccountId.of",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "eq",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "List.of",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "new UsageDistributionItem",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "mvc.perform(get(\"/api/dashboard/distributions\").session(session).param(\"zoneId\", zoneId))\n                .andExpect(status().isOk()).andExpect",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "mvc.perform(get(\"/api/dashboard/distributions\").session(session).param(\"zoneId\", zoneId)).andExpect",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "mvc.perform",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "get(\"/api/dashboard/distributions\").session(session).param",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "get(\"/api/dashboard/distributions\").session",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "get",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "status().isOk",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "status",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "jsonPath(\"$.data.models[0].name\").value",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "jsonPath",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "assertCapturedWindowIsCurrentMonth",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_frontDistributionsRequested",
+          "callee": "UserAccountId.of",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "when(dashboardApplicationService.getDistribution(any(), isNull(), eq(true))).thenReturn",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "when",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "any",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "isNull",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "eq",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "List.of",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "new UsageDistributionItem",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "when(dashboardApplicationService.getDistribution(any(), isNull(), eq(false))).thenReturn",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "when",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "dashboardApplicationService.getDistribution",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "any",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "isNull",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "eq",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "List.of",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "new UsageDistributionItem",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "mvc.perform(get(\"/api/admin/dashboard/distributions\")\n                        .session(session)\n                        .param(\"zoneId\", zoneId)\n                        .param(\"trendDays\", \"7\"))\n                .andExpect(status().isOk()).andExpect",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "mvc.perform(get(\"/api/admin/dashboard/distributions\")\n                        .session(session)\n                        .param(\"zoneId\", zoneId)\n                        .param(\"trendDays\", \"7\")).andExpect",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "mvc.perform",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "get(\"/api/admin/dashboard/distributions\")\n                        .session(session)\n                        .param(\"zoneId\", zoneId).param",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "get(\"/api/admin/dashboard/distributions\")\n                        .session(session).param",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "get(\"/api/admin/dashboard/distributions\").session",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "get",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "status().isOk",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "status",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "jsonPath(\"$.data.channels[0].name\").value",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "jsonPath",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_queriesCurrentMonthWindow_when_adminDistributionsRequestedWithTrendDays",
+          "callee": "assertCapturedWindowIsCurrentMonth",
+          "lineNumber": 81
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "ArgumentCaptor.forClass",
+          "lineNumber": 85
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "verify(dashboardApplicationService).getDistribution",
+          "lineNumber": 87
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "verify",
+          "lineNumber": 87
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "windowCaptor.capture",
+          "lineNumber": 87
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "isNull",
+          "lineNumber": 87
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "eq",
+          "lineNumber": 87
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "verify(dashboardApplicationService).getDistribution",
+          "lineNumber": 89
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "verify",
+          "lineNumber": 89
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "windowCaptor.capture",
+          "lineNumber": 89
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "eq",
+          "lineNumber": 89
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "eq",
+          "lineNumber": 89
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "windowCaptor.getValue",
+          "lineNumber": 91
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat(window.zoneId()).isEqualTo",
+          "lineNumber": 92
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat",
+          "lineNumber": 92
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "window.zoneId",
+          "lineNumber": 92
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat(window.startInclusive()).isEqualTo",
+          "lineNumber": 93
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat",
+          "lineNumber": 93
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "window.startInclusive",
+          "lineNumber": 93
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "timeWindowHelper.getMonthStartInclusive",
+          "lineNumber": 93
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat(window.endExclusive()).isEqualTo",
+          "lineNumber": 94
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat",
+          "lineNumber": 94
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "window.endExclusive",
+          "lineNumber": 94
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "timeWindowHelper.getMonthEndExclusive",
+          "lineNumber": 94
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat(window.endExclusive()).isNotEqualTo",
+          "lineNumber": 95
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "assertThat",
+          "lineNumber": 95
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "window.endExclusive",
+          "lineNumber": 95
+        },
+        {
+          "caller": "assertCapturedWindowIsCurrentMonth",
+          "callee": "timeWindowHelper.getTrendEndExclusive",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/dashboard/converter/DashboardCommandConverterTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 87,
+      "nonEmptyLines": 65,
+      "functions": [
+        {
+          "name": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "startLine": 21,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "startLine": 30,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "startLine": 46,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "startLine": 56,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "startLine": 68,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "test_uses_request_zone_when_building_front_key_metrics",
+          "startLine": 77,
+          "endLine": 86,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DashboardCommandConverterTest",
+          "startLine": 16,
+          "endLine": 87,
+          "methods": [
+            "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+            "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+            "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+            "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+            "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+            "test_uses_request_zone_when_building_front_key_metrics"
+          ],
+          "properties": [
+            "converter"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "callee": "new GetFrontDashboardRequest",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "callee": "converter.toGetFrontDashboardCommand",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "callee": "UserAccountId.of",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "callee": "assertThat(command.getRecentCallsSize()).isEqualTo",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "callee": "assertThat",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_defaultsRecentCallsSizeToTwenty_when_sizeMissing",
+          "callee": "command.getRecentCallsSize",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "GetFrontDashboardRequest.builder()\n                .zoneId(zoneId).build",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "GetFrontDashboardRequest.builder().zoneId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "GetFrontDashboardRequest.builder",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "converter.toGetFrontDashboardCommand",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "UserAccountId.of",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "LocalDate.now",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "ZoneId.of",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "assertThat(command.getThirtyDayStartInclusive()).isEqualTo",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "assertThat",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "command.getThirtyDayStartInclusive",
+          "lineNumber": 40
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.withDayOfMonth(1).atStartOfDay(ZoneId.of(zoneId)).toInstant",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.withDayOfMonth(1).atStartOfDay",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.withDayOfMonth",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "ZoneId.of",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "assertThat(command.getThirtyDayEndExclusive()).isEqualTo",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "assertThat",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "command.getThirtyDayEndExclusive",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.plusMonths(1).withDayOfMonth(1).atStartOfDay(ZoneId.of(zoneId)).toInstant",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.plusMonths(1).withDayOfMonth(1).atStartOfDay",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.plusMonths(1).withDayOfMonth",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "today.plusMonths",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_usesCurrentCalendarMonth_when_building_front_dashboard",
+          "callee": "ZoneId.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "new GetFrontKeyMetricsRequest",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "converter.toGetFrontKeyMetricsCommand",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "UserAccountId.of",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "assertThat(Duration.between(command.getTrendStartInclusive(), command.getTrendEndExclusive())).isEqualTo",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "assertThat",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "Duration.between",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "command.getTrendStartInclusive",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "command.getTrendEndExclusive",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_defaultsTrendWindowToSevenDays_when_trendDaysMissing",
+          "callee": "Duration.ofDays",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "GetFrontKeyMetricsRequest.builder()\n                .credentialIds(List.of(3L, 5L)).build",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "GetFrontKeyMetricsRequest.builder().credentialIds",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "GetFrontKeyMetricsRequest.builder",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "List.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "converter.toGetFrontKeyMetricsCommand",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "UserAccountId.of",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "assertThat(command.getTrendCredentialIds()).containsExactly",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "assertThat",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "command.getTrendCredentialIds",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_mapsCredentialIdsToDomainIds_when_credentialIdsProvided",
+          "callee": "ApiCredentialId.of",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "callee": "new GetFrontKeyMetricsRequest",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "callee": "converter.toGetFrontKeyMetricsCommand",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "callee": "UserAccountId.of",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "callee": "assertThat(command.getTrendCredentialIds()).isEmpty",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "callee": "assertThat",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_defaultsCredentialIdsToEmpty_when_credentialIdsMissing",
+          "callee": "command.getTrendCredentialIds",
+          "lineNumber": 74
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "GetFrontKeyMetricsRequest.builder()\n                .zoneId(\"Asia/Shanghai\").build",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "GetFrontKeyMetricsRequest.builder().zoneId",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "GetFrontKeyMetricsRequest.builder",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "converter.toGetFrontKeyMetricsCommand",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "UserAccountId.of",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "assertThat(command.getZoneId()).isEqualTo",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "assertThat",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_uses_request_zone_when_building_front_key_metrics",
+          "callee": "command.getZoneId",
+          "lineNumber": 85
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 0,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/test/java/com/api2api/ohs/http/operations/OperationsControllerTest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 78,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "setUp",
+          "startLine": 28,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "test_returnsUnauthorized_when_systemRequestHasNoSession",
+          "startLine": 36,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+          "startLine": 42,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "test_returnsBadRequest_when_timeZoneInvalid",
+          "startLine": 48,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "test_serializesConcurrencyContract_when_trafficRequested",
+          "startLine": 55,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "startLine": 67,
+          "endLine": 77,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OperationsControllerTest",
+          "startLine": 23,
+          "endLine": 78,
+          "methods": [
+            "setUp",
+            "test_returnsUnauthorized_when_systemRequestHasNoSession",
+            "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+            "test_returnsBadRequest_when_timeZoneInvalid",
+            "test_serializesConcurrencyContract_when_trafficRequested",
+            "test_serializesChannelIdentifiers_when_trafficRequested"
+          ],
+          "properties": [
+            "operations",
+            "mvc",
+            "session"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setUp",
+          "callee": "MockMvcBuilders.standaloneSetup(new OperationsController(operations, new CurrentUserContextResolver()))\n                .setControllerAdvice(new GlobalExceptionAdvice()).build",
+          "lineNumber": 30
+        },
+        {
+          "caller": "setUp",
+          "callee": "MockMvcBuilders.standaloneSetup(new OperationsController(operations, new CurrentUserContextResolver())).setControllerAdvice",
+          "lineNumber": 30
+        },
+        {
+          "caller": "setUp",
+          "callee": "MockMvcBuilders.standaloneSetup",
+          "lineNumber": 30
+        },
+        {
+          "caller": "setUp",
+          "callee": "new OperationsController",
+          "lineNumber": 30
+        },
+        {
+          "caller": "setUp",
+          "callee": "new CurrentUserContextResolver",
+          "lineNumber": 30
+        },
+        {
+          "caller": "setUp",
+          "callee": "new GlobalExceptionAdvice",
+          "lineNumber": 31
+        },
+        {
+          "caller": "setUp",
+          "callee": "new MockHttpSession",
+          "lineNumber": 32
+        },
+        {
+          "caller": "setUp",
+          "callee": "session.setAttribute",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_systemRequestHasNoSession",
+          "callee": "mvc.perform(get(\"/api/admin/operations/system\")).andExpect",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_systemRequestHasNoSession",
+          "callee": "mvc.perform",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_systemRequestHasNoSession",
+          "callee": "get",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_systemRequestHasNoSession",
+          "callee": "status().isUnauthorized",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_systemRequestHasNoSession",
+          "callee": "status",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+          "callee": "mvc.perform(get(\"/api/admin/operations/traffic\")).andExpect",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+          "callee": "mvc.perform",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+          "callee": "get",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+          "callee": "status().isUnauthorized",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returnsUnauthorized_when_trafficRequestHasNoSession",
+          "callee": "status",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "mvc.perform(get(\"/api/admin/operations/traffic\").session(session).param(\"zoneId\", \"invalid-zone\")).andExpect",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "mvc.perform",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "get(\"/api/admin/operations/traffic\").session(session).param",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "get(\"/api/admin/operations/traffic\").session",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "get",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "status().isBadRequest",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_returnsBadRequest_when_timeZoneInvalid",
+          "callee": "status",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "Instant.parse",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "when(operations.traffic(UserAccountId.of(1L), ZoneId.of(\"UTC\"))).thenReturn",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "when",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "operations.traffic",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "UserAccountId.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "ZoneId.of",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "new OperationsApplicationService.TrafficSnapshot",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "List.of",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "new ConcurrencyTrendPoint",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "now.minusSeconds",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "List.of",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "mvc.perform(get(\"/api/admin/operations/traffic\").session(session).param(\"zoneId\", \"UTC\")).andExpect",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "mvc.perform",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "get(\"/api/admin/operations/traffic\").session(session).param",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "get(\"/api/admin/operations/traffic\").session",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "get",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "jsonPath(\"$.data.todayConcurrencyTrends[0].peakConcurrency\").value",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_serializesConcurrencyContract_when_trafficRequested",
+          "callee": "jsonPath",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "Instant.parse",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "when(operations.traffic(UserAccountId.of(1L), ZoneId.of(\"UTC\"))).thenReturn",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "when",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "operations.traffic",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "UserAccountId.of",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "ZoneId.of",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "new OperationsApplicationService.TrafficSnapshot",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "List.of",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "List.of",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "new ChannelLatencyRanking",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "ProviderChannelId.of",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "ProviderChannelName.of",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "mvc.perform(get(\"/api/admin/operations/traffic\").session(session).param(\"zoneId\", \"UTC\")).andExpect",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "mvc.perform",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "get(\"/api/admin/operations/traffic\").session(session).param",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "get(\"/api/admin/operations/traffic\").session",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "get",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "jsonPath(\"$.data.dailySlowestChannels[0].providerChannelId\").value",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_serializesChannelIdentifiers_when_trafficRequested",
+          "callee": "jsonPath",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 0,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    }
+  ]
+}

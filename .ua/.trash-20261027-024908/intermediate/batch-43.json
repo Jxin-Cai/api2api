@@ -1,0 +1,138 @@
+{
+  "nodes": [
+    {
+      "id": "config:frontend/.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": "frontend/.env.example",
+      "summary": "提供前端构建与开发环境变量的示例，供本地配置应用运行环境。",
+      "tags": [
+        "环境变量示例",
+        "前端配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "frontend/index.html",
+      "summary": "声明前端页面的 HTML 外壳、根挂载元素和应用模块入口，由 Vite 加载 React 应用。",
+      "tags": [
+        "页面入口",
+        "前端启动",
+        "HTML"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:frontend/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "frontend/package.json",
+      "summary": "声明 React 管理端的运行与开发依赖，以及 Vite 开发构建、TypeScript 检查和测试脚本。",
+      "tags": [
+        "依赖管理",
+        "前端构建",
+        "开发脚本"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:frontend/tsconfig.app.json",
+      "type": "config",
+      "name": "tsconfig.app.json",
+      "filePath": "frontend/tsconfig.app.json",
+      "summary": "为浏览器应用源码定义 TypeScript 编译选项、类型环境和纳入范围。",
+      "tags": [
+        "类型检查",
+        "编译配置",
+        "TypeScript"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:frontend/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "frontend/tsconfig.json",
+      "summary": "为前端工程及其引用的子项目定义 TypeScript 编译选项、类型环境和纳入范围。",
+      "tags": [
+        "类型检查",
+        "编译配置",
+        "TypeScript"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:frontend/tsconfig.node.json",
+      "type": "config",
+      "name": "tsconfig.node.json",
+      "filePath": "frontend/tsconfig.node.json",
+      "summary": "为Node 环境中的构建工具代码定义 TypeScript 编译选项、类型环境和纳入范围。",
+      "tags": [
+        "类型检查",
+        "编译配置",
+        "TypeScript"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:frontend/tsconfig.test.json",
+      "type": "config",
+      "name": "tsconfig.test.json",
+      "filePath": "frontend/tsconfig.test.json",
+      "summary": "为前端测试代码定义 TypeScript 编译选项、类型环境和纳入范围。",
+      "tags": [
+        "类型检查",
+        "编译配置",
+        "TypeScript"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/index.html",
+      "target": "file:frontend/src/main.tsx",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "config:frontend/package.json",
+      "target": "file:frontend/src/main.tsx",
+      "type": "configures",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "config:frontend/tsconfig.app.json",
+      "target": "file:frontend/src/main.tsx",
+      "type": "configures",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "config:frontend/tsconfig.json",
+      "target": "config:frontend/tsconfig.app.json",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "config:frontend/tsconfig.json",
+      "target": "config:frontend/tsconfig.node.json",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "config:frontend/tsconfig.test.json",
+      "target": "config:frontend/tsconfig.app.json",
+      "type": "depends_on",
+      "weight": 0.6,
+      "direction": "forward"
+    }
+  ]
+}

@@ -1,0 +1,1653 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "type": "file",
+      "name": "ChannelProtocolMappingPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "summary": "承载渠道请求协议到上游协议的映射及创建更新时间，用于协议映射子表读写。",
+      "tags": [
+        "持久化对象",
+        "协议映射",
+        "渠道管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java:ChannelProtocolMappingPO",
+      "type": "class",
+      "name": "ChannelProtocolMappingPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "lineRange": [
+        9,
+        19
+      ],
+      "summary": "承载渠道请求协议到上游协议的映射及创建更新时间，用于协议映射子表读写。",
+      "tags": [
+        "持久化对象",
+        "协议映射",
+        "渠道管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "type": "file",
+      "name": "ProviderChannelPO.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "summary": "承载渠道主表字段及协议映射、模型支持子集合，包含状态、软删除标记和时间戳。",
+      "tags": [
+        "持久化对象",
+        "渠道管理",
+        "聚合存储"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java:ProviderChannelPO",
+      "type": "class",
+      "name": "ProviderChannelPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "lineRange": [
+        10,
+        30
+      ],
+      "summary": "承载渠道主表字段及协议映射、模型支持子集合，包含状态、软删除标记和时间戳。",
+      "tags": [
+        "持久化对象",
+        "渠道管理",
+        "聚合存储"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "type": "file",
+      "name": "ProtocolConversionDefinitionPersistenceConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "summary": "转换协议转换定义与数据库记录，并从可执行程序注册表补充字段映射文档；未注册跨协议程序时显式生成不可用映射说明。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:ProtocolConversionDefinitionPersistenceConverter",
+      "type": "class",
+      "name": "ProtocolConversionDefinitionPersistenceConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "lineRange": [
+        23,
+        153
+      ],
+      "summary": "转换协议转换定义与数据库记录，并从可执行程序注册表补充字段映射文档；未注册跨协议程序时显式生成不可用映射说明。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toPO",
+      "type": "function",
+      "name": "toPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "lineRange": [
+        30,
+        48
+      ],
+      "summary": "将协议转换定义、能力标记和映射摘要投影为持久化记录。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "lineRange": [
+        50,
+        76
+      ],
+      "summary": "从数据库记录恢复转换定义，并从程序注册表补充请求与响应字段映射。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:buildMappingDocument",
+      "type": "function",
+      "name": "buildMappingDocument",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "lineRange": [
+        78,
+        92
+      ],
+      "summary": "优先采用程序描述的字段映射，否则按同协议透传或显式不可用状态构建文档。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:unavailableMappings",
+      "type": "function",
+      "name": "unavailableMappings",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "lineRange": [
+        99,
+        117
+      ],
+      "summary": "构建带 UNSUPPORTED 元数据的有损占位说明，表达转换程序尚未注册。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toCapability",
+      "type": "function",
+      "name": "toCapability",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "lineRange": [
+        119,
+        144
+      ],
+      "summary": "根据持久化能力标记组装文本、工具调用、推理、用量、缓存和流事件支持集合。",
+      "tags": [
+        "对象转换",
+        "协议转换",
+        "持久化",
+        "可观测性"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "type": "file",
+      "name": "AdminProviderChannelController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "summary": "提供渠道管理 HTTP 接口，将管理员请求转换为应用命令，覆盖渠道启停、模型预览拉取、模型批量维护和限流重置。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:AdminProviderChannelController",
+      "type": "class",
+      "name": "AdminProviderChannelController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        54,
+        288
+      ],
+      "summary": "提供渠道管理 HTTP 接口，将管理员请求转换为应用命令，覆盖渠道启停、模型预览拉取、模型批量维护和限流重置。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:listChannels",
+      "type": "function",
+      "name": "listChannels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        72,
+        77
+      ],
+      "summary": "解析操作者身份，查询渠道列表并转换为统一 HTTP 响应。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:resetAllRateLimits",
+      "type": "function",
+      "name": "resetAllRateLimits",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        79,
+        84
+      ],
+      "summary": "解析管理员身份，调用批量限流恢复并返回恢复记录数。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:createChannel",
+      "type": "function",
+      "name": "createChannel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        86,
+        97
+      ],
+      "summary": "校验新建请求、分配渠道标识，将命令交给应用服务并返回渠道详情。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:updateChannel",
+      "type": "function",
+      "name": "updateChannel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        99,
+        113
+      ],
+      "summary": "将路径标识与更新请求组合为应用命令，返回更新后的渠道。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannel",
+      "type": "function",
+      "name": "enableChannel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        115,
+        127
+      ],
+      "summary": "构造渠道状态命令并启用指定渠道。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewProviderModels",
+      "type": "function",
+      "name": "previewProviderModels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        129,
+        142
+      ],
+      "summary": "将临时连接配置转换为预览命令，返回上游模型列表。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewSavedProviderModels",
+      "type": "function",
+      "name": "previewSavedProviderModels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        144,
+        159
+      ],
+      "summary": "使用渠道标识和可选连接覆盖参数预览已保存渠道的模型。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannel",
+      "type": "function",
+      "name": "disableChannel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        161,
+        173
+      ],
+      "summary": "构造渠道状态命令并禁用指定渠道。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:deleteChannel",
+      "type": "function",
+      "name": "deleteChannel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        175,
+        187
+      ],
+      "summary": "组合操作者和渠道标识执行渠道删除，返回空成功响应。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:fetchProviderModels",
+      "type": "function",
+      "name": "fetchProviderModels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        189,
+        203
+      ],
+      "summary": "构建模型拉取命令，调用应用服务替换渠道模型配置。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModel",
+      "type": "function",
+      "name": "upsertChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        205,
+        221
+      ],
+      "summary": "将渠道、模型支持标识和单项请求转换为新增或更新命令。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModels",
+      "type": "function",
+      "name": "upsertChannelModels",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        223,
+        237
+      ],
+      "summary": "将批量模型请求转换为命令，维护渠道模型集合并返回渠道详情。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannelModel",
+      "type": "function",
+      "name": "enableChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        239,
+        253
+      ],
+      "summary": "将渠道与模型支持标识转换为状态命令，启用指定模型。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannelModel",
+      "type": "function",
+      "name": "disableChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        255,
+        269
+      ],
+      "summary": "构造模型状态命令，禁用指定渠道模型支持项。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:removeChannelModel",
+      "type": "function",
+      "name": "removeChannelModel",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "lineRange": [
+        271,
+        287
+      ],
+      "summary": "按请求模型名与上游协议构造移除命令并返回渠道详情。",
+      "tags": [
+        "HTTP",
+        "管理接口",
+        "渠道管理",
+        "命令转换"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "type": "file",
+      "name": "ProviderChannelHttpConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "summary": "将渠道 HTTP DTO 转换为领域值对象和应用命令，并组装响应；处理协议归一化、兼容字段、可选覆盖参数和密钥掩码。",
+      "tags": [
+        "MapStruct",
+        "HTTP",
+        "对象转换",
+        "密钥掩码"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java:ProviderChannelHttpConverter",
+      "type": "class",
+      "name": "ProviderChannelHttpConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "lineRange": [
+        54,
+        389
+      ],
+      "summary": "将渠道 HTTP DTO 转换为领域值对象和应用命令，并组装响应；处理协议归一化、兼容字段、可选覆盖参数和密钥掩码。",
+      "tags": [
+        "MapStruct",
+        "HTTP",
+        "对象转换",
+        "密钥掩码"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java",
+      "type": "file",
+      "name": "AdminBatchUpsertChannelModelItemRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java",
+      "summary": "定义批量维护渠道模型的单项请求，携带可选标识、请求与上游模型、协议、优先级、首选标记和来源，并声明字段校验。",
+      "tags": [
+        "DTO",
+        "请求校验",
+        "模型管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java:AdminBatchUpsertChannelModelItemRequest",
+      "type": "class",
+      "name": "AdminBatchUpsertChannelModelItemRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java",
+      "lineRange": [
+        14,
+        39
+      ],
+      "summary": "定义批量维护渠道模型的单项请求，携带可选标识、请求与上游模型、协议、优先级、首选标记和来源，并声明字段校验。",
+      "tags": [
+        "DTO",
+        "请求校验",
+        "模型管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "type": "file",
+      "name": "AdminBatchUpsertChannelModelsRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "summary": "定义渠道模型批量维护请求，包含是否替换已有模型的标记与经过级联校验的非空模型列表。",
+      "tags": [
+        "DTO",
+        "批量操作",
+        "请求校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java:AdminBatchUpsertChannelModelsRequest",
+      "type": "class",
+      "name": "AdminBatchUpsertChannelModelsRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "lineRange": [
+        14,
+        25
+      ],
+      "summary": "定义渠道模型批量维护请求，包含是否替换已有模型的标记与经过级联校验的非空模型列表。",
+      "tags": [
+        "DTO",
+        "批量操作",
+        "请求校验"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java:ChannelProtocolMappingPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ChannelProtocolMappingPO.java:ChannelProtocolMappingPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java:ProviderChannelPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/channel/po/ProviderChannelPO.java:ProviderChannelPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:ProtocolConversionDefinitionPersistenceConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:ProtocolConversionDefinitionPersistenceConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toPO",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:buildMappingDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:unavailableMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toCapability",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ContentMappingType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionCapability.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionImplementationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ConversionStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/FieldMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDirection.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingDocument.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/MappingLossiness.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinitionId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/protocol/po/ProtocolConversionDefinitionPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:AdminProviderChannelController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:AdminProviderChannelController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:listChannels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:listChannels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:resetAllRateLimits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:resetAllRateLimits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:createChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:createChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:updateChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:updateChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewProviderModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewProviderModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewSavedProviderModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewSavedProviderModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:deleteChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:deleteChannel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:fetchProviderModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:fetchProviderModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:removeChannelModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:removeChannelModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/DeleteProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderChannelModelPreviewCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelPreviewCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/RemoveChannelModelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/UpdateProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/UpsertChannelModelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/IdentifierFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateProviderChannelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminFetchProviderChannelModelPreviewRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminFetchProviderModelPreviewRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminFetchProviderModelsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpdateProviderChannelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpsertChannelModelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProviderChannelListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProviderChannelResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProviderModelPreviewResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ResetProviderChannelRateLimitsResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java:ProviderChannelHttpConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java:ProviderChannelHttpConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/BatchUpsertChannelModelsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeChannelModelStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChangeProviderChannelStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/ChannelModelUpsertItemCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/CreateProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderChannelModelPreviewCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelPreviewCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/FetchProviderModelsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/RemoveChannelModelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/UpdateProviderChannelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/channel/command/UpsertChannelModelCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupportId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelProtocolMapping.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelSupportSource.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderModelsPath.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/RoutePriority.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminCreateProviderChannelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminFetchProviderChannelModelPreviewRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminFetchProviderModelPreviewRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminFetchProviderModelsRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpdateProviderChannelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminUpsertChannelModelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ChannelModelSupportResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolMappingRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProtocolMappingResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProviderChannelListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProviderChannelResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/ProviderModelPreviewResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/converter/ProviderChannelHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java:AdminBatchUpsertChannelModelItemRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelItemRequest.java:AdminBatchUpsertChannelModelItemRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java:AdminBatchUpsertChannelModelsRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/admin/dto/AdminBatchUpsertChannelModelsRequest.java:AdminBatchUpsertChannelModelsRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:listChannels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:listChannels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:resetAllRateLimits",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:resetAllRateLimits",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:createChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:createChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:updateChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:updateChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewProviderModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:previewProviderModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:previewSavedProviderModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:previewProviderModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:deleteChannel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:deleteChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:fetchProviderModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:fetchAndReplaceModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:upsertChannelModels",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:upsertChannelModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:enableChannelModel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:enableChannelModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:disableChannelModel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:disableChannelModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/admin/AdminProviderChannelController.java:removeChannelModel",
+      "target": "function:backend/src/main/java/com/api2api/application/channel/ProviderChannelApplicationService.java:removeChannelModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java:rehydrate",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java:describeRequestMappings",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/protocol/converter/ProtocolConversionDefinitionPersistenceConverter.java:toDomain",
+      "target": "function:backend/src/main/java/com/api2api/infr/protocol/ProtocolConversionProgramRegistry.java:describeResponseMappings",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

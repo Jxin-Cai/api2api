@@ -1,0 +1,6080 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 34,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 34,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 34,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "BusinessException",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "code"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 17,
+          "endLine": 20,
+          "params": [
+            "code",
+            "message"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "code",
+            "cause"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "code",
+            "message",
+            "cause"
+          ]
+        },
+        {
+          "name": "code",
+          "startLine": 32,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "getCode",
+          "startLine": 36,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "requireCode",
+          "startLine": 40,
+          "endLine": 46,
+          "params": [
+            "code"
+          ]
+        },
+        {
+          "name": "requireMessage",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BusinessException",
+          "startLine": 8,
+          "endLine": 55,
+          "methods": [
+            "BusinessException",
+            "BusinessException",
+            "BusinessException",
+            "BusinessException",
+            "code",
+            "getCode",
+            "requireCode",
+            "requireMessage"
+          ],
+          "properties": [
+            "code"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BusinessException",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "BusinessException",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "BusinessException",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "BusinessException",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "code",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "getCode",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "BusinessException",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BusinessException",
+          "callee": "requireCode",
+          "lineNumber": 13
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireCode",
+          "lineNumber": 14
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireMessage",
+          "lineNumber": 18
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireCode",
+          "lineNumber": 19
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireCode",
+          "lineNumber": 24
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireMessage",
+          "lineNumber": 28
+        },
+        {
+          "caller": "BusinessException",
+          "callee": "requireCode",
+          "lineNumber": 29
+        },
+        {
+          "caller": "requireCode",
+          "callee": "Objects.requireNonNull(code, \"Business exception code must not be null\").trim",
+          "lineNumber": 41
+        },
+        {
+          "caller": "requireCode",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 41
+        },
+        {
+          "caller": "requireCode",
+          "callee": "requiredCode.isEmpty",
+          "lineNumber": 42
+        },
+        {
+          "caller": "requireCode",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 43
+        },
+        {
+          "caller": "requireMessage",
+          "callee": "Objects.requireNonNull(message, \"Business exception message must not be null\").trim",
+          "lineNumber": 49
+        },
+        {
+          "caller": "requireMessage",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "requireMessage",
+          "callee": "requiredMessage.isEmpty",
+          "lineNumber": 50
+        },
+        {
+          "caller": "requireMessage",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 335,
+      "nonEmptyLines": 309,
+      "functions": [
+        {
+          "name": "submit",
+          "startLine": 77,
+          "endLine": 82,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "history",
+          "startLine": 84,
+          "endLine": 106,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "loadSchedule",
+          "startLine": 108,
+          "endLine": 113,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "upsertSchedule",
+          "startLine": 115,
+          "endLine": 143,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "refreshInFlight",
+          "startLine": 145,
+          "endLine": 162,
+          "params": [
+            "limit",
+            "runTimeout"
+          ]
+        },
+        {
+          "name": "fireDueSchedules",
+          "startLine": 164,
+          "endLine": 180,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "submitModels",
+          "startLine": 182,
+          "endLine": 224,
+          "params": [
+            "channel",
+            "models",
+            "trigger"
+          ]
+        },
+        {
+          "name": "refresh",
+          "startLine": 226,
+          "endLine": 250,
+          "params": [
+            "evaluation",
+            "now",
+            "runTimeout"
+          ]
+        },
+        {
+          "name": "applySnapshot",
+          "startLine": 252,
+          "endLine": 274,
+          "params": [
+            "evaluation",
+            "snapshot",
+            "now",
+            "deadline"
+          ]
+        },
+        {
+          "name": "fire",
+          "startLine": 276,
+          "endLine": 282,
+          "params": [
+            "schedule",
+            "now"
+          ]
+        },
+        {
+          "name": "resolveModels",
+          "startLine": 284,
+          "endLine": 305,
+          "params": [
+            "channel",
+            "requestedModels"
+          ]
+        },
+        {
+          "name": "assertAdmin",
+          "startLine": 307,
+          "endLine": 311,
+          "params": [
+            "operatorUserId"
+          ]
+        },
+        {
+          "name": "loadChannel",
+          "startLine": 313,
+          "endLine": 316,
+          "params": [
+            "providerChannelId"
+          ]
+        },
+        {
+          "name": "nextEvaluationId",
+          "startLine": 318,
+          "endLine": 320,
+          "params": []
+        },
+        {
+          "name": "nextScheduleId",
+          "startLine": 322,
+          "endLine": 324,
+          "params": []
+        },
+        {
+          "name": "nextId",
+          "startLine": 326,
+          "endLine": 330,
+          "params": []
+        },
+        {
+          "name": "now",
+          "startLine": 332,
+          "endLine": 334,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluationApplicationService",
+          "startLine": 51,
+          "endLine": 335,
+          "methods": [
+            "submit",
+            "history",
+            "loadSchedule",
+            "upsertSchedule",
+            "refreshInFlight",
+            "fireDueSchedules",
+            "submitModels",
+            "refresh",
+            "applySnapshot",
+            "fire",
+            "resolveModels",
+            "assertAdmin",
+            "loadChannel",
+            "nextEvaluationId",
+            "nextScheduleId",
+            "nextId",
+            "now"
+          ],
+          "properties": [
+            "userAccountRepository",
+            "providerChannelRepository",
+            "channelEvaluationRepository",
+            "channelEvaluationScheduleRepository",
+            "probePort",
+            "cronPort",
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "submit",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "history",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "loadSchedule",
+          "line": 108,
+          "isDefault": false
+        },
+        {
+          "name": "upsertSchedule",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "refreshInFlight",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "fireDueSchedules",
+          "line": 164,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluationApplicationService",
+          "line": 51,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "submit",
+          "callee": "assertAdmin",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "loadChannel",
+          "lineNumber": 80
+        },
+        {
+          "caller": "submit",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 80
+        },
+        {
+          "caller": "submit",
+          "callee": "submitModels",
+          "lineNumber": 81
+        },
+        {
+          "caller": "submit",
+          "callee": "resolveModels",
+          "lineNumber": 81
+        },
+        {
+          "caller": "submit",
+          "callee": "command.getModels",
+          "lineNumber": 81
+        },
+        {
+          "caller": "history",
+          "callee": "assertAdmin",
+          "lineNumber": 86
+        },
+        {
+          "caller": "history",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 86
+        },
+        {
+          "caller": "history",
+          "callee": "loadChannel",
+          "lineNumber": 87
+        },
+        {
+          "caller": "history",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 87
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus())\n                .from(command.getFrom())\n                .to(command.getTo())\n                .sortField(command.getSortField())\n                .descending(command.isDescending())\n                .limit(command.getLimit())\n                .offset(command.getOffset()).build",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus())\n                .from(command.getFrom())\n                .to(command.getTo())\n                .sortField(command.getSortField())\n                .descending(command.isDescending())\n                .limit(command.getLimit()).offset",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus())\n                .from(command.getFrom())\n                .to(command.getTo())\n                .sortField(command.getSortField())\n                .descending(command.isDescending()).limit",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus())\n                .from(command.getFrom())\n                .to(command.getTo())\n                .sortField(command.getSortField()).descending",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus())\n                .from(command.getFrom())\n                .to(command.getTo()).sortField",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus())\n                .from(command.getFrom()).to",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel())\n                .status(command.getStatus()).from",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId())\n                .requestedModel(command.getRequestedModel()).status",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder()\n                .providerChannelId(command.getProviderChannelId()).requestedModel",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder().providerChannelId",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "EvaluationHistoryQuery.builder",
+          "lineNumber": 88
+        },
+        {
+          "caller": "history",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "history",
+          "callee": "command.getRequestedModel",
+          "lineNumber": 90
+        },
+        {
+          "caller": "history",
+          "callee": "command.getStatus",
+          "lineNumber": 91
+        },
+        {
+          "caller": "history",
+          "callee": "command.getFrom",
+          "lineNumber": 92
+        },
+        {
+          "caller": "history",
+          "callee": "command.getTo",
+          "lineNumber": 93
+        },
+        {
+          "caller": "history",
+          "callee": "command.getSortField",
+          "lineNumber": 94
+        },
+        {
+          "caller": "history",
+          "callee": "command.isDescending",
+          "lineNumber": 95
+        },
+        {
+          "caller": "history",
+          "callee": "command.getLimit",
+          "lineNumber": 96
+        },
+        {
+          "caller": "history",
+          "callee": "command.getOffset",
+          "lineNumber": 97
+        },
+        {
+          "caller": "history",
+          "callee": "new ChannelEvaluationHistoryPage",
+          "lineNumber": 99
+        },
+        {
+          "caller": "history",
+          "callee": "channelEvaluationRepository.findHistory",
+          "lineNumber": 100
+        },
+        {
+          "caller": "history",
+          "callee": "channelEvaluationRepository.summarize",
+          "lineNumber": 101
+        },
+        {
+          "caller": "history",
+          "callee": "channelEvaluationRepository.countHistory",
+          "lineNumber": 102
+        },
+        {
+          "caller": "history",
+          "callee": "query.limit",
+          "lineNumber": 103
+        },
+        {
+          "caller": "history",
+          "callee": "query.offset",
+          "lineNumber": 104
+        },
+        {
+          "caller": "loadSchedule",
+          "callee": "assertAdmin",
+          "lineNumber": 110
+        },
+        {
+          "caller": "loadSchedule",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 110
+        },
+        {
+          "caller": "loadSchedule",
+          "callee": "loadChannel",
+          "lineNumber": 111
+        },
+        {
+          "caller": "loadSchedule",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 111
+        },
+        {
+          "caller": "loadSchedule",
+          "callee": "channelEvaluationScheduleRepository.findByProviderChannelId",
+          "lineNumber": 112
+        },
+        {
+          "caller": "loadSchedule",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 112
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "assertAdmin",
+          "lineNumber": 117
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getOperatorUserId",
+          "lineNumber": 117
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "loadChannel",
+          "lineNumber": 118
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getProviderChannelId",
+          "lineNumber": 118
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "cronPort.validate",
+          "lineNumber": 119
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getCron",
+          "lineNumber": 119
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "now",
+          "lineNumber": 120
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "channelEvaluationScheduleRepository\n                .findByProviderChannelId(channel.id()).orElseGet",
+          "lineNumber": 121
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "channelEvaluationScheduleRepository.findByProviderChannelId",
+          "lineNumber": 121
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "channel.id",
+          "lineNumber": 122
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "ChannelEvaluationSchedule.create",
+          "lineNumber": 123
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "nextScheduleId",
+          "lineNumber": 124
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "channel.id",
+          "lineNumber": 125
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getCron",
+          "lineNumber": 126
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getModels",
+          "lineNumber": 127
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.isEnabled",
+          "lineNumber": 128
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.providerChannelId().equals",
+          "lineNumber": 131
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.providerChannelId",
+          "lineNumber": 131
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "channel.id",
+          "lineNumber": 131
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.cron().equals",
+          "lineNumber": 132
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.cron",
+          "lineNumber": 132
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getCron",
+          "lineNumber": 132
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.models().equals",
+          "lineNumber": 133
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.models",
+          "lineNumber": 133
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getModels",
+          "lineNumber": 133
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.isEnabled",
+          "lineNumber": 134
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.isEnabled",
+          "lineNumber": 134
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.reconfigure",
+          "lineNumber": 135
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getCron",
+          "lineNumber": 135
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getModels",
+          "lineNumber": 135
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.isEnabled",
+          "lineNumber": 135
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.isEnabled",
+          "lineNumber": 137
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "cronPort.nextTriggerAfter(command.getCron(), now).orElse",
+          "lineNumber": 138
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "cronPort.nextTriggerAfter",
+          "lineNumber": 138
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "command.getCron",
+          "lineNumber": 138
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "schedule.planNextTrigger",
+          "lineNumber": 140
+        },
+        {
+          "caller": "upsertSchedule",
+          "callee": "channelEvaluationScheduleRepository.save",
+          "lineNumber": 141
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 147
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 149
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "now",
+          "lineNumber": 151
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "channelEvaluationRepository.findInFlight",
+          "lineNumber": 153
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "refresh",
+          "lineNumber": 155
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "log.warn",
+          "lineNumber": 158
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "evaluation.id().value",
+          "lineNumber": 158
+        },
+        {
+          "caller": "refreshInFlight",
+          "callee": "evaluation.id",
+          "lineNumber": 158
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 167
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "now",
+          "lineNumber": 169
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "channelEvaluationScheduleRepository.findDue",
+          "lineNumber": 171
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "fire",
+          "lineNumber": 173
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "log.warn",
+          "lineNumber": 176
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "schedule.id().value",
+          "lineNumber": 176
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "schedule.id",
+          "lineNumber": 176
+        },
+        {
+          "caller": "submitModels",
+          "callee": "models.isEmpty",
+          "lineNumber": 187
+        },
+        {
+          "caller": "submitModels",
+          "callee": "new BusinessException",
+          "lineNumber": 188
+        },
+        {
+          "caller": "submitModels",
+          "callee": "now",
+          "lineNumber": 190
+        },
+        {
+          "caller": "submitModels",
+          "callee": "new ArrayList<>",
+          "lineNumber": 191
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ChannelEvaluation.submit",
+          "lineNumber": 193
+        },
+        {
+          "caller": "submitModels",
+          "callee": "nextEvaluationId",
+          "lineNumber": 194
+        },
+        {
+          "caller": "submitModels",
+          "callee": "channel.id",
+          "lineNumber": 195
+        },
+        {
+          "caller": "submitModels",
+          "callee": "model.requestedModel",
+          "lineNumber": 196
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeUpstreamFormat.fromProtocol",
+          "lineNumber": 197
+        },
+        {
+          "caller": "submitModels",
+          "callee": "model.upstreamProtocol",
+          "lineNumber": 197
+        },
+        {
+          "caller": "submitModels",
+          "callee": "probePort.submit",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeSubmission.builder()\n                        .host(channel.host())\n                        .keyRef(channel.keyRef())\n                        .modelId(model.upstreamModel())\n                        .upstreamFormat(evaluation.upstreamFormat()).build",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeSubmission.builder()\n                        .host(channel.host())\n                        .keyRef(channel.keyRef())\n                        .modelId(model.upstreamModel()).upstreamFormat",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeSubmission.builder()\n                        .host(channel.host())\n                        .keyRef(channel.keyRef()).modelId",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeSubmission.builder()\n                        .host(channel.host()).keyRef",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeSubmission.builder().host",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "ProbeSubmission.builder",
+          "lineNumber": 202
+        },
+        {
+          "caller": "submitModels",
+          "callee": "channel.host",
+          "lineNumber": 203
+        },
+        {
+          "caller": "submitModels",
+          "callee": "channel.keyRef",
+          "lineNumber": 204
+        },
+        {
+          "caller": "submitModels",
+          "callee": "model.upstreamModel",
+          "lineNumber": 205
+        },
+        {
+          "caller": "submitModels",
+          "callee": "evaluation.upstreamFormat",
+          "lineNumber": 206
+        },
+        {
+          "caller": "submitModels",
+          "callee": "evaluation.markRunning",
+          "lineNumber": 208
+        },
+        {
+          "caller": "submitModels",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 210
+        },
+        {
+          "caller": "submitModels",
+          "callee": "exception.getMessage",
+          "lineNumber": 210
+        },
+        {
+          "caller": "submitModels",
+          "callee": "log.warn",
+          "lineNumber": 212
+        },
+        {
+          "caller": "submitModels",
+          "callee": "channel.id().value",
+          "lineNumber": 214
+        },
+        {
+          "caller": "submitModels",
+          "callee": "channel.id",
+          "lineNumber": 214
+        },
+        {
+          "caller": "submitModels",
+          "callee": "model.requestedModel().value",
+          "lineNumber": 215
+        },
+        {
+          "caller": "submitModels",
+          "callee": "model.requestedModel",
+          "lineNumber": 215
+        },
+        {
+          "caller": "submitModels",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 218
+        },
+        {
+          "caller": "submitModels",
+          "callee": "exception.getMessage",
+          "lineNumber": 218
+        },
+        {
+          "caller": "submitModels",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 220
+        },
+        {
+          "caller": "submitModels",
+          "callee": "submitted.add",
+          "lineNumber": 221
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.status",
+          "lineNumber": 227
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 228
+        },
+        {
+          "caller": "refresh",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 229
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.providerRunId().orElse",
+          "lineNumber": 232
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.providerRunId",
+          "lineNumber": 232
+        },
+        {
+          "caller": "refresh",
+          "callee": "providerRunId.isBlank",
+          "lineNumber": 233
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 234
+        },
+        {
+          "caller": "refresh",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 235
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.requestedAt().plus",
+          "lineNumber": 238
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.requestedAt",
+          "lineNumber": 238
+        },
+        {
+          "caller": "refresh",
+          "callee": "probePort.fetch",
+          "lineNumber": 240
+        },
+        {
+          "caller": "refresh",
+          "callee": "applySnapshot",
+          "lineNumber": 241
+        },
+        {
+          "caller": "refresh",
+          "callee": "now.isBefore",
+          "lineNumber": 243
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 244
+        },
+        {
+          "caller": "refresh",
+          "callee": "exception.getMessage",
+          "lineNumber": 244
+        },
+        {
+          "caller": "refresh",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 245
+        },
+        {
+          "caller": "refresh",
+          "callee": "log.warn",
+          "lineNumber": 247
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.id().value",
+          "lineNumber": 247
+        },
+        {
+          "caller": "refresh",
+          "callee": "evaluation.id",
+          "lineNumber": 247
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "snapshot.status",
+          "lineNumber": 258
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "snapshot.findOutcome().orElseThrow",
+          "lineNumber": 259
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "snapshot.findOutcome",
+          "lineNumber": 259
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "new BusinessException",
+          "lineNumber": 260
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "evaluation.markSucceeded",
+          "lineNumber": 261
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 262
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "snapshot.status",
+          "lineNumber": 265
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 266
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "snapshot.failureReason",
+          "lineNumber": 266
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 267
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "now.isBefore",
+          "lineNumber": 270
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "evaluation.markFailed",
+          "lineNumber": 271
+        },
+        {
+          "caller": "applySnapshot",
+          "callee": "channelEvaluationRepository.save",
+          "lineNumber": 272
+        },
+        {
+          "caller": "fire",
+          "callee": "cronPort.nextTriggerAfter(schedule.cron(), now).orElse",
+          "lineNumber": 277
+        },
+        {
+          "caller": "fire",
+          "callee": "cronPort.nextTriggerAfter",
+          "lineNumber": 277
+        },
+        {
+          "caller": "fire",
+          "callee": "schedule.cron",
+          "lineNumber": 277
+        },
+        {
+          "caller": "fire",
+          "callee": "schedule.markTriggered",
+          "lineNumber": 278
+        },
+        {
+          "caller": "fire",
+          "callee": "channelEvaluationScheduleRepository.save",
+          "lineNumber": 279
+        },
+        {
+          "caller": "fire",
+          "callee": "loadChannel",
+          "lineNumber": 280
+        },
+        {
+          "caller": "fire",
+          "callee": "schedule.providerChannelId",
+          "lineNumber": 280
+        },
+        {
+          "caller": "fire",
+          "callee": "submitModels",
+          "lineNumber": 281
+        },
+        {
+          "caller": "fire",
+          "callee": "resolveModels",
+          "lineNumber": 281
+        },
+        {
+          "caller": "fire",
+          "callee": "schedule.models",
+          "lineNumber": 281
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "new LinkedHashMap<>",
+          "lineNumber": 285
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "channel.supportedModels",
+          "lineNumber": 286
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "model.status",
+          "lineNumber": 287
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "enabled.putIfAbsent",
+          "lineNumber": 290
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "model.requestedModel",
+          "lineNumber": 290
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "requestedModels.isEmpty",
+          "lineNumber": 292
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "List.copyOf",
+          "lineNumber": 293
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "enabled.values",
+          "lineNumber": 293
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 295
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "new ArrayList<>",
+          "lineNumber": 296
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "enabled.get",
+          "lineNumber": 298
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "new BusinessException",
+          "lineNumber": 300
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "requested.value",
+          "lineNumber": 300
+        },
+        {
+          "caller": "resolveModels",
+          "callee": "resolved.add",
+          "lineNumber": 302
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "userAccountRepository.findById(operatorUserId).orElseThrow",
+          "lineNumber": 308
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "userAccountRepository.findById",
+          "lineNumber": 308
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "new BusinessException",
+          "lineNumber": 309
+        },
+        {
+          "caller": "assertAdmin",
+          "callee": "operator.assertCanAccess",
+          "lineNumber": 310
+        },
+        {
+          "caller": "loadChannel",
+          "callee": "providerChannelRepository.findById(providerChannelId).orElseThrow",
+          "lineNumber": 314
+        },
+        {
+          "caller": "loadChannel",
+          "callee": "providerChannelRepository.findById",
+          "lineNumber": 314
+        },
+        {
+          "caller": "loadChannel",
+          "callee": "new BusinessException",
+          "lineNumber": 315
+        },
+        {
+          "caller": "nextEvaluationId",
+          "callee": "ChannelEvaluationId.of",
+          "lineNumber": 319
+        },
+        {
+          "caller": "nextEvaluationId",
+          "callee": "nextId",
+          "lineNumber": 319
+        },
+        {
+          "caller": "nextScheduleId",
+          "callee": "ChannelEvaluationScheduleId.of",
+          "lineNumber": 323
+        },
+        {
+          "caller": "nextScheduleId",
+          "callee": "nextId",
+          "lineNumber": 323
+        },
+        {
+          "caller": "nextId",
+          "callee": "clock.millis",
+          "lineNumber": 327
+        },
+        {
+          "caller": "nextId",
+          "callee": "ThreadLocalRandom.current().nextLong",
+          "lineNumber": 328
+        },
+        {
+          "caller": "nextId",
+          "callee": "ThreadLocalRandom.current",
+          "lineNumber": 328
+        },
+        {
+          "caller": "now",
+          "callee": "Instant.now",
+          "lineNumber": 333
+        }
+      ],
+      "metrics": {
+        "importCount": 27,
+        "exportCount": 7,
+        "functionCount": 17,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "ChannelEvaluationProbePort",
+          "startLine": 6,
+          "endLine": 24,
+          "methods": [
+            "submit",
+            "fetch"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelEvaluationProbePort",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 24,
+      "classes": [
+        {
+          "name": "EvaluationCronPort",
+          "startLine": 11,
+          "endLine": 28,
+          "methods": [
+            "nextTriggerAfter",
+            "validate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "EvaluationCronPort",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "running",
+          "startLine": 28,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "succeeded",
+          "startLine": 32,
+          "endLine": 34,
+          "params": [
+            "outcome"
+          ]
+        },
+        {
+          "name": "failed",
+          "startLine": 36,
+          "endLine": 38,
+          "params": [
+            "failureReason"
+          ]
+        },
+        {
+          "name": "findOutcome",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProbeRunSnapshot",
+          "startLine": 18,
+          "endLine": 43,
+          "methods": [
+            "running",
+            "succeeded",
+            "failed",
+            "findOutcome"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "running",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "succeeded",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "failed",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "findOutcome",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "ProbeRunSnapshot",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "running",
+          "callee": "new ProbeRunSnapshot",
+          "lineNumber": 29
+        },
+        {
+          "caller": "succeeded",
+          "callee": "new ProbeRunSnapshot",
+          "lineNumber": 33
+        },
+        {
+          "caller": "succeeded",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 33
+        },
+        {
+          "caller": "failed",
+          "callee": "new ProbeRunSnapshot",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findOutcome",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 29,
+      "classes": [
+        {
+          "name": "ProbeSubmission",
+          "startLine": 18,
+          "endLine": 32,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProbeSubmission",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "LoadChannelEvaluationScheduleCommand",
+          "startLine": 22,
+          "endLine": 29,
+          "params": [
+            "operatorUserId",
+            "providerChannelId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LoadChannelEvaluationScheduleCommand",
+          "startLine": 13,
+          "endLine": 30,
+          "methods": [
+            "LoadChannelEvaluationScheduleCommand"
+          ],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoadChannelEvaluationScheduleCommand",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LoadChannelEvaluationScheduleCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 27
+        },
+        {
+          "caller": "LoadChannelEvaluationScheduleCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "QueryChannelEvaluationHistoryCommand",
+          "startLine": 35,
+          "endLine": 58,
+          "params": [
+            "operatorUserId",
+            "providerChannelId",
+            "requestedModel",
+            "status",
+            "from",
+            "to",
+            "sortField",
+            "descending",
+            "limit",
+            "offset"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "QueryChannelEvaluationHistoryCommand",
+          "startLine": 17,
+          "endLine": 59,
+          "methods": [
+            "QueryChannelEvaluationHistoryCommand"
+          ],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "requestedModel",
+            "status",
+            "from",
+            "to",
+            "sortField",
+            "descending",
+            "limit",
+            "offset"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "QueryChannelEvaluationHistoryCommand",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "QueryChannelEvaluationHistoryCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "QueryChannelEvaluationHistoryCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "SubmitChannelEvaluationCommand",
+          "startLine": 28,
+          "endLine": 37,
+          "params": [
+            "operatorUserId",
+            "providerChannelId",
+            "models"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SubmitChannelEvaluationCommand",
+          "startLine": 17,
+          "endLine": 38,
+          "methods": [
+            "SubmitChannelEvaluationCommand"
+          ],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "models"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SubmitChannelEvaluationCommand",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SubmitChannelEvaluationCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "SubmitChannelEvaluationCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 35
+        },
+        {
+          "caller": "SubmitChannelEvaluationCommand",
+          "callee": "List.of",
+          "lineNumber": 36
+        },
+        {
+          "caller": "SubmitChannelEvaluationCommand",
+          "callee": "List.copyOf",
+          "lineNumber": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/command/UpsertChannelEvaluationScheduleCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "UpsertChannelEvaluationScheduleCommand",
+          "startLine": 33,
+          "endLine": 46,
+          "params": [
+            "operatorUserId",
+            "providerChannelId",
+            "cron",
+            "models",
+            "enabled"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UpsertChannelEvaluationScheduleCommand",
+          "startLine": 18,
+          "endLine": 47,
+          "methods": [
+            "UpsertChannelEvaluationScheduleCommand"
+          ],
+          "properties": [
+            "operatorUserId",
+            "providerChannelId",
+            "cron",
+            "models",
+            "enabled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpsertChannelEvaluationScheduleCommand",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UpsertChannelEvaluationScheduleCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 41
+        },
+        {
+          "caller": "UpsertChannelEvaluationScheduleCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 42
+        },
+        {
+          "caller": "UpsertChannelEvaluationScheduleCommand",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 43
+        },
+        {
+          "caller": "UpsertChannelEvaluationScheduleCommand",
+          "callee": "List.of",
+          "lineNumber": 44
+        },
+        {
+          "caller": "UpsertChannelEvaluationScheduleCommand",
+          "callee": "List.copyOf",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/evaluation/dto/ChannelEvaluationHistoryPage.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 27,
+      "classes": [
+        {
+          "name": "ChannelEvaluationHistoryPage",
+          "startLine": 17,
+          "endLine": 30,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelEvaluationHistoryPage",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/GatewayPayloadModelMappingPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "GatewayPayloadModelMappingPort",
+          "startLine": 9,
+          "endLine": 12,
+          "methods": [
+            "rewriteModel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "GatewayPayloadModelMappingPort",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/GatewayStreamingConversionContext.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "upstreamProtocol",
+            "clientProtocol",
+            "clientModel",
+            "providerChannelId",
+            "upstreamModel"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayStreamingConversionContext",
+          "startLine": 11,
+          "endLine": 37,
+          "methods": [
+            "of"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayStreamingConversionContext",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new GatewayStreamingConversionContext",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "ModelName",
+          "startLine": 14,
+          "endLine": 23,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 29,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 33,
+          "endLine": 42,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 49,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelName",
+          "startLine": 8,
+          "endLine": 53,
+          "methods": [
+            "ModelName",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "MAX_LENGTH",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "ModelName",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ModelName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ModelName",
+          "callee": "value.trim",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ModelName",
+          "callee": "trimmed.isEmpty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ModelName",
+          "callee": "trimmed.length",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ModelName",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "new ModelName",
+          "lineNumber": 26
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 41
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "ProviderChannelId",
+          "startLine": 12,
+          "endLine": 17,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 43,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProviderChannelId",
+          "startLine": 8,
+          "endLine": 47,
+          "methods": [
+            "ProviderChannelId",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderChannelId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProviderChannelId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "of",
+          "callee": "new ProviderChannelId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 35
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toString",
+          "callee": "String.valueOf",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 196,
+      "nonEmptyLines": 170,
+      "functions": [
+        {
+          "name": "ChannelEvaluation",
+          "startLine": 38,
+          "endLine": 69,
+          "params": [
+            "id",
+            "providerChannelId",
+            "requestedModel",
+            "upstreamFormat",
+            "trigger",
+            "providerRunId",
+            "status",
+            "outcome",
+            "errorMessage",
+            "requestedAt",
+            "startedAt",
+            "completedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "submit",
+          "startLine": 71,
+          "endLine": 90,
+          "params": [
+            "id",
+            "providerChannelId",
+            "requestedModel",
+            "upstreamFormat",
+            "trigger",
+            "now"
+          ]
+        },
+        {
+          "name": "markRunning",
+          "startLine": 93,
+          "endLine": 103,
+          "params": [
+            "providerRunId",
+            "now"
+          ]
+        },
+        {
+          "name": "markSucceeded",
+          "startLine": 105,
+          "endLine": 114,
+          "params": [
+            "outcome",
+            "now"
+          ]
+        },
+        {
+          "name": "markFailed",
+          "startLine": 116,
+          "endLine": 123,
+          "params": [
+            "reason",
+            "now"
+          ]
+        },
+        {
+          "name": "ensureNotTerminal",
+          "startLine": 125,
+          "endLine": 129,
+          "params": []
+        },
+        {
+          "name": "truncate",
+          "startLine": 131,
+          "endLine": 139,
+          "params": [
+            "reason"
+          ]
+        },
+        {
+          "name": "id",
+          "startLine": 141,
+          "endLine": 143,
+          "params": []
+        },
+        {
+          "name": "providerChannelId",
+          "startLine": 145,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "requestedModel",
+          "startLine": 149,
+          "endLine": 151,
+          "params": []
+        },
+        {
+          "name": "upstreamFormat",
+          "startLine": 153,
+          "endLine": 155,
+          "params": []
+        },
+        {
+          "name": "trigger",
+          "startLine": 157,
+          "endLine": 159,
+          "params": []
+        },
+        {
+          "name": "providerRunId",
+          "startLine": 161,
+          "endLine": 163,
+          "params": []
+        },
+        {
+          "name": "status",
+          "startLine": 165,
+          "endLine": 167,
+          "params": []
+        },
+        {
+          "name": "outcome",
+          "startLine": 169,
+          "endLine": 171,
+          "params": []
+        },
+        {
+          "name": "errorMessage",
+          "startLine": 173,
+          "endLine": 175,
+          "params": []
+        },
+        {
+          "name": "requestedAt",
+          "startLine": 177,
+          "endLine": 179,
+          "params": []
+        },
+        {
+          "name": "startedAt",
+          "startLine": 181,
+          "endLine": 183,
+          "params": []
+        },
+        {
+          "name": "completedAt",
+          "startLine": 185,
+          "endLine": 187,
+          "params": []
+        },
+        {
+          "name": "createdAt",
+          "startLine": 189,
+          "endLine": 191,
+          "params": []
+        },
+        {
+          "name": "updatedAt",
+          "startLine": 193,
+          "endLine": 195,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluation",
+          "startLine": 18,
+          "endLine": 196,
+          "methods": [
+            "ChannelEvaluation",
+            "submit",
+            "markRunning",
+            "markSucceeded",
+            "markFailed",
+            "ensureNotTerminal",
+            "truncate",
+            "id",
+            "providerChannelId",
+            "requestedModel",
+            "upstreamFormat",
+            "trigger",
+            "providerRunId",
+            "status",
+            "outcome",
+            "errorMessage",
+            "requestedAt",
+            "startedAt",
+            "completedAt",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": [
+            "MAX_ERROR_MESSAGE_LENGTH",
+            "id",
+            "providerChannelId",
+            "requestedModel",
+            "upstreamFormat",
+            "trigger",
+            "requestedAt",
+            "createdAt",
+            "providerRunId",
+            "status",
+            "outcome",
+            "errorMessage",
+            "startedAt",
+            "completedAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "submit",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "markRunning",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "markSucceeded",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "markFailed",
+          "line": 116,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "providerChannelId",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "requestedModel",
+          "line": 149,
+          "isDefault": false
+        },
+        {
+          "name": "upstreamFormat",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "trigger",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "providerRunId",
+          "line": 161,
+          "isDefault": false
+        },
+        {
+          "name": "status",
+          "line": 165,
+          "isDefault": false
+        },
+        {
+          "name": "outcome",
+          "line": 169,
+          "isDefault": false
+        },
+        {
+          "name": "errorMessage",
+          "line": 173,
+          "isDefault": false
+        },
+        {
+          "name": "requestedAt",
+          "line": 177,
+          "isDefault": false
+        },
+        {
+          "name": "startedAt",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "completedAt",
+          "line": 185,
+          "isDefault": false
+        },
+        {
+          "name": "createdAt",
+          "line": 189,
+          "isDefault": false
+        },
+        {
+          "name": "updatedAt",
+          "line": 193,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluation",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 59
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 61
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 62
+        },
+        {
+          "caller": "ChannelEvaluation",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 63
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel)\n                .upstreamFormat(upstreamFormat)\n                .trigger(trigger)\n                .status(EvaluationStatus.PENDING)\n                .requestedAt(now)\n                .createdAt(now)\n                .updatedAt(now).build",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel)\n                .upstreamFormat(upstreamFormat)\n                .trigger(trigger)\n                .status(EvaluationStatus.PENDING)\n                .requestedAt(now)\n                .createdAt(now).updatedAt",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel)\n                .upstreamFormat(upstreamFormat)\n                .trigger(trigger)\n                .status(EvaluationStatus.PENDING)\n                .requestedAt(now).createdAt",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel)\n                .upstreamFormat(upstreamFormat)\n                .trigger(trigger)\n                .status(EvaluationStatus.PENDING).requestedAt",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel)\n                .upstreamFormat(upstreamFormat)\n                .trigger(trigger).status",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel)\n                .upstreamFormat(upstreamFormat).trigger",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .requestedModel(requestedModel).upstreamFormat",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId).requestedModel",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate()\n                .id(id).providerChannelId",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate().id",
+          "lineNumber": 79
+        },
+        {
+          "caller": "submit",
+          "callee": "ChannelEvaluation.rehydrate",
+          "lineNumber": 79
+        },
+        {
+          "caller": "markRunning",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 94
+        },
+        {
+          "caller": "markRunning",
+          "callee": "providerRunId.isBlank",
+          "lineNumber": 95
+        },
+        {
+          "caller": "markRunning",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 96
+        },
+        {
+          "caller": "markRunning",
+          "callee": "ensureNotTerminal",
+          "lineNumber": 98
+        },
+        {
+          "caller": "markRunning",
+          "callee": "providerRunId.trim",
+          "lineNumber": 99
+        },
+        {
+          "caller": "markSucceeded",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 106
+        },
+        {
+          "caller": "markSucceeded",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 107
+        },
+        {
+          "caller": "markSucceeded",
+          "callee": "ensureNotTerminal",
+          "lineNumber": 108
+        },
+        {
+          "caller": "markSucceeded",
+          "callee": "outcome.completedAt",
+          "lineNumber": 112
+        },
+        {
+          "caller": "markSucceeded",
+          "callee": "outcome.completedAt",
+          "lineNumber": 112
+        },
+        {
+          "caller": "markFailed",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 117
+        },
+        {
+          "caller": "markFailed",
+          "callee": "ensureNotTerminal",
+          "lineNumber": 118
+        },
+        {
+          "caller": "markFailed",
+          "callee": "truncate",
+          "lineNumber": 120
+        },
+        {
+          "caller": "ensureNotTerminal",
+          "callee": "status.isTerminal",
+          "lineNumber": 126
+        },
+        {
+          "caller": "ensureNotTerminal",
+          "callee": "new IllegalStateException",
+          "lineNumber": 127
+        },
+        {
+          "caller": "truncate",
+          "callee": "reason.isBlank",
+          "lineNumber": 132
+        },
+        {
+          "caller": "truncate",
+          "callee": "reason.trim",
+          "lineNumber": 135
+        },
+        {
+          "caller": "truncate",
+          "callee": "normalized.length",
+          "lineNumber": 136
+        },
+        {
+          "caller": "truncate",
+          "callee": "normalized.substring",
+          "lineNumber": 138
+        },
+        {
+          "caller": "providerRunId",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 162
+        },
+        {
+          "caller": "outcome",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 170
+        },
+        {
+          "caller": "errorMessage",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 174
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 19,
+        "functionCount": 21,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "ChannelEvaluationId",
+          "startLine": 12,
+          "endLine": 17,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 43,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluationId",
+          "startLine": 8,
+          "endLine": 47,
+          "methods": [
+            "ChannelEvaluationId",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluationId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelEvaluationId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "of",
+          "callee": "new ChannelEvaluationId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 35
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toString",
+          "callee": "String.valueOf",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationSchedule.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 145,
+      "nonEmptyLines": 125,
+      "functions": [
+        {
+          "name": "ChannelEvaluationSchedule",
+          "startLine": 32,
+          "endLine": 53,
+          "params": [
+            "id",
+            "providerChannelId",
+            "cron",
+            "models",
+            "enabled",
+            "lastTriggeredAt",
+            "nextTriggerAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 55,
+          "endLine": 72,
+          "params": [
+            "id",
+            "providerChannelId",
+            "cron",
+            "models",
+            "enabled",
+            "now"
+          ]
+        },
+        {
+          "name": "reconfigure",
+          "startLine": 74,
+          "endLine": 81,
+          "params": [
+            "cron",
+            "models",
+            "enabled",
+            "now"
+          ]
+        },
+        {
+          "name": "planNextTrigger",
+          "startLine": 84,
+          "endLine": 88,
+          "params": [
+            "nextTriggerAt",
+            "now"
+          ]
+        },
+        {
+          "name": "markTriggered",
+          "startLine": 90,
+          "endLine": 95,
+          "params": [
+            "triggeredAt",
+            "nextTriggerAt"
+          ]
+        },
+        {
+          "name": "isDueAt",
+          "startLine": 97,
+          "endLine": 100,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "normalizeModels",
+          "startLine": 102,
+          "endLine": 107,
+          "params": [
+            "models"
+          ]
+        },
+        {
+          "name": "id",
+          "startLine": 109,
+          "endLine": 111,
+          "params": []
+        },
+        {
+          "name": "providerChannelId",
+          "startLine": 113,
+          "endLine": 115,
+          "params": []
+        },
+        {
+          "name": "cron",
+          "startLine": 117,
+          "endLine": 119,
+          "params": []
+        },
+        {
+          "name": "models",
+          "startLine": 122,
+          "endLine": 124,
+          "params": []
+        },
+        {
+          "name": "isEnabled",
+          "startLine": 126,
+          "endLine": 128,
+          "params": []
+        },
+        {
+          "name": "lastTriggeredAt",
+          "startLine": 130,
+          "endLine": 132,
+          "params": []
+        },
+        {
+          "name": "nextTriggerAt",
+          "startLine": 134,
+          "endLine": 136,
+          "params": []
+        },
+        {
+          "name": "createdAt",
+          "startLine": 138,
+          "endLine": 140,
+          "params": []
+        },
+        {
+          "name": "updatedAt",
+          "startLine": 142,
+          "endLine": 144,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluationSchedule",
+          "startLine": 19,
+          "endLine": 145,
+          "methods": [
+            "ChannelEvaluationSchedule",
+            "create",
+            "reconfigure",
+            "planNextTrigger",
+            "markTriggered",
+            "isDueAt",
+            "normalizeModels",
+            "id",
+            "providerChannelId",
+            "cron",
+            "models",
+            "isEnabled",
+            "lastTriggeredAt",
+            "nextTriggerAt",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": [
+            "id",
+            "providerChannelId",
+            "createdAt",
+            "cron",
+            "models",
+            "enabled",
+            "lastTriggeredAt",
+            "nextTriggerAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "reconfigure",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "planNextTrigger",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "markTriggered",
+          "line": 90,
+          "isDefault": false
+        },
+        {
+          "name": "isDueAt",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "providerChannelId",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "cron",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "models",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "isEnabled",
+          "line": 126,
+          "isDefault": false
+        },
+        {
+          "name": "lastTriggeredAt",
+          "line": 130,
+          "isDefault": false
+        },
+        {
+          "name": "nextTriggerAt",
+          "line": 134,
+          "isDefault": false
+        },
+        {
+          "name": "createdAt",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "updatedAt",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluationSchedule",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelEvaluationSchedule",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ChannelEvaluationSchedule",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ChannelEvaluationSchedule",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ChannelEvaluationSchedule",
+          "callee": "normalizeModels",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ChannelEvaluationSchedule",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ChannelEvaluationSchedule",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 52
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .cron(cron)\n                .models(models)\n                .enabled(enabled)\n                .createdAt(now)\n                .updatedAt(now).build",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .cron(cron)\n                .models(models)\n                .enabled(enabled)\n                .createdAt(now).updatedAt",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .cron(cron)\n                .models(models)\n                .enabled(enabled).createdAt",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .cron(cron)\n                .models(models).enabled",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId)\n                .cron(cron).models",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id)\n                .providerChannelId(providerChannelId).cron",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate()\n                .id(id).providerChannelId",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate().id",
+          "lineNumber": 63
+        },
+        {
+          "caller": "create",
+          "callee": "ChannelEvaluationSchedule.rehydrate",
+          "lineNumber": 63
+        },
+        {
+          "caller": "reconfigure",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 75
+        },
+        {
+          "caller": "reconfigure",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 76
+        },
+        {
+          "caller": "reconfigure",
+          "callee": "normalizeModels",
+          "lineNumber": 78
+        },
+        {
+          "caller": "planNextTrigger",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 85
+        },
+        {
+          "caller": "markTriggered",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 91
+        },
+        {
+          "caller": "isDueAt",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 98
+        },
+        {
+          "caller": "isDueAt",
+          "callee": "nextTriggerAt.isAfter",
+          "lineNumber": 99
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "models.isEmpty",
+          "lineNumber": 103
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "List.of",
+          "lineNumber": 104
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "List.copyOf",
+          "lineNumber": 106
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "new ArrayList<>",
+          "lineNumber": 106
+        },
+        {
+          "caller": "normalizeModels",
+          "callee": "new LinkedHashSet<>",
+          "lineNumber": 106
+        },
+        {
+          "caller": "lastTriggeredAt",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 131
+        },
+        {
+          "caller": "nextTriggerAt",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 135
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 15,
+        "functionCount": 16,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationScheduleId.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "ChannelEvaluationScheduleId",
+          "startLine": 12,
+          "endLine": 17,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 43,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluationScheduleId",
+          "startLine": 8,
+          "endLine": 47,
+          "methods": [
+            "ChannelEvaluationScheduleId",
+            "of",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluationScheduleId",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelEvaluationScheduleId",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 14
+        },
+        {
+          "caller": "of",
+          "callee": "new ChannelEvaluationScheduleId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 35
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 40
+        },
+        {
+          "caller": "toString",
+          "callee": "String.valueOf",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationCron.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 72,
+      "nonEmptyLines": 60,
+      "functions": [
+        {
+          "name": "EvaluationCron",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "expression",
+            "zoneId"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "expression",
+            "zoneId"
+          ]
+        },
+        {
+          "name": "normalize",
+          "startLine": 29,
+          "endLine": 42,
+          "params": [
+            "expression"
+          ]
+        },
+        {
+          "name": "expression",
+          "startLine": 44,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "zoneId",
+          "startLine": 48,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 52,
+          "endLine": 61,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 63,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 68,
+          "endLine": 71,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationCron",
+          "startLine": 13,
+          "endLine": 72,
+          "methods": [
+            "EvaluationCron",
+            "of",
+            "normalize",
+            "expression",
+            "zoneId",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "CRON_FIELD_COUNT",
+            "expression",
+            "zoneId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "expression",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "zoneId",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationCron",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EvaluationCron",
+          "callee": "normalize",
+          "lineNumber": 21
+        },
+        {
+          "caller": "EvaluationCron",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 22
+        },
+        {
+          "caller": "of",
+          "callee": "new EvaluationCron",
+          "lineNumber": 26
+        },
+        {
+          "caller": "normalize",
+          "callee": "expression.isBlank",
+          "lineNumber": 30
+        },
+        {
+          "caller": "normalize",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 31
+        },
+        {
+          "caller": "normalize",
+          "callee": "expression.trim().replaceAll",
+          "lineNumber": 33
+        },
+        {
+          "caller": "normalize",
+          "callee": "expression.trim",
+          "lineNumber": 33
+        },
+        {
+          "caller": "normalize",
+          "callee": "trimmed.startsWith",
+          "lineNumber": 34
+        },
+        {
+          "caller": "normalize",
+          "callee": "trimmed.split",
+          "lineNumber": 37
+        },
+        {
+          "caller": "normalize",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 38
+        },
+        {
+          "caller": "equals",
+          "callee": "expression.equals",
+          "lineNumber": 60
+        },
+        {
+          "caller": "equals",
+          "callee": "zoneId.equals",
+          "lineNumber": 60
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationOutcome.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 39,
+      "classes": [
+        {
+          "name": "EvaluationOutcome",
+          "startLine": 21,
+          "endLine": 42,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "EvaluationOutcome",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationScore.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "EvaluationScore",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 30,
+          "endLine": 43,
+          "params": [
+            "rawScore",
+            "rawMax"
+          ]
+        },
+        {
+          "name": "ofNormalized",
+          "startLine": 46,
+          "endLine": 52,
+          "params": [
+            "normalized"
+          ]
+        },
+        {
+          "name": "value",
+          "startLine": 55,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 59,
+          "endLine": 68,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 70,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "toString",
+          "startLine": 75,
+          "endLine": 78,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationScore",
+          "startLine": 13,
+          "endLine": 79,
+          "methods": [
+            "EvaluationScore",
+            "of",
+            "ofNormalized",
+            "value",
+            "equals",
+            "hashCode",
+            "toString"
+          ],
+          "properties": [
+            "SCALE",
+            "FULL_MARK",
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "ofNormalized",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "value",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "toString",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationScore",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 32
+        },
+        {
+          "caller": "of",
+          "callee": "rawMax.signum",
+          "lineNumber": 33
+        },
+        {
+          "caller": "of",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "of",
+          "callee": "rawScore.signum",
+          "lineNumber": 36
+        },
+        {
+          "caller": "of",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 37
+        },
+        {
+          "caller": "of",
+          "callee": "rawScore.compareTo",
+          "lineNumber": 39
+        },
+        {
+          "caller": "of",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 40
+        },
+        {
+          "caller": "of",
+          "callee": "new EvaluationScore",
+          "lineNumber": 42
+        },
+        {
+          "caller": "of",
+          "callee": "rawScore.multiply(FULL_MARK).divide",
+          "lineNumber": 42
+        },
+        {
+          "caller": "of",
+          "callee": "rawScore.multiply",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ofNormalized",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ofNormalized",
+          "callee": "normalized.signum",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ofNormalized",
+          "callee": "normalized.compareTo",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ofNormalized",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ofNormalized",
+          "callee": "new EvaluationScore",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ofNormalized",
+          "callee": "normalized.setScale",
+          "lineNumber": 51
+        },
+        {
+          "caller": "equals",
+          "callee": "value.compareTo",
+          "lineNumber": 67
+        },
+        {
+          "caller": "hashCode",
+          "callee": "value.stripTrailingZeros().hashCode",
+          "lineNumber": 72
+        },
+        {
+          "caller": "hashCode",
+          "callee": "value.stripTrailingZeros",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toString",
+          "callee": "value.toPlainString",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "isTerminal",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "isInFlight",
+          "startLine": 27,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "parse",
+          "startLine": 31,
+          "endLine": 40,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationStatus",
+          "startLine": 9,
+          "endLine": 41,
+          "methods": [
+            "isTerminal",
+            "isInFlight",
+            "parse"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "isTerminal",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "isInFlight",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "parse",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationStatus",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isInFlight",
+          "callee": "isTerminal",
+          "lineNumber": 28
+        },
+        {
+          "caller": "parse",
+          "callee": "value.isBlank",
+          "lineNumber": 32
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 33
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.of",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "valueOf",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim().toUpperCase",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationTrigger.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "parse",
+          "startLine": 17,
+          "endLine": 26,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationTrigger",
+          "startLine": 9,
+          "endLine": 27,
+          "methods": [
+            "parse"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "parse",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationTrigger",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "parse",
+          "callee": "value.isBlank",
+          "lineNumber": 18
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.of",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "valueOf",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim().toUpperCase",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/model/ProbeUpstreamFormat.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "ProbeUpstreamFormat",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "wireValue"
+          ]
+        },
+        {
+          "name": "wireValue",
+          "startLine": 21,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "fromProtocol",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "protocol"
+          ]
+        },
+        {
+          "name": "parse",
+          "startLine": 32,
+          "endLine": 41,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProbeUpstreamFormat",
+          "startLine": 10,
+          "endLine": 42,
+          "methods": [
+            "ProbeUpstreamFormat",
+            "wireValue",
+            "fromProtocol",
+            "parse"
+          ],
+          "properties": [
+            "wireValue"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "wireValue",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "fromProtocol",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "parse",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "ProbeUpstreamFormat",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "parse",
+          "callee": "value.isBlank",
+          "lineNumber": 33
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 34
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.of",
+          "lineNumber": 37
+        },
+        {
+          "caller": "parse",
+          "callee": "valueOf",
+          "lineNumber": 37
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim().toUpperCase",
+          "lineNumber": 37
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim",
+          "lineNumber": 37
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 49,
+      "classes": [
+        {
+          "name": "ChannelEvaluationRepository",
+          "startLine": 9,
+          "endLine": 58,
+          "methods": [
+            "save",
+            "findById",
+            "findHistory",
+            "countHistory",
+            "summarize",
+            "findInFlight",
+            "deleteByProviderChannelId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelEvaluationRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationScheduleRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 34,
+      "classes": [
+        {
+          "name": "ChannelEvaluationScheduleRepository",
+          "startLine": 10,
+          "endLine": 41,
+          "methods": [
+            "save",
+            "findById",
+            "findByProviderChannelId",
+            "findDue",
+            "deleteByProviderChannelId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelEvaluationScheduleRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationHistoryQuery.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 44,
+      "classes": [
+        {
+          "name": "EvaluationHistoryQuery",
+          "startLine": 23,
+          "endLine": 48,
+          "methods": [],
+          "properties": [
+            "DEFAULT_LIMIT",
+            "MAX_LIMIT"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DEFAULT_LIMIT",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "MAX_LIMIT",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationHistoryQuery",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationScoreSummary.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "empty",
+          "startLine": 29,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "findAverageScore",
+          "startLine": 33,
+          "endLine": 35,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationScoreSummary",
+          "startLine": 20,
+          "endLine": 36,
+          "methods": [
+            "empty",
+            "findAverageScore"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "empty",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "findAverageScore",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationScoreSummary",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "empty",
+          "callee": "new EvaluationScoreSummary",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findAverageScore",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationSortField.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "parse",
+          "startLine": 17,
+          "endLine": 26,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EvaluationSortField",
+          "startLine": 9,
+          "endLine": 27,
+          "methods": [
+            "parse"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "parse",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "EvaluationSortField",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "parse",
+          "callee": "value.isBlank",
+          "lineNumber": 18
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 19
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.of",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "valueOf",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim().toUpperCase",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "value.trim",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "Optional.empty",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRouteContext.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "ProtocolConversionRouteContext",
+          "startLine": 4,
+          "endLine": 14,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionRouteContext",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/client/evaluation/ChannelEvaluationJobs.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "pollInFlight",
+          "startLine": 28,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "fireDueSchedules",
+          "startLine": 48,
+          "endLine": 63,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluationJobs",
+          "startLine": 14,
+          "endLine": 64,
+          "methods": [
+            "pollInFlight",
+            "fireDueSchedules"
+          ],
+          "properties": [
+            "channelEvaluationApplicationService",
+            "properties",
+            "polling",
+            "scheduling"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "pollInFlight",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "fireDueSchedules",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluationJobs",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "pollInFlight",
+          "callee": "polling.compareAndSet",
+          "lineNumber": 30
+        },
+        {
+          "caller": "pollInFlight",
+          "callee": "channelEvaluationApplicationService.refreshInFlight",
+          "lineNumber": 34
+        },
+        {
+          "caller": "pollInFlight",
+          "callee": "properties.getPollBatchSize",
+          "lineNumber": 35
+        },
+        {
+          "caller": "pollInFlight",
+          "callee": "properties.getRunTimeout",
+          "lineNumber": 36
+        },
+        {
+          "caller": "pollInFlight",
+          "callee": "log.info",
+          "lineNumber": 39
+        },
+        {
+          "caller": "pollInFlight",
+          "callee": "log.error",
+          "lineNumber": 42
+        },
+        {
+          "caller": "pollInFlight",
+          "callee": "polling.set",
+          "lineNumber": 44
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "scheduling.compareAndSet",
+          "lineNumber": 50
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "channelEvaluationApplicationService.fireDueSchedules",
+          "lineNumber": 54
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "properties.getScheduleBatchSize",
+          "lineNumber": 54
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "log.info",
+          "lineNumber": 56
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "log.error",
+          "lineNumber": 59
+        },
+        {
+          "caller": "fireDueSchedules",
+          "callee": "scheduling.set",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/client/evaluation/ChannelEvaluationProbeAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 319,
+      "nonEmptyLines": 292,
+      "functions": [
+        {
+          "name": "ChannelEvaluationProbeAdapter",
+          "startLine": 50,
+          "endLine": 62,
+          "params": [
+            "properties",
+            "reportCompactor",
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "submit",
+          "startLine": 64,
+          "endLine": 81,
+          "params": [
+            "submission"
+          ]
+        },
+        {
+          "name": "fetch",
+          "startLine": 83,
+          "endLine": 101,
+          "params": [
+            "providerRunId"
+          ]
+        },
+        {
+          "name": "snapshotOf",
+          "startLine": 103,
+          "endLine": 130,
+          "params": [
+            "report",
+            "providerRunId"
+          ]
+        },
+        {
+          "name": "toOutcome",
+          "startLine": 132,
+          "endLine": 157,
+          "params": [
+            "report",
+            "providerRunId"
+          ]
+        },
+        {
+          "name": "post",
+          "startLine": 159,
+          "endLine": 171,
+          "params": [
+            "endpoint",
+            "body"
+          ]
+        },
+        {
+          "name": "get",
+          "startLine": 173,
+          "endLine": 180,
+          "params": [
+            "endpoint",
+            "allowNotFound"
+          ]
+        },
+        {
+          "name": "send",
+          "startLine": 182,
+          "endLine": 207,
+          "params": [
+            "request",
+            "endpoint",
+            "allowNotFound"
+          ]
+        },
+        {
+          "name": "probeHttpException",
+          "startLine": 209,
+          "endLine": 221,
+          "params": [
+            "statusCode",
+            "reason"
+          ]
+        },
+        {
+          "name": "extractError",
+          "startLine": 223,
+          "endLine": 239,
+          "params": [
+            "responseBody"
+          ]
+        },
+        {
+          "name": "probeItems",
+          "startLine": 241,
+          "endLine": 244,
+          "params": [
+            "report"
+          ]
+        },
+        {
+          "name": "text",
+          "startLine": 246,
+          "endLine": 248,
+          "params": [
+            "node",
+            "field"
+          ]
+        },
+        {
+          "name": "decimal",
+          "startLine": 250,
+          "endLine": 252,
+          "params": [
+            "node"
+          ]
+        },
+        {
+          "name": "nullableLong",
+          "startLine": 254,
+          "endLine": 256,
+          "params": [
+            "node"
+          ]
+        },
+        {
+          "name": "instant",
+          "startLine": 258,
+          "endLine": 267,
+          "params": [
+            "node"
+          ]
+        },
+        {
+          "name": "firstNonBlank",
+          "startLine": 269,
+          "endLine": 276,
+          "params": []
+        },
+        {
+          "name": "truncate",
+          "startLine": 278,
+          "endLine": 284,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ChannelEvaluationProbeAdapter",
+          "startLine": 33,
+          "endLine": 319,
+          "methods": [
+            "ChannelEvaluationProbeAdapter",
+            "submit",
+            "fetch",
+            "snapshotOf",
+            "toOutcome",
+            "post",
+            "get",
+            "send",
+            "probeHttpException",
+            "extractError",
+            "probeItems",
+            "text",
+            "decimal",
+            "nullableLong",
+            "instant",
+            "firstNonBlank",
+            "truncate"
+          ],
+          "properties": [
+            "CONTENT_TYPE",
+            "properties",
+            "reportCompactor",
+            "objectMapper",
+            "httpClient"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelEvaluationProbeAdapter",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "submit",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "fetch",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "ChannelEvaluationProbeAdapter",
+          "line": 33,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 56
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "HttpClient.newBuilder()\n                .connectTimeout(properties.getConnectTimeout())\n                .version(HttpClient.Version.HTTP_1_1).build",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "HttpClient.newBuilder()\n                .connectTimeout(properties.getConnectTimeout()).version",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "HttpClient.newBuilder().connectTimeout",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "HttpClient.newBuilder",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ChannelEvaluationProbeAdapter",
+          "callee": "properties.getConnectTimeout",
+          "lineNumber": 59
+        },
+        {
+          "caller": "submit",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 66
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.keyRef().value",
+          "lineNumber": 67
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.keyRef",
+          "lineNumber": 67
+        },
+        {
+          "caller": "submit",
+          "callee": "objectMapper.createObjectNode",
+          "lineNumber": 68
+        },
+        {
+          "caller": "submit",
+          "callee": "body.put",
+          "lineNumber": 69
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.host().value",
+          "lineNumber": 69
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.host",
+          "lineNumber": 69
+        },
+        {
+          "caller": "submit",
+          "callee": "body.put",
+          "lineNumber": 70
+        },
+        {
+          "caller": "submit",
+          "callee": "body.put",
+          "lineNumber": 71
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.modelId().value",
+          "lineNumber": 71
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.modelId",
+          "lineNumber": 71
+        },
+        {
+          "caller": "submit",
+          "callee": "body.put",
+          "lineNumber": 72
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.modelId().value",
+          "lineNumber": 72
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.modelId",
+          "lineNumber": 72
+        },
+        {
+          "caller": "submit",
+          "callee": "body.put",
+          "lineNumber": 73
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.upstreamFormat().wireValue",
+          "lineNumber": 73
+        },
+        {
+          "caller": "submit",
+          "callee": "submission.upstreamFormat",
+          "lineNumber": 73
+        },
+        {
+          "caller": "submit",
+          "callee": "body.put",
+          "lineNumber": 74
+        },
+        {
+          "caller": "submit",
+          "callee": "post",
+          "lineNumber": 75
+        },
+        {
+          "caller": "submit",
+          "callee": "properties.runEndpoint",
+          "lineNumber": 75
+        },
+        {
+          "caller": "submit",
+          "callee": "text",
+          "lineNumber": 76
+        },
+        {
+          "caller": "submit",
+          "callee": "runId.isBlank",
+          "lineNumber": 77
+        },
+        {
+          "caller": "submit",
+          "callee": "new BusinessException",
+          "lineNumber": 78
+        },
+        {
+          "caller": "fetch",
+          "callee": "providerRunId.isBlank",
+          "lineNumber": 85
+        },
+        {
+          "caller": "fetch",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 86
+        },
+        {
+          "caller": "fetch",
+          "callee": "get",
+          "lineNumber": 88
+        },
+        {
+          "caller": "fetch",
+          "callee": "properties.runEndpoint",
+          "lineNumber": 88
+        },
+        {
+          "caller": "fetch",
+          "callee": "snapshotOf",
+          "lineNumber": 90
+        },
+        {
+          "caller": "fetch",
+          "callee": "get",
+          "lineNumber": 95
+        },
+        {
+          "caller": "fetch",
+          "callee": "properties.historyEndpoint",
+          "lineNumber": 95
+        },
+        {
+          "caller": "fetch",
+          "callee": "snapshotOf",
+          "lineNumber": 96
+        },
+        {
+          "caller": "fetch",
+          "callee": "new BusinessException",
+          "lineNumber": 98
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "report.isMissingNode",
+          "lineNumber": 104
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "report.isNull",
+          "lineNumber": 104
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "text",
+          "lineNumber": 107
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "report.hasNonNull",
+          "lineNumber": 109
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "report.hasNonNull",
+          "lineNumber": 109
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "ProbeRunSnapshot.succeeded",
+          "lineNumber": 110
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "toOutcome",
+          "lineNumber": 110
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "ProbeRunSnapshot.running",
+          "lineNumber": 112
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "status.trim().toLowerCase",
+          "lineNumber": 114
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "status.trim",
+          "lineNumber": 114
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"running\".equals",
+          "lineNumber": 115
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"pending\".equals",
+          "lineNumber": 115
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"queued\".equals",
+          "lineNumber": 115
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "ProbeRunSnapshot.running",
+          "lineNumber": 116
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"failed\".equals",
+          "lineNumber": 118
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"error\".equals",
+          "lineNumber": 118
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"stopped\".equals",
+          "lineNumber": 118
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "ProbeRunSnapshot.failed",
+          "lineNumber": 119
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "firstNonBlank",
+          "lineNumber": 119
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "text",
+          "lineNumber": 120
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "text",
+          "lineNumber": 121
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "text",
+          "lineNumber": 122
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"completed\".equals",
+          "lineNumber": 126
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"succeeded\".equals",
+          "lineNumber": 126
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "\"success\".equals",
+          "lineNumber": 126
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "ProbeRunSnapshot.succeeded",
+          "lineNumber": 127
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "toOutcome",
+          "lineNumber": 127
+        },
+        {
+          "caller": "snapshotOf",
+          "callee": "ProbeRunSnapshot.running",
+          "lineNumber": 129
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "decimal",
+          "lineNumber": 133
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 133
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "decimal",
+          "lineNumber": 134
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 134
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "new BusinessException",
+          "lineNumber": 136
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationScore.of",
+          "lineNumber": 138
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "BigDecimal.valueOf",
+          "lineNumber": 138
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "ProbeIdentity.read(report.path(\"identityAssessment\")).orElse",
+          "lineNumber": 139
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "ProbeIdentity.read",
+          "lineNumber": 139
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 139
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "ProbeCounts.of",
+          "lineNumber": 140
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "probeItems",
+          "lineNumber": 140
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed)\n                .warningProbeCount(counts.warning)\n                .failedProbeCount(counts.failed)\n                .totalInputTokens(nullableLong(report.path(\"totalInputTokens\")))\n                .totalOutputTokens(nullableLong(report.path(\"totalOutputTokens\")))\n                .reportSummary(reportCompactor.compact(report))\n                .completedAt(instant(report.path(\"completedAt\"))).build",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed)\n                .warningProbeCount(counts.warning)\n                .failedProbeCount(counts.failed)\n                .totalInputTokens(nullableLong(report.path(\"totalInputTokens\")))\n                .totalOutputTokens(nullableLong(report.path(\"totalOutputTokens\")))\n                .reportSummary(reportCompactor.compact(report)).completedAt",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed)\n                .warningProbeCount(counts.warning)\n                .failedProbeCount(counts.failed)\n                .totalInputTokens(nullableLong(report.path(\"totalInputTokens\")))\n                .totalOutputTokens(nullableLong(report.path(\"totalOutputTokens\"))).reportSummary",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed)\n                .warningProbeCount(counts.warning)\n                .failedProbeCount(counts.failed)\n                .totalInputTokens(nullableLong(report.path(\"totalInputTokens\"))).totalOutputTokens",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed)\n                .warningProbeCount(counts.warning)\n                .failedProbeCount(counts.failed).totalInputTokens",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed)\n                .warningProbeCount(counts.warning).failedProbeCount",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId))\n                .passedProbeCount(counts.passed).warningProbeCount",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\"))\n                .reportUrl(properties.historyEndpoint(providerRunId)).passedProbeCount",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch())\n                .channelSignature(text(report.path(\"channelSignature\"), \"channel\")).reportUrl",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence())\n                .familyMismatch(identity == null ? null : identity.familyMismatch()).channelSignature",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model())\n                .detectedConfidence(identity == null ? null : identity.confidence()).familyMismatch",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family())\n                .detectedModel(identity == null ? null : identity.model()).detectedConfidence",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score)\n                .detectedFamily(identity == null ? null : identity.family()).detectedModel",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder()\n                .score(score).detectedFamily",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder().score",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "EvaluationOutcome.builder",
+          "lineNumber": 141
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "identity.family",
+          "lineNumber": 143
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "identity.model",
+          "lineNumber": 144
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "identity.confidence",
+          "lineNumber": 145
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "identity.familyMismatch",
+          "lineNumber": 146
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "text",
+          "lineNumber": 147
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 147
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "properties.historyEndpoint",
+          "lineNumber": 148
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "nullableLong",
+          "lineNumber": 152
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 152
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "nullableLong",
+          "lineNumber": 153
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 153
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "reportCompactor.compact",
+          "lineNumber": 154
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "instant",
+          "lineNumber": 155
+        },
+        {
+          "caller": "toOutcome",
+          "callee": "report.path",
+          "lineNumber": 155
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                    .timeout(properties.getRequestTimeout())\n                    .header(\"Content-Type\", CONTENT_TYPE)\n                    .header(\"Accept\", CONTENT_TYPE)\n                    .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(body))).build",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                    .timeout(properties.getRequestTimeout())\n                    .header(\"Content-Type\", CONTENT_TYPE)\n                    .header(\"Accept\", CONTENT_TYPE).POST",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                    .timeout(properties.getRequestTimeout())\n                    .header(\"Content-Type\", CONTENT_TYPE).header",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                    .timeout(properties.getRequestTimeout()).header",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint)).timeout",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.newBuilder",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "URI.create",
+          "lineNumber": 161
+        },
+        {
+          "caller": "post",
+          "callee": "properties.getRequestTimeout",
+          "lineNumber": 162
+        },
+        {
+          "caller": "post",
+          "callee": "HttpRequest.BodyPublishers.ofString",
+          "lineNumber": 165
+        },
+        {
+          "caller": "post",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 165
+        },
+        {
+          "caller": "post",
+          "callee": "send",
+          "lineNumber": 167
+        },
+        {
+          "caller": "post",
+          "callee": "new BusinessException",
+          "lineNumber": 169
+        },
+        {
+          "caller": "get",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                .timeout(properties.getRequestTimeout())\n                .header(\"Accept\", CONTENT_TYPE)\n                .GET().build",
+          "lineNumber": 174
+        },
+        {
+          "caller": "get",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                .timeout(properties.getRequestTimeout())\n                .header(\"Accept\", CONTENT_TYPE).GET",
+          "lineNumber": 174
+        },
+        {
+          "caller": "get",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint))\n                .timeout(properties.getRequestTimeout()).header",
+          "lineNumber": 174
+        },
+        {
+          "caller": "get",
+          "callee": "HttpRequest.newBuilder(URI.create(endpoint)).timeout",
+          "lineNumber": 174
+        },
+        {
+          "caller": "get",
+          "callee": "HttpRequest.newBuilder",
+          "lineNumber": 174
+        },
+        {
+          "caller": "get",
+          "callee": "URI.create",
+          "lineNumber": 174
+        },
+        {
+          "caller": "get",
+          "callee": "properties.getRequestTimeout",
+          "lineNumber": 175
+        },
+        {
+          "caller": "get",
+          "callee": "send",
+          "lineNumber": 179
+        },
+        {
+          "caller": "send",
+          "callee": "httpClient.send",
+          "lineNumber": 184
+        },
+        {
+          "caller": "send",
+          "callee": "HttpResponse.BodyHandlers.ofString",
+          "lineNumber": 184
+        },
+        {
+          "caller": "send",
+          "callee": "response.statusCode",
+          "lineNumber": 185
+        },
+        {
+          "caller": "send",
+          "callee": "log.warn",
+          "lineNumber": 190
+        },
+        {
+          "caller": "send",
+          "callee": "probeHttpException",
+          "lineNumber": 191
+        },
+        {
+          "caller": "send",
+          "callee": "extractError",
+          "lineNumber": 191
+        },
+        {
+          "caller": "send",
+          "callee": "response.body",
+          "lineNumber": 191
+        },
+        {
+          "caller": "send",
+          "callee": "response.body",
+          "lineNumber": 193
+        },
+        {
+          "caller": "send",
+          "callee": "response.body().isBlank",
+          "lineNumber": 193
+        },
+        {
+          "caller": "send",
+          "callee": "response.body",
+          "lineNumber": 193
+        },
+        {
+          "caller": "send",
+          "callee": "new BusinessException",
+          "lineNumber": 194
+        },
+        {
+          "caller": "send",
+          "callee": "objectMapper.readTree",
+          "lineNumber": 196
+        },
+        {
+          "caller": "send",
+          "callee": "response.body",
+          "lineNumber": 196
+        },
+        {
+          "caller": "send",
+          "callee": "new BusinessException",
+          "lineNumber": 200
+        },
+        {
+          "caller": "send",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 202
+        },
+        {
+          "caller": "send",
+          "callee": "Thread.currentThread",
+          "lineNumber": 202
+        },
+        {
+          "caller": "send",
+          "callee": "new BusinessException",
+          "lineNumber": 203
+        },
+        {
+          "caller": "send",
+          "callee": "new BusinessException",
+          "lineNumber": 205
+        },
+        {
+          "caller": "probeHttpException",
+          "callee": "reason.isBlank",
+          "lineNumber": 210
+        },
+        {
+          "caller": "probeHttpException",
+          "callee": "new BusinessException",
+          "lineNumber": 212
+        },
+        {
+          "caller": "probeHttpException",
+          "callee": "new BusinessException",
+          "lineNumber": 215
+        },
+        {
+          "caller": "probeHttpException",
+          "callee": "new BusinessException",
+          "lineNumber": 218
+        },
+        {
+          "caller": "probeHttpException",
+          "callee": "new BusinessException",
+          "lineNumber": 220
+        },
+        {
+          "caller": "extractError",
+          "callee": "responseBody.isBlank",
+          "lineNumber": 224
+        },
+        {
+          "caller": "extractError",
+          "callee": "objectMapper.readTree",
+          "lineNumber": 228
+        },
+        {
+          "caller": "extractError",
+          "callee": "firstNonBlank",
+          "lineNumber": 229
+        },
+        {
+          "caller": "extractError",
+          "callee": "text",
+          "lineNumber": 230
+        },
+        {
+          "caller": "extractError",
+          "callee": "root.path",
+          "lineNumber": 230
+        },
+        {
+          "caller": "extractError",
+          "callee": "text",
+          "lineNumber": 231
+        },
+        {
+          "caller": "extractError",
+          "callee": "text",
+          "lineNumber": 232
+        },
+        {
+          "caller": "extractError",
+          "callee": "text",
+          "lineNumber": 233
+        },
+        {
+          "caller": "extractError",
+          "callee": "log.debug",
+          "lineNumber": 236
+        },
+        {
+          "caller": "extractError",
+          "callee": "truncate",
+          "lineNumber": 237
+        },
+        {
+          "caller": "probeItems",
+          "callee": "report.path",
+          "lineNumber": 242
+        },
+        {
+          "caller": "probeItems",
+          "callee": "items.isArray",
+          "lineNumber": 243
+        },
+        {
+          "caller": "probeItems",
+          "callee": "report.path",
+          "lineNumber": 243
+        },
+        {
+          "caller": "text",
+          "callee": "node.hasNonNull",
+          "lineNumber": 247
+        },
+        {
+          "caller": "text",
+          "callee": "node.path(field).asText",
+          "lineNumber": 247
+        },
+        {
+          "caller": "text",
+          "callee": "node.path",
+          "lineNumber": 247
+        },
+        {
+          "caller": "decimal",
+          "callee": "node.isNumber",
+          "lineNumber": 251
+        },
+        {
+          "caller": "decimal",
+          "callee": "node.decimalValue",
+          "lineNumber": 251
+        },
+        {
+          "caller": "nullableLong",
+          "callee": "node.isNumber",
+          "lineNumber": 255
+        },
+        {
+          "caller": "nullableLong",
+          "callee": "node.longValue",
+          "lineNumber": 255
+        },
+        {
+          "caller": "instant",
+          "callee": "node.isNull",
+          "lineNumber": 259
+        },
+        {
+          "caller": "instant",
+          "callee": "node.isMissingNode",
+          "lineNumber": 259
+        },
+        {
+          "caller": "instant",
+          "callee": "node.isTextual",
+          "lineNumber": 259
+        },
+        {
+          "caller": "instant",
+          "callee": "Instant.parse",
+          "lineNumber": 263
+        },
+        {
+          "caller": "instant",
+          "callee": "node.asText",
+          "lineNumber": 263
+        },
+        {
+          "caller": "firstNonBlank",
+          "callee": "value.isBlank",
+          "lineNumber": 271
+        },
+        {
+          "caller": "firstNonBlank",
+          "callee": "truncate",
+          "lineNumber": 272
+        },
+        {
+          "caller": "firstNonBlank",
+          "callee": "value.trim",
+          "lineNumber": 272
+        },
+        {
+          "caller": "truncate",
+          "callee": "value.replaceAll(\"\\\\s+\", \" \").trim",
+          "lineNumber": 282
+        },
+        {
+          "caller": "truncate",
+          "callee": "value.replaceAll",
+          "lineNumber": 282
+        },
+        {
+          "caller": "truncate",
+          "callee": "normalized.length",
+          "lineNumber": 283
+        },
+        {
+          "caller": "truncate",
+          "callee": "normalized.substring",
+          "lineNumber": 283
+        },
+        {
+          "caller": "of",
+          "callee": "items.isArray",
+          "lineNumber": 301
+        },
+        {
+          "caller": "of",
+          "callee": "new ProbeCounts",
+          "lineNumber": 302
+        },
+        {
+          "caller": "of",
+          "callee": "ProbeVerdict.of",
+          "lineNumber": 305
+        },
+        {
+          "caller": "of",
+          "callee": "item.path",
+          "lineNumber": 305
+        },
+        {
+          "caller": "of",
+          "callee": "\"error\".equalsIgnoreCase",
+          "lineNumber": 310
+        },
+        {
+          "caller": "of",
+          "callee": "item.path(\"status\").asText",
+          "lineNumber": 310
+        },
+        {
+          "caller": "of",
+          "callee": "item.path",
+          "lineNumber": 310
+        },
+        {
+          "caller": "of",
+          "callee": "new ProbeCounts",
+          "lineNumber": 316
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 4,
+        "functionCount": 17,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/infr/client/evaluation/SpringEvaluationCronAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "nextTriggerAfter",
+          "startLine": 19,
+          "endLine": 26,
+          "params": [
+            "cron",
+            "after"
+          ]
+        },
+        {
+          "name": "validate",
+          "startLine": 28,
+          "endLine": 31,
+          "params": [
+            "cron"
+          ]
+        },
+        {
+          "name": "parse",
+          "startLine": 33,
+          "endLine": 40,
+          "params": [
+            "cron"
+          ]
+        },
+        {
+          "name": "expand",
+          "startLine": 42,
+          "endLine": 51,
+          "params": [
+            "expression"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SpringEvaluationCronAdapter",
+          "startLine": 16,
+          "endLine": 52,
+          "methods": [
+            "nextTriggerAfter",
+            "validate",
+            "parse",
+            "expand"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "nextTriggerAfter",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "validate",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "SpringEvaluationCronAdapter",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 21
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 22
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "parse",
+          "lineNumber": 23
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "expression.next",
+          "lineNumber": 24
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "after.atZone",
+          "lineNumber": 24
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "cron.zoneId",
+          "lineNumber": 24
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "Optional.empty",
+          "lineNumber": 25
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "Optional.of",
+          "lineNumber": 25
+        },
+        {
+          "caller": "nextTriggerAfter",
+          "callee": "next.toInstant",
+          "lineNumber": 25
+        },
+        {
+          "caller": "validate",
+          "callee": "parse",
+          "lineNumber": 30
+        },
+        {
+          "caller": "parse",
+          "callee": "Objects.requireNonNull",
+          "lineNumber": 34
+        },
+        {
+          "caller": "parse",
+          "callee": "CronExpression.parse",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "expand",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "cron.expression",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parse",
+          "callee": "new BusinessException",
+          "lineNumber": 38
+        },
+        {
+          "caller": "parse",
+          "callee": "cron.expression",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    }
+  ]
+}

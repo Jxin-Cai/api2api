@@ -1,0 +1,1101 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "type": "file",
+      "name": "BootstrapAdminInitializer.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "summary": "应用启动时按配置查找管理员，仅为不存在的账户创建管理员，或为缺少密码哈希的历史账户补充管理员身份和密码。保留已有密码账户不变。",
+      "tags": [
+        "启动初始化",
+        "管理员账户",
+        "密码配置"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:BootstrapAdminInitializer",
+      "type": "class",
+      "name": "BootstrapAdminInitializer",
+      "filePath": "backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "summary": "应用启动时按配置查找管理员，仅为不存在的账户创建管理员，或为缺少密码哈希的历史账户补充管理员身份和密码。保留已有密码账户不变。",
+      "tags": [
+        "启动初始化",
+        "管理员账户",
+        "密码配置"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        17,
+        85
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:run",
+      "type": "function",
+      "name": "run",
+      "filePath": "backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "summary": "按配置用户名查找账户，分支处理现有历史账户和首次创建。",
+      "tags": [
+        "业务方法",
+        "启动初始化",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        35,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:createBootstrapAdmin",
+      "type": "function",
+      "name": "createBootstrapAdmin",
+      "filePath": "backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "summary": "分配账户标识并创建带配置密码哈希的启用管理员，持久化保存。",
+      "tags": [
+        "业务方法",
+        "启动初始化",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        58,
+        68
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "type": "file",
+      "name": "PasswordHasher.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "summary": "定义口令哈希与明文口令匹配契约，使账户应用服务与具体哈希算法解耦。",
+      "tags": [
+        "哈希接口",
+        "密码认证",
+        "应用契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/PasswordHasher.java:PasswordHasher",
+      "type": "class",
+      "name": "PasswordHasher",
+      "filePath": "backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "summary": "定义口令哈希与明文口令匹配契约，使账户应用服务与具体哈希算法解耦。",
+      "tags": [
+        "哈希接口",
+        "密码认证",
+        "应用契约"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        5,
+        10
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "type": "file",
+      "name": "UserAccountApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "组织登录、自助资料更新和管理员用户管理，执行账户状态及后台权限检查，并通过密码哈希接口与仓储完成持久化。",
+      "tags": [
+        "账户服务",
+        "登录认证",
+        "权限管理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:UserAccountApplicationService",
+      "type": "class",
+      "name": "UserAccountApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "组织登录、自助资料更新和管理员用户管理，执行账户状态及后台权限检查，并通过密码哈希接口与仓储完成持久化。",
+      "tags": [
+        "账户服务",
+        "登录认证",
+        "权限管理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        24,
+        156
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:login",
+      "type": "function",
+      "name": "login",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "按用户名读取账户，统一拒绝缺失、禁用、无哈希或密码不匹配的凭据。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        37,
+        48
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getCurrentUser",
+      "type": "function",
+      "name": "getCurrentUser",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "读取并校验当前账户处于启用状态。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        50,
+        56
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:updateCurrentUserProfile",
+      "type": "function",
+      "name": "updateCurrentUserProfile",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "读取当前启用账户，修改显示名并持久化。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        58,
+        66
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:listUsers",
+      "type": "function",
+      "name": "listUsers",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "校验管理员访问范围后列出账户。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        68,
+        72
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getUser",
+      "type": "function",
+      "name": "getUser",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "校验管理员权限后读取指定用户。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        74,
+        78
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:createUser",
+      "type": "function",
+      "name": "createUser",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "校验管理员权限与用户名唯一性，哈希口令并创建保存新账户。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        80,
+        99
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeDisplayName",
+      "type": "function",
+      "name": "changeDisplayName",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "由管理员修改目标账户显示名并保存。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        101,
+        108
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeRole",
+      "type": "function",
+      "name": "changeRole",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "由管理员修改目标账户角色并保存。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        110,
+        117
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:disableUser",
+      "type": "function",
+      "name": "disableUser",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "由管理员禁用目标账户并保存。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        119,
+        126
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:enableUser",
+      "type": "function",
+      "name": "enableUser",
+      "filePath": "backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "summary": "由管理员启用目标账户并保存。",
+      "tags": [
+        "业务方法",
+        "账户服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        128,
+        135
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "type": "file",
+      "name": "ChangeUserDisplayNameCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "summary": "承载管理员修改目标用户显示名的操作人、目标标识与新显示名。",
+      "tags": [
+        "修改命令",
+        "用户管理",
+        "显示名称"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java:ChangeUserDisplayNameCommand",
+      "type": "class",
+      "name": "ChangeUserDisplayNameCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "summary": "承载管理员修改目标用户显示名的操作人、目标标识与新显示名。",
+      "tags": [
+        "修改命令",
+        "用户管理",
+        "显示名称"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        24
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "type": "file",
+      "name": "ChangeUserRoleCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "summary": "承载管理员修改目标用户角色的操作人、目标标识与新角色。",
+      "tags": [
+        "修改命令",
+        "用户管理",
+        "角色变更"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java:ChangeUserRoleCommand",
+      "type": "class",
+      "name": "ChangeUserRoleCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "summary": "承载管理员修改目标用户角色的操作人、目标标识与新角色。",
+      "tags": [
+        "修改命令",
+        "用户管理",
+        "角色变更"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        24
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "type": "file",
+      "name": "ChangeUserStatusCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "summary": "承载管理员启用或禁用目标账户的操作人和目标用户标识。",
+      "tags": [
+        "修改命令",
+        "账户状态",
+        "用户管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java:ChangeUserStatusCommand",
+      "type": "class",
+      "name": "ChangeUserStatusCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "summary": "承载管理员启用或禁用目标账户的操作人和目标用户标识。",
+      "tags": [
+        "修改命令",
+        "账户状态",
+        "用户管理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        20
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "type": "file",
+      "name": "CreateUserCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "summary": "承载管理员创建用户的身份、用户名、显示名、角色和待哈希口令。",
+      "tags": [
+        "创建命令",
+        "用户管理",
+        "账户创建"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java:CreateUserCommand",
+      "type": "class",
+      "name": "CreateUserCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "summary": "承载管理员创建用户的身份、用户名、显示名、角色和待哈希口令。",
+      "tags": [
+        "创建命令",
+        "用户管理",
+        "账户创建"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        15,
+        36
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "type": "file",
+      "name": "LoginCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "summary": "承载不可变的登录用户名与明文口令，作为认证用例输入。",
+      "tags": [
+        "登录命令",
+        "账户认证",
+        "输入模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java:LoginCommand",
+      "type": "class",
+      "name": "LoginCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "summary": "承载不可变的登录用户名与明文口令，作为认证用例输入。",
+      "tags": [
+        "登录命令",
+        "账户认证",
+        "输入模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        21
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "type": "file",
+      "name": "UpdateCurrentUserProfileCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "summary": "承载当前登录用户自助更新显示名的身份及新显示名。",
+      "tags": [
+        "修改命令",
+        "用户资料",
+        "自助服务"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java:UpdateCurrentUserProfileCommand",
+      "type": "class",
+      "name": "UpdateCurrentUserProfileCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "summary": "承载当前登录用户自助更新显示名的身份及新显示名。",
+      "tags": [
+        "修改命令",
+        "用户资料",
+        "自助服务"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        21
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "file",
+      "name": "DisplayName.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "summary": "封装用户显示名并校验去空白后的内容与长度，避免无效资料进入账户模型。",
+      "tags": [
+        "显示名称",
+        "值对象",
+        "参数校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java:DisplayName",
+      "type": "class",
+      "name": "DisplayName",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "summary": "封装用户显示名并校验去空白后的内容与长度，避免无效资料进入账户模型。",
+      "tags": [
+        "显示名称",
+        "值对象",
+        "参数校验"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        8,
+        64
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "summary": "DisplayName 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "显示名称",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        22
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:BootstrapAdminInitializer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:BootstrapAdminInitializer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:run",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:run",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:createBootstrapAdmin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/PasswordHasher.java:PasswordHasher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/PasswordHasher.java:PasswordHasher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/PasswordHasher.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:UserAccountApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:UserAccountApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:login",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:login",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getCurrentUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getCurrentUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:updateCurrentUserProfile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:updateCurrentUserProfile",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:listUsers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:listUsers",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:createUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:createUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeDisplayName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeDisplayName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:changeRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:disableUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:disableUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:enableUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:enableUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java:ChangeUserDisplayNameCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java:ChangeUserDisplayNameCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserDisplayNameCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java:ChangeUserRoleCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java:ChangeUserRoleCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserRoleCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java:ChangeUserStatusCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java:ChangeUserStatusCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/ChangeUserStatusCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java:CreateUserCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java:CreateUserCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/CreateUserCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java:LoginCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java:LoginCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java:UpdateCurrentUserProfileCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java:UpdateCurrentUserProfileCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java:DisplayName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java:DisplayName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:run",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/Username.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:run",
+      "target": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:createBootstrapAdmin",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/user/BootstrapAdminInitializer.java:createBootstrapAdmin",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:login",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:hasPasswordHash",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:getCurrentUser",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertActive",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:createUser",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "type": "file",
+      "name": "TokenQuotaExceededException.java",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "summary": "表示调用方预算耗尽而非提供方渠道失败，错误信息包含配额作用域、周期及可选模型，并携带窗口重置时间。",
+      "tags": [
+        "配额限制",
+        "业务异常",
+        "重置时间"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java:TokenQuotaExceededException",
+      "type": "class",
+      "name": "TokenQuotaExceededException",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "lineRange": [
+        7,
+        17
+      ],
+      "summary": "表示调用方预算耗尽而非提供方渠道失败，错误信息包含配额作用域、周期及可选模型，并携带窗口重置时间。",
+      "tags": [
+        "配额限制",
+        "业务异常",
+        "重置时间"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java:resetAt",
+      "type": "function",
+      "name": "resetAt",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "lineRange": [
+        16,
+        16
+      ],
+      "summary": "返回此次配额耗尽对应的重置时刻，供上层计算可重试时间。",
+      "tags": [
+        "配额限制",
+        "业务异常",
+        "重置时间"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/quota/QuotaScope.java",
+      "type": "file",
+      "name": "QuotaScope.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/QuotaScope.java",
+      "summary": "定义模型分组与 API Key 两种配额作用域，用于区分共享预算和单凭证预算。",
+      "tags": [
+        "配额模型",
+        "枚举",
+        "作用域"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/quota/QuotaScope.java:QuotaScope",
+      "type": "class",
+      "name": "QuotaScope",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/QuotaScope.java",
+      "lineRange": [
+        3,
+        3
+      ],
+      "summary": "定义模型分组与 API Key 两种配额作用域，用于区分共享预算和单凭证预算。",
+      "tags": [
+        "配额模型",
+        "枚举",
+        "作用域"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java",
+      "type": "file",
+      "name": "QuotaTarget.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java",
+      "summary": "定义管理端可安全展示的配额目标元数据，包含作用域、标识、名称、归属者及模型分组，避免携带密钥材料。",
+      "tags": [
+        "配额目标",
+        "不可变记录",
+        "安全元数据"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java:QuotaTarget",
+      "type": "class",
+      "name": "QuotaTarget",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java",
+      "lineRange": [
+        4,
+        4
+      ],
+      "summary": "定义管理端可安全展示的配额目标元数据，包含作用域、标识、名称、归属者及模型分组，避免携带密钥材料。",
+      "tags": [
+        "配额目标",
+        "不可变记录",
+        "安全元数据"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "type": "file",
+      "name": "TokenQuotaRule.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "summary": "定义模型分组或凭证的令牌预算规则，校验目标与限额为正并规范化模型名，空模型表示汇总全部模型。",
+      "tags": [
+        "配额规则",
+        "不可变记录",
+        "领域校验",
+        "模型匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java:TokenQuotaRule",
+      "type": "class",
+      "name": "TokenQuotaRule",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "lineRange": [
+        7,
+        23
+      ],
+      "summary": "定义模型分组或凭证的令牌预算规则，校验目标与限额为正并规范化模型名，空模型表示汇总全部模型。",
+      "tags": [
+        "配额规则",
+        "不可变记录",
+        "领域校验",
+        "模型匹配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java:appliesTo",
+      "type": "function",
+      "name": "appliesTo",
+      "filePath": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "lineRange": [
+        20,
+        22
+      ],
+      "summary": "仅对已启用且模型为空或与请求模型完全一致的配额规则返回适用。",
+      "tags": [
+        "配额规则",
+        "不可变记录",
+        "领域校验"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java:TokenQuotaExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java:TokenQuotaExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java:resetAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java:resetAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaExceededException.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/QuotaScope.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/QuotaScope.java:QuotaScope",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/QuotaScope.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/QuotaScope.java:QuotaScope",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java:QuotaTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/QuotaTarget.java:QuotaTarget",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java:TokenQuotaRule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java:TokenQuotaRule",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java:appliesTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/quota/TokenQuotaRule.java:appliesTo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

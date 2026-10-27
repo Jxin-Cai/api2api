@@ -1,0 +1,515 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/shared/api/authSession.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "notifyAuthExpired",
+          "startLine": 7,
+          "endLine": 12,
+          "params": []
+        },
+        {
+          "name": "onAuthExpired",
+          "startLine": 14,
+          "endLine": 20,
+          "params": [
+            "listener"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "notifyAuthExpired",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "onAuthExpired",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "notifyAuthExpired",
+          "callee": "window.dispatchEvent",
+          "lineNumber": 11
+        },
+        {
+          "caller": "onAuthExpired",
+          "callee": "window.addEventListener",
+          "lineNumber": 18
+        },
+        {
+          "caller": "onAuthExpired",
+          "callee": "window.removeEventListener",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/shared/api/client.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 109,
+      "nonEmptyLines": 100,
+      "functions": [
+        {
+          "name": "getBaseUrl",
+          "startLine": 7,
+          "endLine": 12,
+          "params": []
+        },
+        {
+          "name": "safeParseJson",
+          "startLine": 14,
+          "endLine": 31,
+          "params": [
+            "response"
+          ]
+        },
+        {
+          "name": "parseResponse",
+          "startLine": 33,
+          "endLine": 62,
+          "params": [
+            "response"
+          ]
+        },
+        {
+          "name": "request",
+          "startLine": 64,
+          "endLine": 91,
+          "params": [
+            "method",
+            "path",
+            "body",
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "apiClient",
+          "line": 93,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "safeParseJson",
+          "callee": "response.headers.get",
+          "lineNumber": 15
+        },
+        {
+          "caller": "safeParseJson",
+          "callee": "response.text",
+          "lineNumber": 19
+        },
+        {
+          "caller": "safeParseJson",
+          "callee": "contentType.includes",
+          "lineNumber": 23
+        },
+        {
+          "caller": "safeParseJson",
+          "callee": "JSON.parse",
+          "lineNumber": 27
+        },
+        {
+          "caller": "parseResponse",
+          "callee": "await safeParseJson",
+          "lineNumber": 34
+        },
+        {
+          "caller": "parseResponse",
+          "callee": "notifyAuthExpired",
+          "lineNumber": 39
+        },
+        {
+          "caller": "request",
+          "callee": "fetch",
+          "lineNumber": 71
+        },
+        {
+          "caller": "request",
+          "callee": "getBaseUrl",
+          "lineNumber": 71
+        },
+        {
+          "caller": "request",
+          "callee": "appendQuery",
+          "lineNumber": 71
+        },
+        {
+          "caller": "request",
+          "callee": "jsonBody",
+          "lineNumber": 77
+        },
+        {
+          "caller": "request",
+          "callee": "await parseResponse",
+          "lineNumber": 79
+        },
+        {
+          "caller": "get",
+          "callee": "request",
+          "lineNumber": 95
+        },
+        {
+          "caller": "post",
+          "callee": "request",
+          "lineNumber": 98
+        },
+        {
+          "caller": "put",
+          "callee": "request",
+          "lineNumber": 101
+        },
+        {
+          "caller": "patch",
+          "callee": "request",
+          "lineNumber": 104
+        },
+        {
+          "caller": "delete",
+          "callee": "request",
+          "lineNumber": 107
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/shared/api/errorMessage.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 27,
+      "functions": [
+        {
+          "name": "isApiErrorShape",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "getApiErrorMessage",
+          "startLine": 21,
+          "endLine": 30,
+          "params": [
+            "error",
+            "fallback"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getApiErrorMessage",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getApiErrorMessage",
+          "callee": "isApiErrorShape",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getApiErrorMessage",
+          "callee": "error.message.startsWith",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getApiErrorMessage",
+          "callee": "error.message.startsWith",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/shared/api/http.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "appendQuery",
+          "startLine": 4,
+          "endLine": 12,
+          "params": [
+            "path",
+            "params"
+          ]
+        },
+        {
+          "name": "encodePathParam",
+          "startLine": 14,
+          "endLine": 16,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "jsonBody",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "body"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "appendQuery",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "encodePathParam",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "jsonBody",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "appendQuery",
+          "callee": "path.split",
+          "lineNumber": 9
+        },
+        {
+          "caller": "appendQuery",
+          "callee": "toQueryString",
+          "lineNumber": 10
+        },
+        {
+          "caller": "encodePathParam",
+          "callee": "encodeURIComponent",
+          "lineNumber": 15
+        },
+        {
+          "caller": "encodePathParam",
+          "callee": "String",
+          "lineNumber": 15
+        },
+        {
+          "caller": "jsonBody",
+          "callee": "JSON.stringify",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/shared/api/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 22,
+      "exports": [
+        {
+          "name": "API_SUCCESS_CODE",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "QueryValue",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "QueryParams",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/shared/lib/queryString.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "toQueryString",
+          "startLine": 4,
+          "endLine": 15,
+          "params": [
+            "params",
+            "existingQuery"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "toQueryString",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toQueryString",
+          "callee": "Object.entries(params).forEach",
+          "lineNumber": 6
+        },
+        {
+          "caller": "toQueryString",
+          "callee": "Object.entries",
+          "lineNumber": 6
+        },
+        {
+          "caller": "toQueryString",
+          "callee": "Array.isArray",
+          "lineNumber": 7
+        },
+        {
+          "caller": "toQueryString",
+          "callee": "values.forEach",
+          "lineNumber": 8
+        },
+        {
+          "caller": "toQueryString",
+          "callee": "search.append",
+          "lineNumber": 10
+        },
+        {
+          "caller": "toQueryString",
+          "callee": "String",
+          "lineNumber": 10
+        },
+        {
+          "caller": "toQueryString",
+          "callee": "search.toString",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/shared/lib/usageQuery.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "toQuery",
+          "startLine": 5,
+          "endLine": 8,
+          "params": [
+            "filters"
+          ]
+        },
+        {
+          "name": "buildAppUsageQuery",
+          "startLine": 10,
+          "endLine": 12,
+          "params": [
+            "filters"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "buildAppUsageQuery",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toQuery",
+          "callee": "toQueryString",
+          "lineNumber": 6
+        },
+        {
+          "caller": "buildAppUsageQuery",
+          "callee": "toQuery",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/tests/queryString.test.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 45,
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

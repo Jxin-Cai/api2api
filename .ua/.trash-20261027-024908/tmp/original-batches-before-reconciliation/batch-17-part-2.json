@@ -1,0 +1,1568 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "type": "file",
+      "name": "PasswordHash.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "summary": "封装存储的密码哈希，支持可空历史数据与必需哈希构造，防止日志字符串泄露哈希内容。",
+      "tags": [
+        "密码哈希",
+        "值对象",
+        "敏感数据"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:PasswordHash",
+      "type": "class",
+      "name": "PasswordHash",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "summary": "封装存储的密码哈希，支持可空历史数据与必需哈希构造，防止日志字符串泄露哈希内容。",
+      "tags": [
+        "密码哈希",
+        "值对象",
+        "敏感数据"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        8,
+        71
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "summary": "PasswordHash 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "密码哈希",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        22
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:ofNullable",
+      "type": "function",
+      "name": "ofNullable",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "summary": "将非空存储值包装为密码哈希，空值保留为空以兼容历史账户。",
+      "tags": [
+        "业务方法",
+        "密码哈希",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        24,
+        29
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "file",
+      "name": "UserAccount.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "定义用户账户聚合，包含身份、名称、角色、状态及密码哈希，提供资料和角色变更、启停及访问授权约束。",
+      "tags": [
+        "账户聚合",
+        "状态管理",
+        "访问控制"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:UserAccount",
+      "type": "class",
+      "name": "UserAccount",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "定义用户账户聚合，包含身份、名称、角色、状态及密码哈希，提供资料和角色变更、启停及访问授权约束。",
+      "tags": [
+        "账户聚合",
+        "状态管理",
+        "访问控制"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        9,
+        188
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:UserAccount",
+      "type": "function",
+      "name": "UserAccount",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "初始化 UserAccount，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        38
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "以指定身份、角色、名称和密码哈希创建启用账户并设置审计时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        40,
+        51
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:rehydrate",
+      "type": "function",
+      "name": "rehydrate",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "从持久化字段恢复账户角色、状态、密码哈希与审计时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        64
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changeDisplayName",
+      "type": "function",
+      "name": "changeDisplayName",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "更新账户显示名并推进修改时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        66,
+        71
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changeRole",
+      "type": "function",
+      "name": "changeRole",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "校验账户状态后变更角色并推进修改时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        73,
+        81
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changePasswordHash",
+      "type": "function",
+      "name": "changePasswordHash",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "更新账户密码哈希并记录修改时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        83,
+        91
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:ensureAdminActive",
+      "type": "function",
+      "name": "ensureAdminActive",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "将历史账户调整为启用管理员，供启动补全使用。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        93,
+        107
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:disable",
+      "type": "function",
+      "name": "disable",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "将账户置为禁用并更新修改时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        109,
+        116
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:enable",
+      "type": "function",
+      "name": "enable",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "恢复账户启用状态并更新修改时间。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        118,
+        125
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertActive",
+      "type": "function",
+      "name": "assertActive",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "拒绝处于禁用状态的账户。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        127,
+        131
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:isAdmin",
+      "type": "function",
+      "name": "isAdmin",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "判断用户角色是否为管理员。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        133,
+        135
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:isRegularUser",
+      "type": "function",
+      "name": "isRegularUser",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "判断用户角色是否为普通用户。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        137,
+        139
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:canAccess",
+      "type": "function",
+      "name": "canAccess",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "判断账户是否启用且角色允许目标访问范围。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        141,
+        144
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertCanAccess",
+      "type": "function",
+      "name": "assertCanAccess",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "同时校验账户启用状态与角色对目标访问范围的许可。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        146,
+        151
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:hasPasswordHash",
+      "type": "function",
+      "name": "hasPasswordHash",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "summary": "判断账户是否已配置密码哈希。",
+      "tags": [
+        "业务方法",
+        "账户聚合",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        177,
+        179
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "type": "file",
+      "name": "UserAccountStatus.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "summary": "枚举账户启用和禁用状态。",
+      "tags": [
+        "账户状态",
+        "枚举类型",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java:UserAccountStatus",
+      "type": "class",
+      "name": "UserAccountStatus",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "summary": "枚举账户启用和禁用状态。",
+      "tags": [
+        "账户状态",
+        "枚举类型",
+        "访问控制"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        6,
+        16
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "file",
+      "name": "UserRole.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "summary": "定义用户角色及其允许的访问范围，为门户与后台权限判断提供依据。",
+      "tags": [
+        "用户角色",
+        "枚举类型",
+        "访问控制"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/UserRole.java:UserRole",
+      "type": "class",
+      "name": "UserRole",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "summary": "定义用户角色及其允许的访问范围，为门户与后台权限判断提供依据。",
+      "tags": [
+        "用户角色",
+        "枚举类型",
+        "访问控制"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        8,
+        26
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/UserRole.java:grants",
+      "type": "function",
+      "name": "grants",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "summary": "判断用户角色是否授予指定访问范围。",
+      "tags": [
+        "业务方法",
+        "用户角色",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        19,
+        25
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "file",
+      "name": "Username.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "summary": "封装用户名并检查去空白后的内容、长度和允许字符。",
+      "tags": [
+        "用户名",
+        "值对象",
+        "格式校验"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/model/Username.java:Username",
+      "type": "class",
+      "name": "Username",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "summary": "封装用户名并检查去空白后的内容、长度和允许字符。",
+      "tags": [
+        "用户名",
+        "值对象",
+        "格式校验"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        9,
+        70
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/Username.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "summary": "Username 的 of 方法由传入参数创建对象，封装对应的领域数据。",
+      "tags": [
+        "业务方法",
+        "用户名",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        25
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/user/model/Username.java:validate",
+      "type": "function",
+      "name": "validate",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "summary": "校验用户名格式、内容与长度，拒绝不合法输入。",
+      "tags": [
+        "业务方法",
+        "用户名",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        34,
+        44
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "file",
+      "name": "UserAccountRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "summary": "定义账户标识生成、保存、用户名及标识查询和列表读取契约。",
+      "tags": [
+        "仓储接口",
+        "用户账户",
+        "持久化契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java:UserAccountRepository",
+      "type": "class",
+      "name": "UserAccountRepository",
+      "filePath": "backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "summary": "定义账户标识生成、保存、用户名及标识查询和列表读取契约。",
+      "tags": [
+        "仓储接口",
+        "用户账户",
+        "持久化契约"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        49
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "type": "file",
+      "name": "MapStructConfig.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "summary": "集中配置 MapStruct 的 Spring 组件模型、构造注入、未映射目标字段检查及空值映射策略。",
+      "tags": [
+        "映射配置",
+        "编译检查",
+        "依赖注入"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java:MapStructConfig",
+      "type": "class",
+      "name": "MapStructConfig",
+      "filePath": "backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "summary": "集中配置 MapStruct 的 Spring 组件模型、构造注入、未映射目标字段检查及空值映射策略。",
+      "tags": [
+        "映射配置",
+        "编译检查",
+        "依赖注入"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        17
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "type": "file",
+      "name": "UserAccountRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "通过数据库映射器保存和查询账户，生成业务标识并在领域聚合与持久化对象之间转换。",
+      "tags": [
+        "仓储实现",
+        "账户持久化",
+        "对象转换"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:UserAccountRepositoryImpl",
+      "type": "class",
+      "name": "UserAccountRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "通过数据库映射器保存和查询账户，生成业务标识并在领域聚合与持久化对象之间转换。",
+      "tags": [
+        "仓储实现",
+        "账户持久化",
+        "对象转换"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        21,
+        71
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:nextIdentity",
+      "type": "function",
+      "name": "nextIdentity",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "生成下一个用户账户业务标识。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        36
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "将账户聚合转换为数据库对象，按是否已存在执行插入或更新。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "按业务标识查询数据库对象并恢复领域账户。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        48,
+        54
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findByUsername",
+      "type": "function",
+      "name": "findByUsername",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "按用户名查询数据库对象并恢复领域账户。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        56,
+        62
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findAll",
+      "type": "function",
+      "name": "findAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "summary": "读取全部账户并转换为领域模型列表。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        64,
+        70
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "type": "file",
+      "name": "UserAccountPersistenceConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "summary": "使用 MapStruct 将账户聚合映射为数据库对象，并从持久化字段重建强类型账户及可空历史密码哈希。",
+      "tags": [
+        "持久化转换",
+        "对象映射",
+        "账户模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java:UserAccountPersistenceConverter",
+      "type": "class",
+      "name": "UserAccountPersistenceConverter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "summary": "使用 MapStruct 将账户聚合映射为数据库对象，并从持久化字段重建强类型账户及可空历史密码哈希。",
+      "tags": [
+        "持久化转换",
+        "对象映射",
+        "账户模型"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        18,
+        44
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "type": "file",
+      "name": "JdbcUserAccountMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "使用命名参数 JDBC 实现账户插入、更新和软删除过滤查询，映射数据库行并统一绑定账户字段及审计时间。",
+      "tags": [
+        "数据访问",
+        "账户存储",
+        "参数化查询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:JdbcUserAccountMapper",
+      "type": "class",
+      "name": "JdbcUserAccountMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "使用命名参数 JDBC 实现账户插入、更新和软删除过滤查询，映射数据库行并统一绑定账户字段及审计时间。",
+      "tags": [
+        "数据访问",
+        "账户存储",
+        "参数化查询"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        17,
+        95
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "通过具名参数向用户表插入账户状态、角色、密码哈希与审计时间。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        38,
+        44
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "按标识更新用户表字段及审计时间。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        46,
+        59
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "按用户标识查询未软删除账户，并映射账户字段与审计时间。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        61,
+        66
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectByUsername",
+      "type": "function",
+      "name": "selectByUsername",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "按未删除用户名执行账户查询。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        68,
+        73
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectAll",
+      "type": "function",
+      "name": "selectAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "按创建时间读取全部未软删除账户。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        75,
+        80
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "summary": "将账户持久化字段及审计时间转换为具名 SQL 参数。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        82,
+        93
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:PasswordHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:PasswordHash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:ofNullable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java:ofNullable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:UserAccount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:UserAccount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:UserAccount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:rehydrate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:rehydrate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changeDisplayName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changeDisplayName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changeRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changeRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changePasswordHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:changePasswordHash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:ensureAdminActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:ensureAdminActive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:disable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:disable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:enable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:enable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertActive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:isAdmin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:isAdmin",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:isRegularUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:isRegularUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:canAccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:canAccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertCanAccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertCanAccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:hasPasswordHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:hasPasswordHash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java:UserAccountStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java:UserAccountStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/UserRole.java:UserRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/UserRole.java:UserRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserRole.java:grants",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserRole.java:grants",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/Username.java:Username",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/model/Username.java:Username",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/Username.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/Username.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/Username.java:validate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java:UserAccountRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java:UserAccountRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java:MapStructConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java:MapStructConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:UserAccountRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:UserAccountRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:nextIdentity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:nextIdentity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findByUsername",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findByUsername",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:findAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java:UserAccountPersistenceConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java:UserAccountPersistenceConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/lib/mapping/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/converter/UserAccountPersistenceConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:JdbcUserAccountMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:JdbcUserAccountMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectByUsername",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectByUsername",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:selectAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/user/po/UserAccountPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertCanAccess",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertActive",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:assertCanAccess",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:canAccess",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:insert",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:update",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/JdbcUserAccountMapper.java:JdbcUserAccountMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/user/mapper/UserAccountMapper.java:UserAccountMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/user/UserAccountRepositoryImpl.java:UserAccountRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java:UserAccountRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

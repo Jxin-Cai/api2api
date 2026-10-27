@@ -1,0 +1,355 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 9,
+  "filesSkipped": [
+    "frontend/src/widgets/auth-layout/ui/AuthLayout.css"
+  ],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 9,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 9,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/widgets/auth-layout/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "AuthLayout",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/auth-layout/ui/AuthLayout.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 154,
+      "nonEmptyLines": 142,
+      "functions": [
+        {
+          "name": "AuthLayout",
+          "startLine": 47,
+          "endLine": 154,
+          "params": [
+            "{ children }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthLayout",
+          "line": 47,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AuthLayout",
+          "callee": "protocolItems.map",
+          "lineNumber": 84
+        },
+        {
+          "caller": "AuthLayout",
+          "callee": "capabilityItems.map",
+          "lineNumber": 140
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/channel-models-panel/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "ChannelModelsPanel",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/channel-models-panel/ui/ChannelModelsPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 27,
+      "functions": [
+        {
+          "name": "ChannelModelsPanel",
+          "startLine": 13,
+          "endLine": 29,
+          "params": [
+            "{ channel, onChannelChanged }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChannelModelsPanel",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChannelModelsPanel",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ChannelModelsPanel",
+          "callee": "channel.supportedModels.filter",
+          "lineNumber": 15
+        },
+        {
+          "caller": "ChannelModelsPanel",
+          "callee": "channel.supportedModels.filter",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ChannelModelsPanel",
+          "callee": "setFetchOpen",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ChannelModelsPanel",
+          "callee": "setFetchOpen",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/protocol-mapping-panel/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "ProtocolMappingPanel",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/protocol-mapping-panel/ui/ProtocolMappingPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "ProtocolMappingPanel",
+          "startLine": 16,
+          "endLine": 47,
+          "params": [
+            "{ conversion, activeTab, onTabChange }"
+          ]
+        },
+        {
+          "name": "buildTabLabel",
+          "startLine": 49,
+          "endLine": 51,
+          "params": [
+            "label",
+            "mapping"
+          ]
+        },
+        {
+          "name": "renderMapping",
+          "startLine": 53,
+          "endLine": 58,
+          "params": [
+            "mapping",
+            "viewMode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolMappingPanel",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "setViewMode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "onTabChange",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "buildTabLabel",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "renderMapping",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "buildTabLabel",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ProtocolMappingPanel",
+          "callee": "renderMapping",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/usage-records-panel/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "exports": [
+        {
+          "name": "UsageRecordsPanel",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/widgets/usage-records-panel/ui/UsageRecordsPanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 61,
+      "nonEmptyLines": 56,
+      "functions": [
+        {
+          "name": "UsageRecordsPanel",
+          "startLine": 11,
+          "endLine": 61,
+          "params": [
+            "{ scope }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UsageRecordsPanel",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UsageRecordsPanel",
+          "callee": "useUsageFilters",
+          "lineNumber": 12
+        },
+        {
+          "caller": "UsageRecordsPanel",
+          "callee": "useUsageRecords",
+          "lineNumber": 13
+        },
+        {
+          "caller": "retry",
+          "callee": "query.refetch().catch",
+          "lineNumber": 16
+        },
+        {
+          "caller": "retry",
+          "callee": "query.refetch",
+          "lineNumber": 16
+        },
+        {
+          "caller": "UsageRecordsPanel",
+          "callee": "setPage",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 31,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

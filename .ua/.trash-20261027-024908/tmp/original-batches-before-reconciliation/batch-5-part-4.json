@@ -1,0 +1,2422 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "type": "file",
+      "name": "DashboardAnalyticsRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "summary": "定义仪表盘统计仓储契约，覆盖用户与平台用量、协议速率、排行、令牌趋势、并发趋势及分布查询。",
+      "tags": [
+        "仓储接口",
+        "统计查询",
+        "领域契约"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java:DashboardAnalyticsRepository",
+      "type": "class",
+      "name": "DashboardAnalyticsRepository",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "summary": "定义仪表盘统计仓储契约，覆盖用户与平台用量、协议速率、排行、令牌趋势、并发趋势及分布查询。",
+      "tags": [
+        "仓储接口",
+        "统计查询",
+        "领域契约"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        28,
+        222
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "type": "file",
+      "name": "DashboardAnalyticsService.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "组织用户、密钥与管理员仪表盘的领域统计结果，执行权限验证、空值约束、协议补齐和排行规范化。通过仓储接口隔离统计查询实现。",
+      "tags": [
+        "领域服务",
+        "统计聚合",
+        "结果归一化"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:DashboardAnalyticsService",
+      "type": "class",
+      "name": "DashboardAnalyticsService",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "组织用户、密钥与管理员仪表盘的领域统计结果，执行权限验证、空值约束、协议补齐和排行规范化。通过仓储接口隔离统计查询实现。",
+      "tags": [
+        "领域服务",
+        "统计聚合",
+        "结果归一化"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        37,
+        258
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontMetrics",
+      "type": "function",
+      "name": "buildFrontMetrics",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "查询用户今日与月度令牌明细，验证仓储结果非空并构建门户仪表盘指标。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        61
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontKeyMetrics",
+      "type": "function",
+      "name": "buildFrontKeyMetrics",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "查询并规范化密钥日月排行，组合每日令牌趋势和指定时间桶的并发趋势。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        63,
+        103
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "type": "function",
+      "name": "buildAdminMetrics",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "验证管理员身份与查询查看者一致，聚合协议速率、平台令牌、用户排行、渠道和协议趋势、并发及慢渠道。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        105,
+        169
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeProtocolRequestRates",
+      "type": "function",
+      "name": "normalizeProtocolRequestRates",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "按支持协议补齐缺失的请求速率项，使管理员仪表盘具有完整协议覆盖。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        184,
+        202
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeTopUsers",
+      "type": "function",
+      "name": "normalizeTopUsers",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "校验用户令牌排行结果并按稳定规则排序和限制展示数量。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        204,
+        216
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeTopCredentials",
+      "type": "function",
+      "name": "normalizeTopCredentials",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "校验密钥令牌排行结果并按稳定规则排序和限制展示数量。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        218,
+        231
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeSlowestChannels",
+      "type": "function",
+      "name": "normalizeSlowestChannels",
+      "filePath": "backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "summary": "校验慢渠道统计结果并规范化延迟排行及数量上限。",
+      "tags": [
+        "业务方法",
+        "领域服务",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        233,
+        250
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "file",
+      "name": "UsageTokenBreakdown.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "封装输入、输出、缓存创建及缓存读取令牌明细和用量已知状态，支持统一协议转换、明细相加与加权用量计算。",
+      "tags": [
+        "令牌用量",
+        "值对象",
+        "统计计算"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:UsageTokenBreakdown",
+      "type": "class",
+      "name": "UsageTokenBreakdown",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "封装输入、输出、缓存创建及缓存读取令牌明细和用量已知状态，支持统一协议转换、明细相加与加权用量计算。",
+      "tags": [
+        "令牌用量",
+        "值对象",
+        "统计计算"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        10,
+        212
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:UsageTokenBreakdown",
+      "type": "function",
+      "name": "UsageTokenBreakdown",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "初始化 UsageTokenBreakdown，设置构造参数并建立对象状态。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        23,
+        46
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "创建包含各类令牌计数、合计和用量已知标记的业务用量对象。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        48,
+        64
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "function",
+      "name": "known",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "UsageTokenBreakdown 的 known 方法创建用量已知的令牌明细并计算令牌合计。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        66,
+        81
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:unknown",
+      "type": "function",
+      "name": "unknown",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "UsageTokenBreakdown 的 unknown 方法创建用量未知的令牌明细，保留未知状态。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        83,
+        85
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "function",
+      "name": "zeroKnown",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "UsageTokenBreakdown 的 zeroKnown 方法创建已知为零的令牌明细。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        87,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:fromUnified",
+      "type": "function",
+      "name": "fromUnified",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "UsageTokenBreakdown 的 fromUnified 方法将统一协议用量转换为业务令牌明细。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        91,
+        103
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:plus",
+      "type": "function",
+      "name": "plus",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "UsageTokenBreakdown 的 plus 方法合并两组令牌明细并保留用量是否已知的信息。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        105,
+        115
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:actualTokens",
+      "type": "function",
+      "name": "actualTokens",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "按统一平台权重计算输入、输出和缓存令牌的计费量。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        146,
+        151
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:getActualTokens",
+      "type": "function",
+      "name": "getActualTokens",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "返回该令牌明细的加权计费用量。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        177,
+        179
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:isUsageKnown",
+      "type": "function",
+      "name": "isUsageKnown",
+      "filePath": "backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "summary": "判断调用用量是否由协议响应提供且已知。",
+      "tags": [
+        "业务方法",
+        "令牌用量",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        181,
+        183
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "type": "file",
+      "name": "SystemMetricsCollector.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "summary": "采集系统资源、JVM 运行时及数据库连接池指标并缓存快照。Linux 使用宿主机资源读取，其他平台明确标记 JVM 可见范围，并记录采样失败原因。",
+      "tags": [
+        "系统监控",
+        "资源采样",
+        "缓存快照"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:SystemMetricsCollector",
+      "type": "class",
+      "name": "SystemMetricsCollector",
+      "filePath": "backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "summary": "采集系统资源、JVM 运行时及数据库连接池指标并缓存快照。Linux 使用宿主机资源读取，其他平台明确标记 JVM 可见范围，并记录采样失败原因。",
+      "tags": [
+        "系统监控",
+        "资源采样",
+        "缓存快照"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        21,
+        132
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:snapshot",
+      "type": "function",
+      "name": "snapshot",
+      "filePath": "backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "summary": "SystemMetricsCollector 的 snapshot 方法采样并缓存系统资源、运行时与数据库连接池指标。",
+      "tags": [
+        "业务方法",
+        "系统监控",
+        "数据处理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        45,
+        109
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:health",
+      "type": "function",
+      "name": "health",
+      "filePath": "backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "summary": "汇总采样健康信息，输出资源读取范围及异常提示。",
+      "tags": [
+        "业务方法",
+        "系统监控",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        124,
+        131
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "type": "file",
+      "name": "SystemSnapshot.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "summary": "定义系统资源监控快照及嵌套指标结构，包含采样范围、CPU、内存、磁盘、JVM、数据库连接池与健康提示。",
+      "tags": [
+        "监控快照",
+        "数据模型",
+        "资源指标"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java:SystemSnapshot",
+      "type": "class",
+      "name": "SystemSnapshot",
+      "filePath": "backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "summary": "定义系统资源监控快照及嵌套指标结构，包含采样范围、CPU、内存、磁盘、JVM、数据库连接池与健康提示。",
+      "tags": [
+        "监控快照",
+        "数据模型",
+        "资源指标"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        7,
+        18
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "type": "file",
+      "name": "DashboardAnalyticsRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "使用 JDBC 与 SQL 聚合实现仪表盘统计仓储，查询令牌明细、协议速率、排行、按时间分桶的趋势和用量分布，并根据调用区间计算并发。",
+      "tags": [
+        "仓储实现",
+        "数据库聚合",
+        "统计查询"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:DashboardAnalyticsRepositoryImpl",
+      "type": "class",
+      "name": "DashboardAnalyticsRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "使用 JDBC 与 SQL 聚合实现仪表盘统计仓储，查询令牌明细、协议速率、排行、按时间分桶的趋势和用量分布，并根据调用区间计算并发。",
+      "tags": [
+        "仓储实现",
+        "数据库聚合",
+        "统计查询"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        54,
+        669
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTotalTokens",
+      "type": "function",
+      "name": "sumUserTotalTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "汇总指定用户在统计窗口内的原始令牌用量。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        64,
+        67
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTokens",
+      "type": "function",
+      "name": "sumUserTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "通过 SQL 汇总指定用户和统计窗口内成功调用的各类令牌明细。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        69,
+        99
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumPlatformTotalTokens",
+      "type": "function",
+      "name": "sumPlatformTotalTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "汇总平台在统计窗口内的原始令牌用量。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        101,
+        108
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateProtocolRequestRates",
+      "type": "function",
+      "name": "calculateProtocolRequestRates",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按协议统计窗口内请求数量并换算每分钟请求速率。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        110,
+        129
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findModelDistribution",
+      "type": "function",
+      "name": "findModelDistribution",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按模型聚合请求数或令牌量，返回指定时间范围内的模型用量分布。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        131,
+        136
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findChannelDistribution",
+      "type": "function",
+      "name": "findChannelDistribution",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按渠道聚合请求数或令牌量，返回指定时间范围内的渠道用量分布。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        138,
+        143
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopUsersByTokens",
+      "type": "function",
+      "name": "findTopUsersByTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "聚合统计窗口内各用户令牌用量，关联用户名并返回限量排行。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        145,
+        181
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "type": "function",
+      "name": "sumProtocolTokenTrends",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按统计粒度和协议聚合令牌消耗，生成带时间桶边界的趋势点。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        183,
+        211
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumChannelTokenTrends",
+      "type": "function",
+      "name": "sumChannelTokenTrends",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按时间桶和渠道聚合令牌消耗，并附带渠道名称。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        213,
+        252
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopCredentialsByTokens",
+      "type": "function",
+      "name": "findTopCredentialsByTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按用户筛选并聚合各密钥令牌用量，返回稳定排序的限量排行。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        254,
+        302
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "type": "function",
+      "name": "sumCredentialTokenTrends",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "查询指定用户与密钥的分桶令牌用量，结合密钥名称生成趋势结果。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        304,
+        359
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:loadCredentialNames",
+      "type": "function",
+      "name": "loadCredentialNames",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "批量读取指定密钥的名称，供趋势结果展示。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        361,
+        379
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateConcurrencyTrends",
+      "type": "function",
+      "name": "calculateConcurrencyTrends",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "读取与统计窗口相交的调用区间，按桶边界和采样时刻计算并发趋势。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        381,
+        404
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateCredentialConcurrencyTrends",
+      "type": "function",
+      "name": "calculateCredentialConcurrencyTrends",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按密钥划分调用区间，并计算指定用户和密钥的分桶并发趋势。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        406,
+        457
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findSlowestChannels",
+      "type": "function",
+      "name": "findSlowestChannels",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按渠道聚合请求耗时与首字节延迟，生成慢渠道统计排行。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        459,
+        511
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:toInterval",
+      "type": "function",
+      "name": "toInterval",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "将查询行中的调用起止信息转换为并发计算区间。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        531,
+        546
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:countUsageRecords",
+      "type": "function",
+      "name": "countUsageRecords",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "按用户及时间条件统计调用记录数量。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        548,
+        554
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUsageTokens",
+      "type": "function",
+      "name": "sumUsageTokens",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "基于用量筛选条件执行令牌聚合并转换为业务用量明细。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        556,
+        576
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:whereClause",
+      "type": "function",
+      "name": "whereClause",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "summary": "将用户、密钥、模型、渠道、协议和时间范围转化为参数化查询条件。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        578,
+        606
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "file",
+      "name": "ApiResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "summary": "定义统一 HTTP 业务响应封装，包含响应码、消息和泛型数据，并提供成功响应工厂方法。",
+      "tags": [
+        "响应封装",
+        "泛型模型",
+        "接口约定"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:ApiResponse",
+      "type": "class",
+      "name": "ApiResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "summary": "定义统一 HTTP 业务响应封装，包含响应码、消息和泛型数据，并提供成功响应工厂方法。",
+      "tags": [
+        "响应封装",
+        "泛型模型",
+        "接口约定"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        33
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "function",
+      "name": "success",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "summary": "创建携带成功码、消息和可选数据的统一业务响应。",
+      "tags": [
+        "业务方法",
+        "响应封装",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        24
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:failure",
+      "type": "function",
+      "name": "failure",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "summary": "创建携带错误码与错误消息的统一失败响应。",
+      "tags": [
+        "业务方法",
+        "响应封装",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        30,
+        32
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "file",
+      "name": "CurrentUserContextResolver.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "summary": "从 HTTP 会话解析当前用户标识，处理无效认证状态，并在绑定用户时轮换会话以维护登录上下文。",
+      "tags": [
+        "会话认证",
+        "用户上下文",
+        "安全校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:CurrentUserContextResolver",
+      "type": "class",
+      "name": "CurrentUserContextResolver",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "summary": "从 HTTP 会话解析当前用户标识，处理无效认证状态，并在绑定用户时轮换会话以维护登录上下文。",
+      "tags": [
+        "会话认证",
+        "用户上下文",
+        "安全校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        55
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "function",
+      "name": "resolveCurrentUserId",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "summary": "从现有会话读取用户标识并兼容数值或字符串形式；缺失认证时拒绝访问，无效数值时使会话失效。",
+      "tags": [
+        "业务方法",
+        "会话认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        16,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:bindCurrentUser",
+      "type": "function",
+      "name": "bindCurrentUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "summary": "使已有会话失效，创建新会话并绑定当前用户标识。",
+      "tags": [
+        "业务方法",
+        "会话认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        43
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:clearCurrentUser",
+      "type": "function",
+      "name": "clearCurrentUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "summary": "使当前 HTTP 会话失效以清除登录状态。",
+      "tags": [
+        "业务方法",
+        "会话认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        45,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "function",
+      "name": "resolveOperatorUserId",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "summary": "复用当前用户解析逻辑获取操作用户标识。",
+      "tags": [
+        "业务方法",
+        "会话认证",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        54
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java:DashboardAnalyticsRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java:DashboardAnalyticsRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolRequestRate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UsageDistributionItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UserTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:DashboardAnalyticsService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:DashboardAnalyticsService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontKeyMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontKeyMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeProtocolRequestRates",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeTopUsers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeTopCredentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeSlowestChannels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetrics.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetricsQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolRequestRate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UserTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:UsageTokenBreakdown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:UsageTokenBreakdown",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:UsageTokenBreakdown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:unknown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:unknown",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:fromUnified",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:fromUnified",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:plus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:plus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:actualTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:actualTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:getActualTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:getActualTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:isUsageKnown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:isUsageKnown",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:SystemMetricsCollector",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:SystemMetricsCollector",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:snapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:snapshot",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:health",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:health",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java:SystemSnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/monitoring/SystemSnapshot.java:SystemSnapshot",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:DashboardAnalyticsRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:DashboardAnalyticsRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTotalTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTotalTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumPlatformTotalTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumPlatformTotalTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateProtocolRequestRates",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateProtocolRequestRates",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findModelDistribution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findModelDistribution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findChannelDistribution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findChannelDistribution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopUsersByTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopUsersByTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumChannelTokenTrends",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumChannelTokenTrends",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopCredentialsByTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopCredentialsByTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:loadCredentialNames",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateConcurrencyTrends",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateConcurrencyTrends",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateCredentialConcurrencyTrends",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateCredentialConcurrencyTrends",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findSlowestChannels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findSlowestChannels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:toInterval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:countUsageRecords",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:countUsageRecords",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUsageTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUsageTokens",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:whereClause",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsTimeWindow.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelLatencyRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialConcurrencyTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolRequestRate.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolTokenTrendPoint.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UsageDistributionItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/model/UserTokenRanking.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/analytics/repository/DashboardAnalyticsRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:ApiResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:ApiResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:failure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:failure",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:CurrentUserContextResolver",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:CurrentUserContextResolver",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:bindCurrentUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:bindCurrentUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:clearCurrentUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:clearCurrentUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontDashboardMetrics.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontKeyMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeTopCredentials",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildFrontKeyMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/FrontKeyMetrics.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeProtocolRequestRates",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeTopUsers",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeSlowestChannels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:buildAdminMetrics",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AdminDashboardMetrics.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/analytics/service/DashboardAnalyticsService.java:normalizeProtocolRequestRates",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolRequestRate.java:zero",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:fromUnified",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:unknown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:getActualTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:actualTokens",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:snapshot",
+      "target": "function:backend/src/main/java/com/api2api/infr/monitoring/SystemMetricsCollector.java:health",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTotalTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTotalTokens",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTokens",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUserTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:zeroKnown",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumPlatformTotalTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateProtocolRequestRates",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolRequestRate.java:calculate",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopUsersByTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/UserTokenRanking.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopUsersByTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:requireSupported",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolTokenTrendPoint.java:zero",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ProtocolTokenTrendPoint.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumProtocolTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumChannelTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:requireSupported",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumChannelTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/ChannelTokenTrendPoint.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumChannelTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopCredentialsByTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenRanking.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:findTopCredentialsByTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/AnalyticsGranularity.java:requireSupported",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:loadCredentialNames",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:zero",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/CredentialTokenTrendPoint.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumCredentialTokenTrends",
+      "target": "function:backend/src/main/java/com/api2api/domain/analytics/model/TokenAmount.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateConcurrencyTrends",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:toInterval",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateCredentialConcurrencyTrends",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:loadCredentialNames",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:calculateCredentialConcurrencyTrends",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:toInterval",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:countUsageRecords",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:whereClause",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUsageTokens",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:whereClause",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/analytics/DashboardAnalyticsRepositoryImpl.java:sumUsageTokens",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:of",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveOperatorUserId",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,615 @@
+{
+  "batchIndex": 58,
+  "files": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java",
+      "language": "java",
+      "sizeLines": 1018,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java": [
+      "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+      "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+      "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+      "backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+      "backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+      "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+      "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+      "backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+      "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+      "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+      "backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+      "backend/src/main/java/com/api2api/domain/protocol/service/ProtocolConversionService.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/FailoverAction.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+      "backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+      "backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java"
+    ]
+  },
+  "neighborMap": {
+    "backend/src/main/java/com/api2api/application/gateway/GatewayInvocationApplicationService.java": [
+      {
+        "path": "backend/src/main/java/com/api2api/application/BusinessException.java",
+        "batchIndex": 2,
+        "symbols": [
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "BusinessException",
+          "code",
+          "getCode",
+          "BusinessException"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/gateway/command/InvokeGatewayCommand.java",
+        "batchIndex": 15,
+        "symbols": [
+          "builder",
+          "getGatewayInvocationId",
+          "getGatewayRequestId",
+          "getUsageRecordId",
+          "getKeyHash",
+          "getRequestedCredentialModel",
+          "getRequestedModel",
+          "getRequestProtocol",
+          "getRequestBody",
+          "getInbound",
+          "isStreaming",
+          "isToolCallingRequired",
+          "isReasoningRequired",
+          "InvokeGatewayCommand"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/application/quota/TokenQuotaService.java",
+        "batchIndex": 12,
+        "symbols": [
+          "lockCredential",
+          "assertAvailable",
+          "limitedModels",
+          "TokenQuotaService"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+        "batchIndex": 1,
+        "symbols": [
+          "create",
+          "create",
+          "rehydrate",
+          "rehydrate",
+          "rename",
+          "updateEndpoint",
+          "changeModelsPath",
+          "changeRoutePriority",
+          "replaceProtocolMappings",
+          "addOrUpdateModel",
+          "replaceModels",
+          "enableModel",
+          "disableModel",
+          "removeModel",
+          "enable",
+          "disable",
+          "isEnabledForRouting",
+          "supportsUpstreamProtocol",
+          "upstreamProtocolFor",
+          "upstreamProtocols",
+          "supportsModel",
+          "findModelSupport",
+          "findModelSupports",
+          "id",
+          "name",
+          "host",
+          "keyRef",
+          "modelsPath",
+          "routePriority",
+          "supportedProtocols",
+          "protocolMappings",
+          "supportedModels",
+          "status",
+          "createdAt",
+          "updatedAt",
+          "ProviderChannel"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+        "batchIndex": 1,
+        "symbols": [
+          "ProviderChannelRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+        "batchIndex": 12,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "rename",
+          "changeModelGroup",
+          "changeTokenLimit",
+          "changeTokenLimit",
+          "disable",
+          "enable",
+          "assertUsable",
+          "assertOwnedBy",
+          "allowsModel",
+          "assertModelAllowed",
+          "isQuotaExhausted",
+          "assertQuotaAvailable",
+          "isQuotaExhausted",
+          "assertQuotaAvailable",
+          "markUsed",
+          "getId",
+          "getOwnerUserId",
+          "getName",
+          "getKeyHash",
+          "getKeyPreview",
+          "getEncryptedKeyMaterial",
+          "getModelWhitelist",
+          "getModelGroupId",
+          "getTokenLimit",
+          "getStatus",
+          "getLastUsedAt",
+          "getCreatedAt",
+          "getUpdatedAt",
+          "ApiCredential"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+        "batchIndex": 13,
+        "symbols": [
+          "ApiCredentialRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocation.java",
+        "batchIndex": 7,
+        "symbols": [
+          "start",
+          "markAuthenticated",
+          "attachRoutePlan",
+          "startAttempt",
+          "recordAttemptFailure",
+          "recordRequestConversion",
+          "recordResponseConversion",
+          "succeed",
+          "fail",
+          "isTerminal",
+          "finalCandidate",
+          "failures",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestProtocol",
+          "requestedModel",
+          "requirement",
+          "state",
+          "routePlan",
+          "attempts",
+          "conversionTrace",
+          "result",
+          "clientIp",
+          "markFirstToken",
+          "firstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "GatewayInvocation"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/GatewayInvocationResult.java",
+        "batchIndex": 7,
+        "symbols": [
+          "success",
+          "failed",
+          "status",
+          "finalCandidate",
+          "upstreamProtocol",
+          "upstreamModel",
+          "usage",
+          "streaming",
+          "error",
+          "getStatus",
+          "getFinalCandidate",
+          "getUpstreamProtocol",
+          "getUpstreamModel",
+          "getUsage",
+          "isStreaming",
+          "getError",
+          "equals",
+          "hashCode",
+          "GatewayInvocationResult"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationError.java",
+        "batchIndex": 7,
+        "symbols": [
+          "of",
+          "withoutFailures",
+          "errorType",
+          "message",
+          "failures",
+          "equals",
+          "hashCode",
+          "InvocationError"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationErrorType.java",
+        "batchIndex": 7,
+        "symbols": [
+          "InvocationErrorType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/model/InvocationStatus.java",
+        "batchIndex": 7,
+        "symbols": [
+          "InvocationStatus"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/gateway/service/GatewayInvocationService.java",
+        "batchIndex": 7,
+        "symbols": [
+          "GatewayInvocationService"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionPayload.java",
+        "batchIndex": 7,
+        "symbols": [
+          "of",
+          "from",
+          "toProtocolPayload",
+          "protocol",
+          "body",
+          "streaming",
+          "ConversionPayload"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionRequirement.java",
+        "batchIndex": 7,
+        "symbols": [
+          "of",
+          "withAnthropicBetaFeatures",
+          "forRoute",
+          "toProtocolConversionRequest",
+          "streaming",
+          "toolCallingRequired",
+          "reasoningRequired",
+          "ConversionRequirement"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/model/ConversionResult.java",
+        "batchIndex": 7,
+        "symbols": [
+          "of",
+          "from",
+          "sourceProtocol",
+          "targetProtocol",
+          "body",
+          "passthrough",
+          "usage",
+          "ConversionResult"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionDefinition.java",
+        "batchIndex": 20,
+        "symbols": [
+          "create",
+          "rehydrate",
+          "create",
+          "enable",
+          "disable",
+          "isPassthrough",
+          "isTransform",
+          "isEnabledForRouting",
+          "supportsStreaming",
+          "supportsToolCalling",
+          "matches",
+          "id",
+          "sourceProtocol",
+          "targetProtocol",
+          "kind",
+          "status",
+          "capability",
+          "requestMapping",
+          "responseMapping",
+          "implementationStatus",
+          "createdAt",
+          "updatedAt",
+          "ProtocolConversionDefinition"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+        "batchIndex": 7,
+        "symbols": [
+          "ProtocolConversionException",
+          "ProtocolConversionException",
+          "ProtocolConversionException"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/model/UnifiedTokenUsage.java",
+        "batchIndex": 7,
+        "symbols": [
+          "known",
+          "unknown",
+          "inputTokens",
+          "outputTokens",
+          "cacheCreationInputTokens",
+          "cacheReadInputTokens",
+          "totalTokens",
+          "usageKnown",
+          "UnifiedTokenUsage"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/repository/ProtocolConversionDefinitionRepository.java",
+        "batchIndex": 20,
+        "symbols": [
+          "ProtocolConversionDefinitionRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/protocol/service/ProtocolConversionService.java",
+        "batchIndex": 8,
+        "symbols": [
+          "ProtocolConversionService"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/FailoverAction.java",
+        "batchIndex": 8,
+        "symbols": [
+          "FailoverAction"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/FailoverDecision.java",
+        "batchIndex": 8,
+        "symbols": [
+          "retryNext",
+          "stop",
+          "action",
+          "nextCandidate",
+          "failures",
+          "reason",
+          "equals",
+          "hashCode",
+          "FailoverDecision"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/RouteCandidate.java",
+        "batchIndex": 8,
+        "symbols": [
+          "of",
+          "requiresProtocolConversion",
+          "requiresModelMapping",
+          "providerChannelId",
+          "providerChannelName",
+          "requestedModel",
+          "upstreamModel",
+          "clientProtocol",
+          "upstreamProtocol",
+          "priority",
+          "routePriority",
+          "preferred",
+          "conversionRoute",
+          "equals",
+          "hashCode",
+          "RouteCandidate"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailure.java",
+        "batchIndex": 8,
+        "symbols": [
+          "of",
+          "of",
+          "withDefaultRetryable",
+          "providerChannelId",
+          "failureType",
+          "reason",
+          "retryable",
+          "occurredAt",
+          "retryAfter",
+          "equals",
+          "hashCode",
+          "RouteFailure"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/RouteFailureType.java",
+        "batchIndex": 8,
+        "symbols": [
+          "fromExceptionMessage",
+          "isRetryableByDefault",
+          "isRateLimited",
+          "fromHttpResponse",
+          "fromHttpStatus",
+          "isModelUnavailableResponse",
+          "RouteFailureType"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/RoutePlan.java",
+        "batchIndex": 8,
+        "symbols": [
+          "of",
+          "hasCandidate",
+          "firstCandidate",
+          "routingRequest",
+          "candidates",
+          "nativeProtocolOnly",
+          "createdAt",
+          "equals",
+          "hashCode",
+          "RoutePlan"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/model/RoutingRequest.java",
+        "batchIndex": 8,
+        "symbols": [
+          "of",
+          "requestProtocol",
+          "requestedModel",
+          "requirement",
+          "equals",
+          "hashCode",
+          "RoutingRequest"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/routing/service/RoutingPolicyService.java",
+        "batchIndex": 8,
+        "symbols": [
+          "RoutingPolicyService"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+        "batchIndex": 15,
+        "symbols": [
+          "fromInvocation",
+          "reserve",
+          "totalTokens",
+          "isPending",
+          "isSuccessful",
+          "isFailed",
+          "id",
+          "requestId",
+          "userAccountId",
+          "apiCredentialId",
+          "requestedModel",
+          "upstreamModel",
+          "requestProtocol",
+          "upstreamProtocol",
+          "providerChannelId",
+          "status",
+          "tokenUsage",
+          "streaming",
+          "clientIp",
+          "getClientIp",
+          "firstTokenMillis",
+          "getFirstTokenMillis",
+          "startedAt",
+          "endedAt",
+          "duration",
+          "errorDiagnostic",
+          "createdAt",
+          "getId",
+          "getRequestId",
+          "getUserAccountId",
+          "getApiCredentialId",
+          "getRequestedModel",
+          "getUpstreamModel",
+          "getRequestProtocol",
+          "getUpstreamProtocol",
+          "getProviderChannelId",
+          "getStatus",
+          "getTokenUsage",
+          "isStreaming",
+          "getStartedAt",
+          "getEndedAt",
+          "getDuration",
+          "getErrorDiagnostic",
+          "getCreatedAt",
+          "UsageRecord"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+        "batchIndex": 15,
+        "symbols": [
+          "of",
+          "value",
+          "getValue",
+          "equals",
+          "hashCode",
+          "toString",
+          "UsageRecordId"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+        "batchIndex": 15,
+        "symbols": [
+          "UsageRecordRepository"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayProtocolController.java",
+        "batchIndex": 16,
+        "symbols": [
+          "listModels",
+          "claudeMessages",
+          "claudeCountTokens",
+          "openaiResponses",
+          "openaiChatCompletions",
+          "openaiImageGenerations",
+          "openaiImageEdits",
+          "openaiImageVariations",
+          "GatewayProtocolController"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapper.java",
+        "batchIndex": 10,
+        "symbols": [
+          "toResponseBody",
+          "GatewayStreamingResponseMapper"
+        ]
+      },
+      {
+        "path": "backend/src/main/java/com/api2api/ohs/http/gateway/ResponsesImageBridge.java",
+        "batchIndex": 10,
+        "symbols": [
+          "ResponsesImageBridge",
+          "tryHandle",
+          "ResponsesImageBridge"
+        ]
+      },
+      {
+        "path": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayProtocolControllerTest.java",
+        "batchIndex": 16,
+        "symbols": []
+      },
+      {
+        "path": "backend/src/test/java/com/api2api/ohs/http/gateway/GatewayStreamingResponseMapperTest.java",
+        "batchIndex": 10,
+        "symbols": []
+      }
+    ]
+  }
+}

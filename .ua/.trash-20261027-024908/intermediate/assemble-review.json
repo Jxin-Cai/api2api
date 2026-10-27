@@ -1,0 +1,18 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 1,
+  "edgesRestored": 4,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "已完整读取合并诊断。机械修复未涉及节点标识或复杂度纠正；74 条测试关系反转合理。批次中的 318 条测试关系统一方向后恰有 264 个唯一关系，均已存在于最终图谱，54 条删除未造成唯一测试关系丢失。当前全部 tested_by 均由生产指向测试。",
+    "依据实际源码第48至51行恢复 ProtocolConversionResult.passthrough(ProtocolPayload) 静态工厂节点，并恢复3条有源码调用证据的 calls 关系。该工厂与无参访问器同名，可能受到按名称过滤或重载合并的影响；新节点行范围仅覆盖静态工厂。",
+    "依据 frontend/Dockerfile 第15行 COPY nginx.conf，将丢失的 depends_on 关系目标由不存在的 config:frontend/nginx.conf 改为现有 file:frontend/nginx.conf；未创建重复配置节点，也未改动现有节点类型。",
+    "除恢复的4条丢失关系外，补充新工厂节点的 contains 和 exports 关系各1条；图谱由4408个节点、8923条关系更新为4409个节点、8929条关系。",
+    "其余20条丢失调用对应19个 UsageRecord 纯字段访问器及 ConversionTrace.responseConversion 纯字段访问器，符合有意省略平凡访问器的策略，未恢复其节点或调用。未发现缺少标识的批次节点、未知节点类型或非法复杂度值。",
+    "直接读取最终 scan-result.json 的完整 importMap，2214条唯一导入关系与图谱完全一致，无缺失或多余关系，跨批次导入新增数为0。904个清单文件均有文件级节点，未包含清单外文件或 .ua 生成产物。",
+    "修改前后均核验节点标识唯一、标识前缀匹配类型、关系端点存在且关系不重复；修改后复杂度、关系方向和权重均有效。未修改应用代码或 Git 状态，未从旧批次重新引入已替换节点。",
+    "保留原分析限制：较大依赖社区拆批及高频领域类型邻居裁剪可能影响符号级跨批次关系覆盖；完整文件级导入已核验，但这不代表全部调用关系均已穷举。其他 Java 同名重载仍沿用既有统一符号标识策略。"
+  ]
+}

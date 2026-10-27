@@ -1,0 +1,975 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "type": "file",
+      "name": "useProviderModels.ts",
+      "filePath": "frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "summary": "查询可选模型并防御性处理缺失列表，将多渠道模型转换为含渠道数量的下拉选项。",
+      "tags": [
+        "react-hook",
+        "模型选择",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/entities/provider-model/model/useProviderModels.ts:useProviderModels",
+      "type": "function",
+      "name": "useProviderModels",
+      "filePath": "frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "lineRange": [
+        15,
+        34
+      ],
+      "summary": "初始化 useProviderModels 的状态并建立构造约束。",
+      "tags": [
+        "react-hook",
+        "模型选择",
+        "查询缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-channel-models/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/features/manage-channel-models/model/types.ts",
+      "summary": "定义可编辑模型草稿与当前编辑标识，支持新增模型及现有模型状态。",
+      "tags": [
+        "类型定义",
+        "编辑状态",
+        "渠道模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "type": "file",
+      "name": "useChannelModelMutations.ts",
+      "filePath": "frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "summary": "集中提供模型拉取、预览、批量与单项保存及删除 mutation，成功后使渠道、模型列表和模型分组缓存失效。",
+      "tags": [
+        "react-hook",
+        "模型管理",
+        "缓存失效"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts:useChannelModelMutations",
+      "type": "function",
+      "name": "useChannelModelMutations",
+      "filePath": "frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "lineRange": [
+        8,
+        39
+      ],
+      "summary": "初始化 useChannelModelMutations 的状态并建立构造约束。",
+      "tags": [
+        "react-hook",
+        "模型管理",
+        "缓存失效"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "type": "file",
+      "name": "ChannelModelEditorTable.tsx",
+      "filePath": "frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "summary": "提供渠道模型行编辑与删除表格，按渠道协议限制可选上游协议，并调用 mutation 保存变更。",
+      "tags": [
+        "react-组件",
+        "模型编辑",
+        "表格"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx:ChannelModelEditorTable",
+      "type": "function",
+      "name": "ChannelModelEditorTable",
+      "filePath": "frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "lineRange": [
+        21,
+        83
+      ],
+      "summary": "初始化 ChannelModelEditorTable 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "模型编辑",
+        "表格"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "type": "file",
+      "name": "ChannelModelFetchModal.tsx",
+      "filePath": "frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "summary": "提供上游模型预览与选择保存弹窗，按模型协议组合合并已有 ID、排序、首选和状态，支持保存选中的候选。",
+      "tags": [
+        "react-组件",
+        "模型预览",
+        "批量保存"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx:ChannelModelFetchModal",
+      "type": "function",
+      "name": "ChannelModelFetchModal",
+      "filePath": "frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "lineRange": [
+        24,
+        175
+      ],
+      "summary": "初始化 ChannelModelFetchModal 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "模型预览",
+        "批量保存"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "type": "file",
+      "name": "ChannelModelMappingManagementPanel.tsx",
+      "filePath": "frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "summary": "协调渠道选择、模型映射编辑、预览与保存的管理面板，维护本地草稿并处理刷新、搜索及校验。",
+      "tags": [
+        "react-组件",
+        "模型映射",
+        "管理面板"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx:ChannelModelMappingManagementPanel",
+      "type": "function",
+      "name": "ChannelModelMappingManagementPanel",
+      "filePath": "frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "lineRange": [
+        40,
+        376
+      ],
+      "summary": "初始化 ChannelModelMappingManagementPanel 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "模型映射",
+        "管理面板"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "type": "file",
+      "name": "providerChannelForm.ts",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "summary": "集中处理渠道表单的初始值、协议映射与保存请求构造，并将上游候选合并已有模型配置，保留上游未返回的历史项供选择。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:isHttpHost",
+      "type": "function",
+      "name": "isHttpHost",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        4,
+        6
+      ],
+      "summary": "在providerChannelForm中执行 isHttpHost 操作。协调 /^https?:\\/\\//i.test、host.trim 等调用处理输入与状态。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:isFormValidationError",
+      "type": "function",
+      "name": "isFormValidationError",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "在providerChannelForm中执行 isFormValidationError 操作。处理 error 参数。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:normalizeProtocolMappings",
+      "type": "function",
+      "name": "normalizeProtocolMappings",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        12,
+        18
+      ],
+      "summary": "在providerChannelForm中执行 normalizeProtocolMappings 操作。协调 (mappings ?? []).map、protocols.map、existing.get 等调用处理输入与状态。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:derivePreviewUpstreamProtocols",
+      "type": "function",
+      "name": "derivePreviewUpstreamProtocols",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        20,
+        23
+      ],
+      "summary": "在providerChannelForm中执行 derivePreviewUpstreamProtocols 操作。协调 normalizeProtocolMappings、Array.from、normalizedMappings.map 等调用处理输入与状态。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:deriveSupportedProtocols",
+      "type": "function",
+      "name": "deriveSupportedProtocols",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        25,
+        31
+      ],
+      "summary": "在providerChannelForm中执行 deriveSupportedProtocols 操作。协调 mappings.map 等调用处理输入与状态。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:modelKey",
+      "type": "function",
+      "name": "modelKey",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        33,
+        35
+      ],
+      "summary": "在providerChannelForm中执行 modelKey 操作。处理 model 参数。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:sanitizeEditableKey",
+      "type": "function",
+      "name": "sanitizeEditableKey",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        45,
+        48
+      ],
+      "summary": "在providerChannelForm中执行 sanitizeEditableKey 操作。协调 value?.trim、isMaskedKey 等调用处理输入与状态。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:mergeWithExistingModels",
+      "type": "function",
+      "name": "mergeWithExistingModels",
+      "filePath": "frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "lineRange": [
+        54,
+        72
+      ],
+      "summary": "按模型组合复用已有配置并追加上游未返回的历史模型，避免替换保存时静默丢失。",
+      "tags": [
+        "表单规则",
+        "渠道配置",
+        "候选合并"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/model/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "frontend/src/features/manage-provider-channels/model/types.ts",
+      "summary": "定义渠道表单状态，包括名称、主机、密钥、优先级和双侧协议映射。",
+      "tags": [
+        "类型定义",
+        "渠道表单",
+        "协议映射"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "type": "file",
+      "name": "useProviderChannelMutations.ts",
+      "filePath": "frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "summary": "封装渠道增删改、启停和限流重置 mutation，成功后同步失效渠道、可选模型和分组缓存。",
+      "tags": [
+        "react-hook",
+        "渠道管理",
+        "缓存失效"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts:useProviderChannelMutations",
+      "type": "function",
+      "name": "useProviderChannelMutations",
+      "filePath": "frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "lineRange": [
+        15,
+        36
+      ],
+      "summary": "初始化 useProviderChannelMutations 的状态并建立构造约束。",
+      "tags": [
+        "react-hook",
+        "渠道管理",
+        "缓存失效"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "type": "file",
+      "name": "ChannelModelBatchFetchModal.tsx",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "summary": "逐渠道拉取和验证模型候选，提供勾选及批量保存流程；合并已保存配置并标记上游缺失模型，保留用户决策。",
+      "tags": [
+        "react-组件",
+        "批量拉取",
+        "候选模型"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:ChannelModelBatchFetchModal",
+      "type": "function",
+      "name": "ChannelModelBatchFetchModal",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "lineRange": [
+        42,
+        244
+      ],
+      "summary": "初始化 ChannelModelBatchFetchModal 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "批量拉取",
+        "候选模型"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:CandidateModelTable",
+      "type": "function",
+      "name": "CandidateModelTable",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "lineRange": [
+        251,
+        296
+      ],
+      "summary": "渲染单渠道模型候选表格，展示来源和选择状态。",
+      "tags": [
+        "react-组件",
+        "批量拉取",
+        "候选模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:buildCandidates",
+      "type": "function",
+      "name": "buildCandidates",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "lineRange": [
+        312,
+        337
+      ],
+      "summary": "合并上游候选与现有模型，保留已有标识和设置，并把上游缺失的历史项追加为候选。",
+      "tags": [
+        "react-组件",
+        "批量拉取",
+        "候选模型"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "type": "file",
+      "name": "ProviderChannelFormDrawer.tsx",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "summary": "提供渠道创建与编辑抽屉，协调表单校验、密钥保留、协议配置、上游模型预览和选中模型保存。",
+      "tags": [
+        "react-组件",
+        "渠道表单",
+        "模型预览"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx:ProviderChannelFormDrawer",
+      "type": "function",
+      "name": "ProviderChannelFormDrawer",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "lineRange": [
+        45,
+        454
+      ],
+      "summary": "初始化 ProviderChannelFormDrawer 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "渠道表单",
+        "模型预览"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "type": "file",
+      "name": "ProviderChannelTablePanel.tsx",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "summary": "渲染供应商渠道列表并协调搜索、状态过滤、批量选择、表单抽屉及模型拉取操作，更新本地渠道与查询缓存。",
+      "tags": [
+        "react-组件",
+        "渠道管理",
+        "列表筛选"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx:ProviderChannelTablePanel",
+      "type": "function",
+      "name": "ProviderChannelTablePanel",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "lineRange": [
+        20,
+        216
+      ],
+      "summary": "初始化 ProviderChannelTablePanel 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "渠道管理",
+        "列表筛选"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "type": "file",
+      "name": "ProviderChannelToolbar.tsx",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "summary": "渲染渠道搜索和状态筛选工具栏，并暴露新增、刷新及批量操作入口。",
+      "tags": [
+        "react-组件",
+        "工具栏",
+        "渠道筛选"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx:ProviderChannelToolbar",
+      "type": "function",
+      "name": "ProviderChannelToolbar",
+      "filePath": "frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "lineRange": [
+        28,
+        73
+      ],
+      "summary": "初始化 ProviderChannelToolbar 的状态并建立构造约束。",
+      "tags": [
+        "react-组件",
+        "工具栏",
+        "渠道筛选"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/tests/modelAvailability.test.ts",
+      "type": "file",
+      "name": "modelAvailability.test.ts",
+      "filePath": "frontend/tests/modelAvailability.test.ts",
+      "summary": "验证渠道与模型状态变更后可选模型和分组缓存刷新，使用查询客户端与 Hook 测试夹具检查模型可用性同步。",
+      "tags": [
+        "测试",
+        "模型可用性",
+        "缓存失效"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/tests/providerChannelForm.test.ts",
+      "type": "file",
+      "name": "providerChannelForm.test.ts",
+      "filePath": "frontend/tests/providerChannelForm.test.ts",
+      "summary": "验证渠道表单默认值、协议映射和请求构造，以及拉取候选合并时保留已有配置和上游缺失模型。",
+      "tags": [
+        "测试",
+        "表单规则",
+        "候选合并"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "target": "function:frontend/src/entities/provider-model/model/useProviderModels.ts:useProviderModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "target": "function:frontend/src/entities/provider-model/model/useProviderModels.ts:useProviderModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "target": "file:frontend/src/entities/provider-model/api/providerModelApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "target": "function:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts:useChannelModelMutations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "target": "function:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts:useChannelModelMutations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "target": "function:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx:ChannelModelEditorTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "target": "function:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx:ChannelModelEditorTable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "target": "file:frontend/src/features/manage-channel-models/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelEditorTable.tsx",
+      "target": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "target": "function:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx:ChannelModelFetchModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "target": "function:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx:ChannelModelFetchModal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "target": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "target": "function:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx:ChannelModelMappingManagementPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "target": "function:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx:ChannelModelMappingManagementPanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "target": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-channel-models/ui/ChannelModelMappingManagementPanel.tsx",
+      "target": "file:frontend/src/features/manage-channel-models/ui/ChannelModelFetchModal.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:isHttpHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:isHttpHost",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:isFormValidationError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:isFormValidationError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:normalizeProtocolMappings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:normalizeProtocolMappings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:derivePreviewUpstreamProtocols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:derivePreviewUpstreamProtocols",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:deriveSupportedProtocols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:deriveSupportedProtocols",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:modelKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:modelKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:sanitizeEditableKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:sanitizeEditableKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:mergeWithExistingModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:mergeWithExistingModels",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts:useProviderChannelMutations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "target": "function:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts:useProviderChannelMutations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:ChannelModelBatchFetchModal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:ChannelModelBatchFetchModal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:CandidateModelTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx:buildCandidates",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx:ProviderChannelFormDrawer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx:ProviderChannelFormDrawer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx:ProviderChannelTablePanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx:ProviderChannelTablePanel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/ui/ChannelModelBatchFetchModal.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelFormDrawer.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelTablePanel.tsx",
+      "target": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx:ProviderChannelToolbar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx",
+      "target": "function:frontend/src/features/manage-provider-channels/ui/ProviderChannelToolbar.tsx:ProviderChannelToolbar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/tests/modelAvailability.test.ts",
+      "target": "file:frontend/src/entities/model-group/api/modelGroupApi.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/modelAvailability.test.ts",
+      "target": "file:frontend/src/entities/model-group/model/useModelGroups.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/modelAvailability.test.ts",
+      "target": "file:frontend/src/entities/provider-channel/model/useProviderChannels.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/modelAvailability.test.ts",
+      "target": "file:frontend/src/entities/provider-model/model/useProviderModels.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/modelAvailability.test.ts",
+      "target": "file:frontend/src/features/manage-channel-models/model/useChannelModelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/modelAvailability.test.ts",
+      "target": "file:frontend/src/features/manage-provider-channels/model/useProviderChannelMutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/providerChannelForm.test.ts",
+      "target": "file:frontend/src/entities/channel-model-support/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/providerChannelForm.test.ts",
+      "target": "file:frontend/src/entities/provider-channel/model/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/tests/providerChannelForm.test.ts",
+      "target": "file:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:derivePreviewUpstreamProtocols",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:normalizeProtocolMappings",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:mergeWithExistingModels",
+      "target": "function:frontend/src/features/manage-provider-channels/model/providerChannelForm.ts:modelKey",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

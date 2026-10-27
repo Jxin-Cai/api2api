@@ -1,0 +1,139 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/app/providers/AppProviders.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "AppProviders",
+          "startLine": 16,
+          "endLine": 28,
+          "params": [
+            "{ children }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AppProviders",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AppProviders",
+          "callee": "useThemeStore",
+          "lineNumber": 17
+        },
+        {
+          "caller": "AppProviders",
+          "callee": "buildAppTheme",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/providers/queryClient.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 27,
+      "functions": [
+        {
+          "name": "retryTransientQuery",
+          "startLine": 3,
+          "endLine": 14,
+          "params": [
+            "failureCount",
+            "error"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "retryTransientQuery",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "queryClient",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "retryTransientQuery",
+          "callee": "Number",
+          "lineNumber": 8
+        },
+        {
+          "caller": "retryTransientQuery",
+          "callee": "Number.isFinite",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/app/providers/theme.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 101,
+      "nonEmptyLines": 97,
+      "functions": [
+        {
+          "name": "buildAppTheme",
+          "startLine": 35,
+          "endLine": 101,
+          "params": [
+            "mode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "buildAppTheme",
+          "line": 35,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

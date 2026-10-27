@@ -1,0 +1,538 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/user-account/api/userAccountApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "getCurrentUser",
+          "startLine": 13,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "logout",
+          "startLine": 17,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "updateCurrentUserProfile",
+          "startLine": 21,
+          "endLine": 25,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "listUsers",
+          "startLine": 27,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "getUser",
+          "startLine": 31,
+          "endLine": 33,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "createUser",
+          "startLine": 35,
+          "endLine": 37,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "changeUserDisplayName",
+          "startLine": 39,
+          "endLine": 44,
+          "params": [
+            "userId",
+            "params"
+          ]
+        },
+        {
+          "name": "changeUserRole",
+          "startLine": 46,
+          "endLine": 51,
+          "params": [
+            "userId",
+            "params"
+          ]
+        },
+        {
+          "name": "enableUser",
+          "startLine": 53,
+          "endLine": 55,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "disableUser",
+          "startLine": 57,
+          "endLine": 59,
+          "params": [
+            "userId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getCurrentUser",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "logout",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "updateCurrentUserProfile",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "listUsers",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "getUser",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "createUser",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "changeUserDisplayName",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "changeUserRole",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "enableUser",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "disableUser",
+          "line": 57,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getCurrentUser",
+          "callee": "apiClient.get",
+          "lineNumber": 14
+        },
+        {
+          "caller": "logout",
+          "callee": "apiClient.post",
+          "lineNumber": 18
+        },
+        {
+          "caller": "updateCurrentUserProfile",
+          "callee": "apiClient.patch",
+          "lineNumber": 24
+        },
+        {
+          "caller": "listUsers",
+          "callee": "apiClient.get",
+          "lineNumber": 28
+        },
+        {
+          "caller": "getUser",
+          "callee": "apiClient.get",
+          "lineNumber": 32
+        },
+        {
+          "caller": "getUser",
+          "callee": "encodePathParam",
+          "lineNumber": 32
+        },
+        {
+          "caller": "createUser",
+          "callee": "apiClient.post",
+          "lineNumber": 36
+        },
+        {
+          "caller": "changeUserDisplayName",
+          "callee": "apiClient.patch",
+          "lineNumber": 43
+        },
+        {
+          "caller": "changeUserDisplayName",
+          "callee": "encodePathParam",
+          "lineNumber": 43
+        },
+        {
+          "caller": "changeUserRole",
+          "callee": "apiClient.patch",
+          "lineNumber": 50
+        },
+        {
+          "caller": "changeUserRole",
+          "callee": "encodePathParam",
+          "lineNumber": 50
+        },
+        {
+          "caller": "enableUser",
+          "callee": "apiClient.patch",
+          "lineNumber": 54
+        },
+        {
+          "caller": "enableUser",
+          "callee": "encodePathParam",
+          "lineNumber": 54
+        },
+        {
+          "caller": "disableUser",
+          "callee": "apiClient.patch",
+          "lineNumber": 58
+        },
+        {
+          "caller": "disableUser",
+          "callee": "encodePathParam",
+          "lineNumber": 58
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 10,
+        "functionCount": 10,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 33,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/model/useCurrentUser.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "useCurrentUser",
+          "startLine": 6,
+          "endLine": 22,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "currentUserQueryKey",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "useCurrentUser",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useCurrentUser",
+          "callee": "useQueryClient",
+          "lineNumber": 7
+        },
+        {
+          "caller": "useCurrentUser",
+          "callee": "useQuery",
+          "lineNumber": 8
+        },
+        {
+          "caller": "useCurrentUser",
+          "callee": "Boolean",
+          "lineNumber": 19
+        },
+        {
+          "caller": "useCurrentUser",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/model/useLogout.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "useLogout",
+          "startLine": 6,
+          "endLine": 17,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useLogout",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useLogout",
+          "callee": "useQueryClient",
+          "lineNumber": 7
+        },
+        {
+          "caller": "useLogout",
+          "callee": "useMutation",
+          "lineNumber": 8
+        },
+        {
+          "caller": "useLogout",
+          "callee": "logout",
+          "lineNumber": 10
+        },
+        {
+          "caller": "useLogout",
+          "callee": "queryClient.setQueryData",
+          "lineNumber": 13
+        },
+        {
+          "caller": "useLogout",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/model/useUserAccounts.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "useUserAccounts",
+          "startLine": 9,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "useUserAccountDetail",
+          "startLine": 18,
+          "endLine": 30,
+          "params": [
+            "userId",
+            "enabled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "userAccountQueryKeys",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "useUserAccounts",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "useUserAccountDetail",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useUserAccounts",
+          "callee": "useQuery",
+          "lineNumber": 10
+        },
+        {
+          "caller": "useUserAccountDetail",
+          "callee": "String(userId).trim",
+          "lineNumber": 19
+        },
+        {
+          "caller": "useUserAccountDetail",
+          "callee": "String",
+          "lineNumber": 19
+        },
+        {
+          "caller": "useUserAccountDetail",
+          "callee": "useQuery",
+          "lineNumber": 20
+        },
+        {
+          "caller": "useUserAccountDetail",
+          "callee": "userAccountQueryKeys.detail",
+          "lineNumber": 21
+        },
+        {
+          "caller": "useUserAccountDetail",
+          "callee": "getUser",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/ui/UserAccountRow.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "UserAccountRow",
+          "startLine": 14,
+          "endLine": 32,
+          "params": [
+            "{ user, actions }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserAccountRow",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UserAccountRow",
+          "callee": "String",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/ui/UserRoleTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "UserRoleTag",
+          "startLine": 10,
+          "endLine": 13,
+          "params": [
+            "{ role }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserRoleTag",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/user-account/ui/UserStatusTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "UserStatusTag",
+          "startLine": 9,
+          "endLine": 16,
+          "params": [
+            "{ status }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserStatusTag",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

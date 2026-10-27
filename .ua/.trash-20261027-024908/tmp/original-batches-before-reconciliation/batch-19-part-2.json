@@ -1,0 +1,1112 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "type": "file",
+      "name": "AuthController.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "summary": "提供会话登录、退出、当前用户读取和自助资料更新接口，负责会话身份绑定及清理并转换认证请求响应。",
+      "tags": [
+        "认证接口",
+        "会话管理",
+        "用户资料"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:AuthController",
+      "type": "class",
+      "name": "AuthController",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "summary": "提供会话登录、退出、当前用户读取和自助资料更新接口，负责会话身份绑定及清理并转换认证请求响应。",
+      "tags": [
+        "认证接口",
+        "会话管理",
+        "用户资料"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        30,
+        79
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:login",
+      "type": "function",
+      "name": "login",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "summary": "将登录请求转为命令，认证后轮换并绑定会话，返回用户登录信息。",
+      "tags": [
+        "业务方法",
+        "认证接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        45,
+        51
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:logout",
+      "type": "function",
+      "name": "logout",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "summary": "清理当前会话用户并返回成功响应。",
+      "tags": [
+        "业务方法",
+        "认证接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        57
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:getCurrentUser",
+      "type": "function",
+      "name": "getCurrentUser",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "summary": "从会话解析用户身份，读取启用账户并返回当前用户信息。",
+      "tags": [
+        "业务方法",
+        "认证接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        59,
+        64
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:updateCurrentUserProfile",
+      "type": "function",
+      "name": "updateCurrentUserProfile",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "summary": "将会话用户和新显示名转换为资料更新命令，保存后返回当前用户响应。",
+      "tags": [
+        "业务方法",
+        "认证接口",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        66,
+        78
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "type": "file",
+      "name": "AuthHttpConverter.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "summary": "将登录及资料更新请求转换为应用命令，并将账户映射为登录和当前用户响应。",
+      "tags": [
+        "认证转换",
+        "命令映射",
+        "响应映射"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java:AuthHttpConverter",
+      "type": "class",
+      "name": "AuthHttpConverter",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "summary": "将登录及资料更新请求转换为应用命令，并将账户映射为登录和当前用户响应。",
+      "tags": [
+        "认证转换",
+        "命令映射",
+        "响应映射"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        20,
+        50
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "type": "file",
+      "name": "CurrentUserResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "summary": "输出当前会话用户的标识、用户名、显示名、角色和账户状态。",
+      "tags": [
+        "响应模型",
+        "当前用户",
+        "会话认证"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java:CurrentUserResponse",
+      "type": "class",
+      "name": "CurrentUserResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "summary": "输出当前会话用户的标识、用户名、显示名、角色和账户状态。",
+      "tags": [
+        "响应模型",
+        "当前用户",
+        "会话认证"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        21
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "type": "file",
+      "name": "LoginRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "summary": "承载登录用户名和口令并提供必填参数约束。",
+      "tags": [
+        "请求模型",
+        "登录认证",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java:LoginRequest",
+      "type": "class",
+      "name": "LoginRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "summary": "承载登录用户名和口令并提供必填参数约束。",
+      "tags": [
+        "请求模型",
+        "登录认证",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        22
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "type": "file",
+      "name": "LoginResponse.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "summary": "包装成功登录后的当前用户信息。",
+      "tags": [
+        "响应模型",
+        "登录认证",
+        "用户信息"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java:LoginResponse",
+      "type": "class",
+      "name": "LoginResponse",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "summary": "包装成功登录后的当前用户信息。",
+      "tags": [
+        "响应模型",
+        "登录认证",
+        "用户信息"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        9,
+        19
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "type": "file",
+      "name": "UpdateCurrentUserProfileRequest.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "summary": "承载当前用户自助修改显示名的请求，并校验输入。",
+      "tags": [
+        "请求模型",
+        "用户资料",
+        "参数校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java:UpdateCurrentUserProfileRequest",
+      "type": "class",
+      "name": "UpdateCurrentUserProfileRequest",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "summary": "承载当前用户自助修改显示名的请求，并校验输入。",
+      "tags": [
+        "请求模型",
+        "用户资料",
+        "参数校验"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "file",
+      "name": "MapStructConfig.java",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "summary": "统一 OHS 转换器的 Spring 组件模型与构造注入策略，对未映射目标字段发出编译警告。",
+      "tags": [
+        "映射配置",
+        "依赖注入",
+        "编译检查"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java:MapStructConfig",
+      "type": "class",
+      "name": "MapStructConfig",
+      "filePath": "backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "summary": "统一 OHS 转换器的 Spring 组件模型与构造注入策略，对未映射目标字段发出编译警告。",
+      "tags": [
+        "映射配置",
+        "依赖注入",
+        "编译检查"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        17
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "type": "file",
+      "name": "UsageQueryApplicationServiceTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "summary": "验证用户本人用量记录查询会补充关联密钥名称，使门户无需额外查询即可展示来源密钥。",
+      "tags": [
+        "用量查询测试",
+        "密钥名称",
+        "用户门户"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:UsageQueryApplicationServiceTest",
+      "type": "class",
+      "name": "UsageQueryApplicationServiceTest",
+      "filePath": "backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "summary": "验证用户本人用量记录查询会补充关联密钥名称，使门户无需额外查询即可展示来源密钥。",
+      "tags": [
+        "用量查询测试",
+        "密钥名称",
+        "用户门户"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        38,
+        106
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:test_exposes_api_credential_name_when_querying_my_usage_records",
+      "type": "function",
+      "name": "test_exposes_api_credential_name_when_querying_my_usage_records",
+      "filePath": "backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "summary": "查询当前用户调用记录时，验证服务通过密钥仓储补充密钥名称并保留在用量视图中。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        43,
+        105
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "type": "file",
+      "name": "BootstrapAdminInitializerTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "summary": "验证启动管理员初始化对已有密码哈希保持不变，并为缺少哈希的历史管理员补全配置口令。",
+      "tags": [
+        "初始化测试",
+        "密码兼容",
+        "行为验证"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:BootstrapAdminInitializerTest",
+      "type": "class",
+      "name": "BootstrapAdminInitializerTest",
+      "filePath": "backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "summary": "验证启动管理员初始化对已有密码哈希保持不变，并为缺少哈希的历史管理员补全配置口令。",
+      "tags": [
+        "初始化测试",
+        "密码兼容",
+        "行为验证"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        27,
+        89
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:preservesExistingAdminPasswordHash",
+      "type": "function",
+      "name": "preservesExistingAdminPasswordHash",
+      "filePath": "backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "summary": "管理员已有密码哈希时，验证启动初始化不重置该凭据。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        31,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:initializesMissingAdminPasswordHashOnce",
+      "type": "function",
+      "name": "initializesMissingAdminPasswordHashOnce",
+      "filePath": "backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "summary": "历史管理员缺少密码哈希时，验证仅补全一次并保持后续启动幂等。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        75
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:adminWithPasswordHash",
+      "type": "function",
+      "name": "adminWithPasswordHash",
+      "filePath": "backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "summary": "构造带指定密码哈希的管理员账户，供初始化幂等性测试。",
+      "tags": [
+        "行为验证",
+        "回归测试",
+        "测试用例"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        77,
+        88
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:AuthController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:AuthController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:login",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:login",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:logout",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:logout",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:getCurrentUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:getCurrentUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:updateCurrentUserProfile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:updateCurrentUserProfile",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java:AuthHttpConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java:AuthHttpConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/LoginCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/application/user/command/UpdateCurrentUserProfileCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/converter/AuthHttpConverter.java",
+      "target": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java:CurrentUserResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/CurrentUserResponse.java:CurrentUserResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java:LoginRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginRequest.java:LoginRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java:LoginResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/LoginResponse.java:LoginResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java:UpdateCurrentUserProfileRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/auth/dto/UpdateCurrentUserProfileRequest.java:UpdateCurrentUserProfileRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java:MapStructConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java",
+      "target": "class:backend/src/main/java/com/api2api/ohs/http/converter/MapStructConfig.java:MapStructConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:UsageQueryApplicationServiceTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:test_exposes_api_credential_name_when_querying_my_usage_records",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/command/QueryMyUsageRecordsCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/usage/dto/PagedUsageRecordViews.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredential.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ApiCredentialName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ApiCredentialRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/gateway/model/GatewayRequestId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/PagedUsageRecords.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecord.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageRecordStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/repository/UsageRecordRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:BootstrapAdminInitializerTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:preservesExistingAdminPasswordHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:initializesMissingAdminPasswordHashOnce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:adminWithPasswordHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/DisplayName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/PasswordHash.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/Username.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:login",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:login",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:login",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:bindCurrentUser",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:login",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:logout",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:clearCurrentUser",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:logout",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:getCurrentUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:getCurrentUser",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:updateCurrentUserProfile",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/CurrentUserContextResolver.java:resolveCurrentUserId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:updateCurrentUserProfile",
+      "target": "function:backend/src/main/java/com/api2api/application/user/UserAccountApplicationService.java:updateCurrentUserProfile",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/ohs/http/auth/AuthController.java:updateCurrentUserProfile",
+      "target": "function:backend/src/main/java/com/api2api/ohs/http/ApiResponse.java:success",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:test_exposes_api_credential_name_when_querying_my_usage_records",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:rehydrate",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:test_exposes_api_credential_name_when_querying_my_usage_records",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageTokenBreakdown.java:known",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/usage/UsageQueryApplicationServiceTest.java:test_exposes_api_credential_name_when_querying_my_usage_records",
+      "target": "function:backend/src/main/java/com/api2api/domain/usage/model/UsageDuration.java:between",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:preservesExistingAdminPasswordHash",
+      "target": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:adminWithPasswordHash",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:initializesMissingAdminPasswordHashOnce",
+      "target": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:adminWithPasswordHash",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/test/java/com/api2api/application/user/BootstrapAdminInitializerTest.java:adminWithPasswordHash",
+      "target": "function:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java:rehydrate",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

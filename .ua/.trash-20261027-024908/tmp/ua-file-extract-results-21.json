@@ -1,0 +1,1444 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 10,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 10,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 10,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/entities/protocol-conversion/api/protocolConversionApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "encodeId",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "listProtocolConversions",
+          "startLine": 13,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "getProtocolConversion",
+          "startLine": 17,
+          "endLine": 21,
+          "params": [
+            "definitionId"
+          ]
+        },
+        {
+          "name": "getProtocolConversionByDirection",
+          "startLine": 23,
+          "endLine": 30,
+          "params": [
+            "params"
+          ]
+        },
+        {
+          "name": "enableProtocolConversion",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "definitionId"
+          ]
+        },
+        {
+          "name": "disableProtocolConversion",
+          "startLine": 38,
+          "endLine": 42,
+          "params": [
+            "definitionId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listProtocolConversions",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "getProtocolConversion",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "getProtocolConversionByDirection",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "enableProtocolConversion",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "disableProtocolConversion",
+          "line": 38,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "encodeId",
+          "callee": "encodeURIComponent",
+          "lineNumber": 10
+        },
+        {
+          "caller": "encodeId",
+          "callee": "String",
+          "lineNumber": 10
+        },
+        {
+          "caller": "listProtocolConversions",
+          "callee": "apiClient.get",
+          "lineNumber": 14
+        },
+        {
+          "caller": "getProtocolConversion",
+          "callee": "apiClient.get",
+          "lineNumber": 20
+        },
+        {
+          "caller": "getProtocolConversion",
+          "callee": "encodeId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "getProtocolConversionByDirection",
+          "callee": "apiClient.get",
+          "lineNumber": 26
+        },
+        {
+          "caller": "enableProtocolConversion",
+          "callee": "apiClient.patch",
+          "lineNumber": 35
+        },
+        {
+          "caller": "enableProtocolConversion",
+          "callee": "encodeId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "disableProtocolConversion",
+          "callee": "apiClient.patch",
+          "lineNumber": 41
+        },
+        {
+          "caller": "disableProtocolConversion",
+          "callee": "encodeId",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/model/mappingView.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 425,
+      "nonEmptyLines": 387,
+      "functions": [
+        {
+          "name": "parseFieldPath",
+          "startLine": 136,
+          "endLine": 143,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "parsePathPart",
+          "startLine": 145,
+          "endLine": 168,
+          "params": [
+            "part"
+          ]
+        },
+        {
+          "name": "getMappingTypeMeta",
+          "startLine": 170,
+          "endLine": 172,
+          "params": [
+            "type"
+          ]
+        },
+        {
+          "name": "getLossinessMeta",
+          "startLine": 174,
+          "endLine": 183,
+          "params": [
+            "lossiness"
+          ]
+        },
+        {
+          "name": "inferMappingViewType",
+          "startLine": 185,
+          "endLine": 225,
+          "params": [
+            "mapping"
+          ]
+        },
+        {
+          "name": "isContainerMapping",
+          "startLine": 227,
+          "endLine": 231,
+          "params": [
+            "source",
+            "target",
+            "mappingType"
+          ]
+        },
+        {
+          "name": "getMappingCoverageStatus",
+          "startLine": 233,
+          "endLine": 242,
+          "params": [
+            "mapping"
+          ]
+        },
+        {
+          "name": "buildMappingView",
+          "startLine": 244,
+          "endLine": 306,
+          "params": [
+            "mapping"
+          ]
+        },
+        {
+          "name": "inferSemanticGroup",
+          "startLine": 308,
+          "endLine": 330,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "normalizeMappingType",
+          "startLine": 332,
+          "endLine": 353,
+          "params": [
+            "mappingType"
+          ]
+        },
+        {
+          "name": "groupFromCategory",
+          "startLine": 355,
+          "endLine": 382,
+          "params": [
+            "category"
+          ]
+        },
+        {
+          "name": "sortGroups",
+          "startLine": 384,
+          "endLine": 399,
+          "params": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "uniqueTypes",
+          "startLine": 401,
+          "endLine": 403,
+          "params": [
+            "types"
+          ]
+        },
+        {
+          "name": "includesAny",
+          "startLine": 405,
+          "endLine": 407,
+          "params": [
+            "text",
+            "keywords"
+          ]
+        },
+        {
+          "name": "isDepthChangedSignificantly",
+          "startLine": 409,
+          "endLine": 414,
+          "params": [
+            "source",
+            "target"
+          ]
+        },
+        {
+          "name": "isLikelyRename",
+          "startLine": 416,
+          "endLine": 425,
+          "params": [
+            "source",
+            "target"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "parseFieldPath",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "getMappingTypeMeta",
+          "line": 170,
+          "isDefault": false
+        },
+        {
+          "name": "getLossinessMeta",
+          "line": 174,
+          "isDefault": false
+        },
+        {
+          "name": "inferMappingViewType",
+          "line": 185,
+          "isDefault": false
+        },
+        {
+          "name": "getMappingCoverageStatus",
+          "line": 233,
+          "isDefault": false
+        },
+        {
+          "name": "buildMappingView",
+          "line": 244,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "parseFieldPath",
+          "callee": "path.trim",
+          "lineNumber": 137
+        },
+        {
+          "caller": "parseFieldPath",
+          "callee": "trimmed.split('.').flatMap((part) => parsePathPart(part)).filter",
+          "lineNumber": 142
+        },
+        {
+          "caller": "parseFieldPath",
+          "callee": "trimmed.split('.').flatMap",
+          "lineNumber": 142
+        },
+        {
+          "caller": "parseFieldPath",
+          "callee": "trimmed.split",
+          "lineNumber": 142
+        },
+        {
+          "caller": "parseFieldPath",
+          "callee": "parsePathPart",
+          "lineNumber": 142
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "matcher.exec",
+          "lineNumber": 150
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "raw.trim",
+          "lineNumber": 153
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "segments.push",
+          "lineNumber": 155
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "segments.push",
+          "lineNumber": 157
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "/^\\d+$/.test",
+          "lineNumber": 158
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "segments.push",
+          "lineNumber": 159
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "segments.push",
+          "lineNumber": 161
+        },
+        {
+          "caller": "parsePathPart",
+          "callee": "segments.push",
+          "lineNumber": 163
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "mapping.mappingType?.toUpperCase",
+          "lineNumber": 186
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "mapping.sourceField.trim",
+          "lineNumber": 187
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "mapping.targetField.trim",
+          "lineNumber": 188
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "isContainerMapping",
+          "lineNumber": 189
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "normalizeMappingType",
+          "lineNumber": 192
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "mapping.ruleDescription.toLowerCase",
+          "lineNumber": 196
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "`${source} ${target} ${rule}`.toLowerCase",
+          "lineNumber": 197
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "getLossinessMeta",
+          "lineNumber": 199
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "includesAny",
+          "lineNumber": 205
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "includesAny",
+          "lineNumber": 208
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "includesAny",
+          "lineNumber": 211
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "isDepthChangedSignificantly",
+          "lineNumber": 211
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "includesAny",
+          "lineNumber": 214
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "includesAny",
+          "lineNumber": 217
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "includesAny",
+          "lineNumber": 220
+        },
+        {
+          "caller": "inferMappingViewType",
+          "callee": "isLikelyRename",
+          "lineNumber": 220
+        },
+        {
+          "caller": "isContainerMapping",
+          "callee": "mappingType?.toUpperCase",
+          "lineNumber": 228
+        },
+        {
+          "caller": "isSimplePath",
+          "callee": "Boolean",
+          "lineNumber": 229
+        },
+        {
+          "caller": "isSimplePath",
+          "callee": "/[.[\\]/=]/.test",
+          "lineNumber": 229
+        },
+        {
+          "caller": "isContainerMapping",
+          "callee": "isSimplePath",
+          "lineNumber": 230
+        },
+        {
+          "caller": "isContainerMapping",
+          "callee": "isSimplePath",
+          "lineNumber": 230
+        },
+        {
+          "caller": "getMappingCoverageStatus",
+          "callee": "(mapping.targetPath || mapping.targetField).trim().toLowerCase",
+          "lineNumber": 234
+        },
+        {
+          "caller": "getMappingCoverageStatus",
+          "callee": "(mapping.targetPath || mapping.targetField).trim",
+          "lineNumber": 234
+        },
+        {
+          "caller": "getMappingCoverageStatus",
+          "callee": "mapping.mappingType?.toUpperCase",
+          "lineNumber": 235
+        },
+        {
+          "caller": "getMappingCoverageStatus",
+          "callee": "['DROP', 'UNSUPPORTED', 'UNMAPPED'].includes",
+          "lineNumber": 237
+        },
+        {
+          "caller": "getMappingCoverageStatus",
+          "callee": "['-', '(dropped)', '(unsupported)', '(unmapped)'].includes",
+          "lineNumber": 238
+        },
+        {
+          "caller": "getMappingCoverageStatus",
+          "callee": "getLossinessMeta",
+          "lineNumber": 241
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "mapping.fieldMappings.forEach",
+          "lineNumber": 247
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "inferMappingViewType",
+          "lineNumber": 248
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "parseFieldPath",
+          "lineNumber": 251
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "parseFieldPath",
+          "lineNumber": 252
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "getMappingTypeMeta",
+          "lineNumber": 271
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "getLossinessMeta",
+          "lineNumber": 272
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "getMappingCoverageStatus",
+          "lineNumber": 273
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "inferSemanticGroup",
+          "lineNumber": 275
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "groupMap.get",
+          "lineNumber": 276
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "group.rows.push",
+          "lineNumber": 288
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "group.rows.filter",
+          "lineNumber": 290
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "group.rows.filter",
+          "lineNumber": 291
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "uniqueTypes",
+          "lineNumber": 292
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "group.rows.map",
+          "lineNumber": 292
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "groupMap.set",
+          "lineNumber": 293
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "Array.from(groupMap.values()).sort",
+          "lineNumber": 296
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "Array.from",
+          "lineNumber": 296
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "groupMap.values",
+          "lineNumber": 296
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "groups.flatMap",
+          "lineNumber": 297
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "rows.filter",
+          "lineNumber": 301
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "rows.filter",
+          "lineNumber": 302
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "rows.filter",
+          "lineNumber": 303
+        },
+        {
+          "caller": "buildMappingView",
+          "callee": "rows.filter",
+          "lineNumber": 304
+        },
+        {
+          "caller": "inferSemanticGroup",
+          "callee": "groupFromCategory",
+          "lineNumber": 309
+        },
+        {
+          "caller": "inferSemanticGroup",
+          "callee": "`${row.sourceField} ${row.targetField} ${row.ruleDescription}`.toLowerCase",
+          "lineNumber": 313
+        },
+        {
+          "caller": "inferSemanticGroup",
+          "callee": "SEMANTIC_GROUPS.find",
+          "lineNumber": 314
+        },
+        {
+          "caller": "inferSemanticGroup",
+          "callee": "includesAny",
+          "lineNumber": 314
+        },
+        {
+          "caller": "inferSemanticGroup",
+          "callee": "[...row.sourceSegments, ...row.targetSegments].find",
+          "lineNumber": 319
+        },
+        {
+          "caller": "inferSemanticGroup",
+          "callee": "firstSegment.value.toLowerCase",
+          "lineNumber": 322
+        },
+        {
+          "caller": "normalizeMappingType",
+          "callee": "mappingType?.toUpperCase",
+          "lineNumber": 333
+        },
+        {
+          "caller": "groupFromCategory",
+          "callee": "category?.toUpperCase",
+          "lineNumber": 356
+        },
+        {
+          "caller": "sortGroups",
+          "callee": "SEMANTIC_GROUPS.findIndex",
+          "lineNumber": 388
+        },
+        {
+          "caller": "sortGroups",
+          "callee": "SEMANTIC_GROUPS.findIndex",
+          "lineNumber": 389
+        },
+        {
+          "caller": "sortGroups",
+          "callee": "left.title.localeCompare",
+          "lineNumber": 398
+        },
+        {
+          "caller": "uniqueTypes",
+          "callee": "Array.from",
+          "lineNumber": 402
+        },
+        {
+          "caller": "includesAny",
+          "callee": "keywords.some",
+          "lineNumber": 406
+        },
+        {
+          "caller": "includesAny",
+          "callee": "text.includes",
+          "lineNumber": 406
+        },
+        {
+          "caller": "isDepthChangedSignificantly",
+          "callee": "Math.abs",
+          "lineNumber": 413
+        },
+        {
+          "caller": "isDepthChangedSignificantly",
+          "callee": "parseFieldPath",
+          "lineNumber": 413
+        },
+        {
+          "caller": "isDepthChangedSignificantly",
+          "callee": "parseFieldPath",
+          "lineNumber": 413
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "parseFieldPath(source).filter",
+          "lineNumber": 420
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "parseFieldPath",
+          "lineNumber": 420
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "parseFieldPath(target).filter",
+          "lineNumber": 421
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "parseFieldPath",
+          "lineNumber": 421
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "sourceSegments.at",
+          "lineNumber": 422
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "targetSegments.at",
+          "lineNumber": 423
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "Boolean",
+          "lineNumber": 424
+        },
+        {
+          "caller": "isLikelyRename",
+          "callee": "Math.abs",
+          "lineNumber": 424
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 16,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 68,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/model/useProtocolConversions.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "useProtocolConversions",
+          "startLine": 12,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "useProtocolConversionDetail",
+          "startLine": 24,
+          "endLine": 30,
+          "params": [
+            "definitionId",
+            "enabled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "protocolConversionQueryKeys",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "useProtocolConversions",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "useProtocolConversionDetail",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useProtocolConversions",
+          "callee": "useQueryClient",
+          "lineNumber": 13
+        },
+        {
+          "caller": "useProtocolConversions",
+          "callee": "useQuery",
+          "lineNumber": 14
+        },
+        {
+          "caller": "invalidateProtocolConversions",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 18
+        },
+        {
+          "caller": "useProtocolConversionDetail",
+          "callee": "useQuery",
+          "lineNumber": 25
+        },
+        {
+          "caller": "useProtocolConversionDetail",
+          "callee": "protocolConversionQueryKeys.detail",
+          "lineNumber": 26
+        },
+        {
+          "caller": "useProtocolConversionDetail",
+          "callee": "getProtocolConversion",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/ui/CapabilityTags.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "readCapability",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "capability",
+            "key"
+          ]
+        },
+        {
+          "name": "CapabilityTags",
+          "startLine": 16,
+          "endLine": 33,
+          "params": [
+            "{ capability, compact = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CapabilityTags",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "readCapability",
+          "callee": "Boolean",
+          "lineNumber": 13
+        },
+        {
+          "caller": "CapabilityTags",
+          "callee": "CAPABILITY_META.filter((meta) => !compact || readCapability(capability, meta.key)).map",
+          "lineNumber": 20
+        },
+        {
+          "caller": "CapabilityTags",
+          "callee": "CAPABILITY_META.filter",
+          "lineNumber": 20
+        },
+        {
+          "caller": "CapabilityTags",
+          "callee": "readCapability",
+          "lineNumber": 20
+        },
+        {
+          "caller": "CapabilityTags",
+          "callee": "readCapability",
+          "lineNumber": 21
+        },
+        {
+          "caller": "CapabilityTags",
+          "callee": "contentTypes.map",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/ui/FieldMappingHierarchy.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 196,
+      "nonEmptyLines": 185,
+      "functions": [
+        {
+          "name": "FieldMappingHierarchy",
+          "startLine": 15,
+          "endLine": 105,
+          "params": [
+            "{ mapping }"
+          ]
+        },
+        {
+          "name": "GroupLabel",
+          "startLine": 107,
+          "endLine": 122,
+          "params": [
+            "{ group }"
+          ]
+        },
+        {
+          "name": "GroupRows",
+          "startLine": 124,
+          "endLine": 130,
+          "params": [
+            "{ rows }"
+          ]
+        },
+        {
+          "name": "MappingRow",
+          "startLine": 132,
+          "endLine": 173,
+          "params": [
+            "{ row }"
+          ]
+        },
+        {
+          "name": "SummaryMetric",
+          "startLine": 177,
+          "endLine": 187,
+          "params": [
+            "{ icon, label, hint, value, tone }"
+          ]
+        },
+        {
+          "name": "matchesRow",
+          "startLine": 189,
+          "endLine": 196,
+          "params": [
+            "row",
+            "query",
+            "status"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FieldMappingHierarchy",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useMemo",
+          "lineNumber": 16
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "buildMappingView",
+          "lineNumber": 16
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "mapping.direction.toUpperCase",
+          "lineNumber": 17
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useState",
+          "lineNumber": 19
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useMemo",
+          "lineNumber": 20
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "view.groups.map((group) => ({\n    ...group,\n    rows: group.rows.filter((row) => matchesRow(row, query, statusFilter)),\n  })).filter((group) => group.rows.length > 0).map",
+          "lineNumber": 20
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "view.groups.map((group) => ({\n    ...group,\n    rows: group.rows.filter((row) => matchesRow(row, query, statusFilter)),\n  })).filter",
+          "lineNumber": 20
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "view.groups.map",
+          "lineNumber": 20
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "group.rows.filter",
+          "lineNumber": 22
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "matchesRow",
+          "lineNumber": 22
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "group.rows.filter",
+          "lineNumber": 26
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "group.rows.filter",
+          "lineNumber": 27
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "Array.from",
+          "lineNumber": 28
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "group.rows.map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useMemo",
+          "lineNumber": 30
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "view.groups\n    .filter((group, index) => index < 2 || group.unmappedCount > 0)\n    .map",
+          "lineNumber": 30
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "view.groups\n    .filter",
+          "lineNumber": 30
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useState",
+          "lineNumber": 33
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "useEffect",
+          "lineNumber": 35
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "setActiveKeys",
+          "lineNumber": 35
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "setQuery",
+          "lineNumber": 71
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "setStatusFilter",
+          "lineNumber": 79
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "setActiveKeys",
+          "lineNumber": 89
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "filteredGroups.map",
+          "lineNumber": 89
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "setActiveKeys",
+          "lineNumber": 91
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "setActiveKeys",
+          "lineNumber": 96
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "Array.isArray",
+          "lineNumber": 96
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "keys.map",
+          "lineNumber": 96
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "String",
+          "lineNumber": 96
+        },
+        {
+          "caller": "FieldMappingHierarchy",
+          "callee": "filteredGroups.map",
+          "lineNumber": 97
+        },
+        {
+          "caller": "GroupRows",
+          "callee": "rows.map",
+          "lineNumber": 127
+        },
+        {
+          "caller": "MappingRow",
+          "callee": "[row.sourceType || row.targetType ? `类型：${row.sourceType ?? '-'} → ${row.targetType ?? '-'}` : null,\n              row.defaultValue ? `默认：${row.defaultValue}` : null,\n              row.condition ? `条件：${row.condition}` : null,\n              row.notes].filter(Boolean).join",
+          "lineNumber": 155
+        },
+        {
+          "caller": "MappingRow",
+          "callee": "[row.sourceType || row.targetType ? `类型：${row.sourceType ?? '-'} → ${row.targetType ?? '-'}` : null,\n              row.defaultValue ? `默认：${row.defaultValue}` : null,\n              row.condition ? `条件：${row.condition}` : null,\n              row.notes].filter",
+          "lineNumber": 155
+        },
+        {
+          "caller": "matchesRow",
+          "callee": "query.trim().toLowerCase",
+          "lineNumber": 190
+        },
+        {
+          "caller": "matchesRow",
+          "callee": "query.trim",
+          "lineNumber": 190
+        },
+        {
+          "caller": "matchesRow",
+          "callee": "[row.sourceField, row.targetField, row.ruleDescription, row.notes]\n    .filter(Boolean).some",
+          "lineNumber": 191
+        },
+        {
+          "caller": "matchesRow",
+          "callee": "[row.sourceField, row.targetField, row.ruleDescription, row.notes]\n    .filter",
+          "lineNumber": 191
+        },
+        {
+          "caller": "matchesRow",
+          "callee": "value?.toLowerCase().includes",
+          "lineNumber": 192
+        },
+        {
+          "caller": "matchesRow",
+          "callee": "value?.toLowerCase",
+          "lineNumber": 192
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/ui/FieldMappingTable.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 100,
+      "nonEmptyLines": 96,
+      "functions": [
+        {
+          "name": "FieldMappingTable",
+          "startLine": 14,
+          "endLine": 100,
+          "params": [
+            "{ mapping, loading = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FieldMappingTable",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FieldMappingTable",
+          "callee": "getMappingCoverageStatus",
+          "lineNumber": 31
+        },
+        {
+          "caller": "FieldMappingTable",
+          "callee": "getMappingCoverageStatus",
+          "lineNumber": 48
+        },
+        {
+          "caller": "FieldMappingTable",
+          "callee": "getLossinessMeta",
+          "lineNumber": 78
+        },
+        {
+          "caller": "FieldMappingTable",
+          "callee": "mapping.direction.toUpperCase",
+          "lineNumber": 87
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/ui/FieldPathText.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 99,
+      "nonEmptyLines": 92,
+      "functions": [
+        {
+          "name": "FieldPathText",
+          "startLine": 13,
+          "endLine": 65,
+          "params": [
+            "{ value, copyable = true, showDepth = false }"
+          ]
+        },
+        {
+          "name": "getSegmentDisplay",
+          "startLine": 67,
+          "endLine": 92,
+          "params": [
+            "segment"
+          ]
+        },
+        {
+          "name": "getSegmentMarker",
+          "startLine": 94,
+          "endLine": 99,
+          "params": [
+            "segment",
+            "index"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FieldPathText",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FieldPathText",
+          "callee": "parseFieldPath",
+          "lineNumber": 14
+        },
+        {
+          "caller": "FieldPathText",
+          "callee": "segments.map",
+          "lineNumber": 20
+        },
+        {
+          "caller": "FieldPathText",
+          "callee": "getSegmentDisplay",
+          "lineNumber": 21
+        },
+        {
+          "caller": "FieldPathText",
+          "callee": "getSegmentMarker",
+          "lineNumber": 30
+        },
+        {
+          "caller": "FieldPathText",
+          "callee": "segments.map",
+          "lineNumber": 56
+        },
+        {
+          "caller": "getSegmentDisplay",
+          "callee": "segment.value.slice",
+          "lineNumber": 75
+        },
+        {
+          "caller": "getSegmentDisplay",
+          "callee": "segment.value.split",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getSegmentDisplay",
+          "callee": "segment.value.indexOf",
+          "lineNumber": 84
+        },
+        {
+          "caller": "getSegmentDisplay",
+          "callee": "segment.value.slice",
+          "lineNumber": 87
+        },
+        {
+          "caller": "getSegmentDisplay",
+          "callee": "segment.value.slice",
+          "lineNumber": 88
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/ui/MappingTypeTag.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 10,
+      "functions": [
+        {
+          "name": "MappingTypeTag",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "{ type }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MappingTypeTag",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MappingTypeTag",
+          "callee": "getMappingTypeMeta",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/entities/protocol-conversion/ui/ProtocolConversionRow.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "ProtocolConversionRow",
+          "startLine": 16,
+          "endLine": 35,
+          "params": [
+            "{ conversion, actions, selected = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProtocolConversionRow",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProtocolConversionRow",
+          "callee": "formatProtocolDirection",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

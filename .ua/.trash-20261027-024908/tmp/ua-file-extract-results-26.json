@@ -1,0 +1,943 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/features/manage-api-credentials/model/types.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-api-credentials/model/useApiCredentialMutations.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "useApiCredentialMutations",
+          "startLine": 30,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "useApiCredentialMutations",
+          "line": 30,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useQueryClient",
+          "lineNumber": 31
+        },
+        {
+          "caller": "invalidate",
+          "callee": "queryClient.invalidateQueries",
+          "lineNumber": 33
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 37
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "createApiCredential",
+          "lineNumber": 37
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 38
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "renameApiCredential",
+          "lineNumber": 38
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 39
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "changeApiCredentialModelGroup",
+          "lineNumber": 39
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 40
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "revealApiCredentialSecret",
+          "lineNumber": 40
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 41
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "enableApiCredential",
+          "lineNumber": 41
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 42
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "disableApiCredential",
+          "lineNumber": 42
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "useMutation",
+          "lineNumber": 43
+        },
+        {
+          "caller": "useApiCredentialMutations",
+          "callee": "deleteApiCredential",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-api-credentials/ui/ApiCredentialCreateModal.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 93,
+      "functions": [
+        {
+          "name": "ApiCredentialCreateModal",
+          "startLine": 21,
+          "endLine": 103,
+          "params": [
+            "{ open, onClose, onCreated, groupOptions = [] }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialCreateModal",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "App.useApp",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "useApiCredentialMutations",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "useState",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "useState",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "useState",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "useEffect",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setForm",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setCreatedResult",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setSaveConfirmed",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleClose",
+          "callee": "modal.confirm",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleClose",
+          "callee": "onClose",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "form.name.trim",
+          "lineNumber": 51
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "createMutation.mutateAsync",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setCreatedResult",
+          "lineNumber": 56
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "onCreated",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "form.name.trim",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "Boolean",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "Boolean",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setSaveConfirmed",
+          "lineNumber": 74
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setSaveConfirmed",
+          "lineNumber": 75
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "form.name.trim",
+          "lineNumber": 81
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "form.name.trim",
+          "lineNumber": 81
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setForm",
+          "lineNumber": 82
+        },
+        {
+          "caller": "ApiCredentialCreateModal",
+          "callee": "setForm",
+          "lineNumber": 87
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-api-credentials/ui/ApiCredentialEditDrawer.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 99,
+      "nonEmptyLines": 90,
+      "functions": [
+        {
+          "name": "ApiCredentialEditDrawer",
+          "startLine": 22,
+          "endLine": 99,
+          "params": [
+            "{ open, credential, onClose, groupOptions = [], onUpdated }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialEditDrawer",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "App.useApp",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "useApiCredentialMutations",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "useState",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "useState",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "useState",
+          "lineNumber": 27
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "useEffect",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "setNameDraft",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "setModelGroupIdDraft",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "setActiveSection",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleSaveName",
+          "callee": "nameDraft.trim",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleSaveName",
+          "callee": "renameMutation.mutateAsync",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleSaveName",
+          "callee": "nameDraft.trim",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleSaveName",
+          "callee": "message.success",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleSaveName",
+          "callee": "onUpdated",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleSaveGroup",
+          "callee": "groupMutation.mutateAsync",
+          "lineNumber": 52
+        },
+        {
+          "caller": "handleSaveGroup",
+          "callee": "message.success",
+          "lineNumber": 53
+        },
+        {
+          "caller": "handleSaveGroup",
+          "callee": "onUpdated",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "setActiveSection",
+          "lineNumber": 71
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "setNameDraft",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ApiCredentialEditDrawer",
+          "callee": "nameDraft.trim",
+          "lineNumber": 79
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-api-credentials/ui/ApiCredentialTablePanel.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 276,
+      "nonEmptyLines": 258,
+      "functions": [
+        {
+          "name": "isEnabled",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "credential"
+          ]
+        },
+        {
+          "name": "ApiCredentialTablePanel",
+          "startLine": 28,
+          "endLine": 276,
+          "params": [
+            "{ groupOptions = [] }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialTablePanel",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isEnabled",
+          "callee": "String(credential.status).toUpperCase",
+          "lineNumber": 24
+        },
+        {
+          "caller": "isEnabled",
+          "callee": "String",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "App.useApp",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useApiCredentials",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useApiCredentialMutations",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useState",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useState",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useState",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useState",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useState",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "search.trim().toLowerCase",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "search.trim",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "credentials.filter",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "credential.name.toLowerCase().includes",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "credential.name.toLowerCase",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "credential.id.toLowerCase().includes",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "credential.id.toLowerCase",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "credentials.reduce",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "useMemo",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "groupOptions.map",
+          "lineNumber": 59
+        },
+        {
+          "caller": "handleToggleStatus",
+          "callee": "isEnabled",
+          "lineNumber": 64
+        },
+        {
+          "caller": "handleToggleStatus",
+          "callee": "disableMutation.mutateAsync",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handleToggleStatus",
+          "callee": "message.success",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handleToggleStatus",
+          "callee": "enableMutation.mutateAsync",
+          "lineNumber": 69
+        },
+        {
+          "caller": "handleToggleStatus",
+          "callee": "message.success",
+          "lineNumber": 70
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "deleteMutation.mutateAsync",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "message.success",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "message.error",
+          "lineNumber": 78
+        },
+        {
+          "caller": "confirmToggleStatus",
+          "callee": "isEnabled",
+          "lineNumber": 83
+        },
+        {
+          "caller": "confirmToggleStatus",
+          "callee": "modal.confirm",
+          "lineNumber": 84
+        },
+        {
+          "caller": "confirmToggleStatus",
+          "callee": "handleToggleStatus",
+          "lineNumber": 90
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "modal.confirm",
+          "lineNumber": 95
+        },
+        {
+          "caller": "confirmDelete",
+          "callee": "handleDelete",
+          "lineNumber": 101
+        },
+        {
+          "caller": "handleCreated",
+          "callee": "query.refetch().catch",
+          "lineNumber": 106
+        },
+        {
+          "caller": "handleCreated",
+          "callee": "query.refetch",
+          "lineNumber": 106
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "modal.confirm",
+          "lineNumber": 110
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "revealMutation.mutateAsync",
+          "lineNumber": 117
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "window.setTimeout",
+          "lineNumber": 119
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "setRevealedCredentialName",
+          "lineNumber": 120
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "setRevealedSecret",
+          "lineNumber": 121
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "message.error",
+          "lineNumber": 124
+        },
+        {
+          "caller": "handleReveal",
+          "callee": "getApiErrorMessage",
+          "lineNumber": 124
+        },
+        {
+          "caller": "renderTokenUsage",
+          "callee": "formatTokenMillions",
+          "lineNumber": 132
+        },
+        {
+          "caller": "renderTokenUsage",
+          "callee": "formatTokenMillions",
+          "lineNumber": 133
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "groupNames.get",
+          "lineNumber": 156
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "[...models].sort",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "Number",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "throttled.has",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "Number",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "throttled.has",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "ordered.slice(0, 2).map",
+          "lineNumber": 170
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "ordered.slice",
+          "lineNumber": 170
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "throttled.has",
+          "lineNumber": 170
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "ordered.slice(2).map((model) => (throttled.has(model) ? `${model}（限流中）` : model)).join",
+          "lineNumber": 174
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "ordered.slice(2).map",
+          "lineNumber": 174
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "ordered.slice",
+          "lineNumber": 174
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "throttled.has",
+          "lineNumber": 174
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "renderTokenUsage",
+          "lineNumber": 179
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "String",
+          "lineNumber": 186
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "formatTokenMillions",
+          "lineNumber": 187
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "String",
+          "lineNumber": 189
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "formatTokenMillions",
+          "lineNumber": 190
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "handleReveal",
+          "lineNumber": 205
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setEditing",
+          "lineNumber": 208
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "isEnabled",
+          "lineNumber": 214
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "isEnabled",
+          "lineNumber": 214
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "confirmDelete",
+          "lineNumber": 218
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "confirmToggleStatus",
+          "lineNumber": 218
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "query.refetch().catch",
+          "lineNumber": 229
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "query.refetch",
+          "lineNumber": 229
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 237
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "formatTokenCompact",
+          "lineNumber": 238
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "formatTokenMillions",
+          "lineNumber": 239
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "formatTokenMillions",
+          "lineNumber": 240
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setCreateOpen",
+          "lineNumber": 244
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "query.refetch().catch",
+          "lineNumber": 244
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "query.refetch",
+          "lineNumber": 244
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setCreateOpen",
+          "lineNumber": 258
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "Boolean",
+          "lineNumber": 259
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setEditing",
+          "lineNumber": 259
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setEditing",
+          "lineNumber": 259
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "Boolean",
+          "lineNumber": 262
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setRevealedSecret",
+          "lineNumber": 263
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setRevealedCredentialName",
+          "lineNumber": 263
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setRevealedSecret",
+          "lineNumber": 264
+        },
+        {
+          "caller": "ApiCredentialTablePanel",
+          "callee": "setRevealedCredentialName",
+          "lineNumber": 264
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/features/manage-api-credentials/ui/ApiCredentialToolbar.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "ApiCredentialToolbar",
+          "startLine": 17,
+          "endLine": 39,
+          "params": [
+            "{ search, onSearchChange, onCreateClick, onRefresh, loading = false }"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApiCredentialToolbar",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApiCredentialToolbar",
+          "callee": "onSearchChange",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

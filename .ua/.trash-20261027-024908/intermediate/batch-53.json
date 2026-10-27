@@ -1,0 +1,899 @@
+{
+  "nodes": [
+    {
+      "id": "file:frontend/src/shared/lib/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/shared/lib/index.ts",
+      "summary": "统一导出格式化、剪贴板、协议元数据、图表数据、分页、时区及分包加载恢复工具。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "工具函数"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/lib/protocols.ts",
+      "type": "file",
+      "name": "protocols.ts",
+      "filePath": "frontend/src/shared/lib/protocols.ts",
+      "summary": "定义客户端及上游协议选项、协议标签颜色与官方规范信息，并提供转换能力说明及方向格式化。",
+      "tags": [
+        "协议元数据",
+        "显示标签",
+        "共享配置"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/protocols.ts:getProtocolMeta",
+      "type": "function",
+      "name": "getProtocolMeta",
+      "filePath": "frontend/src/shared/lib/protocols.ts",
+      "lineRange": [
+        69,
+        71
+      ],
+      "summary": "查询协议的名称、颜色与规范信息，未知协议使用原标识及默认颜色。",
+      "tags": [
+        "协议元数据",
+        "显示标签",
+        "共享配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/protocols.ts:formatProtocolDirection",
+      "type": "function",
+      "name": "formatProtocolDirection",
+      "filePath": "frontend/src/shared/lib/protocols.ts",
+      "lineRange": [
+        73,
+        75
+      ],
+      "summary": "分别解析源协议与目标协议名称，生成带箭头的转换方向展示文案。",
+      "tags": [
+        "协议元数据",
+        "显示标签",
+        "共享配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/lib/table.ts",
+      "type": "file",
+      "name": "table.ts",
+      "filePath": "frontend/src/shared/lib/table.ts",
+      "summary": "统一用量表格的五十、一百及二百条分页选项，规范化条数输入并生成 Ant Design 分页配置。",
+      "tags": [
+        "分页配置",
+        "输入校验",
+        "表格工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/table.ts:isUsagePageSize",
+      "type": "function",
+      "name": "isUsagePageSize",
+      "filePath": "frontend/src/shared/lib/table.ts",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "判定数值是否为允许的五十、一百或二百条分页大小，并收窄类型。",
+      "tags": [
+        "分页配置",
+        "输入校验",
+        "表格工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/table.ts:normalizeUsagePageSize",
+      "type": "function",
+      "name": "normalizeUsagePageSize",
+      "filePath": "frontend/src/shared/lib/table.ts",
+      "lineRange": [
+        13,
+        16
+      ],
+      "summary": "将字符串或数值条数规范化为支持的分页大小，无效输入回退为五十条。",
+      "tags": [
+        "分页配置",
+        "输入校验",
+        "表格工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/table.ts:buildTablePagination",
+      "type": "function",
+      "name": "buildTablePagination",
+      "filePath": "frontend/src/shared/lib/table.ts",
+      "lineRange": [
+        18,
+        34
+      ],
+      "summary": "将页面分页状态转换为 Ant Design 配置，统一条数选项、总数文案和变更回调类型。",
+      "tags": [
+        "分页配置",
+        "输入校验",
+        "表格工具"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/lib/timeZone.ts",
+      "type": "file",
+      "name": "timeZone.ts",
+      "filePath": "frontend/src/shared/lib/timeZone.ts",
+      "summary": "读取浏览器 IANA 时区，并在缺少显式时区时使用浏览器或 UTC 作为有效时区。",
+      "tags": [
+        "工具函数",
+        "时区处理",
+        "默认值"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/timeZone.ts:browserTimeZone",
+      "type": "function",
+      "name": "browserTimeZone",
+      "filePath": "frontend/src/shared/lib/timeZone.ts",
+      "lineRange": [
+        1,
+        4
+      ],
+      "summary": "读取浏览器解析出的 IANA 时区，无法获得时区时回退为 UTC。",
+      "tags": [
+        "工具函数",
+        "时区处理",
+        "默认值"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/lib/timeZone.ts:resolveTimeZone",
+      "type": "function",
+      "name": "resolveTimeZone",
+      "filePath": "frontend/src/shared/lib/timeZone.ts",
+      "lineRange": [
+        6,
+        9
+      ],
+      "summary": "优先采用显式时区参数，否则返回浏览器时区。",
+      "tags": [
+        "工具函数",
+        "时区处理",
+        "默认值"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/types/admin.ts",
+      "type": "file",
+      "name": "admin.ts",
+      "filePath": "frontend/src/shared/types/admin.ts",
+      "summary": "定义管理端标识、角色、账户状态、模型来源及协议实现状态等公共类型，以及泛型选择项结构。",
+      "tags": [
+        "类型定义",
+        "管理模型",
+        "共享契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/types/chart.ts",
+      "type": "file",
+      "name": "chart.ts",
+      "filePath": "frontend/src/shared/types/chart.ts",
+      "summary": "定义趋势点、排名条目及指标涨跌信息，供指标卡、趋势图与排名组件共享数据结构。",
+      "tags": [
+        "类型定义",
+        "图表数据",
+        "共享契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/types/portal.ts",
+      "type": "file",
+      "name": "portal.ts",
+      "filePath": "frontend/src/shared/types/portal.ts",
+      "summary": "定义前台和管理后台两种门户类型，为路由导航及布局组件提供统一约束。",
+      "tags": [
+        "类型定义",
+        "门户导航",
+        "共享契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/types/table.ts",
+      "type": "file",
+      "name": "table.ts",
+      "filePath": "frontend/src/shared/types/table.ts",
+      "summary": "定义分页条数联合类型，以及泛型分页请求、响应和表格分页状态。",
+      "tags": [
+        "类型定义",
+        "分页契约",
+        "共享契约"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/DashboardSummaryGrid.tsx",
+      "type": "file",
+      "name": "DashboardSummaryGrid.tsx",
+      "filePath": "frontend/src/shared/ui/DashboardSummaryGrid.tsx",
+      "summary": "为仪表盘汇总卡提供统一的响应式网格包裹，并允许附加样式与类名。",
+      "tags": [
+        "布局组件",
+        "仪表盘",
+        "响应式布局"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/DashboardSummaryGrid.tsx:DashboardSummaryGrid",
+      "type": "function",
+      "name": "DashboardSummaryGrid",
+      "filePath": "frontend/src/shared/ui/DashboardSummaryGrid.tsx",
+      "lineRange": [
+        10,
+        18
+      ],
+      "summary": "为仪表盘汇总卡提供统一的响应式网格包裹，并允许附加样式与类名。",
+      "tags": [
+        "布局组件",
+        "仪表盘",
+        "响应式布局"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/PageHeader.tsx",
+      "type": "file",
+      "name": "PageHeader.tsx",
+      "filePath": "frontend/src/shared/ui/PageHeader.tsx",
+      "summary": "统一页面标题、说明文字与右侧操作区域的布局，支持仅有标题的紧凑展示。",
+      "tags": [
+        "布局组件",
+        "页面标题",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/PageHeader.tsx:PageHeader",
+      "type": "function",
+      "name": "PageHeader",
+      "filePath": "frontend/src/shared/ui/PageHeader.tsx",
+      "lineRange": [
+        13,
+        23
+      ],
+      "summary": "统一页面标题、说明文字与右侧操作区域的布局，支持仅有标题的紧凑展示。",
+      "tags": [
+        "布局组件",
+        "页面标题",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/PageState.tsx",
+      "type": "file",
+      "name": "PageState.tsx",
+      "filePath": "frontend/src/shared/ui/PageState.tsx",
+      "summary": "统一展示页面加载骨架、查询错误提示与重试操作，为各业务面板提供一致的数据状态体验。",
+      "tags": [
+        "状态展示",
+        "错误反馈",
+        "加载骨架"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/PageState.tsx:PageState",
+      "type": "function",
+      "name": "PageState",
+      "filePath": "frontend/src/shared/ui/PageState.tsx",
+      "lineRange": [
+        14,
+        29
+      ],
+      "summary": "统一展示页面加载骨架、查询错误提示与重试操作，为各业务面板提供一致的数据状态体验。",
+      "tags": [
+        "状态展示",
+        "错误反馈",
+        "加载骨架"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/RouteErrorState.tsx",
+      "type": "file",
+      "name": "RouteErrorState.tsx",
+      "filePath": "frontend/src/shared/ui/RouteErrorState.tsx",
+      "summary": "处理路由加载异常，识别分包更新失败并触发受控刷新；提供手动刷新和首页操作，开发环境额外显示错误详情。",
+      "tags": [
+        "错误边界",
+        "路由状态",
+        "分包恢复"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/RouteErrorState.tsx:RouteErrorState",
+      "type": "function",
+      "name": "RouteErrorState",
+      "filePath": "frontend/src/shared/ui/RouteErrorState.tsx",
+      "lineRange": [
+        7,
+        57
+      ],
+      "summary": "处理路由加载异常，识别分包更新失败并触发受控刷新；提供手动刷新和首页操作，开发环境额外显示错误详情。",
+      "tags": [
+        "错误边界",
+        "路由状态",
+        "分包恢复"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/shared/ui/index.ts",
+      "summary": "集中导出动画组件与仪表盘布局、页面状态、页面标题和路由错误展示组件。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/AnimatedContent.tsx",
+      "type": "file",
+      "name": "AnimatedContent.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/AnimatedContent.tsx",
+      "summary": "使用 Motion 按轴向、位移、缩放及延时配置内容进入动画，支持进入视口时触发与只播放一次。",
+      "tags": [
+        "动画组件",
+        "视口触发",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/AnimatedContent.tsx:AnimatedContent",
+      "type": "function",
+      "name": "AnimatedContent",
+      "filePath": "frontend/src/shared/ui/reactbits/AnimatedContent.tsx",
+      "lineRange": [
+        21,
+        43
+      ],
+      "summary": "使用 Motion 按轴向、位移、缩放及延时配置内容进入动画，支持进入视口时触发与只播放一次。",
+      "tags": [
+        "动画组件",
+        "视口触发",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/AuroraBackground.tsx",
+      "type": "file",
+      "name": "AuroraBackground.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/AuroraBackground.tsx",
+      "summary": "提供具有光晕叠层与可选动效的背景容器，通过主题样式组合子内容。",
+      "tags": [
+        "背景组件",
+        "视觉效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/AuroraBackground.tsx:AuroraBackground",
+      "type": "function",
+      "name": "AuroraBackground",
+      "filePath": "frontend/src/shared/ui/reactbits/AuroraBackground.tsx",
+      "lineRange": [
+        11,
+        20
+      ],
+      "summary": "提供具有光晕叠层与可选动效的背景容器，通过主题样式组合子内容。",
+      "tags": [
+        "背景组件",
+        "视觉效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/CountUp.tsx",
+      "type": "file",
+      "name": "CountUp.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/CountUp.tsx",
+      "summary": "将数字从起始值逐帧缓动到目标值，支持延时、时长、小数位、分隔符与视口触发，并在卸载时清理动画。",
+      "tags": [
+        "动画组件",
+        "数值展示",
+        "视口触发"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/CountUp.tsx:CountUp",
+      "type": "function",
+      "name": "CountUp",
+      "filePath": "frontend/src/shared/ui/reactbits/CountUp.tsx",
+      "lineRange": [
+        26,
+        73
+      ],
+      "summary": "将数字从起始值逐帧缓动到目标值，支持延时、时长、小数位、分隔符与视口触发，并在卸载时清理动画。",
+      "tags": [
+        "动画组件",
+        "数值展示",
+        "视口触发"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/FadeContent.tsx",
+      "type": "file",
+      "name": "FadeContent.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/FadeContent.tsx",
+      "summary": "使用 Motion 为内容提供透明度与可选模糊进入效果，支持延时和进入视口触发。",
+      "tags": [
+        "动画组件",
+        "渐显效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/FadeContent.tsx:FadeContent",
+      "type": "function",
+      "name": "FadeContent",
+      "filePath": "frontend/src/shared/ui/reactbits/FadeContent.tsx",
+      "lineRange": [
+        17,
+        28
+      ],
+      "summary": "使用 Motion 为内容提供透明度与可选模糊进入效果，支持延时和进入视口触发。",
+      "tags": [
+        "动画组件",
+        "渐显效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/GradientText.tsx",
+      "type": "file",
+      "name": "GradientText.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/GradientText.tsx",
+      "summary": "为文本提供可配置渐变色和背景动画速度，支持关闭动画并附加自定义类名。",
+      "tags": [
+        "文本组件",
+        "渐变效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/GradientText.tsx:GradientText",
+      "type": "function",
+      "name": "GradientText",
+      "filePath": "frontend/src/shared/ui/reactbits/GradientText.tsx",
+      "lineRange": [
+        17,
+        28
+      ],
+      "summary": "为文本提供可配置渐变色和背景动画速度，支持关闭动画并附加自定义类名。",
+      "tags": [
+        "文本组件",
+        "渐变效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/ShinyText.tsx",
+      "type": "file",
+      "name": "ShinyText.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/ShinyText.tsx",
+      "summary": "为文本提供可配置扫光速度与样式的高光动画，支持关闭动效。",
+      "tags": [
+        "文本组件",
+        "扫光效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/ShinyText.tsx:ShinyText",
+      "type": "function",
+      "name": "ShinyText",
+      "filePath": "frontend/src/shared/ui/reactbits/ShinyText.tsx",
+      "lineRange": [
+        19,
+        30
+      ],
+      "summary": "为文本提供可配置扫光速度与样式的高光动画，支持关闭动效。",
+      "tags": [
+        "文本组件",
+        "扫光效果",
+        "共享组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/SpotlightCard.tsx",
+      "type": "file",
+      "name": "SpotlightCard.tsx",
+      "filePath": "frontend/src/shared/ui/reactbits/SpotlightCard.tsx",
+      "summary": "追踪鼠标相对卡片的位置并更新径向高光样式，支持自定义聚光颜色、圆角与内容类名。",
+      "tags": [
+        "卡片组件",
+        "指针交互",
+        "视觉效果"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:frontend/src/shared/ui/reactbits/SpotlightCard.tsx:SpotlightCard",
+      "type": "function",
+      "name": "SpotlightCard",
+      "filePath": "frontend/src/shared/ui/reactbits/SpotlightCard.tsx",
+      "lineRange": [
+        18,
+        54
+      ],
+      "summary": "追踪鼠标相对卡片的位置并更新径向高光样式，支持自定义聚光颜色、圆角与内容类名。",
+      "tags": [
+        "卡片组件",
+        "指针交互",
+        "视觉效果"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/shared/ui/reactbits/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/shared/ui/reactbits/index.ts",
+      "summary": "集中导出数字递增、渐变与扫光文本、聚光卡、进入与渐显动画，以及光晕背景组件。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "动画组件"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/widgets/app-shell/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "frontend/src/widgets/app-shell/index.ts",
+      "summary": "公开导出应用外壳组件及菜单项类型，封装门户布局实现。",
+      "tags": [
+        "公开接口",
+        "重导出",
+        "应用布局"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/widgets/app-shell/ui/AppShell.css",
+      "type": "file",
+      "name": "AppShell.css",
+      "filePath": "frontend/src/widgets/app-shell/ui/AppShell.css",
+      "summary": "定义应用外壳侧栏、移动抽屉、品牌、菜单、顶栏与内容区样式，并为深浅主题及窄屏提供适配。",
+      "tags": [
+        "组件样式",
+        "应用布局",
+        "主题适配",
+        "响应式布局"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:frontend/src/shared/lib/protocols.ts",
+      "target": "function:frontend/src/shared/lib/protocols.ts:getProtocolMeta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/protocols.ts",
+      "target": "function:frontend/src/shared/lib/protocols.ts:getProtocolMeta",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/protocols.ts",
+      "target": "function:frontend/src/shared/lib/protocols.ts:formatProtocolDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/protocols.ts",
+      "target": "function:frontend/src/shared/lib/protocols.ts:formatProtocolDirection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/table.ts",
+      "target": "function:frontend/src/shared/lib/table.ts:isUsagePageSize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/table.ts",
+      "target": "function:frontend/src/shared/lib/table.ts:isUsagePageSize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/table.ts",
+      "target": "function:frontend/src/shared/lib/table.ts:normalizeUsagePageSize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/table.ts",
+      "target": "function:frontend/src/shared/lib/table.ts:normalizeUsagePageSize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/table.ts",
+      "target": "function:frontend/src/shared/lib/table.ts:buildTablePagination",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/table.ts",
+      "target": "function:frontend/src/shared/lib/table.ts:buildTablePagination",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/timeZone.ts",
+      "target": "function:frontend/src/shared/lib/timeZone.ts:browserTimeZone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/timeZone.ts",
+      "target": "function:frontend/src/shared/lib/timeZone.ts:browserTimeZone",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/lib/timeZone.ts",
+      "target": "function:frontend/src/shared/lib/timeZone.ts:resolveTimeZone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/lib/timeZone.ts",
+      "target": "function:frontend/src/shared/lib/timeZone.ts:resolveTimeZone",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/DashboardSummaryGrid.tsx",
+      "target": "function:frontend/src/shared/ui/DashboardSummaryGrid.tsx:DashboardSummaryGrid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/DashboardSummaryGrid.tsx",
+      "target": "function:frontend/src/shared/ui/DashboardSummaryGrid.tsx:DashboardSummaryGrid",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/PageHeader.tsx",
+      "target": "function:frontend/src/shared/ui/PageHeader.tsx:PageHeader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/PageHeader.tsx",
+      "target": "function:frontend/src/shared/ui/PageHeader.tsx:PageHeader",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/PageState.tsx",
+      "target": "function:frontend/src/shared/ui/PageState.tsx:PageState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/PageState.tsx",
+      "target": "function:frontend/src/shared/ui/PageState.tsx:PageState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/RouteErrorState.tsx",
+      "target": "function:frontend/src/shared/ui/RouteErrorState.tsx:RouteErrorState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/RouteErrorState.tsx",
+      "target": "function:frontend/src/shared/ui/RouteErrorState.tsx:RouteErrorState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/AnimatedContent.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/AnimatedContent.tsx:AnimatedContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/AnimatedContent.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/AnimatedContent.tsx:AnimatedContent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/AuroraBackground.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/AuroraBackground.tsx:AuroraBackground",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/AuroraBackground.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/AuroraBackground.tsx:AuroraBackground",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/AuroraBackground.tsx",
+      "target": "file:frontend/src/shared/ui/reactbits/AuroraBackground.module.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/CountUp.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/CountUp.tsx:CountUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/CountUp.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/CountUp.tsx:CountUp",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/FadeContent.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/FadeContent.tsx:FadeContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/FadeContent.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/FadeContent.tsx:FadeContent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/GradientText.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/GradientText.tsx:GradientText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/GradientText.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/GradientText.tsx:GradientText",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/GradientText.tsx",
+      "target": "file:frontend/src/shared/ui/reactbits/TextEffects.module.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/ShinyText.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/ShinyText.tsx:ShinyText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/ShinyText.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/ShinyText.tsx:ShinyText",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/ShinyText.tsx",
+      "target": "file:frontend/src/shared/ui/reactbits/TextEffects.module.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/SpotlightCard.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/SpotlightCard.tsx:SpotlightCard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/SpotlightCard.tsx",
+      "target": "function:frontend/src/shared/ui/reactbits/SpotlightCard.tsx:SpotlightCard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:frontend/src/shared/ui/reactbits/SpotlightCard.tsx",
+      "target": "file:frontend/src/shared/ui/reactbits/SpotlightCard.module.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:frontend/src/widgets/app-shell/ui/AppShell.css",
+      "target": "file:frontend/src/widgets/app-shell/ui/AppShell.tsx",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/ohs/http/admin/AdminTokenQuotaController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "list",
+          "startLine": 21,
+          "endLine": 24,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 26,
+          "endLine": 29,
+          "params": [
+            "body",
+            "request"
+          ]
+        },
+        {
+          "name": "update",
+          "startLine": 31,
+          "endLine": 36,
+          "params": [
+            "id",
+            "body",
+            "request"
+          ]
+        },
+        {
+          "name": "delete",
+          "startLine": 38,
+          "endLine": 42,
+          "params": [
+            "id",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AdminTokenQuotaController",
+          "startLine": 14,
+          "endLine": 52,
+          "methods": [
+            "list",
+            "create",
+            "update",
+            "delete"
+          ],
+          "properties": [
+            "service",
+            "users"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "list",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "create",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "update",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "delete",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "AdminTokenQuotaController",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "list",
+          "callee": "ApiResponse.success",
+          "lineNumber": 23
+        },
+        {
+          "caller": "list",
+          "callee": "service.list",
+          "lineNumber": 23
+        },
+        {
+          "caller": "list",
+          "callee": "users.resolveOperatorUserId",
+          "lineNumber": 23
+        },
+        {
+          "caller": "create",
+          "callee": "ApiResponse.success",
+          "lineNumber": 28
+        },
+        {
+          "caller": "create",
+          "callee": "service.save",
+          "lineNumber": 28
+        },
+        {
+          "caller": "create",
+          "callee": "users.resolveOperatorUserId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "create",
+          "callee": "body.rule",
+          "lineNumber": 28
+        },
+        {
+          "caller": "update",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "update",
+          "callee": "ApiResponse.success",
+          "lineNumber": 35
+        },
+        {
+          "caller": "update",
+          "callee": "service.save",
+          "lineNumber": 35
+        },
+        {
+          "caller": "update",
+          "callee": "users.resolveOperatorUserId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "update",
+          "callee": "body.rule",
+          "lineNumber": 35
+        },
+        {
+          "caller": "delete",
+          "callee": "service.delete",
+          "lineNumber": 40
+        },
+        {
+          "caller": "delete",
+          "callee": "users.resolveOperatorUserId",
+          "lineNumber": 40
+        },
+        {
+          "caller": "delete",
+          "callee": "ApiResponse.success",
+          "lineNumber": 41
+        },
+        {
+          "caller": "rule",
+          "callee": "new TokenQuotaRule",
+          "lineNumber": 49
+        },
+        {
+          "caller": "rule",
+          "callee": "limitMillions.multiply",
+          "lineNumber": 49
+        },
+        {
+          "caller": "rule",
+          "callee": "BigDecimal.valueOf",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    }
+  ]
+}

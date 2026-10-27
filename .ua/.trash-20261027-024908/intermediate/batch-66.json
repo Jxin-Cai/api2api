@@ -1,0 +1,1171 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "type": "file",
+      "name": "JdbcTokenQuotaRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "通过 JDBC 持久化统一令牌配额规则，提供作用域目标目录、准入事务行锁及成功和待结算用量的周期消耗统计。",
+      "tags": [
+        "JDBC",
+        "统一配额"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "type": "class",
+      "name": "JdbcTokenQuotaRepository",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "通过 JDBC 持久化统一令牌配额规则，提供作用域目标目录、准入事务行锁及成功和待结算用量的周期消耗统计。",
+      "tags": [
+        "JDBC",
+        "统一配额"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        16,
+        96
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findAll",
+      "type": "function",
+      "name": "findAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "按规则标识符倒序读取全部令牌配额规则。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        24,
+        26
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findApplicable",
+      "type": "function",
+      "name": "findApplicable",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "按模型组与 API 密钥筛选启用的配额规则，按标识符顺序返回以供准入校验。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        28,
+        34
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "根据规则标识符选择插入或更新作用域、目标、模型、周期、限额及启用状态，并返回持久化结果。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        36,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.delete",
+      "type": "function",
+      "name": "delete",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "按标识符物理删除配额规则，并报告是否实际删除了记录。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        54
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targets",
+      "type": "function",
+      "name": "targets",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "合并未删除的全局模型组和 API 密钥，返回包含所属用户及模型组的配额目标目录。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        56,
+        66
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targetExists",
+      "type": "function",
+      "name": "targetExists",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "根据枚举作用域选择模型组或密钥表，确认配额目标存在且未软删除。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        68,
+        72
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockCredential",
+      "type": "function",
+      "name": "lockCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "通过 SELECT FOR UPDATE 锁定密钥记录，供事务内串行处理配额准入。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        74,
+        76
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockGroup",
+      "type": "function",
+      "name": "lockGroup",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "通过 SELECT FOR UPDATE 锁定模型组记录，协调共享配额的并发准入。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        78,
+        80
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.consumed",
+      "type": "function",
+      "name": "consumed",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "summary": "按模型组或密钥、可选模型和半开时间窗口，累计成功及待结算用量的加权实际令牌数。",
+      "tags": [
+        "仓储方法",
+        "配额查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        82,
+        95
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "type": "file",
+      "name": "JdbcUsageRecordMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "实现用量记录的 JDBC 写入、软删除、分页筛选和令牌聚合，包含按凭据、模型组及用户统计实际消耗的查询。",
+      "tags": [
+        "JDBC",
+        "用量持久化"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "type": "class",
+      "name": "JdbcUsageRecordMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "实现用量记录的 JDBC 写入、软删除、分页筛选和令牌聚合，包含按凭据、模型组及用户统计实际消耗的查询。",
+      "tags": [
+        "JDBC",
+        "用量持久化"
+      ],
+      "complexity": "complex",
+      "lineRange": [
+        27,
+        308
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "将用量持久化对象映射为命名参数并插入用量记录。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        76,
+        82
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.updateById",
+      "type": "function",
+      "name": "updateById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按标识符更新用量记录的状态、令牌、延迟、客户端信息和路由失败等字段。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        84,
+        115
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.deleteById",
+      "type": "function",
+      "name": "deleteById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按标识符将用量记录标记为已删除。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        117,
+        122
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按用量记录标识符查询未删除的数据并映射为持久化对象。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        124,
+        129
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByRequestId",
+      "type": "function",
+      "name": "selectByRequestId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按请求标识符查询对应的未删除用量记录。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        131,
+        136
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByFilter",
+      "type": "function",
+      "name": "selectByFilter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按用户、凭据、渠道、模型、协议和时间条件分页查询用量记录。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        138,
+        151
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.countByFilter",
+      "type": "function",
+      "name": "countByFilter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "使用相同过滤条件统计用量记录总数，供分页响应使用。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        153,
+        158
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTotalTokensByApiCredential",
+      "type": "function",
+      "name": "sumTotalTokensByApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "汇总指定凭据未删除记录的 total_tokens 字段，空聚合返回零。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        160,
+        168
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByApiCredential",
+      "type": "function",
+      "name": "sumActualTokensByApiCredential",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "使用统一令牌权重 SQL 汇总指定凭据的实际令牌消耗，空结果返回零。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        170,
+        179
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByModelGroupAndModel",
+      "type": "function",
+      "name": "sumActualTokensByModelGroupAndModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "关联凭据与用量记录，按模型组、模型和半开时间窗口累计加权实际令牌数，并排除已删除数据。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        181,
+        198
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByOwnerGroupedByModel",
+      "type": "function",
+      "name": "sumActualTokensByOwnerGroupedByModel",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按用户和时间窗口查询实际令牌消耗，再按模型组和请求模型分组返回。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        200,
+        221
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTokensByFilter",
+      "type": "function",
+      "name": "sumTokensByFilter",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "按筛选条件分别汇总输入、输出、缓存和总令牌数，并合并用量已知标记。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        223,
+        235
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.whereClause",
+      "type": "function",
+      "name": "whereClause",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "构造始终排除已删除记录的命名参数过滤条件，支持可选身份、模型、协议和半开时间范围。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        237,
+        269
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "将用量对象的身份、路由、令牌、延迟、客户端 IP 及审计字段转换为 JDBC 命名参数。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        271,
+        301
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.nullableLong",
+      "type": "function",
+      "name": "nullableLong",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "summary": "读取 ResultSet 的可空长整数字段，区分数据库 NULL 和数值零。",
+      "tags": [
+        "仓储方法",
+        "用量查询"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        303,
+        306
+      ]
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "type": "file",
+      "name": "TokenQuotaWindowTest.java",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "summary": "覆盖业务时区下配额周期窗口与跨日历边界重置的单元测试。",
+      "tags": [
+        "单元测试",
+        "配额周期"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest",
+      "type": "class",
+      "name": "TokenQuotaWindowTest",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "summary": "覆盖业务时区下配额周期窗口与跨日历边界重置的单元测试。",
+      "tags": [
+        "单元测试",
+        "配额周期"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        9,
+        39
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest.test_uses_calendar_boundaries_when_timezone_is_shanghai",
+      "type": "function",
+      "name": "test_uses_calendar_boundaries_when_timezone_is_shanghai",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "summary": "验证上海时区下日、周等配额窗口以业务日历边界计算。",
+      "tags": [
+        "测试用例",
+        "周期边界"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        10,
+        23
+      ]
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest.test_resets_correctly_when_period_crosses_calendar_boundary",
+      "type": "function",
+      "name": "test_resets_correctly_when_period_crosses_calendar_boundary",
+      "filePath": "backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "summary": "验证跨越日历周期边界后，配额窗口的起止与重置时间正确推进。",
+      "tags": [
+        "测试用例",
+        "周期边界"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        38
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findAll",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findAll",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findApplicable",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findApplicable",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.save",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.save",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.delete",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.delete",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targets",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targets",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targetExists",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targetExists",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockCredential",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockCredential",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockGroup",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockGroup",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.consumed",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.consumed",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findAll",
+      "target": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.findApplicable",
+      "target": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targets",
+      "target": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targets",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targets",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:user_accounts",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targetExists",
+      "target": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.targetExists",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockCredential",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.lockGroup",
+      "target": "table:backend/src/main/resources/db/migration/V18__add_model_groups.sql:model_groups",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.consumed",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.save",
+      "target": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "writes_to",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java:JdbcTokenQuotaRepository.delete",
+      "target": "table:backend/src/main/resources/db/migration/V29__admin_token_quotas.sql:token_quota_rules",
+      "type": "writes_to",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/usage/model/UsageTimeRange.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/quota/JdbcTokenQuotaRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.insert",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.insert",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.updateById",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.updateById",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.deleteById",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.deleteById",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectById",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectById",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByRequestId",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByRequestId",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByFilter",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByFilter",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.countByFilter",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.countByFilter",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTotalTokensByApiCredential",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTotalTokensByApiCredential",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByApiCredential",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByApiCredential",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByModelGroupAndModel",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByModelGroupAndModel",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByOwnerGroupedByModel",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByOwnerGroupedByModel",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTokensByFilter",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTokensByFilter",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.whereClause",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.whereClause",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.params",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.params",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.nullableLong",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.nullableLong",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.insert",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.params",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.updateById",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.params",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByFilter",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.whereClause",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.countByFilter",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.whereClause",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTokensByFilter",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.whereClause",
+      "type": "calls",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.insert",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "writes_to",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.updateById",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "writes_to",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.deleteById",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "writes_to",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectById",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByRequestId",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.selectByFilter",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.countByFilter",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTotalTokensByApiCredential",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByApiCredential",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByModelGroupAndModel",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByOwnerGroupedByModel",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumTokensByFilter",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:usage_records",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByModelGroupAndModel",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java:JdbcUsageRecordMapper.sumActualTokensByOwnerGroupedByModel",
+      "target": "table:backend/src/main/resources/db/migration/V1__init_schema.sql:api_credentials",
+      "type": "reads_from",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/common/UsageTokenSqlFragments.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/ModelGroupModelUsagePO.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordPO.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageRecordQueryPO.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/usage/mapper/JdbcUsageRecordMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/usage/po/UsageTokenSummaryPO.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "target": "class:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest.test_uses_calendar_boundaries_when_timezone_is_shanghai",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest.test_uses_calendar_boundaries_when_timezone_is_shanghai",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest.test_resets_correctly_when_period_crosses_calendar_boundary",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "class:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest",
+      "target": "function:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java:TokenQuotaWindowTest.test_resets_correctly_when_period_crosses_calendar_boundary",
+      "type": "contains",
+      "weight": 1.0,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "target": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "type": "tested_by",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/application/quota/TokenQuotaWindowTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    }
+  ]
+}

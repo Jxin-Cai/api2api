@@ -1,0 +1,1342 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "file",
+      "name": "BusinessException.java",
+      "filePath": "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "summary": "应用用例抛出的业务异常，携带稳定错误码并支持附带消息或原因，供协议层转换为统一错误响应。",
+      "tags": [
+        "业务异常",
+        "错误码",
+        "应用层"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/BusinessException.java:BusinessException",
+      "type": "class",
+      "name": "BusinessException",
+      "filePath": "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "lineRange": [
+        8,
+        55
+      ],
+      "summary": "应用用例抛出的业务异常，携带稳定错误码并支持附带消息或原因，供协议层转换为统一错误响应。",
+      "tags": [
+        "业务异常",
+        "错误码",
+        "应用层"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/BusinessException.java:BusinessException",
+      "type": "function",
+      "name": "BusinessException",
+      "filePath": "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "lineRange": [
+        12,
+        15
+      ],
+      "summary": "初始化 BusinessException 的状态并建立构造约束。 同名重载接收不同参数形式。",
+      "tags": [
+        "业务异常",
+        "错误码",
+        "应用层"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/BusinessException.java:code",
+      "type": "function",
+      "name": "code",
+      "filePath": "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "lineRange": [
+        32,
+        34
+      ],
+      "summary": "返回 code 的当前值，供调用方读取。",
+      "tags": [
+        "业务异常",
+        "错误码",
+        "应用层"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/BusinessException.java:getCode",
+      "type": "function",
+      "name": "getCode",
+      "filePath": "backend/src/main/java/com/api2api/application/BusinessException.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "返回 code 的当前值，供调用方读取。",
+      "tags": [
+        "业务异常",
+        "错误码",
+        "应用层"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "type": "file",
+      "name": "ChannelEvaluationApplicationService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "summary": "编排渠道模型异步测评的提交、历史查询及周期计划，校验管理员权限并协调渠道、测评仓储、探测服务与 Cron 端口。轮询在途任务并处理超时与终态结果。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:ChannelEvaluationApplicationService",
+      "type": "class",
+      "name": "ChannelEvaluationApplicationService",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        51,
+        335
+      ],
+      "summary": "编排渠道模型异步测评的提交、历史查询及周期计划，校验管理员权限并协调渠道、测评仓储、探测服务与 Cron 端口。轮询在途任务并处理超时与终态结果。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submit",
+      "type": "function",
+      "name": "submit",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        77,
+        82
+      ],
+      "summary": "校验操作者和渠道，解析待测评模型并提交手动测评。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:history",
+      "type": "function",
+      "name": "history",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        84,
+        106
+      ],
+      "summary": "建立含筛选、排序和分页的测评查询，返回记录、总数及同窗口评分统计。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:loadSchedule",
+      "type": "function",
+      "name": "loadSchedule",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        108,
+        113
+      ],
+      "summary": "校验管理员权限后查询渠道的周期测评计划。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:upsertSchedule",
+      "type": "function",
+      "name": "upsertSchedule",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        115,
+        143
+      ],
+      "summary": "校验 Cron 和模型选择，创建或更新渠道计划并计算下次触发时间。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refreshInFlight",
+      "type": "function",
+      "name": "refreshInFlight",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        145,
+        162
+      ],
+      "summary": "按批次读取未完成测评，拉取探测状态并更新结果，支持超时失败处理。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:fireDueSchedules",
+      "type": "function",
+      "name": "fireDueSchedules",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        164,
+        180
+      ],
+      "summary": "加载已到期计划，为当前启用模型提交周期测评并推进触发时间。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submitModels",
+      "type": "function",
+      "name": "submitModels",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        182,
+        224
+      ],
+      "summary": "为选定模型创建测评聚合并异步提交探测服务，记录运行标识或提交失败。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refresh",
+      "type": "function",
+      "name": "refresh",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        226,
+        250
+      ],
+      "summary": "根据测评当前状态、运行标识和超时限制决定失败或拉取上游快照。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:applySnapshot",
+      "type": "function",
+      "name": "applySnapshot",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        252,
+        274
+      ],
+      "summary": "将探测快照转换为运行中、成功或失败的测评状态并保存。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:resolveModels",
+      "type": "function",
+      "name": "resolveModels",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "lineRange": [
+        284,
+        305
+      ],
+      "summary": "按请求列表选择渠道中启用模型，空列表表示全部；拒绝不属于渠道或未启用模型。",
+      "tags": [
+        "应用服务",
+        "渠道测评",
+        "异步任务",
+        "周期计划"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java",
+      "type": "file",
+      "name": "ChannelEvaluationProbePort.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java",
+      "summary": "定义外部探测服务端口，异步提交单个模型测评并使用运行标识查询状态，隔离网络实现。",
+      "tags": [
+        "端口接口",
+        "渠道测评",
+        "异步探测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java:ChannelEvaluationProbePort",
+      "type": "class",
+      "name": "ChannelEvaluationProbePort",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java",
+      "lineRange": [
+        6,
+        24
+      ],
+      "summary": "定义外部探测服务端口，异步提交单个模型测评并使用运行标识查询状态，隔离网络实现。",
+      "tags": [
+        "端口接口",
+        "渠道测评",
+        "异步探测"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "type": "file",
+      "name": "EvaluationCronPort.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "summary": "定义 Cron 校验及下次触发时间计算端口，将具体调度库与领域模型隔离。",
+      "tags": [
+        "端口接口",
+        "cron",
+        "依赖倒置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java:EvaluationCronPort",
+      "type": "class",
+      "name": "EvaluationCronPort",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "lineRange": [
+        11,
+        28
+      ],
+      "summary": "定义 Cron 校验及下次触发时间计算端口，将具体调度库与领域模型隔离。",
+      "tags": [
+        "端口接口",
+        "cron",
+        "依赖倒置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "type": "file",
+      "name": "ProbeRunSnapshot.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "summary": "表达外部测评任务的当前状态快照，成功时携带测评结果，失败时携带原因，执行中不携带终态信息。",
+      "tags": [
+        "数据模型",
+        "任务快照",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:ProbeRunSnapshot",
+      "type": "class",
+      "name": "ProbeRunSnapshot",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "lineRange": [
+        18,
+        43
+      ],
+      "summary": "表达外部测评任务的当前状态快照，成功时携带测评结果，失败时携带原因，执行中不携带终态信息。",
+      "tags": [
+        "数据模型",
+        "任务快照",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:running",
+      "type": "function",
+      "name": "running",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "lineRange": [
+        28,
+        30
+      ],
+      "summary": "在ProbeRunSnapshot中执行 running 操作。协调 new ProbeRunSnapshot 等调用处理输入与状态。",
+      "tags": [
+        "数据模型",
+        "任务快照",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:succeeded",
+      "type": "function",
+      "name": "succeeded",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "lineRange": [
+        32,
+        34
+      ],
+      "summary": "在ProbeRunSnapshot中执行 succeeded 操作。协调 new ProbeRunSnapshot、Objects.requireNonNull 等调用处理输入与状态。",
+      "tags": [
+        "数据模型",
+        "任务快照",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:failed",
+      "type": "function",
+      "name": "failed",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "在ProbeRunSnapshot中执行 failed 操作。协调 new ProbeRunSnapshot 等调用处理输入与状态。",
+      "tags": [
+        "数据模型",
+        "任务快照",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:findOutcome",
+      "type": "function",
+      "name": "findOutcome",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "在ProbeRunSnapshot中执行 findOutcome 操作。协调 Optional.ofNullable 等调用处理输入与状态。",
+      "tags": [
+        "数据模型",
+        "任务快照",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "type": "file",
+      "name": "ProbeSubmission.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "summary": "不可变探测提交参数，包含渠道主机、密钥引用、上游模型和探测协议格式，并校验必填项。",
+      "tags": [
+        "数据模型",
+        "探测输入",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java:ProbeSubmission",
+      "type": "class",
+      "name": "ProbeSubmission",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "lineRange": [
+        18,
+        32
+      ],
+      "summary": "不可变探测提交参数，包含渠道主机、密钥引用、上游模型和探测协议格式，并校验必填项。",
+      "tags": [
+        "数据模型",
+        "探测输入",
+        "不可变"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "type": "file",
+      "name": "LoadChannelEvaluationScheduleCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "summary": "携带操作者和渠道标识，用于读取渠道可选的周期测评计划。",
+      "tags": [
+        "命令对象",
+        "周期计划",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java:LoadChannelEvaluationScheduleCommand",
+      "type": "class",
+      "name": "LoadChannelEvaluationScheduleCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "lineRange": [
+        13,
+        30
+      ],
+      "summary": "携带操作者和渠道标识，用于读取渠道可选的周期测评计划。",
+      "tags": [
+        "命令对象",
+        "周期计划",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java:LoadChannelEvaluationScheduleCommand",
+      "type": "function",
+      "name": "LoadChannelEvaluationScheduleCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "lineRange": [
+        22,
+        29
+      ],
+      "summary": "初始化 LoadChannelEvaluationScheduleCommand 的状态并建立构造约束。",
+      "tags": [
+        "命令对象",
+        "周期计划",
+        "渠道测评"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "type": "file",
+      "name": "QueryChannelEvaluationHistoryCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "summary": "封装测评历史的操作者、渠道、模型、状态和时间窗口筛选，以及排序和分页输入。",
+      "tags": [
+        "命令对象",
+        "历史查询",
+        "分页"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java:QueryChannelEvaluationHistoryCommand",
+      "type": "class",
+      "name": "QueryChannelEvaluationHistoryCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "lineRange": [
+        17,
+        59
+      ],
+      "summary": "封装测评历史的操作者、渠道、模型、状态和时间窗口筛选，以及排序和分页输入。",
+      "tags": [
+        "命令对象",
+        "历史查询",
+        "分页"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java:QueryChannelEvaluationHistoryCommand",
+      "type": "function",
+      "name": "QueryChannelEvaluationHistoryCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "lineRange": [
+        35,
+        58
+      ],
+      "summary": "初始化 QueryChannelEvaluationHistoryCommand 的状态并建立构造约束。",
+      "tags": [
+        "命令对象",
+        "历史查询",
+        "分页"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "type": "file",
+      "name": "SubmitChannelEvaluationCommand.java",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "summary": "封装渠道测评提交输入；模型列表为空时测评渠道当前全部启用模型。",
+      "tags": [
+        "命令对象",
+        "渠道测评",
+        "模型选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java:SubmitChannelEvaluationCommand",
+      "type": "class",
+      "name": "SubmitChannelEvaluationCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "lineRange": [
+        17,
+        38
+      ],
+      "summary": "封装渠道测评提交输入；模型列表为空时测评渠道当前全部启用模型。",
+      "tags": [
+        "命令对象",
+        "渠道测评",
+        "模型选择"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java:SubmitChannelEvaluationCommand",
+      "type": "function",
+      "name": "SubmitChannelEvaluationCommand",
+      "filePath": "backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "lineRange": [
+        28,
+        37
+      ],
+      "summary": "初始化 SubmitChannelEvaluationCommand 的状态并建立构造约束。",
+      "tags": [
+        "命令对象",
+        "渠道测评",
+        "模型选择"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "class:backend/src/main/java/com/api2api/application/BusinessException.java:BusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "class:backend/src/main/java/com/api2api/application/BusinessException.java:BusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/BusinessException.java:BusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/BusinessException.java:BusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/BusinessException.java:code",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/BusinessException.java:code",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/BusinessException.java:getCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "target": "function:backend/src/main/java/com/api2api/application/BusinessException.java:getCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:ChannelEvaluationApplicationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:ChannelEvaluationApplicationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:loadSchedule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:loadSchedule",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:upsertSchedule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:upsertSchedule",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refreshInFlight",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refreshInFlight",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:fireDueSchedules",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:fireDueSchedules",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submitModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refresh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:applySnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:resolveModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/command/UpsertChannelEvaluationScheduleCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/evaluation/dto/ChannelEvaluationHistoryPage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ChannelModelSupport.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannel.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/repository/ProviderChannelRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationSchedule.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ChannelEvaluationScheduleId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationTrigger.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ProbeUpstreamFormat.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/ChannelEvaluationScheduleRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationHistoryQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java:ChannelEvaluationProbePort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationProbePort.java:ChannelEvaluationProbePort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java:EvaluationCronPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java:EvaluationCronPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/EvaluationCronPort.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationCron.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:ProbeRunSnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:ProbeRunSnapshot",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:running",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:running",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:succeeded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:succeeded",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:failed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:failed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:findOutcome",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java:findOutcome",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationOutcome.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeRunSnapshot.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java:ProbeSubmission",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java:ProbeSubmission",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderHost.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderKeyRef.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/ProbeSubmission.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/ProbeUpstreamFormat.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java:LoadChannelEvaluationScheduleCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java:LoadChannelEvaluationScheduleCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java:LoadChannelEvaluationScheduleCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java:LoadChannelEvaluationScheduleCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/LoadChannelEvaluationScheduleCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java:QueryChannelEvaluationHistoryCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java:QueryChannelEvaluationHistoryCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java:QueryChannelEvaluationHistoryCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java:QueryChannelEvaluationHistoryCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/model/EvaluationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/evaluation/repository/EvaluationSortField.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/QueryChannelEvaluationHistoryCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java:SubmitChannelEvaluationCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "class:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java:SubmitChannelEvaluationCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java:SubmitChannelEvaluationCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java:SubmitChannelEvaluationCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProviderChannelId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/evaluation/command/SubmitChannelEvaluationCommand.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submit",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submitModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:submit",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:resolveModels",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refreshInFlight",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refresh",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:refresh",
+      "target": "function:backend/src/main/java/com/api2api/application/evaluation/ChannelEvaluationApplicationService.java:applySnapshot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

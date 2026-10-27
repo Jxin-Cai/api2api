@@ -1,0 +1,770 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "file",
+      "name": "ModelGroupRepository.java",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "summary": "定义模型组保存、按标识与所有者查询、全局目录和全局名称检查，以及密钥绑定检查与软删除契约。",
+      "tags": [
+        "仓储接口",
+        "全局模型组",
+        "名称唯一性"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java:ModelGroupRepository",
+      "type": "class",
+      "name": "ModelGroupRepository",
+      "filePath": "backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "summary": "定义模型组保存、按标识与所有者查询、全局目录和全局名称检查，以及密钥绑定检查与软删除契约。",
+      "tags": [
+        "仓储接口",
+        "全局模型组",
+        "名称唯一性"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        11,
+        19
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "type": "file",
+      "name": "ModelGroupRepositoryImpl.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "将模型组聚合映射为持久化对象并选择插入或更新，提供全局目录与名称唯一性查询，同时保留旧所有者查询及删除保护。",
+      "tags": [
+        "仓储实现",
+        "全局目录",
+        "删除保护"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:ModelGroupRepositoryImpl",
+      "type": "class",
+      "name": "ModelGroupRepositoryImpl",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "将模型组聚合映射为持久化对象并选择插入或更新，提供全局目录与名称唯一性查询，同时保留旧所有者查询及删除保护。",
+      "tags": [
+        "仓储实现",
+        "全局目录",
+        "删除保护"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        18,
+        93
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findAll",
+      "type": "function",
+      "name": "findAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "读取全部未删除模型组并转换为全局目录。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        28
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "将模型组转换为数据库对象，根据标识是否存在选择插入或更新。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        30,
+        39
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "按模型组标识读取未删除数据并恢复领域聚合。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        41,
+        45
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findByOwnerUserId",
+      "type": "function",
+      "name": "findByOwnerUserId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "将所有者标识展开为数据库查询参数，逐项转换为领域模型组列表。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        51
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:existsByOwnerAndNameExcludingId",
+      "type": "function",
+      "name": "existsByOwnerAndNameExcludingId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "保留旧所有者范围的模型组名称重复检查。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        53,
+        61
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:existsCredentialBinding",
+      "type": "function",
+      "name": "existsCredentialBinding",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "检查目标模型组是否仍有未删除密钥绑定。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        63,
+        66
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:softDeleteById",
+      "type": "function",
+      "name": "softDeleteById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "将模型组身份和审计时刻传给映射器执行软删除。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        68,
+        72
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:toPO",
+      "type": "function",
+      "name": "toPO",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "summary": "将模型组身份、所有者、名称、白名单和兼容日限额序列化为持久化字段，写入审计时间并标为未删除。",
+      "tags": [
+        "业务方法",
+        "仓储实现",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        74,
+        85
+      ]
+    },
+    {
+      "id": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "type": "file",
+      "name": "JdbcModelGroupMapper.java",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "使用具名参数 JDBC 保存模型白名单与兼容日限额 JSON，执行全局及所有者查询、名称与密钥绑定存在性检查及软删除。",
+      "tags": [
+        "数据访问",
+        "全局模型组",
+        "参数化查询"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:JdbcModelGroupMapper",
+      "type": "class",
+      "name": "JdbcModelGroupMapper",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "使用具名参数 JDBC 保存模型白名单与兼容日限额 JSON，执行全局及所有者查询、名称与密钥绑定存在性检查及软删除。",
+      "tags": [
+        "数据访问",
+        "全局模型组",
+        "参数化查询"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        18,
+        114
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectAll",
+      "type": "function",
+      "name": "selectAll",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "按创建时间和标识倒序读取全局未删除模型组。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        39,
+        42
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "插入模型组身份、所有者、名称、白名单及兼容日限额与审计字段。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        44,
+        50
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "按标识更新模型组配置和审计时间。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        52,
+        60
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectById",
+      "type": "function",
+      "name": "selectById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "读取指定标识的未删除模型组。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        62,
+        67
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectByOwnerUserId",
+      "type": "function",
+      "name": "selectByOwnerUserId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "按所有者查询未删除模型组并保持倒序。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        69,
+        74
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:existsByOwnerAndNameExcludingId",
+      "type": "function",
+      "name": "existsByOwnerAndNameExcludingId",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "在所有者范围内检查名称冲突，排除当前记录。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        76,
+        85
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:existsCredentialBinding",
+      "type": "function",
+      "name": "existsCredentialBinding",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "查询是否存在绑定目标组的未删除密钥。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        87,
+        93
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:softDeleteById",
+      "type": "function",
+      "name": "softDeleteById",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "将模型组标记为删除并更新修改时刻。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        95,
+        101
+      ]
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:params",
+      "type": "function",
+      "name": "params",
+      "filePath": "backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "summary": "绑定模型组 SQL 参数，缺失旧日限额时写入空 JSON 对象。",
+      "tags": [
+        "业务方法",
+        "数据访问",
+        "数据处理"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        103,
+        113
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java:ModelGroupRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java:ModelGroupRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:ModelGroupRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:ModelGroupRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findByOwnerUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:findByOwnerUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:existsByOwnerAndNameExcludingId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:existsByOwnerAndNameExcludingId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:existsCredentialBinding",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:existsCredentialBinding",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:softDeleteById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:softDeleteById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:toPO",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroup.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/model/ModelGroupName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/credential/po/ModelGroupPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:JdbcModelGroupMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:JdbcModelGroupMapper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectByOwnerUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:selectByOwnerUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:existsByOwnerAndNameExcludingId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:existsByOwnerAndNameExcludingId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:existsCredentialBinding",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:existsCredentialBinding",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:softDeleteById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:softDeleteById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:params",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/repository/credential/po/ModelGroupPO.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:save",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:toPO",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:insert",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:update",
+      "target": "function:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:params",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/credential/ModelGroupRepositoryImpl.java:ModelGroupRepositoryImpl",
+      "target": "class:backend/src/main/java/com/api2api/domain/credential/repository/ModelGroupRepository.java:ModelGroupRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/JdbcModelGroupMapper.java:JdbcModelGroupMapper",
+      "target": "class:backend/src/main/java/com/api2api/infr/repository/credential/mapper/ModelGroupMapper.java:ModelGroupMapper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

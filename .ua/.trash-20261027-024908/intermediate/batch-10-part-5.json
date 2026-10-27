@@ -1,0 +1,1383 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "type": "file",
+      "name": "JsonGatewayPayloadModelMappingAdapterTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "summary": "验证 JSON 模型重写器保留解析失败原因、区分参数错误与编程错误，并在 Bedrock 请求中保持模型字段省略。",
+      "tags": [
+        "测试",
+        "模型映射",
+        "JSON",
+        "错误处理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:JsonGatewayPayloadModelMappingAdapterTest",
+      "type": "class",
+      "name": "JsonGatewayPayloadModelMappingAdapterTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "lineRange": [
+        16,
+        80
+      ],
+      "summary": "验证 JSON 模型重写器保留解析失败原因、区分参数错误与编程错误，并在 Bedrock 请求中保持模型字段省略。",
+      "tags": [
+        "测试",
+        "模型映射",
+        "JSON",
+        "错误处理"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_preservesParseFailureCause_when_bodyIsMalformedJson",
+      "type": "function",
+      "name": "test_preservesParseFailureCause_when_bodyIsMalformedJson",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "lineRange": [
+        21,
+        31
+      ],
+      "summary": "验证JSON 格式错误保留解析异常原因。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_preservesValidationError_when_bodyIsNotJsonObject",
+      "type": "function",
+      "name": "test_preservesValidationError_when_bodyIsNotJsonObject",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "lineRange": [
+        33,
+        42
+      ],
+      "summary": "验证非对象 JSON 保留参数校验错误。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_propagatesUnexpectedFailure_when_jsonParserHasProgrammingError",
+      "type": "function",
+      "name": "test_propagatesUnexpectedFailure_when_jsonParserHasProgrammingError",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "lineRange": [
+        44,
+        55
+      ],
+      "summary": "验证解析器编程错误向外传播。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_doesNotWriteModel_when_targetIsBedrockInvokeModel",
+      "type": "function",
+      "name": "test_doesNotWriteModel_when_targetIsBedrockInvokeModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "lineRange": [
+        57,
+        68
+      ],
+      "summary": "验证Bedrock InvokeModel 不写入正文模型字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_rewritesModel_when_jsonProtocolCarriesModelInBody",
+      "type": "function",
+      "name": "test_rewritesModel_when_jsonProtocolCarriesModelInBody",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "lineRange": [
+        70,
+        79
+      ],
+      "summary": "验证普通 JSON 协议正确重写 model。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "type": "file",
+      "name": "JsonMultipartFormPayloadCodecTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "summary": "验证 multipart 表单 JSON 封套保留文本、重复字段和文件，并允许图像协议读取模型与 stream 字段及后续模型改写。",
+      "tags": [
+        "测试",
+        "multipart",
+        "序列化",
+        "图像接口"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:JsonMultipartFormPayloadCodecTest",
+      "type": "class",
+      "name": "JsonMultipartFormPayloadCodecTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        18,
+        142
+      ],
+      "summary": "验证 multipart 表单 JSON 封套保留文本、重复字段和文件，并允许图像协议读取模型与 stream 字段及后续模型改写。",
+      "tags": [
+        "测试",
+        "multipart",
+        "序列化",
+        "图像接口"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_exposesTextFieldsAsTopLevelMembers_when_encodingForm",
+      "type": "function",
+      "name": "test_exposesTextFieldsAsTopLevelMembers_when_encodingForm",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        23,
+        37
+      ],
+      "summary": "验证编码后文本字段位于封套顶层。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_writesStreamAsJsonBoolean_when_formFieldIsTextualTrue",
+      "type": "function",
+      "name": "test_writesStreamAsJsonBoolean_when_formFieldIsTextualTrue",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        39,
+        53
+      ],
+      "summary": "验证文本 true 的 stream 字段编码为布尔值。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_groupsRepeatedFieldsIntoArray_when_formRepeatsName",
+      "type": "function",
+      "name": "test_groupsRepeatedFieldsIntoArray_when_formRepeatsName",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        55,
+        69
+      ],
+      "summary": "验证重复同名表单字段合并为数组。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_roundTripsFieldsAndFiles_when_decodingOwnEnvelope",
+      "type": "function",
+      "name": "test_roundTripsFieldsAndFiles_when_decodingOwnEnvelope",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        71,
+        94
+      ],
+      "summary": "验证封套解码保留文本与文件。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_isReadableByImagesProtocolContract_when_envelopeCarriesModelAndStream",
+      "type": "function",
+      "name": "test_isReadableByImagesProtocolContract_when_envelopeCarriesModelAndStream",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        96,
+        113
+      ],
+      "summary": "验证图像协议可从封套读取 model 和 stream。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_keepsRewrittenModel_when_modelMappingAdapterEditsEnvelope",
+      "type": "function",
+      "name": "test_keepsRewrittenModel_when_modelMappingAdapterEditsEnvelope",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "lineRange": [
+        115,
+        131
+      ],
+      "summary": "验证模型重写后封套保留改写模型。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "type": "file",
+      "name": "OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "summary": "验证 Chat 与 Responses 双向请求转换，覆盖 Token 上限、文本与图像、工具重排、结构化输出、推理轮次状态及不完整历史修复。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "工具调用",
+        "推理状态"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:OpenAIChatOpenAIResponsesRequestConversionTest",
+      "type": "class",
+      "name": "OpenAIChatOpenAIResponsesRequestConversionTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        13,
+        666
+      ],
+      "summary": "验证 Chat 与 Responses 双向请求转换，覆盖 Token 上限、文本与图像、工具重排、结构化输出、推理轮次状态及不完整历史修复。",
+      "tags": [
+        "测试",
+        "协议转换",
+        "工具调用",
+        "推理状态"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsSystemMessageToSystemInputItem_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_mapsSystemMessageToSystemInputItem_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        21,
+        39
+      ],
+      "summary": "验证Chat 系统消息映射为 Responses 系统输入项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_prefersMaxCompletionTokens_when_bothTokenLimitsPresent",
+      "type": "function",
+      "name": "test_prefersMaxCompletionTokens_when_bothTokenLimitsPresent",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        41,
+        55
+      ],
+      "summary": "验证两个 Token 限制同时存在时优先 max_completion_tokens。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsSamplingParameters_when_chatTargetsReasoningModel",
+      "type": "function",
+      "name": "test_dropsSamplingParameters_when_chatTargetsReasoningModel",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        57,
+        72
+      ],
+      "summary": "验证推理模型省略不支持采样参数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_wrapsReasoningContentInThinkingTags_when_assistantHasReasoning",
+      "type": "function",
+      "name": "test_wrapsReasoningContentInThinkingTags_when_assistantHasReasoning",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        74,
+        91
+      ],
+      "summary": "验证助手 reasoning_content 包装为思考标签。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsToolCallsToFunctionCallItems_when_assistantCallsTool",
+      "type": "function",
+      "name": "test_mapsToolCallsToFunctionCallItems_when_assistantCallsTool",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        93,
+        115
+      ],
+      "summary": "验证工具调用映射为 function_call 项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsToolReplyToFunctionCallOutput_when_chatHistoryHasEmptyToolResult",
+      "type": "function",
+      "name": "test_mapsToolReplyToFunctionCallOutput_when_chatHistoryHasEmptyToolResult",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        117,
+        134
+      ],
+      "summary": "验证空工具结果映射为 function_call_output。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_flattensToolDefinitions_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_flattensToolDefinitions_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        136,
+        157
+      ],
+      "summary": "验证Chat 工具定义被展开为 Responses schema。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_convertsLegacyFunctions_when_chatUsesDeprecatedFunctionApi",
+      "type": "function",
+      "name": "test_convertsLegacyFunctions_when_chatUsesDeprecatedFunctionApi",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        159,
+        182
+      ],
+      "summary": "验证旧 functions API 被转换为工具定义。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_flattensSpecificToolChoice_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_flattensSpecificToolChoice_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        184,
+        199
+      ],
+      "summary": "验证特定工具选择被展开。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsReasoningEffortToReasoningConfig_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_mapsReasoningEffortToReasoningConfig_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        201,
+        215
+      ],
+      "summary": "验证reasoning_effort 映射为推理配置。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_flattensJsonSchemaResponseFormat_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_flattensJsonSchemaResponseFormat_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        217,
+        236
+      ],
+      "summary": "验证JSON schema 响应格式被展开。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsImageContentPart_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_mapsImageContentPart_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        238,
+        257
+      ],
+      "summary": "验证图像内容块正确映射。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_rejectsUnsupportedContentPart_when_convertingChatToResponses",
+      "type": "function",
+      "name": "test_rejectsUnsupportedContentPart_when_convertingChatToResponses",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        259,
+        272
+      ],
+      "summary": "验证不支持内容类型被明确拒绝。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsInstructionsToSystemMessage_when_convertingResponsesToChat",
+      "type": "function",
+      "name": "test_mapsInstructionsToSystemMessage_when_convertingResponsesToChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        286,
+        302
+      ],
+      "summary": "验证Responses instructions 映射为系统消息。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_appliesMinimumCompletionTokens_when_maxOutputTokensBelowFloor",
+      "type": "function",
+      "name": "test_appliesMinimumCompletionTokens_when_maxOutputTokensBelowFloor",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        304,
+        317
+      ],
+      "summary": "验证小输出预算采用目标最低完成 Token 数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_addsStreamOptions_when_responsesRequestIsStreaming",
+      "type": "function",
+      "name": "test_addsStreamOptions_when_responsesRequestIsStreaming",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        319,
+        332
+      ],
+      "summary": "验证流式请求添加 stream_options。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_attachesReasoningToToolCallingAssistant_when_reasoningItemPrecedesFunctionCall",
+      "type": "function",
+      "name": "test_attachesReasoningToToolCallingAssistant_when_reasoningItemPrecedesFunctionCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        334,
+        356
+      ],
+      "summary": "验证函数调用前推理附加到工具调用助手消息。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mergesConsecutiveFunctionCalls_when_convertingResponsesToChat",
+      "type": "function",
+      "name": "test_mergesConsecutiveFunctionCalls_when_convertingResponsesToChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        358,
+        378
+      ],
+      "summary": "验证连续函数调用合并为一个助手轮次。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsPoisonedToolCall_when_functionCallArgumentsAreTruncated",
+      "type": "function",
+      "name": "test_dropsPoisonedToolCall_when_functionCallArgumentsAreTruncated",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        380,
+        398
+      ],
+      "summary": "验证截断的工具参数调用被移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsUnansweredToolCall_when_normalizingConvertedHistory",
+      "type": "function",
+      "name": "test_dropsUnansweredToolCall_when_normalizingConvertedHistory",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        400,
+        415
+      ],
+      "summary": "验证无回复的工具调用从历史清理。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_renestsFunctionToolAndDropsServerTool_when_convertingResponsesToChat",
+      "type": "function",
+      "name": "test_renestsFunctionToolAndDropsServerTool_when_convertingResponsesToChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        417,
+        438
+      ],
+      "summary": "验证函数工具重新嵌套且移除服务器工具。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsToolChoice_when_targetFunctionToolWasDropped",
+      "type": "function",
+      "name": "test_dropsToolChoice_when_targetFunctionToolWasDropped",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        440,
+        454
+      ],
+      "summary": "验证已删除工具的选择被移除。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_renestsSpecificToolChoice_when_targetFunctionToolSurvives",
+      "type": "function",
+      "name": "test_renestsSpecificToolChoice_when_targetFunctionToolSurvives",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        456,
+        471
+      ],
+      "summary": "验证仍存在工具的特定选择被重新嵌套。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_renestsJsonSchemaTextFormat_when_convertingResponsesToChat",
+      "type": "function",
+      "name": "test_renestsJsonSchemaTextFormat_when_convertingResponsesToChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        473,
+        491
+      ],
+      "summary": "验证JSON schema 文本格式恢复为 Chat 响应格式。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsReasoningEffortField_when_convertingResponsesToChat",
+      "type": "function",
+      "name": "test_mapsReasoningEffortField_when_convertingResponsesToChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        493,
+        506
+      ],
+      "summary": "验证推理 effort 恢复为 Chat 字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsDeveloperRoleToSystem_when_convertingResponsesToChat",
+      "type": "function",
+      "name": "test_mapsDeveloperRoleToSystem_when_convertingResponsesToChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        508,
+        524
+      ],
+      "summary": "验证developer 角色映射为 system。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_keepsImagePart_when_responsesUserMessageContainsImage",
+      "type": "function",
+      "name": "test_keepsImagePart_when_responsesUserMessageContainsImage",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        526,
+        547
+      ],
+      "summary": "验证用户图像块被保留。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_skipsServerToolTrace_when_responsesHistoryContainsWebSearchCall",
+      "type": "function",
+      "name": "test_skipsServerToolTrace_when_responsesHistoryContainsWebSearchCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        549,
+        566
+      ],
+      "summary": "验证服务器网页搜索轨迹被跳过。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_replaysTurnReasoningOnChainedToolCall_when_reasoningEmittedOncePerTurn",
+      "type": "function",
+      "name": "test_replaysTurnReasoningOnChainedToolCall_when_reasoningEmittedOncePerTurn",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        568,
+        588
+      ],
+      "summary": "验证同轮链式工具调用复用轮次推理。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_attachesReasoningToPlainAssistantMessage_when_reasoningPrecedesAssistantText",
+      "type": "function",
+      "name": "test_attachesReasoningToPlainAssistantMessage_when_reasoningPrecedesAssistantText",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        590,
+        607
+      ],
+      "summary": "验证文本助手消息接收前置推理。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_clearsTurnReasoning_when_userMessageEndsTurn",
+      "type": "function",
+      "name": "test_clearsTurnReasoning_when_userMessageEndsTurn",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        609,
+        630
+      ],
+      "summary": "验证新用户消息清除旧轮次推理。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsBareStringItemToUserMessage_when_inputArrayContainsText",
+      "type": "function",
+      "name": "test_mapsBareStringItemToUserMessage_when_inputArrayContainsText",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "lineRange": [
+        632,
+        647
+      ],
+      "summary": "验证裸字符串输入项映射为用户消息。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "type": "file",
+      "name": "OpenAIChatResponsesResponseConversionTest.java",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "summary": "验证 Chat 与 Responses 响应转换保留推理、文本和工具输出项，并正确表达长度截断与拒绝元数据。",
+      "tags": [
+        "测试",
+        "响应转换",
+        "推理状态"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:OpenAIChatResponsesResponseConversionTest",
+      "type": "class",
+      "name": "OpenAIChatResponsesResponseConversionTest",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "lineRange": [
+        13,
+        101
+      ],
+      "summary": "验证 Chat 与 Responses 响应转换保留推理、文本和工具输出项，并正确表达长度截断与拒绝元数据。",
+      "tags": [
+        "测试",
+        "响应转换",
+        "推理状态"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:test_emitsCompleteResponsesItems_when_chatResponseContainsReasoningTextAndToolCall",
+      "type": "function",
+      "name": "test_emitsCompleteResponsesItems_when_chatResponseContainsReasoningTextAndToolCall",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "lineRange": [
+        17,
+        47
+      ],
+      "summary": "验证Chat 推理文本与工具调用生成完整 Responses 输出项。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:test_marksResponsesIncomplete_when_chatCompletionStopsAtLength",
+      "type": "function",
+      "name": "test_marksResponsesIncomplete_when_chatCompletionStopsAtLength",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "lineRange": [
+        49,
+        67
+      ],
+      "summary": "验证长度截断标记为 Responses incomplete。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:test_preservesRefusalMetadata_when_responsesResponseTargetsChat",
+      "type": "function",
+      "name": "test_preservesRefusalMetadata_when_responsesResponseTargetsChat",
+      "filePath": "backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "lineRange": [
+        69,
+        93
+      ],
+      "summary": "验证Responses 拒绝元数据映射到 Chat。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归测试"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:JsonGatewayPayloadModelMappingAdapterTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_preservesParseFailureCause_when_bodyIsMalformedJson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_preservesValidationError_when_bodyIsNotJsonObject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_propagatesUnexpectedFailure_when_jsonParserHasProgrammingError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_doesNotWriteModel_when_targetIsBedrockInvokeModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java:test_rewritesModel_when_jsonProtocolCarriesModelInBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:JsonMultipartFormPayloadCodecTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_exposesTextFieldsAsTopLevelMembers_when_encodingForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_writesStreamAsJsonBoolean_when_formFieldIsTextualTrue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_groupsRepeatedFieldsIntoArray_when_formRepeatsName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_roundTripsFieldsAndFiles_when_decodingOwnEnvelope",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_isReadableByImagesProtocolContract_when_envelopeCarriesModelAndStream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java:test_keepsRewrittenModel_when_modelMappingAdapterEditsEnvelope",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "file:backend/src/main/java/com/api2api/application/gateway/MultipartFormPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ModelName.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocolcontract/model/ParsedGatewayRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/contract/ProtocolContractRegistry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:OpenAIChatOpenAIResponsesRequestConversionTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsSystemMessageToSystemInputItem_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_prefersMaxCompletionTokens_when_bothTokenLimitsPresent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsSamplingParameters_when_chatTargetsReasoningModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_wrapsReasoningContentInThinkingTags_when_assistantHasReasoning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsToolCallsToFunctionCallItems_when_assistantCallsTool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsToolReplyToFunctionCallOutput_when_chatHistoryHasEmptyToolResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_flattensToolDefinitions_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_convertsLegacyFunctions_when_chatUsesDeprecatedFunctionApi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_flattensSpecificToolChoice_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsReasoningEffortToReasoningConfig_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_flattensJsonSchemaResponseFormat_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsImageContentPart_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_rejectsUnsupportedContentPart_when_convertingChatToResponses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsInstructionsToSystemMessage_when_convertingResponsesToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_appliesMinimumCompletionTokens_when_maxOutputTokensBelowFloor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_addsStreamOptions_when_responsesRequestIsStreaming",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_attachesReasoningToToolCallingAssistant_when_reasoningItemPrecedesFunctionCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mergesConsecutiveFunctionCalls_when_convertingResponsesToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsPoisonedToolCall_when_functionCallArgumentsAreTruncated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsUnansweredToolCall_when_normalizingConvertedHistory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_renestsFunctionToolAndDropsServerTool_when_convertingResponsesToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_dropsToolChoice_when_targetFunctionToolWasDropped",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_renestsSpecificToolChoice_when_targetFunctionToolSurvives",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_renestsJsonSchemaTextFormat_when_convertingResponsesToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsReasoningEffortField_when_convertingResponsesToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsDeveloperRoleToSystem_when_convertingResponsesToChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_keepsImagePart_when_responsesUserMessageContainsImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_skipsServerToolTrace_when_responsesHistoryContainsWebSearchCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_replaysTurnReasoningOnChainedToolCall_when_reasoningEmittedOncePerTurn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_attachesReasoningToPlainAssistantMessage_when_reasoningPrecedesAssistantText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_clearsTurnReasoning_when_userMessageEndsTurn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java:test_mapsBareStringItemToUserMessage_when_inputArrayContainsText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatOpenAIResponsesRequestConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "class:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:OpenAIChatResponsesResponseConversionTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:test_emitsCompleteResponsesItems_when_chatResponseContainsReasoningTextAndToolCall",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:test_marksResponsesIncomplete_when_chatCompletionStopsAtLength",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "function:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java:test_preservesRefusalMetadata_when_responsesResponseTargetsChat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/channel/model/ProtocolType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolConversionResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/OpenAIChatResponsesResponseConversionTest.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/protocol/model/ProtocolPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapterTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/JsonGatewayPayloadModelMappingAdapter.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:backend/src/test/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodecTest.java",
+      "target": "file:backend/src/main/java/com/api2api/infr/protocol/JsonMultipartFormPayloadCodec.java",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

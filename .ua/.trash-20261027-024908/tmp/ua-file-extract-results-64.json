@@ -1,0 +1,250 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "filesUnreadable": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "backend/src/main/java/com/api2api/application/quota/TokenQuotaWindow.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "TokenQuotaWindow",
+          "startLine": 15,
+          "endLine": 19,
+          "params": [
+            "clock",
+            "zoneId"
+          ]
+        },
+        {
+          "name": "current",
+          "startLine": 21,
+          "endLine": 36,
+          "params": [
+            "period"
+          ]
+        },
+        {
+          "name": "zoneId",
+          "startLine": 38,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TokenQuotaWindow",
+          "startLine": 10,
+          "endLine": 39,
+          "methods": [
+            "TokenQuotaWindow",
+            "current",
+            "zoneId"
+          ],
+          "properties": [
+            "clock",
+            "zone"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TokenQuotaWindow",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "current",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "zoneId",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "TokenQuotaWindow",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "TokenQuotaWindow",
+          "callee": "ZoneId.of",
+          "lineNumber": 18
+        },
+        {
+          "caller": "current",
+          "callee": "LocalDate.now",
+          "lineNumber": 22
+        },
+        {
+          "caller": "current",
+          "callee": "clock.withZone",
+          "lineNumber": 22
+        },
+        {
+          "caller": "current",
+          "callee": "today.with",
+          "lineNumber": 25
+        },
+        {
+          "caller": "current",
+          "callee": "TemporalAdjusters.previousOrSame",
+          "lineNumber": 25
+        },
+        {
+          "caller": "current",
+          "callee": "today.withDayOfMonth",
+          "lineNumber": 26
+        },
+        {
+          "caller": "current",
+          "callee": "LocalDate.of",
+          "lineNumber": 27
+        },
+        {
+          "caller": "current",
+          "callee": "start.plusDays",
+          "lineNumber": 30
+        },
+        {
+          "caller": "current",
+          "callee": "start.plusWeeks",
+          "lineNumber": 31
+        },
+        {
+          "caller": "current",
+          "callee": "start.plusMonths",
+          "lineNumber": 32
+        },
+        {
+          "caller": "current",
+          "callee": "LocalDate.of",
+          "lineNumber": 33
+        },
+        {
+          "caller": "current",
+          "callee": "UsageTimeRange.of",
+          "lineNumber": 35
+        },
+        {
+          "caller": "current",
+          "callee": "start.atStartOfDay(zone).toInstant",
+          "lineNumber": 35
+        },
+        {
+          "caller": "current",
+          "callee": "start.atStartOfDay",
+          "lineNumber": 35
+        },
+        {
+          "caller": "current",
+          "callee": "end.atStartOfDay(zone).toInstant",
+          "lineNumber": 35
+        },
+        {
+          "caller": "current",
+          "callee": "end.atStartOfDay",
+          "lineNumber": 35
+        },
+        {
+          "caller": "zoneId",
+          "callee": "zone.getId",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/quota/QuotaPeriod.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "QuotaPeriod",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "QuotaPeriod",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/main/java/com/api2api/domain/quota/TokenQuotaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "TokenQuotaRepository",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [
+            "findAll",
+            "findApplicable",
+            "save",
+            "delete",
+            "targets",
+            "targetExists",
+            "lockCredential",
+            "lockGroup",
+            "consumed"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TokenQuotaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

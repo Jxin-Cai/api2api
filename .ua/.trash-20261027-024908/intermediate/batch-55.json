@@ -1,0 +1,176 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "type": "file",
+      "name": "TokenQuotaAdminService.java",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "summary": "管理员 Token 配额规则应用服务，校验管理端权限与目标有效性，处理规则查询、保存与删除，统一输出百万 Token 单位的消费、余额及重置时间。对重复规则与已删除规则返回明确业务错误。",
+      "tags": [
+        "应用服务",
+        "token-配额",
+        "管理员权限",
+        "错误映射"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:TokenQuotaAdminService",
+      "type": "class",
+      "name": "TokenQuotaAdminService",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "lineRange": [
+        16,
+        69
+      ],
+      "summary": "管理员 Token 配额规则应用服务，校验管理端权限与目标有效性，处理规则查询、保存与删除，统一输出百万 Token 单位的消费、余额及重置时间。对重复规则与已删除规则返回明确业务错误。",
+      "tags": [
+        "应用服务",
+        "token-配额",
+        "管理员权限",
+        "错误映射"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:list",
+      "type": "function",
+      "name": "list",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "lineRange": [
+        24,
+        28
+      ],
+      "summary": "验证管理员权限，列出全部规则及可用目标，并返回配额窗口时区。",
+      "tags": [
+        "应用服务",
+        "token-配额",
+        "管理员权限",
+        "错误映射"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "lineRange": [
+        30,
+        42
+      ],
+      "summary": "验证管理员权限和目标存在性，保存规则；将重复键冲突映射为规则已存在，将空保存结果映射为规则不存在。",
+      "tags": [
+        "应用服务",
+        "token-配额",
+        "管理员权限",
+        "错误映射"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:delete",
+      "type": "function",
+      "name": "delete",
+      "filePath": "backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "lineRange": [
+        44,
+        48
+      ],
+      "summary": "验证管理员权限并删除指定规则，未命中时返回规则不存在错误。",
+      "tags": [
+        "应用服务",
+        "token-配额",
+        "管理员权限",
+        "错误映射"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:TokenQuotaAdminService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "class:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:TokenQuotaAdminService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:list",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:list",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:delete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "function:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java:delete",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "file:backend/src/main/java/com/api2api/application/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/AccessScope.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/model/UserAccountId.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:backend/src/main/java/com/api2api/application/quota/TokenQuotaAdminService.java",
+      "target": "file:backend/src/main/java/com/api2api/domain/user/repository/UserAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}
