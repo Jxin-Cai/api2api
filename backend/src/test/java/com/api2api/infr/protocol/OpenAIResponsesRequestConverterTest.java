@@ -36,7 +36,6 @@ class OpenAIResponsesRequestConverterTest {
             ((ObjectNode) request.at("/input/0")).put("type", "message");
         }
         ObjectNode expected = request.deepCopy();
-        ((ObjectNode) expected.at("/input/0")).remove("author");
         ((ObjectNode) expected.at("/input/0/content/0")).put("type", "output_text").remove("prompt_cache_breakpoint");
 
         // Act
@@ -86,7 +85,7 @@ class OpenAIResponsesRequestConverterTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
-    void test_removesOnlyAuthor_when_longHistoryContainsClientEnvelope(boolean streaming) throws Exception {
+    void test_preservesAuthorObject_when_longHistoryContainsClientEnvelope(boolean streaming) throws Exception {
         // Arrange
         ObjectNode request = objectMapper.createObjectNode().put("model", "gpt-6-astra").put("stream", streaming);
         ArrayNode input = request.putArray("input");
@@ -97,8 +96,8 @@ class OpenAIResponsesRequestConverterTest {
                 .put("phase", "commentary").put("id", "msg_1").put("status", "completed");
         message.putArray("content").addObject().put("type", "output_text").put("text", "working")
                 .putArray("annotations");
-        ObjectNode expected = request.deepCopy();
         message.putObject("author").put("role", "assistant");
+        ObjectNode expected = request.deepCopy();
         ProtocolConversionResult source = passthrough(request.toString(), streaming);
 
         // Act
@@ -111,14 +110,15 @@ class OpenAIResponsesRequestConverterTest {
     }
 
     @Test
-    void test_preservesExactBytes_when_requestUsesLatestFieldsWithoutAuthorExtension() {
+    void test_preservesExactBytes_when_requestUsesLatestAndUnknownItemFields() {
         // Arrange
         String body = """
                 { "model": "gpt-6-astra", "input": [
                     {"type":"configuration_update","reasoning":{"effort":"max"}},
                     {"type":"reasoning","id":"rs_1","encrypted_content":"opaque","summary":[]},
                     {"type":"function_call","call_id":"call_1","name":"Read","namespace":"files",
-                     "arguments":"{}","caller":{"type":"program","caller_id":"prog_1"}}
+                     "arguments":"{}","caller":{"type":"program","caller_id":"prog_1"}},
+                    {"type":"future_item","author":"agent_1","future_extension":{"enabled":true}}
                   ], "reasoning":{"context":"all_turns","mode":"pro"},
                   "prompt_cache_options":{"mode":"implicit","ttl":"30m"},
                   "access_programs":{"cyber":"standard"}, "future_extension":{"enabled":true} }
@@ -133,7 +133,7 @@ class OpenAIResponsesRequestConverterTest {
     }
 
     @Test
-    void test_preservesApplicationAuthorFields_when_normalizingToolHistory() throws Exception {
+    void test_preservesAllAuthorFields_when_forwardingToolHistory() throws Exception {
         // Arrange
         String body = """
                 {"model":"gpt-6-astra","metadata":{"author":"application"},
@@ -146,7 +146,6 @@ class OpenAIResponsesRequestConverterTest {
                     "output":[{"type":"input_text","text":"{\\"author\\":\\"Ada\\"}"}]}]}
                 """;
         ObjectNode expected = (ObjectNode) objectMapper.readTree(body);
-        ((ObjectNode) expected.at("/input/0")).remove("author");
 
         // Act
         ProtocolConversionResult result = convert(passthrough(body, false));

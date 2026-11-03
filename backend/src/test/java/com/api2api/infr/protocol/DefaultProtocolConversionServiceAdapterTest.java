@@ -20,6 +20,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class DefaultProtocolConversionServiceAdapterTest {
 
@@ -74,9 +76,8 @@ class DefaultProtocolConversionServiceAdapterTest {
     }
 
     @Test
-    void test_removesAuthor_when_responsesRequestPassesThrough() throws Exception {
+    void test_preservesAuthor_when_responsesRequestPassesThrough() {
         // Arrange
-        ObjectMapper mapper = new ObjectMapper();
         ProtocolPayload payload = ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES,
                 "{\"model\":\"gpt-6-astra\",\"input\":[{\"role\":\"user\",\"content\":\"hi\",\"author\":\"client\"}]}", false);
 
@@ -85,8 +86,31 @@ class DefaultProtocolConversionServiceAdapterTest {
                 requirement(), List.of(definition(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)));
 
         // Assert
-        assertThat(mapper.readTree(result.body()).at("/input/0")).isEqualTo(
-                mapper.readTree("{\"role\":\"user\",\"content\":\"hi\"}"));
+        assertThat(result.body()).isEqualTo(payload.body());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"gpt-6-astra,false", "gpt-6-astra,true", "gpt-6.1-sol,false", "gpt-6.1-sol,true"})
+    void test_preservesAgentMessageAuthor_when_replayingHistoryAcrossModels(String model, boolean streaming) {
+        // Arrange
+        ObjectMapper mapper = new ObjectMapper();
+        var request = mapper.createObjectNode().put("model", "gpt-6-astra").put("stream", streaming);
+        var input = request.putArray("input");
+        for (int index = 0; index < 504; index++) {
+            input.addObject().put("role", "user").put("content", "message " + index);
+        }
+        input.addObject().put("type", "agent_message").put("author", "review_agent")
+                .put("recipient", "main_agent").put("content", "Review complete");
+        request.put("model", model);
+        ProtocolPayload payload = ProtocolPayload.of(ProtocolType.OPENAI_RESPONSES, request.toString(), streaming);
+
+        // Act
+        ProtocolConversionResult result = adapter.convertRequest(payload, ProtocolType.OPENAI_RESPONSES,
+                ProtocolConversionRequest.of(streaming, false, false),
+                List.of(definition(ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES)));
+
+        // Assert
+        assertThat(result.body()).isEqualTo(payload.body());
     }
 
     @Test
@@ -109,7 +133,7 @@ class DefaultProtocolConversionServiceAdapterTest {
     }
 
     @Test
-    void test_normalizesReplayedReasoning_when_messagesConvertToResponses() throws Exception {
+    void test_preservesAuthorOnReplayedReasoning_when_messagesConvertToResponses() throws Exception {
         // Arrange
         ObjectMapper mapper = new ObjectMapper();
         var item = mapper.readTree("""
@@ -132,9 +156,7 @@ class DefaultProtocolConversionServiceAdapterTest {
                 List.of(definition(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES)));
 
         // Assert
-        assertThat(mapper.readTree(result.body()).at("/input/0")).isEqualTo(mapper.readTree("""
-                {"type":"reasoning","id":"rs_1","encrypted_content":"opaque","summary":[],"status":"completed"}
-                """));
+        assertThat(mapper.readTree(result.body()).at("/input/0")).isEqualTo(item);
     }
 
     private ProtocolConversionDefinition definition(ProtocolType sourceProtocol, ProtocolType targetProtocol) {

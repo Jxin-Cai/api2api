@@ -18,7 +18,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Converts client Responses history envelopes into public Responses request items. */
+/** Normalizes assistant text in Responses history while preserving native and extension fields. */
 final class OpenAIResponsesRequestConverter implements ProtocolMessageConverter {
 
     private static final Logger log = LoggerFactory.getLogger(OpenAIResponsesRequestConverter.class);
@@ -27,8 +27,8 @@ final class OpenAIResponsesRequestConverter implements ProtocolMessageConverter 
     private static final ProtocolConversionProgram PROGRAM = ProtocolConversionProgram.singleRule(
             ProtocolType.OPENAI_RESPONSES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST,
             "Responses client history compatibility", (source, requirement) -> normalizeInputItems(source),
-            List.of(FieldMapping.of("input[].author", "input[]",
-                    "移除客户端历史封装的 author；保留原生 Responses 字段与工具数据", MappingLossiness.PARTIAL),
+            List.of(FieldMapping.of("input[].author", "input[].author",
+                    "原样保留 author，包括 agent_message 必需的发送者身份", MappingLossiness.NONE),
                     FieldMapping.of("input[role=assistant].content[].type=input_text", "input[].content[].type=output_text",
                             "assistant 结构化历史使用输出文本类型，并移除仅输入块支持的缓存断点", MappingLossiness.PARTIAL)));
 
@@ -91,11 +91,7 @@ final class OpenAIResponsesRequestConverter implements ProtocolMessageConverter 
 
     private static ObjectNode normalizeInputItem(ObjectNode item) {
         ObjectNode normalized = null;
-        // Only strip envelope metadata, never application fields in tool data or schemas.
-        if (item.has("author")) {
-            normalized = item.deepCopy();
-            normalized.remove("author");
-        }
+        // Preserve item fields: author is required by agent_message and may be used by extensions.
         JsonNode content = item.path("content");
         if ("message".equals(item.path("type").asText("message"))
                 && "assistant".equals(item.path("role").asText()) && content.isArray()) {

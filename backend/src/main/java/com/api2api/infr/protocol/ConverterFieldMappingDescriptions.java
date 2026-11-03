@@ -23,7 +23,7 @@ final class ConverterFieldMappingDescriptions {
 
         // ===== Claude Messages → OpenAI Responses =====
         map.put(key(ProtocolType.CLAUDE_MESSAGES, ProtocolType.OPENAI_RESPONSES, ProtocolConversionDirection.REQUEST), List.of(
-                mapping("messages", "input", "消息按角色映射文本类型；工具/推理转独立输入项，移除回放条目上的 author 扩展", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
+                mapping("messages", "input", "消息按角色映射文本类型；工具/推理转独立输入项，保留回放条目上的 author 字段", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("messages[].role", "input[].role", "Direct passthrough", MappingLossiness.NONE, "MESSAGE", "DIRECT"),
                 mapping("messages[].content", "input[].content", "内容块转为 Responses 内容格式", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
                 mapping("system", "input[developer message]", "系统提示词映射为 developer 角色消息", MappingLossiness.NONE, "MESSAGE", "RESHAPE"),
