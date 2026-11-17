@@ -47,19 +47,20 @@ export function AdminKeyQuotaPanel() {
     { title: '模型每日上限', key: 'limits', render: (_, key) => {
       const active = dailyRules(key.id).filter(rule => rule.enabled);
       return active.length ? <Space wrap>{active.map(rule => <Tag key={rule.id} color={rule.limited ? 'red' : 'blue'}>
-        {rule.model || '全部合计'} · {millions(rule.limitMillions)} 百万{rule.limited ? ' · 已耗尽' : ''}
+        {rule.source === 'USER' ? '用户自设' : '管理员'} · {rule.model || '全部合计'} · {millions(rule.limitMillions)} 百万{rule.limited ? ' · 已耗尽' : ''}
       </Tag>)}</Space> : <Typography.Text type="secondary">未设置 Key 每日上限</Typography.Text>;
     } },
     { title: '操作', key: 'actions', width: 150, render: (_, key) => <Button onClick={() => setKeyId(key.id)}>配置每日上限</Button> },
   ];
   const quotaColumns: ColumnsType<QuotaRule> = [
+    { title: '来源', dataIndex: 'source', width: 100, render: source => <Tag>{source === 'USER' ? '用户自设' : '管理员设置'}</Tag> },
     { title: '模型', dataIndex: 'model', render: model => model || '全部模型合计' },
     { title: '已用 / 上限（百万）', key: 'usage', render: (_, rule) => <Space direction="vertical" size={0}>
       <Typography.Text type={rule.limited ? 'danger' : undefined}>{millions(rule.usedMillions)} / {millions(rule.limitMillions)}</Typography.Text>
       <Typography.Text type="secondary">剩余 {millions(rule.remainingMillions)}</Typography.Text>
     </Space> },
     { title: '状态', key: 'status', render: (_, rule) => <Tag color={!rule.enabled ? 'default' : rule.limited ? 'red' : 'green'}>{!rule.enabled ? '已停用' : rule.limited ? '已耗尽' : '生效中'}</Tag> },
-    { title: '操作', key: 'actions', render: (_, rule) => <Space>
+    { title: '操作', key: 'actions', render: (_, rule) => rule.source === 'USER' ? <Typography.Text type="secondary">用户管理</Typography.Text> : <Space>
       <Button size="small" onClick={() => { setEditing(rule); setFormOpen(true); }}>编辑</Button>
       <Button size="small" danger disabled={deletion.isPending} onClick={() => remove(rule)}>移除</Button>
     </Space> },
@@ -79,7 +80,7 @@ export function AdminKeyQuotaPanel() {
     <Drawer title={selectedKey ? `${selectedKey.name} · 模型每日上限` : '模型每日上限'} width={760} open={Boolean(selectedKey)} onClose={() => { setKeyId(null); setFormOpen(false); }} destroyOnHidden>
       {selectedKey ? <Space direction="vertical" size={16} style={{ width: '100%' }}>
         <Typography.Text type="secondary">{selectedKey.ownerName} · {selectedKey.id}</Typography.Text>
-        <Alert type="info" showIcon message={`每日零点（${zoneId}）重置，额度单位为百万加权 Token。`} description="未设置上限的模型仍受分组和其他限流规则约束。" />
+        <Alert type="info" showIcon message={`每日零点（${zoneId}）重置，额度单位为百万加权 Token。`} description="用户自设上限与管理员设置分别保存、同时生效。未设置上限的模型仍受分组和其他限流规则约束。" />
         <Button type="primary" icon={<PlusOutlined />} onClick={() => { setEditing(null); setFormOpen(true); }}>新增模型每日上限</Button>
         <Table rowKey="id" columns={quotaColumns} dataSource={dailyRules(selectedKey.id)} pagination={false} scroll={{ x: 620 }} locale={{ emptyText: <Empty description="此 Key 尚未设置模型每日上限" /> }} />
       </Space> : null}

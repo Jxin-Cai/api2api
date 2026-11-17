@@ -1,6 +1,6 @@
 package com.api2api.ohs.http.admin;
 
-import com.api2api.application.quota.TokenQuotaAdminService;
+import com.api2api.application.quota.TokenQuotaManagementService;
 import com.api2api.domain.quota.*;
 import com.api2api.ohs.http.ApiResponse;
 import com.api2api.ohs.http.CurrentUserContextResolver;
@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin/token-quotas")
 @RequiredArgsConstructor
 public class AdminTokenQuotaController {
-    private final TokenQuotaAdminService service;
+    private final TokenQuotaManagementService service;
     private final CurrentUserContextResolver users;
 
     @GetMapping
-    public ApiResponse<TokenQuotaAdminService.QuotaPage> list(HttpServletRequest request) {
+    public ApiResponse<TokenQuotaManagementService.QuotaPage> list(HttpServletRequest request) {
         return ApiResponse.success(service.list(users.resolveOperatorUserId(request)));
     }
 
     @PostMapping
-    public ApiResponse<TokenQuotaAdminService.RuleView> create(@Valid @RequestBody QuotaRequest body, HttpServletRequest request) {
+    public ApiResponse<TokenQuotaManagementService.RuleView> create(@Valid @RequestBody QuotaRequest body, HttpServletRequest request) {
         return ApiResponse.success(service.save(users.resolveOperatorUserId(request), body.rule(0)));
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<TokenQuotaAdminService.RuleView> update(@PathVariable long id,
+    public ApiResponse<TokenQuotaManagementService.RuleView> update(@PathVariable long id,
             @Valid @RequestBody QuotaRequest body, HttpServletRequest request) {
         if (id <= 0) throw new IllegalArgumentException("Quota rule id must be positive");
         return ApiResponse.success(service.save(users.resolveOperatorUserId(request), body.rule(id)));

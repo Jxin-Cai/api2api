@@ -13,6 +13,7 @@ export interface QuotaDraft {
 }
 export interface QuotaRule extends QuotaDraft {
   id: string;
+  source: 'ADMIN' | 'USER';
   usedMillions: number;
   remainingMillions: number;
   limited: boolean;
@@ -47,4 +48,15 @@ export async function saveQuota(id: string | null, draft: QuotaDraft): Promise<Q
 }
 export async function deleteQuota(id: string): Promise<void> {
   await apiClient.delete(`/api/admin/token-quotas/${encodeURIComponent(id)}`);
+}
+
+export type UserDailyQuotaDraft = Pick<QuotaDraft, 'model' | 'limitMillions' | 'enabled'>;
+export async function saveCredentialQuota(keyId: string, ruleId: string | null, draft: UserDailyQuotaDraft): Promise<QuotaRule> {
+  const path = `/api/api-credentials/${encodeURIComponent(keyId)}/token-quotas`;
+  return (ruleId
+    ? await apiClient.put<QuotaRule>(`${path}/${encodeURIComponent(ruleId)}`, draft)
+    : await apiClient.post<QuotaRule>(path, draft)).data;
+}
+export async function deleteCredentialQuota(keyId: string, ruleId: string): Promise<void> {
+  await apiClient.delete(`/api/api-credentials/${encodeURIComponent(keyId)}/token-quotas/${encodeURIComponent(ruleId)}`);
 }

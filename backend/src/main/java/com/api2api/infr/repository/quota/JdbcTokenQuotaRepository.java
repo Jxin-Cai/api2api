@@ -19,7 +19,8 @@ public class JdbcTokenQuotaRepository implements TokenQuotaRepository {
     private final NamedParameterJdbcTemplate jdbc;
     private final RowMapper<TokenQuotaRule> mapper = (rs, row) -> new TokenQuotaRule(
             rs.getLong("id"), QuotaScope.valueOf(rs.getString("scope")), rs.getLong("target_id"),
-            rs.getString("model"), QuotaPeriod.valueOf(rs.getString("period")), rs.getBigDecimal("limit_tokens"), rs.getBoolean("enabled"));
+            rs.getString("model"), QuotaPeriod.valueOf(rs.getString("period")), rs.getBigDecimal("limit_tokens"), rs.getBoolean("enabled"),
+            QuotaSource.valueOf(rs.getString("source")));
 
     public List<TokenQuotaRule> findAll() {
         return jdbc.query("SELECT * FROM token_quota_rules ORDER BY id DESC", mapper);
@@ -41,21 +42,29 @@ public class JdbcTokenQuotaRepository implements TokenQuotaRepository {
     public TokenQuotaRule save(TokenQuotaRule rule) {
         var params = new MapSqlParameterSource().addValue("id", rule.id()).addValue("scope", rule.scope().name())
                 .addValue("targetId", rule.targetId()).addValue("model", rule.model()).addValue("period", rule.period().name())
-                .addValue("limitTokens", rule.limitTokens()).addValue("enabled", rule.enabled());
+                .addValue("limitTokens", rule.limitTokens()).addValue("enabled", rule.enabled()).addValue("source", rule.source().name());
         String sql = rule.id() == 0 ? """
-                INSERT INTO token_quota_rules(scope, target_id, model, period, limit_tokens, enabled)
-                VALUES (:scope, :targetId, :model, :period, :limitTokens, :enabled) RETURNING *
+                INSERT INTO token_quota_rules(scope, target_id, model, period, limit_tokens, enabled, source)
+                VALUES (:scope, :targetId, :model, :period, :limitTokens, :enabled, :source) RETURNING *
                 """ : """
                 UPDATE token_quota_rules SET scope=:scope, target_id=:targetId, model=:model,
                 period=:period, limit_tokens=:limitTokens, enabled=:enabled, updated_at=now()
-                WHERE id=:id RETURNING *
+                WHERE id=:id AND source=:source
+                  AND (source='ADMIN' OR (scope=:scope AND target_id=:targetId)) RETURNING *
                 """;
         List<TokenQuotaRule> saved = jdbc.query(sql, params, mapper);
         return saved.isEmpty() ? null : saved.get(0);
     }
 
     public boolean delete(long id) {
-        return jdbc.update("DELETE FROM token_quota_rules WHERE id=:id", Map.of("id", id)) > 0;
+        return jdbc.update("DELETE FROM token_quota_rules WHERE id=:id AND source='ADMIN'", Map.of("id", id)) > 0;
+    }
+
+    public boolean deleteUserRule(long id, long keyId) {
+        return jdbc.update("""
+                DELETE FROM token_quota_rules WHERE id=:id AND target_id=:keyId
+                    AND source='USER' AND scope='API_KEY' AND period='DAY'
+                """, Map.of("id", id, "keyId", keyId)) > 0;
     }
 
     public List<QuotaTarget> targets() {

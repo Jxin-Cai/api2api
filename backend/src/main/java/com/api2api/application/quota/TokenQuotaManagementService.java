@@ -2,6 +2,8 @@ package com.api2api.application.quota;
 
 import com.api2api.application.BusinessException;
 import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.model.ApiCredential;
+import com.api2api.domain.credential.model.ModelName;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.quota.*;
 import com.api2api.domain.user.model.AccessScope;
@@ -18,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class TokenQuotaAdminService {
+public class TokenQuotaManagementService {
     private static final BigDecimal MILLION = BigDecimal.valueOf(1_000_000);
     private final TokenQuotaRepository repository;
     private final UserAccountRepository users;
@@ -33,10 +35,7 @@ public class TokenQuotaAdminService {
 
     @Transactional(readOnly = true)
     public QuotaPage listForCredential(UserAccountId operator, ApiCredentialId keyId) {
-        users.findById(operator).orElseThrow(() -> new BusinessException("USER_NOT_FOUND"))
-                .assertCanAccess(AccessScope.USER_PORTAL);
-        var credential = credentials.findById(keyId).orElseThrow(() -> new BusinessException("API_CREDENTIAL_NOT_FOUND"));
-        credential.assertOwnedBy(operator);
+        var credential = ownedCredential(operator, keyId);
         var keyRules = repository.findByTarget(QuotaScope.API_KEY, keyId.value());
         var groupRules = repository.findByTarget(QuotaScope.MODEL_GROUP, credential.getModelGroupId().value());
         return new QuotaPage(Stream.concat(keyRules.stream(), groupRules.stream()).map(this::view).toList(),
@@ -46,7 +45,40 @@ public class TokenQuotaAdminService {
     @Transactional
     public RuleView save(UserAccountId operator, TokenQuotaRule rule) {
         assertAdmin(operator);
+        if (rule.source() != QuotaSource.ADMIN) throw new IllegalArgumentException("Administrator rules must have ADMIN source");
         if (!repository.targetExists(rule.scope(), rule.targetId())) throw new BusinessException("QUOTA_TARGET_NOT_FOUND", "限流对象不存在或已删除");
+        return saveRule(rule);
+    }
+
+    @Transactional
+    public RuleView saveForCredential(UserAccountId operator, ApiCredentialId keyId, TokenQuotaRule rule) {
+        if (rule.source() != QuotaSource.USER || rule.targetId() != keyId.value()) {
+            throw new IllegalArgumentException("User quota must belong to the requested key");
+        }
+        repository.lockCredential(keyId.value());
+        var credential = ownedCredential(operator, keyId);
+        if (rule.enabled()) credential.assertModelAllowed(ModelName.of(rule.model()));
+        return saveRule(rule);
+    }
+
+    @Transactional
+    public void deleteForCredential(UserAccountId operator, ApiCredentialId keyId, long ruleId) {
+        repository.lockCredential(keyId.value());
+        ownedCredential(operator, keyId);
+        if (!repository.deleteUserRule(ruleId, keyId.value())) {
+            throw new BusinessException("QUOTA_RULE_NOT_FOUND", "用户自设规则不存在，请刷新后重试");
+        }
+    }
+
+    private ApiCredential ownedCredential(UserAccountId operator, ApiCredentialId keyId) {
+        users.findById(operator).orElseThrow(() -> new BusinessException("USER_NOT_FOUND"))
+                .assertCanAccess(AccessScope.USER_PORTAL);
+        var credential = credentials.findById(keyId).orElseThrow(() -> new BusinessException("API_CREDENTIAL_NOT_FOUND"));
+        credential.assertOwnedBy(operator);
+        return credential;
+    }
+
+    private RuleView saveRule(TokenQuotaRule rule) {
         TokenQuotaRule saved;
         try {
             saved = repository.save(rule);
@@ -70,7 +102,7 @@ public class TokenQuotaAdminService {
                 rule.limitTokens().divide(MILLION), rule.enabled(), consumed.divide(MILLION),
                 rule.limitTokens().subtract(consumed).max(BigDecimal.ZERO).divide(MILLION),
                 rule.enabled() && consumed.compareTo(rule.limitTokens()) >= 0,
-                rule.period() == QuotaPeriod.LIFETIME ? null : window.endExclusive());
+                rule.period() == QuotaPeriod.LIFETIME ? null : window.endExclusive(), rule.source());
     }
 
     private void assertAdmin(UserAccountId operator) {
@@ -80,6 +112,6 @@ public class TokenQuotaAdminService {
 
     public record RuleView(String id, QuotaScope scope, String targetId, String model, QuotaPeriod period,
                            BigDecimal limitMillions, boolean enabled, BigDecimal usedMillions, BigDecimal remainingMillions,
-                           boolean limited, Instant resetAt) {}
+                           boolean limited, Instant resetAt, QuotaSource source) {}
     public record QuotaPage(List<RuleView> rules, List<QuotaTarget> targets, String zoneId) {}
 }

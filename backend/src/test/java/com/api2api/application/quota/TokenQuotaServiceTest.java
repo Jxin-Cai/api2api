@@ -122,6 +122,30 @@ class TokenQuotaServiceTest {
         assertThatCode(() -> nextDay.assertAvailable(credential, model)).doesNotThrowAnyException();
     }
 
+    @ParameterizedTest
+    @EnumSource(QuotaSource.class)
+    void test_enforces_both_sources_when_same_key_model_has_user_and_admin_limits(QuotaSource exhaustedSource) {
+        // Arrange
+        var admin = new TokenQuotaRule(1, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.TEN, true);
+        var user = new TokenQuotaRule(2, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.TEN, true, QuotaSource.USER);
+        when(repository.findApplicable(20, 10)).thenReturn(List.of(admin, user));
+        when(repository.consumed(any(), any())).thenAnswer(call ->
+                ((TokenQuotaRule) call.getArgument(0)).source() == exhaustedSource ? BigDecimal.TEN : BigDecimal.ZERO);
+        // Act / Assert
+        assertThatThrownBy(() -> service.assertAvailable(credential, model)).isInstanceOf(TokenQuotaExceededException.class);
+    }
+
+    @Test
+    void test_keeps_admin_limit_when_user_disables_their_own_limit() {
+        // Arrange
+        var admin = new TokenQuotaRule(1, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.TEN, true);
+        var user = new TokenQuotaRule(2, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.valueOf(100), false, QuotaSource.USER);
+        when(repository.findApplicable(20, 10)).thenReturn(List.of(user, admin));
+        when(repository.consumed(eq(admin), any())).thenReturn(BigDecimal.TEN);
+        // Act / Assert
+        assertThatThrownBy(() -> service.assertAvailable(credential, model)).isInstanceOf(TokenQuotaExceededException.class);
+    }
+
     @Test
     void test_allows_request_when_consumption_is_below_limit() {
         // Arrange

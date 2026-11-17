@@ -9,7 +9,6 @@ import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
-import com.api2api.application.quota.TokenQuotaAdminService;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.usage.model.UsageTimeRange;
@@ -73,16 +72,6 @@ public class ApiCredentialController {
 
     @NonNull
     private final DashboardTimeWindowHelper timeWindowHelper;
-
-    @NonNull
-    private final TokenQuotaAdminService tokenQuotaService;
-
-    @GetMapping("/{api-credential-id}/token-quotas")
-    public ApiResponse<TokenQuotaAdminService.QuotaPage> listQuotas(
-            @PathVariable("api-credential-id") Long credentialId, HttpServletRequest request) {
-        return ApiResponse.success(tokenQuotaService.listForCredential(
-                currentUserContextResolver.resolveCurrentUserId(request), ApiCredentialId.of(credentialId)));
-    }
 
     @GetMapping
     public ApiResponse<ApiCredentialListResponse> listMyCredentials(

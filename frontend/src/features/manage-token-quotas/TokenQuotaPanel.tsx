@@ -29,6 +29,7 @@ export function TokenQuotaPanel() {
   const targetFor = (rule: QuotaRule) => targets.find((target) => target.scope === rule.scope && target.id === rule.targetId);
   const filtered = rules.filter((rule) => rule.scope === scope && `${targetFor(rule)?.name ?? ''} ${targetFor(rule)?.ownerName ?? ''} ${rule.targetId} ${rule.model}`.toLowerCase().includes(search.toLowerCase()));
   const columns: ColumnsType<QuotaRule> = [
+    { title: '来源', dataIndex: 'source', width: 100, render: source => <Tag>{source === 'USER' ? '用户自设' : '管理员设置'}</Tag> },
     { title: '限流对象', key: 'target', width: 240, render: (_, rule) => <Space direction="vertical" size={0}>
       <Typography.Text strong>{targetFor(rule)?.name ?? '对象已删除'}</Typography.Text>
       <Typography.Text type="secondary">{targetFor(rule)?.ownerName ? `${targetFor(rule)?.ownerName} · ` : ''}{rule.targetId}</Typography.Text>
@@ -41,7 +42,7 @@ export function TokenQuotaPanel() {
     </Space> },
     { title: '状态', key: 'status', width: 100, render: (_, rule) => <Tag color={!rule.enabled ? 'default' : rule.limited ? 'red' : 'green'}>{!rule.enabled ? '已停用' : rule.limited ? '额度耗尽' : '生效中'}</Tag> },
     { title: '下次重置', dataIndex: 'resetAt', width: 180, render: (value: string | null) => value ? new Date(value).toLocaleString('zh-CN', { timeZone: zoneId, hour12: false }) : '不自动重置' },
-    { title: '操作', key: 'actions', width: 100, fixed: 'right', render: (_, rule) => <Space size={0}>
+    { title: '操作', key: 'actions', width: 100, fixed: 'right', render: (_, rule) => rule.source === 'USER' ? <Typography.Text type="secondary">用户管理</Typography.Text> : <Space size={0}>
       <Tooltip title="编辑规则"><Button type="text" icon={<EditOutlined />} aria-label={`编辑规则 ${rule.id}`} onClick={() => { setEditing(rule); setOpen(true); }} /></Tooltip>
       <Tooltip title="删除规则"><Button type="text" danger icon={<DeleteOutlined />} aria-label={`删除规则 ${rule.id}`} disabled={deletion.isPending} onClick={() => modal.confirm({
         title: '删除这条限流规则？', content: '删除后该规则不再限制请求，历史用量保留。其他规则继续生效。', okText: '删除', cancelText: '取消', okButtonProps: { danger: true }, onOk: () => deletion.mutateAsync(rule.id),

@@ -10,6 +10,7 @@ public interface TokenQuotaRepository {
     List<TokenQuotaRule> findApplicable(long groupId, long keyId);
     TokenQuotaRule save(TokenQuotaRule rule);
     boolean delete(long id);
+    boolean deleteUserRule(long id, long keyId);
     List<QuotaTarget> targets();
     boolean targetExists(QuotaScope scope, long targetId);
     void lockCredential(long keyId);

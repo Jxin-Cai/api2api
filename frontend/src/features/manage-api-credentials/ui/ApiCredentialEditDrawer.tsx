@@ -56,7 +56,7 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, groupOption
   }
 
   return (
-    <Drawer title="编辑 API Key" open={open} onClose={onClose} width={520} destroyOnHidden>
+    <Drawer title="编辑 API Key" open={open} onClose={onClose} width={680} destroyOnHidden>
       {!credential ? (
         <Alert type="info" showIcon message="请选择要编辑的 API Key" />
       ) : (
@@ -71,7 +71,7 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, groupOption
             activeKey={activeSection}
             onChange={(key): void => setActiveSection(key as ApiCredentialEditSection)}
             items={[
-              { key: 'quotas', label: 'Token 额度', children: <CredentialQuotaDetails keyId={credential.id} /> },
+              { key: 'quotas', label: 'Token 额度', children: <CredentialQuotaDetails key={credential.id} keyId={credential.id} models={credential.modelWhitelist} /> },
               {
                 key: 'name',
                 label: '名称',
