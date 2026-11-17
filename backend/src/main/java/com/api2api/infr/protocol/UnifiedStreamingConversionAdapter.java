@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,7 +159,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 state.messageFinality.putIfAbsent(state.contentOwners.getOrDefault(outputIndex, outputIndex), true);
                 ensureClaudeBlockStarted(textIndex, "text", null, null, state, clientBody);
                 writeClaudeContentDelta(textIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
-                state.textDeltaIndexes.add(textIndex);
+                state.textBuffers.computeIfAbsent(textIndex, ignored -> new StringBuilder()).append(event.path("delta").asText(""));
             }
             case "response.reasoning_summary_text.delta" -> writeResponsesSummaryText(
                     outputIndex, event.path("summary_index").asInt(0), event.path("delta").asText(""),
@@ -173,7 +174,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 state.messageFinality.putIfAbsent(state.contentOwners.getOrDefault(outputIndex, outputIndex), true);
                 ensureClaudeBlockStarted(textIndex, "text", null, null, state, clientBody);
                 writeClaudeContentDelta(textIndex, "text_delta", "text", event.path("delta").asText(""), state, clientBody);
-                state.textDeltaIndexes.add(textIndex);
+                state.textBuffers.computeIfAbsent(textIndex, ignored -> new StringBuilder()).append(event.path("delta").asText(""));
                 state.stopReason = "refusal";
             }
             case "response.output_item.added" -> {
@@ -213,6 +214,11 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             );
             case "response.content_part.done" -> handleResponsesContentPartDone(
                     event.path("part"), textIndex, state, clientBody);
+            case "response.output_text.annotation.added" -> {
+                int annotationIndex = event.path("annotation_index").asInt(0);
+                state.pendingAnnotations.computeIfAbsent(textIndex, ignored -> new TreeMap<>())
+                        .put(annotationIndex, event.path("annotation").deepCopy());
+            }
             case "response.reasoning_summary_text.done" -> writeResponsesSummaryText(
                     outputIndex, event.path("summary_index").asInt(0), event.path("text").asText(""),
                     false, state, clientBody);
@@ -242,6 +248,9 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
 
     private void rememberResponsesToolCall(int outputIndex, JsonNode item, ResponsesStreamState state) {
         state.toolNames.put(outputIndex, item.path("name").asText(""));
+        if (item.hasNonNull("call_id") && !item.path("call_id").asText().isBlank()) {
+            state.toolCallIds.put(outputIndex, item.path("call_id").asText());
+        }
         if (item.hasNonNull("namespace")) {
             state.toolNamespaces.put(outputIndex, item.path("namespace").asText());
         }
@@ -270,7 +279,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     ) throws IOException {
         boolean custom = "response.custom_tool_call_input.delta".equals(event.path("type").asText(""));
         String name = event.path("name").asText(state.toolNames.getOrDefault(outputIndex, ""));
-        String callId = event.path("call_id").asText(event.path("item_id").asText(""));
+        String callId = event.path("call_id").asText(state.toolCallIds.getOrDefault(outputIndex, ""));
         ObjectNode item = responsesToolItem(custom, callId, name);
         if (event.hasNonNull("namespace")) {
             item.set("namespace", event.get("namespace"));
@@ -279,7 +288,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         String delta = event.path("delta").asText("");
         state.toolInputBuffers.computeIfAbsent(outputIndex, ignored -> new StringBuilder()).append(delta);
         state.toolCallSeen = true;
-        if (name.isBlank()) {
+        if (name.isBlank() || callId.isBlank()) {
             return;
         }
         ensureClaudeBlockStarted(
@@ -293,9 +302,12 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         );
         if (!custom && !name.isBlank() && !"Read".equals(name) && !delta.isEmpty()
                 && !state.toolNamespaces.containsKey(outputIndex)) {
+            String pending = state.toolInputBuffers.get(outputIndex).toString()
+                    .substring(state.emittedToolInputLengths.getOrDefault(outputIndex, 0));
             writeClaudeContentDelta(
-                    outputIndex, "input_json_delta", "partial_json", delta, state, clientBody);
+                    outputIndex, "input_json_delta", "partial_json", pending, state, clientBody);
             state.toolInputDeltaIndexes.add(outputIndex);
+            state.emittedToolInputLengths.put(outputIndex, state.toolInputBuffers.get(outputIndex).length());
         }
     }
 
@@ -307,12 +319,17 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     ) throws IOException {
         boolean custom = event.path("type").asText("").contains("custom_tool_call");
         String name = event.path("name").asText(state.toolNames.getOrDefault(outputIndex, ""));
-        String callId = event.path("call_id").asText(event.path("item_id").asText(""));
+        String callId = event.path("call_id").asText(state.toolCallIds.getOrDefault(outputIndex, ""));
         ObjectNode item = responsesToolItem(custom, callId, name);
         if (event.hasNonNull("namespace")) {
             item.set("namespace", event.get("namespace"));
         }
         rememberResponsesToolCall(outputIndex, item, state);
+        String rawInput = custom ? event.path("input").asText("") : event.path("arguments").asText("");
+        if (name.isBlank() || callId.isBlank()) {
+            if (!rawInput.isEmpty()) state.toolInputBuffers.put(outputIndex, new StringBuilder(rawInput));
+            return; // item_id identifies the output item, not the callable tool invocation.
+        }
         ensureClaudeBlockStarted(
                 outputIndex,
                 "tool_use",
@@ -322,9 +339,6 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 state,
                 clientBody
         );
-        String rawInput = custom
-                ? event.path("input").asText("")
-                : event.path("arguments").asText("");
         emitCompletedResponsesToolInput(outputIndex, name, rawInput, custom, state, clientBody);
     }
 
@@ -347,6 +361,15 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
             if (custom || "Read".equals(name) || !state.toolInputDeltaIndexes.contains(outputIndex)) {
                 writeClaudeContentDelta(
                         outputIndex, "input_json_delta", "partial_json", sanitized, state, clientBody);
+            } else {
+                String emitted = buffered.substring(0, state.emittedToolInputLengths.getOrDefault(outputIndex, 0));
+                if (!completeInput.startsWith(emitted)) {
+                    throw new IOException("OpenAI Responses completed tool input differs from emitted deltas");
+                }
+                String remaining = completeInput.substring(emitted.length());
+                if (!remaining.isEmpty()) {
+                    writeClaudeContentDelta(outputIndex, "input_json_delta", "partial_json", remaining, state, clientBody);
+                }
             }
         } catch (ProtocolConversionException exception) {
             throw new IOException("OpenAI Responses tool input cannot be converted to Claude", exception);
@@ -371,6 +394,13 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         String partType = part.path("type").asText("");
         if ("output_text".equals(partType)) {
             writeResponsesTextFallback(outputIndex, part.path("text").asText(""), false, state, clientBody);
+            if (part.path("annotations").isArray()) {
+                for (int index = 0; index < part.path("annotations").size(); index++) {
+                    state.pendingAnnotations.computeIfAbsent(outputIndex, ignored -> new TreeMap<>())
+                            .put(index, part.path("annotations").get(index));
+                }
+            }
+            writeResponsesCitations(outputIndex, state, clientBody);
         } else if ("refusal".equals(partType)) {
             writeResponsesTextFallback(
                     outputIndex,
@@ -391,17 +421,43 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
     ) throws IOException {
         state.responseOutputSeen = true;
         state.messageFinality.putIfAbsent(state.contentOwners.getOrDefault(outputIndex, outputIndex), true);
-        if (text == null || text.isEmpty() || state.textDeltaIndexes.contains(outputIndex)) {
+        if (text == null || text.isEmpty()) {
             if (refusal) {
                 state.stopReason = "refusal";
             }
             return;
         }
+        StringBuilder emitted = state.textBuffers.computeIfAbsent(outputIndex, ignored -> new StringBuilder());
+        if (!text.startsWith(emitted.toString())) {
+            throw new IOException("OpenAI Responses completed text differs from emitted deltas");
+        }
+        String remaining = text.substring(emitted.length());
+        if (remaining.isEmpty()) {
+            if (refusal) state.stopReason = "refusal";
+            return;
+        }
         ensureClaudeBlockStarted(outputIndex, "text", null, null, state, clientBody);
-        writeClaudeContentDelta(outputIndex, "text_delta", "text", text, state, clientBody);
-        state.textDeltaIndexes.add(outputIndex);
+        writeClaudeContentDelta(outputIndex, "text_delta", "text", remaining, state, clientBody);
+        emitted.append(remaining);
         if (refusal) {
             state.stopReason = "refusal";
+        }
+    }
+
+    private void writeResponsesCitations(int index, ResponsesStreamState state, OutputStream clientBody) throws IOException {
+        Map<Integer, JsonNode> annotations = state.pendingAnnotations.get(index);
+        if (annotations == null) return;
+        String text = state.textBuffers.getOrDefault(index, new StringBuilder()).toString();
+        Set<JsonNode> emitted = state.emittedAnnotations.computeIfAbsent(index, ignored -> new HashSet<>());
+        for (JsonNode annotation : annotations.values()) {
+            if (emitted.contains(annotation)) continue;
+            ObjectNode citation = ResponsesCitationBridge.toClaude(objectMapper, annotation, text).orElse(null);
+            if (citation == null) continue;
+            ensureClaudeBlockStarted(index, "text", null, null, state, clientBody);
+            ObjectNode event = objectNode().put("type", "content_block_delta").put("index", state.claudeIndexFor(index));
+            event.set("delta", objectNode().put("type", "citations_delta").set("citation", citation));
+            writeSse(clientBody, "content_block_delta", event);
+            emitted.add(annotation);
         }
     }
 
@@ -778,6 +834,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         if (!state.blockTypes.containsKey(claudeIndex) || state.stoppedBlocks.containsKey(claudeIndex)) {
             return;
         }
+        writeResponsesCitations(index, state, clientBody);
         ObjectNode event = objectNode();
         event.put("type", "content_block_stop");
         event.put("index", claudeIndex);
@@ -814,15 +871,8 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
                 handleResponsesOutputItemDone(entry.getValue(), entry.getKey(), state, clientBody);
             }
         }
-        if ("incomplete".equals(status)
-                && "max_output_tokens".equals(response.path("incomplete_details").path("reason").asText())) {
-            state.stopReason = "max_tokens";
-        } else if ("content_filter".equals(response.path("incomplete_details").path("reason").asText())) {
-            state.stopReason = "refusal";
-        } else if (state.responseOutputSeen && !state.messageFinality.containsValue(true) && !state.toolCallSeen
-                && !"refusal".equals(state.stopReason)) {
-            state.stopReason = "pause_turn";
-        }
+        state.stopReason = ResponsesStopReason.resolve(response, state.toolCallSeen, "refusal".equals(state.stopReason),
+                state.responseOutputSeen && !state.messageFinality.containsValue(true));
         state.terminalEventSeen = true;
     }
 
@@ -855,7 +905,7 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         ObjectNode event = objectNode();
         event.put("type", "message_delta");
         ObjectNode delta = objectNode();
-        delta.put("stop_reason", state.toolCallSeen ? "tool_use" : state.stopReason);
+        delta.put("stop_reason", state.stopReason);
         delta.putNull("stop_sequence");
         event.set("delta", delta);
         if (state.usage != null && state.usage.usageKnown()) {
@@ -893,12 +943,16 @@ public class UnifiedStreamingConversionAdapter implements GatewayStreamingConver
         private final Map<Integer, Boolean> stoppedBlocks = new HashMap<>();
         private final Map<Integer, Integer> claudeIndexes = new HashMap<>();
         private final Map<Integer, String> toolNames = new HashMap<>();
+        private final Map<Integer, String> toolCallIds = new HashMap<>();
         private final Map<Integer, String> toolNamespaces = new HashMap<>();
         private final Map<Integer, StringBuilder> toolInputBuffers = new HashMap<>();
+        private final Map<Integer, Integer> emittedToolInputLengths = new HashMap<>();
+        private final Map<Integer, StringBuilder> textBuffers = new HashMap<>();
+        private final Map<Integer, Map<Integer, JsonNode>> pendingAnnotations = new HashMap<>();
+        private final Map<Integer, Set<JsonNode>> emittedAnnotations = new HashMap<>();
         private final Map<Integer, JsonNode> addedCompactionItems = new HashMap<>();
         private final Set<Integer> toolInputDeltaIndexes = new HashSet<>();
         private final Set<Integer> toolInputCompletedIndexes = new HashSet<>();
-        private final Set<Integer> textDeltaIndexes = new HashSet<>();
         private final Set<Integer> thinkingDeltaIndexes = new HashSet<>();
         private final Map<String, StringBuilder> summaryTextBuffers = new HashMap<>();
         private final Set<Integer> completedOutputIndexes = new HashSet<>();

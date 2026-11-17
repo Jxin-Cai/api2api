@@ -189,7 +189,7 @@ class ClaudeResponsesCurrentSchemaTest {
 
         // Assert
         assertThat(result.at("/text/format")).isEqualTo(mapper.readTree("""
-                {"type":"json_schema","name":"json_response",
+                {"type":"json_schema","name":"json_response","strict":false,
                  "schema":{"type":"object","properties":{"answer":{"type":"string"}}}}
                 """));
     }

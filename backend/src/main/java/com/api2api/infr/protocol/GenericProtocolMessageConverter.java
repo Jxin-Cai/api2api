@@ -37,7 +37,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             "model", "messages", "max_tokens", "system", "stream", "temperature", "top_p", "top_k",
             "stop_sequences", "metadata", "service_tier", "speed", "thinking", "reasoning", "tool_choice",
             "tools", "cache_control", "output_config", "output_format", "context_management", "container", "mcp_servers",
-            "inference_geo", "diagnostics", "compaction"
+            "inference_geo", "diagnostics", "compaction", "thread", "fallbacks", "fallback_credit_token"
     );
 
     private static final String RESPONSES_OPAQUE_STATE_PLACEHOLDER = ResponsesProtocolConstants.OPAQUE_STATE_PLACEHOLDER;
@@ -851,6 +851,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         if (source.hasNonNull("compaction")) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_EXPLICIT_COMPACTION_NOT_SUPPORTED");
         }
+        if (source.hasNonNull("thread")) {
+            throw new ProtocolConversionException("CLAUDE_RESPONSES_SERVER_THREAD_NOT_SUPPORTED");
+        }
+        if (source.hasNonNull("fallbacks") || source.hasNonNull("fallback_credit_token")) {
+            throw new ProtocolConversionException("CLAUDE_RESPONSES_PROVIDER_FALLBACK_NOT_SUPPORTED");
+        }
     }
 
     private String mapClaudeServiceTierToResponses(String serviceTier) {
@@ -1135,7 +1141,12 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         int previousSize = content.size();
         addClaudeTextPart(content, value, type);
         if (content.size() > previousSize) {
-            applyResponsesCacheBreakpoint((ObjectNode) content.get(content.size() - 1), source, model);
+            ObjectNode part = (ObjectNode) content.get(content.size() - 1);
+            applyResponsesCacheBreakpoint(part, source, model);
+            if ("output_text".equals(type)) {
+                ArrayNode annotations = ResponsesCitationBridge.toResponses(json.objectMapper(), source);
+                if (!annotations.isEmpty()) part.set("annotations", annotations);
+            }
         }
     }
 
@@ -1688,6 +1699,9 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
             mapped.put("description", description);
         }
         ObjectNode parameters = normalizeToolInputSchema(tool);
+        if (tool.path("strict").asBoolean(false)) {
+            parameters = ResponsesStructuredOutputSchema.normalizeStrict(parameters);
+        }
         mapped.set("parameters", parameters);
         mapped.put("strict", tool.path("strict").asBoolean(false));
         boolean deferLoading = tool.path("defer_loading").asBoolean(false);
@@ -1863,6 +1877,14 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         JsonNode schema = normalized.get("schema");
         if (schema == null || !schema.isObject()) {
             throw new ProtocolConversionException("CLAUDE_RESPONSES_OUTPUT_FORMAT_SCHEMA_REQUIRED");
+        }
+        boolean strict = normalized.hasNonNull("strict") ? normalized.path("strict").asBoolean()
+                : ResponsesStructuredOutputSchema.isStrictCompatible(schema);
+        normalized.put("strict", strict);
+        if (strict) {
+            normalized.set("schema", ResponsesStructuredOutputSchema.normalizeStrict((ObjectNode) schema));
+        } else if (!format.hasNonNull("strict") && !format.path("json_schema").hasNonNull("strict")) {
+            log.info("event=claude_responses_structured_output_non_strict reason=optional_or_open_properties");
         }
         return normalized;
     }
@@ -3723,6 +3745,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         }
         target.set("content", content);
         target.put("stop_reason", responsesStopReason(source));
+        target.putNull("stop_sequence");
         target.set("usage", responseUsageMapper.claudeUsageFromResponses(source.path("usage")));
         return target;
     }
@@ -3774,6 +3797,8 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                             ObjectNode text = json.objectNode();
                             text.put("type", "text");
                             text.put("text", part.path("text").asText(""));
+                            ArrayNode citations = ResponsesCitationBridge.toClaude(json.objectMapper(), part);
+                            if (!citations.isEmpty()) text.set("citations", citations);
                             content.add(text);
                         } else if ("refusal".equals(part.path("type").asText())) {
                             ObjectNode refusal = json.objectNode();
@@ -3893,11 +3918,16 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
         JsonNode output = source.get("output");
         boolean hasOutputItem = false;
         boolean hasFinalMessage = false;
+        boolean hasToolCall = false;
+        boolean hasRefusal = false;
         if (output != null && output.isArray()) {
             for (JsonNode item : output) {
                 hasOutputItem = true;
                 if (ResponsesToolCallBridge.isToolCall(item.path("type").asText())) {
-                    return "tool_use";
+                    hasToolCall = true;
+                }
+                for (JsonNode part : item.path("content")) {
+                    hasRefusal |= "refusal".equals(part.path("type").asText());
                 }
                 if ("message".equals(item.path("type").asText(""))
                         && !"commentary".equals(item.path("phase").asText(""))) {
@@ -3905,19 +3935,7 @@ final class GenericProtocolMessageConverter extends AbstractProtocolMessageConve
                 }
             }
         }
-        if ("incomplete".equals(source.path("status").asText())
-                && "max_output_tokens".equals(source.path("incomplete_details").path("reason").asText())) {
-            return "max_tokens";
-        }
-        if ("failed".equals(source.path("status").asText())
-                || "cancelled".equals(source.path("status").asText())
-                || "content_filter".equals(source.path("incomplete_details").path("reason").asText())) {
-            return "refusal";
-        }
-        if (hasOutputItem && !hasFinalMessage) {
-            return "pause_turn";
-        }
-        return "end_turn";
+        return ResponsesStopReason.resolve(source, hasToolCall, hasRefusal, hasOutputItem && !hasFinalMessage);
     }
 
     private void throwIfResponsesFailed(JsonNode source) {

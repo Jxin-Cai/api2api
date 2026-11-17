@@ -15,9 +15,14 @@ final class ProtocolContractDefinitions {
     static List<ProtocolContract> create(ObjectMapper objectMapper) {
         return List.of(
                 new ProtocolContract(
-                        ProtocolType.CLAUDE_MESSAGES, "Claude Messages", "Anthropic API 2023-06-01 · schema 2026-10-21",
+                        ProtocolType.CLAUDE_MESSAGES, "Claude Messages", "Anthropic API 2023-06-01 · schema 2026-11-17",
                         "Anthropic Claude Messages API，支持多轮对话、工具调用、推理（adaptive thinking）、流式响应、上下文缓存、代码执行、Web 搜索等能力。", "/v1/messages", objectMapper,
                         List.of(
+                        ProtocolFieldRef.of("thread", "thread", FieldType.OBJECT, false, FieldSection.MESSAGE, UsageDirection.INPUT, "服务端会话线程（Beta）", "创建或继续 Anthropic 托管线程", "create/continue 联合对象；不能直接映射 Responses conversation"),
+                        ProtocolFieldRef.of("response.stop_details.category", "response.stop_details.category", FieldType.ENUM, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "拒绝分类", "提供策略拒绝分类", "cyber、bio、frontier_llm、reasoning_extraction、general_harms 或 null"),
+                        ProtocolFieldRef.of("response.stop_details.explanation", "response.stop_details.explanation", FieldType.STRING, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "拒绝解释", "提供可读解释", "可为 null；不能从其他供应商分类推断"),
+                        ProtocolFieldRef.of("content[].citations", "content[].citations", FieldType.ARRAY, false, FieldSection.CONTENT_BLOCK, UsageDirection.OUTPUT, "文本来源引用", "保留回答的来源链接", "text 块的引用数组，含 web_search_result_location"),
+                        ProtocolFieldRef.of("stream.delta.citation", "delta.citation", FieldType.OBJECT, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "流式引用", "在文本块中追加单条引用", "content_block_delta 的 citations_delta 携带 citation"),
                         ProtocolFieldRef.of("messages[].clear_at", "messages[].clear_at", FieldType.ENUM, false, FieldSection.MESSAGE, UsageDirection.INPUT, "系统消息生效期限（Beta）", "系统消息生效期限（Beta）", "never 或 next_user_message；仅 role=system"),
                         ProtocolFieldRef.of("messages[].output_config", "messages[].output_config", FieldType.OBJECT, false, FieldSection.MESSAGE, UsageDirection.INPUT, "逐轮输出配置（Beta）", "逐轮输出配置（Beta）", "仅 role=system；format 仍须位于顶层"),
                         ProtocolFieldRef.of("messages[].output_config.effort", "messages[].output_config.effort", FieldType.ENUM, false, FieldSection.REASONING, UsageDirection.INPUT, "逐轮推理强度（Beta）", "逐轮推理强度（Beta）", "low、medium、high、xhigh、max；新用户输入后生效并持续，纯工具结果不激活更新"),
@@ -108,7 +113,7 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("model (response)", "response.model", FieldType.STRING, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "实际使用的模型标识符", "确认请求被哪个模型处理", "可能与请求中的 model 不同（如 fallback 时）"),
                         ProtocolFieldRef.of("stop_reason", "response.stop_reason", FieldType.ENUM, true, FieldSection.MESSAGE, UsageDirection.OUTPUT, "停止原因：end_turn/max_tokens/stop_sequence/tool_use/pause_turn/refusal/compaction/model_context_window_exceeded", "指示模型为何停止生成", "tool_use 表示需执行工具后继续；pause_turn 表示服务端工具迭代达到上限"),
                         ProtocolFieldRef.of("stop_sequence", "response.stop_sequence", FieldType.STRING, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "触发停止的序列文本", "当 stop_reason=stop_sequence 时返回匹配的序列", "仅在命中自定义停止序列时有值"),
-                        ProtocolFieldRef.of("stop_details", "response.stop_details", FieldType.OBJECT, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "停止详情（仅 refusal 时有值）", "提供拒绝的分类和解释", "包含 type=refusal、category（cyber/bio/null）、explanation"),
+                        ProtocolFieldRef.of("stop_details", "response.stop_details", FieldType.OBJECT, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "停止详情（仅 refusal 时有值）", "提供拒绝的分类和解释", "包含 type=refusal、category、explanation；分类包括 cyber/bio/frontier_llm/reasoning_extraction/general_harms/null"),
                         ProtocolFieldRef.of("container (response)", "response.container", FieldType.OBJECT, false, FieldSection.MESSAGE, UsageDirection.OUTPUT, "响应容器信息", "返回代码执行容器及过期时间", "包含 id 和 expires_at；未使用容器时为 null"),
                         ProtocolFieldRef.of("usage", "response.usage", FieldType.OBJECT, true, FieldSection.USAGE, UsageDirection.OUTPUT, "Token 用量统计", "报告请求消耗的 token 数量", "包含 input_tokens、output_tokens 及缓存相关字段"),
                         ProtocolFieldRef.of("usage.input_tokens", "usage.input_tokens", FieldType.INTEGER, true, FieldSection.USAGE, UsageDirection.OUTPUT, "输入 token 数", "计算输入消耗", "不含缓存部分，仅为未缓存的 token 数"),
@@ -138,12 +143,12 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("fallback_credit_token", "fallback_credit_token", FieldType.STRING, false, FieldSection.METADATA, UsageDirection.INPUT, "拒绝后的 fallback credit token（Beta）", "在符合约束的后备模型重试中按缓存读取费率结算已热前缀", "支持字符串或对象；须在原组织和 workspace 的有效期内兑换"),
                         ProtocolFieldRef.of("speed", "speed", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.INPUT, "响应速度：standard 或 fast（Beta）", "使用快速模式获得更高输出速度", "需要 beta header fast-mode-2026-02-01"),
                         ProtocolFieldRef.of("output_format (deprecated)", "output_format", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.INPUT, "旧结构化输出格式（已废弃）", "兼容迁移到 output_config.format 前的请求", "官方 SDK 0.111.0 保留；新请求使用 output_config.format"),
-                        ProtocolFieldRef.of("fallbacks", "fallbacks", FieldType.ARRAY, false, FieldSection.METADATA, UsageDirection.INPUT, "安全拒绝时的后备模型列表（Beta）", "被 classifier 拒绝时自动用后备模型重试", "需要 beta header server-side-fallback-2026-06-01"),
+                        ProtocolFieldRef.of("fallbacks", "fallbacks", FieldType.ARRAY, false, FieldSection.METADATA, UsageDirection.INPUT, "安全拒绝时的后备模型（Beta）", "按配置执行服务端重试", "后备配置数组或字符串 default；需要对应 beta header"),
                         ProtocolFieldRef.of("fallbacks[].model", "fallbacks[].model", FieldType.STRING, true, FieldSection.METADATA, UsageDirection.INPUT, "后备模型", "指定 fallback 链中的候选模型", "每项必填，可覆盖 max_tokens/thinking/output_config/speed")
                         )
                 ),
                 new ProtocolContract(
-                        ProtocolType.OPENAI_RESPONSES, "OpenAI Responses", "OpenAI API v1 · schema 2026-10-21",
+                        ProtocolType.OPENAI_RESPONSES, "OpenAI Responses", "OpenAI API v1 · schema 2026-11-17",
                         "OpenAI Responses API，支持多模态输入、内置工具（web_search、code_interpreter、file_search）、MCP 工具、推理（reasoning）、流式响应等能力。", "/v1/responses", objectMapper,
                         List.of(
                         ProtocolFieldRef.of("input[].type", "input[].type", FieldType.STRING, false, FieldSection.MESSAGE, UsageDirection.INPUT, "输入项联合类型", "输入项联合类型", "message、function_call、function_call_output、reasoning、compaction、item_reference 等；消息简写可省略"),
@@ -179,7 +184,12 @@ final class ProtocolContractDefinitions {
                         ProtocolFieldRef.of("reasoning.mode", "reasoning.mode", FieldType.STRING, false, FieldSection.REASONING, UsageDirection.BOTH, "推理执行模式", "推理执行模式", "standard 或 pro，取决于模型"),
                         ProtocolFieldRef.of("text.verbosity", "text.verbosity", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.BOTH, "文本详细程度", "文本详细程度", "low、medium、high"),
                         ProtocolFieldRef.of("prompt_cache_options.mode", "prompt_cache_options.mode", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.BOTH, "缓存断点模式", "缓存断点模式", "implicit 或 explicit；最多写入四个断点"),
-                        ProtocolFieldRef.of("prompt_cache_options.ttl", "prompt_cache_options.ttl", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.BOTH, "缓存最低存活时间", "缓存最低存活时间", "当前仅 30m，不等同于旧 retention 最大保留时间"),
+                        ProtocolFieldRef.of("prompt_cache_options.ttl", "prompt_cache_options.ttl", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.BOTH, "缓存最低存活时间", "缓存最低存活时间", "30m 或 12h，不等同于旧 retention 最大保留时间"),
+                        ProtocolFieldRef.of("image.context_compression", "image.context_compression", FieldType.ENUM, false, FieldSection.CONTENT_BLOCK, UsageDirection.BOTH, "图像上下文压缩", "配置图像上下文优化", "auto、enabled、disabled；模型支持情况由上游校验"),
+                        ProtocolFieldRef.of("moderation.policy.input.mode", "moderation.policy.input.mode", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.INPUT, "输入审核策略", "配置输入审核行为", "score 或 block"),
+                        ProtocolFieldRef.of("moderation.policy.output.mode", "moderation.policy.output.mode", FieldType.ENUM, false, FieldSection.METADATA, UsageDirection.INPUT, "输出审核策略", "配置输出审核行为", "score 或 block"),
+                        ProtocolFieldRef.of("prompt_cache_diagnostics", "prompt_cache_diagnostics", FieldType.OBJECT, false, FieldSection.METADATA, UsageDirection.OUTPUT, "缓存诊断", "返回缓存比较结果", "cache_hit、cache_miss 等诊断联合类型"),
+                        ProtocolFieldRef.of("streaming.response.output_text.annotation.added", "streaming.response.output_text.annotation.added", FieldType.STRING, false, FieldSection.STREAMING, UsageDirection.OUTPUT, "文本引用事件", "按输出项和内容块定位新增引用", "output_index/content_index/annotation_index 与 annotation"),
                         ProtocolFieldRef.of("prompt_cache_options.prewarm", "prompt_cache_options.prewarm", FieldType.BOOLEAN, false, FieldSection.METADATA, UsageDirection.BOTH, "缓存预热", "缓存预热", "只准备缓存，不生成输出"),
                         ProtocolFieldRef.of("prompt_cache_options.comparison_response_id", "prompt_cache_options.comparison_response_id", FieldType.STRING, false, FieldSection.METADATA, UsageDirection.BOTH, "缓存诊断比较对象", "缓存诊断比较对象", "Responses ID，不能直接替代 Claude message ID"),
                         ProtocolFieldRef.of("stream_options.include_obfuscation", "stream_options.include_obfuscation", FieldType.BOOLEAN, false, FieldSection.STREAMING, UsageDirection.INPUT, "流式混淆填充", "流式混淆填充", "控制流式事件中的 obfuscation 字段"),

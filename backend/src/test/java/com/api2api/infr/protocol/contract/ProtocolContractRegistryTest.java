@@ -18,6 +18,81 @@ class ProtocolContractRegistryTest {
     private final ProtocolContractRegistry registry = new ProtocolContractRegistry(new ObjectMapper());
 
     @Test
+    void test_acceptsDefaultFallbackAndThread_when_currentMessagesRequestIsParsed() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"claude-sonnet-5","max_tokens":32,"messages":[{"role":"user","content":"hello"}],
+                 "fallbacks":"default","thread":{"type":"create"}}
+                """;
+
+        // Act
+        var parsed = registry.require(ProtocolType.CLAUDE_MESSAGES).parseRequestNode(body);
+
+        // Assert
+        assertEquals(new ObjectMapper().readTree(body), parsed);
+    }
+
+    @Test
+    void test_exposesNovemberMessagesFields_when_contractIsRequested() {
+        // Arrange / Act
+        List<String> fields = fieldPaths(ProtocolType.CLAUDE_MESSAGES);
+
+        // Assert
+        assertTrue(fields.containsAll(List.of("thread", "fallback_credit_token", "response.stop_details",
+                "response.stop_details.category", "content[].citations", "delta.citation")));
+    }
+
+    @Test
+    void test_exposesNovemberResponsesFields_when_contractIsRequested() {
+        // Arrange / Act
+        List<String> fields = fieldPaths(ProtocolType.OPENAI_RESPONSES);
+
+        // Assert
+        assertTrue(fields.containsAll(List.of("image.context_compression", "moderation.policy.input.mode",
+                "moderation.policy.output.mode", "prompt_cache_diagnostics", "streaming.response.output_text.annotation.added")));
+    }
+
+    @Test
+    void test_preservesCurrentNativeSettings_when_responsesRequestIsParsed() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"gpt-6-astra","input":"hi","image":{"context_compression":"disabled"},
+                 "prompt_cache_options":{"mode":"implicit","ttl":"12h"},
+                 "moderation":{"model":"omni-moderation-latest","policy":{"input":{"mode":"block"},"output":{"mode":"score"}}}}
+                """;
+
+        // Act
+        var parsed = registry.require(ProtocolType.OPENAI_RESPONSES).parseRequestNode(body);
+
+        // Assert
+        assertEquals(new ObjectMapper().readTree(body), parsed);
+    }
+
+    @Test
+    void test_preservesObjectFallbackCredit_when_nativeMessagesUsesUnionValue() throws Exception {
+        // Arrange
+        String body = """
+                {"model":"claude-sonnet-5","max_tokens":32,"messages":[{"role":"user","content":"hello"}],
+                 "fallback_credit_token":{"token":"opaque"}}
+                """;
+
+        // Act
+        var parsed = registry.require(ProtocolType.CLAUDE_MESSAGES).parseRequestNode(body);
+
+        // Assert
+        assertEquals(new ObjectMapper().readTree(body), parsed);
+    }
+
+    @Test
+    void test_registersFallbackCreditOnce_when_nativeSchemaIsUpgraded() {
+        // Arrange / Act
+        long count = fieldPaths(ProtocolType.CLAUDE_MESSAGES).stream().filter("fallback_credit_token"::equals).count();
+
+        // Assert
+        assertEquals(1, count);
+    }
+
+    @Test
     void test_detectsReasoningCapability_when_claudeHasOnlyMessageEffort() {
         // Arrange
         String body = """
@@ -226,9 +301,9 @@ class ProtocolContractRegistryTest {
 
     @Test
     void test_reports_official_api_versions_when_five_protocols_are_registered() {
-        assertEquals("Anthropic API 2023-06-01 · schema 2026-10-21",
+        assertEquals("Anthropic API 2023-06-01 · schema 2026-11-17",
                 registry.require(ProtocolType.CLAUDE_MESSAGES).apiSpecVersion());
-        assertEquals("OpenAI API v1 · schema 2026-10-21",
+        assertEquals("OpenAI API v1 · schema 2026-11-17",
                 registry.require(ProtocolType.OPENAI_RESPONSES).apiSpecVersion());
         assertEquals("OpenAI API v1 · SDK 6.47.0",
                 registry.require(ProtocolType.OPENAI_CHAT_COMPLETIONS).apiSpecVersion());

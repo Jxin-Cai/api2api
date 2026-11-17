@@ -38,7 +38,7 @@ class ProtocolMetadataRepositoryImplTest {
         // Act
         // Assert
         ProtocolMetadata metadata = repository.findByProtocolType(ProtocolType.CLAUDE_MESSAGES).orElseThrow();
-        assertThat(metadata.fieldsBySection().get(FieldSection.CONTENT_BLOCK)).hasSize(30);
+        assertThat(metadata.fieldsBySection().get(FieldSection.CONTENT_BLOCK)).hasSize(31);
 
     }
 
