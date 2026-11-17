@@ -6,6 +6,7 @@ interface ModelGroupBackendResponse {
   id: string | number;
   name?: string;
   modelWhitelist?: string[];
+  allowedChannelIds?: Array<string | number>;
   effectiveModels?: string[];
   modelDailyLimits?: Record<string, number | string>;
   modelDailyUsage?: Record<string, number | string>;
@@ -24,6 +25,7 @@ function normalizeGroup(group: ModelGroupBackendResponse): ModelGroupResponse {
     id: String(group.id),
     name: group.name ?? '',
     modelWhitelist: group.modelWhitelist ?? [],
+    allowedChannelIds: (group.allowedChannelIds ?? []).map(String),
     effectiveModels: group.effectiveModels ?? [],
     modelDailyLimits: normalizeNumberMap(group.modelDailyLimits),
     modelDailyUsage: normalizeNumberMap(group.modelDailyUsage),

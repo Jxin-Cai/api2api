@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+
 import com.api2api.domain.credential.model.*;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.quota.*;
@@ -72,6 +73,53 @@ class TokenQuotaServiceTest {
         service.assertAvailable(credential, model);
         // Assert
         verify(repository, never()).consumed(any(), any());
+    }
+
+    @Test
+    void test_limits_models_independently_when_one_key_model_exhausts_daily_budget() {
+        // Arrange
+        var exhausted = new TokenQuotaRule(1, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.TEN, true);
+        var other = new TokenQuotaRule(2, QuotaScope.API_KEY, 10, "other-model", QuotaPeriod.DAY, BigDecimal.valueOf(50), true);
+        when(repository.findApplicable(20, 10)).thenReturn(List.of(exhausted, other));
+        when(repository.consumed(eq(exhausted), any())).thenReturn(BigDecimal.TEN);
+        when(repository.consumed(eq(other), any())).thenReturn(BigDecimal.ONE);
+        // Act / Assert
+        assertThatThrownBy(() -> service.assertAvailable(credential, model)).isInstanceOf(TokenQuotaExceededException.class);
+        assertThatCode(() -> service.assertAvailable(credential, ModelName.of("other-model"))).doesNotThrowAnyException();
+    }
+
+    @Test
+    void test_keeps_other_key_available_when_first_key_exhausts_same_model() {
+        // Arrange
+        var first = new TokenQuotaRule(1, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.ONE, true);
+        var second = new TokenQuotaRule(2, QuotaScope.API_KEY, 11, model.value(), QuotaPeriod.DAY, BigDecimal.TEN, true);
+        var anotherCredential = mock(ApiCredential.class);
+        when(anotherCredential.getId()).thenReturn(ApiCredentialId.of(11L));
+        when(anotherCredential.getModelGroupId()).thenReturn(ModelGroupId.of(20L));
+        when(repository.findApplicable(20, 10)).thenReturn(List.of(first));
+        when(repository.findApplicable(20, 11)).thenReturn(List.of(second));
+        when(repository.consumed(eq(first), any())).thenReturn(BigDecimal.ONE);
+        when(repository.consumed(eq(second), any())).thenReturn(BigDecimal.ZERO);
+        // Act / Assert
+        assertThatThrownBy(() -> service.assertAvailable(credential, model)).isInstanceOf(TokenQuotaExceededException.class);
+        assertThatCode(() -> service.assertAvailable(anotherCredential, model)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void test_resets_key_model_budget_when_calendar_day_changes() {
+        // Arrange
+        var rule = new TokenQuotaRule(1, QuotaScope.API_KEY, 10, model.value(), QuotaPeriod.DAY, BigDecimal.ONE, true);
+        when(repository.findApplicable(20, 10)).thenReturn(List.of(rule));
+        var midnight = Instant.parse("2026-10-27T16:00:00Z");
+        when(repository.consumed(eq(rule), any())).thenAnswer(call -> {
+            com.api2api.domain.usage.model.UsageTimeRange window = call.getArgument(1);
+            return window.startInclusive().isBefore(midnight) ? BigDecimal.ONE : BigDecimal.ZERO;
+        });
+        var nextDay = new TokenQuotaService(repository, mock(ApiCredentialRepository.class),
+                new TokenQuotaWindow(Clock.fixed(midnight, ZoneOffset.UTC), "Asia/Shanghai"));
+        // Act / Assert
+        assertThatThrownBy(() -> service.assertAvailable(credential, model)).isInstanceOf(TokenQuotaExceededException.class);
+        assertThatCode(() -> nextDay.assertAvailable(credential, model)).doesNotThrowAnyException();
     }
 
     @Test

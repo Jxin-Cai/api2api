@@ -1,11 +1,13 @@
 package com.api2api.application.gateway;
 
 import com.api2api.application.BusinessException;
-import com.api2api.application.quota.TokenQuotaService;
+import com.api2api.application.channel.ProviderModelAvailabilityService;
 import com.api2api.application.gateway.command.InvokeGatewayCommand;
+import com.api2api.application.quota.TokenQuotaService;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
 import com.api2api.domain.credential.model.ApiCredential;
+import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.gateway.model.GatewayInvocation;
 import com.api2api.domain.gateway.model.GatewayInvocationResult;
@@ -32,8 +34,8 @@ import com.api2api.domain.routing.service.RoutingPolicyService;
 import com.api2api.domain.usage.model.UsageRecord;
 import com.api2api.domain.usage.model.UsageRecordId;
 import com.api2api.domain.usage.repository.UsageRecordRepository;
-import java.time.Clock;
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -77,6 +79,9 @@ public class GatewayInvocationApplicationService {
 
     @NonNull
     private final TokenQuotaService tokenQuotaService;
+
+    @NonNull
+    private final ProviderModelAvailabilityService modelAvailabilityService;
 
     @NonNull
     private final UsageRecordRepository usageRecordRepository;
@@ -262,7 +267,7 @@ public class GatewayInvocationApplicationService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public GatewayInvocation authenticateAndStartInvocation(InvokeGatewayCommand command) {
+    public AuthenticatedInvocation authenticateAndStartInvocation(InvokeGatewayCommand command) {
         Objects.requireNonNull(command, "Invoke gateway command must not be null");
         Instant now = Instant.now(clock);
         ConversionRequirement requirement = ConversionRequirement.of(
@@ -304,7 +309,7 @@ public class GatewayInvocationApplicationService {
 
         credential.markUsed(now);
         apiCredentialRepository.save(credential);
-        return invocation;
+        return new AuthenticatedInvocation(invocation, credential.getModelGroupId());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -332,12 +337,16 @@ public class GatewayInvocationApplicationService {
         return usage != null && usage.usageKnown() && usage.totalTokens() > 0;
     }
 
+    public record AuthenticatedInvocation(GatewayInvocation invocation, ModelGroupId modelGroupId) {}
+
     private PreparedRoute prepareRoute(InvokeGatewayCommand command) {
         TransactionTemplate tx = new TransactionTemplate(transactionManager);
-        GatewayInvocation invocation = tx.execute(status -> authenticateAndStartInvocation(command));
+        AuthenticatedInvocation authenticated = tx.execute(status -> authenticateAndStartInvocation(command));
+        GatewayInvocation invocation = authenticated.invocation();
         Instant now = Instant.now(clock);
         List<ProtocolConversionDefinition> conversionDefinitions = conversionDefinitionRepository.findAll();
-        List<ProviderChannel> channels = restoreExpiredAndFetchRoutableChannels(now);
+        List<ProviderChannel> channels = modelAvailabilityService.allowedChannels(
+                authenticated.modelGroupId(), restoreExpiredAndFetchRoutableChannels(now));
         RoutingRequest routingRequest = RoutingRequest.of(
                 command.getRequestProtocol(),
                 command.getRequestedModel(),

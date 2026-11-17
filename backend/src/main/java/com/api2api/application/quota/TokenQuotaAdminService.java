@@ -1,6 +1,8 @@
 package com.api2api.application.quota;
 
 import com.api2api.application.BusinessException;
+import com.api2api.domain.credential.model.ApiCredentialId;
+import com.api2api.domain.credential.repository.ApiCredentialRepository;
 import com.api2api.domain.quota.*;
 import com.api2api.domain.user.model.AccessScope;
 import com.api2api.domain.user.model.UserAccountId;
@@ -8,6 +10,7 @@ import com.api2api.domain.user.repository.UserAccountRepository;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -20,11 +23,24 @@ public class TokenQuotaAdminService {
     private final TokenQuotaRepository repository;
     private final UserAccountRepository users;
     private final TokenQuotaWindow windows;
+    private final ApiCredentialRepository credentials;
 
     @Transactional(readOnly = true)
     public QuotaPage list(UserAccountId operator) {
         assertAdmin(operator);
         return new QuotaPage(repository.findAll().stream().map(this::view).toList(), repository.targets(), windows.zoneId());
+    }
+
+    @Transactional(readOnly = true)
+    public QuotaPage listForCredential(UserAccountId operator, ApiCredentialId keyId) {
+        users.findById(operator).orElseThrow(() -> new BusinessException("USER_NOT_FOUND"))
+                .assertCanAccess(AccessScope.USER_PORTAL);
+        var credential = credentials.findById(keyId).orElseThrow(() -> new BusinessException("API_CREDENTIAL_NOT_FOUND"));
+        credential.assertOwnedBy(operator);
+        var keyRules = repository.findByTarget(QuotaScope.API_KEY, keyId.value());
+        var groupRules = repository.findByTarget(QuotaScope.MODEL_GROUP, credential.getModelGroupId().value());
+        return new QuotaPage(Stream.concat(keyRules.stream(), groupRules.stream()).map(this::view).toList(),
+                List.of(), windows.zoneId());
     }
 
     @Transactional

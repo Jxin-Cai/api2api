@@ -1,5 +1,6 @@
 package com.api2api.domain.credential.model;
 
+import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.user.model.UserAccountId;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -16,6 +17,7 @@ public final class ModelGroup {
     private ModelGroupName name;
     private ModelWhitelist modelWhitelist;
     private ModelDailyLimits modelDailyLimits;
+    private Set<ProviderChannelId> allowedChannelIds = Set.of();
     private final Instant createdAt;
     private Instant updatedAt;
 
@@ -58,6 +60,20 @@ public final class ModelGroup {
         this.modelDailyLimits = modelDailyLimits;
         this.updatedAt = now;
     }
+
+    /** An empty allowlist denies every channel, including newly created channels. */
+    public void changeAllowedChannels(Set<ProviderChannelId> channelIds, Instant now) {
+        Set<ProviderChannelId> next = Set.copyOf(Objects.requireNonNull(channelIds, "Allowed channels must not be null"));
+        Objects.requireNonNull(now, "Current time must not be null");
+        if (!allowedChannelIds.equals(next)) {
+            allowedChannelIds = next;
+            updatedAt = now;
+        }
+    }
+
+    public Set<ProviderChannelId> getAllowedChannelIds() { return allowedChannelIds; }
+
+    public boolean allowsChannel(ProviderChannelId channelId) { return allowedChannelIds.contains(channelId); }
 
     public void assertOwnedBy(UserAccountId userId) {
         if (!ownerUserId.equals(Objects.requireNonNull(userId, "User id must not be null"))) {

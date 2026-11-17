@@ -82,7 +82,7 @@ public class GatewayProtocolController {
     ) {
         ApiKeyHash keyHash = apiKeyHashHelper.hashGatewayApiKey(authorization, apiKey);
         ApiCredential credential = apiCredentialApplicationService.authenticateForModelListing(keyHash);
-        Set<ModelName> availableModels = modelAvailabilityService.availableModels();
+        Set<ModelName> availableModels = modelAvailabilityService.availableModels(credential.getModelGroupId());
         long createdAt = credential.getCreatedAt().getEpochSecond();
         List<GatewayModelResponse> models = credential.getModelWhitelist().models().stream()
                 .filter(availableModels::contains)

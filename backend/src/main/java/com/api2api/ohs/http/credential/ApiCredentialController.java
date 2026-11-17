@@ -1,13 +1,15 @@
 package com.api2api.ohs.http.credential;
 
 import com.api2api.application.credential.ApiCredentialApplicationService;
+import com.api2api.application.credential.ApiKeyMaterialProtector;
 import com.api2api.application.credential.command.ChangeApiCredentialStatusCommand;
+import com.api2api.application.credential.command.ChangeModelGroupCommand;
 import com.api2api.application.credential.command.CreateApiCredentialCommand;
 import com.api2api.application.credential.command.DeleteApiCredentialCommand;
 import com.api2api.application.credential.command.RenameApiCredentialCommand;
-import com.api2api.application.credential.command.ChangeModelGroupCommand;
 import com.api2api.application.credential.dto.ApiCredentialUsageView;
 import com.api2api.application.credential.dto.RevealedApiCredentialSecret;
+import com.api2api.application.quota.TokenQuotaAdminService;
 import com.api2api.domain.credential.model.ApiCredential;
 import com.api2api.domain.credential.model.ApiCredentialId;
 import com.api2api.domain.usage.model.UsageTimeRange;
@@ -16,14 +18,13 @@ import com.api2api.ohs.http.ApiResponse;
 import com.api2api.ohs.http.CurrentUserContextResolver;
 import com.api2api.ohs.http.IdentifierFactory;
 import com.api2api.ohs.http.credential.ApiKeyMaterialHelper.ApiKeyMaterial;
-import com.api2api.application.credential.ApiKeyMaterialProtector;
 import com.api2api.ohs.http.credential.converter.ApiCredentialHttpConverter;
 import com.api2api.ohs.http.credential.dto.ApiCredentialListResponse;
 import com.api2api.ohs.http.credential.dto.ApiCredentialResponse;
+import com.api2api.ohs.http.credential.dto.ChangeModelGroupRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialRequest;
 import com.api2api.ohs.http.credential.dto.CreateApiCredentialResponse;
 import com.api2api.ohs.http.credential.dto.RenameApiCredentialRequest;
-import com.api2api.ohs.http.credential.dto.ChangeModelGroupRequest;
 import com.api2api.ohs.http.credential.dto.RevealApiCredentialSecretResponse;
 import com.api2api.ohs.http.dashboard.DashboardTimeWindowHelper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,6 +73,16 @@ public class ApiCredentialController {
 
     @NonNull
     private final DashboardTimeWindowHelper timeWindowHelper;
+
+    @NonNull
+    private final TokenQuotaAdminService tokenQuotaService;
+
+    @GetMapping("/{api-credential-id}/token-quotas")
+    public ApiResponse<TokenQuotaAdminService.QuotaPage> listQuotas(
+            @PathVariable("api-credential-id") Long credentialId, HttpServletRequest request) {
+        return ApiResponse.success(tokenQuotaService.listForCredential(
+                currentUserContextResolver.resolveCurrentUserId(request), ApiCredentialId.of(credentialId)));
+    }
 
     @GetMapping
     public ApiResponse<ApiCredentialListResponse> listMyCredentials(

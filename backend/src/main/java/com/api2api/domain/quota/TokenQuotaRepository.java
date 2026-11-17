@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface TokenQuotaRepository {
     List<TokenQuotaRule> findAll();
+    List<TokenQuotaRule> findByTarget(QuotaScope scope, long targetId);
     List<TokenQuotaRule> findApplicable(long groupId, long keyId);
     TokenQuotaRule save(TokenQuotaRule rule);
     boolean delete(long id);

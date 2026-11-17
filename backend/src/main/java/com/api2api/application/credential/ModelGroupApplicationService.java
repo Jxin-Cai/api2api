@@ -6,8 +6,8 @@ import com.api2api.application.credential.command.CreateModelGroupCommand;
 import com.api2api.application.credential.command.DeleteModelGroupCommand;
 import com.api2api.application.credential.command.UpdateModelGroupCommand;
 import com.api2api.application.credential.dto.ModelGroupView;
-import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.model.ModelDailyLimits;
+import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelGroupName;
 import com.api2api.domain.credential.model.ModelName;
@@ -47,9 +47,8 @@ public class ModelGroupApplicationService {
     public List<ModelGroupView> listMyGroupViews(UserAccountId ownerUserId) {
         List<ModelGroup> groups = listMyGroups(ownerUserId);
         Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup = dailyUsageService.loadTodayUsageByGroup(ownerUserId);
-        Set<ModelName> availableModels = modelAvailabilityService.availableModels();
         return groups.stream()
-                .map(group -> ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()), availableModels))
+                .map(group -> ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()), modelAvailabilityService.availableModels(group)))
                 .toList();
     }
 
@@ -64,7 +63,7 @@ public class ModelGroupApplicationService {
         Map<ModelGroupId, Map<ModelName, BigDecimal>> usageByGroup =
                 dailyUsageService.loadTodayUsageByGroup(group.getOwnerUserId());
         return ModelGroupView.of(group, usageByGroup.getOrDefault(group.getId(), Map.of()),
-                modelAvailabilityService.availableModels());
+                modelAvailabilityService.availableModels(group));
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -73,6 +72,8 @@ public class ModelGroupApplicationService {
         assertNameAvailable(command.getName(), command.getModelGroupId());
         ModelGroup group = ModelGroup.create(command.getModelGroupId(), command.getOwnerUserId(),
                 command.getName(), command.getModelWhitelist(), ModelDailyLimits.empty(), now());
+        modelAvailabilityService.assertChannelsExist(command.getAllowedChannelIds());
+        group.changeAllowedChannels(command.getAllowedChannelIds(), now());
         modelGroupRepository.save(group);
         return group;
     }
@@ -83,6 +84,8 @@ public class ModelGroupApplicationService {
         ModelGroup group = loadGroup(command.getModelGroupId());
         assertNameAvailable(command.getName(), command.getModelGroupId());
         group.update(command.getName(), command.getModelWhitelist(), ModelDailyLimits.empty(), now());
+        modelAvailabilityService.assertChannelsExist(command.getAllowedChannelIds());
+        group.changeAllowedChannels(command.getAllowedChannelIds(), now());
         modelGroupRepository.save(group);
         return group;
     }

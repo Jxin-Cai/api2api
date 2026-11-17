@@ -42,8 +42,9 @@ class ProviderModelAvailabilityServiceTest {
     private static final ModelName MODEL = ModelName.of("public-model");
     private static final ProtocolType PROTOCOL = ProtocolType.OPENAI_RESPONSES;
     private final ProviderChannelRepository repository = mock(ProviderChannelRepository.class);
+    private final com.api2api.domain.credential.repository.ModelGroupRepository groups = mock(com.api2api.domain.credential.repository.ModelGroupRepository.class);
     private final ProviderModelAvailabilityService service = new ProviderModelAvailabilityService(
-            repository, Clock.fixed(NOW, ZoneOffset.UTC));
+            repository, Clock.fixed(NOW, ZoneOffset.UTC), groups);
 
     @Test
     void test_performs_only_reads_when_availability_is_requested_repeatedly() {
@@ -309,6 +310,63 @@ class ProviderModelAvailabilityServiceTest {
 
         // Assert
         assertThat(models).isEmpty();
+    }
+
+    @Test
+    void test_hides_model_when_only_unapproved_channel_supports_it() {
+        // Arrange
+        var group = groupWithChannels(Set.of(ProviderChannelId.of(2L)));
+        when(repository.findAll()).thenReturn(List.of(channel(1)));
+        when(groups.findById(group.getId())).thenReturn(java.util.Optional.of(group));
+        // Act / Assert
+        assertThat(service.availableModels(group.getId())).isEmpty();
+    }
+
+    @Test
+    void test_denies_all_routes_when_group_has_no_allowed_channels() {
+        // Arrange
+        var group = groupWithChannels(Set.of());
+        when(groups.findById(group.getId())).thenReturn(java.util.Optional.of(group));
+        // Act / Assert
+        assertThat(service.allowedChannels(group.getId(), List.of(channel(1), channel(2)))).isEmpty();
+    }
+
+    @Test
+    void test_denies_all_routes_when_group_is_deleted() {
+        // Arrange / Act / Assert
+        assertThat(service.allowedChannels(com.api2api.domain.credential.model.ModelGroupId.of(99L), List.of(channel(1)))).isEmpty();
+    }
+
+    @Test
+    void test_applies_channel_updates_when_same_key_lists_models_again() {
+        // Arrange
+        var group = groupWithChannels(Set.of(ProviderChannelId.of(1L)));
+        when(repository.findAll()).thenReturn(List.of(channel(1)));
+        when(groups.findById(group.getId())).thenReturn(java.util.Optional.of(group));
+        var before = service.availableModels(group.getId());
+        // Act
+        group.changeAllowedChannels(Set.of(ProviderChannelId.of(2L)), NOW);
+        var after = service.availableModels(group.getId());
+        // Assert
+        assertThat(List.of(before, after)).containsExactly(Set.of(MODEL), Set.of());
+    }
+
+    @Test
+    void test_rejects_configuration_when_selected_channel_does_not_exist() {
+        // Arrange
+        when(repository.findAll()).thenReturn(List.of(channel(1)));
+        // Act / Assert
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> service.assertChannelsExist(Set.of(ProviderChannelId.of(2L))))
+                .isInstanceOf(com.api2api.application.BusinessException.class);
+    }
+
+    private com.api2api.domain.credential.model.ModelGroup groupWithChannels(Set<ProviderChannelId> ids) {
+        var group = com.api2api.domain.credential.model.ModelGroup.create(
+                com.api2api.domain.credential.model.ModelGroupId.of(10L), com.api2api.domain.user.model.UserAccountId.of(1L),
+                com.api2api.domain.credential.model.ModelGroupName.of("restricted"), com.api2api.domain.credential.model.ModelWhitelist.of(Set.of(MODEL)),
+                com.api2api.domain.credential.model.ModelDailyLimits.empty(), NOW);
+        group.changeAllowedChannels(ids, NOW);
+        return group;
     }
 
     private static ProviderChannel channel(long id) {

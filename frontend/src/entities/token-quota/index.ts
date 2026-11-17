@@ -31,6 +31,14 @@ export function useTokenQuotas() {
   });
   return { query, rules: query.data?.rules ?? EMPTY_RULES, targets: query.data?.targets ?? EMPTY_TARGETS, zoneId: query.data?.zoneId ?? 'Asia/Shanghai' };
 }
+export function useCredentialQuotas(keyId: string) {
+  return useQuery({
+    queryKey: [...QUOTA_QUERY_KEY, 'credential', keyId],
+    queryFn: async (): Promise<QuotaPage> => (await apiClient.get<QuotaPage>(`/api/api-credentials/${encodeURIComponent(keyId)}/token-quotas`)).data,
+    refetchInterval: 30000,
+    enabled: Boolean(keyId),
+  });
+}
 export async function saveQuota(id: string | null, draft: QuotaDraft): Promise<QuotaRule> {
   const response = id
     ? await apiClient.put<QuotaRule>(`/api/admin/token-quotas/${encodeURIComponent(id)}`, draft)

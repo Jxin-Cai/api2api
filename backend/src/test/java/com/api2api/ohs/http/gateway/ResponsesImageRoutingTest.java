@@ -63,6 +63,8 @@ class ResponsesImageRoutingTest {
     private final ProviderChannelRepository channels = mock(ProviderChannelRepository.class);
     private final ApiCredentialRepository credentials = mock(ApiCredentialRepository.class);
     private ResponsesImageBridge bridge;
+    private final ModelGroupRepository groups = mock(ModelGroupRepository.class);
+    private com.api2api.domain.credential.model.ModelGroup group;
     private final com.api2api.application.quota.TokenQuotaService quotas = mock(com.api2api.application.quota.TokenQuotaService.class);
 
     @BeforeEach
@@ -78,8 +80,13 @@ class ResponsesImageRoutingTest {
         PlatformTransactionManager transactions = mock(PlatformTransactionManager.class);
         when(transactions.getTransaction(any())).thenReturn(new SimpleTransactionStatus());
         when(quotas.lockCredential(any())).thenAnswer(call -> call.getArgument(0));
+        group = com.api2api.domain.credential.model.ModelGroup.create(ModelGroupId.of(1L), UserAccountId.of(1L),
+                com.api2api.domain.credential.model.ModelGroupName.of("image-test"), ModelWhitelist.empty(),
+                com.api2api.domain.credential.model.ModelDailyLimits.empty(), NOW);
+        group.changeAllowedChannels(Set.of(ProviderChannelId.of(1L), ProviderChannelId.of(2L)), NOW);
+        when(groups.findById(ModelGroupId.of(1L))).thenReturn(Optional.of(group));
         GatewayInvocationApplicationService gateway = new GatewayInvocationApplicationService(credentials,
-                quotas, usage, channels, definitions,
+                quotas, new com.api2api.application.channel.ProviderModelAvailabilityService(channels, clock, groups), usage, channels, definitions,
                 new DefaultRoutingPolicyService(),
                 new DefaultProtocolConversionServiceAdapter(List.of(), List.of(new OpenAIImagesUsageExtractor()), json),
                 new DefaultGatewayInvocationService(), upstream, mock(GatewayPayloadModelMappingPort.class),
@@ -198,6 +205,55 @@ class ResponsesImageRoutingTest {
         ArgumentCaptor<UsageRecord> record = ArgumentCaptor.forClass(UsageRecord.class);
         verify(usage).update(record.capture());
         assertThat(record.getValue().tokenUsage().totalTokens()).isEqualTo(30);
+    }
+
+    @Test
+    void test_skips_higher_priority_channel_when_group_excludes_it() throws Exception {
+        // Arrange
+        group.changeAllowedChannels(Set.of(ProviderChannelId.of(2L)), NOW);
+        // Act
+        invoke(false);
+        // Assert
+        ArgumentCaptor<RouteCandidate> route = ArgumentCaptor.forClass(RouteCandidate.class);
+        verify(upstream).forward(route.capture(), anyString(), eq(false), any());
+        assertThat(route.getValue().providerChannelId()).isEqualTo(ProviderChannelId.of(2L));
+    }
+
+    @Test
+    void test_does_not_fail_over_outside_group_when_allowed_channel_fails() throws Exception {
+        // Arrange
+        group.changeAllowedChannels(Set.of(ProviderChannelId.of(1L)), NOW);
+        when(upstream.forward(any(), anyString(), anyBoolean(), any()))
+                .thenReturn(ProviderGatewayResponse.of(ProtocolType.OPENAI_IMAGES, 503, Map.of(), "{}", false));
+        // Act
+        invoke(false, 503);
+        // Assert
+        verify(upstream, times(1)).forward(any(), anyString(), anyBoolean(), any());
+    }
+
+    @Test
+    void test_does_not_contact_provider_when_group_has_no_channels() throws Exception {
+        // Arrange
+        group.changeAllowedChannels(Set.of(), NOW);
+        // Act
+        invoke(false, 503);
+        // Assert
+        verifyNoInteractions(upstream);
+        verify(usage).cancelReservation(any());
+    }
+
+    @Test
+    void test_stream_uses_only_allowed_channel_when_higher_priority_channel_is_excluded() throws Exception {
+        // Arrange
+        group.changeAllowedChannels(Set.of(ProviderChannelId.of(2L)), NOW);
+        when(upstream.openStream(any(), anyString(), any())).thenReturn(ProviderStreamingResponse.of(
+                ProtocolType.OPENAI_IMAGES, 200, Map.of(), new ByteArrayInputStream("data: {}\n\n".getBytes(StandardCharsets.UTF_8))));
+        // Act
+        ((StreamingResponseBody) invoke(true)).writeTo(new ByteArrayOutputStream());
+        // Assert
+        ArgumentCaptor<RouteCandidate> route = ArgumentCaptor.forClass(RouteCandidate.class);
+        verify(upstream).openStream(route.capture(), anyString(), any());
+        assertThat(route.getValue().providerChannelId()).isEqualTo(ProviderChannelId.of(2L));
     }
 
     private Object invoke(boolean stream) throws Exception {

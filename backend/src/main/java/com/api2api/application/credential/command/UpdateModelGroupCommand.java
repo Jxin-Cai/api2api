@@ -1,11 +1,13 @@
 package com.api2api.application.credential.command;
 
+import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.credential.model.ModelDailyLimits;
 import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelGroupName;
 import com.api2api.domain.credential.model.ModelWhitelist;
 import com.api2api.domain.user.model.UserAccountId;
 import jakarta.validation.constraints.NotNull;
+import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,4 +19,6 @@ public final class UpdateModelGroupCommand {
     @NotNull private final ModelGroupName name;
     @NotNull private final ModelWhitelist modelWhitelist;
     @NotNull private final ModelDailyLimits modelDailyLimits;
+    @Builder.Default
+    private final Set<ProviderChannelId> allowedChannelIds = Set.of();
 }

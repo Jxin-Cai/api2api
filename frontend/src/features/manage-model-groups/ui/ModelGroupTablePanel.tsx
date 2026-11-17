@@ -3,6 +3,7 @@ import { Alert, App, Button, Card, Empty, Space, Table, Tag, Tooltip, Typography
 import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
 
+import { useProviderChannels } from '@entities/provider-channel';
 import { useTokenQuotas } from '@entities/token-quota';
 import { useModelGroups, type ModelGroupResponse } from '@entities/model-group';
 import { PageState } from '@shared/ui';
@@ -18,6 +19,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
   const { token } = theme.useToken();
   const { message, modal } = App.useApp();
   const { groups, query } = useModelGroups();
+  const { channels } = useProviderChannels();
   const { targets } = useTokenQuotas();
   const credentials = useMemo(() => targets.filter((target) => target.scope === 'API_KEY'), [targets]);
   const { deleteMutation } = useModelGroupMutations();
@@ -82,6 +84,17 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
       ),
     },
     {
+      title: '可用渠道',
+      key: 'allowedChannels',
+      width: 220,
+      render: (_: unknown, group): ReactElement => <Space size={[4, 6]} wrap>
+        {group.allowedChannelIds.length === 0 ? <Tag color="red">全部禁止</Tag> : group.allowedChannelIds.map(id => {
+          const channel = channels.find(item => String(item.id) === id);
+          return <Tag key={id} color={channel?.status === 'DISABLED' ? 'default' : undefined}>{channel?.name ?? `已删除 · ${id}`}</Tag>;
+        })}
+      </Space>,
+    },
+    {
       title: '当前支持',
       key: 'effectiveModels',
       render: (_: unknown, group): ReactElement => {
@@ -130,7 +143,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
 
   return (
     <>
-      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。当前支持取分组白名单与已启用渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。在“限流”页设置分组共享额度或 Key 专属额度。" style={{ marginBottom: 16, background: token.colorBgContainer, borderColor: token.colorBorder }} />
+      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。仅可使用分组选中的渠道，未选中的渠道禁止使用。当前支持取模型白名单与所选渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。在“限流”页设置分组共享额度或 Key 专属额度。" style={{ marginBottom: 16, background: token.colorBgContainer, borderColor: token.colorBorder }} />
       <Card className="api-credential-table-card">
         <div className="api-credential-toolbar">
           <div className="api-credential-toolbar__copy">

@@ -9,6 +9,7 @@ export const ROUTE_PATHS = {
   adminOperations: '/admin/operations',
   adminModelGroups: '/admin/model-groups',
   adminTokenQuotas: '/admin/token-quotas',
+  adminApiKeys: '/admin/api-keys',
   adminUsers: '/admin/users',
   adminChannels: '/admin/channels',
   adminModelMappings: '/admin/model-mappings',

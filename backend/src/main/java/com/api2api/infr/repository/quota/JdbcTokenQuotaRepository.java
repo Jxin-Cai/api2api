@@ -25,6 +25,11 @@ public class JdbcTokenQuotaRepository implements TokenQuotaRepository {
         return jdbc.query("SELECT * FROM token_quota_rules ORDER BY id DESC", mapper);
     }
 
+    public List<TokenQuotaRule> findByTarget(QuotaScope scope, long targetId) {
+        return jdbc.query("SELECT * FROM token_quota_rules WHERE scope=:scope AND target_id=:targetId ORDER BY model, period, id",
+                Map.of("scope", scope.name(), "targetId", targetId), mapper);
+    }
+
     public List<TokenQuotaRule> findApplicable(long groupId, long keyId) {
         return jdbc.query("""
                 SELECT * FROM token_quota_rules WHERE enabled = TRUE

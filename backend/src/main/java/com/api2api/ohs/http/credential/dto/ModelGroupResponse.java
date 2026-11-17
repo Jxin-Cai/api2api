@@ -13,6 +13,7 @@ public class ModelGroupResponse {
     Long id;
     String name;
     List<String> modelWhitelist;
+    List<String> allowedChannelIds;
     /** Configured models currently supported by at least one enabled provider route. */
     List<String> effectiveModels;
     /** Per-model daily caps in weighted tokens. */

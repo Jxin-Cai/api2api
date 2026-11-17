@@ -47,6 +47,7 @@ class GatewayProtocolControllerTest {
     void setUp() {
         when(keyHashHelper.hashGatewayApiKey("Bearer requested-key", null)).thenReturn(keyHash);
         when(credentialService.authenticateForModelListing(keyHash)).thenReturn(credential);
+        when(credential.getModelGroupId()).thenReturn(com.api2api.domain.credential.model.ModelGroupId.of(2L));
         when(credential.getCreatedAt()).thenReturn(Instant.parse("2026-07-13T12:00:00Z"));
     }
 
@@ -59,7 +60,7 @@ class GatewayProtocolControllerTest {
                 ModelName.of("claude-sonnet-4"),
                 ModelName.of("unsupported-model")
         )));
-        when(availability.availableModels()).thenReturn(Set.of(
+        when(availability.availableModels(com.api2api.domain.credential.model.ModelGroupId.of(2L))).thenReturn(Set.of(
                 ModelName.of("gpt-4.1"), ModelName.of("claude-sonnet-4"), ModelName.of("not-allowed")));
 
         // Act
@@ -79,7 +80,7 @@ class GatewayProtocolControllerTest {
     void test_returns_empty_list_when_no_provider_supports_whitelisted_models() {
         // Arrange
         when(credential.getModelWhitelist()).thenReturn(ModelWhitelist.of(Set.of(ModelName.of("configured"))));
-        when(availability.availableModels()).thenReturn(Set.of());
+        when(availability.availableModels(com.api2api.domain.credential.model.ModelGroupId.of(2L))).thenReturn(Set.of());
 
         // Act
         GatewayModelListResponse response = controller.listModels("Bearer requested-key", null);
@@ -92,7 +93,7 @@ class GatewayProtocolControllerTest {
     void test_returns_empty_list_when_group_forbids_all_models() {
         // Arrange
         when(credential.getModelWhitelist()).thenReturn(ModelWhitelist.empty());
-        when(availability.availableModels()).thenReturn(Set.of(ModelName.of("supported")));
+        when(availability.availableModels(com.api2api.domain.credential.model.ModelGroupId.of(2L))).thenReturn(Set.of(ModelName.of("supported")));
 
         // Act
         GatewayModelListResponse response = controller.listModels("Bearer requested-key", null);
@@ -106,7 +107,7 @@ class GatewayProtocolControllerTest {
         // Arrange
         ModelName model = ModelName.of("configured");
         when(credential.getModelWhitelist()).thenReturn(ModelWhitelist.of(Set.of(model)));
-        when(availability.availableModels()).thenReturn(Set.of(model)).thenReturn(Set.of()).thenReturn(Set.of(model));
+        when(availability.availableModels(com.api2api.domain.credential.model.ModelGroupId.of(2L))).thenReturn(Set.of(model)).thenReturn(Set.of()).thenReturn(Set.of(model));
 
         // Act
         var before = controller.listModels("Bearer requested-key", null).data();

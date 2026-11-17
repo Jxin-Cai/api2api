@@ -1,1 +1,1 @@
-export type ApiCredentialEditSection = 'name' | 'group';
+export type ApiCredentialEditSection = 'name' | 'group' | 'quotas';

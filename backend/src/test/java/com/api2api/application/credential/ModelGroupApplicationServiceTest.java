@@ -48,7 +48,7 @@ class ModelGroupApplicationServiceTest {
     void test_intersects_permissions_when_provider_also_supports_models_outside_group() {
         // Arrange
         ModelGroup group = configuredGroup();
-        when(availability.availableModels()).thenReturn(Set.of(MODEL, ModelName.of("not-allowed")));
+        when(availability.availableModels(group)).thenReturn(Set.of(MODEL, ModelName.of("not-allowed")));
 
         // Act
         var view = service.viewGroup(group);
@@ -62,7 +62,7 @@ class ModelGroupApplicationServiceTest {
         // Arrange
         ModelGroup group = configuredGroup();
         group.update(group.getName(), ModelWhitelist.empty(), ModelDailyLimits.empty(), NOW);
-        when(availability.availableModels()).thenReturn(Set.of(MODEL));
+        when(availability.availableModels(group)).thenReturn(Set.of(MODEL));
 
         // Act
         var view = service.viewGroup(group);
@@ -77,7 +77,7 @@ class ModelGroupApplicationServiceTest {
         ModelGroup group = configuredGroup();
         when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
         when(groups.findAll()).thenReturn(List.of(group));
-        when(availability.availableModels()).thenReturn(Set.of(MODEL)).thenReturn(Set.of()).thenReturn(Set.of(MODEL));
+        when(availability.availableModels(group)).thenReturn(Set.of(MODEL)).thenReturn(Set.of()).thenReturn(Set.of(MODEL));
 
         // Act
         var before = service.listMyGroupViews(owner).get(0).effectiveModels();
@@ -92,7 +92,7 @@ class ModelGroupApplicationServiceTest {
     void test_preserves_saved_configuration_when_provider_support_disappears() {
         // Arrange
         ModelGroup group = configuredGroup();
-        when(availability.availableModels()).thenReturn(Set.of());
+        when(availability.availableModels(group)).thenReturn(Set.of());
         ModelGroupHttpConverter converter = new ModelGroupHttpConverter(new ModelDailyLimitWindow(clock, "UTC"));
 
         // Act
@@ -109,7 +109,7 @@ class ModelGroupApplicationServiceTest {
     void test_serializes_no_effective_models_when_group_has_no_provider_support() {
         // Arrange
         ModelGroup group = configuredGroup();
-        when(availability.availableModels()).thenReturn(Set.of());
+        when(availability.availableModels(group)).thenReturn(Set.of());
         ModelGroupHttpConverter converter = new ModelGroupHttpConverter(new ModelDailyLimitWindow(clock, "UTC"));
 
         // Act
@@ -123,7 +123,7 @@ class ModelGroupApplicationServiceTest {
     void test_keeps_daily_limit_status_when_provider_is_unavailable() {
         // Arrange
         ModelGroup group = configuredGroup();
-        when(availability.availableModels()).thenReturn(Set.of());
+        when(availability.availableModels(group)).thenReturn(Set.of());
         when(usage.loadTodayUsageByGroup(owner)).thenReturn(Map.of(group.getId(), Map.of(MODEL, BigDecimal.valueOf(100))));
 
         // Act

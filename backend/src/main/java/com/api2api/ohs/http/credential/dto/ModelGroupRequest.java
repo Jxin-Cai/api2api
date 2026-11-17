@@ -18,6 +18,9 @@ public class ModelGroupRequest {
     @NotNull(message = "Model whitelist must not be null")
     private List<String> modelWhitelist;
 
+    @NotNull(message = "Allowed channels must be explicitly configured")
+    private List<@NotNull @jakarta.validation.constraints.Positive Long> allowedChannelIds;
+
     /** Optional per-model daily caps in weighted tokens: {@code {"gpt-4.1": 1000000}}. */
     @jakarta.validation.constraints.Null(message = "Manage token limits on the admin rate limits page")
     private Map<String, Long> modelDailyLimits;

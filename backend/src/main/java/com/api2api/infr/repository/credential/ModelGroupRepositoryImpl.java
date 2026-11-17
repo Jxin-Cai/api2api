@@ -1,5 +1,6 @@
 package com.api2api.infr.repository.credential;
 
+import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.model.ModelGroupId;
 import com.api2api.domain.credential.model.ModelGroupName;
@@ -11,6 +12,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -78,6 +80,7 @@ public class ModelGroupRepositoryImpl implements ModelGroupRepository {
                 .name(group.getName().getValue())
                 .modelWhitelist(ModelWhitelistTextCodec.encode(group.getModelWhitelist()))
                 .modelDailyLimits(ModelDailyLimitsTextCodec.encode(group.getModelDailyLimits()))
+                .allowedChannelIds(group.getAllowedChannelIds().stream().map(ProviderChannelId::value).collect(Collectors.toSet()))
                 .createdAt(group.getCreatedAt())
                 .updatedAt(group.getUpdatedAt())
                 .deleted(false)
@@ -85,9 +88,12 @@ public class ModelGroupRepositoryImpl implements ModelGroupRepository {
     }
 
     private ModelGroup toDomain(ModelGroupPO po) {
-        return ModelGroup.rehydrate(ModelGroupId.of(po.getId()), UserAccountId.of(po.getOwnerUserId()),
+        ModelGroup group = ModelGroup.rehydrate(ModelGroupId.of(po.getId()), UserAccountId.of(po.getOwnerUserId()),
                 ModelGroupName.of(po.getName()), ModelWhitelistTextCodec.decode(po.getModelWhitelist()),
                 ModelDailyLimitsTextCodec.decode(po.getModelDailyLimits()),
                 po.getCreatedAt(), po.getUpdatedAt());
+        group.changeAllowedChannels(po.getAllowedChannelIds().stream()
+                .map(ProviderChannelId::of).collect(Collectors.toSet()), po.getUpdatedAt());
+        return group;
     }
 }

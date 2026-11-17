@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { ApiCredentialStatusTag, type ApiCredentialResponse } from '@entities/api-credential';
 
+import { CredentialQuotaDetails } from './CredentialQuotaDetails';
 import type { ApiCredentialEditSection } from '../model/types';
 import { useApiCredentialMutations } from '../model/useApiCredentialMutations';
 
@@ -65,11 +66,12 @@ export function ApiCredentialEditDrawer({ open, credential, onClose, groupOption
             <Descriptions.Item label="ID">{credential.id}</Descriptions.Item>
             <Descriptions.Item label="状态"><ApiCredentialStatusTag status={credential.status} /></Descriptions.Item>
           </Descriptions>
-          <Alert type="info" showIcon message="Key 的允许模型由所绑定分组统一控制；调整分组白名单会同时影响该组内所有 Key。" />
+          <Alert type="info" showIcon message="Key 的模型和渠道权限由所绑定分组统一控制；分组额度与此 Key 的专属额度同时生效。" />
           <Tabs
             activeKey={activeSection}
             onChange={(key): void => setActiveSection(key as ApiCredentialEditSection)}
             items={[
+              { key: 'quotas', label: 'Token 额度', children: <CredentialQuotaDetails keyId={credential.id} /> },
               {
                 key: 'name',
                 label: '名称',

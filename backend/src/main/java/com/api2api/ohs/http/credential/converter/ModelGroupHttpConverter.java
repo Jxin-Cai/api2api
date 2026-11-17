@@ -4,6 +4,7 @@ import com.api2api.application.credential.ModelDailyLimitWindow;
 import com.api2api.application.credential.command.CreateModelGroupCommand;
 import com.api2api.application.credential.command.UpdateModelGroupCommand;
 import com.api2api.application.credential.dto.ModelGroupView;
+import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.credential.model.ModelDailyLimits;
 import com.api2api.domain.credential.model.ModelGroup;
 import com.api2api.domain.credential.model.ModelGroupId;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,6 +40,8 @@ public class ModelGroupHttpConverter {
                 .modelGroupId(modelGroupId)
                 .name(ModelGroupName.of(request.getName()))
                 .modelWhitelist(toWhitelist(request.getModelWhitelist()))
+                .allowedChannelIds(request.getAllowedChannelIds().stream()
+                        .map(ProviderChannelId::of).collect(Collectors.toSet()))
                 .modelDailyLimits(toDailyLimits(request.getModelDailyLimits()))
                 .build();
     }
@@ -49,6 +53,8 @@ public class ModelGroupHttpConverter {
                 .modelGroupId(modelGroupId)
                 .name(ModelGroupName.of(request.getName()))
                 .modelWhitelist(toWhitelist(request.getModelWhitelist()))
+                .allowedChannelIds(request.getAllowedChannelIds().stream()
+                        .map(ProviderChannelId::of).collect(Collectors.toSet()))
                 .modelDailyLimits(toDailyLimits(request.getModelDailyLimits()))
                 .build();
     }
@@ -61,6 +67,8 @@ public class ModelGroupHttpConverter {
         return ModelGroupResponse.builder()
                 .id(group.getId().value())
                 .name(group.getName().getValue())
+                .allowedChannelIds(group.getAllowedChannelIds().stream()
+                        .map(id -> Long.toString(id.value())).sorted().toList())
                 .modelWhitelist(group.getModelWhitelist().getModels().stream().map(ModelName::getValue).sorted().toList())
                 .effectiveModels(view.effectiveModels().stream().map(ModelName::getValue).sorted().toList())
                 .modelDailyLimits(toDailyLimitsResponse(group.getModelDailyLimits()))

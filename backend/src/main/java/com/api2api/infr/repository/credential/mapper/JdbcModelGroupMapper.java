@@ -5,8 +5,11 @@ import static com.api2api.infr.repository.common.JdbcTimestampSupport.timestamp;
 
 import com.api2api.infr.repository.credential.po.ModelGroupPO;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Repository;
 public class JdbcModelGroupMapper implements ModelGroupMapper {
 
     private static final String COLUMNS =
-            "id, owner_user_id, name, model_whitelist, model_daily_limits, created_at, updated_at, deleted";
+            "id, owner_user_id, name, model_whitelist, model_daily_limits, allowed_channel_ids, created_at, updated_at, deleted";
 
     @NonNull
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -31,6 +34,7 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
             .name(rs.getString("name"))
             .modelWhitelist(rs.getString("model_whitelist"))
             .modelDailyLimits(rs.getString("model_daily_limits"))
+            .allowedChannelIds(Set.copyOf(Arrays.asList((Long[]) rs.getArray("allowed_channel_ids").getArray())))
             .createdAt(instant(rs, "created_at"))
             .updatedAt(instant(rs, "updated_at"))
             .deleted(rs.getBoolean("deleted"))
@@ -44,8 +48,8 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
     @Override
     public int insert(ModelGroupPO group) {
         return jdbcTemplate.update("""
-                INSERT INTO model_groups (id, owner_user_id, name, model_whitelist, model_daily_limits, created_at, updated_at, deleted)
-                VALUES (:id, :ownerUserId, :name, :modelWhitelist, :modelDailyLimits, :createdAt, :updatedAt, :deleted)
+                INSERT INTO model_groups (id, owner_user_id, name, model_whitelist, model_daily_limits, allowed_channel_ids, created_at, updated_at, deleted)
+                VALUES (:id, :ownerUserId, :name, :modelWhitelist, :modelDailyLimits, CAST(:allowedChannelIds AS BIGINT[]), :createdAt, :updatedAt, :deleted)
                 """, params(group));
     }
 
@@ -54,6 +58,7 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
         return jdbcTemplate.update("""
                 UPDATE model_groups
                 SET name = :name, model_whitelist = :modelWhitelist, model_daily_limits = :modelDailyLimits,
+                    allowed_channel_ids = CAST(:allowedChannelIds AS BIGINT[]),
                     updated_at = :updatedAt
                 WHERE id = :id AND deleted = FALSE
                 """, params(group));
@@ -107,6 +112,8 @@ public class JdbcModelGroupMapper implements ModelGroupMapper {
                 .addValue("name", group.getName())
                 .addValue("modelWhitelist", group.getModelWhitelist())
                 .addValue("modelDailyLimits", group.getModelDailyLimits() == null ? "{}" : group.getModelDailyLimits())
+                .addValue("allowedChannelIds", group.getAllowedChannelIds().stream().sorted().map(String::valueOf)
+                        .collect(Collectors.joining(",", "{", "}")))
                 .addValue("createdAt", timestamp(group.getCreatedAt()))
                 .addValue("updatedAt", timestamp(group.getUpdatedAt()))
                 .addValue("deleted", group.isDeleted());

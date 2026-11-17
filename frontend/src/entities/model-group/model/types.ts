@@ -5,6 +5,8 @@ export interface ModelGroupResponse {
   id: string;
   name: string;
   modelWhitelist: string[];
+  /** 只可使用这些渠道；空列表表示全部禁止 */
+  allowedChannelIds: string[];
   /** 白名单内当前至少有一个已启用渠道支持的模型 */
   effectiveModels: string[];
   /** 已配置每日上限的模型及其上限 */
@@ -26,6 +28,8 @@ export interface ModelGroupListResponse {
 export interface SaveModelGroupRequest {
   name: string;
   modelWhitelist: string[];
+  /** 只可使用这些渠道；空列表表示全部禁止 */
+  allowedChannelIds: string[];
 }
 
 export interface ModelGroupOption {
