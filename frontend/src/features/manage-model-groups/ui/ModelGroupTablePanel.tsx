@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { CopyOutlined, DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Alert, App, Button, Card, Empty, Space, Table, Tag, Tooltip, Typography, theme } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useMemo, useState, type ReactElement } from 'react';
@@ -9,6 +9,7 @@ import { useModelGroups, type ModelGroupResponse } from '@entities/model-group';
 import { PageState } from '@shared/ui';
 
 import { useModelGroupMutations } from '../model/useModelGroupMutations';
+import { createModelGroupCopyName, type ModelGroupFormState } from '../model/modelGroupForm';
 import { ModelGroupFormModal } from './ModelGroupFormModal';
 
 interface ModelGroupTablePanelProps {
@@ -23,8 +24,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
   const { targets } = useTokenQuotas();
   const credentials = useMemo(() => targets.filter((target) => target.scope === 'API_KEY'), [targets]);
   const { deleteMutation } = useModelGroupMutations();
-  const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState<ModelGroupResponse | null>(null);
+  const [formState, setFormState] = useState<ModelGroupFormState | null>(null);
 
   const bindingCounts = useMemo(() => credentials.reduce((counts, credential) => {
     counts.set(credential.modelGroupId, (counts.get(credential.modelGroupId) ?? 0) + 1);
@@ -32,13 +32,15 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
   }, new Map<string, number>()), [credentials]);
 
   function openCreate(): void {
-    setEditing(null);
-    setFormOpen(true);
+    setFormState({ mode: 'create' });
   }
 
   function openEdit(group: ModelGroupResponse): void {
-    setEditing(group);
-    setFormOpen(true);
+    setFormState({ mode: 'edit', group });
+  }
+
+  function openCopy(group: ModelGroupResponse): void {
+    setFormState({ mode: 'copy', group, name: createModelGroupCopyName(group.name, groups) });
   }
 
   function confirmDelete(group: ModelGroupResponse): void {
@@ -124,11 +126,12 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
     {
       title: '',
       key: 'actions',
-      width: 112,
+      width: 152,
       align: 'right',
       render: (_: unknown, group): ReactElement => (
         <Space size={4}>
           <Tooltip title="编辑分组"><Button type="text" icon={<EditOutlined />} aria-label={`编辑分组 ${group.name}`} onClick={(): void => openEdit(group)} /></Tooltip>
+          <Tooltip title="复制分组"><Button type="text" icon={<CopyOutlined />} aria-label={`复制分组 ${group.name}`} onClick={(): void => openCopy(group)} /></Tooltip>
           <Tooltip title={(bindingCounts.get(group.id) ?? 0) > 0 ? '仍有 Key 绑定，不能删除' : '删除分组'}>
             <Button type="text" danger icon={<DeleteOutlined />} aria-label={`删除分组 ${group.name}`} onClick={(): void => confirmDelete(group)} />
           </Tooltip>
@@ -157,7 +160,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
         </div>
         <Table<ModelGroupResponse> rowKey="id" columns={columns} dataSource={groups} loading={query.isLoading} pagination={false} scroll={{ x: 960 }} locale={{ emptyText: <Empty description="暂无模型分组，请先创建" /> }} />
       </Card>
-      <ModelGroupFormModal open={formOpen} group={editing} modelOptions={modelOptions} onClose={(): void => setFormOpen(false)} onSaved={(): void => undefined} />
+      <ModelGroupFormModal state={formState} modelOptions={modelOptions} onClose={(): void => setFormState(null)} onSaved={(): void => { message.success(formState?.mode === 'copy' ? '模型分组已复制' : '模型分组已保存'); }} />
     </>
   );
 }

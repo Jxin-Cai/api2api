@@ -3,34 +3,52 @@ import { useEffect, useState } from 'react';
 import type { ModelGroupResponse, SaveModelGroupRequest } from '@entities/model-group';
 import { useProviderChannels } from '@entities/provider-channel';
 import { useModelGroupMutations } from '../model/useModelGroupMutations';
+import type { ModelGroupFormState } from '../model/modelGroupForm';
 
 interface Props {
-  open: boolean;
-  group: ModelGroupResponse | null;
+  state: ModelGroupFormState | null;
   modelOptions: Array<{ label: string; value: string }>;
   onClose: () => void;
   onSaved: (group: ModelGroupResponse) => void;
 }
 const EMPTY: SaveModelGroupRequest = { name: '', modelWhitelist: [], allowedChannelIds: [] };
 
-export function ModelGroupFormModal({ open, group, modelOptions, onClose, onSaved }: Props) {
+export function ModelGroupFormModal({ state, modelOptions, onClose, onSaved }: Props) {
   const { createMutation, updateMutation } = useModelGroupMutations();
+  const open = state !== null;
   const channels = useProviderChannels({ enabled: open });
   const [form, setForm] = useState<SaveModelGroupRequest>(EMPTY);
+  const { reset: resetCreate } = createMutation;
+  const { reset: resetUpdate } = updateMutation;
   useEffect(() => {
-    if (open) setForm(group ? { name: group.name, modelWhitelist: group.modelWhitelist, allowedChannelIds: group.allowedChannelIds } : EMPTY);
-  }, [group, open]);
-  const mutation = group ? updateMutation : createMutation;
+    if (!state) return;
+    resetCreate();
+    resetUpdate();
+    setForm(state.mode === 'create' ? EMPTY : {
+      name: state.mode === 'copy' ? state.name : state.group.name,
+      modelWhitelist: [...state.group.modelWhitelist],
+      allowedChannelIds: [...state.group.allowedChannelIds],
+    });
+  }, [state, resetCreate, resetUpdate]);
+  const mutation = state?.mode === 'edit' ? updateMutation : createMutation;
   async function submit(): Promise<void> {
+    if (!state || mutation.isPending) return;
     const params = { ...form, name: form.name.trim() };
     if (!params.name) return;
-    const saved = group ? await updateMutation.mutateAsync({ id: group.id, params }) : await createMutation.mutateAsync(params);
-    onSaved(saved);
-    onClose();
+    try {
+      const saved = state.mode === 'edit'
+        ? await updateMutation.mutateAsync({ id: state.group.id, params })
+        : await createMutation.mutateAsync(params);
+      onSaved(saved);
+      onClose();
+    } catch {
+      // The mutation error is displayed below; keep the form open for correction.
+    }
   }
   return (
-    <Modal title={group ? '编辑模型分组' : '创建模型分组'} open={open} onCancel={onClose} footer={null} width={600} destroyOnHidden>
+    <Modal title={state?.mode === 'edit' ? '编辑模型分组' : state?.mode === 'copy' ? '复制模型分组' : '创建模型分组'} open={open} onCancel={() => { if (!mutation.isPending) onClose(); }} closable={!mutation.isPending} maskClosable={!mutation.isPending} keyboard={!mutation.isPending} footer={null} width={600} destroyOnHidden>
       <Form layout="vertical" onFinish={submit}>
+        {state?.mode === 'copy' ? <Alert type="info" showIcon message={`已复制“${state.group.name}”的模型和渠道配置，可修改后保存为新分组。`} style={{ marginBottom: 16 }} /> : null}
         <Form.Item label="分组名称" htmlFor="model-group-name" required>
           <Input id="model-group-name" autoFocus value={form.name} maxLength={100} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="例如：标准模型" disabled={mutation.isPending} />
         </Form.Item>
@@ -53,11 +71,11 @@ export function ModelGroupFormModal({ open, group, modelOptions, onClose, onSave
           </Space>
         </Form.Item>
         {form.allowedChannelIds.length === 0 ? <Alert type="warning" showIcon message="尚未选择渠道：此分组下所有 Key 都将无法调用模型。" style={{ marginBottom: 16 }} /> : null}
-        <Alert type="info" showIcon message="额度请在后台“限流”页配置。分组内所有 Key 共享分组额度。" style={{ marginBottom: 16 }} />
+        <Alert type="info" showIcon message={state?.mode === 'copy' ? '新分组不继承原分组的 Key 绑定和限流额度，请在后台“限流”页单独配置额度。' : '额度请在后台“限流”页配置。分组内所有 Key 共享分组额度。'} style={{ marginBottom: 16 }} />
         {mutation.isError ? <Alert type="error" showIcon message="保存失败" description={mutation.error.message} style={{ marginBottom: 16 }} /> : null}
         <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
           <Button onClick={onClose} disabled={mutation.isPending}>取消</Button>
-          <Button type="primary" htmlType="submit" loading={mutation.isPending} disabled={!form.name.trim()}>保存分组</Button>
+          <Button type="primary" htmlType="submit" loading={mutation.isPending} disabled={!form.name.trim()}>{state?.mode === 'copy' ? '创建副本' : '保存分组'}</Button>
         </Space>
       </Form>
     </Modal>
