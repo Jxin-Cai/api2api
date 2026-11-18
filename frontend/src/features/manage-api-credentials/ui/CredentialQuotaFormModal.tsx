@@ -34,7 +34,7 @@ export function CredentialQuotaFormModal({ open, keyId, models, rule, onClose }:
     }
   }, [open, keyId, rule, form]);
   return <Modal title={rule ? '编辑自设每日上限' : '新增自设每日上限'} open={open} onCancel={onClose} footer={null} width={560} destroyOnHidden>
-    <Alert type="info" showIcon message="自设上限与管理员、分组额度同时生效" description="提高或停用自设上限，不会改变管理员和分组的限制。" style={{ marginBottom: 16 }} />
+    <Alert type="info" showIcon message="自设每日上限与分组共享额度同时生效" description="此上限只作用于当前 Key；提高或停用上限不会改变模型分组的共享额度。" style={{ marginBottom: 16 }} />
     <Form form={form} layout="vertical" onFinish={draft => mutation.mutate(draft)} disabled={mutation.isPending}>
       <Form.Item name="model" label="模型" rules={[{ required: true, message: '请选择模型' }]}>
         <Select showSearch optionFilterProp="label" placeholder="选择要限制的模型" options={Array.from(new Set([...models, ...(rule ? [rule.model] : [])])).map(model => ({ label: model, value: model }))} />

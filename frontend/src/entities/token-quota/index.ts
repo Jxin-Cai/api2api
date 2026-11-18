@@ -40,7 +40,8 @@ export function useCredentialQuotas(keyId: string) {
     enabled: Boolean(keyId),
   });
 }
-export async function saveQuota(id: string | null, draft: QuotaDraft): Promise<QuotaRule> {
+export type GroupQuotaDraft = Omit<QuotaDraft, 'scope'> & { scope: 'MODEL_GROUP' };
+export async function saveQuota(id: string | null, draft: GroupQuotaDraft): Promise<QuotaRule> {
   const response = id
     ? await apiClient.put<QuotaRule>(`/api/admin/token-quotas/${encodeURIComponent(id)}`, draft)
     : await apiClient.post<QuotaRule>('/api/admin/token-quotas', draft);

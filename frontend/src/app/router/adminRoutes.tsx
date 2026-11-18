@@ -6,7 +6,6 @@ import { PageState } from '@shared/ui';
 
 import { lazyWithRetry } from './lazyWithRetry';
 
-const AdminApiKeysPage = lazyWithRetry(() => import('@pages/AdminApiKeysPage'));
 const AdminModelGroupsPage = lazyWithRetry(() => import('@pages/AdminModelGroupsPage'));
 const AdminTokenQuotasPage = lazyWithRetry(() => import('@pages/AdminTokenQuotasPage'));
 const AdminOperationsPage = lazyWithRetry(() => import('@pages/AdminOperationsPage'));
@@ -31,7 +30,7 @@ function LegacyProtocolMetadataRedirect(): ReactElement {
 }
 
 export const adminRoutes: RouteObject[] = [
-  { path: '/admin/api-keys', element: withAdminGuard(<AdminApiKeysPage />) },
+  { path: '/admin/api-keys', element: withAdminGuard(<Navigate replace to="/app/api-keys" />) },
   { path: '/admin/model-groups', element: withAdminGuard(<AdminModelGroupsPage />) },
   { path: '/admin/token-quotas', element: withAdminGuard(<AdminTokenQuotasPage />) },
   { path: '/admin/operations', element: withAdminGuard(<AdminOperationsPage />) },

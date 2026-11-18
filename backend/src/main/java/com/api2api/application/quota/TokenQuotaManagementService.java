@@ -30,7 +30,8 @@ public class TokenQuotaManagementService {
     @Transactional(readOnly = true)
     public QuotaPage list(UserAccountId operator) {
         assertAdmin(operator);
-        return new QuotaPage(repository.findAll().stream().map(this::view).toList(), repository.targets(), windows.zoneId());
+        return new QuotaPage(repository.findAll().stream().filter(this::isAdminGroupRule).map(this::view).toList(),
+                repository.targets(), windows.zoneId());
     }
 
     @Transactional(readOnly = true)
@@ -45,7 +46,10 @@ public class TokenQuotaManagementService {
     @Transactional
     public RuleView save(UserAccountId operator, TokenQuotaRule rule) {
         assertAdmin(operator);
-        if (rule.source() != QuotaSource.ADMIN) throw new IllegalArgumentException("Administrator rules must have ADMIN source");
+        if (!isAdminGroupRule(rule)) {
+            throw new BusinessException("QUOTA_SCOPE_NOT_ALLOWED", "管理员仅可配置模型分组额度，Key 每日上限由用户在前台设置");
+        }
+        if (rule.id() != 0) loadAdminGroupRule(rule.id());
         if (!repository.targetExists(rule.scope(), rule.targetId())) throw new BusinessException("QUOTA_TARGET_NOT_FOUND", "限流对象不存在或已删除");
         return saveRule(rule);
     }
@@ -92,7 +96,17 @@ public class TokenQuotaManagementService {
     @Transactional
     public void delete(UserAccountId operator, long id) {
         assertAdmin(operator);
+        loadAdminGroupRule(id);
         if (!repository.delete(id)) throw new BusinessException("QUOTA_RULE_NOT_FOUND", "限流规则不存在，请刷新后重试");
+    }
+
+    private TokenQuotaRule loadAdminGroupRule(long id) {
+        return repository.findById(id).filter(this::isAdminGroupRule)
+                .orElseThrow(() -> new BusinessException("QUOTA_RULE_NOT_FOUND", "模型分组限流规则不存在，请刷新后重试"));
+    }
+
+    private boolean isAdminGroupRule(TokenQuotaRule rule) {
+        return rule.scope() == QuotaScope.MODEL_GROUP && rule.source() == QuotaSource.ADMIN;
     }
 
     private RuleView view(TokenQuotaRule rule) {

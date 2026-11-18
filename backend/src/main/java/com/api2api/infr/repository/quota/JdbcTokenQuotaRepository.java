@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -24,6 +25,10 @@ public class JdbcTokenQuotaRepository implements TokenQuotaRepository {
 
     public List<TokenQuotaRule> findAll() {
         return jdbc.query("SELECT * FROM token_quota_rules ORDER BY id DESC", mapper);
+    }
+
+    public Optional<TokenQuotaRule> findById(long id) {
+        return jdbc.query("SELECT * FROM token_quota_rules WHERE id=:id", Map.of("id", id), mapper).stream().findFirst();
     }
 
     public List<TokenQuotaRule> findByTarget(QuotaScope scope, long targetId) {
@@ -49,15 +54,15 @@ public class JdbcTokenQuotaRepository implements TokenQuotaRepository {
                 """ : """
                 UPDATE token_quota_rules SET scope=:scope, target_id=:targetId, model=:model,
                 period=:period, limit_tokens=:limitTokens, enabled=:enabled, updated_at=now()
-                WHERE id=:id AND source=:source
-                  AND (source='ADMIN' OR (scope=:scope AND target_id=:targetId)) RETURNING *
+                WHERE id=:id AND source=:source AND scope=:scope
+                  AND (source='ADMIN' OR target_id=:targetId) RETURNING *
                 """;
         List<TokenQuotaRule> saved = jdbc.query(sql, params, mapper);
         return saved.isEmpty() ? null : saved.get(0);
     }
 
     public boolean delete(long id) {
-        return jdbc.update("DELETE FROM token_quota_rules WHERE id=:id AND source='ADMIN'", Map.of("id", id)) > 0;
+        return jdbc.update("DELETE FROM token_quota_rules WHERE id=:id AND source='ADMIN' AND scope='MODEL_GROUP'", Map.of("id", id)) > 0;
     }
 
     public boolean deleteUserRule(long id, long keyId) {

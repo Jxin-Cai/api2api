@@ -13,6 +13,8 @@ import java.time.*;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class TokenQuotaManagementServiceTest {
     private static final Instant NOW = Instant.parse("2026-11-17T08:00:00Z");
@@ -153,6 +155,103 @@ class TokenQuotaManagementServiceTest {
         // Act / Assert
         assertThatThrownBy(() -> service.deleteForCredential(owner, ApiCredentialId.of(10L), 99))
                 .isInstanceOf(com.api2api.application.BusinessException.class);
+    }
+
+    @Test
+    void test_lists_only_group_rules_when_admin_opens_quota_settings() {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        var group = groupRule(20);
+        var legacyKey = new TokenQuotaRule(21, QuotaScope.API_KEY, 10, "model-a", QuotaPeriod.DAY, BigDecimal.ONE, true);
+        var userKey = userRule(22, 10, "model-a");
+        when(repository.findAll()).thenReturn(List.of(legacyKey, userKey, group));
+        when(repository.consumed(eq(group), any())).thenReturn(BigDecimal.ZERO);
+        // Act
+        var page = service.list(owner);
+        // Assert
+        assertThat(page.rules()).extracting(TokenQuotaManagementService.RuleView::id).containsExactly("20");
+        verify(repository, never()).consumed(eq(legacyKey), any());
+        verify(repository, never()).consumed(eq(userKey), any());
+    }
+
+    @Test
+    void test_saves_group_rule_when_admin_configures_shared_quota() {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        when(repository.targetExists(QuotaScope.MODEL_GROUP, 20)).thenReturn(true);
+        when(repository.save(groupRule(0))).thenReturn(groupRule(30));
+        when(repository.consumed(any(), any())).thenReturn(BigDecimal.ZERO);
+        // Act
+        var saved = service.save(owner, groupRule(0));
+        // Assert
+        assertThat(saved.scope()).isEqualTo(QuotaScope.MODEL_GROUP);
+        verify(repository).save(groupRule(0));
+    }
+
+    @ParameterizedTest
+    @EnumSource(QuotaSource.class)
+    void test_rejects_key_quota_when_admin_calls_save(QuotaSource source) {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        var keyRule = new TokenQuotaRule(0, QuotaScope.API_KEY, 10, "model-a", QuotaPeriod.DAY, BigDecimal.ONE, true, source);
+        // Act / Assert
+        assertThatThrownBy(() -> service.save(owner, keyRule)).hasMessageContaining("Key 每日上限由用户在前台设置");
+        verifyNoInteractions(repository);
+    }
+
+    @ParameterizedTest
+    @EnumSource(QuotaSource.class)
+    void test_rejects_update_when_admin_submits_key_rule_id_as_group(QuotaSource source) {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        when(repository.findById(30)).thenReturn(Optional.of(
+                new TokenQuotaRule(30, QuotaScope.API_KEY, 10, "model-a", QuotaPeriod.DAY, BigDecimal.ONE, true, source)));
+        // Act / Assert
+        assertThatThrownBy(() -> service.save(owner, groupRule(30))).hasMessageContaining("模型分组限流规则不存在");
+        verify(repository, never()).save(any());
+    }
+
+    @ParameterizedTest
+    @EnumSource(QuotaSource.class)
+    void test_rejects_delete_when_admin_submits_key_rule_id(QuotaSource source) {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        when(repository.findById(30)).thenReturn(Optional.of(
+                new TokenQuotaRule(30, QuotaScope.API_KEY, 10, "model-a", QuotaPeriod.DAY, BigDecimal.ONE, true, source)));
+        // Act / Assert
+        assertThatThrownBy(() -> service.delete(owner, 30)).hasMessageContaining("模型分组限流规则不存在");
+        verify(repository, never()).delete(anyLong());
+    }
+
+    @Test
+    void test_updates_group_rule_when_admin_edits_existing_quota() {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        when(repository.findById(30)).thenReturn(Optional.of(groupRule(30)));
+        when(repository.targetExists(QuotaScope.MODEL_GROUP, 20)).thenReturn(true);
+        var updated = new TokenQuotaRule(30, QuotaScope.MODEL_GROUP, 20, "model-a", QuotaPeriod.DAY, BigDecimal.ONE, true);
+        when(repository.save(updated)).thenReturn(updated);
+        when(repository.consumed(any(), any())).thenReturn(BigDecimal.ZERO);
+        // Act
+        service.save(owner, updated);
+        // Assert
+        verify(repository).save(updated);
+    }
+
+    @Test
+    void test_deletes_group_rule_when_admin_removes_shared_quota() {
+        // Arrange
+        when(users.findById(owner)).thenReturn(Optional.of(mock(UserAccount.class)));
+        when(repository.findById(30)).thenReturn(Optional.of(groupRule(30)));
+        when(repository.delete(30)).thenReturn(true);
+        // Act
+        service.delete(owner, 30);
+        // Assert
+        verify(repository).delete(30);
+    }
+
+    private TokenQuotaRule groupRule(long id) {
+        return new TokenQuotaRule(id, QuotaScope.MODEL_GROUP, 20, "", QuotaPeriod.DAY, BigDecimal.TEN, true);
     }
 
     private void arrangeOwner() {

@@ -25,7 +25,7 @@ export function CredentialQuotaDetails({ keyId, models }: { keyId: string; model
   function remove(rule: QuotaRule) {
     modal.confirm({
       title: `移除 ${rule.model} 的自设每日上限？`,
-      content: '管理员和分组额度继续生效，历史用量保留。',
+      content: '模型分组共享额度继续生效，历史用量保留。',
       okText: '移除', cancelText: '取消', okButtonProps: { danger: true },
       onOk: () => deletion.mutateAsync(rule.id),
     });
@@ -33,14 +33,14 @@ export function CredentialQuotaDetails({ keyId, models }: { keyId: string; model
   if (query.isError) return <Alert type="error" showIcon message="额度加载失败" description={query.error.message} />;
   const zoneId = query.data?.zoneId ?? 'Asia/Shanghai';
   return <Space direction="vertical" size={12} style={{ width: '100%' }}>
-    <Alert type="info" showIcon message="可为自己的 Key 设置各模型每日上限" description={`自设上限、管理员额度和分组共享额度同时生效，任一耗尽即限制请求。自设上限按 ${zoneId} 每日零点重置；用量包含进行中请求的预留额度。`} />
+    <Alert type="info" showIcon message="可为自己的 Key 设置各模型每日上限" description={`自设每日上限与模型分组共享额度同时生效，任一耗尽即限制请求。自设上限按 ${zoneId} 每日零点重置；用量包含进行中请求的预留额度。`} />
     <Button type="primary" disabled={query.isLoading || models.length === 0} onClick={() => { setEditing(null); setOpen(true); }}>新增自设每日上限</Button>
     <Table<QuotaRule> rowKey="id" size="small" loading={query.isLoading} dataSource={query.data?.rules ?? []} pagination={false}
       locale={{ emptyText: <Empty description="暂未配置 Token 额度限制" /> }}
       columns={[
         { title: '模型 / 周期', key: 'model', render: (_, rule) => <Space direction="vertical" size={2}>
           <Typography.Text>{rule.model || '全部模型合计'}</Typography.Text>
-          <Tag>{rule.source === 'USER' ? '用户自设' : rule.scope === 'API_KEY' ? '管理员设置' : '分组共享'} · {periods[rule.period]}</Tag>
+          <Tag>{rule.source === 'USER' ? '用户自设' : rule.scope === 'API_KEY' ? '历史 Key 额度' : '分组共享'} · {periods[rule.period]}</Tag>
           {!rule.enabled ? <Tag>已停用</Tag> : null}
         </Space> },
         { title: '已用 / 上限（百万）', key: 'usage', render: (_, rule) => <Space direction="vertical" size={2}>

@@ -45,6 +45,11 @@ public class AdminTokenQuotaController {
                                @Size(max = 256) String model, @NotNull QuotaPeriod period,
                                @NotNull @DecimalMin("0.000001") @Digits(integer = 9, fraction = 6) BigDecimal limitMillions,
                                @NotNull Boolean enabled) {
+        @AssertTrue(message = "管理员仅可配置模型分组额度，Key 每日上限由用户在前台设置")
+        public boolean isGroupScope() {
+            return scope == QuotaScope.MODEL_GROUP;
+        }
+
         TokenQuotaRule rule(long id) {
             return new TokenQuotaRule(id, scope, targetId, model, period, limitMillions.multiply(BigDecimal.valueOf(1_000_000)), enabled);
         }

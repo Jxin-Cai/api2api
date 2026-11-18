@@ -146,7 +146,7 @@ export function ModelGroupTablePanel({ modelOptions }: ModelGroupTablePanelProps
 
   return (
     <>
-      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。仅可使用分组选中的渠道，未选中的渠道禁止使用。当前支持取模型白名单与所选渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。在“限流”页设置分组共享额度或 Key 专属额度。" style={{ marginBottom: 16, background: token.colorBgContainer, borderColor: token.colorBorder }} />
+      <Alert type="info" showIcon message="分组集中管理模型权限" description="每个 API Key 绑定一个分组。仅可使用分组选中的渠道，未选中的渠道禁止使用。当前支持取模型白名单与所选渠道支持模型的交集；渠道禁用时保留配置，重新启用后自动恢复。在“限流”页设置分组共享额度；Key 每日上限由用户在前台 API Key 配置中设置。" style={{ marginBottom: 16, background: token.colorBgContainer, borderColor: token.colorBorder }} />
       <Card className="api-credential-table-card">
         <div className="api-credential-toolbar">
           <div className="api-credential-toolbar__copy">

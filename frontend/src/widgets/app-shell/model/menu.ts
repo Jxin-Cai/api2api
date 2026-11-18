@@ -19,7 +19,6 @@ export const adminMenuItems: AppMenuItem[] = [
   { key: 'admin-operations', label: '运维监控', path: ROUTE_PATHS.adminOperations, portal: 'admin' },
   { key: 'admin-usage', label: '使用记录', path: ROUTE_PATHS.adminUsage, portal: 'admin' },
   { key: 'admin-users', label: '用户管理', path: ROUTE_PATHS.adminUsers, portal: 'admin' },
-  { key: 'admin-api-keys', label: '用户 API Key', path: ROUTE_PATHS.adminApiKeys, portal: 'admin' },
   { key: 'admin-model-groups', label: '模型分组', path: ROUTE_PATHS.adminModelGroups, portal: 'admin' },
   { key: 'admin-token-quotas', label: '限流', path: ROUTE_PATHS.adminTokenQuotas, portal: 'admin' },
   { key: 'admin-channels', label: '供应商渠道', path: ROUTE_PATHS.adminChannels, portal: 'admin' },
