@@ -4,6 +4,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { ProviderChannelRow, useProviderChannels, type ProviderChannelResponse } from '@entities/provider-channel';
 import { ChannelModelBatchFetchModal } from './ChannelModelBatchFetchModal';
 import { ProviderChannelFormDrawer } from './ProviderChannelFormDrawer';
+import { ProviderChannelTestModal } from './ProviderChannelTestModal';
 import { ProviderChannelToolbar, type ProviderChannelStatusFilter } from './ProviderChannelToolbar';
 import { useProviderChannelMutations } from '../model/useProviderChannelMutations';
 
@@ -25,6 +26,7 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
   const [statusFilter, setStatusFilter] = useState<ProviderChannelStatusFilter>();
   const [selectedChannelIds, setSelectedChannelIds] = useState<Key[]>([]);
   const [batchChanging, setBatchChanging] = useState(false);
+  const [testChannel, setTestChannel] = useState<ProviderChannelResponse | null>(null);
   const [batchFetchOpen, setBatchFetchOpen] = useState(false);
   const [drawer, setDrawer] = useState<{ open: boolean; mode: 'create' | 'edit' | 'copy'; channel: ProviderChannelResponse | null }>({ open: false, mode: 'create', channel: null });
   const [localChannels, setLocalChannels] = useState<ProviderChannelResponse[]>([]);
@@ -125,7 +127,8 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
       <ProviderChannelRow
         channel={channel}
         actions={
-          <Space>
+          <Space wrap>
+            <Button size="small" onClick={() => setTestChannel(channel)}>测试</Button>
             <Button size="small" onClick={() => setDrawer({ open: true, mode: 'edit', channel })}>编辑</Button>
             <Button size="small" onClick={() => setDrawer({ open: true, mode: 'copy', channel })}>复制</Button>
             {channel.status === 'ENABLED' ? (
@@ -203,6 +206,7 @@ export function ProviderChannelTablePanel({ renderModelsPanel }: ProviderChannel
           expandable={{ expandedRowRender: (channel) => renderModelsPanel ? renderModelsPanel(channel, handleChannelChanged) : null }}
           pagination={false}
         />
+        {testChannel && <ProviderChannelTestModal key={testChannel.id} channel={testChannel} onClose={() => setTestChannel(null)} />}
         <ProviderChannelFormDrawer open={drawer.open} mode={drawer.mode} channel={drawer.channel} onClose={() => setDrawer((current) => ({ ...current, open: false }))} onSaved={handleChannelChanged} />
         <ChannelModelBatchFetchModal
           open={batchFetchOpen}

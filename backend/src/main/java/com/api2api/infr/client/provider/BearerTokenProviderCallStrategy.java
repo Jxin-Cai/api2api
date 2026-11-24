@@ -8,6 +8,8 @@ import com.api2api.application.gateway.ProviderGatewayResponse;
 import com.api2api.application.gateway.ProviderStreamingResponse;
 import com.api2api.application.gateway.UpstreamGatewayException;
 import com.api2api.application.gateway.UpstreamResponseMetadata;
+import com.api2api.domain.channel.model.ChannelModelSupport;
+import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.repository.ProviderChannelRepository;
@@ -68,11 +70,28 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
             InboundRequestContext inbound
     ) {
         HttpRequest request = buildRequest(candidate, upstreamRequestBody, streaming, inbound);
+        return send(request, candidate.upstreamProtocol(), streaming);
+    }
+
+    ProviderGatewayResponse sendTest(ProviderChannel channel, ChannelModelSupport model, String jsonBody) {
+        InboundRequestContext inbound = InboundRequestContext.empty();
+        HttpRequest request;
+        try {
+            String url = upstreamUrl(channel, model.upstreamProtocol(), model.upstreamModel(), false, inbound.operation());
+            request = buildRequest(channel, model.upstreamProtocol(), url, jsonBody, false, inbound);
+        } catch (IllegalArgumentException ex) {
+            // JDK validation errors may include the rejected URL or Authorization header.
+            throw new BusinessException("CHANNEL_TEST_INVALID_ENDPOINT", "无法创建上游请求，请检查渠道地址和密钥格式", ex);
+        }
+        return send(request, model.upstreamProtocol(), false);
+    }
+
+    private ProviderGatewayResponse send(HttpRequest request, ProtocolType protocol, boolean streaming) {
         Instant startedAt = Instant.now();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return ProviderGatewayResponse.of(
-                    candidate.upstreamProtocol(),
+                    protocol,
                     response.statusCode(),
                     response.headers().map(),
                     response.body(),
@@ -269,17 +288,19 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     "Model is not enabled for routing"
             );
         }
-        String secret = channel.keyRef().value();
-        String path = resolveUpstreamPath(candidate, streaming, inbound.operation());
-        String baseUrl = urlResolver.resolve(channel.host().resolvePath(path).value());
+        String url = upstreamUrl(channel, candidate.upstreamProtocol(), candidate.upstreamModel(), streaming, inbound.operation());
         String query = candidate.requiresProtocolConversion() ? null : inbound.rawQuery();
-        URI uri = OutboundUriGuard.verify(
-                URI.create(appendQuery(baseUrl, query)),
-                properties.isAllowInsecureHosts()
-        );
+        return buildRequest(channel, candidate.upstreamProtocol(), appendQuery(url, query), upstreamRequestBody, streaming, inbound);
+    }
+
+    private HttpRequest buildRequest(
+            ProviderChannel channel, ProtocolType protocol, String url, String upstreamRequestBody,
+            boolean streaming, InboundRequestContext inbound
+    ) {
+        URI uri = OutboundUriGuard.verify(URI.create(url), properties.isAllowInsecureHosts());
         UpstreamRequestBody body = encodeBody(upstreamRequestBody, inbound.operation());
         var headers = headerPolicy.buildHeaders(
-                candidate.upstreamProtocol(), inbound.headers(), secret, streaming, body.contentType());
+                protocol, inbound.headers(), channel.keyRef().value(), streaming, body.contentType());
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(uri)
                 .timeout(readTimeout(streaming))
@@ -310,8 +331,9 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
         return baseUrl + (baseUrl.contains("?") ? "&" : "?") + rawQuery;
     }
 
-    private String resolveUpstreamPath(RouteCandidate candidate, boolean streaming, ProtocolOperation operation) {
-        ProtocolType upstreamProtocol = candidate.upstreamProtocol();
+    private String upstreamUrl(
+            ProviderChannel channel, ProtocolType upstreamProtocol, ModelName model, boolean streaming, ProtocolOperation operation
+    ) {
         if (!operation.availableOn(upstreamProtocol)) {
             throw new UpstreamGatewayException(
                     RouteFailureType.CHANNEL_UNAVAILABLE,
@@ -321,13 +343,16 @@ class BearerTokenProviderCallStrategy implements ProviderCallStrategy {
                     "Operation " + operation + " is not available on " + upstreamProtocol + " routes"
             );
         }
+        String path;
         if (upstreamProtocol == ProtocolType.AWS_BEDROCK_CLAUDE_MESSAGES) {
             String template = streaming
                     ? properties.getBedrockClaudeMessagesStreamPathTemplate()
                     : properties.getBedrockClaudeMessagesPathTemplate();
-            return template.replace("{modelId}", candidate.upstreamModel().value());
+            path = template.replace("{modelId}", model.value());
+        } else {
+            path = properties.upstreamPathFor(upstreamProtocol, operation);
         }
-        return properties.upstreamPathFor(upstreamProtocol, operation);
+        return urlResolver.resolve(channel.host().resolvePath(path).value());
     }
 
     private UpstreamGatewayException toStatusFailure(

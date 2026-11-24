@@ -1,11 +1,15 @@
 package com.api2api.application.channel;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api2api.application.BusinessException;
 import com.api2api.domain.channel.model.ChannelModelSupport;
+import com.api2api.domain.channel.model.ChannelModelSupportId;
 import com.api2api.domain.channel.model.ModelName;
 import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
@@ -45,6 +49,7 @@ class ProviderChannelApplicationServiceTest {
                 userRepository,
                 channelRepository,
                 mock(ProviderModelFetchPort.class),
+                mock(ProviderChannelTestPort.class),
                 Clock.fixed(Instant.parse("2026-08-31T00:00:00Z"), ZoneOffset.UTC)
         );
 
@@ -53,6 +58,30 @@ class ProviderChannelApplicationServiceTest {
         assertThat(options).extracting(option -> option.model().value()).containsExactly("claude-sonnet", "gpt-4.1");
         verify(user).assertCanAccess(AccessScope.USER_PORTAL);
         verify(channelRepository).findAll();
+    }
+
+    @Test
+    void test_rejects_test_without_calling_upstream_when_model_does_not_match_protocol_mapping() {
+        UserAccountRepository users = mock(UserAccountRepository.class);
+        ProviderChannelRepository channels = mock(ProviderChannelRepository.class);
+        ProviderChannelTestPort probe = mock(ProviderChannelTestPort.class);
+        ProviderChannelApplicationService service = new ProviderChannelApplicationService(
+                users, channels, mock(ProviderModelFetchPort.class), probe, Clock.systemUTC());
+        UserAccountId admin = UserAccountId.of(1L);
+        ProviderChannelId channelId = ProviderChannelId.of(2L);
+        ChannelModelSupportId modelId = ChannelModelSupportId.of(3L);
+        ProviderChannel channel = mock(ProviderChannel.class);
+        ChannelModelSupport model = mock(ChannelModelSupport.class);
+        when(users.findById(admin)).thenReturn(Optional.of(mock(UserAccount.class)));
+        when(channels.findById(channelId)).thenReturn(Optional.of(channel));
+        when(channel.upstreamProtocolFor(ProtocolType.CLAUDE_MESSAGES)).thenReturn(Optional.of(ProtocolType.OPENAI_RESPONSES));
+        when(channel.supportedModels()).thenReturn(List.of(model));
+        when(model.id()).thenReturn(modelId);
+        when(model.upstreamProtocol()).thenReturn(ProtocolType.OPENAI_CHAT_COMPLETIONS);
+
+        assertThatThrownBy(() -> service.testConnection(admin, channelId, ProtocolType.CLAUDE_MESSAGES, modelId))
+                .isInstanceOf(BusinessException.class);
+        verifyNoInteractions(probe);
     }
 
     @Test
@@ -70,6 +99,7 @@ class ProviderChannelApplicationServiceTest {
                 userRepository,
                 channelRepository,
                 modelFetchPort,
+                mock(ProviderChannelTestPort.class),
                 Clock.fixed(restoredAt, ZoneOffset.UTC)
         );
 

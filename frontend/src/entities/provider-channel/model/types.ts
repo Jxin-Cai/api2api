@@ -30,3 +30,9 @@ export interface AdminUpdateProviderChannelRequest {
 export interface ResetProviderChannelRateLimitsResponse {
   restoredCount: number;
 }
+
+export interface ChannelTestResult {
+  statusCode: number;
+  elapsedMillis: number;
+  reply: string;
+}

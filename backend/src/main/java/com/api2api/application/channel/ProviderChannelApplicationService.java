@@ -13,6 +13,7 @@ import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
 import com.api2api.application.channel.command.UpsertChannelModelCommand;
+import com.api2api.application.channel.dto.ChannelTestResult;
 import com.api2api.application.channel.dto.ProviderModelOption;
 import com.api2api.domain.channel.model.ChannelModelStatus;
 import com.api2api.domain.channel.model.ChannelModelSupport;
@@ -54,7 +55,25 @@ public class ProviderChannelApplicationService {
     private final ProviderModelFetchPort providerModelFetchPort;
 
     @NonNull
+    private final ProviderChannelTestPort providerChannelTestPort;
+
+    @NonNull
     private final Clock clock;
+
+    public ChannelTestResult testConnection(
+            UserAccountId operatorId, ProviderChannelId channelId, ProtocolType requestProtocol, ChannelModelSupportId modelId
+    ) {
+        assertAdmin(operatorId);
+        ProviderChannel channel = loadChannel(channelId);
+        ProtocolType upstream = channel.upstreamProtocolFor(requestProtocol)
+                .orElseThrow(() -> new BusinessException("CHANNEL_TEST_MAPPING_NOT_FOUND", "渠道未配置该请求协议"));
+        ChannelModelSupport model = channel.supportedModels().stream()
+                .filter(item -> item.id().equals(modelId) && item.upstreamProtocol() == upstream)
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("CHANNEL_TEST_MAPPING_NOT_FOUND",
+                        "渠道没有匹配的协议和模型配置，请刷新后重试"));
+        return providerChannelTestPort.sendHello(channel, requestProtocol, model);
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public ProviderChannel createChannel(CreateProviderChannelCommand command) {

@@ -2,6 +2,7 @@ import { apiClient } from '@shared/api';
 import type { ApiResponse } from '@shared/api';
 import type {
   AdminCreateProviderChannelRequest,
+  ChannelTestResult,
   AdminUpdateProviderChannelRequest,
   ProviderChannelListResponse,
   ProviderChannelResponse,
@@ -43,4 +44,10 @@ export function deleteProviderChannel(providerChannelId: number): Promise<ApiRes
 
 export function resetAllProviderChannelRateLimits(): Promise<ApiResponse<ResetProviderChannelRateLimitsResponse>> {
   return apiClient.patch('/api/admin/provider-channels/rate-limits/reset');
+}
+
+export function testProviderChannel(
+  providerChannelId: number, requestProtocol: string, modelId: number
+): Promise<ApiResponse<ChannelTestResult>> {
+  return apiClient.post(`/api/admin/provider-channels/${encodeId(providerChannelId)}/test`, { requestProtocol, modelId });
 }

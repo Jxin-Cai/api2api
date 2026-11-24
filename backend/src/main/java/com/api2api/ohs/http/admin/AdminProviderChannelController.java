@@ -12,7 +12,9 @@ import com.api2api.application.channel.command.FetchProviderModelsCommand;
 import com.api2api.application.channel.command.RemoveChannelModelCommand;
 import com.api2api.application.channel.command.UpdateProviderChannelCommand;
 import com.api2api.application.channel.command.UpsertChannelModelCommand;
+import com.api2api.application.channel.dto.ChannelTestResult;
 import com.api2api.domain.channel.model.ChannelModelSupportId;
+import com.api2api.domain.channel.model.ProtocolType;
 import com.api2api.domain.channel.model.ProviderChannel;
 import com.api2api.domain.channel.model.ProviderChannelId;
 import com.api2api.domain.user.model.UserAccountId;
@@ -33,6 +35,8 @@ import com.api2api.ohs.http.admin.dto.ProviderModelPreviewResponse;
 import com.api2api.ohs.http.admin.dto.ResetProviderChannelRateLimitsResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -74,6 +78,19 @@ public class AdminProviderChannelController {
         UserAccountId operatorUserId = currentUserContextResolver.resolveOperatorUserId(request);
         List<ProviderChannel> channels = providerChannelApplicationService.listChannels(operatorUserId);
         return ApiResponse.success(providerChannelHttpConverter.toListResponse(channels));
+    }
+
+    public record TestConnectionRequest(@NotNull ProtocolType requestProtocol, @NotNull @Positive Long modelId) {}
+
+    @PostMapping("/{provider-channel-id}/test")
+    public ApiResponse<ChannelTestResult> testConnection(
+            @PathVariable("provider-channel-id") Long channelId,
+            @Valid @RequestBody TestConnectionRequest test,
+            HttpServletRequest request
+    ) {
+        return ApiResponse.success(providerChannelApplicationService.testConnection(
+                currentUserContextResolver.resolveOperatorUserId(request), ProviderChannelId.of(channelId),
+                test.requestProtocol(), ChannelModelSupportId.of(test.modelId())));
     }
 
     @PatchMapping("/rate-limits/reset")
